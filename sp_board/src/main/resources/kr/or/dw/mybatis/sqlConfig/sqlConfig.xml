@@ -7,12 +7,6 @@
 	<typeAliases>
 		<typeAlias type="java.lang.String" alias="str"/>
 		<typeAlias type="java.lang.Integer" alias="int"/>
-		<typeAlias type="kr.or.dw.vo.MemberVO" alias="member"/>
-		<typeAlias type="kr.or.dw.vo.MenuVO" alias="menu"/>
-		<typeAlias type="kr.or.dw.vo.BoardVO" alias="board"/>
-		<typeAlias type="kr.or.dw.vo.ReplyVO" alias="reply"/>
-		<typeAlias type="kr.or.dw.vo.PdsVO" alias="pds"/>
-		<typeAlias type="kr.or.dw.vo.AttachVO" alias="attach"/>
 	</typeAliases>
 
 </configuration>
