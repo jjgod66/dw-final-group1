@@ -1,0 +1,61 @@
+@charset "UTF-8";
+/*!
+ * CSS 파일 이름 : viewer
+ * 작성자 : 신철헌
+ * 최초 작성일 : 2023-06-26
+ * viewer CSS 파일은 부트스트랩 5.2.3 '커스터마이징(Customizing)' 및 자체 CSS
+ * 로 작업한 프론트 입니다.
+ */
+.scon_02 { overflow: hidden; text-align: center; margin-top: 50px; }
+.scon_02 h2 {overflow:hidden; width:100%; font-size:2.75rem; text-overflow:ellipsis; white-space:nowrap;}
+.scon_02 h2 > em {margin-left: 15px; font-size:1.15rem; font-style: normal;}
+.scon_02 .i_grade {margin:5px auto; width:30px; height:30px; font-family: 'Exo'; font-size:13px; color:#fff; line-height:30px; font-weight:800; border-radius:15px;}
+.scon_02 .sinfo {overflow:hidden; margin-top:5px; height:16px; line-height:16px;}
+.scon_02 .sinfo span {font-size:13px; color:#999999;}
+.scon_02 .sinfo span:first-child {padding-right:10px; margin-right:10px; border-right:solid 1px #e5e5e5;}
+
+.scon_02 a.pop_btn2 {margin:15px auto 0 auto; display:block; width:84px; height:26px; font-size:12px; color:#bdbdbd; line-height:24px; border:solid 1px #e5e5e5; border-radius:5px;}
+
+.scon_02_detail { overflow :hidden; margin-top: 50px; margin-bottom: 50px; }
+.scon_02_detail .lbox { float: left; width:30%; display: flex; flex-direction: row; flex-wrap: wrap; }
+.scon_02_detail .lbox img { width: 100%;}
+.scon_02_detail .lbox .btn-reservation { width: 49%; background: #4aa8d8; border-radius: 0; color: #fff; padding: 20px; margin-top: 2%; margin-right: 1% }
+.scon_02_detail .lbox .btn-reservation:hover { background: #419ac7; color: #fff; }
+.scon_02_detail .lbox .btn-trailer { width: 49%; background: #333; border-radius: 0; color: #fff; padding: 20px; margin-top: 2%; margin-left: 1% }
+.scon_02_detail .lbox .btn-trailer:hover { background: #000; color: #fff; }
+.scon_02_detail .rbox { float: right; width: 65%; border-top:solid 3px #1b1b1b;}
+.scon_02_detail .rbox dl { overflow:hidden; width: 100%; border-bottom:solid 1px #e5e5e5;}
+.scon_02_detail .rbox dl dt { float: left; padding: 15px 0; width:25%; font-size:18px; font-weight:700;}
+.scon_02_detail .rbox dl dd { float: left; padding: 15px 0 15px 10px; width:75%; font-size:16px; box-sizing:border-box;}
+
+.reviwer-box { display: flex; flex-direction: row; }
+
+.reviwer-wrapper { display: flex; padding-top: 24px; width: 50% }
+.reviwer-wrapper .reviwer-inner { column-gap: 24px; display: grid; flex-grow: 1; grid-template-columns: max-content auto; }
+.reviwer-wrapper .reviwer-star-title { color: rgb(32,33,36); fill: rgb(32,33,36); stop-color: rgb(32,33,36); line-height: 4rem; font-size: 3.5rem;  letter-spacing: 0;  font-weight: 400; }
+.reviwer-wrapper .reviwer-star-img { display: inline-block; }
+.reviwer-wrapper .reviwer-star-img .star { height: 16px; width: 16px; }
+.reviwer-wrapper .reviwer-star-img .star { display: inline-block; text-align: left; }
+.reviwer-wrapper .reviwer-star-img .star .star-on { color: #4aa8d8; fill: #4aa8d8; stop-color: #4aa8d8; }
+.reviwer-wrapper .reviwer-star-img .star .star-off { fill: rgb(241,243,244); stop-color: rgb(241,243,244); }
+.reviwer-wrapper .reviwer-graph-img { display: grid; grid-template-columns: max-content auto; align-items: center; }
+.reviwer-wrapper .reviwer-graph-img .reviwer-graph-title { font-family: Roboto,Arial,sans-serif; line-height: 1rem; font-size: .75rem; letter-spacing: .025em; font-weight: 400; padding-right: 16px; }
+.reviwer-wrapper .reviwer-graph-img .reviwer-graph-bar { border-radius: 9999px; background-color: rgb(232,234,237); height: 10px; }
+.reviwer-wrapper .reviwer-graph-img .reviwer-graph-bar .reviwer-graph-bar-list { height: 100%; border-radius: inherit; background-color: #4aa8d8; }
+
+.reviwer-info { position: relative; padding: 25px; color: #777; }
+.reviwer-info:after,
+.reviwer-info:before { content: ''; display: table; }
+.reviwer-info:after { clear: both; }
+.reviwer-info .tit { display: block; padding: 0 0 15px 0; line-height: 1.1; font-size: .9333em; }
+.reviwer-info .rate { float: left; padding: 0; }
+.reviwer-info .rate .cont { display: inline-block; min-height: 35px; padding: 0; vertical-align: middle; line-height: 1.1; }
+.reviwer-info .rate .cont i { font-size: 21px; margin-right: 5px; }
+.reviwer-info .rate .cont i::before { transform: rotate(-40deg); }
+.reviwer-info .rate .cont em { margin: 0 4px 0 0; color: #333; font-size: 2.1333em; font-weight: 400; font-style: normal; }
+.reviwer-info .audience { float: left; padding: 0 0 0 35px; }
+.reviwer-info .audience .cont { display: inline-block; padding: 0 0 0 30px; vertical-align: middle; line-height: 1.1; }
+.reviwer-info .audience .cont i { font-size: 21px; margin-right: 5px; }
+.reviwer-info .audience .cont em { margin: 0 4px 0 0; color: #333; font-size: 2.1333em; font-weight: 400; font-style: normal; }
+
+.reviwer-post { display: block; background-color: #666; padding: 50px 0; }

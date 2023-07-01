@@ -1,0 +1,494 @@
+@charset "UTF-8";
+/*!
+ * CSS 파일 이름 : DWCINEMA
+ * 작성자 : 신철헌
+ * 최초 작성일 : 2023-06-23
+ * DWCINEMA CSS 파일은 부트스트랩 5.2.3 '커스터마이징(Customizing)' 및 자체 CSS
+ * 로 작업한 프론트 입니다.
+ */
+@import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+* {
+    transition: all .3s;
+}
+html, body, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, big, cite, code, del, dfn, em, font, img, ins, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, ul, ol, li, dl, dt, dd, table, caption, tbody, tfoot, thead, tr, th, td, fieldset, fo7m, label, legend, input, button, textarea, select {
+    margin: 0;
+    padding: 0;
+}
+.screen_out {
+    overflow: hidden;
+    position: absolute;
+    width: 0;
+    height: 0;
+    line-height: 0;
+    text-indent: -9999px;
+}
+.movieIcon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  font-size: 0;
+  line-height: 0;
+}
+i.movieIcon {
+  display: inline-flex;
+  font-size: 0;
+}
+i.movieIcon.etc.ageAll {
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0) url("data:image/svg+xml;charset=UTF-8, %3csvg width='20' height='20' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23ageAll)'%3e%3cpath d='M17.745 20H2.256A2.256 2.256 0 0 1 0 17.745V2.255A2.255 2.255 0 0 1 2.256 0h15.49A2.253 2.253 0 0 1 20 2.255v15.49A2.254 2.254 0 0 1 17.745 20Z' fill='%23269C56'/%3e%3cpath d='M5.74 15.076 5.5 13.56H3.748l-.24 1.516H1.24v-.027L3.383 4.898h2.47l2.144 10.145v.027l-2.256.006ZM4.627 8.18l-.56 3.462h1.116L4.626 8.18ZM8.402 15.078V4.904h2.264v8.136h2.663v2.038H8.402ZM13.808 15.076V4.904h2.263v8.136h2.664v2.038l-4.927-.002Z' fill='%23fff'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='ageAll'%3e%3cpath fill='%23fff' d='M0 0h20v20H0z'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e") center/contain scroll no-repeat;
+    border-radius: 2px
+}
+i.movieIcon.etc.age12 {
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0) url("data:image/svg+xml;charset=UTF-8, %3csvg width='20' height='20' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23age12)'%3e%3cpath d='M17.745 20H2.255A2.256 2.256 0 0 1 0 17.745V2.255A2.255 2.255 0 0 1 2.255 0h15.49A2.255 2.255 0 0 1 20 2.255v15.49A2.256 2.256 0 0 1 17.745 20Z' fill='%23E9B62F'/%3e%3cpath d='M4.328 16.891v-9.94H3.227L4.65 3.108h2.761V16.89H4.328ZM16.303 3.109H8.765a.308.308 0 0 0-.307.307v4.165h3.013V5.706h2.13v1.659l-5.258 7.488v2.022h8.228v-2.69h-4.396l3.842-5.394c.12-.17.216-.32.29-.443.068-.12.128-.243.18-.37.05-.127.083-.26.098-.397.02-.173.029-.348.027-.522V3.416a.307.307 0 0 0-.309-.307Z' fill='%23fff'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='age12'%3e%3cpath fill='%23fff' d='M0 0h20v20H0z'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e") center/contain scroll no-repeat;
+    border-radius: 2px
+}
+i.movieIcon.etc.age15 {
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0) url("data:image/svg+xml;charset=UTF-8, %3csvg width='20' height='20' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23age15)'%3e%3cpath d='M17.745 20H2.255A2.256 2.256 0 0 1 0 17.745V2.255A2.255 2.255 0 0 1 2.255 0h15.49A2.253 2.253 0 0 1 20 2.255v15.49A2.254 2.254 0 0 1 17.745 20Z' fill='%23DD742F'/%3e%3cpath d='M4.318 16.891v-9.94H3.217L4.643 3.11h2.761V16.89H4.318ZM16.313 7.815h-4.834v-2.02h5.052V3.107H8.45v7.342h5.177v3.85h-2.183v-1.812H8.45v4.095a.306.306 0 0 0 .307.308h7.556a.306.306 0 0 0 .308-.308V8.125a.307.307 0 0 0-.308-.31Z' fill='%23fff'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='age15'%3e%3cpath fill='%23fff' d='M0 0h20v20H0z'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e") center/contain scroll no-repeat;
+    border-radius: 2px
+}
+i.movieIcon.etc.age18 {
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0) url("data:image/svg+xml;charset=UTF-8, %3csvg width='20' height='21' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cg clip-path='url(%23age18)'%3e%3cpath d='M17.745 20.002H2.255A2.254 2.254 0 0 1 0 17.747V2.255A2.253 2.253 0 0 1 2.255 0h15.49A2.253 2.253 0 0 1 20 2.255v15.492a2.254 2.254 0 0 1-2.255 2.255Z' fill='%23D92C36'/%3e%3cpath d='M4.237 16.891v-9.94H3.136l1.426-3.842h2.76V16.89H4.237ZM16.666 11.244a1.393 1.393 0 0 0-.125-.432.956.956 0 0 0-.244-.308c-.121-.096-.25-.18-.388-.251l-.919-.434.92-.487c.24-.133.442-.326.586-.56.13-.288.19-.603.17-.92V3.417a.307.307 0 0 0-.307-.307H8.694a.308.308 0 0 0-.309.307v4.437a1.95 1.95 0 0 0 .172.91c.142.238.344.434.586.569l.92.487-.92.434a1.332 1.332 0 0 0-.623.594c-.12.323-.174.667-.159 1.012v4.725a.307.307 0 0 0 .31.307h7.718a.308.308 0 0 0 .308-.307v-4.725a4.483 4.483 0 0 0-.03-.615ZM13.64 14.04a.31.31 0 0 1-.308.308h-1.587a.31.31 0 0 1-.31-.308v-2.758a.307.307 0 0 1 .31-.308h1.584a.308.308 0 0 1 .308.308l.003 2.758Zm0-5.677a.31.31 0 0 1-.308.309h-1.587a.31.31 0 0 1-.31-.31v-2.41a.307.307 0 0 1 .31-.308h1.584a.308.308 0 0 1 .308.308l.003 2.41Z' fill='%23fff'/%3e%3c/g%3e%3cdefs%3e%3cclipPath id='age18'%3e%3cpath fill='%23fff' d='M0 0h20v20.002H0z'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e") center/contain scroll no-repeat;
+    border-radius: 2px
+}
+i.movieIcon.etc.ageNotyet {
+    overflow: hidden;
+    width: 20px;
+    height: 20px;
+    background: rgba(0,0,0,0) url("data:image/svg+xml;charset=UTF-8, %3csvg width='20' height='21' fill='none' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M17.745 20.002H2.255A2.254 2.254 0 0 1 0 17.747V2.255A2.253 2.253 0 0 1 2.255 0h15.49A2.253 2.253 0 0 1 20 2.255v15.492a2.254 2.254 0 0 1-2.255 2.255Z' fill='%23666'/%3e%3cpath d='M9.018 14.79V5.88h-1.17v8.91h1.17Zm-3.91-3.2h-1.88V7.63h1.88v3.96Zm1.18-4.89h-4.23v5.82h4.23V6.7Zm11.442 6.31c0-1.11-1.15-1.79-3.12-1.79-1.97 0-3.12.68-3.12 1.79 0 1.08 1.15 1.76 3.12 1.76 1.97 0 3.12-.68 3.12-1.76Zm-7.12-5.54h1.77c-.07 1.27-.89 2.21-2.14 2.66.24.3.46.6.7.91.86-.3 1.8-1.14 2.07-2 .38.81 1.25 1.48 1.93 1.74.21-.31.43-.61.63-.92-.97-.32-1.87-1.15-1.96-2.39h1.69v-.96h-4.69v.96Zm4.55 1.48h1.34v2.23h1.17v-5.3H16.5v2.13h-1.34v.94Zm-.55 3.21c1.23 0 1.93.31 1.93.85 0 .52-.7.83-1.93.83-1.21 0-1.92-.31-1.92-.83 0-.54.71-.85 1.92-.85Z' fill='%23fff'/%3e%3c/svg%3e") center/contain scroll no-repeat;
+    border-radius: 2px
+}
+body {
+    overflow: auto;
+    overflow-y: scroll;
+    letter-spacing: 0;
+    line-height: 1.5;
+    font-size: 15px;
+    color: #444;
+    font-weight: 400;
+    font-family: 'Nanum Gothic',sans-serif;
+}
+ul, ol, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+a {
+    text-decoration: none;
+}
+button {
+    border: transparent;
+    background: transparent;
+}
+.bd-placeholder-img {
+    font-size: 1.555rem;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    text-anchor: middle;
+}
+.header {
+    position: relative;
+    border-bottom: 1px solid #EDEDED;
+    z-index: 1;
+}
+.header .gnb {
+    padding: 0 0 50px;
+}
+.header .gnb a {
+    font-size:0.75rem;
+}
+.header .logo {
+    position: absolute;
+    left: 50%;
+    top: 23px;
+    width: 338px;
+    height: 50px;
+    margin: 0px 0px 0px -169px;
+    padding: 0px;
+}
+.header .background {
+  display: none;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  /* background: url(https://ssl.nexon.com/s2/game/heroes/web/2017/bg_gnb_01.png); */
+  background-color: rgba(255, 255, 255, 0.95);
+}
+.header .background:after {
+  content: '';
+  display: block;
+  height: 0;
+  width: 100%;
+  border-bottom: 1px solid #EDEDED;
+  position: absolute;
+  left: 0;
+  top: 81px;
+}
+.header .navbar {
+    position: relative;
+    height: 79px;
+    color: #555;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.header .navbar>li {
+    float: left;
+    /* width: 13.2857%; */
+    text-align: center;
+    padding: 0 20px;
+}
+.header .navbar li strong {
+    display: block;
+    height: 80px;
+    font-size: 17px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.header .navbar li > li {
+  margin-bottom: 12px;
+  line-height: 100%;
+  font-size: 14px;
+}
+.header .navbar li li:nth-of-type(1) {
+  margin-top: 27px;
+}
+.header .navbar li li:nth-last-of-type(1) {
+  margin-bottom: 0;
+}
+.header .navbar li li a {
+  color: #666;
+  text-decoration: none;
+  font-weight: 350;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.header .navbar li li a[target="_blank"]:after{
+  display: inline-block;
+  content: '';
+  width: 12px;
+  height: 12px;
+  background: url(https://lwi.nexon.com/heroes/renewal/common/gnb_blank.png) no-repeat;
+  margin-left: 3px;
+  vertical-align: middle;
+}
+.header .navbar li li a:hover {
+  text-decoration: none;
+  color: #4aa8d8;
+}
+
+.header .navbar li li img {
+  margin-left: 3px;
+  vertical-align: middle;
+}
+.header .navbar #devNew,
+.newmenu {
+  display: none;
+}
+.header .navbar #devNew.on,
+.newmenu.on {
+  display: inline-block
+}
+.sub_visual {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    text-align: center;
+    background: #17181d;
+}
+.sub_visual h3 {
+    padding-top: 55px;
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
+}
+.sub_visual h6 {
+    font-family: 'Exo';
+    font-size: 16px;
+    font-weight: 800;
+    color: #8f8f8f;
+    text-transform: uppercase;
+    line-height: 40px;
+}
+.boxoffice {
+    display: block;
+    position: relative;
+    padding: 80px 0;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1), rgba(232, 232, 232, 0.37));
+}
+.boxoffice:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+.boxoffice .schedule-slider {
+    position: relative;
+}
+.boxoffice .swiper-button-next {
+    right: -20px;
+    left: auto;
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+    width: 55px;
+    height: 55px;
+    padding-top: 3px;
+    padding-left: 3px;
+    border-radius: 15px;
+}
+.boxoffice .swiper-button-prev {
+    left: -20px;
+    right: auto;
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+    width: 55px;
+    height: 55px;
+    padding-top: 3px;
+    padding-right: 3px;
+    border-radius: 15px;
+}
+.boxoffice li {
+    float: left;
+    width: 20%;
+    padding-top: 40px;
+}
+.event-wrapper {
+      background: #fff;
+      padding: 60px 0;
+}
+.event-wrapper .event_title_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.event-wrapper .event_title_wrap .tabBtn_wrap {
+    display: inline-flex;
+}
+.event-wrapper .event_title_wrap .tabBtn_wraps h3 {
+    position: relative;
+    height: auto;
+    margin: 0;
+    line-height: 1em;
+    background-image: none;
+}
+.event-wrapper .event_title_wrap .btn-allView {
+    border-radius: 10px;
+    border:1px solid #eee;
+    font-weight: 500;
+    font-size: 1.05rem;
+}
+.event-wrapper .row {
+    margin-top: 20px;
+}
+.event-wrapper .card {
+    background: #fff;
+    border: none;
+}
+.event-wrapper .card .bd-placeholder-img {
+    border-radius: calc(0.375rem - 1px);;
+}
+.event-wrapper .card a {
+    display: block;
+}
+.event-wrapper .card a strong {
+    display: block;
+    overflow: hidden;
+    margin-top: 16px;
+    font-weight: 500;
+    font-size: 18px;
+    color: #222;
+    line-height: 1.444em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.event-wrapper .card a span {
+    display: block;
+    margin-top: 4px;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.429em;
+}
+.event-wrapper .card .card-body {
+    padding: 0;
+}
+.store-wrapper {
+    background: #4aa8d8;
+    padding: 60px 0;
+    text-align: center;
+}
+.store-wrapper .icon {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 auto 15px auto;
+}
+.store-wrapper .icon img {
+    width: 50px;
+    filter: invert(100%);
+}
+.store-wrapper a {
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+.info-wrapper {
+    padding: 10px 0 1rem!important;
+}
+.info-wrapper .notice_title_wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+}
+.info-wrapper .notice_title_wrap .tabBtn_wrap {
+    display: inline-flex;
+}
+.info-wrapper .notice_title_wrap .tabBtn_wraps h3 {
+    position: relative;
+    height: auto;
+    margin: 0;
+    line-height: 1em;
+    background-image: none;
+}
+.info-wrapper .notice_title_wrap .btn-allView {
+    border-radius: 10px;
+    border:1px solid #eee;
+    font-weight: 500;
+    font-size: 1.05rem;
+}
+.info-wrapper .notice {
+    max-height: 102px;
+}
+.info-wrapper .notice .h2.small {
+    font-size: 20px;
+    margin-bottom: 40px;
+}
+.info-wrapper .notice ul li {
+    margin-top:0;
+}
+.info-wrapper .notice ul li + li {
+    margin-top:12px;
+}
+.info-wrapper .notice ul li > a {
+    display: block;
+    padding-right:30px;
+    position: relative;
+}
+.info-wrapper .notice ul li > a:before {
+    content: '';
+    position: absolute;
+    right: 10px;
+    margin-top: -4px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-left: 2px solid #8f9bb3;
+    border-bottom: 2px solid #8f9bb3;
+    transform: rotate(-135deg);
+}
+.info-wrapper .notice ul li > a dl dt {
+    font-size:16px;
+    color: #000;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.info-wrapper .notice ul li > a dl dd {
+    font-size:14px;
+    color: #909090;
+}
+.info-wrapper .notice ul li > a dl dd strong {
+    margin-right: 5px;
+    color: #4aa8d8;
+}
+.client-wrap {
+    padding: 25px 0;
+}
+.client-wrap .client-list {
+    display: flex;
+    padding: 0 0 22px;
+}
+.client-wrap .client-list dt {
+    font-weight: 500;
+    font-size: 16px;
+    color: #222;
+    line-height: 1.500em;
+}
+.client-wrap .client-list dd {
+    overflow: hidden;
+    padding-left: 28px;
+}
+.client-wrap .client-list dd strong {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    color: #222;
+    line-height: 1.714em;
+}
+.client-wrap .client-list dd span {
+    display: block;
+    font-size: 14px;
+    color: #222;
+    line-height: 1.714em;
+}
+.client-wrap .client-list dd p {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.714em;
+}
+.client-wrap .client-btn-wrap {
+    display: flex;
+}
+
+.client-wrap .client-btn-wrap a {
+    padding: 7px 14px;
+    font-size: 14px;
+    color: #222;
+    line-height: 1.429em;
+    background-color: #f6f6f6;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.client-wrap .client-btn-wrap a ~ a {
+    margin-left: 10px;
+}
+#footer {
+    width: 100%;
+    padding: 1rem 0 2rem!important;
+    border-top: 1px solid #ebebeb;
+    background-color: #f8f8f8;
+}
+#footer .footer-info {
+    text-align: center;
+    font-size: .8667em;
+    letter-spacing: 0
+}
+#footer .footer-info address {
+    display: inline-block;
+    vertical-align: top
+}
+#footer .footer-info p {
+    display: inline-block;
+    vertical-align: top
+}
+#footer .footer-info p.copy {
+    display: block
+}

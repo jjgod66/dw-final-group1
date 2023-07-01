@@ -1,0 +1,87 @@
+@charset "UTF-8";
+/*!
+ * CSS 파일 이름 : RESERVATION
+ * 작성자 : 신철헌
+ * 최초 작성일 : 2023-06-26
+ * RESERVATION CSS 파일은 부트스트랩 5.2.3 '커스터마이징(Customizing)' 및 자체 CSS
+ * 로 작업한 프론트 입니다.
+ */
+
+
+.main-schedule { padding: 80px 0 35px; background:#fafafa;  }
+.main-schedule .h3-sc { text-align: center; font-size:30px; font-weight: 600; margin-bottom: 40px; }
+.main-schedule .schedule-slider { padding:0 60px; position: relative; margin-bottom: 40px; }
+.main-schedule .schedule-slider a { display: block; text-align: center;}
+.main-schedule .schedule-slider a .time { width:39px; margin:0 auto; }
+.main-schedule .schedule-slider a .time strong { display: block; margin: 0 auto; width:39px; height: 39px; line-height: 38px; font-size:21px; color: #333; border-radius:100%;  transition: all 0.3s ease; }
+.main-schedule .schedule-slider a .time p { font-size:14px; color: #9b9b9b; transition: all 0.3s ease; }
+.main-schedule .schedule-slider a .time.saturday p { color: #1e90ff; }
+.main-schedule .schedule-slider a .time.sunday p { color: #ff4a4a; }
+.main-schedule .schedule-slider a.active .time strong { background: #000; color: #fff; }
+.main-schedule .schedule-slider a.active .time p { color: #000; font-weight: 600; }
+.main-schedule .schedule-slider a.disabled .time strong { color: #dbdbdb; }
+.main-schedule .schedule-slider .swiper-button-next { position: absolute; right:0; top:40%; width:46px; height: 46px; }
+.main-schedule .schedule-slider .swiper-button-prev { position: absolute; left:0; top:40%; width:46px; height: 46px; transform: rotate(1deg);}
+ 
+.main-schedule .schedule-list ul:after { display: block; content: ''; clear: both; }
+.main-schedule .schedule-list ul { margin:0 -8px;}
+.main-schedule .schedule-list ul li { float:left; width:20%; padding:0 8px 16px; }
+.main-schedule .schedule-list ul li a { display: block; height: 135px; box-shadow:0 10px 10px 0 rgba(0,0,0,0.05); border-radius:10px; padding:18px 10px 20px 20px;  background: #fff; position: relative; }
+.main-schedule .schedule-list ul li a .subj { font-size:16px; margin-right:30px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 10px; font-weight: 600;}
+.main-schedule .schedule-list ul li a .time { font-size:16px; color: #909090; }
+.main-schedule .schedule-list ul li a .time span { color: #000; }
+.main-schedule .schedule-list ul li a .stat { font-size:14px; color: #40dfd0; }
+.main-schedule .schedule-list ul li a .stat span { display: block; }
+.main-schedule .schedule-list ul li a .stat span em { color: #000; }
+.main-schedule .schedule-list ul li a .stat span + span {  color: #9b9b9b;  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.main-schedule .schedule-list ul li a i { position: absolute; right:17px; top:17px;}
+ 
+.schedule-list2 { }
+.schedule-list2 .section { display: flex; align-items: center; padding-top:38px; border-top:1px solid #e2e2e2; max-width:1037px; margin: 0 auto; }
+.schedule-list2 .section h3 { flex: 0 0 240px; font-size:16px; color: #000; font-weight: 700; }
+.schedule-list2 .section h3 span { display: block; padding-left: 34px; position: relative; max-width:175px; }
+.schedule-list2 .section h3 span i { position: absolute;left: 0; top:3px; }
+.schedule-list2 .article { flex: 1; }
+.schedule-list2 .article h4 { font-size:16px; color: #000; margin-bottom: 8px; }
+.schedule-list2 .article ul { display: flex; flex-wrap: wrap; margin:0 -4px 28px; }
+.schedule-list2 .article ul li {margin:0 6px 8px 0; } 
+.schedule-list2 .article ul li a { display: block; width:153px; height: 61px; padding: 7px 16px; border-radius:10px ; box-shadow: 0 6px 6px 0 rgba(0, 0, 0, 0.04); background: #fff;  }
+.schedule-list2 .article ul li .time { font-size:14px; color: #909090; }
+.schedule-list2 .article ul li .time span { font-size:16px; color: #000;}
+.schedule-list2 .article ul li .length { font-size:12px; color: #40dfd0; display: flex;justify-content: space-between; }
+.schedule-list2 .article ul li .length span { color: #000;}
+.schedule-list2 .article ul li .length p:nth-child(2){ color: #1e90ff; font-weight: 600;}
+
+.partner {    }
+.partner .inner {padding: 80px 0 15px;margin-top:60px; border-top:1px solid #e2e2e2; }
+.partner ul { display: flex; justify-content: space-between; }
+.partner ul li {}
+.partner a { display: block; border: 1px solid #e2e2e2; border-radius:5px; overflow: hidden;  text-align: center; }
+.partner a img { max-width:100%; }
+
+.mvList { padding: 15px; background: #fff; }
+.mvList > div button { display: block; width:100%; height: 73px; position: relative; padding:0 20px; background: #fafafa; transition: all 0.3s ease;}
+.mvList > div button:hover { background: #eef0f6; }
+.mvList > div button.active { background: #4aa8d8; color: #fff; }
+.mvList > div button:before { content: ''; position: absolute;left: 0; right:0; top:0; bottom:0; border: 2px solid #4aa8d8; opacity:0; transition: all 0.3s ease;}
+.mvList > div button .loc { font-size:14px; margin-bottom: 0; }
+.mvList > div button .info:after { display: block; content: ''; clear: both; }
+.mvList > div button .info .time {float:left; font-size:16px; font-weight: 600; width:auto; }
+.mvList > div button .info .time span { color: #909090; }
+.mvList > div button .info .num { float:right; font-size:16px; }
+.mvList > div button .info .num span { color: #4aa8d8; }
+.mvList > div.check button:before { opacity:1; }
+.mvList > div.check button > p strong { font-weight: 600; }
+
+.mvTimeLine { padding: 15px; background: #fff; }
+.mvTimeLine > div button { display: block; width:100%; height: 73px; position: relative; padding:0 20px; background: #fafafa; transition: all 0.3s ease;}
+.mvTimeLine > div button:hover { background: #eef0f6; }
+.mvTimeLine > div button:before { content: ''; position: absolute;left: 0; right:0; top:0; bottom:0; border: 2px solid #4aa8d8; opacity:0; transition: all 0.3s ease;}
+.mvTimeLine > div button .loc { font-size:14px; margin-bottom: 0; }
+.mvTimeLine > div button .info:after { display: block; content: ''; clear: both; }
+.mvTimeLine > div button .info .time {float:left; font-size:16px; font-weight: 600; width:auto; }
+.mvTimeLine > div button .info .time span { color: #909090; }
+.mvTimeLine > div button .info .num { float:right; font-size:16px; }
+.mvTimeLine > div button .info .num span { color: #4aa8d8; }
+.mvTimeLine > div.check button:before { opacity:1; }
+.mvTimeLine > div.check button > p strong { font-weight: 600; }

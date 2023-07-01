@@ -1,0 +1,125 @@
+@charset "UTF-8";
+/*!
+ * CSS 파일 이름 : STORE
+ * 작성자 : 신철헌
+ * 최초 작성일 : 2023-06-29
+ * STORE CSS 파일은 부트스트랩 5.2.3 '커스터마이징(Customizing)' 및 자체 CSS
+ * 로 작업한 프론트 입니다.
+ */
+.store-inner {
+    padding: 15px 0;
+    background:#f1f2f7;
+}
+.store-inner .container {
+    background-color: #fff;
+    border-left: 1px solid #F4F4F5;
+    border-right: 1px solid #F4F4F5;
+}
+.store-inner .container:after,
+.store-inner .container:before { content: ''; display: table; }
+.store-inner .container:after { clear: both; }
+.store-inner .lnb, 
+.store-inner .content_wrap {
+    float: left;
+}
+.store-inner .lnb {
+    width: 18%;
+    border-right: 1px solid #F4F4F5;
+    padding-top: 55px;
+    margin-right: -1px;
+}
+.store-inner .lnb h2 {
+    height: 71px;
+    font-size: 40px;
+    color: #424959;
+    text-align: center;
+}
+.store-inner .lnb ul {
+    border-top: 1px solid #F5F5F6;
+    margin: 0 34px 0 30px;
+}
+.store-inner .lnb li {
+    border-bottom: 1px solid #F5F5F6;
+}
+.store-inner .lnb li a {
+    display: block;
+    height: 49px;
+    line-height: 51px;
+    color: #666;
+    font-weight: lighter;
+    background: url(https://ssl.nexon.com/s2/game/Asgard/2018/sub/blt_lnb.png) 12px 50% no-repeat;
+    font-size: 16px;
+    padding-left: 25px;
+}
+.store-inner .lnb li a:hover,
+.store-inner .lnb .on a {
+    color: #4ba5dc;
+    background-position: -184px 50%;
+}
+.store-inner .content_wrap {
+    width: 82%;
+    border-left: 1px solid #F4F4F5;
+    padding: 55px 49px 80px 50px;
+}
+.store-inner .content_wrap .btn_category_product {
+    display: block;
+}
+.store-inner .content_wrap .btn_category_product .com_list_img_wrap {
+    display: block;
+    position: relative;
+    z-index: 1;
+}
+.store-inner .content_wrap .btn_category_product .com_list_img_wrap img {
+    width: 100%;
+}
+.store-inner .content_wrap .btn_category_product .com_list_text_wrap {
+    display: block;
+    padding-bottom: 20px;
+}
+.store-inner .content_wrap .btn_category_product .com_list_text_title {
+    display: block;
+    overflow: hidden;
+    margin-top: 20px;
+    font-weight: 500;
+    font-size: 18px;
+    color: #000;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.store-inner .content_wrap .btn_category_product .com_list_text_name {
+    display: block;
+    overflow: hidden;
+    margin-top: 5px;
+    font-weight: 400;
+    font-size: 16px;
+    color: #000;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.store-inner .content_wrap .btn_category_product .com_list_sale_price_wrap {
+    display: block;
+    margin-top: 15px;
+    font-size: 0;
+    letter-spacing: -0.25px;
+    text-align: left;
+}
+.store-inner .content_wrap .btn_category_product .store_deatail_source_price {
+    display: inline-block;
+    padding: 0 8px 0 0;
+    font-weight: 500;
+    font-size: 17px;
+    color: #000;
+}
+.store-inner .content_wrap .btn_category_product .store_deatail_source_price:after {
+    content: '원';
+}
+.store-detail .pd_img {
+    float: left;
+    width: 500px;
+}
+.store-detail .container:after,
+.store-detail .container:before { content: ''; display: table; }
+.store-detail .container:after { clear: both; }
+.store-detail .pd_img img {
+    width: 100%;
+}
