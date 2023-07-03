@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
-<link rel="stylesheet" href="/css/boxoffice.css">
+<link rel="stylesheet" href="/resources/css/boxoffice.css">
 <%@ include file="/WEB-INF/views/include/boxoffice.jsp" %>
 <div class="boxoffice">
     <div class="container">
@@ -152,25 +152,25 @@ swiper.on('slideChange', function() {
         <div class="row">
             <div class="col-12 col-lg-6 col-xl-3">
                 <div class="icon">
-                    <img src="img/community-icon.png">
+                    <img src="/resources/img/community-icon.png">
                 </div>
                 <a href="#">커뮤니티</a>
             </div>
             <div class="col-12 col-lg-6 col-xl-3">
                 <div class="icon">
-                    <img src="img/giftbox-icon.png">
+                    <img src="/resources/img/giftbox-icon.png">
                 </div>
                 <a href="#">혜택</a>
             </div>
             <div class="col-12 col-lg-6 col-xl-3">
                 <div class="icon">
-                    <img src="img/popcorn-icon.png">
+                    <img src="/resources/img/popcorn-icon.png">
                 </div>
                 <a href="#">스토어</a>
             </div>
             <div class="col-12 col-lg-6 col-xl-3">
                 <div class="icon">
-                    <img src="img/chat-support-icon.png">
+                    <img src="/resources/img/chat-support-icon.png">
                 </div>
                 <a href="#">고객센터</a>
             </div>
