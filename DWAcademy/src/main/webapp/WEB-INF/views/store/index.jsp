@@ -7,7 +7,7 @@ if (CategoryIdx == null) {
 	CategoryIdx = "";
 }
 %>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/store.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/store.css">
 <div class="sub_visual">
     <h3>스토어</h3>
     <h6>movie store</h6>
@@ -26,7 +26,7 @@ if (CategoryIdx == null) {
             <div class="row">
                 <div class="col-12 col-lg-3">
                     <a href="/store/detail.do" class="btn_category_product">
-                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/img/store/ERDC5wGVMC0YZPIRUsuuaJuAGRyqeDjC_280.png"></span>
+                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/resources/img/store/ERDC5wGVMC0YZPIRUsuuaJuAGRyqeDjC_280.png"></span>
                         <span class="com_list_text_wrap">
                             <span class="com_list_text_title">더블콤보</span>
                             <span class="com_list_text_name">팝콘(R) 2 + 탄산음료(R) 2</span>
@@ -38,7 +38,7 @@ if (CategoryIdx == null) {
                 </div>
                 <div class="col-12 col-lg-3">
                     <a href="/store/detail.do" class="btn_category_product">
-                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/img/store/qB1IVqlOLCV7hOOEAJp4J9iG3J5oVWjv_280.png"></span>
+                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/resources/img/store/qB1IVqlOLCV7hOOEAJp4J9iG3J5oVWjv_280.png"></span>
                         <span class="com_list_text_wrap">
                             <span class="com_list_text_title">러브콤보</span>
                             <span class="com_list_text_name">팝콘(L) 1 + 탄산음료(R) 2</span>
@@ -50,7 +50,7 @@ if (CategoryIdx == null) {
                 </div>
                 <div class="col-12 col-lg-3">
                     <a href="/store/detail.do" class="btn_category_product">
-                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/img/store/15464115505070.jpg"></span>
+                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/resources/img/store/15464115505070.jpg"></span>
                         <span class="com_list_text_wrap">
                             <span class="com_list_text_title">칠리치즈핫도그</span>
                             <span class="com_list_text_name">칠리치즈핫도그</span>
@@ -62,7 +62,7 @@ if (CategoryIdx == null) {
                 </div>
                 <div class="col-12 col-lg-3">
                     <a href="/store/detail.do" class="btn_category_product">
-                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/img/store/15464120861130.jpg"></span>
+                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/resources/img/store/15464120861130.jpg"></span>
                         <span class="com_list_text_wrap">
                             <span class="com_list_text_title">플레인핫도그</span>
                             <span class="com_list_text_name">플레인핫도그</span>
@@ -74,7 +74,7 @@ if (CategoryIdx == null) {
                 </div>
                 <div class="col-12 col-lg-3">
                     <a href="/store/detail.do" class="btn_category_product">
-                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/img/store/16751302793100.jpg"></span>
+                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/resources/img/store/16751302793100.jpg"></span>
                         <span class="com_list_text_wrap">
                             <span class="com_list_text_title">칠리치즈나쵸</span>
                             <span class="com_list_text_name">칠리치즈나쵸</span>
