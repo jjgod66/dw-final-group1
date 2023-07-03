@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link rel="stylesheet" href="/resources/css/boxoffice.css">
-<%@ include file="/WEB-INF/views/include/boxoffice.jsp" %>
+<%@ include file="/WEB-INF/views/common/boxoffice.jsp" %>
 <div class="boxoffice">
     <div class="container">
         <div class="movieChartBeScreen_btn_wrap">
@@ -19,7 +19,7 @@
 <%
     for (int i = 0; i < dailyBoxOfficeList.getLength(); i++) {
 %>
-<%@include file="/WEB-INF/views/include/boxoffice_list.jsp" %>
+<%@include file="/WEB-INF/views/common/boxoffice_list.jsp" %>
                         <li class="swiper-slide">
                             <div class="item_poster">
                                 <div class="thumb_item">

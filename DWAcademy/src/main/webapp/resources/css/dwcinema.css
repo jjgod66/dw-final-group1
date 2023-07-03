@@ -109,6 +109,7 @@ button {
     -moz-user-select: none;
     user-select: none;
     text-anchor: middle;
+    border-radius: 0;
 }
 .header {
     position: relative;
@@ -131,23 +132,23 @@ button {
     padding: 0px;
 }
 .header .background {
-  display: none;
-  position: absolute;
-  left: 0;
-  width: 100%;
-  opacity: 0;
-  /* background: url(https://ssl.nexon.com/s2/game/heroes/web/2017/bg_gnb_01.png); */
-  background-color: rgba(255, 255, 255, 0.95);
+    display: none;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    /* background: url(https://ssl.nexon.com/s2/game/heroes/web/2017/bg_gnb_01.png); */
+    background-color: rgba(255, 255, 255, 0.95);
 }
 .header .background:after {
-  content: '';
-  display: block;
-  height: 0;
-  width: 100%;
-  border-bottom: 1px solid #EDEDED;
-  position: absolute;
-  left: 0;
-  top: 81px;
+    content: '';
+    display: block;
+    height: 0;
+    width: 100%;
+    border-bottom: 1px solid #EDEDED;
+    position: absolute;
+    left: 0;
+    top: 81px;
 }
 .header .navbar {
     position: relative;

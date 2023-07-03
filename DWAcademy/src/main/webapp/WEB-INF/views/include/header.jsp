@@ -58,7 +58,6 @@ request.setAttribute("GetTitle", "DWCinema");
             <li role="menuitem">
                 <strong>커뮤니티</strong>
                 <ul style="opacity: 0; height: 0px;">
-                    <li><a href="#">공지사항</a></li>
                     <li><a href="#">영화리뷰</a></li>
                     <li><a href="#">무비포스트</a></li>
                 </ul>
@@ -103,7 +102,7 @@ request.setAttribute("GetTitle", "DWCinema");
             <li role="menuitem">
                 <strong>고객센터</strong>
                 <ul style="opacity: 0; height: 0px;">
-                    <li><a href="#">고객센터</a></li>
+                    <li><a href="<%=request.getContextPath()%>/support/notice.do">공지사항</a></li>
                     <li><a href="#">저주 묻는 질문</a></li>
                     <li><a href="#">1:1 문의</a></li>
                 </ul>

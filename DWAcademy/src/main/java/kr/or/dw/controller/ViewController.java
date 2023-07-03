@@ -56,4 +56,14 @@ public class ViewController {
 		String url = "/store/detail";
 		return url;
 	}
+	
+	/*
+	 * 고객센터 뷰어 컨트롤러 
+	 */
+	@GetMapping("/support/notice")
+	public String supportNotice() {
+		String url = "/support/notice";
+		return url;
+	}
+
 }
