@@ -51,11 +51,7 @@ request.setAttribute("GetTitle", "DWCinema");
             </ul>
         </div>
     </nav>
-<<<<<<< HEAD
     <div class="logo"><a href="<%=request.getContextPath()%>/"><img src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
-=======
-    <div class="logo"><a href="<%=request.getContextPath()%>/"><img src="/resources/img/logo.png"></a></div>
->>>>>>> branch 'main' of https://github.com/jjgod66/dw-final-group2.git
     <div class="background" style="height: 220px; display: none; opacity: 0;"></div>
     <div class="container" stlyle="overflow: hidden;">
         <ul class="navbar" role="menubar" id="dwcinema_gnb">
