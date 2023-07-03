@@ -6,7 +6,7 @@ if (CategoryIdx == null) {
     CategoryIdx = "";
 }
 %>
-<link rel="stylesheet" href="/css/store.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/store.css">
 <div class="sub_visual">
     <h3>스토어</h3>
     <h6>movie store</h6>
@@ -16,15 +16,15 @@ if (CategoryIdx == null) {
         <div class="lnb">
             <h2>스토어</h2>
             <ul>
-                <li<%= CategoryIdx.equals("1") ? " class='on'" : "" %>><a href="store.jsp?CategoryIdx=1">영화관람권</a></li>
-                <li<%= CategoryIdx.equals("2") ? " class='on'" : "" %>><a href="store.jsp?CategoryIdx=2">기프트카드</a></li>
-                <li<%= CategoryIdx.equals("3") ? " class='on'" : "" %>><a href="store.jsp?CategoryIdx=3">팝콘/스낵/음료</a></li>
+                <li<%= CategoryIdx.equals("1") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=1">영화관람권</a></li>
+                <li<%= CategoryIdx.equals("2") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=2">기프트카드</a></li>
+                <li<%= CategoryIdx.equals("3") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=3">팝콘/스낵/음료</a></li>
             </ul>
         </div>
         <div class="content_wrap">
             <div class="pd_img">
                 <div class="main_img">
-                    <img class="" src="/img/store/15464115505070.jpg">
+                    <img class="" src="/resources/img/store/15464115505070.jpg">
                 </div>
             </div>
             <div class="pd_detail">
