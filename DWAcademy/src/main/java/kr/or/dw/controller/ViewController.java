@@ -21,6 +21,11 @@ public class ViewController {
 		
 		return url;
 	}
+	@GetMapping("/member/join")
+	public String memberJoin() {
+		String url = "/member/join";
+		return url;
+	}
 
 	/*
 	 * 예매 뷰어 컨트롤러 

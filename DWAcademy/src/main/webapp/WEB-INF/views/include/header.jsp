@@ -47,15 +47,11 @@ request.setAttribute("GetTitle", "DWCinema");
             </ul>
             <ul class="nav">
                 <li class="nav-item"><a href="<%=request.getContextPath()%>/member/login.do" class="nav-link link-dark px-2">로그인</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">회원가입</a></li>
+                <li class="nav-item"><a href="<%=request.getContextPath()%>/member/join.do" class="nav-link link-dark px-2">회원가입</a></li>
             </ul>
         </div>
     </nav>
-<<<<<<< HEAD
     <div class="logo"><a href="<%=request.getContextPath()%>/"><img src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
-=======
-    <div class="logo"><a href="<%=request.getContextPath()%>/"><img src="/resources/img/logo.png"></a></div>
->>>>>>> branch 'main' of https://github.com/jjgod66/dw-final-group2.git
     <div class="background" style="height: 220px; display: none; opacity: 0;"></div>
     <div class="container" stlyle="overflow: hidden;">
         <ul class="navbar" role="menubar" id="dwcinema_gnb">
