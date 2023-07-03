@@ -24,7 +24,11 @@ request.setAttribute("GetTitle", "DWCinema");
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${GetTitle }</title>
+<<<<<<< HEAD
 <link href="<%=request.getContextPath()%>/resources/img/logo_ico.png" rel="shortcut icon" type="image/x-icon">
+=======
+<link href="/resources/img/logo_ico.png" rel="shortcut icon" type="image/x-icon">
+>>>>>>> branch 'main' of https://github.com/jjgod66/dw-final-group2.git
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/dwcinema.css">
@@ -51,7 +55,11 @@ request.setAttribute("GetTitle", "DWCinema");
             </ul>
         </div>
     </nav>
+<<<<<<< HEAD
     <div class="logo"><a href="<%=request.getContextPath()%>/"><img src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
+=======
+    <div class="logo"><a href="<%=request.getContextPath()%>/"><img src="/resources/img/logo.png"></a></div>
+>>>>>>> branch 'main' of https://github.com/jjgod66/dw-final-group2.git
     <div class="background" style="height: 220px; display: none; opacity: 0;"></div>
     <div class="container" stlyle="overflow: hidden;">
         <ul class="navbar" role="menubar" id="dwcinema_gnb">
