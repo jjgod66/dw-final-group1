@@ -1,0 +1,76 @@
+@charset "UTF-8";
+/*!
+ * CSS 파일 이름 : membership
+ * 작성자 : 신철헌
+ * 최초 작성일 : 2023-06-29
+ * membership CSS 파일은 부트스트랩 5.2.3 '커스터마이징(Customizing)' 및 자체 CSS
+ * 로 작업한 프론트 입니다.
+ */
+.ms-wrapper .membershipCard {
+    padding: 70px 0 20px;
+}
+.ms-wrapper .membershipCard .tt {
+    text-align: center;
+    margin-bottom: 18px;
+    font-family: Roboto;
+    font-weight: 300;
+    font-size: 70px;
+    line-height: 63px;
+    color: #4aa8d8;
+}
+.ms-wrapper .membershipCard .tt span {
+    display: block;
+    font-weight: 700;
+    color: #333;
+}
+.ms-wrapper .membershipCard .tx {
+    padding-bottom: 16px;
+    font-size: 18px;
+    line-height: 21px;
+    color: #503396;
+    text-align: center;
+    font-weight: 400;
+}
+.ms-wrapper .tit3 {
+    padding-bottom: 20px;
+    padding-top: 30px;
+    font-size: 20px;
+    font-weight: 400;
+    color: #503396;
+    line-height: 23px;
+}
+.ms-wrapper .membershipBenefit {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.ms-wrapper .membershipBenefit .item {
+    position: relative;
+    width: calc(50% - 15px);
+    height: 210px;
+    padding: 45px 0 0 195px;
+    box-shadow: 4px 4px 20px rgba(0,0,0,.05);
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+.ms-wrapper .membershipBenefit .item .ico {
+    display: block;
+    position: absolute;
+    top: 24px;
+    left: 56px;
+    width: 110px;
+}
+.ms-wrapper .membershipBenefit .item .tit {
+    font-size: 18px;
+    line-height: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #222;
+}
+.ms-wrapper .membershipBenefit .item .txt {
+    font-size: 15px;
+    line-height: 21px;
+    font-weight: 400;
+    color: #444;
+    margin-bottom: 20px;
+}
