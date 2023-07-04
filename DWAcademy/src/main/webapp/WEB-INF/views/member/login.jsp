@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../include/member_header.jsp" %>
 <div class="container-fluid">
-    <div class="row no-gutter">
-        <div class="col-md-6 d-none d-md-flex bg-image"></div>
+	<div class="row no-gutter">
+		<div class="col-md-6 d-none d-md-flex bg-image">
+		</div>
         <div class="col-md-6 bg-light">
             <div class="login d-flex align-items-center py-5">
                 <div class="container">

@@ -27,6 +27,27 @@ public class ViewController {
 		return url;
 	}
 
+	@GetMapping("/member/membership")
+	public String memberShip() {
+		String url = "/member/membership";
+		return url;
+	}
+
+	/*
+	 * 영화 뷰어 컨트롤러 
+	 */
+	@GetMapping("/movie/review")
+	public String movieReview() {
+		String url = "/movie/review";
+		return url;
+	}
+
+	@GetMapping("/movie/viewer")
+	public String movieViewer() {
+		String url = "/movie/viewer";
+		return url;
+	}
+
 	/*
 	 * 예매 뷰어 컨트롤러 
 	 */
@@ -63,6 +84,11 @@ public class ViewController {
 	@GetMapping("/support/notice")
 	public String supportNotice() {
 		String url = "/support/notice";
+		return url;
+	}
+	@GetMapping("/support/faq")
+	public String supportFaq() {
+		String url = "/support/faq";
 		return url;
 	}
 

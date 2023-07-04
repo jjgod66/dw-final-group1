@@ -52,22 +52,17 @@ request.setAttribute("GetTitle", "DWCinema");
         </div>
     </nav>
     <div class="logo"><a href="<%=request.getContextPath()%>/"><img src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
-    <div class="background" style="height: 220px; display: none; opacity: 0;"></div>
+    <div class="background" style="height: 260px; display: none; opacity: 0;"></div>
     <div class="container" stlyle="overflow: hidden;">
         <ul class="navbar" role="menubar" id="dwcinema_gnb">
-            <li role="menuitem">
-                <strong>커뮤니티</strong>
-                <ul style="opacity: 0; height: 0px;">
-                    <li><a href="#">영화리뷰</a></li>
-                    <li><a href="#">무비포스트</a></li>
-                </ul>
-            </li>
             <li role="menuitem">
                 <strong>영화</strong>
                 <ul style="opacity: 0; height: 0px;">
                     <li><a href="#">전채영화</a></li>
                     <li><a href="#">현재상영작</a></li>
                     <li><a href="#">상영예정작</a></li>
+                    <li><a href="<%=request.getContextPath()%>/movie/review.do">영화리뷰</a></li>
+                    <li><a href="#">무비포스트</a></li>
                 </ul>
             </li>
             <li role="menuitem">
@@ -96,14 +91,14 @@ request.setAttribute("GetTitle", "DWCinema");
             <li role="menuitem">
                 <strong>혜택</strong>
                 <ul style="opacity: 0; height: 0px;">
-                    <li><a href="membership.jsp">멤버십 안내</a></li>
+                    <li><a href="<%=request.getContextPath()%>/member/membership.do">멤버십 안내</a></li>
                 </ul>
             </li>
             <li role="menuitem">
                 <strong>고객센터</strong>
                 <ul style="opacity: 0; height: 0px;">
                     <li><a href="<%=request.getContextPath()%>/support/notice.do">공지사항</a></li>
-                    <li><a href="#">저주 묻는 질문</a></li>
+                    <li><a href="<%=request.getContextPath()%>/support/faq.do">저주 묻는 질문</a></li>
                     <li><a href="#">1:1 문의</a></li>
                 </ul>
             </li>
