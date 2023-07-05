@@ -81,7 +81,18 @@ public class ViewController {
 		String url = "/store/detail";
 		return url;
 	}
+
+
+	/*
+	 * 이벤트 뷰어 컨트롤러 
+	 */
+	@GetMapping("/event/main")
+	public String eventMain() {
+		String url = "/event/main";
+		return url;
+	} 
 	
+
 	/*
 	 * 고객센터 뷰어 컨트롤러 
 	 */

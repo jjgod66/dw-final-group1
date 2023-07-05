@@ -1,5 +1,8 @@
 @charset "UTF-8";
 
+.payment-wrapper {
+	background-color: #f7f8f8;
+}
 .payment-wrapper .card{
     border:none;
 }
@@ -87,7 +90,7 @@
 	background: #333;
 }
 .payment-wrapper .movie_infor {
-    padding: 30px 30px 18px;
+    padding: 0 0 18px;
 }
 .payment-wrapper .movie_infor .thm {
     display: block;
@@ -98,4 +101,45 @@
 }
 .payment-wrapper .movie_infor .thm img {
     width: 100%;
+}
+.payment-wrapper .movie_infor .tit {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 17px;
+}
+.payment-wrapper .movie_infor dt {
+    clear: both;
+    float: left;
+    min-width: 40px;
+    margin-bottom: 7px;
+    font-size: 11px;
+}
+.payment-wrapper .movie_infor dd {
+    float: left;
+    margin-bottom: 7px;
+    font-size: 11px;
+    width: 200px;
+    word-break: keep-all;
+}
+.payment-wrapper  dl.dlist_infor:after {
+    content: "";
+    display: block;
+    clear: both;
+}
+.payment-wrapper .group_discount {
+	background-color: #fff;
+	margin-bottom: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 #eee;
+}
+.payment-wrapper .group_discount .tit_payment {
+	font-size: 1rem;
+	border-bottom: 1px solid #ccc;
+	padding: 15px;
+}
+.payment-wrapper .group_discount .tab_wrap {
+	padding: 15px;
+}
+.payment-wrapper .group_discount .paylist {
+	display: flex;
 }
