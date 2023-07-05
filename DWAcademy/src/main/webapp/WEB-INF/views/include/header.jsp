@@ -79,7 +79,7 @@ request.setAttribute("GetTitle", "DWCinema");
             <li role="menuitem">
                 <strong>영화</strong>
                 <ul style="opacity: 0; height: 0px;">
-                    <li><a href="#">전채영화</a></li>
+                    <li><a href="#">전체영화</a></li>
                     <li><a href="#">현재상영작</a></li>
                     <li><a href="#">상영예정작</a></li>
                     <li><a href="<%=request.getContextPath()%>/movie/review.do">영화리뷰</a></li>
