@@ -38,6 +38,27 @@ request.setAttribute("GetTitle", "DWCinema");
 <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
 </head>
 <body>
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+
+  <div class="modal-dialog">
+    <div class="loginmodal-container">
+      
+      <h1>Login to Your Account</h1><br>
+      
+      <form>
+        <input type="text" name="user" placeholder="Username">
+        <input type="password" name="pass" placeholder="Password">
+        <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+      </form>
+
+      <div class="login-help">
+        <a href="#">Join</a> - <a href="#">Forgot Password</a>
+      </div>				
+    
+    </div>
+   </div>
+
+</div>
 <header class="header">
     <nav class="gnb">
         <div class="container d-flex flex-wrap">
@@ -46,7 +67,7 @@ request.setAttribute("GetTitle", "DWCinema");
                 <li class="nav-item"><a href="#" class="nav-link link-dark px-2">고객센터</a></li>
             </ul>
             <ul class="nav">
-                <li class="nav-item"><a href="<%=request.getContextPath()%>/member/login.do" class="nav-link link-dark px-2">로그인</a></li>
+                <li class="nav-item"><a href="<%=request.getContextPath()%>/member/login.do" data-toggle="modal" data-target="#login-modal" class="nav-link link-dark px-2">로그인</a></li>
                 <li class="nav-item"><a href="<%=request.getContextPath()%>/member/join.do" class="nav-link link-dark px-2">회원가입</a></li>
             </ul>
         </div>
