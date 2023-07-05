@@ -32,7 +32,7 @@ public class ViewController {
 		String url = "/member/membership";
 		return url;
 	}
-
+	
 	/*
 	 * 영화 뷰어 컨트롤러 
 	 */
@@ -41,7 +41,6 @@ public class ViewController {
 		String url = "/movie/review";
 		return url;
 	}
-
 	@GetMapping("/movie/viewer")
 	public String movieViewer() {
 		String url = "/movie/viewer";
@@ -59,6 +58,11 @@ public class ViewController {
 	@GetMapping("/booking/movie")
 	public String bookingMovie() {
 		String url = "/booking/movie";
+		return url;
+	}
+	@GetMapping("/booking/payment")
+	public String bookingPayment() {
+		String url = "/booking/payment";
 		return url;
 	}
 
