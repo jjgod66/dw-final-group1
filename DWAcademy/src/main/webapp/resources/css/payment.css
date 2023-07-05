@@ -86,3 +86,16 @@
 .payment-wrapper .card-payment {
 	background: #333;
 }
+.payment-wrapper .movie_infor {
+    padding: 30px 30px 18px;
+}
+.payment-wrapper .movie_infor .thm {
+    display: block;
+    overflow: hidden;
+    margin-bottom: 20px;
+    text-align: center;
+    border-radius: 4px;
+}
+.payment-wrapper .movie_infor .thm img {
+    width: 100%;
+}
