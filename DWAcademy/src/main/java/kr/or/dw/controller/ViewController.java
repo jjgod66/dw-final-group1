@@ -1,9 +1,5 @@
 package kr.or.dw.controller;
 
-import javax.servlet.http.HttpServletResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -14,11 +10,9 @@ public class ViewController {
 	/*
 	 * 맴버 뷰어 컨트롤러 
 	 */
-	private static final Logger logger = LoggerFactory.getLogger(ViewController.class);
-	@GetMapping("/member/login")
-	public String loginForm(HttpServletResponse res) throws Exception {
-		String url = "/member/login";
-		
+	@GetMapping("/member/main")
+	public String memberMain() {
+		String url = "/member/main";
 		return url;
 	}
 	@GetMapping("/member/join")
@@ -26,7 +20,6 @@ public class ViewController {
 		String url = "/member/join";
 		return url;
 	}
-
 	@GetMapping("/member/membership")
 	public String memberShip() {
 		String url = "/member/membership";

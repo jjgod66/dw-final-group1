@@ -209,8 +209,8 @@ request.setAttribute("GetTitle", "DWCinema");
     </nav>
     <div class="logo"><a href="<%=request.getContextPath()%>/"><img src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
     <div class="background" style="height: 260px; display: none; opacity: 0;"></div>
-    <div class="container" stlyle="overflow: hidden;">
-        <ul class="navbar" role="menubar" id="dwcinema_gnb">
+    <div class="container">
+        <ul class="navbar" role="menubar" id="dwcinema_gnb" stlyle="overflow: hidden;">
             <li role="menuitem">
                 <strong>영화</strong>
                 <ul style="opacity: 0; height: 0px;">
@@ -236,6 +236,8 @@ request.setAttribute("GetTitle", "DWCinema");
                     <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=4">팝콘/스낵/음료</a></li>
                 </ul>
             </li>
+            <li role="menuitem" style="width: 280px;">
+            </li>
             <li role="menuitem">
                 <strong>이벤트</strong>
                 <ul style="opacity: 0; height: 0px;">
@@ -250,13 +252,9 @@ request.setAttribute("GetTitle", "DWCinema");
                     <li><a href="<%=request.getContextPath()%>/member/membership.do">멤버십 안내</a></li>
                 </ul>
             </li>
-            <li role="menuitem">
-                <strong>고객센터</strong>
-                <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/support/notice.do">공지사항</a></li>
-                    <li><a href="<%=request.getContextPath()%>/support/faq.do">저주 묻는 질문</a></li>
-                    <li><a href="#">1:1 문의</a></li>
-                </ul>
+            <li role="menuitem" style="width: 110px;">
+                <a href="<%=request.getContextPath()%>/booking/cinema.do" style="position: absolute; top: 30px; right: 40px; color: #333; font-size: 1.8rem;"><i class="bi bi-calendar3"></i></a>
+                <a href="<%=request.getContextPath()%>/member/main.do" style="position: absolute; top: 30px; right: 0; color: #333; font-size: 1.8rem;"><i class="bi bi-person"></i></a>
             </li>
         </ul>
     </div>

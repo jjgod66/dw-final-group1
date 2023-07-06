@@ -9,154 +9,232 @@
  @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
  @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
 * {
-    transition: all .3s;
-}
-html, body, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, big, cite, code, del, dfn, em, font, img, ins, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, ul, ol, li, dl, dt, dd, table, caption, tbody, tfoot, thead, tr, th, td, fieldset, fo7m, label, legend, input, button, textarea, select {
     margin: 0;
-    padding: 0;
-}
-.screen_out {
-    overflow: hidden;
-    position: absolute;
-    width: 0;
-    height: 0;
-    line-height: 0;
-    text-indent: -9999px;
-}
-body {
-    overflow: auto;
-    overflow-y: scroll;
-    letter-spacing: 0;
-    line-height: 1.5;
-    font-size: 15px;
-    color: #444;
-    font-weight: 400;
-    font-family: 'Nanum Gothic',sans-serif;
-}
-ul, ol, li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-a {
-    text-decoration: none;
-}
-button {
-    border: transparent;
-    background: transparent;
-}
-html,
-body {
-    height: 100%;
-}
-body {
-    background-color: #4052e4;
-    display: grid;
-    place-items: center;
-}
-.form-label {
-	display: block;
-	font-size: 0.95rem;
-	color: #000;
-}
-.form-label:after {
-    clear: both;
-    content: "";
-}
-.login,
-.image {
-    min-height: 100vh;
-}
-.bg-image {
-    background-image: url("../img/KakaoTalk_20230630_084125885.jpg");
-    background-size: cover;
-    background-position: center center;
+    padding: 0
 }
 
-.form-control {
-    padding: 0.75rem !important;
-    outline: none;
-    width: 100% !important;
-    min-width: unset;
+body {
+    background-color: #fff
+}
+.card1 {
+    height: 100vh;
+    width: 100%;
+    background-color: #4aa8d8;
     border: none;
     border-radius: 0;
-    box-shadow: none !important;
-    border-color: #fff !important;
 }
-.form-control::placeholder {
-    color: #ddd;
+
+.card2 {
+    height: 100vh;
+    width: 100%;
+    background-color: #f6f5fa;
+    border: none
 }
-[type=checkbox] {
-    width: 1.4rem;
-    height: 1.4rem;
-    color: #4aa8d8;
-    vertical-align: middle;
-    -webkit-appearance: none;
-    background: none;
-    border: 0;
-    outline: 0;
-    flex-grow: 0;
-    border-radius: 0;
-    background-color: #FFFFFF;
-    transition: background 300ms;
+
+.image span {
+    color: #fff;
+    font-size: 1.15rem;
+    margin-left: 15px;
+}
+
+.hline {
+    color: #a2a5d8
+}
+
+.btn {
+    height: 40px;
+    width: 100%;
+    border: none;
+    position: relative;
+    border-radius: 5px
+}
+
+.btn i {
+    position: absolute;
+    left: 10px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 18px;
+    top: 10px
+}
+
+.btn span {
+    position: absolute;
+    right: 8px;
+    color: #fff;
+    font-weight: 400;
+    font-size: 16px;
+    top: 10px
+}
+
+.btn:hover {
+    background-color: #fff
+}
+.btn:hover span {
+    color: #333
+}
+.other {
+    color: #333;
+    font-weight: 700
+}
+
+.hello span {
+    font-size: 25px;
+    font-weight: bold;
+    color: #3c3f61;
+    right: 40px
+}
+
+.shape {
+    background-color: #fff
+}
+
+.cardchild {
+    height: 100px;
+    width: 200px;
+    border: none;
+    position: relative;
+    border-radius: 10px
+}
+
+.type {
+    font-weight: 500
+}
+
+.number {
+    font-size: 25px;
+    color: #4f5366
+}
+
+.cardchild .logo1 {
+    position: absolute;
+    top: 15px;
+    right: 20px
+}
+
+.cardchild .percentage {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    color: #48ddd8;
+    font-weight: 500
+}
+
+.cardchild .logo2 {
+    position: absolute;
+    top: 15px;
+    right: 20px
+}
+
+.cardchild .percentage2 {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    color: #bb7484;
+    font-weight: 500
+}
+
+.cardchild .logo3 {
+    position: absolute;
+    top: 15px;
+    color: #bb7484;
+    right: 20px
+}
+
+.cardchild .percentage3 {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    color: #48ddd8;
+    font-weight: 500
+}
+
+.cardchild .logo4 {
+    position: absolute;
+    top: 15px;
+    right: 20px
+}
+
+.cardchild .percentage4 {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    color: #bb7484;
+    font-weight: 500
+}
+
+.cardchildchild {
+    width: 335px;
+    position: relative;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer
+}
+
+.cardchildchild {
+    b
+}
+
+.cardchildchild .profile1 {
+    position: absolute;
+    border-radius: 50%;
+    top: -45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 120px
+}
+
+.name {
+    font-size: 18px;
+    font-weight: 500
+}
+
+.braceletid {
+    font-size: 13px;
+    color: #bab9ba;
+    font-family: 'Source Sans Pro', sans-serif
+}
+
+.btn1 {
+    height: 35px;
+    width: 160px;
+    border: none;
+    background-color: #f8c01a;
     cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 20px
 }
-[type=checkbox]::before {
-    content: "";
-    color: transparent;
-    display: block;
-    width: inherit;
-    height: inherit;
-    border-radius: inherit;
-    border: 0;
-    background-color: transparent;
-    background-size: contain;
-    box-shadow: inset 0 0 0 1px #CCD3D8;
+
+.btn1:hover {
+    background-color: #c72b2b
 }
-[type=checkbox]:checked {
-    background-color: currentcolor;
+
+.icons {
+    font-size: 20px;
+    font-weight: 500
 }
-[type=checkbox]:checked::before {
-    box-shadow: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E %3Cpath d='M15.88 8.29L10 14.17l-1.88-1.88a.996.996 0 1 0-1.41 1.41l2.59 2.59c.39.39 1.02.39 1.41 0L17.3 9.7a.996.996 0 0 0 0-1.41c-.39-.39-1.03-.39-1.42 0z' fill='%23fff'/%3E %3C/svg%3E");
-}
-[type=checkbox]:disabled {
-    background-color: #CCD3D8;
-    opacity: 0.84;
-    cursor: not-allowed;
-}
-.btn-login {
-	width: 100%;
-	color: #fff;
-	border-radius: 0;
-	padding: 1rem 0;
-	background: #4aa8d8;
-}
-.btn-login:hover,.btn-login:active {
-	color: #fff;
-	background: #318fbf;
-}
-.btn.btn-naver {
-	width: 100%;
-    background-color: #27d34a !important;
-    border-color: #27d34a !important;
-    background-image: url(https://vendor-cdn.imweb.me/images/naver_login2x.png);
-    background-size: 16px;
-    background-position: 15px 50%;
-    background-repeat: no-repeat;
-    color: #fff !important;
+
+.dummytext {
     font-size: 14px;
-	border-radius: 0;
+    font-weight: normal;
+    color: #b0aeb1
 }
-.btn.btn-kakao {
-	width: 100%;
-    background-color: #FFEB00 !important;
-    background-image: url(https://vendor-cdn.imweb.me/images/kakao_icon.png);
-    background-size: 20px;
-    background-position: 12px 49%;
-    background-repeat: no-repeat;
-    color: #3c1e1e !important;
-    border-color: #FFEB00 !important;
-    font-size: 14px;
-	border-radius: 0;
+
+.btn2 {
+    height: 35px;
+    width: 160px;
+    border: none;
+    background-color: #c72b2b;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 20px
+}
+
+.btn2:hover {
+    background-color: #f8c01a
 }

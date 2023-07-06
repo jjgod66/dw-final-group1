@@ -125,11 +125,15 @@ button {
 .header .logo {
     position: absolute;
     left: 50%;
-    top: 23px;
-    width: 338px;
+    top: 55px;
+    width: 280px;
     height: 50px;
-    margin: 0px 0px 0px -169px;
+    margin: 0px 0px 0px -140px;
     padding: 0px;
+    z-index: 10;
+}
+.header .logo img {
+    width: 100%;
 }
 .header .background {
     display: none;

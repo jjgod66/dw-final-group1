@@ -90,7 +90,10 @@
 	background: #333;
 }
 .payment-wrapper .movie_infor {
-    padding: 0 0 18px;
+    margin: 0 0 18px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 5px 0 #eee;
 }
 .payment-wrapper .movie_infor .thm {
     display: block;
@@ -104,7 +107,7 @@
 }
 .payment-wrapper .movie_infor .tit {
     display: block;
-    margin-bottom: 10px;
+    margin: 15px 15px 10px;
     font-size: 17px;
 }
 .payment-wrapper .movie_infor dt {
@@ -121,6 +124,9 @@
     width: 200px;
     word-break: keep-all;
 }
+.payment-wrapper  dl.dlist_infor {
+    padding: 15px;	
+}
 .payment-wrapper  dl.dlist_infor:after {
     content: "";
     display: block;
@@ -132,6 +138,42 @@
     border-radius: 5px;
     box-shadow: 0 0 5px 0 #eee;
 }
+.payment-wrapper .group_discount .inner_con2 {
+	margin: 0;
+	padding: 0;
+}
+.payment-wrapper .group_discount .inner_con2 dt,
+.payment-wrapper .group_discount .inner_con2 dd {
+    display: inline-block;
+    width: auto;
+    height: 22px;
+    line-height: 22px;
+}
+.payment-wrapper .group_discount .inner_con2 dd.amtValue {
+    font-weight: bold;
+    text-align: right;
+    min-width: 25px;
+    margin-left: 5px;
+    width: auto;
+}
+.payment-wrapper .group_discount .inner_con2 dd.amtValue .hasPoint {
+    color: #4aa8d8;
+}
+.payment-wrapper .group_discount .inner_con2 dt.secondTit {
+    margin-left: 30px;
+}
+.payment-wrapper .group_discount .inner_con2 dd .textBox2 {
+    padding: 0.05rem !important;
+    outline: none;
+    min-width: unset;
+    border: none;
+    border-radius: 0;
+    box-shadow: none !important;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    margin-right: 5px;
+    text-align: right;
+}
 .payment-wrapper .group_discount .tit_payment {
 	font-size: 1rem;
 	border-bottom: 1px solid #ccc;
@@ -142,4 +184,26 @@
 }
 .payment-wrapper .group_discount .paylist {
 	display: flex;
+}
+.payment-wrapper .group_discount .paycard {
+	padding: 10px 30px;
+	margin: 5px;
+	border: 1px solid #bbb;
+	cursor: pointer;
+}
+.payment-wrapper .group_discount .ico-card {
+	margin: 0 auto;
+	font-size: 1.209rem;
+	margin-bottom: 5px;
+	
+}
+.payment-wrapper .group_discount .ico-kakaopay {
+    background-image: url(../img/payment_icon_yellow_small.png);
+    background-size: 70px;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+	margin-bottom: 5px;
+    display: block;
+    width: 70px;
+    height: 29px;
 }

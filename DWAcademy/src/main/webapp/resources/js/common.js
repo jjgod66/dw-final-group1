@@ -18,7 +18,7 @@ $(document).ready(function() {
     $(".background").on("mouseout", function() {
       // opacity 속성을 다시 0으로 변경
       $(".background").css("opacity", "0");
-      $(".background").css("display", "none")
+      $(".background").css("display", "none");
       $("#dwcinema_gnb").css("overflow", "hidden");
       $("#dwcinema_gnb > li > ul").css("opacity", "0");
     });

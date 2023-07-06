@@ -19,36 +19,126 @@
             </div>
         </div>
         <div class="board-body">
-            <article class="card">
-                <a href="<%=request.getContextPath()%>/support/notice_view.do" class="">
-                <div class="card__thumb"><svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">공지사항 배너</text></svg></div>
-                <div class="card__info">
-                    <div class="card__category">
-                        <span  style="color: #333;">DW시네마</span>
-                    </div>
-                    <div class="card__title">
-                        <p>게시물 제목</p>
-                    </div>
-                    <div class="card__content">게시물 내용</div>
-                    <div class="card__date">2023.07.03</div>
+            <div class="tools">
+                <div class="search">
+                    <input type="text" id="txtSearch" placeholder="검색어를 입력하세요." value="">
+                    <button type="button" id="btnSearch"><span class="icon"></span><span class="acchidden">검색</span></button>
                 </div>
-                </a>
-            </article>
-            <article class="card">
-                <a href="<%=request.getContextPath()%>/support/notice_view.do" class="">
-                <div class="card__thumb"><svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">공지사항 배너</text></svg></div>
-                <div class="card__info">
-                    <div class="card__category">
-                        <span  style="color: #333;">지점공지</span>
+            </div>
+            <ul class="list">
+                <li class="dep1">
+                    <div class="leftInfo"><span class="sort">지점공지</span></div>
+                    <div class="titInfo">
+                        <p class="tit"><a href="#"> asd</a><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new"></p>
                     </div>
-                    <div class="card__title">
-                        <p>게시물 제목</p>
+                    <div class="etc">
+                        <ul class="clearFix">
+                            <li class="date">
+                                <span class="ico"><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_time.png" alt="time"></span>
+                                <span>41분 전</span>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="card__content">게시물 내용</div>
-                    <div class="card__date">2023.07.03</div>
-                </div>
-                </a>
-            </article>
+                </li>
+                <li class="dep1">
+                    <div class="leftInfo"><span class="sort">지점공지</span></div>
+                    <div class="titInfo">
+                        <p class="tit"><a href="#"> asd</a><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new"></p>
+                    </div>
+                    <div class="etc">
+                        <ul class="clearFix">
+                            <li class="date">
+                                <span class="ico"><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_time.png" alt="time"></span>
+                                <span>41분 전</span>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dep1">
+                    <div class="leftInfo"><span class="sort">지점공지</span></div>
+                    <div class="titInfo">
+                        <p class="tit"><a href="#"> asd</a><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new"></p>
+                    </div>
+                    <div class="etc">
+                        <ul class="clearFix">
+                            <li class="date">
+                                <span class="ico"><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_time.png" alt="time"></span>
+                                <span>41분 전</span>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dep1">
+                    <div class="leftInfo"><span class="sort">지점공지</span></div>
+                    <div class="titInfo">
+                        <p class="tit"><a href="#"> asd</a><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new"></p>
+                    </div>
+                    <div class="etc">
+                        <ul class="clearFix">
+                            <li class="date">
+                                <span class="ico"><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_time.png" alt="time"></span>
+                                <span>41분 전</span>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dep1">
+                    <div class="leftInfo"><span class="sort">지점공지</span></div>
+                    <div class="titInfo">
+                        <p class="tit"><a href="#"> asd</a><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new"></p>
+                    </div>
+                    <div class="etc">
+                        <ul class="clearFix">
+                            <li class="date">
+                                <span class="ico"><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_time.png" alt="time"></span>
+                                <span>41분 전</span>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dep1">
+                    <div class="leftInfo"><span class="sort">지점공지</span></div>
+                    <div class="titInfo">
+                        <p class="tit"><a href="#"> asd</a><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new"></p>
+                    </div>
+                    <div class="etc">
+                        <ul class="clearFix">
+                            <li class="date">
+                                <span class="ico"><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_time.png" alt="time"></span>
+                                <span>41분 전</span>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dep1">
+                    <div class="leftInfo"><span class="sort">지점공지</span></div>
+                    <div class="titInfo">
+                        <p class="tit"><a href="#"> asd</a><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new"></p>
+                    </div>
+                    <div class="etc">
+                        <ul class="clearFix">
+                            <li class="date">
+                                <span class="ico"><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_time.png" alt="time"></span>
+                                <span>41분 전</span>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="dep1">
+                    <div class="leftInfo"><span class="sort">지점공지</span></div>
+                    <div class="titInfo">
+                        <p class="tit"><a href="#"> asd</a><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new"></p>
+                    </div>
+                    <div class="etc">
+                        <ul class="clearFix">
+                            <li class="date">
+                                <span class="ico"><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_time.png" alt="time"></span>
+                                <span>41분 전</span>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>
