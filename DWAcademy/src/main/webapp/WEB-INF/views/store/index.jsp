@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@include file="../include/header.jsp" %>
 <%
 String CategoryIdx = request.getParameter("CategoryIdx");
@@ -23,66 +26,20 @@ if (CategoryIdx == null) {
         </div>
         <div class="content_wrap">
             <div class="row">
-                <div class="col-12 col-lg-3">
-                    <a href="/store/detail.do" class="btn_category_product">
-                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/resources/img/store/ERDC5wGVMC0YZPIRUsuuaJuAGRyqeDjC_280.png"></span>
-                        <span class="com_list_text_wrap">
-                            <span class="com_list_text_title">더블콤보</span>
-                            <span class="com_list_text_name">팝콘(R) 2 + 탄산음료(R) 2</span>
-                            <span class="com_list_sale_price_wrap">
-                                <span class="store_deatail_source_price">13,000</span>
-                            </span>
-                        </span>
-                    </a>
-                </div>
-                <div class="col-12 col-lg-3">
-                    <a href="/store/detail.do" class="btn_category_product">
-                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/resources/img/store/qB1IVqlOLCV7hOOEAJp4J9iG3J5oVWjv_280.png"></span>
-                        <span class="com_list_text_wrap">
-                            <span class="com_list_text_title">러브콤보</span>
-                            <span class="com_list_text_name">팝콘(L) 1 + 탄산음료(R) 2</span>
-                            <span class="com_list_sale_price_wrap">
-                                <span class="store_deatail_source_price">10,000</span>
-                            </span>
-                        </span>
-                    </a>
-                </div>
-                <div class="col-12 col-lg-3">
-                    <a href="/store/detail.do" class="btn_category_product">
-                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/resources/img/store/15464115505070.jpg"></span>
-                        <span class="com_list_text_wrap">
-                            <span class="com_list_text_title">칠리치즈핫도그</span>
-                            <span class="com_list_text_name">칠리치즈핫도그</span>
-                            <span class="com_list_sale_price_wrap">
-                                <span class="store_deatail_source_price">5,000</span>
-                            </span>
-                        </span>
-                    </a>
-                </div>
-                <div class="col-12 col-lg-3">
-                    <a href="/store/detail.do" class="btn_category_product">
-                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/resources/img/store/15464120861130.jpg"></span>
-                        <span class="com_list_text_wrap">
-                            <span class="com_list_text_title">플레인핫도그</span>
-                            <span class="com_list_text_name">플레인핫도그</span>
-                            <span class="com_list_sale_price_wrap">
-                                <span class="store_deatail_source_price">4,500</span>
-                            </span>
-                        </span>
-                    </a>
-                </div>
-                <div class="col-12 col-lg-3">
-                    <a href="/store/detail.do" class="btn_category_product">
-                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/resources/img/store/16751302793100.jpg"></span>
-                        <span class="com_list_text_wrap">
-                            <span class="com_list_text_title">칠리치즈나쵸</span>
-                            <span class="com_list_text_name">칠리치즈나쵸</span>
-                            <span class="com_list_sale_price_wrap">
-                                <span class="store_deatail_source_price">4,900</span>
-                            </span>
-                        </span>
-                    </a>
-                </div>
+            	<c:forEach items="${productList }" var="product">
+            		 <div class="col-12 col-lg-3">
+	                    <a href="/store/detail.do?product_cd=${product.product_cd }" class="btn_category_product">
+	                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/resources/img/store/${product.product_pic_path}"></span>
+	                        <span class="com_list_text_wrap">
+	                            <span class="com_list_text_title">${product.product_name }</span>
+	                            <span class="com_list_text_name">${product.product_content }</span>
+	                            <span class="com_list_sale_price_wrap">
+	                                <span class="store_deatail_source_price"><fmt:formatNumber value="${product.product_price }" pattern="#,##0" /></span>
+	                            </span>
+	                        </span>
+	                    </a>
+	                </div>
+            	</c:forEach>
             </div>
         </div>
     </div>

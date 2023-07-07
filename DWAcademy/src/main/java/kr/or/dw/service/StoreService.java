@@ -7,6 +7,8 @@ import kr.or.dw.vo.ProductVO;
 
 public interface StoreService {
 
-	List<ProductVO> selectProDiv(String categoryIdx) throws SQLException;
+	List<ProductVO> selectProDiv(String CategoryIdx) throws SQLException;
+
+	ProductVO selectProDetail(String product_cd) throws SQLException;
 
 }

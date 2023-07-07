@@ -15,12 +15,20 @@ public class StoreServiceImpl implements StoreService{
 	private StoreDAO storeDAO;
 	
 	@Override
-	public List<ProductVO> selectProDiv(String categoryIdx) throws SQLException {
+	public List<ProductVO> selectProDiv(String CategoryIdx) throws SQLException {
 		List<ProductVO> productList = null;
 		
-		productList = storeDAO.selectProDiv(categoryIdx);
+		productList = storeDAO.selectProDiv(CategoryIdx);
 		
 		return productList;
+	}
+
+	@Override
+	public ProductVO selectProDetail(String product_cd) throws SQLException {
+		ProductVO product = null;
+		product = storeDAO.selectProDetail(product_cd);
+		
+		return product;
 	}
 
 }

@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp" %>
 <%
 String CategoryIdx = request.getParameter("CategoryIdx");
@@ -16,15 +18,14 @@ if (CategoryIdx == null) {
         <div class="lnb">
             <h2>스토어</h2>
             <ul>
-                <li<%= CategoryIdx.equals("1") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=1">영화관람권</a></li>
-                <li<%= CategoryIdx.equals("2") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=2">기프트카드</a></li>
-                <li<%= CategoryIdx.equals("3") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=3">팝콘/스낵/음료</a></li>
+                <li<%= CategoryIdx.equals("3") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=3">기프트카드</a></li>
+                <li<%= CategoryIdx.equals("4") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=4">팝콘/스낵/음료</a></li>
             </ul>
         </div>
         <div class="content_wrap">
             <div class="pd_img">
                 <div class="main_img">
-                    <img class="" src="/resources/img/store/15464115505070.jpg">
+                    <img class="" src="/resources/img/store/${product.product_pic_path }">
                 </div>
             </div>
             <div class="pd_detail">
@@ -41,17 +42,17 @@ if (CategoryIdx == null) {
                 </thead>
                 <tbody>
                 <tr>
-                    <th scope="row" class="tit" colspan="2">상품명</th>
+                    <th scope="row" class="tit" colspan="2">${product.product_name }</th>
                 </tr>
                 <tr>
                     <td></td>
                     <td>
-                        <span class="txt_price">2,800<em>원</em></span>
+                        <span class="txt_price"><fmt:formatNumber value="${product.product_price }" pattern="#,##0" /><em>원</em></span>
                     </td>
                 </tr>
                 <tr>
                     <th scope="row">구성품</th>
-                    <td>상품명</td>
+                    <td>${product.product_content }</td>
                 </tr>
                 <tr>
                     <th scope="row">구매제한</th>
@@ -59,7 +60,7 @@ if (CategoryIdx == null) {
                 </tr>
                 <tr>
                     <th scope="row">유효기간</th>
-                    <td>스위트샵 상품권 24 개월</td>
+                    <td>구매일로부터 ${product.product_period }일</td>
                 </tr>
                 </tbody>
                 </table>
@@ -69,7 +70,8 @@ if (CategoryIdx == null) {
                     <button class="btn_plus">추가</button>
                 </div>
                 <div class="txt_price_wrap">
-                    총 상품금액<strong class="txt_price_str">2,800<em>원</em></strong>
+                <c:out value='javascript:totalcount();' />
+                    총 상품금액<strong class="txt_price_str"><fmt:formatNumber value="" pattern="#,##0"/><em>원</em></strong>
                 </div>
                 <div class="btn_wrap">
                     <button class="btn_col2 ty7">선물하기</button>
@@ -79,4 +81,26 @@ if (CategoryIdx == null) {
         </div>
     </div>
 </div>
+<script>
+	$(function(){
+		let amount = $('.txt_num').text();
+		price = ${product.product_price };
+		$('.btn_plus').on('click', function(){
+			amount++;
+			$('.txt_num').text(amount);
+// 			$('.totalprice').text(price*amount);
+		});
+		
+		$('.btn_mins').on('click', function(){
+			if(amount > 1){
+				amount--;
+				$('.txt_num').text(amount);
+			}
+		});
+		
+		function totalcount(){
+			return 1;
+		}
+	})
+</script>
 <%@ include file="../include/footer.jsp" %>
