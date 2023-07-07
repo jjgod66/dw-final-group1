@@ -41,20 +41,6 @@ request.setAttribute("GetTitle", "DWCinema");
 <script src="<%=request.getContextPath()%>/resources/js/daterangepicker.js"></script>
 </head>
 <body>
-<!-- Preloader -->
-<!-- div class="preloader">
-    <div class="loader">
-        <div id="inner-preloader">
-            <div id="shadow"></div>
-            <div id="box"></div>
-        </div>
-    </div>
-<<<<<<< HEAD
-</div -->
-=======
-</div> -->
->>>>>>> branch 'main' of https://github.com/jjgod66/dw-final-group2.git
-<!-- End Preloader -->
 <%@ include file="../include/login_modal.jsp" %>
 <%@ include file="../include/join_modal.jsp" %>
 <header class="header poi">
