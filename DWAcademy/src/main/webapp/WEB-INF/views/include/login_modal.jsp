@@ -129,7 +129,7 @@
             <!-- Modal body -->
             <div class="modal-body">
             	<h3 class="fs-3 text-center my-2">회원 로그인</h3>
-                <form method="POST">
+                <form action="<%=request.getContextPath()%>/common/login.do" method="POST">
                 <div class="input-group">
                     <input class="input--style-3" type="text" placeholder="회원 아이디" name="text">
                 </div>
