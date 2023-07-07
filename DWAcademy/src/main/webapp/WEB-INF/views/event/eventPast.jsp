@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../include/header.jsp"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<c:set var="cri" value="${pageMaker.cri}"/>
 <style>
 #contents {
     width: 100%;
@@ -89,7 +92,6 @@ li {
 * {
     box-sizing: border-box;
 }
-user agent stylesheet
 p {
     display: block;
     margin-block-start: 1em;
@@ -292,7 +294,7 @@ p {
     line-height: 1.1;
     color: #666;
 }
-.btn-more {
+/* .btn-more {
     position: relative;
     padding: 40px 0 0 0;
 }
@@ -343,15 +345,18 @@ button, select {
     background-position: 0 0;
     background-repeat: no-repeat;
 }
-* {
+ * {
     box-sizing: border-box;
-}
-user agent stylesheet
+} 
 i {
     font-style: italic;
-}
+} */
+
+
 </style>
-<div class="sub_visual">
+
+
+<div class="sub_visual" >
     <h3>지난 이벤트</h3>
     <h6>movie event</h6>
 </div>
@@ -376,11 +381,13 @@ i {
 			</p>
 			<div class="board-search">
 				<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요."
-					class="input-text">
-				<button type="button" class="btn-search-input">검색</button>
+					class="input-text" value="${cri.keyword }">
+				<button type="button" class="btn-search-input" onclick="searchList_go()">검색</button>
 			</div>
 		</div>
 	</div>
+	
+	
 	<div id="event-list-wrap">
 		<div class="inner-wrap">
 			<div class="event-list finish ">
@@ -535,91 +542,6 @@ i {
 
 							<p class="date">2023.06.28 ~ 2023.07.02</p>
 					</a></li>
-
-
-					<li><a href="#" data-no="13576" data-netfunnel="N"
-						class="eventBtn" title="<에고이스트> 스페셜 GV 상세보기">
-
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/28/umsyFKZZRk1IztlhcUB1Gmf16qeoaqQu.jpg"
-									alt="<에고이스트> 스페셜 GV" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">&lt;에고이스트&gt; 스페셜 GV</p>
-
-							<p class="date">2023.07.02 ~ 2023.07.02</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13525" data-netfunnel="N"
-						class="eventBtn"
-						title="[부천/송도/광명AK/광명소하/금정AK] 27TH 부천국제판타스틱영화제! 상세보기">
-
-							<p class="cate">극장</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/22/1oxXvY5x0NsmUYtro2sCVVF3Cv4etHIr.jpg"
-									alt="[부천/송도/광명AK/광명소하/금정AK] 27TH 부천국제판타스틱영화제!"
-									onerror="noImg(this);">
-							</p>
-
-							<p class="tit">[부천/송도/광명AK/광명소하/금정AK] 27TH 부천국제판타스틱영화제!</p>
-
-							<p class="date">2023.06.22 ~ 2023.07.02</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13573" data-netfunnel="N"
-						class="eventBtn"
-						title="아리 에스터 감독 기획전 &amp; <보 이즈 어프레이드> 프리미어 상영 상세보기">
-
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/27/JGr2zDq665Yy03WBVkWepPr9YtQeyBwJ.jpg"
-									alt="아리 에스터 감독 기획전 &amp; <보 이즈 어프레이드> 프리미어 상영"
-									onerror="noImg(this);">
-							</p>
-
-							<p class="tit">아리 에스터 감독 기획전 &amp; &lt;보 이즈 어프레이드&gt; 프리미어 상영
-							</p>
-
-							<p class="date">2023.06.30 ~ 2023.07.02</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13522" data-netfunnel="N"
-						class="eventBtn" title="<라방> 개봉주 무대인사 상세보기">
-
-							<p class="cate">시사회/무대인사</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/21/KTH9l9EgzTQBsrjPdywGDaqpdp6H6OAi.jpg"
-									alt="<라방> 개봉주 무대인사" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">&lt;라방&gt; 개봉주 무대인사</p>
-
-							<p class="date">2023.07.01 ~ 2023.07.01</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13538" data-netfunnel="N"
-						class="eventBtn" title="<보 이즈 어프레이드> 메가토크 상세보기">
-
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/23/a5sgLXc4RPMRkaE1V9M2hqSEXe5aBJ4g.jpg"
-									alt="<보 이즈 어프레이드> 메가토크" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">&lt;보 이즈 어프레이드&gt; 메가토크</p>
-
-							<p class="date">2023.07.01 ~ 2023.07.01</p>
-					</a></li>
 				</ul>
 			</div>
 		</div>
@@ -639,131 +561,13 @@ i {
 							<p class="tit">[스파이더맨: 어크로스 더 유니버스] 선착순 빵원티켓</p>
 							<p class="date">2023.06.30 ~ 2023.07.01</p>
 					</a></li>
-
-					<li><a href="#" data-no="13412" data-netfunnel="N"
-						class="eventBtn" title="[존 크랑코's 발레 3부작] 오네긴 현장 증정 이벤트 상세보기">
-
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/02/w1KVgQatMaPyIeWXTzYUpfRtRD0ARqEL.jpg"
-									alt="[존 크랑코's 발레 3부작] 오네긴 현장 증정 이벤트" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">[존 크랑코's 발레 3부작] 오네긴 현장 증정 이벤트</p>
-
-							<p class="date">2023.06.12 ~ 2023.07.01</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13556" data-netfunnel="N"
-						class="eventBtn" title="<엔니오: 더 마에스트로> 메가토크 상세보기">
-
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/26/d2muVRSjbyD7fhtOAO0r3jQiRACPiUa1.jpg"
-									alt="<엔니오: 더 마에스트로> 메가토크" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">&lt;엔니오: 더 마에스트로&gt; 메가토크</p>
-
-							<p class="date">2023.06.30 ~ 2023.06.30</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13448" data-netfunnel="N"
-						class="eventBtn" title="<엘리멘탈> 굿즈패키지 출시 상세보기">
-
-							<p class="cate">메가Pick</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/09/6YYcxUjExDDaGmbGZm9CGScX5auFgaVW.jpg"
-									alt="<엘리멘탈> 굿즈패키지 출시" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">&lt;엘리멘탈&gt; 굿즈패키지 출시</p>
-
-							<p class="date">2023.06.09 ~ 2023.06.30</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13487" data-netfunnel="N"
-						class="eventBtn" title="<자우림, 더 원더랜드> 스페셜 포토북 이벤트 상세보기">
-
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/15/AywPRq8UkWzLPuyL4WTzVII8FPUT35pd.jpg"
-									alt="<자우림, 더 원더랜드> 스페셜 포토북 이벤트" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">&lt;자우림, 더 원더랜드&gt; 스페셜 포토북 이벤트</p>
-
-							<p class="date">2023.06.17 ~ 2023.06.30</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13235" data-netfunnel="N"
-						class="eventBtn" title="THANK YOU REAL HERO 소방관 우대 할인 상세보기">
-
-							<p class="cate">메가Pick</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/05/04/RRIa4QGWhTq1PZnBGwR36rYJjq9Di175.jpg"
-									alt="THANK YOU REAL HERO 소방관 우대 할인" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">THANK YOU REAL HERO 소방관 우대 할인</p>
-
-							<p class="date">2023.05.04 ~ 2023.06.30</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13480" data-netfunnel="N"
-						class="eventBtn" title="[KT멤버십X메가박스] 6월 초여름 '달.달.혜택' 프로모션! 상세보기">
-
-							<p class="cate">제휴/할인</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/15/OKzJH7N3kYNcEZB89deDFig4NCGRMCry.jpg"
-									alt="[KT멤버십X메가박스] 6월 초여름 '달.달.혜택' 프로모션!" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">[KT멤버십X메가박스] 6월 초여름 '달.달.혜택' 프로모션!</p>
-
-							<p class="date">2023.06.15 ~ 2023.06.30</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="12904" data-netfunnel="N"
-						class="eventBtn" title="[구미강동] 구미강동점도 배달의 민족! 상세보기">
-
-							<p class="cate">극장</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/03/16/m6xePC90K3V7dTIKViZKNqi8Yd1DeC6U.jpg"
-									alt="[구미강동] 구미강동점도 배달의 민족!" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">[구미강동] 구미강동점도 배달의 민족!</p>
-
-							<p class="date">2023.03.16 ~ 2023.06.30</p>
-					</a></li>
-
-
-					
 				</ul>
 			</div>
 		</div>
 	</div>
 
 
-	<div class="btn-more v1" style="">
-		<button type="button" class="btn">
-			더보기 <i class="iconset ico-btn-more-arr"></i>
-		</button>
-	</div>
+	<%@ include file="/WEB-INF/views/event/eventPagination.jsp" %>
 
 </div>
 
