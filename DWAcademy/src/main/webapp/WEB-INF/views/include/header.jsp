@@ -25,7 +25,7 @@ request.setAttribute("GetTitle", "DWCinema");
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/dwcinema.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/swiper.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/daterangepicker.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/bootstrap-icons.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
