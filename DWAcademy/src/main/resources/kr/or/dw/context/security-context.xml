@@ -55,7 +55,7 @@
 		 -->
 		
 		<form-login
-			login-page="/common/loginForm"
+			login-page="/include/login_modal"
 			login-processing-url="/common/login.do"
 			username-parameter="id"
 			password-parameter="pwd"

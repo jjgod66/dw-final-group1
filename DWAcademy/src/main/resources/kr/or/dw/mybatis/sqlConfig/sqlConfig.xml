@@ -7,6 +7,8 @@
 	<typeAliases>
 		<typeAlias type="java.lang.String" alias="str"/>
 		<typeAlias type="java.lang.Integer" alias="int"/>
+		<typeAlias type="kr.or.dw.vo.ProductVO" alias="product"/>
+		<typeAlias type="kr.or.dw.vo.MemberVO" alias="member"/>
 	</typeAliases>
 
 </configuration>

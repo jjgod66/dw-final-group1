@@ -10,6 +10,8 @@ import kr.or.dw.vo.ProductVO;
 @Mapper
 public interface StoreDAO {
 
-	List<ProductVO> selectProDiv(String categoryIdx) throws SQLException;
+	List<ProductVO> selectProDiv(String CategoryIdx) throws SQLException;
+
+	ProductVO selectProDetail(String product_cd) throws SQLException;
 
 }

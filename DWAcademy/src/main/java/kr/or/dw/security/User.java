@@ -20,18 +20,18 @@ public class User implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-		roles.add(new SimpleGrantedAuthority(member.getAuthority()));
+		roles.add(new SimpleGrantedAuthority(member.getMem_cd()));
 		return roles;
 	}
 
 	@Override
 	public String getPassword() {
-		return member.getPwd();
+		return member.getMem_pwd();
 	}
 
 	@Override
 	public String getUsername() {
-		return member.getId();
+		return member.getMem_id();
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class User implements UserDetails{
 
 	@Override
 	public boolean isAccountNonLocked() {	// 휴면 계정 여부
-		return member.getEnabled() == 1;
+		return member.getGb_ban() == "Y";
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class User implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {	// 사용 제제 여부
-		return member.getEnabled() == 1;
+		return member.getGb_ban() == "Y";
 	}
 	
 	public MemberVO getMemberVO() {

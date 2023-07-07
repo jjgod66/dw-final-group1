@@ -1,8 +1,3 @@
-<%--
-DW아카데미 1팀 프로젝트 영화관 미리보기 예제 jsp 메인화면 입니다.
-제작자 : 신철헌
-제작 시작 일 : 2023년 6월 23일
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
@@ -29,25 +24,18 @@ request.setAttribute("GetTitle", "DWCinema");
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/dwcinema.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/swiper.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/daterangepicker.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/bootstrap-icons.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/scrollbar.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/moment.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/daterangepicker.js"></script>
 </head>
 <body>
-<!-- Preloader -->
-<div class="preloader">
-    <div class="loader">
-        <div id="inner-preloader">
-            <div id="shadow"></div>
-            <div id="box"></div>
-        </div>
-    </div>
-</div>
-<!-- End Preloader -->
 <%@ include file="../include/login_modal.jsp" %>
 <%@ include file="../include/join_modal.jsp" %>
 <header class="header poi">
@@ -68,19 +56,17 @@ request.setAttribute("GetTitle", "DWCinema");
     <div class="container">
         <ul class="navbar" role="menubar" id="dwcinema_gnb" stlyle="overflow: hidden;">
             <li role="menuitem">
-                <strong>커뮤니티</strong>
-                <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/movie/review.do">영화리뷰</a></li>
-                    <li><a href="#">무비포스트</a></li>
-                </ul>
-            </li>
-            <li role="menuitem">
                 <strong>영화</strong>
                 <ul style="opacity: 0; height: 0px;">
                     <li><a href="#">전체영화</a></li>
                     <li><a href="#">현재상영작</a></li>
                     <li><a href="#">상영예정작</a></li>
+                    <li><a href="<%=request.getContextPath()%>/movie/review.do">영화리뷰</a></li>
+                    <li><a href="#">무비포스트</a></li>
                 </ul>
+            </li>
+            <li role="menuitem">
+                <strong><a href="<%=request.getContextPath()%>/theater/main.do">극장</a></strong>
             </li>
             <li role="menuitem">
                 <strong>예매하기</strong>
@@ -94,9 +80,8 @@ request.setAttribute("GetTitle", "DWCinema");
             <li role="menuitem">
                 <strong>스토어</strong>
                 <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/store/index.do">영화관람권</a></li>
-                    <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=3">기프트카드</a></li>
-                    <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=4">팝콘/스낵/음료</a></li>
+                    <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=1">기프트카드</a></li>
+                    <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=2">팝콘/스낵/음료</a></li>
                 </ul>
             </li>
             <li role="menuitem">
@@ -104,14 +89,14 @@ request.setAttribute("GetTitle", "DWCinema");
                 <ul style="opacity: 0; height: 0px;">
                     <li><a href="<%=request.getContextPath()%>/event/main.do">진행중 이벤트</a></li>
                     <li><a href="<%=request.getContextPath()%>/event/eventPast.do">지난 이벤트</a></li>
-                    <li><a href="#">당첨자발표</a></li>
+                    <li><a href="<%=request.getContextPath()%>/event/prizeWinner.do">당첨자발표</a></li>
                 </ul>
             </li>
             <li role="menuitem" style="width: 65px;">
-                <a href="<%=request.getContextPath()%>/booking/cinema.do" style="position: absolute; top: 20px; right: 40px; color: #333; font-size: 1.8rem;"><i class="bi bi-calendar3"></i></a>
+                <a href="<%=request.getContextPath()%>/support/main.do" style="position: absolute; top: 20px; right: 40px; color: #333; font-size: 1.8rem;"><img src="<%=request.getContextPath()%>/resources/img/chat-support-icon.png" style="height: 29px; vertical-align: text-top; margin-top: 7px;"></a>
                 <a href="<%=request.getContextPath()%>/member/main.do" style="position: absolute; top: 20px; right: 0; color: #333; font-size: 1.8rem;"><i class="bi bi-person"></i></a>
             </li>
         </ul>
     </div>
 </header>
-<div class="background" style="height: 100px; display: none; opacity: 0;"></div>
+<div class="background" style="height: 150px; display: none; opacity: 0;"></div>
