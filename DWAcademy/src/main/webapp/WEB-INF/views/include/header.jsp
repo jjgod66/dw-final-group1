@@ -29,6 +29,7 @@ request.setAttribute("GetTitle", "DWCinema");
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/dwcinema.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/swiper.min.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/daterangepicker.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
@@ -36,17 +37,19 @@ request.setAttribute("GetTitle", "DWCinema");
 <script src="<%=request.getContextPath()%>/resources/js/scrollbar.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/moment.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/daterangepicker.js"></script>
 </head>
 <body>
 <!-- Preloader -->
-<div class="preloader">
+<!-- div class="preloader">
     <div class="loader">
         <div id="inner-preloader">
             <div id="shadow"></div>
             <div id="box"></div>
         </div>
     </div>
-</div>
+</div -->
 <!-- End Preloader -->
 <%@ include file="../include/login_modal.jsp" %>
 <%@ include file="../include/join_modal.jsp" %>
@@ -68,19 +71,17 @@ request.setAttribute("GetTitle", "DWCinema");
     <div class="container">
         <ul class="navbar" role="menubar" id="dwcinema_gnb" stlyle="overflow: hidden;">
             <li role="menuitem">
-                <strong>커뮤니티</strong>
-                <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/movie/review.do">영화리뷰</a></li>
-                    <li><a href="#">무비포스트</a></li>
-                </ul>
-            </li>
-            <li role="menuitem">
                 <strong>영화</strong>
                 <ul style="opacity: 0; height: 0px;">
                     <li><a href="#">전체영화</a></li>
                     <li><a href="#">현재상영작</a></li>
                     <li><a href="#">상영예정작</a></li>
+                    <li><a href="<%=request.getContextPath()%>/movie/review.do">영화리뷰</a></li>
+                    <li><a href="#">무비포스트</a></li>
                 </ul>
+            </li>
+            <li role="menuitem">
+                <strong><a href="<%=request.getContextPath()%>/theater/main.do">극장</a></strong>
             </li>
             <li role="menuitem">
                 <strong>예매하기</strong>
@@ -108,10 +109,10 @@ request.setAttribute("GetTitle", "DWCinema");
                 </ul>
             </li>
             <li role="menuitem" style="width: 65px;">
-                <a href="<%=request.getContextPath()%>/booking/cinema.do" style="position: absolute; top: 20px; right: 40px; color: #333; font-size: 1.8rem;"><i class="bi bi-calendar3"></i></a>
+                <a href="<%=request.getContextPath()%>/support/main.do" style="position: absolute; top: 20px; right: 40px; color: #333; font-size: 1.8rem;"><img src="<%=request.getContextPath()%>/resources/img/chat-support-icon.png" style="height: 29px; vertical-align: text-top; margin-top: 7px;"></a>
                 <a href="<%=request.getContextPath()%>/member/main.do" style="position: absolute; top: 20px; right: 0; color: #333; font-size: 1.8rem;"><i class="bi bi-person"></i></a>
             </li>
         </ul>
     </div>
 </header>
-<div class="background" style="height: 100px; display: none; opacity: 0;"></div>
+<div class="background" style="height: 150px; display: none; opacity: 0;"></div>

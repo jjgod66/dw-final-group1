@@ -158,7 +158,98 @@
     line-height: 1.1;
     color: #666;
 }
+.inner-wrap {
+    width: auto;
+    margin: 0 auto;
+}
+.mt40 {
+    margin-top: 40px!important;
+}
+.board-list-util {
+    margin: 30px 0 15px 0;
+    text-align: right;
+}
+.board-list-util .result-count {
+    position: relative;
+    float: left;
+    margin: 0;
+    padding-top: 15px;
+    line-height: 1.1;
+    vertical-align: top;
+}
+.board-search {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 230px;
+    height: 36px;
+    margin: 0;
+    padding: 0 31px 0 0;
+    border: 1px solid #d8d9db;
+    border-radius: 3px;
+}
+.board-search .btn-search-input {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+}
+.btn-search-input {
+    overflow: hidden;
+    width: 30px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+    border: 0;
+    text-indent: -9999px;
+    background: #fff url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-search-input.png) no-repeat center;
+}
+[type=button], [type=reset], [type=submit], button {
+    -webkit-appearance: button;
+}
+
+button {
+    cursor: pointer;
+    letter-spacing: -.5px;
+    font-weight: 400;
+    font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
+}
+button, select {
+    text-transform: none;
+}
+.board-search .input-text {
+    display: block;
+    width: 100%;
+    height: 34px;
+    border: 0;
+}
+.input-text {
+    padding: 0 10px;
+    line-height: 30px;
+    color: #444;
+    vertical-align: middle;
+}
+button, input {
+    overflow: visible;
+}
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-size: 1em;
+}
+.board-list-util .result-count b {
+    color: #01738b;
+}
+.event-list ul li.no-list {
+    width: 100%;
+    padding: 50px 0;
+    text-align: center;
+    border-top: 1px solid #555;
+    border-bottom: 1px solid #e4e4e4;
+}
 </style>
+
+
 <div class="sub_visual">
     <h3>이벤트</h3>
     <h6>movie event</h6>
@@ -179,13 +270,13 @@
 				<div class="tit-util">
 					<h3 class="tit">영화</h3>
 					<div class="float-end">
-						<a href="#" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+						<a data-bs-toggle="tab" href="#movie" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 					</div>
 				</div>
 				  <div class="event-list">
 					<ul>
 						<li>
-							<a href="#" data-no="13565" data-netfunnel="N" class="eventBtn" title="[여름방학 특집!] 내 생애 첫 미술관 강연 안내 상세보기">
+							<a href="<%=request.getContextPath()%>/event/eventDetail.do" data-no="13565" data-netfunnel="N" class="eventBtn" title="[여름방학 특집!] 내 생애 첫 미술관 강연 안내 상세보기">
 								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
 								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/27/BMbeiQGzlWVsgHJCqmzvnUAXVS1dKhl5.jpg" alt="[여름방학 특집!] 내 생애 첫 미술관 강연 안내" onerror="noImg(this);"></p>
 								<p class="tit">
@@ -351,6 +442,130 @@
 					</ul>
 				</div>
 			</div>
+			<!-- --------------------------------------- -->
+			<!-- -----------------영화 -------------------- -->
+			<!-- --------------------------------------- -->
+			<div class="tab-pane fade" id="movie">
+				<div id="boardSearch" class="inner-wrap" style="">
+					<div class="board-list-util mt40">
+						<p class="result-count"><strong>전체 <b>4</b>건</strong></p>
+							<div class="board-search">
+								<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text">
+								<button type="button" class="btn-search-input">검색</button>
+							</div>
+					</div>
+				</div>
+				  <div class="event-list">
+					<ul>
+						<li>
+							<a href="<%=request.getContextPath()%>/event/eventDetail.do" data-no="13565" data-netfunnel="N" class="eventBtn" title="[여름방학 특집!] 내 생애 첫 미술관 강연 안내 상세보기">
+								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/27/BMbeiQGzlWVsgHJCqmzvnUAXVS1dKhl5.jpg" alt="[여름방학 특집!] 내 생애 첫 미술관 강연 안내" onerror="noImg(this);"></p>
+								<p class="tit">
+									[여름방학 특집!] 내 생애 첫 미술관 강연 안내
+								</p>
+								<p class="date">
+									2023.07.27 ~ 2023.08.19
+								</p>
+							</a>
+						</li>
+						<li>
+							<a href="#" data-no="13621" data-netfunnel="N" class="eventBtn" title="<비밀의 언덕> 굿즈패키지 상영회 상세보기">
+								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/05/wImn8PcYkoklSDEhAZplm69ngbSrWKv9.jpg" alt="<비밀의 언덕> 굿즈패키지 상영회" onerror="noImg(this);"></p>
+								<p class="tit">
+									&lt;비밀의 언덕&gt; 굿즈패키지 상영회
+								</p>
+								<p class="date">
+									2023.07.18 ~ 2023.07.18
+								</p>
+							</a>
+						</li>
+						<li>
+							<a href="#" data-no="13489" data-netfunnel="N" class="eventBtn" title="[2023 사건 읽는 영화관] 7월의 사건 : ep06. 마약사건 상세보기">
+								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/16/GwCeHGK15XqtjH7AlkW9d9GdfdOjztby.jpg" alt="[2023 사건 읽는 영화관] 7월의 사건 : ep06. 마약사건" onerror="noImg(this);"></p>
+									<p class="tit">
+									[2023 사건 읽는 영화관] 7월의 사건 : ep06. 마약사건
+								</p>
+								<p class="date">
+									2023.07.16 ~ 2023.07.16
+								</p>
+							</a>
+						</li>
+						<li>
+							<a href="#" data-no="13605" data-netfunnel="N" class="eventBtn" title="<몬스터 패밀리2> 메가박스 X 휘닉스 평창 패키지 프로모션 상세보기">
+								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/03/nNQsxrvDKLtuAYjyX4Czfj5TQZ0KCiqV.jpg" alt="<몬스터 패밀리2> 메가박스 X 휘닉스 평창 패키지 프로모션" onerror="noImg(this);"></p>
+								<p class="tit">
+									&lt;몬스터 패밀리2&gt; 메가박스 X 휘닉스 평창 패키지 프로모션
+								</p>
+								<p class="date">
+									2023.07.15 ~ 2023.08.06
+								</p>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+				<!-- --------------------------------------- -->
+			<!-- -----------------rm극장  -------------------- -->
+			<!-- --------------------------------------- -->
+			<div class="tab-pane fade" id="theater">
+				<div id="boardSearch" class="inner-wrap" style="">
+					<div class="board-list-util mt40">
+						<p class="result-count"><strong>전체 <b>1</b>건</strong></p>
+							<div class="board-search">
+								<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text">
+								<button type="button" class="btn-search-input">검색</button>
+							</div>
+					</div>
+				</div>
+				  <div class="event-list">
+					<ul>
+						
+						<li>
+							<a href="#" data-no="13527" data-netfunnel="N" class="eventBtn" title="[금정AK플라자] 오픈 1주년 기념 이벤트 상세보기">
+								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/22/lYvh9Hm1azfGygwBm4ew3sAwY6y04FEP.jpg" alt="[금정AK플라자] 오픈 1주년 기념 이벤트" onerror="noImg(this);"></p>
+								<p class="tit">
+									[금정AK플라자] 오픈 1주년 기념 이벤트
+								</p>
+								<p class="date">
+									2023.07.13 ~ 2023.07.13
+								</p>
+							</a>
+						</li>
+						
+						
+					</ul>
+				</div>
+			</div>	
+				<!-- --------------------------------------- -->
+			<!-- -----------------시사회 무대인사   -------------------- -->
+			<!-- --------------------------------------- -->
+			<div class="tab-pane fade" id="premiere">
+				<div id="boardSearch" class="inner-wrap" style="">
+					<div class="board-list-util mt40">
+						<p class="result-count"><strong>전체 <b>1</b>건</strong></p>
+							<div class="board-search">
+								<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text">
+								<button type="button" class="btn-search-input">검색</button>
+							</div>
+					</div>
+				</div>
+				  <div class="event-list">
+					<ul>
+						
+						<li class="no-list">해당 이벤트가 없습니다.</li>
+						
+						
+					</ul>
+				</div>
+			</div>	
+				
+				
+				
 		</div>
 	</div>
 </div>

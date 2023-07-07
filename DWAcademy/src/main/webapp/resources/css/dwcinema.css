@@ -277,6 +277,9 @@ button {
     align-items: center;
     justify-content: center;
 }
+.header .navbar li strong a {
+    color: #555;
+}
 .header .navbar li > li {
   margin-bottom: 12px;
   line-height: 100%;

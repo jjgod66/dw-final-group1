@@ -15,9 +15,9 @@ public class ViewController {
 		String url = "/member/main";
 		return url;
 	}
-	@GetMapping("/member/join")
-	public String memberJoin() {
-		String url = "/member/join";
+	@GetMapping("/member/additionalinfo")
+	public String memberAdditionalinfo() {
+		String url = "/member/additionalinfo";
 		return url;
 	}
 	@GetMapping("/member/membership")
@@ -37,6 +37,15 @@ public class ViewController {
 	@GetMapping("/movie/viewer")
 	public String movieViewer() {
 		String url = "/movie/viewer";
+		return url;
+	}
+
+	/*
+	 * 극장 뷰어 컨트롤러 
+	 */
+	@GetMapping("/theater/main")
+	public String theaterMain() {
+		String url = "/theater/main";
 		return url;
 	}
 
