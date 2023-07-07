@@ -53,6 +53,11 @@ public class ViewController {
 		String url = "/booking/movie";
 		return url;
 	}
+	@GetMapping("/booking/detail")
+	public String bookingDetail() {
+		String url = "/booking/detail";
+		return url;
+	}
 	@GetMapping("/booking/payment")
 	public String bookingPayment() {
 		String url = "/booking/payment";

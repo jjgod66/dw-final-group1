@@ -29,19 +29,19 @@ if (movieCd == null) {
             <div class="group_top"><h4 class="tit">영화관 선택</h4></div>
             <div class="inner">
                 <ul class="cinema-list">
-                    <li class="active">
-                        <a href="#none">서울 <em>(1)</em></a>
+                    <li class="cinema-click active">
+                        <a href="javascript:;">서울 <em>(1)</em></a>
                         <div class="depth2">
                             <ul>
-                                <li class=""><a href="#none">전체</a></li>
+                                <li class=""><a href="#all">전체</a></li>
                             </ul>
                         </div>
                     </li>
-                    <li>
-                        <a href="#none">대전 <em>(1)</em></a>
+                    <li class="cinema-click">
+                        <a href="javascript:;">대전 <em>(1)</em></a>
                         <div class="depth2">
                             <ul>
-                                <li class=""><a href="#none">전체</a></li>
+                                <li class=""><a href="#all">전체</a></li>
                             </ul>
                         </div>
                     </li>
@@ -59,7 +59,15 @@ if (movieCd == null) {
                     <div class="swiper-button-prev"></div>
                 </div>
                 <div class="mvTimeLine">
-                    <div class="bx_notice"><p>영화를 선택해주세요.</p></div>
+                    <div class="bx_notice" style="display: none;"><p>영화를 선택해주세요.</p></div>
+                    <div class="timelist" style="display: block;">
+                        <div class="time_select_tit"><span class="movieIcon etc ageAll">All</span><strong>엘리멘탈</strong></div>
+                        <div class="row" id="movie-list-1">
+                        </div>
+                        <div class="time_select_tit"><span class="movieIcon etc age15">15</span><strong>범죄도시3</strong></div>
+                        <div class="row" id="movie-list-2">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -122,16 +130,12 @@ const btnMovies = document.querySelectorAll('.btnMovie');
 const movieCdInput = document.querySelector('input[name="movieCd"]');
 
 // 각 버튼에 대해 클릭 이벤트 리스너를 추가합니다.
-$('.btnMovie a').click(function() {
+$('.cinema-click').click(function(event) {
   // 클릭된 버튼의 data-moviecd 속성 값을 가져옵니다.
-  const movieCd = $(this).data('moviecd');
-  const btnMovies = $('.btnMovie');
 
-  btnMovies.removeClass('active');
-  $(this).closest('.btnMovie').addClass('active');
+  $('.cinema-click').removeClass('active');
+  $(this).addClass('active');
 
-  // 입력 요소의 value 속성에 값을 할당합니다.
-  $(movieCdInput).val(movieCd);
 });
 
 // btnDay 클래스 클릭 이벤트 처리
@@ -139,13 +143,6 @@ var btnDayList = document.getElementsByClassName('btnDay');
 for (var i = 0; i < btnDayList.length; i++) {
   btnDayList[i].addEventListener('click', function(e) {
     e.preventDefault();
-
-    var movieCdInput = document.querySelector('input[name="movieCd"]');
-    var movieCdValue = movieCdInput.value;
-    if (movieCdValue.trim() === '') {
-      alert('영화를 선택 후 날짜를 선택해 주세요.');
-      return;
-    }
 
     // 현재 disabled 클래스가 적용된 버튼 확인
     var isDisabled = this.classList.contains('disabled');
@@ -216,18 +213,18 @@ swiper.on('slideChange', function() {
 });
 // 예매 시간 데이터
 var movieTimes = [
-  { time: "10:00", duration: "1시간 40분", totalSeats: 150, remainingSeats: 100, date: "2023-07-01" },
-  { time: "13:30", duration: "2시간 10분", totalSeats: 150, remainingSeats: 50, date: "2023-07-01" },
-  { time: "16:20", duration: "1시간 50분", totalSeats: 150, remainingSeats: 80, date: "2023-07-01" },
-  { time: "19:00", duration: "2시간 30분", totalSeats: 150, remainingSeats: 20, date: "2023-07-01" },
-  { time: "10:00", duration: "1시간 40분", totalSeats: 150, remainingSeats: 100, date: "2023-07-02" },
-  { time: "13:30", duration: "2시간 10분", totalSeats: 150, remainingSeats: 50, date: "2023-07-02" },
-  { time: "16:20", duration: "1시간 50분", totalSeats: 150, remainingSeats: 80, date: "2023-07-02" },
-  { time: "19:00", duration: "2시간 30분", totalSeats: 150, remainingSeats: 20, date: "2023-07-02" },
-  { time: "10:00", duration: "1시간 40분", totalSeats: 150, remainingSeats: 100, date: "2023-07-03" },
-  { time: "13:30", duration: "2시간 10분", totalSeats: 150, remainingSeats: 50, date: "2023-07-03" },
-  { time: "16:20", duration: "1시간 50분", totalSeats: 150, remainingSeats: 80, date: "2023-07-03" },
-  { time: "19:00", duration: "2시간 30분", totalSeats: 150, remainingSeats: 20, date: "2023-07-03" }
+	  { time: "10:00", duration: "1시간 40분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
+	  { time: "13:30", duration: "2시간 10분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
+	  { time: "16:20", duration: "1시간 50분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
+	  { time: "19:00", duration: "2시간 30분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
+	  { time: "10:00", duration: "1시간 40분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
+	  { time: "13:30", duration: "2시간 10분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
+	  { time: "16:20", duration: "1시간 50분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
+	  { time: "19:00", duration: "2시간 30분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
+	  { time: "10:00", duration: "1시간 40분", totalSeats: 112, remainingSeats: 112, date: "2023-07-09" },
+	  { time: "13:30", duration: "2시간 10분", totalSeats: 112, remainingSeats: 112, date: "2023-07-09" },
+	  { time: "16:20", duration: "1시간 50분", totalSeats: 112, remainingSeats: 112, date: "2023-07-09" },
+	  { time: "19:00", duration: "2시간 30분", totalSeats: 112, remainingSeats: 112, date: "2023-07-09" }
 ];
 
 // 현재 시간 가져오기
@@ -277,15 +274,14 @@ function createMovieTimes(theaterNumber, selectedDate) {
       // 입력 요소를 선택합니다.
       const movieTimeInput = document.querySelector('input[name="movieTime"]');
 
-      var movieCdInput = document.querySelector('input[name="movieCd"]');
-      var movieCdValue = movieCdInput.value;
-
       var movieDayInput = document.querySelector('input[name="movieDay"]');
       var movieDayValue = movieDayInput.value;
-      if (movieCdValue.trim() === '' || movieDayValue.trim() === '') {
-        alert('영화 및 날짜를 선택 후 시간을 선택해 주세요.');
+      if (movieDayValue.trim() === '') {
+        alert('날짜를 선택 후 시간을 선택해 주세요.');
         return;
       }
+
+      location.href = '/booking/detail.do';
 
       var clickedButton = event.target;
 
@@ -346,7 +342,7 @@ reservationbtn.addEventListener("submit", function(event) {
   var movieTimeInput = document.querySelector('input[name="movieTime"]');
   var movieTimeValue = movieTimeInput.value;
 
-  if (movieCdValue.trim() === '' || movieCdValue.trim() === '' || movieTimeValue.trim() === '') {
+  if (movieCdValue.trim() === '' || movieDayInput.trim() === '' || movieTimeValue.trim() === '') {
     alert('값이 존재 하지않습니다.\n상영 시간 까지 다 선택후 다시 시도 해 주세요.');
     return;
   }

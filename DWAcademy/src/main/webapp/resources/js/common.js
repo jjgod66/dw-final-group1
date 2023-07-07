@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    $(window).on('load', function(event) {
+        $('.preloader').delay(500).fadeOut(500);
+    });
+
     if($('.scrollbar-inner').length > 0){
         $('.scrollbar-inner').scrollbar();
     }
