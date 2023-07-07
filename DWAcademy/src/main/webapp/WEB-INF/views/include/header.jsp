@@ -94,7 +94,7 @@ request.setAttribute("GetTitle", "DWCinema");
             <li role="menuitem">
                 <strong>스토어</strong>
                 <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=2">영화관람권</a></li>
+                    <li><a href="<%=request.getContextPath()%>/store/index.do">영화관람권</a></li>
                     <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=3">기프트카드</a></li>
                     <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=4">팝콘/스낵/음료</a></li>
                 </ul>

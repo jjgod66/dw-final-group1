@@ -65,20 +65,20 @@ public class ViewController {
 	}
 
 	
-	/*
-	 * 스토어 뷰어 컨트롤러 
-	 */
-	@GetMapping("/store/index")
-	public String storeIndex() {
-		String url = "/store/index";
-		return url;
-	}
-
-	@GetMapping("/store/detail")
-	public String storeDetail() {
-		String url = "/store/detail";
-		return url;
-	}
+//	/*
+//	 * 스토어 뷰어 컨트롤러 
+//	 */
+//	@GetMapping("/store/index")
+//	public String storeIndex() {
+//		String url = "/store/index";
+//		return url;
+//	}
+//
+//	@GetMapping("/store/detail")
+//	public String storeDetail() {
+//		String url = "/store/detail";
+//		return url;
+//	}
 
 
 	/*
