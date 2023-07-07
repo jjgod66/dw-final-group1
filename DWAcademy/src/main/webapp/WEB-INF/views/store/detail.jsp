@@ -70,8 +70,7 @@ if (CategoryIdx == null) {
                     <button class="btn_plus">추가</button>
                 </div>
                 <div class="txt_price_wrap">
-                <c:out value='javascript:totalcount();' />
-                    총 상품금액<strong class="txt_price_str"><fmt:formatNumber value="" pattern="#,##0"/><em>원</em></strong>
+                    총 상품금액<strong class="txt_price_str"><span class="totalprice">${product.product_price}</span><em>원</em></strong>
                 </div>
                 <div class="btn_wrap">
                     <button class="btn_col2 ty7">선물하기</button>
@@ -84,23 +83,28 @@ if (CategoryIdx == null) {
 <script>
 	$(function(){
 		let amount = $('.txt_num').text();
+		let price = ${product.product_price};
+		$('.totalprice').text(price.toLocaleString());
 		price = ${product.product_price };
 		$('.btn_plus').on('click', function(){
 			amount++;
 			$('.txt_num').text(amount);
-// 			$('.totalprice').text(price*amount);
+			let totalprice = amount*price;
+			$('.totalprice').text(totalprice.toLocaleString());
+
 		});
 		
 		$('.btn_mins').on('click', function(){
 			if(amount > 1){
 				amount--;
 				$('.txt_num').text(amount);
+				let totalprice = amount*price;
+				$('.totalprice').text(totalprice.toLocaleString());
 			}
 		});
 		
-		function totalcount(){
-			return 1;
-		}
+		
+
 	})
 </script>
 <%@ include file="../include/footer.jsp" %>
