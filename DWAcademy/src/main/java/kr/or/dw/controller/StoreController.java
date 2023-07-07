@@ -39,9 +39,16 @@ public class StoreController {
 	}
 
 	@RequestMapping("/detail")
-	public String storeDetail() {
+	public ModelAndView storeDetail(ModelAndView mnv, String product_cd) throws SQLException {
 		String url = "/store/detail";
-		return url;
+		
+		ProductVO product = null;
+		product = storeService.selectProDetail(product_cd);
+		
+		mnv.addObject("product", product);
+		mnv.setViewName(url);
+		
+		return mnv;
 	}
 	
 }

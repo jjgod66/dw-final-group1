@@ -108,6 +108,17 @@ public class ViewController {
 		String url = "/event/eventPast";
 		return url;
 	}
+	@GetMapping("/event/prizeWinner")
+	public String prizeWinner() {
+		String url = "/event/prizeWinner";
+		return url;
+	}
+	@GetMapping("/event/prizeWinnerResult")
+	public String prizeWinnerResult() {
+		String url = "/event/prizeWinnerResult";
+		return url;
+	}
+		
 	
 	
 

@@ -560,10 +560,7 @@ button, input, optgroup, select, textarea {
 				</div>
 				  <div class="event-list">
 					<ul>
-						
 						<li class="no-list">해당 이벤트가 없습니다.</li>
-						
-						
 					</ul>
 				</div>
 			</div>	
