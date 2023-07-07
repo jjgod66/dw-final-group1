@@ -42,18 +42,14 @@ request.setAttribute("GetTitle", "DWCinema");
 </head>
 <body>
 <!-- Preloader -->
-<!-- div class="preloader">
+<div class="preloader">
     <div class="loader">
         <div id="inner-preloader">
             <div id="shadow"></div>
             <div id="box"></div>
         </div>
     </div>
-<<<<<<< HEAD
-</div -->
-=======
-</div> -->
->>>>>>> branch 'main' of https://github.com/jjgod66/dw-final-group2.git
+</div>
 <!-- End Preloader -->
 <%@ include file="../include/login_modal.jsp" %>
 <%@ include file="../include/join_modal.jsp" %>
