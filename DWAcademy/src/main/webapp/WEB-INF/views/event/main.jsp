@@ -269,7 +269,11 @@ button, input, optgroup, select, textarea {
 			<div class="tab-pane fade show active" id="main">
 				<div class="tit-util">
 					<h3 class="tit">영화</h3>
+<<<<<<< HEAD
 					<div class="float-end">
+=======
+					<div class="float-end" >
+>>>>>>> branch 'main' of https://github.com/jjgod66/dw-final-group2.git
 						<a data-bs-toggle="tab" href="#movie" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 					</div>
 				</div>

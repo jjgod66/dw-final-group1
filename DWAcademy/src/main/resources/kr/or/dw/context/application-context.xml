@@ -13,6 +13,7 @@
 		<constructor-arg value="${pds.upload}"></constructor-arg>
 	</bean>
 
+	<bean id="storeService" class="kr.or.dw.service.StoreServiceImpl"/>
 
 	
 </beans>
