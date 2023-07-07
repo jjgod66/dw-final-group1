@@ -1,8 +1,3 @@
-<%--
-DW아카데미 1팀 프로젝트 영화관 미리보기 예제 jsp 메인화면 입니다.
-제작자 : 신철헌
-제작 시작 일 : 2023년 6월 23일
---%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
@@ -30,7 +25,7 @@ request.setAttribute("GetTitle", "DWCinema");
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/dwcinema.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/swiper.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/daterangepicker.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/bootstrap-icons.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
@@ -41,16 +36,6 @@ request.setAttribute("GetTitle", "DWCinema");
 <script src="<%=request.getContextPath()%>/resources/js/daterangepicker.js"></script>
 </head>
 <body>
-<!-- Preloader -->
-<div class="preloader">
-    <div class="loader">
-        <div id="inner-preloader">
-            <div id="shadow"></div>
-            <div id="box"></div>
-        </div>
-    </div>
-</div>
-<!-- End Preloader -->
 <%@ include file="../include/login_modal.jsp" %>
 <%@ include file="../include/join_modal.jsp" %>
 <header class="header poi">

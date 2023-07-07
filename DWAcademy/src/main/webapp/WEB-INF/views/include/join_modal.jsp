@@ -125,6 +125,20 @@
     position: absolute;
     display: none
 }
+#join-modal .btn {
+    display: inline-block;
+    line-height: 42px;
+    padding: 0 33px;
+    font-family: Poppins;
+    cursor: pointer;
+    color: #fff;
+    -webkit-transition: all 0.4s ease;
+    -o-transition: all 0.4s ease;
+    -moz-transition: all 0.4s ease;
+    transition: all 0.4s ease;
+    font-size: 18px;
+    width: 100%;
+}
 #join-modal .btn--signup {
     background: #4aa8d8;
     color: #fff;
@@ -208,7 +222,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="p-t-15">
+				<div class="pt-3">
 					<button class="btn btn--signup" type="submit">회원가입</button>
 				</div>
 				</form>
