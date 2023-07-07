@@ -1,10 +1,8 @@
 package kr.or.dw.security;
 
-import java.sql.SQLException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,16 +22,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		String login_id = (String) auth.getPrincipal();	// 로그인 시도한 ID를 가져온다.
 		String login_pwd = (String) auth.getCredentials();	// 로그인 시도한 PASSWORD 를 가져온다.
 		
+		System.out.println(login_id);
+		System.out.println(login_pwd);
+		
 		MemberVO member = null;
 		
-		try {
-			member = memberDAO.selectMemberById(login_id);
-		} catch (SQLException e) {
-			throw new AuthenticationServiceException("Internal server error !!"); 
-		}
+		member = memberDAO.selectMemberById(login_id);
 		
-		if(member != null && login_pwd.equals(member.getPwd())) {	// 로그인 성공
-			if(member.getEnabled() == 0) {
+		if(member != null && login_pwd.equals(member.getMem_pwd())) {	// 로그인 성공
+			if(member.getGb_ban() == "Y") {
 				throw new DisabledException("정지된 계정입니다. \\n관리자에게 문의하세요.");
 			}
 			User authUser = new User(member);

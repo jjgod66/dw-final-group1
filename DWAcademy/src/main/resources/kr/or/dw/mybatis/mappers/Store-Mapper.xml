@@ -6,10 +6,10 @@
 		SELECT *
 		FROM product
 		WHERE 1 = 1
-		<if test="CategoryIdx == '3'.toString()">
+		<if test="CategoryIdx == '1'.toString()">
 			AND product_div = '기프트카드'
 		</if>
-		<if test="CategoryIdx == '4'.toString()">
+		<if test="CategoryIdx == '2'.toString()">
 			AND product_div = '팝콘/스낵/음료'
 		</if>
 	</select>

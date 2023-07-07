@@ -14,6 +14,7 @@
 	</bean>
 
 	<bean id="storeService" class="kr.or.dw.service.StoreServiceImpl"/>
+	<bean id="memberService" class="kr.or.dw.service.MemberServiceImpl"/>
 
 	
 </beans>
