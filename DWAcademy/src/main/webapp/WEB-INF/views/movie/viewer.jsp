@@ -101,9 +101,9 @@
                         </div>
                     </div>
                 </div>
-                <ul class="reviwer-list">
-                    <li><a href="#"></a></li>
-                </ul>
+                <div class="reviwer-title">
+                    <h2 class="title">해당 영화에 대한 <span>1</span>개의 리뷰가 있어요!</h2>
+                </div>
             </div>
         </div>
     </div>

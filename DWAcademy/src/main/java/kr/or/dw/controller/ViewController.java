@@ -53,6 +53,11 @@ public class ViewController {
 		String url = "/booking/movie";
 		return url;
 	}
+	@GetMapping("/booking/detail")
+	public String bookingDetail() {
+		String url = "/booking/detail";
+		return url;
+	}
 	@GetMapping("/booking/payment")
 	public String bookingPayment() {
 		String url = "/booking/payment";
@@ -60,20 +65,20 @@ public class ViewController {
 	}
 
 	
-	/*
-	 * 스토어 뷰어 컨트롤러 
-	 */
-	@GetMapping("/store/index")
-	public String storeIndex() {
-		String url = "/store/index";
-		return url;
-	}
-
-	@GetMapping("/store/detail")
-	public String storeDetail() {
-		String url = "/store/detail";
-		return url;
-	}
+//	/*
+//	 * 스토어 뷰어 컨트롤러 
+//	 */
+//	@GetMapping("/store/index")
+//	public String storeIndex() {
+//		String url = "/store/index";
+//		return url;
+//	}
+//
+//	@GetMapping("/store/detail")
+//	public String storeDetail() {
+//		String url = "/store/detail";
+//		return url;
+//	}
 
 
 	/*
@@ -84,6 +89,17 @@ public class ViewController {
 		String url = "/event/main";
 		return url;
 	} 
+	@GetMapping("/event/eventDetail")
+	public String eventDetail() {
+		String url = "/event/eventDetail";
+		return url;
+	}
+	@GetMapping("/event/eventPast")
+	public String eventPast() {
+		String url = "/event/eventPast";
+		return url;
+	}
+	
 	
 
 	/*

@@ -38,187 +38,48 @@ request.setAttribute("GetTitle", "DWCinema");
 <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
 </head>
 <body>
-<style>
-#login-modal .modal-content{
-    border-radius: 0.7rem;
-}
-#login-modal .modal-header img{
-    width: 100px;
-}
-#login-modal .modal-title{
-    margin-left:auto;
-    margin-right: auto;
-}
-#login-modal .modal-header{
-    border-bottom: none;
-    padding-bottom: 0;
-    padding-top: 4vh;
-}
-#login-modal .modal-footer{
-    border-top: none;
-}
-#login-modal button:active{
-    outline: none;
-}
-#login-modal button:focus{
-   outline: none;
-}
-#login-modal .modal-body{
-    text-align: center;
-}
-#login-modal form{
-    padding: 3vh;
-}
-#login-modal input {
-    outline: none;
-    margin: 0;
-    border: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    width: 100%;
-    font-size: 14px;
-    font-family: inherit;
-}
-#login-modal .input-group {
-    margin-bottom: 1rem;
-}
-#login-modal .input--style-3 {
-    padding: 0.75rem !important;
-    outline: none;
-    width: 100% !important;
-    min-width: unset;
-    border: none;
-    border-radius: 0;
-    box-shadow: none !important;
-    background: #f9f9f9;
-    border: 1px solid #eee;
-}
-#login-modal .btn {
-    display: inline-block;
-    line-height: 42px;
-    padding: 0 33px;
-    font-family: Poppins;
-    cursor: pointer;
-    color: #fff;
-    -webkit-transition: all 0.4s ease;
-    -o-transition: all 0.4s ease;
-    -moz-transition: all 0.4s ease;
-    transition: all 0.4s ease;
-    font-size: 18px;
-    width: 100%
-}
-#login-modal .btn--naver {
-    background-color: #27d34a !important;
-    background-image: url(https://vendor-cdn.imweb.me/images/naver_login2x.png);
-    background-size: 16px;
-    background-position: 15px 50%;
-    background-repeat: no-repeat;
-    border-color: #27d34a !important;
-    color: #fff !important;
-    font-size: 12px;
-    padding: 0;
-}
-#login-modal .btn--kakao {
-    background-color: #ffeb00 !important;
-    background-image: url(https://vendor-cdn.imweb.me/images/kakao_icon.png);
-    background-size: 20px;
-    background-position: 12px 49%;
-    background-repeat: no-repeat;
-    border-color: #ffeb00 !important ;
-    color: #333 !important;
-    font-size: 12px;
-    padding: 0;
-}
-#login-modal .btn--login {
-    background: #4aa8d8;
-    color: #fff;
-    font-size: 13px;
-    border-color: #4aa8d8;
-    margin-bottom: 3vh;
-}
-#login-modal .extra{
-      padding-bottom: 4vh;
-      color: rgb(143, 141, 141);
-     font-size:13px;
-}
-#login-modal .extra a{
-    color: rgb(143, 141, 141);
-    font-size:13px;
-}
-#login-modal .col{
-      padding: 2vh 10px 4vh;
-}
-#login-modal .new{
-      padding-bottom: 0;
-}
-#login-modal .btn-primary{
-      width:40%;
-      margin:30%
-}
-#login-modal .btn:focus{
-    box-shadow: none;
-    outline: none;
-}
-</style>
-<div class="modal fade" id="login-modal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <!-- Modal body -->
-            <div class="modal-body">
-            	<h3 class="fs-3 text-center my-2">회원 로그인</h3>
-                <form method="POST">
-                <div class="input-group">
-                    <input class="input--style-3" type="text" placeholder="회원 아이디" name="text">
-                </div>
-                <div class="input-group">
-                    <input class="input--style-3" type="password" placeholder="비밀번호" name="password">
-                </div>
-                <div class="p-t-10">
-                    <button class="btn btn--login" type="submit" data-target="#">로그인</button>
-                </div>
-                <p class="title">간편로그인</p>
-                <div class="row">
-                    <div class="col">
-                        <div class="p-t-10"><button class="btn btn--naver" type="submit">네이버로 시작하기</button></div> 
-                    </div>
-                    <div class="col">
-                        <div class="p-t-10"><button class="btn btn--kakao" type="submit">카카오로 시작하기</button></div> 
-                    </div>
-                </div>
-                <p class="extra new">회원이 아니신가요 ? <a href="#"><u>회원가입</u></a></p>
-                <p class="extra">로그인 정보가 기억나지 않나요 ? <a href="#"><u>회원정보 찾기</u></a></p>
-                </form>
-            </div>
+<!-- Preloader -->
+<div class="preloader">
+    <div class="loader">
+        <div id="inner-preloader">
+            <div id="shadow"></div>
+            <div id="box"></div>
         </div>
     </div>
 </div>
-
-<header class="header">
+<!-- End Preloader -->
+<%@ include file="../include/login_modal.jsp" %>
+<%@ include file="../include/join_modal.jsp" %>
+<header class="header poi">
     <nav class="gnb">
         <div class="container d-flex flex-wrap">
             <ul class="nav me-auto">
                 <li class="nav-item"><a href="#" class="nav-link link-dark px-2">전체메뉴</a></li>
+                <li class="nav-item"><a href="<%=request.getContextPath()%>/member/membership.do" class="nav-link link-dark px-2">혜택</a></li>
                 <li class="nav-item"><a href="#" class="nav-link link-dark px-2">고객센터</a></li>
             </ul>
             <ul class="nav">
                 <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="nav-link link-dark px-2">로그인</a></li>
-                <li class="nav-item"><a href="<%=request.getContextPath()%>/member/join.do" class="nav-link link-dark px-2">회원가입</a></li>
+                <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#join-modal" class="nav-link link-dark px-2">회원가입</a></li>
             </ul>
         </div>
     </nav>
     <div class="logo"><a href="<%=request.getContextPath()%>/"><img src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
-    <div class="background" style="height: 260px; display: none; opacity: 0;"></div>
     <div class="container">
         <ul class="navbar" role="menubar" id="dwcinema_gnb" stlyle="overflow: hidden;">
+            <li role="menuitem">
+                <strong>커뮤니티</strong>
+                <ul style="opacity: 0; height: 0px;">
+                    <li><a href="<%=request.getContextPath()%>/movie/review.do">영화리뷰</a></li>
+                    <li><a href="#">무비포스트</a></li>
+                </ul>
+            </li>
             <li role="menuitem">
                 <strong>영화</strong>
                 <ul style="opacity: 0; height: 0px;">
                     <li><a href="#">전체영화</a></li>
                     <li><a href="#">현재상영작</a></li>
                     <li><a href="#">상영예정작</a></li>
-                    <li><a href="<%=request.getContextPath()%>/movie/review.do">영화리뷰</a></li>
-                    <li><a href="#">무비포스트</a></li>
                 </ul>
             </li>
             <li role="menuitem">
@@ -228,34 +89,29 @@ request.setAttribute("GetTitle", "DWCinema");
                     <li><a href="#">할인안내</a></li>
                 </ul>
             </li>
+            <li role="menuitem" style="width: 280px;">
+            </li>
             <li role="menuitem">
                 <strong>스토어</strong>
                 <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=2">영화관람권</a></li>
+                    <li><a href="<%=request.getContextPath()%>/store/index.do">영화관람권</a></li>
                     <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=3">기프트카드</a></li>
                     <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=4">팝콘/스낵/음료</a></li>
                 </ul>
-            </li>
-            <li role="menuitem" style="width: 280px;">
             </li>
             <li role="menuitem">
                 <strong>이벤트</strong>
                 <ul style="opacity: 0; height: 0px;">
                     <li><a href="<%=request.getContextPath()%>/event/main.do">진행중 이벤트</a></li>
-                    <li><a href="#">지난 이벤트</a></li>
+                    <li><a href="<%=request.getContextPath()%>/event/eventPast.do">지난 이벤트</a></li>
                     <li><a href="#">당첨자발표</a></li>
                 </ul>
             </li>
-            <li role="menuitem">
-                <strong>혜택</strong>
-                <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/member/membership.do">멤버십 안내</a></li>
-                </ul>
-            </li>
-            <li role="menuitem" style="width: 110px;">
-                <a href="<%=request.getContextPath()%>/booking/cinema.do" style="position: absolute; top: 30px; right: 40px; color: #333; font-size: 1.8rem;"><i class="bi bi-calendar3"></i></a>
-                <a href="<%=request.getContextPath()%>/member/main.do" style="position: absolute; top: 30px; right: 0; color: #333; font-size: 1.8rem;"><i class="bi bi-person"></i></a>
+            <li role="menuitem" style="width: 65px;">
+                <a href="<%=request.getContextPath()%>/booking/cinema.do" style="position: absolute; top: 20px; right: 40px; color: #333; font-size: 1.8rem;"><i class="bi bi-calendar3"></i></a>
+                <a href="<%=request.getContextPath()%>/member/main.do" style="position: absolute; top: 20px; right: 0; color: #333; font-size: 1.8rem;"><i class="bi bi-person"></i></a>
             </li>
         </ul>
     </div>
 </header>
+<div class="background" style="height: 100px; display: none; opacity: 0;"></div>

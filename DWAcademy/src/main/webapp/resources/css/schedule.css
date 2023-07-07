@@ -91,12 +91,28 @@
     left: 175px;
     display: none;
     width: 212px;
+    height: 760px;
     background-color: #fff;
 }
+
 .cinema-list > li.active .depth2 {
     display: block;
 }
-
+.cinema-list > li .depth2 ul li {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 13px;
+}
+.cinema-list > li .depth2 ul li a {
+    display: table-cell;
+    /* display: block; */
+    overflow: hidden;
+    padding: 10px 16px;
+    font-size: 13px;
+    vertical-align: middle;
+    color: #333;
+}
 .main-schedule .container:after,
 .main-schedule .container:before { content: ''; display: table; }
 .main-schedule .container:after { clear: both; }
@@ -229,6 +245,15 @@
 }
 
 .mvTimeLine { padding: 15px; background: #fff; }
+.mvTimeLine .time_select_tit {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    font-size: 1.05rem;
+}
+.mvTimeLine .time_select_tit .movieIcon {
+    margin-right: 5px;
+}
 .mvTimeLine .bx_notice {
     clear: both;
     margin-top: 215px;
