@@ -5,10 +5,10 @@
 #contents {
     width: 100%;
     margin: 0;
-    padding: 40px 0 0 0;
+    padding: 40px 0;
 }
 .inner-wrap {
-    width: 900px;
+    width: 100%;
     margin: 0 auto;
 }
 .tit {
@@ -19,13 +19,6 @@
     line-height: 1.1;
     color: #222;
 }
-
-h1, h2, h3, h4, h5, h6 {
-    margin: 0;
-    padding: 0;
-    font-weight: 400;
-}
-
 
 .text-util .left {
     float: left;
@@ -141,6 +134,7 @@ button, input {
     border-top: 1px solid #555;
 }
 .board-list {
+    width: 100%;
     line-height: 1.3;
 }
 
@@ -179,6 +173,7 @@ button, input {
 </div>
 
 <div id="contents">
+	<div class="container">
 	<!-- inner-wrap -->
 	<div class="inner-wrap">
 		<h2 class="tit">당첨자발표</h2>
@@ -216,10 +211,10 @@ button, input {
 					<col style="width: 130px;">
 					<col>
 					<col style="width: 100px;">
-					<col style="width: 110px;">
+					<col style="width: 120px;">
 				</colgroup>
 				<thead>
-					<tr>
+					<tr style="text-align: center;">
 						<th scope="col">번호</th>
 						<th scope="col">분류</th>
 						<th scope="col">이벤트명</th>
@@ -339,6 +334,7 @@ button, input {
 
 	</div>
 	<!--// inner-wrap -->
+	</div>
 </div>
 
 

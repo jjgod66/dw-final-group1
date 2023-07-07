@@ -8,10 +8,10 @@
 #contents {
     width: 100%;
     margin: 0;
-    padding: 40px 0 0 0;
+    padding: 40px 0;
 }
 .inner-wrap {
-    width: 900px;
+    width: 100%;
     margin: 0 auto;
 }
 .font-gblue {
@@ -37,20 +37,6 @@
     line-height: 1.1;
     vertical-align: top;
 }
-
-<<<<<<< HEAD
-=======
-* {
-    box-sizing: border-box;
-}
-p {
-    display: block;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-}
->>>>>>> branch 'main' of https://github.com/jjgod66/dw-final-group2.git
 .board-search {
     position: relative;
     display: inline-block;
@@ -264,6 +250,7 @@ i {
 </div>
 
 <div id="contents" class="">
+<div class="container">
 	<div class="inner-wrap">
 		<h2 class="tit">지난 이벤트</h2>
 		<ul class="dot-list">
@@ -447,30 +434,12 @@ i {
 				</ul>
 			</div>
 		</div>
-
-		<div class="inner-wrap">
-			<div class="event-list finish ">
-				<input type="hidden" id="totCount" name="totCount" value="10138">
-				<ul>
-					<li><a href="#" data-no="13590" data-netfunnel="N"
-						class="eventBtn" title="[스파이더맨: 어크로스 더 유니버스] 선착순 빵원티켓 상세보기">
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/29/nXioMEit4ZcfpWadtYaDzVnD2mCnWgyR.jpg"
-									alt="[스파이더맨: 어크로스 더 유니버스] 선착순 빵원티켓" onerror="noImg(this);">
-							</p>
-							<p class="tit">[스파이더맨: 어크로스 더 유니버스] 선착순 빵원티켓</p>
-							<p class="date">2023.06.30 ~ 2023.07.01</p>
-					</a></li>
-				</ul>
-			</div>
-		</div>
 	</div>
 
 
 	<%@ include file="/WEB-INF/views/event/eventPagination.jsp" %>
 
+	</div>
 </div>
 
 
