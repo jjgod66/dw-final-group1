@@ -89,6 +89,17 @@ public class ViewController {
 		String url = "/event/main";
 		return url;
 	} 
+	@GetMapping("/event/eventDetail")
+	public String eventDetail() {
+		String url = "/event/eventDetail";
+		return url;
+	}
+	@GetMapping("/event/eventPast")
+	public String eventPast() {
+		String url = "/event/eventPast";
+		return url;
+	}
+	
 	
 
 	/*
