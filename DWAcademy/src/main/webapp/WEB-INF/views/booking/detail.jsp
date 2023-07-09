@@ -10,26 +10,48 @@
 </select>
 <div class="seatbooking-wrapper">
     <div class="container">
-        <!--div class="select-table">
+        <div class="select-table">
             <div class="seat-count" style="min-height: 52px">
                 <div class="cell">
                     <p class="txt">성인</p>
-                    <div class="count"><button type="button" class="down" title="성인 좌석 선택 감소">-</button>
-                    <div class="number"><button type="button" class="now" title="성인 현재 좌석 선택 수" ticketgrpcd="TKA">0</button>
+                    <div class="count"><button type="button" class="down" title="성인 좌석 선택 감소" id="adultdown">-</button>
+                    <div class="number"><button type="button" class="now" title="성인 현재 좌석 선택 수" ticketgrpcd="TKA" id="adultcount">0</button>
                         <ul class="num-choice">
                             <li><button type="button" class="btn">0</button></li>
                         </ul>
                     </div>
-                    <button type="button" class="up" title="성인 좌석 선택 증가">+</button>
+                    <button type="button" class="up" title="성인 좌석 선택 증가" id="adultup">+</button>
+                    </div>
+                </div>
+                <div class="cell">
+                    <p class="txt">청소년</p>
+                    <div class="count"><button type="button" class="down" title="청소년 좌석 선택 감소" id="teendown">-</button>
+                    <div class="number"><button type="button" class="now" title="청소년 현재 좌석 선택 수" ticketgrpcd="TKA" id="teencount">0</button>
+                        <ul class="num-choice">
+                            <li><button type="button" class="btn">0</button></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="up" title="청소년 좌석 선택 증가" id="teenup">+</button>
+                    </div>
+                </div>
+                <div class="cell">
+                    <p class="txt">우대</p>
+                    <div class="count"><button type="button" class="down" title="우대 좌석 선택 감소" id="preferdown">-</button>
+                    <div class="number"><button type="button" class="now" title="우대 현재 좌석 선택 수" ticketgrpcd="TKA" id="prefercount">0</button>
+                        <ul class="num-choice">
+                            <li><button type="button" class="btn">0</button></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="up" title="우대 좌석 선택 증가" id="preferup">+</button>
                     </div>
                 </div>
             </div>
-        </div-->
+        </div>
         <div class="seatbooking-inner">
             <div class="movie-container">
                 <ul class="showcase">
                     <li>
-                        <div class="seat1"></div>
+                        <div class="seat1" ></div>
                         <small>선택가능</small>
                     </li>
                     <li>
@@ -74,10 +96,10 @@
                         <img src="https://file.cineq.co.kr/i.aspx?movieid=20226411&size=210">
                     </p>
                 </div>
-                <!--div class="reserve-number-wrapper">
+                <div class="reserve-number-wrapper">
                     <div class="reserve-number-title">선택된 좌석 수</div>
                     <div class="reserve-number">0</div>
-                </div-->
+                </div>
                 <div class="price-seats-wrapper">
                     <span class="price-seats-title">좌석번호</span>
                     <span class="price-seats"></span>
@@ -90,13 +112,67 @@
                 </div>
                 <div class="btn-group">
                     <a href="javaScript:void(0)" class="button" id="pagePrevious" title="이전">이전</a>
-                    <a href="javaScript:void(0)" class="button disabled" id="pageNext" title="다음">다음</a>
+                    <a href="javaScript:void(0)" class="button" id="pageNext" title="다음">다음</a>
               </div>
             </div>
         </div>
     </div>
 </div>
+<form id="reservation" method="post" action="<%=request.getContextPath()%>/reservation/moviePaymentForm.do">
+	<input type="hidden" name="adultSeat">
+	<input type="hidden" name="teenSeat">
+	<input type="hidden" name="preferSeat">
+	<input type="hidden" name="totalPrice">
+	<input type="hidden" name="screen_cd">
+	<input type="hidden" name="selectSeats">
+	
+</form>
 <script>
+let totalSeat = 0;
+let adultSeat = $('#adultcount').text();
+let teenSeat = $('#teencount').text();
+let preferSeat = $('#prefercount').text();
+$(function(){
+	$('#pageNext').on('click', function(){
+		$('input[name="selectSeats"]').val(selectedSeatNumbers);
+		$('input[name="adultSeat"]').val(adultSeat);
+		$('input[name="teenSeat"]').val(teenSeat);
+		$('input[name="preferSeat"]').val(preferSeat);
+		$('input[name="totalPrice"]').val(totalPrice);
+		if(totalSeat != selectedSeatsCount || selectedSeatsCount == 0){
+			alert("좌석을 선택해주세요.");
+			return;
+		}
+		$('#reservation').submit();
+	})
+	
+	$('#adultdown').on('click', function(){
+		totalSeatCountDown($('#adultcount'));
+		adultSeat = $('#adultcount').text();
+	})
+	$('#adultup').on('click', function(){
+		totalSeatCountUp($('#adultcount'));
+		adultSeat = $('#adultcount').text();
+	})
+	$('#teendown').on('click', function(){
+		totalSeatCountDown($('#teencount'));
+		teenSeat = $('#teencount').text();
+	})
+	$('#teenup').on('click', function(){
+		totalSeatCountUp($('#teencount'));
+		teenSeat = $('#teencount').text();
+	})
+	$('#preferdown').on('click', function(){
+		totalSeatCountDown($('#prefercount'));
+		preferSeat = $('#prefercount').text();
+	})
+	$('#preferup').on('click', function(){
+		totalSeatCountUp($('#prefercount'));
+		preferSeat = $('#prefercount').text();
+	})
+
+})
+
 const container = document.querySelector('.movie-inner');
 const seats = document.querySelectorAll('.row .seat:not(.occupied)');
 const count = document.querySelector('.reserve-number');
@@ -107,11 +183,36 @@ const selectedSeatsDisplay = document.querySelector('.price-seats');
 let ticketselect = +movieSelect.value;
 let selectedSeatsCount = 0;
 
+//좌석수 down, up버튼 이벤트
+function totalSeatCountUp(number){
+	let count = number.text();
+	if(totalSeat < 8){
+		count++;
+		totalSeat++;
+	}
+	number.text(count);
+}
+
+function totalSeatCountDown(number){
+	let count = number.text();
+	if(selectedSeatsCount >= totalSeat && totalSeat > 0){
+		alert("선택한 좌석보다 적을 수 없습니다.");
+		return;
+	}
+	if(totalSeat > 0){
+		count--;
+		totalSeat--;
+	}
+	number.text(count);
+}
+
+let selectedSeatNumbers = '';
 // 좌석 수와 총액 업데이트
+let totalPrice = 0;
 function updateSelectedCount() {
   const selectedSeats = document.querySelectorAll('.row .seat.selected');
   selectedSeatsCount = selectedSeats.length;
-
+  $('.reserve-number').text(selectedSeatsCount);
   // 선택된 좌석 수가 제한인 8를 초과하는지 확인
   if (selectedSeatsCount > 8) {
     const lastSelectedSeat = selectedSeats[selectedSeats.length - 1];
@@ -120,10 +221,24 @@ function updateSelectedCount() {
   }
 
   //count.innerText = selectedSeatsCount;
-  total.innerText = selectedSeatsCount * ticketselect;
+  let adultPrice = 0;
+  let teenPrice = 0;
+  let preferPrice = 0;
+  if(selectedSeatsCount > adultSeat){
+	  adultPrice = adultSeat*14000;
+	  teenPrice = (selectedSeatsCount - adultSeat) < 0 ? 0 : (selectedSeatsCount - adultSeat) * 12000;
+	  preferPrice = (selectedSeatsCount - adultSeat - teenSeat) < 0 ? 0 : (selectedSeatsCount - adultSeat - teenSeat) * 6000;
+		  
+  }else{
+	  adultPrice = selectedSeatsCount*14000;
+  }
+
+  totalPrice = adultPrice + teenPrice + preferPrice;
+
+  total.innerText = totalPrice;
 
   // 선택한 좌석의 데이터 표시
-  const selectedSeatNumbers = Array.from(selectedSeats).map(seat => seat.getAttribute('data-st')).join(', ');
+  selectedSeatNumbers = Array.from(selectedSeats).map(seat => seat.getAttribute('data-st')).join(', ');
   selectedSeatsDisplay.innerText = selectedSeatsCount > 0 ? selectedSeatNumbers : '';
 }
 
@@ -144,7 +259,7 @@ container.addEventListener('click', (e) => {
       selectedSeatsCount--;
     } else {
       // 선택된 좌석 수가 제한인 5 미만인지 확인
-      if (selectedSeatsCount < 8) {
+      if (selectedSeatsCount < totalSeat) {
         e.target.classList.add('selected');
         selectedSeatsCount++;
       }
@@ -208,7 +323,7 @@ function addRowsAndColumns(rows, columns) {
       seatDiv.addEventListener('click', () => {
         if (seatDiv.classList.contains('selected')) {
           remainSeats++; // 좌석 선택 해제 시 remainSeats 증가
-        } else {
+        } else if(selectedSeatsCount < totalSeat){
           remainSeats--; // 좌석 선택 시 remainSeats 감소
         }
         remainSeatsContainer.textContent = remainSeats; // remainSeats 출력

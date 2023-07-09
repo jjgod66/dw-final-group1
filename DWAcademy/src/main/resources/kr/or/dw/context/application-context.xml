@@ -16,6 +16,7 @@
 	<bean id="storeService" class="kr.or.dw.service.StoreServiceImpl"/>
 	<bean id="sysAdminService" class="kr.or.dw.service.SysAdminServiceImpl"/>
 	<bean id="memberService" class="kr.or.dw.service.MemberServiceImpl"/>
+	<bean id="reservationService" class="kr.or.dw.service.ReservationServiceImpl"/>
 
 
 	

@@ -13,7 +13,12 @@
 						<dd><strong>2023-07-05 (수) 22:15 ~ 24:14</strong></dd>
 						<dt>영화관</dt>
 						<dd>가산디지털 5관 - 2D</dd>
-						<dt>인원</dt><dd>성인1</dd>
+						<dt>인원</dt>
+						<dd>
+							${moviePayment.adultSeat > 0 ? '성인 '  : '' } ${moviePayment.adultSeat > 0 ? moviePayment.adultSeat : '' }
+							${moviePayment.teenSeat > 0 ? '청소년 '  : '' } ${moviePayment.teenSeat > 0 ? moviePayment.teenSeat : '' }
+							${moviePayment.preferSeat > 0 ? '우대 '  : '' } ${moviePayment.preferSeat > 0 ? moviePayment.preferSeat : '' }
+						</dd>
 					</dl>
 				</div>
 			</div>
@@ -56,7 +61,7 @@
 				<div class="card card-payment p-3 text-white mb-3">
 					<span>상품 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow">\10000</h2> <span>원</span>
+						<h2 class="mb-0 yellow">${moviePayment.totalPrice }</h2> <span>원</span>
 					</div>
 					<span>할인 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
