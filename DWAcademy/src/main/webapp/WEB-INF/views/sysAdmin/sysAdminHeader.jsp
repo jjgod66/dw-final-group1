@@ -145,7 +145,7 @@ a.gnb_1da {
 				<h2>관리자 주메뉴</h2>
 				<ul id="gnb_1dul">
 					<li class="gnb_1dli">
-						<a href="<%= request.getContextPath() %>/sysAdmin/placeAdmin.do"
+						<a href="<%= request.getContextPath() %>/sysAdmin/theaterList.do"
 						class="gnb_1da">지점관리</a></li>
 					<li class="gnb_1dli"><a
 						href="<%= request.getContextPath() %>/sysAdmin/placeAdmin.do"
