@@ -1,5 +1,8 @@
 package kr.or.dw.controller;
 
+import java.sql.SQLException;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.SysAdminService;
 
 @Controller
@@ -26,12 +30,16 @@ public class SysAdminController {
 		mnv.setViewName(url);
 		return mnv;
 	}
-	@RequestMapping("/placeAdmin")
-	public ModelAndView placeAdmin(ModelAndView mnv) {
-		String url = "/sysAdmin/placeAdmin";
+	@RequestMapping("/theaterList")
+	public ModelAndView placeAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/sysAdmin/theaterList";
+		
+		Map<String, Object> dataMap = sysAdminService.selectTheaterList(cri);
+		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
 		return mnv;
 	}
+	
 	@GetMapping("/adminCinemaMain")
 	public String adminCinemaMain() {
 		String url = "/sysAdmin/adminCinemaMain";

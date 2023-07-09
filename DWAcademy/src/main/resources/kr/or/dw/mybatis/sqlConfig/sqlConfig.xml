@@ -9,6 +9,7 @@
 		<typeAlias type="java.lang.Integer" alias="int"/>
 		<typeAlias type="kr.or.dw.vo.ProductVO" alias="product"/>
 		<typeAlias type="kr.or.dw.vo.MemberVO" alias="member"/>
+		<typeAlias type="kr.or.dw.vo.TheaterVO" alias="theater"/>
 		<typeAlias type="kr.or.dw.vo.ReservationVO" alias="reservation"/>
 	</typeAliases>
 
