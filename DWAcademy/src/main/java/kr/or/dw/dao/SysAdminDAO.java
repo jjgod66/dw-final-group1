@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.vo.AdminVO;
 import kr.or.dw.vo.TheaterVO;
 
 
@@ -20,5 +21,11 @@ public interface SysAdminDAO {
 
 	// 지역 리스트 불러오기
 	List<String> selectLocList();
+
+	// 새 지점 등록
+	void insertTheater(TheaterVO thr);
+	
+	// 새 관리자 등록
+	void insertAdmin(AdminVO adminVO);
 
 }

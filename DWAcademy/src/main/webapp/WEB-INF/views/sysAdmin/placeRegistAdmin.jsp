@@ -414,31 +414,24 @@ thead, tfoot {
 							</tr>
 							<tr>
 								<th scope="row">영화관명</th>
-								<td><input type="text" name="thr_name" required
-									class="required frm_input" size="30"
-									style="background-position: right top; background-repeat: no-repeat;"></td>
+								<td><input type="text" name="thr_name" required	class="required frm_input" size="30" style="background-position: right top; background-repeat: no-repeat;"></td>
 							</tr>
 							<tr>
 								<th scope="row">전화번호</th>
-								<td><input type="text" name="thr_tel" class="frm_input"
-									size="30" placeholder="숫자만 입력하세요. 예) 0212345678"></td>
+								<td><input type="text" name="thr_tel" class="frm_input" size="30" placeholder="숫자만 입력하세요. 예) 0212345678"></td>
 							</tr>
 							<tr>
 								<th scope="row">영화관주소</th>
 								<td colspan="3">
 									<p>
-										<input type="text" name="thr_addr_post" id="addr_post"
-											class="frm_input" size="8" maxlength="10">
-										<button class="btn_small grey"
-											onclick="sample6_execDaumPostcode()">주소검색</button>
+										<input type="text" name="thr_addr_post" id="addr_post" class="frm_input" size="8" maxlength="10">
+										<button type="button" id="searchAddr" class="btn_small grey" onclick="sample6_execDaumPostcode();">주소검색</button>
 									</p>
 									<p class="mart3">
-										<input type="text" name="thr_addr" id="addr" class="frm_input"
-											size="60"> 기본주소
+										<input type="text" name="thr_addr" id="addr" class="frm_input" size="60"> 기본주소
 									</p>
 									<p class="mart3">
-										<input type="text" name="thr_addr_detail" id="addr_detail"
-											class="frm_input" size="60"> 상세주소
+										<input type="text" name="thr_addr_detail" id="addr_detail" class="frm_input" size="60"> 상세주소
 									</p>
 								</td>
 							</tr>
@@ -470,7 +463,7 @@ thead, tfoot {
 					</table>
 				</div>
 				<div class="btn_confirm">
-					<button type="submit" id="registBtn" class="btn_large">등록</button>
+					<button type="button" id="registBtn" class="btn_large">등록</button>
 				</div>
 				<input type="hidden" value="" id="thr_y" name="thr_y">
 				<input type="hidden" value="" id="thr_x" name="thr_x">
@@ -481,7 +474,7 @@ thead, tfoot {
 
 <script>
 
-$('#registBtn').on('click', function(){
+$('button#registBtn').on('click', function(){
 	let form = $('form[role="form"]');
 	
 	var geocoder = new kakao.maps.services.Geocoder();
@@ -491,14 +484,13 @@ $('#registBtn').on('click', function(){
 	        $('#thr_y').val(result[0].y);
 	        $('#thr_x').val(result[0].x);
 	        console.log($('#thr_y').val());
+	        console.log($('#thr_x').val());
+			form.submit();
 	    }
 	};
 	
-	let fullAddr = $('#addr').val() + " " + $('#addr_detail').val();
+	geocoder.addressSearch($('#addr').val(), callback);
 	
-	geocoder.addressSearch(fullAddr, callback);
-	
-	form.submit();
 });
 </script>
 
