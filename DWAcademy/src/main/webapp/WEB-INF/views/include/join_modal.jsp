@@ -153,7 +153,7 @@
             <!-- Modal body -->
             <div class="modal-body">
             	<h3 class="fs-3 text-center my-2">회원가입</h3>
-				<form method="POST">
+				<form action="<%=request.getContextPath() %>/member/join.do" method="POST">
 				<div class="row row-space">
 					<div class="col-6">
 						<div class="input-group">
