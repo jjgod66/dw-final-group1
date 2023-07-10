@@ -25,5 +25,4 @@
 여기는 관리자 홈 입니다. 위 메뉴를 눌러주세요.<br>
 여기는 관리자 홈 입니다. 위 메뉴를 눌러주세요.
 
-</body>
-</html>
+<%@ include file="sysAdminFooter.jsp"%>
