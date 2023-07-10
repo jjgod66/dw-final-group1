@@ -11,7 +11,7 @@ import kr.or.dw.vo.TheaterVO;
 
 @Mapper
 public interface SysAdminDAO {
-
+	
 	// 해당하는 극장 목록을 불러온다.
 	List<TheaterVO> selectSearchTheaterList(SearchCriteria cri, RowBounds rowBounds);
 

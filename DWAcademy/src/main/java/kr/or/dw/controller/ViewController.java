@@ -34,11 +34,6 @@ public class ViewController {
 		String url = "/movie/review";
 		return url;
 	}
-	@GetMapping("/movie/viewer")
-	public String movieViewer() {
-		String url = "/movie/viewer";
-		return url;
-	}
 
 	/*
 	 * 극장 뷰어 컨트롤러 

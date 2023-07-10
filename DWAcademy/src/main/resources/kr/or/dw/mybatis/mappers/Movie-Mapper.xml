@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.MovieDAO">
+
+	<select id="selectBoxOfficeMovie10" resultType="Map">
+		SELECT movie_cd, movie_name, movie_info, movie_director, movie_actor, movie_grade, movie_length, movie_mainpic_path, opendate, enddate, NVL(reservers, 0) reservers
+		FROM (
+			SELECT m.*, reservers
+			FROM 
+				(
+					SELECT movie_cd, sum(reserver) reservers
+					FROM 
+						(
+							SELECT count(*) reserver, screen_cd
+							FROM reservation r
+							GROUP BY screen_cd
+						) sr, screen s
+					WHERE sr.screen_cd = s.screen_cd
+					GROUP BY movie_cd
+				)mr, movie m
+			WHERE mr.movie_cd(+) = m.movie_cd
+			ORDER BY reservers DESC
+			)
+		WHERE rownum <![CDATA[<=]]> 10
+	</select>
+</mapper>

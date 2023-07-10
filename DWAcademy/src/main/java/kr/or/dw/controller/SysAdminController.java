@@ -40,6 +40,13 @@ public class SysAdminController {
 		return mnv;
 	}
 	
+	@RequestMapping("/theaterRegistForm")
+	public String theaterRegistForm() {
+		String url = "sysAdmin/theaterRegist";
+		
+		return url;
+	}
+	
 	@GetMapping("/adminCinemaMain")
 	public String adminCinemaMain() {
 		String url = "/sysAdmin/adminCinemaMain";
@@ -50,4 +57,5 @@ public class SysAdminController {
 		String url = "/sysAdmin/placeRegistAdmin";
 		return url;
 	}
+	
 }
