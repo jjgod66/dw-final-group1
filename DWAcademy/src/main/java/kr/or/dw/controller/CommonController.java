@@ -1,6 +1,10 @@
 package kr.or.dw.controller;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -36,18 +40,26 @@ public class CommonController {
 		return url;
 	}
 	
-	@RequestMapping("/index")
-	public ModelAndView index(ModelAndView mnv) {
-		String url = "/index";
+	@RequestMapping("/main")
+	public ModelAndView index(ModelAndView mnv) throws SQLException {
+		String url = "/main";
+		List<Map<String, Object>> movieListMap = null;
+		movieListMap = movieService.getIndexBoxOfficeMovie10();
 		
-		List<IndexMovieCommand> movieList = null;
+		List<IndexMovieCommand> movieList = new ArrayList<>();
 		
-		
+		for(Map<String, Object> movieMap : movieListMap) {
+			IndexMovieCommand imc = new IndexMovieCommand(movieMap);
+			movieList.add(imc);
+		}
+
+		mnv.addObject("movieList", movieList);
 		mnv.setViewName(url);
 		return mnv;
 		
 	}
 	
+
 	
 	
 	
