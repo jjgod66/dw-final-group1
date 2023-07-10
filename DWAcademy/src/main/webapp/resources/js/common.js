@@ -74,4 +74,22 @@ $(document).ready(function() {
     $('.daterangepicker').on('click', function(e) {
         e.stopPropagation();
     });
+    
 });
+
+// 팝업창 띄우기
+// 새로운 Window 창을 Open 할 경우 사용되는 함수 (arg : 주소, 창 타이틀, 넓이, 길이)
+function OpenWindow(UrlStr, WinTitle, WinWidth, WinHeight){
+	winleft = (screen.width - WinWidth) / 2;
+	wintop = (screen.height - WinHeight) / 2;
+	var win = window.open(UrlStr, WinTitle, "scrollbars=yes, width=" + WinWidth
+			+ ", height=" + WinHeight + ", top=" + wintop + ", left=" 
+			+ winleft + ", resizable=yes, status=yes");
+	win.focus();
+};
+
+// 팝업창 닫기
+function CloseWindow(){
+	self.opener = self;
+	window.close();
+};
