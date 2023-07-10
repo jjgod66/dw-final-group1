@@ -52,4 +52,9 @@
 		 WHERE 1=1
 		 <include refid="search" />
 	</select>
+	
+	<select id="selectLocList" resultType="str">
+		SELECT thr_loc
+		  FROM loc
+	</select>
 </mapper>

@@ -380,7 +380,7 @@ thead, tfoot {
 					전체 : <b class="fc_red">${pageMaker.totalCount }</b> 건 조회
 				</div>
 				<div class="local_frm01 mt-3" style="float: right;">
-					<button class="btn_lsmall bx-white" onclick="OpenWindow('theaterRegistForm.do', '지점 등록', 600, 500)">지점 등록</button>
+					<button class="btn_lsmall bx-white" id="theaterRegistFormBtn">지점 등록</button>
 				</div>
 				<div class="tbl_head01">
 					<table>
@@ -444,10 +444,12 @@ thead, tfoot {
 	</div>
 </div>
 
-
-
+<script>
+	$(function(){
+		$('#theaterRegistFormBtn').on('click', function(){
+			location.href="theaterRegistForm.do";
+		});
+	});
+</script>
 
 <%@ include file="sysAdminFooter.jsp" %>
-
-
-

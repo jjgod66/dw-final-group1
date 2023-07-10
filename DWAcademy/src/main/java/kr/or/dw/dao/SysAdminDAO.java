@@ -18,4 +18,7 @@ public interface SysAdminDAO {
 	// 해당하는 극장의 총 개수를 불러온다.
 	int selectSearchTheaterListCount(SearchCriteria cri);
 
+	// 지역 리스트 불러오기
+	List<String> selectLocList();
+
 }

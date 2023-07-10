@@ -1,6 +1,7 @@
 package kr.or.dw.controller;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.SysAdminService;
+import kr.or.dw.vo.TheaterVO;
 
 @Controller
 @RequestMapping("/sysAdmin")
@@ -41,20 +43,25 @@ public class SysAdminController {
 	}
 	
 	@RequestMapping("/theaterRegistForm")
-	public String theaterRegistForm() {
-		String url = "sysAdmin/theaterRegist";
+	public ModelAndView theaterRegistForm(ModelAndView mnv) throws SQLException {
+		String url = "sysAdmin/placeRegistAdmin";
 		
-		return url;
+		List<String> locList = sysAdminService.selectLocList();
+		
+		mnv.addObject("locList", locList);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/theaterRegist")
+	public void theaterRegist(TheaterVO thr) {
+		System.out.println(thr);
 	}
 	
 	@GetMapping("/adminCinemaMain")
 	public String adminCinemaMain() {
 		String url = "/sysAdmin/adminCinemaMain";
-		return url;
-	}
-	@GetMapping("/placeRegistAdmin")
-	public String placeRegistAdmin() {
-		String url = "/sysAdmin/placeRegistAdmin";
 		return url;
 	}
 	

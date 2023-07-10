@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=35e6d1bccbd666fa1a2827012cbc4203&libraries=services,clusterer,drawing"></script>
 <%@ include file="sysAdminHeader.jsp"%>
 <style>
 #wrapper {
@@ -369,7 +371,7 @@ thead, tfoot {
 
 <div id="wrapper">
 
-	<div id="snb">
+	<%-- <div id="snb">
 		<div class="snb_header ico_config">
 			<h2>
 				<i class="fa fa-truck"></i>지점관리
@@ -384,24 +386,14 @@ thead, tfoot {
 				<a href="">지점신규등록</a>
 			</dd>
 		</dl>
-	</div>
+	</div> --%>
 	<div id="content">
 		<div class="breadcrumb">
 			<span>HOME</span> <i class="ionicons ion-ios-arrow-right"></i> 지점관리
 		</div>
-
-
-
-
-
-
 		<div class="s_wrap">
 			<h1>지점 신규등록</h1>
-
-			<form name="fregform" method="post"
-				onsubmit="return fregform_submit(this);">
-				<input type="hidden" name="token" value="">
-
+			<form role="form" action="theaterRegist.do" name="registForm" method="post">
 				<h2>지점 영화관 정보</h2>
 				<div class="tbl_frm01">
 					<table class="tablef">
@@ -414,59 +406,48 @@ thead, tfoot {
 						<tbody>
 							<tr>
 								<th scope="row">지역구분</th>
-								<td>
-									<select name="sfl">
-										<option value="">지역구분</option>
-										<option value="">서울 </option>
-										<option value="">경기 </option>
-										<option value="">강원 </option>
-										<option value="">충청 </option>
-										<option value="">경상 </option>
-										<option value="">전라  </option>
-										<option value="">제주  </option>
-									</select> 
-								</td>
+								<td><select id="thr_loc" name="thr_loc">
+										<c:forEach items="${locList }" var="loc">
+											<option value="${loc }">${loc }</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 							<tr>
 								<th scope="row">영화관명</th>
-								<td><input type="text" name="company_name" required=""
-									itemname="영화관명" class="required frm_input" size="30"
+								<td><input type="text" name="thr_name" required
+									class="required frm_input" size="30"
 									style="background-position: right top; background-repeat: no-repeat;"></td>
-								
 							</tr>
-							
-							
 							<tr>
 								<th scope="row">전화번호</th>
-								<td><input type="text" name="company_tel" class="frm_input"
-									size="30" placeholder="예) 02-1234-5678"></td>
+								<td><input type="text" name="thr_tel" class="frm_input"
+									size="30" placeholder="숫자만 입력하세요. 예) 0212345678"></td>
 							</tr>
 							<tr>
 								<th scope="row">영화관주소</th>
 								<td colspan="3">
 									<p>
-										<input type="text" name="company_zip" class="frm_input"
-											size="8" maxlength="5"> <a
-											href="javascript:win_zip('fregform', 'company_zip', 'company_addr1', 'company_addr2', 'company_addr3', 'company_addr_jibeon');"
-											class="btn_small grey">주소검색</a>
+										<input type="text" name="thr_addr_post" id="addr_post"
+											class="frm_input" size="8" maxlength="10">
+										<button class="btn_small grey"
+											onclick="sample6_execDaumPostcode()">주소검색</button>
 									</p>
 									<p class="mart3">
-										<input type="text" name="company_addr1" class="frm_input"
+										<input type="text" name="thr_addr" id="addr" class="frm_input"
 											size="60"> 기본주소
 									</p>
 									<p class="mart3">
-										<input type="text" name="company_addr2" class="frm_input"
-											size="60"> 상세주소
+										<input type="text" name="thr_addr_detail" id="addr_detail"
+											class="frm_input" size="60"> 상세주소
 									</p>
-									
 								</td>
 							</tr>
-							
+
 						</tbody>
 					</table>
 				</div>
 
-				<h2>지역 관리자 정보</h2>
+				<h2>지점 관리자 정보</h2>
 				<div class="tbl_frm01">
 					<table class="tablef">
 						<colgroup>
@@ -475,52 +456,52 @@ thead, tfoot {
 						</colgroup>
 						<tbody>
 							<tr>
-								<th scope="row">관리자 아이디 </th>
-								<td><input type="text" name="bank_name" class="frm_input"
-									size="30"></td>
+								<th scope="row">관리자 아이디</th>
+								<td><input type="text" name="admin_id" id="admin_id"
+									class="frm_input" size="30"></td>
 							</tr>
 							<tr>
 								<th scope="row">관리자 비밀번호</th>
-								<td><input type="text" name="bank_account"
+								<td><input type="text" name="admin_pwd" id="admin_pwd"
 									class="frm_input" size="30"></td>
 							</tr>
-							
+
 						</tbody>
 					</table>
 				</div>
-
-				
-
 				<div class="btn_confirm">
-					<input type="submit" value="저장" id="btn_submit" class="btn_large"
-						accesskey="s">
+					<button type="submit" id="registBtn" class="btn_large">등록</button>
 				</div>
+				<input type="hidden" value="" id="thr_y" name="thr_y">
+				<input type="hidden" value="" id="thr_x" name="thr_x">
 			</form>
-
-			<script>
-				function fregform_submit(f) {
-					if (confirm("등록 하시겠습니까?") == false)
-						return false;
-
-					document.getElementById("btn_submit").disabled = "disabled";
-
-					f.action = "./seller/seller_register_update.php";
-					return true;
-				}
-			</script>
 		</div>
-
-
-
-
-
 	</div>
 </div>
 
+<script>
+
+$('#registBtn').on('click', function(){
+	let form = $('form[role="form"]');
+	
+	var geocoder = new kakao.maps.services.Geocoder();
+	
+	var callback = function(result, status) {
+	    if (status === kakao.maps.services.Status.OK) {
+	        $('#thr_y').val(result[0].y);
+	        $('#thr_x').val(result[0].x);
+	        console.log($('#thr_y').val());
+	    }
+	};
+	
+	let fullAddr = $('#addr').val() + " " + $('#addr_detail').val();
+	
+	geocoder.addressSearch(fullAddr, callback);
+	
+	form.submit();
+});
+</script>
 
 
-
+<%@ include file="../common/searchAdress.jsp" %>
 <%@ include file="sysAdminFooter.jsp"%>
-
-
-

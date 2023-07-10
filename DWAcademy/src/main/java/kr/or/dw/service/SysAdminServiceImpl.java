@@ -42,4 +42,13 @@ public class SysAdminServiceImpl implements SysAdminService {
 		return dataMap;
 	}
 
+	@Override
+	public List<String> selectLocList() throws SQLException {
+		List<String> locList = null;
+		
+		locList = sysAdminDAO.selectLocList();
+		
+		return locList;
+	}
+
 }
