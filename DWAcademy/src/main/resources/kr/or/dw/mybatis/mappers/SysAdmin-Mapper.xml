@@ -57,4 +57,48 @@
 		SELECT thr_loc
 		  FROM loc
 	</select>
+	
+	<insert id="insertAdmin">
+		INSERT INTO admin
+					(
+					 admin_cd
+					,admin_id
+					,admin_pwd
+					)
+			 VALUES
+					(
+					 'T' || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual) || LPAD(admin_seq.nextval,4,0)
+					,#{admin_id}
+					,#{admin_pwd}
+					)
+ 		<selectKey resultType="str" keyProperty="admin_cd" order="AFTER">
+			SELECT 'T' || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual d1) || LPAD(admin_seq.currval,4,0) admin_cd FROM dual d2
+		</selectKey>
+	</insert>
+	
+	<insert id="insertTheater" parameterType="theater">
+		INSERT INTO theater
+					(
+					 thr_name 
+					,thr_loc
+					,thr_addr 
+					,thr_addr_detail
+					,thr_addr_post
+					,regdate
+					,thr_x
+					,thr_y
+					,admin_cd
+					)
+			 VALUES (
+			 		 #{thr_name}
+			 		,#{thr_loc}
+			 		,#{thr_addr}
+			 		,#{thr_addr_detail}
+			 		,#{thr_addr_post}
+			 		,SYSDATE
+			 		,#{thr_x}
+			 		,#{thr_y}
+			 		,#{admin_cd}
+			 		)		
+	</insert>
 </mapper>

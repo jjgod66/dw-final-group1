@@ -408,7 +408,7 @@ thead, tfoot {
 							</c:if>
 							<c:forEach items="${theaterList }" var="thr">
 								<tr class="list0">
-									<td>${thr.thr_name }</td>
+									<td><a href="theaterRegistForm.do?thr_name=${thr.thr_name }">${thr.thr_name }</a></td>
 									<td>${thr.thr_loc }</td>
 									<td>${thr.thr_addr } ${thr.thr_addr_detail }</td>
 									<td>${thr.admin_id }</td>

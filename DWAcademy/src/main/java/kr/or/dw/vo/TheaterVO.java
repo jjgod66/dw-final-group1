@@ -17,6 +17,7 @@ public class TheaterVO {
 	private String thr_info;
 	private String admin_id;
 	private String admin_pwd;
+	private String admin_cd;
 	private String thr_tel;
 	private Date regdate;
 	
@@ -24,7 +25,7 @@ public class TheaterVO {
 
 	public TheaterVO(String thr_name, String thr_loc, String thr_y, String thr_x, String thr_addr,
 			String thr_addr_detail, String thr_addr_post, String thr_info, String admin_id, String admin_pwd,
-			String thr_tel, Date regdate) {
+			String admin_cd, String thr_tel, Date regdate) {
 		super();
 		this.thr_name = thr_name;
 		this.thr_loc = thr_loc;
@@ -36,9 +37,9 @@ public class TheaterVO {
 		this.thr_info = thr_info;
 		this.admin_id = admin_id;
 		this.admin_pwd = admin_pwd;
+		this.admin_cd = admin_cd;
 		this.thr_tel = thr_tel;
 		this.regdate = regdate;
 	}
-
 	
 }

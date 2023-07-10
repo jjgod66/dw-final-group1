@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.SysAdminDAO;
+import kr.or.dw.vo.AdminVO;
 import kr.or.dw.vo.TheaterVO;
 
 public class SysAdminServiceImpl implements SysAdminService {
@@ -49,6 +50,17 @@ public class SysAdminServiceImpl implements SysAdminService {
 		locList = sysAdminDAO.selectLocList();
 		
 		return locList;
+	}
+
+	@Override
+	public void theaterRegist(TheaterVO thr) throws SQLException {
+		AdminVO adminVO = new AdminVO();
+		adminVO.setAdmin_id(thr.getAdmin_id());
+		adminVO.setAdmin_pwd(thr.getAdmin_pwd());
+		sysAdminDAO.insertAdmin(adminVO);
+		System.out.println("CD : " + adminVO.getAdmin_cd());
+		thr.setAdmin_cd(adminVO.getAdmin_cd());
+		sysAdminDAO.insertTheater(thr);
 	}
 
 }
