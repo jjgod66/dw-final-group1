@@ -11,6 +11,6 @@ public interface MemberDAO {
 	MemberVO selectMemberById(String id);
 
 	// 회원가입
-	void insert();
+	void insert(MemberVO memVO);
 
 }
