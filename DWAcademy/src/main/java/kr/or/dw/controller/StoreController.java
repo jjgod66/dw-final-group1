@@ -51,4 +51,11 @@ public class StoreController {
 		return mnv;
 	}
 	
+	@RequestMapping("/buyForm")
+	public ModelAndView buyForm(ModelAndView mnv, String product_cd, int amount) {
+		String url = "/store/buyForm";
+		
+		
+		return mnv;
+	}
 }

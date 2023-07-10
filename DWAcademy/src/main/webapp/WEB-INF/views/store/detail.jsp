@@ -82,7 +82,6 @@ if (CategoryIdx == null) {
 </div>
 <form method="post" id="payForm">
 	<input type="hidden" name="product_cd" value="${product.product_cd }">
-	<input type="hidden" name="totalprice">
 	<input type="hidden" name="amount">
 </form>
 <script>
@@ -118,7 +117,6 @@ if (CategoryIdx == null) {
 		
 		$('#present').on('click', function(){
 			$('#payForm').prop('action', 'presentForm.do');
-			$('input[name="totalprice"]').val(totalprice.toLocaleString());
 			$('input[name="amount"]').val(amount);
 			$('#payForm').submit();
 		})
