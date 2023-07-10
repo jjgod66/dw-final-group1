@@ -67,9 +67,11 @@
     content: "";
 }
 #content {
-    margin-left: 204px;
-    padding-bottom: 100px;
-    border-left: 1px solid #ccc;
+	margin-left: 150px;
+	margin-right:150px;
+	padding-bottom: 100px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
 }
 .breadcrumb {
     padding: 0 0 0 25px;
@@ -304,27 +306,10 @@ thead, tfoot {
 </style>
 
 <div id="wrapper">
-	<div id="snb">
-		<div class="snb_header ico_config">
-			<h2>
-				<i class="fa fa-truck"></i>지점관리
-			</h2>
-		</div>
-		<dl>
-			<dt class="s10 menu_toggle">지점 리스트 </dt>
-			<dd class="s10">
-				<a href="<%= request.getContextPath() %>/sysAdmin/placeAdmin.do">지점 목록
-				</a>
-			</dd>
-			<dd class="s10">
-				<a href="<%=request.getContextPath() %>/sysAdmin/placeRegistAdmin.do">지점신규등록</a>
-			</dd>
-		</dl>
-	</div>
 	<div id="content">
-		<div class="breadcrumb">
-			<span>HOME</span> <i class="ionicons ion-ios-arrow-right"></i> 지점관리
-		</div>
+	 <div class="breadcrumb">
+	<span>HOME</span>&nbsp  &gt 지점관리 &gt 지점목록  
+</div>
 
 
 
@@ -474,6 +459,7 @@ thead, tfoot {
 		</div>
 
 	</div>
+</div>
 </div>
 
 
