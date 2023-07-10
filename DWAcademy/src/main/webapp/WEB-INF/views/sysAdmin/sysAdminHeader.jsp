@@ -128,8 +128,9 @@ a.gnb_1da {
 </style>
 	<header id="hd">
 		<div id="hd_wrap">
-			<h1> dwCinema Admin Account </h1>
-			
+			<div style="padding : 0.5rem;">
+				<img src="<%=request.getContextPath()%>/resources/img/logo.png">
+			</div>
 			<div id="tnb">
 				<ul>
 					<li>DW시네마 v1.0.1</li>
