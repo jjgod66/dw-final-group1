@@ -26,21 +26,38 @@ public class SysAdminController {
 		mnv.setViewName(url);
 		return mnv;
 	}
-	@RequestMapping("/placeAdmin")
-	public ModelAndView placeAdmin(ModelAndView mnv) {
-		String url = "/sysAdmin/placeAdmin";
+	
+	@RequestMapping("/theaterList")
+	public ModelAndView placeAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/sysAdmin/theaterList";
+		
+		Map<String, Object> dataMap = sysAdminService.selectTheaterList(cri);
+		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
 		return mnv;
 	}
+	
 	@GetMapping("/adminCinemaMain")
 	public String adminCinemaMain() {
 		String url = "/sysAdmin/adminCinemaMain";
 		return url;
 	}
-	@GetMapping("/placeRegistAdmin")
-	public String placeRegistAdmin() {
-		String url = "/sysAdmin/placeRegistAdmin";
-		return url;
+	
+	@RequestMapping("/theaterRegistForm")
+	public ModelAndView theaterRegistForm(ModelAndView mnv) throws SQLException {
+		String url = "sysAdmin/placeRegistAdmin";
+		
+		List<String> locList = sysAdminService.selectLocList();
+		
+		mnv.addObject("locList", locList);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/theaterRegist")
+	public void theaterRegist(TheaterVO thr) {
+		System.out.println(thr);
 	}
 	@GetMapping("/movieAdmin")
 	public String movieAdmin() {
