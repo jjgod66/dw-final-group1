@@ -18,7 +18,7 @@ public class MemberVO {
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date mem_bir;
 	private String mem_phone;
-	private int mem_zipcode;
+	private String mem_zipcode;
 	private String mem_addr;
 	private String mem_addr_detail;
 	private String gb_sms_alert;

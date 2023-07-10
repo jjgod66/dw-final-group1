@@ -9,9 +9,15 @@
 		 WHERE mem_id = #{mem_id}
 	</select>
 	
+	<update id="updateLastLoginDt">
+		UPDATE member SET lastlogindate = SYSDATE
+		WHERE mem_id = #{id}
+	</update>
+	
+	
 	<insert id="insert">
 		INSERT INTO member(mem_cd, mem_id, mem_pwd, mem_name, mem_email, mem_bir, mem_phone, regdate, mem_addr, mem_addr_detail, mem_zipcode)
-					VALUES('M' || #{mem_bir} || mem_seq.nextVal
+					VALUES('M' || TO_char(#{mem_bir}, 'YYYYMMDD') || lpad(mem_seq.nextVal,4,0)
 						  ,#{mem_id}
 						  ,#{mem_pwd}
 						  ,#{mem_name}

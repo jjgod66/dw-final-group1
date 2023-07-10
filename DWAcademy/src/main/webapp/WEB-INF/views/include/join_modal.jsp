@@ -220,7 +220,7 @@
 					<div class="col-2">
 						<div class="input-group">
 							<label class="label">우편번호</label>
-							<input class="input--style-3" type="text" id="addr_post" name="mem_zipcode" required disabled>
+							<input class="input--style-3" type="text" id="addr_post" name="mem_zipcode" required>
 						</div>
 					</div>
 					<div class="col-5">
