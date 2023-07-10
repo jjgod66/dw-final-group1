@@ -28,11 +28,6 @@ public class CommonController {
 		return url;
 	}
 	
-	@RequestMapping("/common/logout")
-	public void logout(HttpSession session) {
-		
-	}
-	
 	@RequestMapping("/index")
 	public String index() {
 		return "/index";

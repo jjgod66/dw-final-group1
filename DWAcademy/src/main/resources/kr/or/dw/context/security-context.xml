@@ -64,7 +64,7 @@
 		/>
 		
 		<logout
-			logout-url="/common/logout"
+			logout-url="/common/logout.do"
 			invalidate-session="true"
 			logout-success-url="/"
 		/>
