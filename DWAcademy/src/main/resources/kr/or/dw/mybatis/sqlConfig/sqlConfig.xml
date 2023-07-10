@@ -12,6 +12,10 @@
 		<typeAlias type="kr.or.dw.vo.TheaterVO" alias="theater"/>
 		<typeAlias type="kr.or.dw.vo.ReservationVO" alias="reservation"/>
 		<typeAlias type="kr.or.dw.vo.MovieVO" alias="movie"/>
+		<typeAlias type="kr.or.dw.vo.MoviePictureVO" alias="moviePic"/>
+		<typeAlias type="kr.or.dw.vo.MoviePreviewVO" alias="moviePre"/>
+		<typeAlias type="kr.or.dw.vo.MoviePostVO" alias="moviepost"/>
+		<typeAlias type="kr.or.dw.vo.ReviewVO" alias="review"/>
 	</typeAliases>
 
 </configuration>

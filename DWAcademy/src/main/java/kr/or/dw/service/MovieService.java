@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.dw.command.MovieViewerCommand;
+
 
 public interface MovieService {
 
@@ -13,5 +15,12 @@ public interface MovieService {
 	 * @throws SQLException
 	 */
 	List<Map<String, Object>> getIndexBoxOfficeMovie10() throws SQLException;
+
+	/**
+	 * 영화 상세페이지 메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	MovieViewerCommand getMovieView(String movie_cd) throws SQLException;
 
 }

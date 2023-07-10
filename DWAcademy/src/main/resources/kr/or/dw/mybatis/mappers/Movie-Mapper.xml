@@ -23,4 +23,48 @@
 			)
 		WHERE rownum <![CDATA[<=]]> 10
 	</select>
+	
+	<select id="selectMovieDetail" parameterType="str" resultType="movie">
+		SELECT *
+		FROM movie
+		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectMoviePicture" parameterType="str" resultType="moviePic">
+		SELECT *
+		FROM movie_picture
+		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectMoviePreview" parameterType="str" resultType="moviePre">
+		SELECT *
+		FROM movie_preview
+		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectMoviePostByCd" parameterType="str" resultType="moviepost">
+		SELECT *
+		FROM moviepost
+		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectReviewByCd" parameterType="str" resultType="review">
+		SELECT *
+		FROM review
+		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectMovieTypeByCd" parameterType="str" resultType="str">
+		SELECT movie_type_des
+		FROM movie_type_c c, movie_type t
+		WHERE c.movie_type_cd = t.movie_type_cd
+		AND movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectMovieGenreByCd" parameterType="str" resultType="str">
+		SELECT genre_name
+		FROM genre_c c, genre g 
+		WHERE c.genre_cd = g.genre_cd 
+		AND movie_cd = #{movie_cd}
+	</select>
 </mapper>
