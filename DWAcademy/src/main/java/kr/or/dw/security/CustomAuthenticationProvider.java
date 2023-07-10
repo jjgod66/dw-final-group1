@@ -1,6 +1,8 @@
 package kr.or.dw.security;
 
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,8 +24,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		String login_id = (String) auth.getPrincipal();	// 로그인 시도한 ID를 가져온다.
 		String login_pwd = (String) auth.getCredentials();	// 로그인 시도한 PASSWORD 를 가져온다.
 		
-		System.out.println(login_id);
-		System.out.println(login_pwd);
+		System.out.println("id : " + login_id);
+		System.out.println("pwd : " + login_pwd);
 		
 		MemberVO member = null;
 		

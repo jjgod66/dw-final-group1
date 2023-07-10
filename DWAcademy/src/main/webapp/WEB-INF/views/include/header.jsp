@@ -3,6 +3,7 @@ DW아카데미 1팀 프로젝트 영화관 미리보기 예제 jsp 메인화면 
 제작자 : 신철헌
 제작 시작 일 : 2023년 6월 23일
 --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
@@ -62,14 +63,17 @@ request.setAttribute("GetTitle", "DWCinema");
                 <li class="nav-item"><a href="#" class="nav-link link-dark px-2">고객센터</a></li>
             </ul>
             <ul class="nav">
-                <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="nav-link link-dark px-2">로그인</a></li>
+            <c:choose>
+                <c:when test="${loginUser.mem_id == null || loginUser.mem_id == ''}"><li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="nav-link link-dark px-2">로그인</a></li></c:when>
+                <c:otherwise><li class="nav-item"><a href="#" id="logout" class="nav-link link-dark px-2">로그아웃</a></li></c:otherwise>
+            </c:choose>
                 <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#join-modal" class="nav-link link-dark px-2">회원가입</a></li>
             </ul>
         </div>
     </nav>
     <div class="logo"><a href="<%=request.getContextPath()%>/"><img src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
     <div class="container">
-        <ul class="navbar" role="menubar" id="dwcinema_gnb" stlyle="overflow: hidden;">
+        <ul class="navbar" role="menubar" id="dwcinema_gnb" style="overflow: hidden;">
             <li role="menuitem">
                 <strong>영화</strong>
                 <ul style="opacity: 0; height: 0px;">

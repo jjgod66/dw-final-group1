@@ -81,7 +81,7 @@
 	
 	<beans:bean id="loginSuccessHandler" 
 				class="kr.or.dw.security.LoginSuccessHandler" 
-				p:defaultTargetUrl="/index.do" />
+				p:defaultTargetUrl="/" />
 	<beans:bean id="loginFailureHandler" 
 				class="kr.or.dw.security.LoginFailureHandler" />
 	<beans:bean id="sessionRegistry"
