@@ -17,6 +17,6 @@
 	<select id="selectProDetail" parameterType="str" resultType="product">
 		SELECT *
 		FROM product
-		WHERE product_cd = ${product_cd}
+		WHERE product_cd = #{product_cd}
 	</select>
 </mapper>

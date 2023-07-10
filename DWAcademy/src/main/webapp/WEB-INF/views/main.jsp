@@ -40,7 +40,7 @@
 	                                    </strong>
 	                                    <span class="txt_append">
 	                                        <span class="info_txt">상영시간<span class="txt_grade">${movie.movie_length}</span>분</span>
-	                                        <span class="info_txt">예매수<span class="txt_num">${movie.reservers}</span></span>
+	                                        <span class="info_txt">누적관객수<span class="txt_num">${movie.reservers}</span></span>
 	                                    </span>
 	                                    <span class="txt_info">
 	                                        개봉일<span class="txt_num"><fmt:formatDate value="${movie.opendate}" pattern="yyyy-MM-dd"/></span>

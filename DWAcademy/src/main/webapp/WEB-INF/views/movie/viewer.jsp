@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/viewer.css">
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
-<%@ include file="../common/boxoffice_detail.jsp" %>
+<%-- <%@ include file="../common/boxoffice_detail.jsp" %> --%>
 <div class="sub_visual">
     <h3>영화정보</h3>
     <h6>Movie information</h6>
@@ -11,37 +12,40 @@
 <div class="boxoffice-detail">
     <div class="container">
         <div class="scon_02">
-            <p><%=watchGradeNm%></p>
-            <h2><%=movieNm%><em><%=movieNmEn%></em></h2>
-            <p class="sinfo"><span><%=genreNm%> </span><span><%=showTm%>분</span></p>
+            <p>${movieView.movie.movie_grade }</p>
+<%--             <h2><%=movieNm%><em><%=movieNmEn%></em></h2> --%>
+            <p class="sinfo">
+            <span>
+            	<c:forEach items="${movieView.genre_list }" var="genre">${genre } </c:forEach> </span><span>${movieView.movie.movie_length }분
+            </span></p>
         </div>
         <div class="scon_02_detail">
             <div class="lbox">
-                <img src="<%=posterImage%>">
-                <a href="movie-reservation.jsp?movieCd=<%=movieCd%>" class="btn btn-reservation">예매하기</a>
-                <a href="javascript:trailer();" class="btn btn-trailer">예고편</a>
+                <img src="../../resources/img/poster/${movieView.movie.movie_mainpic_path}">
+                <a href="<%=request.getContextPath() %>/booking/movie.do?movie_cd=${movieView.movie.movie_cd }" class="btn btn-reservation">예매하기</a>
+<!--                 <a href="javascript:trailer();" class="btn btn-trailer">예고편</a> -->
             </div>
             <div class="rbox">
                 <dl>
                     <dt>감독</dt>
-                    <dd><%=peopleNmdirectors %></dd>
+                    <dd>${movieView.movie.movie_director }</dd>
                 </dl>
                 </dl>
                 <dl>
-                    <dt>배우</dt>
-                    <dd><%=peopleNmActors %></dd>
+                    <dt>출연</dt>
+                    <dd>${movieView.movie.movie_actor }</dd>
                 </dl>
                 <dl>
                     <dt>장르</dt>
-                    <dd><%=genreNm%></dd>
+                    <dd><c:forEach items="${movieView.genre_list }" var="genre">${genre } </c:forEach></dd>
                 </dl>
                 <dl>
                     <dt>러닝타임</dt>
-                    <dd><%=showTm%>분</dd>
+                    <dd>${movieView.movie.movie_length }분</dd>
                 </dl>
                 <dl>
                     <dt>줄거리</dt>
-                    <dd></dd>
+                    <dd>${movieView.movie.movie_info }</dd>
                 </dl>
                 <div class="reviwer-box">
                     <div class="reviwer-wrapper">
@@ -144,7 +148,7 @@
 <div class="fulltrailer">
     <div class="dimmed"></div>
     <div class="content">
-        <iframe width="854" height="480" src="https://www.youtube.com/embed/<%=YoutubeTrailer%>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<%--         <iframe width="854" height="480" src="https://www.youtube.com/embed/<%=YoutubeTrailer%>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> --%>
     </div>
 </div>
 <script>
