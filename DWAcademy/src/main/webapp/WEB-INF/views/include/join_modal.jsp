@@ -153,18 +153,23 @@
             <!-- Modal body -->
             <div class="modal-body">
             	<h3 class="fs-3 text-center my-2">회원가입</h3>
-				<form method="POST">
+				<form role="joinForm" action="<%=request.getContextPath()%>/member/join.do" method="post">
 				<div class="row row-space">
-					<div class="col-6">
+					<div class="col-8">
 						<div class="input-group">
 							<label class="label">아이디</label>
-							<input class="input--style-3" type="text" name="userid">
+							<input class="input--style-3" type="text" name="mem_id">
+							<div><span id="result_checkId" style="font-size:12px;"></span></div>
 						</div>
+					</div>
+					<div class="col-4">
+					<br>
+						<button type="button" onclick="idCheck_go();" class="btn btn--signup">중복확인</button>
 					</div>
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">이름</label>
-							<input class="input--style-3" type="text" name="name">
+							<input class="input--style-3" type="text" name="mem_name">
 						</div>
 					</div>
 				</div>
@@ -172,13 +177,15 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">비밀번호</label>
-							<input class="input--style-3" type="password" name="pwd">
+							<input class="input--style-3 pwdCheck" type="password" name="mem_pwd">
+							<div><span id="result_pwdCheck" style="font-size:12px;"></span></div>
 						</div>
 					</div>
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">비밀번호 확인</label>
-							<input class="input--style-3" type="password" name="pwd_re">
+							<input class="input--style-3 pwdCheck" type="password" name="pwd_re">
+							<div><span id="result_pwdReCheck" style="font-size:12px;"></span></div>
 						</div>
 					</div>
 				</div>
@@ -187,46 +194,55 @@
 						<div class="input-group">
 							<label class="label">생년월일</label>
 							<div class="input-group-icon">
-								<input class="input--style-3 js-datepicker" type="text" name="birthday" readonly>
+								<input class="input--style-3 js-datepicker" type="text" name="mem_bir" readonly>
 								<i class="bi bi-calendar-week js-btn-calendar"></i>
 							</div>
 						</div>
 					</div>
-					<div class="col-6">
-						<div class="input-group">
-							<label class="label">성별</label>
-							<div class="p-t-10">
-								<label class="radio-container m-r-45">남성
-									<input type="radio" checked="checked" name="gender">
-									<span class="checkmark"></span>
-								</label>
-								<label class="radio-container">여성
-									<input type="radio" name="gender">
-									<span class="checkmark"></span>
-								</label>
-							</div>
-						</div>
-					</div>
+					
 				</div>
 				<div class="row row-space">
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">이메일</label>
-							<input class="input--style-3" type="email" name="email">
+							<input class="input--style-3" type="email" name="mem_email">
+							<div><span id="result_emailCheck" style="font-size:12px;"></span></div>
 						</div>
 					</div>
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">휴대폰 번호</label>
-							<input class="input--style-3" type="text" name="phone">
+							<input class="input--style-3" type="text" name="mem_phone">
+						</div>
+					</div>
+				</div>
+				<div class="row row-space">
+					<div class="col-2">
+						<div class="input-group">
+							<label class="label">우편번호</label>
+							<input class="input--style-3" type="text" id="addr_post" name="mem_zipcode" required>
+						</div>
+					</div>
+					<div class="col-5">
+						<div class="input-group">
+							<label class="label">주소</label>
+							<input class="input--style-3" type="text" id="addr" onclick="sample6_execDaumPostcode();" name="mem_addr" required>
+						</div>
+					</div>
+					<div class="col-5">
+						<div class="input-group">
+							<label class="label">상세주소</label>
+							<input class="input--style-3" type="text" id="addr_detail" name="mem_addr_detail" required>
 						</div>
 					</div>
 				</div>
 				<div class="pt-3">
-					<button class="btn btn--signup" type="submit">회원가입</button>
+					<button class="btn btn--signup" type="button" onclick="submit_go();">회원가입</button>
 				</div>
 				</form>
             </div>
         </div>
     </div>
 </div>
+<%@ include file = "join_modal_js.jsp"  %>
+<%@ include file = "../common/searchAdress.jsp"  %>

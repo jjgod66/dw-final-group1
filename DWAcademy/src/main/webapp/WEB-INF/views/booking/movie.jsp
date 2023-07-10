@@ -232,14 +232,14 @@ swiper.on('slideChange', function() {
 });
 // 예매 시간 데이터
 var movieTimes = [
-  { time: "10:00", duration: "1시간 40분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
-  { time: "13:30", duration: "2시간 10분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
-  { time: "16:20", duration: "1시간 50분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
-  { time: "19:00", duration: "2시간 30분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
-  { time: "10:00", duration: "1시간 40분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
-  { time: "13:30", duration: "2시간 10분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
-  { time: "16:20", duration: "1시간 50분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
-  { time: "19:00", duration: "2시간 30분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
+  { time: "10:00", duration: "1시간 40분", totalSeats: 112, remainingSeats: 112, date: "2023-07-11" },
+  { time: "13:30", duration: "2시간 10분", totalSeats: 112, remainingSeats: 112, date: "2023-07-11" },
+  { time: "16:20", duration: "1시간 50분", totalSeats: 112, remainingSeats: 112, date: "2023-07-11" },
+  { time: "19:00", duration: "2시간 30분", totalSeats: 112, remainingSeats: 112, date: "2023-07-11" },
+  { time: "10:00", duration: "1시간 40분", totalSeats: 112, remainingSeats: 112, date: "2023-07-10" },
+  { time: "13:30", duration: "2시간 10분", totalSeats: 112, remainingSeats: 112, date: "2023-07-10" },
+  { time: "16:20", duration: "1시간 50분", totalSeats: 112, remainingSeats: 112, date: "2023-07-10" },
+  { time: "19:00", duration: "2시간 30분", totalSeats: 112, remainingSeats: 112, date: "2023-07-10" },
   { time: "10:00", duration: "1시간 40분", totalSeats: 112, remainingSeats: 112, date: "2023-07-09" },
   { time: "13:30", duration: "2시간 10분", totalSeats: 112, remainingSeats: 112, date: "2023-07-09" },
   { time: "16:20", duration: "1시간 50분", totalSeats: 112, remainingSeats: 112, date: "2023-07-09" },

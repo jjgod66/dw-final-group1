@@ -131,10 +131,10 @@
             	<h3 class="fs-3 text-center my-2">회원 로그인</h3>
                 <form action="<%=request.getContextPath()%>/common/login.do" method="POST">
                 <div class="input-group">
-                    <input class="input--style-3" type="text" placeholder="회원 아이디" name="text">
+                    <input class="input--style-3" type="text" name="id" placeholder="회원 아이디" name="text">
                 </div>
                 <div class="input-group">
-                    <input class="input--style-3" type="password" placeholder="비밀번호" name="password">
+                    <input class="input--style-3" type="password" name="pwd" placeholder="비밀번호" name="password">
                 </div>
                 <div class="p-t-10">
                     <button class="btn btn--login" type="submit" data-target="#">로그인</button>

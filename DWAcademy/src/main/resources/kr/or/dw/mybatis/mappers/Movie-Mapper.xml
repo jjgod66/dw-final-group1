@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.MovieDAO">
+
+	<select id="selectBoxOfficeMovie10" resultType="Map">
+		SELECT movie_cd, movie_name, movie_info, movie_director, movie_actor, movie_grade, movie_length, movie_mainpic_path, opendate, enddate, NVL(reservers, 0) reservers
+		FROM (
+			SELECT m.*, reservers
+			FROM 
+				(
+					SELECT movie_cd, sum(reserver) reservers
+					FROM 
+						(
+							SELECT count(*) reserver, screen_cd
+							FROM reservation r
+							GROUP BY screen_cd
+						) sr, screen s
+					WHERE sr.screen_cd = s.screen_cd
+					GROUP BY movie_cd
+				)mr, movie m
+			WHERE mr.movie_cd(+) = m.movie_cd
+			ORDER BY reservers DESC
+			)
+		WHERE rownum <![CDATA[<=]]> 10
+	</select>
+	
+	<select id="selectMovieDetail" parameterType="str" resultType="movie">
+		SELECT *
+		FROM movie
+		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectMoviePicture" parameterType="str" resultType="moviePic">
+		SELECT *
+		FROM movie_picture
+		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectMoviePreview" parameterType="str" resultType="moviePre">
+		SELECT *
+		FROM movie_preview
+		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectMoviePostByCd" parameterType="str" resultType="moviepost">
+		SELECT *
+		FROM moviepost
+		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectReviewByCd" parameterType="str" resultType="review">
+		SELECT *
+		FROM review
+		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectMovieTypeByCd" parameterType="str" resultType="str">
+		SELECT movie_type_des
+		FROM movie_type_c c, movie_type t
+		WHERE c.movie_type_cd = t.movie_type_cd
+		AND movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectMovieGenreByCd" parameterType="str" resultType="str">
+		SELECT genre_name
+		FROM genre_c c, genre g 
+		WHERE c.genre_cd = g.genre_cd 
+		AND movie_cd = #{movie_cd}
+	</select>
+</mapper>

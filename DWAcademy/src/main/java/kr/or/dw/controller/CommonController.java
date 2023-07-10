@@ -1,5 +1,11 @@
 package kr.or.dw.controller;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -7,8 +13,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.command.IndexMovieCommand;
 import kr.or.dw.service.MemberService;
+import kr.or.dw.service.MovieService;
 
 @Controller
 public class CommonController {
@@ -17,6 +26,9 @@ public class CommonController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private MovieService movieService;
 	
 	@RequestMapping("/security/accessDenied")
 	public String accessDenied(HttpServletResponse res) throws Exception{
@@ -27,12 +39,26 @@ public class CommonController {
 		return url;
 	}
 	
-	@RequestMapping("/index")
-	public String index() {
-		return "/index";
+	@RequestMapping("/main")
+	public ModelAndView index(ModelAndView mnv) throws SQLException {
+		String url = "/main";
+		List<Map<String, Object>> movieListMap = null;
+		movieListMap = movieService.getIndexBoxOfficeMovie10();
+		
+		List<IndexMovieCommand> movieList = new ArrayList<>();
+		
+		for(Map<String, Object> movieMap : movieListMap) {
+			IndexMovieCommand imc = new IndexMovieCommand(movieMap);
+			movieList.add(imc);
+		}
+
+		mnv.addObject("movieList", movieList);
+		mnv.setViewName(url);
+		return mnv;
 		
 	}
 	
+
 	
 	
 	

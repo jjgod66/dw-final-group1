@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.SysAdminDAO">
+
+	<sql id="search">
+		<if test="searchType == 't'.toString()">
+			AND title LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchType == 'w'.toString()">
+			AND writer LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchType == 'c'.toString()">
+			AND content LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchType == 'tc'.toString()">
+			AND (
+				title LIKE '%' || #{keyword} || '%' 
+				OR 
+				content LIKE '%' || #{keyword} || '%'
+				)
+		</if>
+		<if test="searchType == 'cw'.toString()">
+			AND (
+				content LIKE '%' || #{keyword} || '%' 
+				OR 
+				writer LIKE '%' || #{keyword} || '%'
+				)
+		</if>
+		<if test="searchType == 'tcw'.toString()">
+			AND (
+				title LIKE '%' || #{keyword} || '%' 
+				OR
+				content LIKE '%' || #{keyword} || '%' 
+				OR 
+				writer LIKE '%' || #{keyword} || '%'
+				)
+		</if>
+	</sql>
+	
+	<select id="selectSearchTheaterList" resultType="theater">
+		SELECT t.*, a.admin_id, a.admin_pwd
+		  FROM theater t, admin a
+		 WHERE t.admin_cd = a.admin_cd
+		 <include refid="search" />
+		 ORDER BY regdate DESC
+		<!-- ORDER BY --> 
+	</select>
+	
+	<select id="selectSearchTheaterListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM theater
+		 WHERE 1=1
+		 <include refid="search" />
+	</select>
+	
+	<select id="selectLocList" resultType="str">
+		SELECT thr_loc
+		  FROM loc
+	</select>
+</mapper>

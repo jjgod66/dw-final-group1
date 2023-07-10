@@ -1358,3 +1358,20 @@ ALTER TABLE genre_c
 		REFERENCES movie (
 			movie_cd
 		);
+		
+/* 지역구분 */
+CREATE TABLE loc (
+	thr_loc VARCHAR2(50) NOT NULL /* 지역구분 */
+);
+
+CREATE UNIQUE INDEX PK_loc
+	ON loc (
+		thr_loc ASC
+	);
+
+ALTER TABLE loc
+	ADD
+		CONSTRAINT PK_loc
+		PRIMARY KEY (
+			thr_loc
+		);
