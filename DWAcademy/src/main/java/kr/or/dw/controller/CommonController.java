@@ -1,6 +1,7 @@
 package kr.or.dw.controller;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,11 @@ public class CommonController {
 		res.setStatus(302);
 		
 		return url;
+	}
+	
+	@RequestMapping("/common/logout")
+	public void logout(HttpSession session) {
+		
 	}
 	
 	@RequestMapping("/index")
