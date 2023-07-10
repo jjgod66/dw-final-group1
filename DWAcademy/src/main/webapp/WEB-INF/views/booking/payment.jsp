@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/payment.css">
 <!-- iamport.payment.js -->
@@ -26,7 +27,7 @@
 			</div>
 			<div class="col-md-6">
 				<div class="group_discount">
-					<h3 class="tit_payment">기프트카드</h3>
+					<h3 class="tit_payment">쿠폰</h3>
 					<div class="tab_wrap">
 					</div>
 				</div>
@@ -38,7 +39,7 @@
 							<dd class="amtValue"><span class="hasPoint">500000</span>원</dd>
 							
 							<dt class="secondTit"><label for="cjOnePointipt">사용할 포인트</label></dt>
-							<dd><input class="textBox2" type="text" id="cjOnePointipt">원</dd>
+							<dd><input class="textBox2" type="text" id="cjOnePointipt" value="0">원</dd>
 				
 							<dt class="secondTit"><input type="checkbox" class="form-check-input"  id="cjOnePointchk"></dt>
 							<dd><label for="cjOnePointchk">모두사용</label></dd>
@@ -49,7 +50,7 @@
 					<h3 class="tit_payment">결제수단</h3>
 					<div class="tab_wrap paylist">
 					  <input type="radio" class="btn-check" name="payMethod" id="html5_inicis" autocomplete="off" checked>
-					  <label class="btn btn-outline-primary paycard card" for="card">
+					  <label class="btn btn-outline-primary paycard card" for="html5_inicis">
 					  	<i class="ico-card bi bi-wallet2"></i>
 					  	<span class="paycard-title">카드 결제</span>
 					  </label>
@@ -59,6 +60,7 @@
 					  	<i class="ico-kakaopay"></i>
 					  	<span class="paycard-title">카카오페이 결제</span>
 					  </label>
+					 
 <!-- 						<div class="paycard card"> -->
 <!-- 							<i class="ico-card bi bi-wallet2"></i> -->
 <!-- 							<span class="paycard-title">카드 결제</span> -->
@@ -74,7 +76,7 @@
 				<div class="card card-payment p-3 text-white mb-3">
 					<span>상품 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow">${moviePayment.totalPrice }</h2> <span>원</span>
+						<h2 class="mb-0 yellow"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<span>할인 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
@@ -82,7 +84,7 @@
 					</div>
 					<span>결제 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow">${moviePayment.totalPrice }</h2> <span>원</span>
+						<h2 class="mb-0 yellow"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<button class="btn btn-success px-3" id="credit" onclick="requestPay();">결제하기</button>
 				</div>
@@ -99,7 +101,6 @@ IMP.init("imp04352208");
 let pay_info = null;
 function requestPay() { 
 	let method = $('input[name="payMethod"]:checked').prop('id');
-	console.log(method);
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
