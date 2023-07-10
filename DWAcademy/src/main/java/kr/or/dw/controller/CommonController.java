@@ -1,5 +1,7 @@
 package kr.or.dw.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -7,8 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.command.IndexMovieCommand;
 import kr.or.dw.service.MemberService;
+import kr.or.dw.service.MovieService;
 
 @Controller
 public class CommonController {
@@ -17,6 +22,9 @@ public class CommonController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private MovieService movieService;
 	
 	@RequestMapping("/security/accessDenied")
 	public String accessDenied(HttpServletResponse res) throws Exception{
@@ -28,8 +36,14 @@ public class CommonController {
 	}
 	
 	@RequestMapping("/index")
-	public String index() {
-		return "/index";
+	public ModelAndView index(ModelAndView mnv) {
+		String url = "/index";
+		
+		List<IndexMovieCommand> movieList = null;
+		
+		
+		mnv.setViewName(url);
+		return mnv;
 		
 	}
 	
