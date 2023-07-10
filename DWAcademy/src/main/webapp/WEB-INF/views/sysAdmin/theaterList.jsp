@@ -376,20 +376,11 @@ thead, tfoot {
 						type="button" value="초기화" id="frmRest" class="btn_medium grey">
 				</div>
 			</form>
-
-			<form name="fsellerlist" id="fsellerlist" method="post"
-				action="./seller/seller_list_update.php"
-				onsubmit="return fsellerlist_submit(this);">
-				<input type="hidden" name="q1" value="code=list"> <input
-					type="hidden" name="page" value="1">
-
 				<div class="local_ov mart30">
 					전체 : <b class="fc_red">${pageMaker.totalCount }</b> 건 조회
 				</div>
 				<div class="local_frm01 mt-3" style="float: right;">
-					<button class="btn_lsmall bx-white">지점 등록</button>
-<!-- 					<input type="submit" name="act_button" value="선택지점삭제" -->
-<!-- 						class="btn_lsmall bx-white" onclick="document.pressed=this.value"> -->
+					<button class="btn_lsmall bx-white" onclick="OpenWindow('theaterRegistForm.do', '지점 등록', 600, 500)">지점 등록</button>
 				</div>
 				<div class="tbl_head01">
 					<table>
@@ -405,37 +396,33 @@ thead, tfoot {
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col"><input type="checkbox" name="chkall"
-									value="1" onclick="check_all(this.form);"></th>
 								<th scope="col">영화관명 </th>
 								<th scope="col">지역구분</th>
 								<th scope="col">주소 </th>
 								<th scope="col">지역관리자아이디</th>
 								<th scope="col">지역관리자비밀번호 </th>
 								<th scope="col">전화번호</th>
+								<th scope="col">상영관 수</th>
 								<th scope="col">등록일시</th>
 							</tr>
 						</thead>
 						<tbody class="list">
 							<c:if test="${empty theaterList }">
 								<tr>
-									<td colspan="5">
+									<td colspan="12">
 										<strong>해당 내용이 없습니다.</strong>
 									</td>
 								</tr>
 							</c:if>
 							<c:forEach items="${theaterList }" var="thr">
 								<tr class="list0">
-									<td><input type="hidden" name="mb_id[0]" value="tubeweb2">
-										<input type="hidden" name="seller_code[0]" value="AP-100001">
-										<input type="checkbox" name="chk[]" value="0" >
-									</td>
 									<td>${thr.thr_name }</td>
 									<td>${thr.thr_loc }</td>
 									<td>${thr.thr_addr } ${thr.thr_addr_detail }</td>
 									<td>${thr.admin_id }</td>
 									<td>${thr.admin_pwd }</td>
 									<td>${thr.thr_tel }</td>
+									<td>1234</td>
 									<td><fmt:formatDate value='${thr.regdate }' pattern='yyyy-MM-dd'/></td>
 								</tr>
 							</c:forEach>
@@ -445,32 +432,11 @@ thead, tfoot {
 				<div>
 					<%@ include file="../common/pagination.jsp" %>
 				</div>
-			</form>
+			
 
 			<script>
-				function fsellerlist_submit(f) {
-					if (!is_checked("chk[]")) {
-						alert(document.pressed + " 하실 항목을 하나 이상 선택하세요.");
-						return false;
-					}
-					if (document.pressed == "선택삭제") {
-						if (!confirm("선택한 자료를 정말 삭제하시겠습니까?")) {
-							return false;
-						}
-					}
-					return true;
-				}
-
 				$(function() {
-					// 날짜 검색 : TODAY MAX값으로 인식 (maxDate: "+0d")를 삭제하면 MAX값 해제
-					$("#fr_date, #to_date").datepicker({
-						changeMonth : true,
-						changeYear : true,
-						dateFormat : "yy-mm-dd",
-						showButtonPanel : true,
-						yearRange : "c-99:c+99",
-						maxDate : "+0d"
-					});
+					
 				});
 			</script>
 		</div>
