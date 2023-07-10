@@ -2,6 +2,8 @@ package kr.or.dw.vo;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 @Data
@@ -10,10 +12,13 @@ public class MemberVO {
 	private String mem_cd;
 	private String mem_id;
 	private String mem_pwd;
+	private String pwd_re;
 	private String mem_email;
 	private String mem_name;
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date mem_bir;
 	private String mem_phone;
+	private int mem_zipcode;
 	private String mem_addr;
 	private String mem_addr_detail;
 	private String gb_sms_alert;

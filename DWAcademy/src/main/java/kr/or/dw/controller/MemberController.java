@@ -26,7 +26,10 @@ public class MemberController {
 	MemberService memberService;
 	
 	@RequestMapping("/member/join")
-	public void join(MemberVO memVO, HttpServletRequest req, HttpServletResponse res) throws IOException {
+	public void join(MemberVO memVO, HttpServletRequest req, HttpServletResponse res) throws Exception {
+		System.out.println("test");
+		
+		
 		memberService.join(memVO);
 		
 		res.setContentType("text/html; charset=utf-8");
