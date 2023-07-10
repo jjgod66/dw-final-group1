@@ -23,18 +23,20 @@ public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 	
 	@Autowired
-	MemberService memberService;
+	private MemberService memberService;
 	
 	@RequestMapping("/member/join")
-	public void join(MemberVO memVO, HttpServletRequest req, HttpServletResponse res) throws IOException {
+	public void join(MemberVO memVO, HttpServletRequest req, HttpServletResponse res) throws Exception {
+		System.out.println("test");
+		
+		
 		memberService.join(memVO);
 		
 		res.setContentType("text/html; charset=utf-8");
 	    PrintWriter out = res.getWriter();
 	    out.println("<script>");
 	    out.println("alert('회원가입이 정상적으로 되었습니다.');");
-	    out.println("window.opener.location.href='" + req.getContextPath() + "/';");
-	    out.println("window.close();");
+	    out.println("location.href='" + req.getContextPath() + "/main.do';");
 	    out.println("</script>");
 	}
 	

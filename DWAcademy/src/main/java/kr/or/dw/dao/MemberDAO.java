@@ -13,4 +13,7 @@ public interface MemberDAO {
 	// 회원가입
 	void insert(MemberVO memVO);
 
+	// 회원의 마지막 로그인 날짜
+	void updateLastLoginDt(String id);
+
 }

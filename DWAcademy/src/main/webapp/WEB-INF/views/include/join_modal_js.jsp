@@ -95,29 +95,28 @@
 			alert('아이디를 입력해주세요.')
 			input_ID.focus();
 			return;
-		}
-		
+		};
 		if(checkedID != input_ID.val()){
 			alert('아이디 중복확인을 해주세요.');
 			return;
-		}
+		};
 		if(!pwdCheck){
 			alert('비밀번호를 양식에 맞게 입력해주세요.');
 			input_pwd.focus();
 			return;
-		}
+		};
 		if(!pwdReCheck){
 			alert('비밀번호 확인의 비밀번호가 다릅니다!');
 			input_pwdRe.focus();
 			return;
-		}
+		};
 		if(!emailCheck){
 			alert('이메일을 양식에 맞게 입력해주세요.')
 			input_email.focus();
 			return;
-		}
+		};
 		
-		$('form[role=form]').submit();
+		$('form[role="joinForm"]').submit();
 	}
 	
 	

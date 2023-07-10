@@ -18,7 +18,7 @@
 </style>
 
 <div id="ft">
-	<p>adminDw © dwCinema. 2023 final project.</p>
+	<p>Dw Admin Account © dwCinema. 2023 final project.</p>
 </div>
 
 

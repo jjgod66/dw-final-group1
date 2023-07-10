@@ -38,7 +38,7 @@ public class SysAdminController {
 		mnv.setViewName(url);
 		return mnv;
 	}
-	
+
 	@RequestMapping("/theaterList")
 	public ModelAndView placeAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException {
 		String url = "/sysAdmin/theaterList";
@@ -47,6 +47,13 @@ public class SysAdminController {
 		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
 		return mnv;
+	}
+	
+
+	@GetMapping("/adminCinemaMain")
+	public String adminCinemaMain() {
+		String url = "/sysAdmin/adminCinemaMain";
+		return url;
 	}
 	
 	@RequestMapping("/theaterRegistForm")
@@ -80,10 +87,39 @@ public class SysAdminController {
 		out.flush();
 		out.close();
 	}
-	
-	@GetMapping("/adminCinemaMain")
-	public String adminCinemaMain() {
-		String url = "/sysAdmin/adminCinemaMain";
+	@GetMapping("/movieAdmin")
+	public String movieAdmin() {
+		String url = "/sysAdmin/movieAdmin";
+		return url;
+	}
+	@GetMapping("/customerAdmin")
+	public String customerAdmin() {
+		String url = "/sysAdmin/customerAdmin";
+		return url;
+	}
+	@GetMapping("/eventAdmin")
+	public String eventAdmin() {
+		String url = "/sysAdmin/eventAdmin";
+		return url;
+	}
+	@GetMapping("/storeAdmin")
+	public String storeAdmin() {
+		String url = "/sysAdmin/storeAdmin";
+		return url;
+	}
+	@GetMapping("/eventAdminPast")
+	public String eventAdminPast() {
+		String url="/sysAdmin/eventAdminPast";
+		return url;
+	}
+	@GetMapping("/eventAdminWinner")
+	public String eventAdminWinner() {
+		String url="/sysAdmin/eventAdminWinner";
+		return url;
+	}
+	@GetMapping("/eventRegist")
+	public String eventRegist() {
+		String url="/sysAdmin/eventRegist";
 		return url;
 	}
 	
