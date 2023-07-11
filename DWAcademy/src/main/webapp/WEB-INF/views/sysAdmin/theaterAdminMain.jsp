@@ -385,25 +385,27 @@ thead, tfoot {
 				<div class="tbl_head01">
 					<table>
 						<colgroup>
-							<col class="w50">
 							<col class="w100">
 							<col class="w100">
-							<col class="w300">
-							<col class="w130">
-							<col class="w130">
+							<col class="w150">
+							<col class="w80">
+							<col class="w80">
 							<col class="w100">
-							<col class="w130">
+							<col class="w80">
+							<col class="w100">
+							<col class="w80">
 						</colgroup>
 						<thead>
 							<tr>
 								<th scope="col">영화관명 </th>
 								<th scope="col">지역구분</th>
 								<th scope="col">주소 </th>
-								<th scope="col">지역관리자아이디</th>
-								<th scope="col">지역관리자비밀번호 </th>
+								<th scope="col">지점관리자아이디</th>
+								<th scope="col">지점관리자비밀번호 </th>
 								<th scope="col">전화번호</th>
 								<th scope="col">상영관 수</th>
 								<th scope="col">등록일시</th>
+								<th scope="col">비활성화여부</th>
 							</tr>
 						</thead>
 						<tbody class="list">
@@ -424,6 +426,7 @@ thead, tfoot {
 									<td>${thr.thr_tel }</td>
 									<td>1234</td>
 									<td><fmt:formatDate value='${thr.regdate }' pattern='yyyy-MM-dd'/></td>
+									<td>${thr.gb_del }</td>
 								</tr>
 							</c:forEach>
 						</tbody>
