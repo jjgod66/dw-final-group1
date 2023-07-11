@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/header.jsp" %>
 <%
 String movieCd = request.getParameter("movieCd");
@@ -50,27 +51,95 @@ if (movieCd == null) {
             <div class="group_top"><h4 class="tit">영화관 선택</h4></div>
             <div class="inner">
                 <ul class="cinema-list">
-                    <li class="cinema-click">
-                        <a href="javascript:;">서울 <em>(1)</em></a>
+                    <li class="cinema-click likeThr">
+                        <a href="javascript:;">선호극장<em>(0)</em></a>
                         <div class="depth2">
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
                                 <li class=""><a href="#all">전체</a></li>
                             </ul>
                         </div>
                     </li>
-                    <li class="cinema-click">
-                        <a href="javascript:;">대전 <em>(1)</em></a>
+                     <li class="cinema-click se">
+                        <a href="javascript:;">서울 <em>(0)</em></a>
                         <div class="depth2">
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
-                                <li class=""><a href="#all">전체</a></li>
+	                            <c:forEach items="${allTheater }" var="thr">
+	                            	<c:if test="${thr.THR_LOC eq '서울'}">
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+	                            	</c:if>
+	                            </c:forEach>
                             </ul>
                         </div>
                     </li>
-                    <li class="cinema-click">
-                        <a href="javascript:;">선호극장<em>(1)</em></a>
+                    <li class="cinema-click ga">
+                        <a href="javascript:;">강원 <em>(0)</em></a>
                         <div class="depth2">
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
-                                <li class=""><a href="#all">전체</a></li>
+                                <c:forEach items="${allTheater }" var="thr">
+	                            	<c:if test="${thr.THR_LOC eq '강원'}">
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+	                            	</c:if>
+	                            </c:forEach>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="cinema-click gy">
+                        <a href="javascript:;">경기 <em>(0)</em></a>
+                        <div class="depth2">
+                            <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
+                                <c:forEach items="${allTheater }" var="thr">
+	                            	<c:if test="${thr.THR_LOC eq '경기'}">
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+	                            	</c:if>
+	                            </c:forEach>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="cinema-click gw">
+                        <a href="javascript:;">광주/전라 <em>(0)</em></a>
+                        <div class="depth2">
+                            <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
+                                <c:forEach items="${allTheater }" var="thr">
+	                            	<c:if test="${thr.THR_LOC eq '광주/전라'}">
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+	                            	</c:if>
+	                            </c:forEach>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="cinema-click da">
+                        <a href="javascript:;">대전/충청 <em>(0)</em></a>
+                        <div class="depth2">
+                            <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
+                                <c:forEach items="${allTheater }" var="thr">
+	                            	<c:if test="${thr.THR_LOC eq '대전/충청'}">
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+	                            	</c:if>
+	                            </c:forEach>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="cinema-click bu">
+                        <a href="javascript:;">부산/대구/경상 <em>(0)</em></a>
+                        <div class="depth2">
+                            <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
+                                <c:forEach items="${allTheater }" var="thr">
+	                            	<c:if test="${thr.THR_LOC eq '부산/대구/경상'}">
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+	                            	</c:if>
+	                            </c:forEach>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="cinema-click je">
+                        <a href="javascript:;">제주 <em>(0)</em></a>
+                        <div class="depth2">
+                            <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
+                                <c:forEach items="${allTheater }" var="thr">
+	                            	<c:if test="${thr.THR_LOC eq '제주'}">
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+	                            	</c:if>
+	                            </c:forEach>
                             </ul>
                         </div>
                     </li>
@@ -114,19 +183,54 @@ $(function(){
 			}
 			
 		}
+		let movie_cd = "${movie_cd}";
+		let date = $('.btnDay.active').data('dt');
+		console.log(date);
+		$.ajax({
+			url : '<%=request.getContextPath()%>/reservation/movieTheater.do',
+			method : 'post',
+			data : {"movie_cd" : movie_cd, "date" : date},
+			success : function(res){
+				console.log(res);
+				divLoc(res);
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
 	}
 
 	$('.mvList').on('click', '.btnMovie a', function(){
+		$('.cinema-click').removeClass('active');
 		$('.btnMovie').removeClass('active');
 		$(this).parents('.btnMovie').addClass('active');
-		let movie_cd = this.data('moviecd');
-		
+		let movie_cd = $(this).data('moviecd');
+		let date = $('.btnDay.active').data('dt');
 		$.ajax({
-			url : '/movieTheater.do',
+			url : '<%=request.getContextPath()%>/reservation/movieTheater.do',
 			method : 'post',
-			data : movie_cd,
+			data : {"movie_cd" : movie_cd, "date" : date},
 			success : function(res){
 				console.log(res);
+				divLoc(res);
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
+	
+	$('.btnDay').on('click', function(){
+		$('.cinema-click').removeClass('active');
+		let movie_cd = $('.btnMovie.active a').data('moviecd');
+		let date = $(this).data('dt');
+		$.ajax({
+			url : '<%=request.getContextPath()%>/reservation/movieTheater.do',
+			method : 'post',
+			data : {"movie_cd" : movie_cd, "date" : date},
+			success : function(res){
+				console.log(res);
+				divLoc(res);
 			},
 			error : function(err){
 				alert(err.status);
@@ -135,7 +239,52 @@ $(function(){
 	})
 })
 
+let likeThrNum = 0;
 
+//해당 영화를 상영하는 영화관을 보여주는 함수
+function divLoc(res){
+	$('.depth2 a').removeClass('container-able');
+	$('.depth2 a').addClass('container-disable');
+	$('.depth2 a').css('color', 'gray');
+	let seNum = 0;
+	let gwNum = 0;
+	let gyNum = 0;
+	let gaNum = 0;
+	let daNum = 0;
+	let buNum = 0;
+	let jeNum = 0;
+	for(let i = 0; i < res.length; i++){
+		if(res[i].THR_LOC == "강원"){
+			gaNum++;
+		}else if(res[i].THR_LOC == "경기"){
+			gyNum++;
+		}else if(res[i].THR_LOC == "광주/전라"){
+			gwNum++;
+		}else if(res[i].THR_LOC == "서울"){
+			seNum++;
+		}else if(res[i].THR_LOC == "대전/충청"){
+			daNum++;
+		}else if(res[i].THR_LOC == "부산/대구/경상"){
+			buNum++;
+		}else if(res[i].THR_LOC == "제주"){
+			jeNum++;
+		}
+		
+		$('#' + res[i].THR_NAME).removeClass('container-disable');
+		$('#' + res[i].THR_NAME).addClass('container-able')
+		$('#' + res[i].THR_NAME).css('color', 'black');
+	}
+
+	$('.se a em').text("(" + seNum + ")");
+	$('.ga a em').text("(" + gaNum + ")");
+	$('.gy a em').text("(" + gyNum + ")");
+	$('.gw a em').text("(" + gwNum + ")");
+	$('.da a em').text("(" + daNum + ")");
+	$('.bu a em').text("(" + buNum + ")");
+	$('.je a em').text("(" + jeNum + ")");
+ 
+
+}
 
 // 요일 한글로 변환 함수
 function getKoreanDayOfWeek(dayOfWeek) {
