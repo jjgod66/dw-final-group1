@@ -73,15 +73,20 @@ if (CategoryIdx == null) {
                     총 상품금액<strong class="txt_price_str"><span class="totalprice">${product.product_price}</span><em>원</em></strong>
                 </div>
                 <div class="btn_wrap">
-                    <button class="btn_col2 ty7">선물하기</button>
-                    <button class="btn_col1 ty7">구매하기</button>
+                    <button class="btn_col2 ty7" id="gift">선물하기</button>
+                    <button class="btn_col1 ty7" id="buy">구매하기</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<form method="post" id="payForm">
+	<input type="hidden" name="product_cd" value="${product.product_cd }">
+	<input type="hidden" name="amount">
+</form>
 <script>
 	$(function(){
+		let totalprice = 0;
 		let amount = $('.txt_num').text();
 		let price = ${product.product_price};
 		$('.totalprice').text(price.toLocaleString());
@@ -89,7 +94,7 @@ if (CategoryIdx == null) {
 		$('.btn_plus').on('click', function(){
 			amount++;
 			$('.txt_num').text(amount);
-			let totalprice = amount*price;
+			totalprice = amount*price;
 			$('.totalprice').text(totalprice.toLocaleString());
 
 		});
@@ -98,10 +103,23 @@ if (CategoryIdx == null) {
 			if(amount > 1){
 				amount--;
 				$('.txt_num').text(amount);
-				let totalprice = amount*price;
+				totalprice = amount*price;
 				$('.totalprice').text(totalprice.toLocaleString());
 			}
 		});
+		
+		$('#buy').on('click', function(){
+			$('#payForm').prop('action', 'buyForm.do');
+			$('input[name="totalprice"]').val(totalprice.toLocaleString());
+			$('input[name="amount"]').val(amount);
+			$('#payForm').submit();
+		})
+		
+		$('#gift').on('click', function(){
+			$('#payForm').prop('action', 'giftForm.do');
+			$('input[name="amount"]').val(amount);
+			$('#payForm').submit();
+		})
 		
 		
 

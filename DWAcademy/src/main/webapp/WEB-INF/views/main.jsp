@@ -27,7 +27,7 @@
 <%-- 	                                        <span class="txt_tag">${movie.movie_grade}</span> --%>
 	                                        <div class="movieChart_btn_wrap">
 	                                            <a href="/movie/viewer.do?movie_cd=${movie.movie_cd}" class="btn_movieChart_detail">상세보기</a>
-	                                            <a href="/booking/movie.do?movie_cd=${movie.movie_cd}" class="btn_movieChart_ticketing">예매하기</a>
+	                                            <a href="/reservation/cinema.do?movie_cd=${movie.movie_cd}" class="btn_movieChart_ticketing">예매하기</a>
 	                                        </div>
 	                                    </div>
 	                                </div>

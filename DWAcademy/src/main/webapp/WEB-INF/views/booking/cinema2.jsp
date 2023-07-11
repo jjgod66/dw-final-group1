@@ -11,49 +11,29 @@ if (movieCd == null) {
     <h3>예매하기</h3>
     <h6>ticket reservation</h6>
 </div>
-<!-- <div class="container"> -->
-<!--     <div class="schedule-tab"> -->
-<!--         <ul> -->
-<!--             <li class="btn-schedule active"><button type="button" class="tab_tit" style="width: 50%; left: 0%;" data-tablist="cinema"><span>영화관별 상영시간표</span></button></li> -->
-<!--             <li class="btn-schedule"><button type="button" class="tab_tit" style="width: 50%; left: 50%;" data-tablist="movie"><span>영화별 상영시간표</span></button></li> -->
-<!--         </ul> -->
-<!--     </div> -->
-<!-- </div> -->
-<div class="main-schedule" id="movie-schedule" style="padding: 0;">
+<div class="container">
+    <div class="schedule-tab">
+        <ul>
+            <li class="btn-schedule active"><button type="button" class="tab_tit" style="width: 50%; left: 0%;" data-tablist="cinema"><span>영화관별 상영시간표</span></button></li>
+            <li class="btn-schedule"><button type="button" class="tab_tit" style="width: 50%; left: 50%;" data-tablist="movie"><span>영화별 상영시간표</span></button></li>
+        </ul>
+    </div>
+</div>
+<div class="main-schedule" id="movie-schedule">
     <div class="container">
         <form class="reservationForm" method="get">
         <input type="hidden" name="movieCd" value="<%=movieCd%>">
         <input type="hidden" name="movieDay" value="">
         <input type="hidden" name="movieTime" value="">
-        <div class="movie-select" style="width: 20%;">
-            <div class="group_top" ><h4 class="tit">영화 선택</h4></div>
-                <div class="mvList" style="height: 760px; overflow-y: auto; overflow-x:hidden">
-                    <ul>
-                        <li class="btnMovie">
-                            <a href="#none" data-moviecd="AN202306140002">
-                                <div class="group_infor">
-                                    <div class="bx_tit"><span class="movieIcon etc ageAll">All</span><strong class="tit">엘리멘탈</strong></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="btnMovie">
-                            <a href="#none" data-moviecd="AC202305310008">
-                                <div class="group_infor">
-                                    <div class="bx_tit"><span class="movieIcon etc age15">15</span><strong class="tit">범죄도시 3</strong></div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        <div class="cinema-select" style="width: 30%;">
+        
+        <div class="cinema-select">
             <div class="group_top"><h4 class="tit">영화관 선택</h4></div>
             <div class="inner">
                 <ul class="cinema-list">
                     <li class="cinema-click active">
                         <a href="javascript:;">서울 <em>(1)</em></a>
                         <div class="depth2">
-                            <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
+                            <ul>
                                 <li class=""><a href="#all">전체</a></li>
                             </ul>
                         </div>
@@ -61,7 +41,7 @@ if (movieCd == null) {
                     <li class="cinema-click">
                         <a href="javascript:;">대전 <em>(1)</em></a>
                         <div class="depth2">
-                            <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
+                            <ul>
                                 <li class=""><a href="#all">전체</a></li>
                             </ul>
                         </div>
@@ -69,7 +49,7 @@ if (movieCd == null) {
                 </ul>
             </div>
         </div>
-        <div class="cinema-calendar" style="width: 50%;">
+        <div class="cinema-calendar">
             <div class="group_top"><h4 class="tit">상영시간표</h4></div>
                 <div class="schedule-slider">
                     <div class="swiper-container">
@@ -80,16 +60,15 @@ if (movieCd == null) {
                     <div class="swiper-button-prev"></div>
                 </div>
                 <div class="mvTimeLine">
-               	 <div class="bx_notice"><p>영화와 극장을 선택해주세요.</p></div>
-<!--                     <div class="bx_notice" style="display: none;"><p>영화를 선택해주세요.</p></div> -->
-<!--                     <div class="timelist" style="display: block;"> -->
-<!--                         <div class="time_select_tit"><span class="movieIcon etc ageAll">All</span><strong>엘리멘탈</strong></div> -->
-<!--                         <div class="row" id="movie-list-1"> -->
-<!--                         </div> -->
-<!--                         <div class="time_select_tit"><span class="movieIcon etc age15">15</span><strong>범죄도시3</strong></div> -->
-<!--                         <div class="row" id="movie-list-2"> -->
-<!--                         </div> -->
-<!--                     </div> -->
+                    <div class="bx_notice" style="display: none;"><p>영화를 선택해주세요.</p></div>
+                    <div class="timelist" style="display: block;">
+                        <div class="time_select_tit"><span class="movieIcon etc ageAll">All</span><strong>엘리멘탈</strong></div>
+                        <div class="row" id="movie-list-1">
+                        </div>
+                        <div class="time_select_tit"><span class="movieIcon etc age15">15</span><strong>범죄도시3</strong></div>
+                        <div class="row" id="movie-list-2">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -97,18 +76,6 @@ if (movieCd == null) {
     </div>
 </div>
 <script>
-
-$(function(){
-	if($('movie_cd') != "" && $('movie_cd') != null){
-		for(let i = 0; i < $('li .btnMovie > a').length; i++){
-			if($('li .btnMovie > a')[i].dataset.moviecd)
-			
-		}
-	}
-})
-
-
-
 // 요일 한글로 변환 함수
 function getKoreanDayOfWeek(dayOfWeek) {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
@@ -315,7 +282,7 @@ function createMovieTimes(theaterNumber, selectedDate) {
         return;
       }
 
-      location.href = '/reservation/detail.do';
+      location.href = '/booking/detail.do';
 
       var clickedButton = event.target;
 

@@ -5,42 +5,35 @@
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>    
 <div class="sub_visual">
-  	<h3>예매하기</h3>
-    <h6>ticket reservation</h6>
+  	<h3>구매하기</h3>
+    <h6>store buy</h6>
 </div>
 <div class="payment-wrapper">
 	<div class="container py-5">
 		<div class="row">
 			<div class="col-md-3">
 				<div class="movie_infor">
-					<span class="thm"><img src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202306/19438_104_1.jpg" alt="엘리멘탈"></span>
-					<strong class="tit"><span class="ic_grade gr_all"></span>&nbsp;엘리멘탈(2D자막)</strong>
+					<span class="thm"><img src="../../resources/img/store/${product.product_pic_path }" alt="${product.product_name }"></span>
+					<strong class="tit"><span class="ic_grade gr_all"></span>&nbsp;${product.product_name }</strong>
 					<dl class="dlist_infor">
-						<dt>일시</dt>
-						<dd><strong>2023-07-05 (수) 22:15 ~ 24:14</strong></dd>
-						<dt>영화관</dt>
-						<dd>가산디지털 5관 - 2D</dd>
-						<dt>인원</dt>
+						<dt>상품</dt>
+						<dd><strong>${product.product_content }</strong></dd>
+<!-- 						<dt>영화관</dt> -->
+<!-- 						<dd>가산디지털 5관 - 2D</dd> -->
+						<dt>수량</dt>
 						<dd>
-							${moviePayment.adultSeat > 0 ? '성인 '  : '' } ${moviePayment.adultSeat > 0 ? moviePayment.adultSeat : '' }
-							${moviePayment.teenSeat > 0 ? '청소년 '  : '' } ${moviePayment.teenSeat > 0 ? moviePayment.teenSeat : '' }
-							${moviePayment.preferSeat > 0 ? '우대 '  : '' } ${moviePayment.preferSeat > 0 ? moviePayment.preferSeat : '' }
+							${amount }
 						</dd>
 					</dl>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="group_discount">
-					<h3 class="tit_payment">쿠폰</h3>
-					<div class="tab_wrap">
-					</div>
-				</div>
-				<div class="group_discount">
-					<h3 class="tit_payment">할인/포인트</h3>
+					<h3 class="tit_payment">포인트</h3>
 					<div class="tab_wrap">
 						<div class="inner_con2">
 							<dt><label class="noneInput">보유 포인트</label></dt>
-							<dd class="amtValue"><span class="hasPoint">500000</span>원</dd>
+							<dd class="amtValue"><span class="hasPoint">0</span>원</dd>
 							
 							<dt class="secondTit"><label for="cjOnePointipt">사용할 포인트</label></dt>
 							<dd><input class="textBox2" type="text" id="cjOnePointipt" value="0">원</dd>
@@ -64,15 +57,6 @@
 					  	<i class="ico-kakaopay"></i>
 					  	<span class="paycard-title">카카오페이 결제</span>
 					  </label>
-					 
-<!-- 						<div class="paycard card"> -->
-<!-- 							<i class="ico-card bi bi-wallet2"></i> -->
-<!-- 							<span class="paycard-title">카드 결제</span> -->
-<!-- 						</div> -->
-<!-- 						<div class="paycard card kakaopay"> -->
-<!-- 							<i class="ico-kakaopay"></i> -->
-<!-- 							<span class="paycard-title">카카오페이 결제</span> -->
-<!-- 						</div> -->
 					</div>
 				</div>
 			</div>
@@ -80,7 +64,7 @@
 				<div class="card card-payment p-3 text-white mb-3">
 					<span>상품 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow"><fmt:formatNumber value="" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<span>할인 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
@@ -88,7 +72,7 @@
 					</div>
 					<span>결제 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow"><fmt:formatNumber value="" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<button class="btn btn-success px-3" id="credit" onclick="requestPay();">결제하기</button>
 				</div>

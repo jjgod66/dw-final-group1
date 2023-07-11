@@ -51,4 +51,27 @@ public class StoreController {
 		return mnv;
 	}
 	
+	@RequestMapping("/buyForm")
+	public ModelAndView buyForm(ModelAndView mnv, String product_cd, int amount) throws SQLException {
+		String url = "/store/buyForm";
+		ProductVO product = null;
+		product = storeService.selectProDetail(product_cd);
+		
+		mnv.addObject("product", product);
+		mnv.addObject("amount", amount);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/giftForm")
+	public ModelAndView giftForm(ModelAndView mnv, String product_cd, int amount) throws SQLException {
+		String url = "/store/giftForm";
+		ProductVO product = null;
+		product = storeService.selectProDetail(product_cd);
+		
+		mnv.addObject("product", product);
+		mnv.addObject("amount", amount);
+		mnv.setViewName(url);
+		return mnv;
+	}
 }
