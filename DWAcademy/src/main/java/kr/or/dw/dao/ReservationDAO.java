@@ -28,6 +28,8 @@ public interface ReservationDAO {
 
 	List<Map<String, String>> selectMovieTheater(Map<String, String> data) throws SQLException;
 
-	List<ScreenSchedualCommand> selectScreenSchedual(Map<String, Object> data) throws SQLException;
+	List<Map<String, Object>> selectScreenSchedual(Map<String, Object> data) throws SQLException;
+
+	int buySeatCount(String screen_cd) throws SQLException;
 
 }

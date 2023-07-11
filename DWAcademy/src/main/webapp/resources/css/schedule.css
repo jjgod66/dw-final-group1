@@ -287,3 +287,23 @@
   pointer-events : auto;
   
 }
+.mvTimeLine { padding: 0; background: #fff; }
+.mvTimeLine ul {
+    margin: 0;
+    padding: 0;
+}
+.mvTimeLine ul > li {
+    box-sizing: border-box;
+    border: 2px solid transparent;
+}
+.mvTimeLine ul > li.active {
+    border: 2px solid #000;
+    background-color: #FFF;
+}
+.mvTimeLine ul > li > a {
+    display: block;
+    position: relative;
+    box-sizing: border-box;
+    padding: 15px 20px;
+    color: #000;
+}

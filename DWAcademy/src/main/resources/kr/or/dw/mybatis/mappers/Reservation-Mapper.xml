@@ -25,6 +25,20 @@
 	</select>
 	
 	<select id="selectScreenSchedual" resultType="Map">
-		SELECT 
+		SELECT *
+		FROM (
+			SELECT *
+			FROM screen
+			WHERE movie_cd = #{movie_cd}
+			AND TO_char(startdate, 'YYYY-MM-DD') = #{date}
+			) a, house h
+		WHERE a.house_no = h.house_no
+		AND thr_name = #{thr_name}
+	</select>
+	
+	<select id="buySeatCount" resultType="int">
+		SELECT count(*) buySeat
+		FROM reservation r
+		WHERE screen_cd = #{screen_cd}
 	</select>
 </mapper>
