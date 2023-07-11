@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.dao.ReservationDAO;
 
 public class ReservationServiceImpl implements ReservationService{
@@ -35,6 +36,15 @@ public class ReservationServiceImpl implements ReservationService{
 		List<Map<String, Object>> allTheaterList = null;
 		allTheaterList = reservationDAO.selectAllTheater();
 		return allTheaterList;
+	}
+
+	@Override
+	public List<ScreenSchedualCommand> getScreenSchedual(Map<String, Object> data) throws SQLException {
+		List<ScreenSchedualCommand> screenScedual = null;
+		
+		screenScedual = reservationDAO.selectScreenSchedual(data);
+		
+		return screenScedual;
 	}
 
 }

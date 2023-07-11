@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.dw.command.ScreenSchedualCommand;
+
 public interface ReservationService {
 
 	/**
@@ -19,5 +21,12 @@ public interface ReservationService {
 	 * @return
 	 */
 	List<Map<String, Object>> getAllTheater() throws SQLException;
+
+	/**
+	 * 영화코드, 날짜, 지점에 따른 상영 시간표 가져오는 메서드
+	 * @param data
+	 * @return
+	 */
+	List<ScreenSchedualCommand> getScreenSchedual(Map<String, Object> data) throws SQLException;
 
 }

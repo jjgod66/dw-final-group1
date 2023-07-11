@@ -65,7 +65,7 @@ if (movieCd == null) {
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
 	                            <c:forEach items="${allTheater }" var="thr">
 	                            	<c:if test="${thr.THR_LOC eq '서울'}">
-		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable theater" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
 	                            	</c:if>
 	                            </c:forEach>
                             </ul>
@@ -77,7 +77,7 @@ if (movieCd == null) {
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
                                 <c:forEach items="${allTheater }" var="thr">
 	                            	<c:if test="${thr.THR_LOC eq '강원'}">
-		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable theater" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
 	                            	</c:if>
 	                            </c:forEach>
                             </ul>
@@ -89,7 +89,7 @@ if (movieCd == null) {
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
                                 <c:forEach items="${allTheater }" var="thr">
 	                            	<c:if test="${thr.THR_LOC eq '경기'}">
-		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable theater" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
 	                            	</c:if>
 	                            </c:forEach>
                             </ul>
@@ -101,7 +101,7 @@ if (movieCd == null) {
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
                                 <c:forEach items="${allTheater }" var="thr">
 	                            	<c:if test="${thr.THR_LOC eq '광주/전라'}">
-		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable theater" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
 	                            	</c:if>
 	                            </c:forEach>
                             </ul>
@@ -113,7 +113,7 @@ if (movieCd == null) {
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
                                 <c:forEach items="${allTheater }" var="thr">
 	                            	<c:if test="${thr.THR_LOC eq '대전/충청'}">
-		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable theater" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
 	                            	</c:if>
 	                            </c:forEach>
                             </ul>
@@ -125,7 +125,7 @@ if (movieCd == null) {
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
                                 <c:forEach items="${allTheater }" var="thr">
 	                            	<c:if test="${thr.THR_LOC eq '부산/대구/경상'}">
-		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable theater" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
 	                            	</c:if>
 	                            </c:forEach>
                             </ul>
@@ -137,7 +137,7 @@ if (movieCd == null) {
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
                                 <c:forEach items="${allTheater }" var="thr">
 	                            	<c:if test="${thr.THR_LOC eq '제주'}">
-		                                <li class=""><a href="#" style="color: gray;" class="container-disable" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
+		                                <li class=""><a href="#" style="color: gray;" class="container-disable theater" id="${thr.THR_NAME }">${thr.THR_NAME }</a></li>
 	                            	</c:if>
 	                            </c:forEach>
                             </ul>
@@ -191,7 +191,6 @@ $(function(){
 			method : 'post',
 			data : {"movie_cd" : movie_cd, "date" : date},
 			success : function(res){
-				console.log(res);
 				divLoc(res);
 			},
 			error : function(err){
@@ -211,7 +210,6 @@ $(function(){
 			method : 'post',
 			data : {"movie_cd" : movie_cd, "date" : date},
 			success : function(res){
-				console.log(res);
 				divLoc(res);
 			},
 			error : function(err){
@@ -229,7 +227,6 @@ $(function(){
 			method : 'post',
 			data : {"movie_cd" : movie_cd, "date" : date},
 			success : function(res){
-				console.log(res);
 				divLoc(res);
 			},
 			error : function(err){
@@ -237,6 +234,26 @@ $(function(){
 			}
 		})
 	})
+	
+	$('.theater').on('click', function(){
+		let thr_name = $(this).prop('id');
+		let movie_cd = $('.btnMovie.active a').data('moviecd');
+		let date = $('.btnDay.active').data('dt');
+		
+		$.ajax({
+			url : '<%=request.getContextPath()%>/reservation/theaterScreen.do',
+			method : 'post',
+			data : {"thr_name" : thr_name, "movie_cd" : movie_cd, "date" : date},
+			success : function(res){
+				console.log(res);
+			},
+			error : function(err){
+				alert(err.status);
+			}
+			
+		})
+	})
+	
 })
 
 let likeThrNum = 0;

@@ -1,6 +1,7 @@
 package kr.or.dw.controller;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.MoviePaymentCommand;
+import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.service.ReservationService;
 
 
@@ -78,6 +80,21 @@ public class ReservationController {
 			entity = new ResponseEntity<List<Map<String,String>>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
+		
+		return entity;
+	}
+	
+	@RequestMapping("/theaterScreen")
+	public ResponseEntity<List<ScreenSchedualCommand>> theaterScreen(String movie_cd, String date, String thr_name) throws SQLException{
+		ResponseEntity<List<ScreenSchedualCommand>> entity = null;
+		
+		List<ScreenSchedualCommand> screenSchedual = null;
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("movie_cd", movie_cd);
+		data.put("date", date);
+		data.put("thr_name", thr_name);
+		
+		screenSchedual = reservationService.getScreenSchedual(data);
 		
 		return entity;
 	}
