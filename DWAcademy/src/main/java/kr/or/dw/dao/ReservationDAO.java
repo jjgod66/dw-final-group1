@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.or.dw.command.ScreenSchedualCommand;
+
 @Mapper
 public interface ReservationDAO {
 
@@ -25,5 +27,7 @@ public interface ReservationDAO {
 	List<Map<String, Object>> selectAllTheater() throws SQLException;
 
 	List<Map<String, String>> selectMovieTheater(Map<String, String> data) throws SQLException;
+
+	List<ScreenSchedualCommand> selectScreenSchedual(Map<String, Object> data) throws SQLException;
 
 }
