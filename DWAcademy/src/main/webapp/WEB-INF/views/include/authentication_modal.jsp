@@ -147,33 +147,21 @@
     margin-bottom: 3vh;
 }
 </style>
+<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
 <div class="modal fade" id="authentication-modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <!-- Modal body -->
             <div class="modal-body">
             	<h3 class="fs-3 text-center my-2">본인인증</h3>
-				<form role="Form" action="<%=request.getContextPath()%>/member/authentication.do" method="post">
+				<form role="authForm" action="<%=request.getContextPath()%>/member/authentication.do" method="post">
 				<div class="row row-space">
-					<div class="col-8">
+					<div class="col-6">
 						<div class="input-group">
 							<label class="label">이름</label>
 							<input class="input--style-3" type="text" name="mem_name">
 						</div>
 					</div>
-				</div>
-				<div class="row row-space">
-					<div class="col-6">
-						<div class="input-group">
-							<label class="label">전화번호</label>
-							<input class="input--style-3 pwdCheck" type="text" name="mem_phone">
-						</div>
-						<div>
-							<a href="<%=request.getContextPath()%>/SMS"><button type="button" class="btn btn--signup" >인증번호보내기</button></a>
-						</div>
-					</div>
-				</div>
-				<div class="row row-space">
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">생년월일</label>
@@ -181,11 +169,33 @@
 						</div>
 					</div>
 				</div>
+				<div class="row row-space">
+					<div class="col-6">
+						<div class="input-group">
+							<label class="label">전화번호</label>
+							<input class="input--style-3" id="phone" type="text" name="mem_phone">
+						</div>
+						<div>
+							<button type="button" id="sendSMS" class="btn btn--signup" >인증번호 보내기</button>
+						</div>
+					</div>
+					<div class="col-6">
+						<div>
+							<label class="label">인증번호</label>
+							<input class="input--style-3" id="SMSCheckInput" type="text" placeholder="인증번호 6자리를 입력하세요.">
+							<div><span id="result_checkCode" style="font-size:12px;"></span></div>
+						</div>
+						<div>
+							<button type="button" id="SMSCheck" class="btn btn--signup">인증번호 확인</button>
+						</div>
+					</div>
+				</div>
 				<div class="pt-3">
-					<button class="btn btn--signup" type="button" onclick="submit_go();">회원가입</button>
+					<button class="btn btn--signup" id="joinFormGo" type="button" disabled data-bs-toggle="modal" data-bs-target="#join-modal">확인</button>
 				</div>
 				</form>
             </div>
         </div>
     </div>
 </div>
+<%@ include file="authentication_modal_js.jsp" %>

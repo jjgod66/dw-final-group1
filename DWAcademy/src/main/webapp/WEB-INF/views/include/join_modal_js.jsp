@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/jquery-3.5.1.js"></script>
 <script>
 	// 아이디 중복확인으로 확인된 아이디가 저장될 곳
 	let checkedID = "";

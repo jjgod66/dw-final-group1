@@ -9,13 +9,18 @@ import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.Random;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.http.HttpServletRequest;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/SMS")
@@ -79,7 +84,20 @@ public class SmsController{
 	    "scheduleCode": "string"
 	} */
 	
-	private void sendSMS() {
+	@RequestMapping("/send")
+	private ResponseEntity<Integer> sendSMS(HttpServletRequest req, String phone) {
+		System.out.println(phone);
+		ResponseEntity<Integer> entity = null;
+		
+		
+		 /* 인증번호(난수) 생성 */
+        Random random = new Random();
+        int checkNum = random.nextInt(888888) + 111111;
+		
+		String content = 
+                "[DWCinema]" +
+                "인증 번호는 " + checkNum + "입니다." + 
+                "해당 인증번호를 인증번호 확인란에 기입하여 주세요.";
 		String hostNameUrl = "https://sens.apigw.ntruss.com";     		// 호스트 URL
 		String requestUrl= "/sms/v2/services/";                   		// 요청 URL
 		String requestUrlType = "/messages";                      		// 요청 URL
@@ -98,7 +116,7 @@ public class SmsController{
 	
 	    //toJson.put("subject","");							// Optional, messages.subject	개별 메시지 제목, LMS, MMS에서만 사용 가능
 	    //toJson.put("content","sms test in spring 111");	// Optional, messages.content	개별 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
-	    toJson.put("to","01012345678");						// Mandatory(필수), messages.to	수신번호, -를 제외한 숫자만 입력 가능
+	    toJson.put("to", phone);						// Mandatory(필수), messages.to	수신번호, -를 제외한 숫자만 입력 가능
 	    toArr.put(toJson);
 	    
 	    bodyJson.put("type","SMS");							// Madantory, 메시지 Type (SMS | LMS | MMS), (소문자 가능)
@@ -106,7 +124,7 @@ public class SmsController{
 	    bodyJson.put("countryCode","82");					// Optional, 국가 전화번호, (default: 82)
 	    bodyJson.put("from","01050027056");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능		
 	    //bodyJson.put("subject","");						// Optional, 기본 메시지 제목, LMS, MMS에서만 사용 가능
-	    bodyJson.put("content","sms test in spring 222");	// Mandatory(필수), 기본 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
+	    bodyJson.put("content", content);					// Mandatory(필수), 기본 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
 	    bodyJson.put("messages", toArr);					// Mandatory(필수), 아래 항목들 참조 (messages.XXX), 최대 1,000개
 	    
 	    //String body = bodyJson.toJSONString();
@@ -154,5 +172,14 @@ public class SmsController{
 	    } catch (Exception e) {
 	        System.out.println(e);
 	    }
+	    
+	    try {
+	    	entity = new ResponseEntity<Integer>(checkNum, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Integer>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	    		
+		return entity;
 	}
 }

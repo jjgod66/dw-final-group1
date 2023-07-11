@@ -57,6 +57,13 @@ public class MemberController {
 		
 	}
 	
+	@RequestMapping("/member/joinForm")
+	public String joinForm() {
+		return "/include/join_modal";
+		
+	}
+	
+	
 	
 	
 }
