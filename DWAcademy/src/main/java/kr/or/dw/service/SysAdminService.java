@@ -18,4 +18,14 @@ public interface SysAdminService {
 	// 새 지점 등록
 	void theaterRegist(TheaterVO thr) throws SQLException;
 
+	// 지점명으로 해당 지점 불러오기
+	TheaterVO selectTheaterByName(String thr_name) throws SQLException;
+
+	// 해당 지점 정보 수정
+	void theaterModify(TheaterVO thr) throws SQLException;
+
+	// 해당 지점 삭제(비활성화)
+	void theaterDelete(String thr_name) throws SQLException;
+
+
 }

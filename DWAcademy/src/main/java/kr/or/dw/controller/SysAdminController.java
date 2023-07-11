@@ -54,8 +54,9 @@ public class SysAdminController {
 		String url = "sysAdmin/theaterRegist";
 		
 		if (thr_name != null) {
-			System.out.println("test!!");
-			sysAdminService.selectTheaterByName(thr_name);
+			System.out.println("[ 수정일때 ]");
+			TheaterVO thr = sysAdminService.selectTheaterByName(thr_name);
+			mnv.addObject("thr", thr);
 		}
 		
 		List<String> locList = sysAdminService.selectLocList();
@@ -68,14 +69,43 @@ public class SysAdminController {
 
 	@RequestMapping("/theaterRegist")
 	public void theaterRegist(TheaterVO thr, HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException {
-		System.out.println(thr);
 		sysAdminService.theaterRegist(thr);
 		
 		res.setContentType("text/html; charset=utf-8");
 		PrintWriter out = res.getWriter();
 		out.println("<script>");
 		out.println("alert('새 지점이 등록되었습니다.')");
-		out.println("location.href='sysAdmin/theaterList.do';");
+		out.println("location.href='sysAdmin/theaterAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/theaterModify")
+	public void theaterModify (TheaterVO thr, HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.theaterModify(thr);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('지점이 수정되었습니다.')");
+		out.println("location.href='sysAdmin/theaterAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	
+	}
+	
+	@RequestMapping("/theaterDelete")
+	public void theaterDelete (TheaterVO thr, HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException {
+		String thr_name = thr.getThr_name();
+		sysAdminService.theaterDelete(thr_name);
+	
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('지점이 삭제(비활성화)되었습니다.')");
+		out.println("location.href='sysAdmin/theaterAdminMain.do';");
 		out.println("</script>");
 		out.flush();
 		out.close();

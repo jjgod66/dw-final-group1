@@ -20,12 +20,13 @@ public class TheaterVO {
 	private String admin_cd;
 	private String thr_tel;
 	private Date regdate;
+	private String gb_del;
 	
 	TheaterVO () {}
 
 	public TheaterVO(String thr_name, String thr_loc, String thr_y, String thr_x, String thr_addr,
 			String thr_addr_detail, String thr_addr_post, String thr_info, String admin_id, String admin_pwd,
-			String admin_cd, String thr_tel, Date regdate) {
+			String admin_cd, String thr_tel, Date regdate, String gb_del) {
 		super();
 		this.thr_name = thr_name;
 		this.thr_loc = thr_loc;
@@ -40,6 +41,7 @@ public class TheaterVO {
 		this.admin_cd = admin_cd;
 		this.thr_tel = thr_tel;
 		this.regdate = regdate;
+		this.gb_del = gb_del;
 	}
 	
 }

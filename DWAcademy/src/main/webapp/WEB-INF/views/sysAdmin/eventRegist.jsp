@@ -35,6 +35,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1em;
     font-weight: 600;
 }
+
 #content h2 {
     margin: 30px 0 0;
     position: relative;
@@ -59,6 +60,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .tbl_frm01 table {
     width: 100%;
+
 }
 .w180 {
     width: 180px !important;
@@ -91,6 +93,7 @@ table th {
     padding-top: 5px;
     line-height: 1.4em;
 }
+
 .btn_confirm {
     margin-top: 20px;
     text-align: center;
@@ -169,6 +172,7 @@ table th {
 
 <section id="anc_sitfrm_ini">
 <h2>기본정보</h2>
+
 <div class="tbl_frm02">
 	<table>
 	<colgroup>
@@ -211,6 +215,7 @@ table th {
 		<td><input type="text" name="" value="" class="frm_input"></td>
 	</tr>
 	
+
 	</tbody>
 	</table>
 </div>
@@ -234,5 +239,5 @@ function user_chage(mb_id){
 	</div>
 </div>
     
-    
+
 <%@ include file="sysAdminFooter.jsp"%>
