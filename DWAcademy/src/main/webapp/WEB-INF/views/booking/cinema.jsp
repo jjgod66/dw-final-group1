@@ -50,7 +50,7 @@ if (movieCd == null) {
             <div class="group_top"><h4 class="tit">영화관 선택</h4></div>
             <div class="inner">
                 <ul class="cinema-list">
-                    <li class="cinema-click active">
+                    <li class="cinema-click">
                         <a href="javascript:;">서울 <em>(1)</em></a>
                         <div class="depth2">
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
@@ -60,6 +60,14 @@ if (movieCd == null) {
                     </li>
                     <li class="cinema-click">
                         <a href="javascript:;">대전 <em>(1)</em></a>
+                        <div class="depth2">
+                            <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
+                                <li class=""><a href="#all">전체</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="cinema-click">
+                        <a href="javascript:;">선호극장<em>(1)</em></a>
                         <div class="depth2">
                             <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
                                 <li class=""><a href="#all">전체</a></li>
@@ -99,12 +107,32 @@ if (movieCd == null) {
 <script>
 
 $(function(){
-	if($('movie_cd') != "" && $('movie_cd') != null){
-		for(let i = 0; i < $('li .btnMovie > a').length; i++){
-			if($('li .btnMovie > a')[i].dataset.moviecd)
+	if('${movie_cd}' != "" && '${movie_cd}' != null){
+		for(let i = 0; i < $('li.btnMovie a').length; i++){
+			if($('li.btnMovie a').eq(i).data('moviecd') == '${movie_cd}'){
+				$('li.btnMovie a').eq(i).parents('.btnMovie').addClass('active');
+			}
 			
 		}
 	}
+
+	$('.mvList').on('click', '.btnMovie a', function(){
+		$('.btnMovie').removeClass('active');
+		$(this).parents('.btnMovie').addClass('active');
+		let movie_cd = this.data('moviecd');
+		
+		$.ajax({
+			url : '/movieTheater.do',
+			method : 'post',
+			data : movie_cd,
+			success : function(res){
+				console.log(res);
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
 })
 
 
