@@ -135,7 +135,7 @@ a.gnb_1da {
 				<ul>
 					<li>DW시네마 v1.0.1</li>
 					<li><a href="#">관리자정보</a></li>
-					<li><a href="<%=request.getContextPath() %>/sysAdmin/index.do">관리자홈</a></li>
+					<li><a href="<%=request.getContextPath() %>/sysAdmin/main.do">관리자홈</a></li>
 					<li><a href="<%=request.getContextPath() %>/sysAdmin/adminCinemaMain.do">DW시네마 바로가기 </a></li>
 					<li id="tnb_logout"><a
 						href="">로그아웃</a></li>
@@ -143,24 +143,50 @@ a.gnb_1da {
 			</div>
 
 			<nav id="gnb">
-				<h2>관리자 주메뉴</h2>
-				<ul id="gnb_1dul">
-					<li class="gnb_1dli">
-						<a href="<%= request.getContextPath() %>/sysAdmin/theaterList.do"
-						class="gnb_1da">지점관리</a></li>
-					<li class="gnb_1dli"><a
-						href="<%= request.getContextPath() %>/sysAdmin/placeAdmin.do"
-						class="gnb_1da">영화관리</a></li>
-					<li class="gnb_1dli"><a
-						href="<%= request.getContextPath() %>/sysAdmin/placeAdmin.do"
-						class="gnb_1da">고객관리</a></li>
-					<li class="gnb_1dli"><a
-						href="<%= request.getContextPath() %>/sysAdmin/placeAdmin.do"
-						class="gnb_1da">이벤트관리</a></li>
-					<li class="gnb_1dli"><a
-						href="<%= request.getContextPath() %>/sysAdmin/placeAdmin.do"
-						class="gnb_1da">스토어관리</a></li>
-				</ul>
-			</nav>
+				<ul>
+					<li class="gnb_1dli dropdown dropdown-menu">지점관리 
+						<div class="dropdown-content">
+							<a href="<%= request.getContextPath() %>/sysAdmin/theaterAdminMain.do" class="gnb_1da">지점 목록 </a>
+							<a href="<%= request.getContextPath() %>/sysAdmin/theaterRegist.do" class="gnb_1da">지점 등록 </a>
+						</div>
+					</li>
+					<li class="gnb_1dli dropdown dropdown-menu" >영화관리 
+						<div class="dropdown-content">
+							<a href="<%= request.getContextPath() %>/sysAdmin/movieAdmin.do" class="gnb_1da">영화리스트</a>
+							<a href="<%= request.getContextPath() %>/sysAdmin/movieAdmin.do" class="gnb_1da">영화등록</a>
+							<a href="<%= request.getContextPath() %>/sysAdmin/movieAdmin.do" class="gnb_1da">3</a>
+						</div>
+					</li>
+					<li class="gnb_1dli dropdown dropdown-menu">고객관리 
+					<div class="dropdown-content">
+						<a href="<%= request.getContextPath() %>/sysAdmin/customerAdmin.do" class="gnb_1da">공지사항</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/customerAdmin.do" class="gnb_1da">FAQ</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/customerAdmin.do" class="gnb_1da">1:1문의</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/customerAdmin.do" class="gnb_1da">회원목록 </a>
+						</div>
+					</li>
+					<li class="gnb_1dli dropdown dropdown-menu">이벤트관리 
+					<div class="dropdown-content">
+						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdmin.do" class="gnb_1da">진행중인 이벤트 </a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminPast.do" class="gnb_1da">지난 이벤트 </a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminWinner.do" class="gnb_1da">당첨자 발표 </a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/eventRegist.do" class="gnb_1da">이벤트 등록  </a>
+						</div>
+					</li>
+					<li class="gnb_1dli dropdown dropdown-menu">스토어관리 
+					<div class="dropdown-content">
+						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdmin.do" class="gnb_1da">1</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdmin.do" class="gnb_1da">2</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdmin.do" class="gnb_1da">3</a>
+						</div>
+					</li>
+			
+			</nav> 
+			
+ 		
+		
+		
+		
+    
 		</div>
 	</header>
