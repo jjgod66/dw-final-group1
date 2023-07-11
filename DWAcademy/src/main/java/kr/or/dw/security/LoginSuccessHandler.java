@@ -35,7 +35,8 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", member);
-		
+
+
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
 	

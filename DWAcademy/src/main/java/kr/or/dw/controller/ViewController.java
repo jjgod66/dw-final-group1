@@ -25,9 +25,7 @@ public class ViewController {
 	public ModelAndView memberMain(ModelAndView mnv, HttpSession session) {
 		String url = "/member/main";
 		
-		String id = session.getId();
-		
-		MemberVO member = memberService.selectMemberById(id);
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
 		
 		mnv.addObject("member", member);
 		mnv.setViewName(url);

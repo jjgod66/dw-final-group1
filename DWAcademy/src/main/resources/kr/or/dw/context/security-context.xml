@@ -67,6 +67,7 @@
 			logout-url="/common/logout.do"
 			invalidate-session="true"
 			logout-success-url="/"
+			delete-cookies="JSESSIONID"
 		/>
 		
 		<session-management invalid-session-url="/common/LoginTimeOut">
