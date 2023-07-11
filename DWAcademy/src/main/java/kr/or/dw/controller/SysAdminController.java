@@ -93,6 +93,11 @@ public class SysAdminController {
 		String url = "/sysAdmin/movieAdminMain";
 		return url;
 	}
+	@GetMapping("/movieRegist")
+	public String movieRegist() {
+		String url ="/sysAdmin/movieRegist";
+		return url;
+	}
 	
 	@GetMapping("/supportAdminMain")
 	public String customerAdmin() {
