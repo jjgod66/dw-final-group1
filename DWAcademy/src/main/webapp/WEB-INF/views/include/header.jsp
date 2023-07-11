@@ -47,6 +47,7 @@ request.setAttribute("GetTitle", "DWCinema");
 <!-- End Preloader -->
 <%@ include file="../include/login_modal.jsp" %>
 <%@ include file="../include/join_modal.jsp" %>
+<%@ include file="../include/authentication_modal.jsp"%>
 <header class="header poi">
     <nav class="gnb">
         <div class="container d-flex flex-wrap">
