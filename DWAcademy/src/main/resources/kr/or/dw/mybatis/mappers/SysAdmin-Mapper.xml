@@ -91,6 +91,7 @@
 					,thr_addr 
 					,thr_addr_detail
 					,thr_addr_post
+					,thr_tel
 					,regdate
 					,thr_x
 					,thr_y
@@ -103,6 +104,7 @@
 			 		,#{thr_addr}
 			 		,#{thr_addr_detail}
 			 		,#{thr_addr_post}
+			 		,#{thr_tel}
 			 		,SYSDATE
 			 		,#{thr_x}
 			 		,#{thr_y}
