@@ -76,6 +76,13 @@
 		</selectKey>
 	</insert>
 	
+	<update id="updateAdmin" parameterType="admin">
+		UPDATE admin 
+		   SET admin_id = #{admin_id}
+		      ,admin_pwd = #{admin_pwd}
+		 WHERE thr_name = #{thr_name}
+	</update>
+	
 	<insert id="insertTheater" parameterType="theater">
 		INSERT INTO theater
 					(
@@ -88,6 +95,7 @@
 					,thr_x
 					,thr_y
 					,admin_cd
+					,gb_del
 					)
 			 VALUES (
 			 		 #{thr_name}
@@ -99,6 +107,32 @@
 			 		,#{thr_x}
 			 		,#{thr_y}
 			 		,#{admin_cd}
+			 		,'N'
 			 		)		
 	</insert>
+	
+	<update id="updateTheater" parameterType="theater">
+		UPDATE theater
+		   SET thr_loc = #{thr_loc}
+		      ,thr_tel = #{thr_tel}
+		      ,thr_addr_post = #{thr_addr_post}
+		      ,thr_addr = #{thr_addr}
+		      ,thr_addr_detail = #{thr_addr_detail}
+		 WHERE thr_name = #{thr_name}
+	</update>
+	
+	<update id="updateDelTheater" parameterType="str">
+		UPDATE theater
+		   SET gb_del = 'Y'
+		 WHERE thr_name = #{thr_name}
+	</update>
+	
+	<select id="selectTheaterByName" parameterType="str" resultType="theater">
+		SELECT t.*, a.admin_id, a.admin_pwd
+		  FROM theater t, admin a
+		 WHERE t.thr_name = #{thr_name}
+		   AND t.thr_name = a.thr_name
+	</select>
+	
+	
 </mapper>
