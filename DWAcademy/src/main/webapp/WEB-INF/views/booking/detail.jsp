@@ -2,8 +2,8 @@
 <%@include file="../include/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/seatbooking.css">
 <div class="sub_visual">
-  <h3>빠른예매</h3>
-  <h6>quick booking</h6>
+ 	<h3>예매하기</h3>
+    <h6>ticket reservation</h6>
 </div>
 <select id="movie" hidden>
     <option value="14000"></option>

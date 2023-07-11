@@ -4,6 +4,10 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/payment.css">
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>    
+<div class="sub_visual">
+  	<h3>구매하기</h3>
+    <h6>store buy</h6>
+</div>
 <div class="payment-wrapper">
 	<div class="container py-5">
 		<div class="row">
@@ -12,24 +16,24 @@
 					<span class="thm"><img src="../../resources/img/store/${product.product_pic_path }" alt="${product.product_name }"></span>
 					<strong class="tit"><span class="ic_grade gr_all"></span>&nbsp;${product.product_name }</strong>
 					<dl class="dlist_infor">
-<!-- 						<dt>일시</dt> -->
-<!-- 						<dd><strong>2023-07-05 (수) 22:15 ~ 24:14</strong></dd> -->
+						<dt>상품</dt>
+						<dd><strong>${product.product_content }</strong></dd>
 <!-- 						<dt>영화관</dt> -->
 <!-- 						<dd>가산디지털 5관 - 2D</dd> -->
 						<dt>수량</dt>
 						<dd>
-							${product.amount }
+							${amount }
 						</dd>
 					</dl>
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="group_discount">
-					<h3 class="tit_payment">할인/포인트</h3>
+					<h3 class="tit_payment">포인트</h3>
 					<div class="tab_wrap">
 						<div class="inner_con2">
 							<dt><label class="noneInput">보유 포인트</label></dt>
-							<dd class="amtValue"><span class="hasPoint">${member.point }</span>원</dd>
+							<dd class="amtValue"><span class="hasPoint">0</span>원</dd>
 							
 							<dt class="secondTit"><label for="cjOnePointipt">사용할 포인트</label></dt>
 							<dd><input class="textBox2" type="text" id="cjOnePointipt" value="0">원</dd>
@@ -60,7 +64,7 @@
 				<div class="card card-payment p-3 text-white mb-3">
 					<span>상품 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow"><fmt:formatNumber value="" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<span>할인 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
@@ -68,7 +72,7 @@
 					</div>
 					<span>결제 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow"><fmt:formatNumber value="" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<button class="btn btn-success px-3" id="credit" onclick="requestPay();">결제하기</button>
 				</div>

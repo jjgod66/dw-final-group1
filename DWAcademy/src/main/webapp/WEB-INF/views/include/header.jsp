@@ -71,7 +71,7 @@ request.setAttribute("GetTitle", "DWCinema");
             <li role="menuitem">
                 <strong>예매하기</strong>
                 <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/booking/cinema.do">상영시간표</a></li>
+                    <li><a href="<%=request.getContextPath()%>/reservation/cinema.do">상영시간표</a></li>
                     <li><a href="#">할인안내</a></li>
                 </ul>
             </li>
