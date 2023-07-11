@@ -41,7 +41,7 @@
 		<intercept-url pattern="/**/stop*" access="hasAnyRole('ROLE_ADMIN')" />
 		
 		<intercept-url pattern="/index.do**" access="isAuthenticated()" />
-		<intercept-url pattern="/member/**" access="isAuthenticated()" />
+		<intercept-url pattern="/member/**" access="permitAll" />
 		
 		<intercept-url pattern="/**" access="permitAll" />
 		
@@ -64,9 +64,10 @@
 		/>
 		
 		<logout
-			logout-url="/common/logout"
+			logout-url="/common/logout.do"
 			invalidate-session="true"
 			logout-success-url="/"
+			delete-cookies="JSESSIONID"
 		/>
 		
 		<session-management invalid-session-url="/common/LoginTimeOut">
@@ -81,7 +82,7 @@
 	
 	<beans:bean id="loginSuccessHandler" 
 				class="kr.or.dw.security.LoginSuccessHandler" 
-				p:defaultTargetUrl="/index.do" />
+				p:defaultTargetUrl="/" />
 	<beans:bean id="loginFailureHandler" 
 				class="kr.or.dw.security.LoginFailureHandler" />
 	<beans:bean id="sessionRegistry"

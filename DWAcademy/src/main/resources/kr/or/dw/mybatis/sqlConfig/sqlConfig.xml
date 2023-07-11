@@ -9,14 +9,18 @@
 		<typeAlias type="java.lang.Integer" alias="int"/>
 		<typeAlias type="kr.or.dw.vo.ProductVO" alias="product"/>
 		<typeAlias type="kr.or.dw.vo.MemberVO" alias="member"/>
+		<typeAlias type="kr.or.dw.vo.TheaterVO" alias="theater"/>
 		<typeAlias type="kr.or.dw.vo.ReservationVO" alias="reservation"/>
 		<typeAlias type="kr.or.dw.vo.MovieVO" alias="movie"/>
+		<typeAlias type="kr.or.dw.vo.AdminVO" alias="admin"/>
 		<typeAlias type="kr.or.dw.vo.MoviePictureVO" alias="moviePic"/>
 		<typeAlias type="kr.or.dw.vo.MoviePreviewVO" alias="moviePre"/>
 		<typeAlias type="kr.or.dw.vo.MoviePostVO" alias="moviepost"/>
 		<typeAlias type="kr.or.dw.vo.ReviewVO" alias="review"/>
 		<typeAlias type="kr.or.dw.vo.HouseVO" alias="house"/>
 		<typeAlias type="kr.or.dw.vo.ScreenVO" alias="screen"/>
+		<typeAlias type="kr.or.dw.vo.GenreVO" alias="genre"/>
+
 	</typeAliases>
 
 </configuration>

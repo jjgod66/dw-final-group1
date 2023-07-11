@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="sysAdminHeader.jsp"%>
+
+<c:set var="cri" value="${pageMaker.cri }" />
 
 <style>
 #wrapper {
@@ -67,9 +71,10 @@
     content: "";
 }
 #content {
-    margin-left: 204px;
+	max-width: 80rem;
+	margin : 2rem auto 2rem auto;
     padding-bottom: 100px;
-    border-left: 1px solid #ccc;
+    border: 1px solid #ccc;
 }
 .breadcrumb {
     padding: 0 0 0 25px;
@@ -304,41 +309,15 @@ thead, tfoot {
 </style>
 
 <div id="wrapper">
-	<div id="snb">
-		<div class="snb_header ico_config">
-			<h2>
-				<i class="fa fa-truck"></i>지점관리
-			</h2>
-		</div>
-		<dl>
-			<dt class="s10 menu_toggle">지점 리스트 </dt>
-			<dd class="s10">
-				<a href="<%= request.getContextPath() %>/sysAdmin/placeAdmin.do">지점 목록
-				</a>
-			</dd>
-			<dd class="s10">
-				<a href="<%=request.getContextPath() %>/sysAdmin/placeRegistAdmin.do">지점신규등록</a>
-			</dd>
-		</dl>
-	</div>
 	<div id="content">
-		<div class="breadcrumb">
-			<span>HOME</span> <i class="ionicons ion-ios-arrow-right"></i> 지점관리
-		</div>
-
-
-
-
-
-
-
-
-
+		<jsp:include page="admin_contentHeader.jsp">
+			<jsp:param value="${subject }" name="subject" />
+			<jsp:param value="${item1 }" name="item1" />
+			<jsp:param value="${item2 }" name="item2" />
+		</jsp:include>
 
 		<div class="s_wrap">
-			<h1>지점목록</h1>
-			<script type="text/javascript"
-				src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
+			<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
 			<h2>지점검색</h2>
 			<form name="fsearch" id="fsearch" method="get">
 				<input type="hidden" name="code" value="list">
@@ -351,16 +330,14 @@ thead, tfoot {
 						<tbody>
 							<tr>
 								<th scope="row">검색어</th>
-								<td><select name="sfl">
-										<option value="">지역구분</option>
-										<option value="">서울 </option>
-										<option value="">경기 </option>
-										<option value="">강원 </option>
-										<option value="">충청 </option>
-										<option value="">경상 </option>
-										<option value="">전라  </option>
-										<option value="">제주  </option>
-								</select> <input type="text" name="stx" value="" class="frm_input"
+								<td><select name="searchType" id="searchType">
+										<option value="nlaip" ${cri.searchType eq 'nlaip' ? 'selected' : '' }>구분</option>
+										<option value="n" ${cri.searchType eq 'n' ? 'selected' : '' }>영화관명</option>
+										<option value="l" ${cri.searchType eq 'l' ? 'selected' : '' }>지역구분</option>
+										<option value="a" ${cri.searchType eq 'a' ? 'selected' : '' }>주소</option>
+										<option value="i" ${cri.searchType eq 'i' ? 'selected' : '' }>관리자ID</option>
+										<option value="p" ${cri.searchType eq 'p' ? 'selected' : '' }>전화번호</option>
+								</select> <input type="text" name="keyword" value="${cri.keyword }" class="frm_input"
 									size="30"></td>
 							</tr>
 							
@@ -372,114 +349,78 @@ thead, tfoot {
 						type="button" value="초기화" id="frmRest" class="btn_medium grey">
 				</div>
 			</form>
-
-			<form name="fsellerlist" id="fsellerlist" method="post"
-				action="./seller/seller_list_update.php"
-				onsubmit="return fsellerlist_submit(this);">
-				<input type="hidden" name="q1" value="code=list"> <input
-					type="hidden" name="page" value="1">
-
 				<div class="local_ov mart30">
-					전체 : <b class="fc_red">1</b> 건 조회
+					전체 : <b class="fc_red">${pageMaker.totalCount }</b> 건 조회
 				</div>
-				<div class="local_frm01">
-					<input type="submit" name="act_button" value="선택지점수정 "
-						class="btn_lsmall bx-white" onclick="document.pressed=this.value">
-					<input type="submit" name="act_button" value="선택지점삭제"
-						class="btn_lsmall bx-white" onclick="document.pressed=this.value">
-					
+				<div class="local_frm01 mt-3" style="float: right;">
+					<button class="btn_lsmall bx-white" id="theaterRegistFormBtn">지점 등록</button>
 				</div>
 				<div class="tbl_head01">
 					<table>
 						<colgroup>
-							<col class="w50">
 							<col class="w100">
 							<col class="w100">
-							<col class="w300">
-							<col class="w130">
-							<col class="w130">
+							<col class="w150">
+							<col class="w150">
+							<col class="w150">
 							<col class="w100">
-							<col class="w130">
+							<col class="w80">
+							<col class="w100">
+							<col class="w100">
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col"><input type="checkbox" name="chkall"
-									value="1" onclick="check_all(this.form);"></th>
-								<th scope="col">영화관명 </th>
+								<th scope="col">영화관명</th>
 								<th scope="col">지역구분</th>
-								<th scope="col">주소 </th>
-								<th scope="col">지역관리자아이디</th>
-								<th scope="col">지역관리자비밀번호 </th>
+								<th scope="col">주소</th>
+								<th scope="col">관리자ID</th>
+								<th scope="col">관리자PWD </th>
 								<th scope="col">전화번호</th>
+								<th scope="col">상영관 수</th>
 								<th scope="col">등록일시</th>
+								<th scope="col">비활성화여부</th>
 							</tr>
 						</thead>
 						<tbody class="list">
-							<tr class="list0">
-								<td><input type="hidden" name="mb_id[0]" value="tubeweb2">
-									<input type="hidden" name="seller_code[0]" value="AP-100001">
-									<input type="checkbox" name="chk[]" value="0" >
-								</td>
-								<td>대전 유성 </td>
-								<td>대전 </td>
-								<td class="tal">
-									<span class="sv_wrap"> 
-										대전광역시 유성구 게룡로 132번길 10,봉명동 센트럴프라자 5층
-									</span>
-								</td>
-								<td class="tal">aaddmmiinn123</td>
-								<td>AP100001</td>
-								<td>02-1234-5678</td>
-								<td>2020-10-04 </td>
-							</tr>
+							<c:if test="${empty theaterList }">
+								<tr>
+									<td colspan="12">
+										<strong>해당 내용이 없습니다.</strong>
+									</td>
+								</tr>
+							</c:if>
+							<c:forEach items="${theaterList }" var="thr">
+								<tr class="list0">
+									<td><a href="theaterRegistForm.do?thr_name=${thr.thr_name }">${thr.thr_name }</a></td>
+									<td>${thr.thr_loc }</td>
+									<td>${thr.thr_addr } ${thr.thr_addr_detail }</td>
+									<td>${thr.admin_id }</td>
+									<td>${thr.admin_pwd }</td>
+									<td>${thr.thr_tel }</td>
+									<td>1234</td>
+									<td><fmt:formatDate value='${thr.regdate }' pattern='yyyy-MM-dd'/></td>
+									<td>${thr.gb_del }</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 				</div>
-				<div class="local_frm02">
-					<input type="submit" name="act_button" value="선택지점수정"
-						class="btn_lsmall bx-white" onclick="document.pressed=this.value">
-					<input type="submit" name="act_button" value="선택지점삭제"
-						class="btn_lsmall bx-white" onclick="document.pressed=this.value">
-					
+				<div class="mt-5">
+					<%@ include file="../common/pagination.jsp" %>
 				</div>
-			</form>
-
-
-			<script>
-				function fsellerlist_submit(f) {
-					if (!is_checked("chk[]")) {
-						alert(document.pressed + " 하실 항목을 하나 이상 선택하세요.");
-						return false;
-					}
-					if (document.pressed == "선택삭제") {
-						if (!confirm("선택한 자료를 정말 삭제하시겠습니까?")) {
-							return false;
-						}
-					}
-					return true;
-				}
-
-				$(function() {
-					// 날짜 검색 : TODAY MAX값으로 인식 (maxDate: "+0d")를 삭제하면 MAX값 해제
-					$("#fr_date, #to_date").datepicker({
-						changeMonth : true,
-						changeYear : true,
-						dateFormat : "yy-mm-dd",
-						showButtonPanel : true,
-						yearRange : "c-99:c+99",
-						maxDate : "+0d"
-					});
-				});
-			</script>
 		</div>
 
 	</div>
 </div>
 
-
-
+<script>
+	$(function(){
+		$('#theaterRegistFormBtn').on('click', function(){
+			location.href="theaterRegistForm.do";
+		});
+	});
+	
+	let searchFormUrl = "theaterAdminMain.do";
+</script>
 
 <%@ include file="sysAdminFooter.jsp" %>
-
-
-
