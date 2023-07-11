@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ include file="sysAdminHeader.jsp" %>
     
     
@@ -13,13 +14,11 @@
         font-size: 12px;
 }
 #content {
-	margin-left: 150px;
-	margin-right:150px;
-	padding-bottom: 100px;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
+	max-width: 80rem;
+	margin : 2rem auto 2rem auto;
+    padding-bottom: 100px;
+    border: 1px solid #ccc;
 }
-
 .s_wrap {
     margin: 30px 25px;
 }
@@ -151,14 +150,15 @@ table th {
     
 <div id="wrapper">
 	<div id="content">
-		 <div class="breadcrumb">
-			<span>HOME</span>&nbsp  &gt 영화관리 &gt 영화등록  
-		 </div>
+		 <jsp:include page="admin_contentHeader.jsp">
+			<jsp:param value="${subject }" name="subject" />
+			<jsp:param value="${item1 }" name="item1" />
+			<jsp:param value="${item2 }" name="item2" />
+		</jsp:include>
 		 
 		 <!-- ########영화관리 ############ -->
 		 
 <div class="s_wrap">
-	<h1>영화관리</h1>
 	
 <form name="flogo" method="post" action="./design/logo_update.php" enctype="MULTIPART/FORM-DATA">
 <input type="hidden" name="token" value="">
@@ -182,103 +182,95 @@ table th {
 				<input type="file" name="" id="sns_logo">
 				<input type="checkbox" name="sns_logo_del" value="1" id="sns_logo_del">
 				<label for="sns_logo_del">삭제</label>
-					<div class="banner_or_img">
-						<img src="http://demofran.com/data/banner/PC6g1NMhDVSjEVxesJjMAkWQDTmpsr.jpg">
-					</div>
 				<span class="frm_info fc_125"> 440.667사이즈    </span>		
 			</td>
 		</tr>
 	<tr>
 		<th scope="row">제목</th>
 		<td>
-			<input type="text" name="" value="" id="mb_id" required="" itemname="제목" class="required frm_input" style="background-position: right top; background-repeat: no-repeat;">
+			<input type="text" name="movie_name" value="${movie.movie_name }" id="movie_name"  class="required frm_input form-control" style="background-position: right top; background-repeat: no-repeat;" required>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">감독</th>
 		<td>
-			<input type="text" name="" value="" required="" itemname="감독" class="required frm_input" style="background-position: right top; background-repeat: no-repeat;">
+			<input type="text" name="movie_director" value="${movie.movie_director }" id="movie_director" class="required frm_input form-control" style="background-position: right top; background-repeat: no-repeat;" required>
 					</td>
 	</tr>
 	<tr>
 		<th scope="row">영화소개</th>
-		<td><input type="text" name="" value="" required="" itemname="영화소개" class="required frm_input" size="80" style="background-position: right top; background-repeat: no-repeat;"></td>
+		<td>
+			<textarea name="movie_info" class="required frm_input form-control" rows="5" cols="150" style="background-position: right top; background-repeat: no-repeat; resize: none;" required>
+				${movie.movie_info }
+			</textarea>
+		</td>
 	</tr>
 	
 	<tr>
 		<th scope="row">러닝타임</th>
 		<td>
-			<input type="text" name="" value="" class="frm_input wfull"> 분
+			<input type="text" name="movie_length" id="movie_length" value="${movie.movie_length }" placeholder="양의 정수로 입력해주세요" class="frm_input wfull"> 분
+		</td>
 	</tr>
 	<tr>
 		<th scope="row">장르</th>
 		<td>
-			<select name="">
-				<option value="">선택  </option>
-				<option value="">판타지 </option>
-				<option value="">코미디 </option>
-				<option value="">스릴러 </option>
-				<option value="">공포,호러  </option>
-				<option value="">가족 </option>
-				<option value="">SF </option>
-				<option value="">액션  </option>
-				<option value="">전쟁  </option>
-				<option value="">로맨스  </option>
-				<option value="">드라마 </option>
-				<option value="">미스터리 </option>
-				<option value="">무협 </option>
-				<option value="">성인물  </option>
-				<option value="">애니메이션 </option>
-				<option value="">범죄 </option>
-				<option value="">서부극  </option>
-				<option value="">사극  </option>
-				<option value="">다큐멘터리  </option>
-				<option value="">어드벤처 </option>
-				<option value="">기타   </option>
+			<select name="genre_cd">
+				<c:forEach items="${genreList }" var="genre" >
+					<option value="${genre.genre_cd }">${genre.genre_name }</option>
+				</c:forEach>
 			</select>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">관람등급 </th>
 		<td>
-			<select name="">
-				<option value="">선택  </option>
-				<option value="">전체이용가  </option>
-				<option value="">15세이용가 </option>
-				<option value="">19세이용가  </option>
-				<option value="">12세이용가 </option>
+			<select name="movie_grade">
+				<c:forEach items="${gradeList }" var="grade" >
+					<option value="${grade}">${grade}</option>
+				</c:forEach>
 			</select>
 		</td>
 	</tr>
 	<tr>
+		<th scope="row">개봉일 </th>
+		<td><input type="date" name="opendate" id="opendate" class="frm_input" required></td>
+	</tr>
+	<tr>
 		<th scope="row">상영종료일 </th>
-		<td><input type="text" name="" value="" class="frm_input"></td>
+		<td><input type="date" name="enddate" id="enddate" class="frm_input" required></td>
 	</tr>
 	<tr>
 		<th scope="row">출연진 </th>
-		<td><input type="text" name="" value="" required="" itemname="출연진" class="required frm_input" size="80" style="background-position: right top; background-repeat: no-repeat;"></td>
+		<td><input type="text" name="movie_actor" id="movie_actor" class="required frm_input form-control" size="80" style="background-position: right top; background-repeat: no-repeat;" required></td>
 	</tr>
 	
 	
 	<tr>
-		<th scope="row">상영타입 </th>
+		<th scope="row">더빙타입 </th>
 		<td class="td_label">
-			<label><input type="radio" name="isopen" value="1" checked="checked"> 더빙 </label>
-			<label><input type="radio" name="isopen" value="2"> 자막 </label>
-			<label><input type="radio" name="isopen" value="3"> 2D</label>
-			<label><input type="radio" name="isopen" value="4"> 3D </label>
+			<label><input type="checkbox" name="isdub" value="DU" checked="checked"> 더빙 </label>
+			<label><input type="checkbox" name="isdub" value="DE"> 자막 </label>
+			<label><input type="checkbox" name="isdub" value="NO"> 없음 </label>
+		</td>
+	</tr>
+		<tr>
+		<th scope="row">3D유무 </th>
+		<td class="td_label">
+			<label><input type="checkbox" name="is3d" value="2D"> 2D</label>
+			<label><input type="checkbox" name="is3d" value="3D"> 3D </label>
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">관련사진 </th>
 		<td> 
-			<input type="file" name="" id="sns_logo">
+			<input type="file" name="movie_picList" id="movie_picList">
 		</td>
 	</tr>
 	<tr>
 		<th scope="row">예고편 </th>
 		<td> 
-			<input type="file" name="" id="sns_logo">
+			<input type="file" name="movie_videoList" id="movie_videoList">
 		</td>
 	</tr>
 	</tbody>
@@ -288,18 +280,19 @@ table th {
 
 
 <div class="btn_confirm">
-	<input type="submit" value="저장" class="btn_large" accesskey="s">
+	<c:choose>
+		<c:when test="${empty movie}">
+			<button type="button" id="registBtn" class="btn_large">등록</button>
+		</c:when>
+		<c:otherwise>
+			<button type="button" id="modifyBtn" class="btn_large">수정</button>
+			<button type="button" id="deleteBtn" class="btn_large">삭제</button>
+		</c:otherwise>
+	</c:choose>
+	<button type="button" id="cancelBtn" class="btn_large">뒤로가기</button>
 </div>
 </form>
-
-<script>
-function user_chage(mb_id){
-	location.href = tb_admin_url+'/design.php?code=logo&mb_id='+mb_id;
-}
-</script></div>		 
-		 
-		 
-		 
+</div>		 
 		 <!-- #################### -->
 	</div>
 </div>

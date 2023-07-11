@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.SysAdminService;
+import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.TheaterVO;
 
 @Controller
@@ -42,6 +43,7 @@ public class SysAdminController {
 
 	@RequestMapping("/theaterAdminMain")
 	public ModelAndView placeAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		
 		String url = "/sysAdmin/theaterAdminMain";
 		
 		Map<String, Object> dataMap = sysAdminService.selectTheaterList(cri);
@@ -54,6 +56,7 @@ public class SysAdminController {
 
 	@RequestMapping("/theaterRegistForm")
 	public ModelAndView theaterRegistForm(ModelAndView mnv, String thr_name) throws SQLException {
+		
 		String url = "sysAdmin/theaterRegist";
 		Map<String, Object> subjectMap = new HashMap<String, Object>(); 
 		 
@@ -129,10 +132,28 @@ public class SysAdminController {
 		String url = "/sysAdmin/movieAdminMain";
 		return url;
 	}
-	@GetMapping("/movieRegist")
-	public String movieRegist() {
+	
+	@RequestMapping("/movieRegistForm")
+	public ModelAndView movieRegist(ModelAndView mnv, String movie_cd) throws SQLException {
+		
 		String url ="/sysAdmin/movieRegist";
-		return url;
+		Map<String, Object> subjectMap = new HashMap<String, Object>(); 
+		
+		
+		if (movie_cd != null) {	// 수정일 때
+			subjectMap = addSubject("HOME", "영화 관리", "영화 상세정보 수정");
+		} else {				// 등록일 때
+			subjectMap = addSubject("HOME", "영화 관리", "영화 등록");
+		}
+		
+		List<GenreVO> genreList = sysAdminService.selectGenreList();
+		List<String> gradeList = sysAdminService.selectGradeList();
+		
+		mnv.addObject("genreList", genreList);
+		mnv.addObject("gradeList", gradeList);
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
 	}
 	
 	@GetMapping("/supportAdminMain")
