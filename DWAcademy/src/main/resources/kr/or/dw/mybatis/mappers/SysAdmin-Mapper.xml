@@ -3,36 +3,32 @@
 <mapper namespace="kr.or.dw.dao.SysAdminDAO">
 
 	<sql id="search">
-		<if test="searchType == 't'.toString()">
-			AND title LIKE '%' || #{keyword} || '%'
+		<if test="searchType == 'n'.toString()">
+			AND t.thr_name LIKE '%' || #{keyword} || '%'
 		</if>
-		<if test="searchType == 'w'.toString()">
-			AND writer LIKE '%' || #{keyword} || '%'
+		<if test="searchType == 'l'.toString()">
+			AND t.thr_loc LIKE '%' || #{keyword} || '%'
 		</if>
-		<if test="searchType == 'c'.toString()">
-			AND content LIKE '%' || #{keyword} || '%'
+		<if test="searchType == 'a'.toString()">
+			AND t.thr_addr LIKE '%' || #{keyword} || '%'
 		</if>
-		<if test="searchType == 'tc'.toString()">
+		<if test="searchType == 'i'.toString()">
+			AND a.admin_id LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchType == 'p'.toString()">
+			AND t.thr_tel LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchType == 'nlaip'.toString()">
 			AND (
-				title LIKE '%' || #{keyword} || '%' 
-				OR 
-				content LIKE '%' || #{keyword} || '%'
-				)
-		</if>
-		<if test="searchType == 'cw'.toString()">
-			AND (
-				content LIKE '%' || #{keyword} || '%' 
-				OR 
-				writer LIKE '%' || #{keyword} || '%'
-				)
-		</if>
-		<if test="searchType == 'tcw'.toString()">
-			AND (
-				title LIKE '%' || #{keyword} || '%' 
+				t.thr_name LIKE '%' || #{keyword} || '%'
 				OR
-				content LIKE '%' || #{keyword} || '%' 
-				OR 
-				writer LIKE '%' || #{keyword} || '%'
+				t.thr_loc LIKE '%' || #{keyword} || '%'
+				OR
+				t.thr_addr LIKE '%' || #{keyword} || '%'
+				OR
+				a.admin_id LIKE '%' || #{keyword} || '%'
+				OR
+				t.thr_tel LIKE '%' || #{keyword} || '%'
 				)
 		</if>
 	</sql>
@@ -42,14 +38,14 @@
 		  FROM theater t, admin a
 		 WHERE t.admin_cd = a.admin_cd
 		 <include refid="search" />
-		 ORDER BY regdate DESC
+		 ORDER BY t.gb_del ASC, t.regdate DESC
 		<!-- ORDER BY --> 
 	</select>
 	
 	<select id="selectSearchTheaterListCount" resultType="int">
 		SELECT COUNT(*)
-		  FROM theater
-		 WHERE 1=1
+		  FROM theater t, admin a
+		 WHERE t.admin_cd = a.admin_cd
 		 <include refid="search" />
 	</select>
 	
@@ -64,12 +60,14 @@
 					 admin_cd
 					,admin_id
 					,admin_pwd
+					,thr_name
 					)
 			 VALUES
 					(
 					 'T' || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual) || LPAD(admin_seq.nextval,4,0)
 					,#{admin_id}
 					,#{admin_pwd}
+					,#{thr_name}
 					)
  		<selectKey resultType="str" keyProperty="admin_cd" order="AFTER">
 			SELECT 'T' || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual d1) || LPAD(admin_seq.currval,4,0) admin_cd FROM dual d2
@@ -86,7 +84,8 @@
 	<insert id="insertTheater" parameterType="theater">
 		INSERT INTO theater
 					(
-					 thr_name 
+					 thr_name
+					,thr_info 
 					,thr_loc
 					,thr_addr 
 					,thr_addr_detail
@@ -100,6 +99,7 @@
 					)
 			 VALUES (
 			 		 #{thr_name}
+			 		,#{thr_info}
 			 		,#{thr_loc}
 			 		,#{thr_addr}
 			 		,#{thr_addr_detail}
@@ -115,7 +115,8 @@
 	
 	<update id="updateTheater" parameterType="theater">
 		UPDATE theater
-		   SET thr_loc = #{thr_loc}
+		   SET thr_info = #{thr_info}
+		      ,thr_loc = #{thr_loc}
 		      ,thr_tel = #{thr_tel}
 		      ,thr_addr_post = #{thr_addr_post}
 		      ,thr_addr = #{thr_addr}

@@ -80,11 +80,11 @@
 }
 
 #content {
-	margin-left: 204px;
-	padding-bottom: 100px;
-	border-left: 1px solid #ccc;
+	max-width: 80rem;
+	margin : 2rem auto 2rem auto;
+    padding-bottom: 100px;
+    border: 1px solid #ccc;
 }
-
 .breadcrumb {
 	padding: 0 0 0 25px;
 	color: #000;
@@ -370,29 +370,14 @@ thead, tfoot {
 </style>
 
 <div id="wrapper">
-
-	<%-- <div id="snb">
-		<div class="snb_header ico_config">
-			<h2>
-				<i class="fa fa-truck"></i>지점관리
-			</h2>
-		</div>
-		<dl>
-			<dt class="s10 menu_toggle">지점 리스트</dt>
-			<dd class="s10">
-				<a href="<%= request.getContextPath() %>/sysAdmin/placeAdmin.do">지점 목록 </a>
-			</dd>
-			<dd class="s10">
-				<a href="">지점신규등록</a>
-			</dd>
-		</dl>
-	</div> --%>
 	<div id="content">
-		<div class="breadcrumb">
-			<span>HOME</span> <i class="ionicons ion-ios-arrow-right"></i> 지점관리
-		</div>
+		<jsp:include page="admin_contentHeader.jsp">
+			<jsp:param value="${subject }" name="subject" />
+			<jsp:param value="${item1 }" name="item1" />
+			<jsp:param value="${item2 }" name="item2" />
+		</jsp:include>
+		
 		<div class="s_wrap">
-			<h1>지점 신규등록</h1>
 			<form role="form" action="theaterRegist.do" name="registForm" method="post">
 				<h2>지점 영화관 정보</h2>
 				<div class="tbl_frm01">
@@ -408,7 +393,7 @@ thead, tfoot {
 								<th scope="row">지역구분</th>
 								<td><select id="thr_loc" name="thr_loc">
 										<c:forEach items="${locList }" var="loc">
-											<option value="${loc }">${loc }</option>
+											<option value="${loc }" ${loc eq thr.thr_loc ? 'selected' : '' }>${loc }</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -432,6 +417,14 @@ thead, tfoot {
 									</p>
 									<p class="mart3">
 										<input type="text" name="thr_addr_detail" id="addr_detail" class="frm_input" value="${thr.thr_addr_detail }" size="60"> 상세주소
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<th scope="row">영화관소개상세</th>
+								<td colspan="3">
+									<p class="mart3">
+										<textarea name="thr_info" id="info" class="frm_input" rows="10" cols="150">${thr.thr_info }</textarea>
 									</p>
 								</td>
 							</tr>
