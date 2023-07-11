@@ -47,26 +47,26 @@ public class ViewController {
 	/*
 	 * 예매 뷰어 컨트롤러 
 	 */
-	@GetMapping("/booking/cinema")
-	public String bookingCinema() {
-		String url = "/booking/cinema";
-		return url;
-	}
-	@GetMapping("/booking/movie")
-	public String bookingMovie() {
-		String url = "/booking/movie";
-		return url;
-	}
-	@GetMapping("/booking/detail")
-	public String bookingDetail() {
-		String url = "/booking/detail";
-		return url;
-	}
-	@GetMapping("/booking/payment")
-	public String bookingPayment() {
-		String url = "/booking/payment";
-		return url;
-	}
+//	@GetMapping("/booking/cinema")
+//	public String bookingCinema() {
+//		String url = "/booking/cinema";
+//		return url;
+//	}
+//	@GetMapping("/booking/movie")
+//	public String bookingMovie() {
+//		String url = "/booking/movie";
+//		return url;
+//	}
+//	@GetMapping("/booking/detail")
+//	public String bookingDetail() {
+//		String url = "/booking/detail";
+//		return url;
+//	}
+//	@GetMapping("/booking/payment")
+//	public String bookingPayment() {
+//		String url = "/booking/payment";
+//		return url;
+//	}
 
 	
 //	/*

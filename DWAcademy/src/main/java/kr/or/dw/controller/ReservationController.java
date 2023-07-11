@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,6 +32,33 @@ public class ReservationController {
 		mnv.setViewName(url);
 		return mnv;
 	}
+	
+	@RequestMapping("/cinema")
+	public ModelAndView bookingCinema(ModelAndView mnv, String movie_cd) {
+		String url = "/booking/cinema";
+		
+		if(movie_cd == null) {
+			movie_cd = "";
+		}
+		
+		mnv.addObject("movie_cd", movie_cd);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/movie")
+	public String bookingMovie() {
+		String url = "/booking/movie";
+		return url;
+	}
+	
+	@RequestMapping("/detail")
+	public String bookingDetail() {
+		String url = "/booking/detail";
+		return url;
+	}
+
+
 	
 	
 }

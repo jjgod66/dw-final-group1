@@ -73,7 +73,7 @@ if (CategoryIdx == null) {
                     총 상품금액<strong class="txt_price_str"><span class="totalprice">${product.product_price}</span><em>원</em></strong>
                 </div>
                 <div class="btn_wrap">
-                    <button class="btn_col2 ty7" id="present">선물하기</button>
+                    <button class="btn_col2 ty7" id="gift">선물하기</button>
                     <button class="btn_col1 ty7" id="buy">구매하기</button>
                 </div>
             </div>
@@ -115,8 +115,8 @@ if (CategoryIdx == null) {
 			$('#payForm').submit();
 		})
 		
-		$('#present').on('click', function(){
-			$('#payForm').prop('action', 'presentForm.do');
+		$('#gift').on('click', function(){
+			$('#payForm').prop('action', 'giftForm.do');
 			$('input[name="amount"]').val(amount);
 			$('#payForm').submit();
 		})
