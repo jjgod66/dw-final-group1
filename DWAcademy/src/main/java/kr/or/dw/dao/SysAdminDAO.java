@@ -28,4 +28,16 @@ public interface SysAdminDAO {
 	// 새 관리자 등록
 	void insertAdmin(AdminVO adminVO);
 
+	// 지점명으로 해당 지점 불러오기
+	TheaterVO selectTheaterByName(String thr_name);
+
+	// 지점 관리자 아이디/패스워드 수정
+	void updateAdmin(AdminVO adminVO);
+
+	// 해당 극장 지점 정보 수정
+	void updateTheater(TheaterVO thr);
+
+	// 해당 지점 삭제(비활성화)
+	void updateDelTheater(String thr_name);
+
 }

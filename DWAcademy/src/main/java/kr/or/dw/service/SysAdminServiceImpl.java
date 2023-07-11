@@ -63,4 +63,30 @@ public class SysAdminServiceImpl implements SysAdminService {
 		sysAdminDAO.insertTheater(thr);
 	}
 
+	@Override
+	public TheaterVO selectTheaterByName(String thr_name) throws SQLException {
+		TheaterVO thr = null;
+		
+		thr = sysAdminDAO.selectTheaterByName(thr_name);
+		
+		return thr;
+	}
+
+	@Override
+	public void theaterModify(TheaterVO thr) throws SQLException {
+		AdminVO adminVO = new AdminVO();
+		adminVO.setAdmin_id(thr.getAdmin_id());
+		adminVO.setAdmin_pwd(thr.getAdmin_pwd());
+		adminVO.setThr_name(thr.getThr_name());
+		System.out.println(thr);
+		System.out.println(adminVO);
+		sysAdminDAO.updateAdmin(adminVO);
+		sysAdminDAO.updateTheater(thr);
+	}
+
+	@Override
+	public void theaterDelete(String thr_name) throws SQLException {
+		sysAdminDAO.updateDelTheater(thr_name);
+	}
+
 }

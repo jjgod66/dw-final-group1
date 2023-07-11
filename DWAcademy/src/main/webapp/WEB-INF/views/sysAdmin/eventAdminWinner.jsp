@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="sysAdminHeader.jsp" %>
- <style>
+    
+     <style>
  .breadcrumb {
     padding: 0 0 0 25px;
     color: #000;
@@ -16,11 +17,11 @@
 
  </style>
  <div class="breadcrumb">
-	<span>HOME</span>&nbsp  &gt 이벤트관리 &gt 진행중인 이벤트 
-</div>
+	<span>HOME</span>&nbsp  &gt 이벤트관리 &gt 당첨자발표  
+</div> 
     
     
-<%@ include file="../event/main2.jsp" %>
+<%@ include file="../event/prizeWinner2.jsp" %>
     
     
     
