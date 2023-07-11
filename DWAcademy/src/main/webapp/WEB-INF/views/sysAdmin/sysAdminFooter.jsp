@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <script src="http://demofran.com/admin/js/admin.js?ver=20230707221805"></script>
 <script src="http://demofran.com/js/wrest.js"></script>
-
+ <script src="<%=request.getContextPath() %>/resources/summernote/summernote.min.js"></script>
 <style>
 #ft {
     clear: both;

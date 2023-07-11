@@ -107,31 +107,31 @@ public class ViewController {
 	/*
 	 * 이벤트 뷰어 컨트롤러 
 	 */
-	@GetMapping("/event/main")
-	public String eventMain() {
-		String url = "/event/main";
-		return url;
-	} 
-	@GetMapping("/event/eventDetail")
-	public String eventDetail() {
-		String url = "/event/eventDetail";
-		return url;
-	}
-	@GetMapping("/event/eventPast")
-	public String eventPast() {
-		String url = "/event/eventPast";
-		return url;
-	}
-	@GetMapping("/event/prizeWinner")
-	public String prizeWinner() {
-		String url = "/event/prizeWinner";
-		return url;
-	}
-	@GetMapping("/event/prizeWinnerResult")
-	public String prizeWinnerResult() {
-		String url = "/event/prizeWinnerResult";
-		return url;
-	}
+//	@GetMapping("/event/main")
+//	public String eventMain() {
+//		String url = "/event/main";
+//		return url;
+//	} 
+//	@GetMapping("/event/eventDetail")
+//	public String eventDetail() {
+//		String url = "/event/eventDetail";
+//		return url;
+//	}
+//	@GetMapping("/event/eventPast")
+//	public String eventPast() {
+//		String url = "/event/eventPast";
+//		return url;
+//	}
+//	@GetMapping("/event/prizeWinner")
+//	public String prizeWinner() {
+//		String url = "/event/prizeWinner";
+//		return url;
+//	}
+//	@GetMapping("/event/prizeWinnerResult")
+//	public String prizeWinnerResult() {
+//		String url = "/event/prizeWinnerResult";
+//		return url;
+//	}
 		
 	
 	
