@@ -179,10 +179,17 @@ table th {
 	<tr>
 			<th scope="row" style="text-align: center;">포스터</th>
 			<td>
-				<input type="file" name="" id="sns_logo">
-				<input type="checkbox" name="sns_logo_del" value="1" id="sns_logo_del">
-				<label for="sns_logo_del">삭제</label>
-				<span class="frm_info fc_125"> 440.667사이즈    </span>		
+				<div class="row">
+					<div class="col-md-2">
+						<div id="pictureView" style="border: 1px solid green; height: 360px; width: 280px; margin: 0 auto; margin-bottom: 5px;"></div>
+					</div>
+					<div class="col-md-10">
+						<input type="file" name="movie_mainpic" id="movie_mainpic" accept=".jpeg, .png, .jpg, .gif" style="display: none;" onchange="imageChange_go();" required>
+						<input type="button" id="posterBtn" value="포스터 등록">
+						<input id="inputFileName" class="form-control" type="text" name="" disabled>
+						<input id="picture" class="form-control" type="hidden" name="uploadPicture">
+					</div>
+				</div>
 			</td>
 		</tr>
 	<tr>
@@ -296,6 +303,18 @@ table th {
 		 <!-- #################### -->
 	</div>
 </div>
-    
-    
+
+<script>
+$('#posterBtn').on('click', function(){
+	console.log('test');
+	$('#movie_mainpic').click();
+});
+
+function imageChange_go(){
+	let inputImage = $('input#movie_mainpic')[0];
+	preViewPicture(inputImage, $('div#pictureView'));
+	$('input[name="uploadPicture"]').val(inputImage.files[0].name);
+};	
+
+</script>  
 <%@ include file="sysAdminFooter.jsp"%>

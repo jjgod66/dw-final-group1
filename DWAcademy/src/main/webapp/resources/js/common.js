@@ -93,3 +93,39 @@ function CloseWindow(){
 	self.opener = self;
 	window.close();
 };
+
+// 이미지 프리뷰
+function preViewPicture(inputImage, target){
+	let fileFormat = inputImage.value.substr(inputImage.value.lastIndexOf('.')+1).toUpperCase();	// 확장자 뽑기
+	
+	// 이미지 확장자 jpg 확인
+	if (fileFormat != "JPG" && fileFormat != "JPEG" && fileFormat != "PNG" && fileFormat != "GIF") {
+		alert("정해진 이미지 확장자만 가능합니다.");
+		return;
+	};
+	
+	// 이미지 파일 용량 체크
+	if (inputImage.files[0].size > 1024 * 1024 * 3) {
+		alert("사진 용량은 3MB 이하만 가능 합니다.");
+		return;
+	};
+	
+	// 파일명 inputTag에 삽입
+	document.getElementById('inputFileName').value = inputImage.files[0].name;
+	
+	// 미리보기
+	if (inputImage.files) {
+		let reader = new FileReader();
+		
+		reader.onload = function(e){
+			target.css({
+				'background-image' : 'url(' + e.target.result + ')',
+				'background-position' : 'center',
+				'background-size' : 'cover',
+				'background-repeat' : 'no-repeat'
+			});
+		};
+		
+		reader.readAsDataURL(inputImage.files[0]);
+	};
+};
