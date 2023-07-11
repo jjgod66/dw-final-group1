@@ -2,10 +2,21 @@
     pageEncoding="UTF-8"%>
 <script>
 	function SmartEditor_summernote(target) {
+			 var fontList = ['맑은 고딕','NotoSansKR'];
 		target.summernote({
 			placeholder : '여기에 내용을 적으세요',
-			height : 250,
+			height : 300,
 			disableResizeEditor : true,
+			lang: "ko-KR",
+			toolbar: [
+                ['style', ['bold', 'italic', 'underline']],
+                ['font', ['strikethrough']],
+                ['Insert', ['picture']],
+             ],
+             fontNames: ['맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+             fontNamesIgnoreCheck: ['맑은 고딕','궁서','굴림체','굴림','돋음체','바탕체'],
+    		 // 추가한 폰트사이즈
+    		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
 			callbacks : {
 				onImageUpload : function(files, editor, welEditable){
 					for (let i = files.length - 1 ; i > -1; i--) {

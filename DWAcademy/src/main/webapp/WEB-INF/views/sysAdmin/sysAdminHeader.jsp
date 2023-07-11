@@ -5,6 +5,11 @@
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/summernote/summernote.min.css">
+<script src="<%=request.getContextPath() %>/resources/summernote/lang/summernote-ko-KR.js"></script>
+<link  href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
+
 <link href="<%=request.getContextPath()%>/resources/img/logo_ico.png" rel="shortcut icon" type="image/x-icon">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">
@@ -18,6 +23,7 @@
 <script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 </head>
 <body>
 

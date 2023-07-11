@@ -4,6 +4,23 @@
     
     
 <style>
+
+@font-face {
+            font-family: 'NotoSansKR';
+            src: url('font/NotoSansKR-Black.otf') format('opentype')
+            src: url("resources/summernote/font/summernote.woff") format("woff"),
+        }
+
+.btn_ssmall, .btn_small, .btn_lsmall, .btn_medium, .btn_large {
+    border: 1px solid #333;
+    color: #fff !important;
+}
+
+.grey {
+    background: #888;
+    border: 1px solid #888;
+    color: #fff !important;
+}
 .breadcrumb {
     padding: 0 0 0 25px;
     color: #000;
@@ -106,7 +123,17 @@ table th {
     border: 1px solid #333;
     color: #fff !important;
 }
+.btn_large1 {
+    border: 1px solid #333;
+    color: #fff !important;
+}
 .btn_large {
+    padding: 10px 21px;
+    font-size: 15px;
+    line-height: 1.222;
+    font-weight: 600;
+}
+.btn_large1 {
     padding: 10px 21px;
     font-size: 15px;
     line-height: 1.222;
@@ -163,11 +190,8 @@ table th {
 <div class="s_wrap">
 	<h1>이벤트 등록</h1>
 	
-<form name="flogo" method="post" action="./design/logo_update.php" enctype="MULTIPART/FORM-DATA">
+<form role="form"  name="registform" method="post" action="eventRegist.do">
 <input type="hidden" name="token" value="">
-
-
-
 <!-- ########기본정보 입력  ############ -->
 
 <section id="anc_sitfrm_ini">
@@ -181,7 +205,7 @@ table th {
 	</colgroup>
 	<tbody>
 		<tr>
-		<th scope="row">이벤트 구분 </th>
+		<th scope="row" name="eventS">이벤트 구분 </th>
 		<td>
 			<select name="">
 				<option value="">선택  </option>
@@ -193,19 +217,13 @@ table th {
 	</tr>
 	<tr>
 		<th scope="row">제목 </th>
-		<td><input type="text" name="" value="" required="" itemname="제목" class="required frm_input" size="80" style="background-position: right top; background-repeat: no-repeat;"></td>
+		<td><input type="text" name="title" placeholder="제목을 입력하세요. "  value="" required="" itemname="제목" class="required frm_input" size="80" style="background-position: right top; background-repeat: no-repeat;"></td>
 	</tr>
-	<tr>
-		<th scope="row">썸네일 </th>
-		<td>
-			<input type="file" name="" id="sns_logo">
-				
-		</td>
-	</tr>
+	
 	<tr>
 		<th scope="row">기간 </th>
 		<td>
-			<input type="text" name="" value="" class="frm_input wfull"> ~ <input type="text" name="" value="" class="frm_input wfull">
+			<input type="text" placeholder="ex)20230707" name="" value="" class="frm_input wfull"> ~ <input type="text" name="" value="" class="frm_input wfull">
 		</td>
 	</tr>
 	
@@ -215,6 +233,14 @@ table th {
 		<td><input type="text" name="" value="" class="frm_input"></td>
 	</tr>
 	
+	<tr>
+		<th scope="row">내용 </th>
+		<td>
+			<textarea class="textarea" name="" id="content1" rows="20" 
+							placeholder="1000자 내외로 작성하세요." style="display: block; width:100%"> </textarea>
+		</td>
+	</tr>
+
 
 	</tbody>
 	</table>
@@ -223,15 +249,12 @@ table th {
 
 
 <div class="btn_confirm">
-	<input type="submit" value="저장" class="btn_large" accesskey="s">
+	<input type="submit" value="저장" class="btn_large" id="registBtn">
+	<input type="button" value="취소" id="cancelBtn" class="btn_large1 grey">
 </div>
 </form>
 
-<script>
-function user_chage(mb_id){
-	location.href = tb_admin_url+'/design.php?code=logo&mb_id='+mb_id;
-}
-</script></div>		 
+</div>		 
 		 
 		 
 		 
@@ -239,5 +262,41 @@ function user_chage(mb_id){
 	</div>
 </div>
     
+<script>
+	window.onload = function () {
+		/* $('#content').summernote({
+		}); */
+		SmartEditor_summernote($('#content1'));
+		
+		//저장눌렀을때
+		$('#registBtn').on('click', function () {
+			let title = $('input[name="title"]');
+			let eventS = $('th[name="eventS"]');
+			
+			if(title.val() == ''){
+				alert("제목을필수에요");
+				title.focus();
+				return;
+			};
+			if(eventS.val() ==''){
+				alert("이벤트 구분은 필수에요.");
+				eventS.focus();
+				return;
+			};
+			
+			$('form[name="registform"]').submit();
+		})
+	
+		
+		//cnl취소버튼클릭
+		$('#cancelBtn').on('click', function () {
+			console.log('test');
+			history.go(-1);
+		});
+	}
+</script>
+
+
+<%@ include file="/WEB-INF/views/common/summernote.jsp" %>
 
 <%@ include file="sysAdminFooter.jsp"%>
