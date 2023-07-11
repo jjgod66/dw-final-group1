@@ -9,6 +9,7 @@
     line-height: 34px;
     border-bottom: 1px solid #e9e9e9;
     text-align: left;
+      font-size: 12px;
 }
 .breadcrumb span {
     font-weight: 400;

@@ -265,16 +265,16 @@ nav ul {
 					<li class="gnb_1dli dropdown dropdown-menu" >영화관리 
 						<div class="dropdown-content">
 							<a href="<%= request.getContextPath() %>/sysAdmin/movieAdminMain.do" class="gnb_1da">영화리스트</a>
-							<a href="<%= request.getContextPath() %>/sysAdmin/movieAdmin.do" class="gnb_1da">영화등록</a>
+							<a href="<%= request.getContextPath() %>/sysAdmin/movieRegist.do" class="gnb_1da">영화등록</a>
 							<a href="<%= request.getContextPath() %>/sysAdmin/movieAdmin.do" class="gnb_1da">3</a>
 						</div>
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">고객관리 
 					<div class="dropdown-content">
 						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">공지사항</a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/customerAdmin.do" class="gnb_1da">FAQ</a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/customerAdmin.do" class="gnb_1da">1:1문의</a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/customerAdmin.do" class="gnb_1da">회원목록 </a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">FAQ</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">1:1문의</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">회원목록 </a>
 						</div>
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">이벤트관리 
@@ -288,8 +288,8 @@ nav ul {
 					<li class="gnb_1dli dropdown dropdown-menu">스토어관리 
 					<div class="dropdown-content">
 						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do" class="gnb_1da">1</a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdmin.do" class="gnb_1da">2</a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdmin.do" class="gnb_1da">3</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do" class="gnb_1da">2</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do" class="gnb_1da">3</a>
 						</div>
 					</li>
 				</ul>
