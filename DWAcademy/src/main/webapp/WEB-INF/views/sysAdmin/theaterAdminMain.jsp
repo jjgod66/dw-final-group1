@@ -71,9 +71,10 @@
     content: "";
 }
 #content {
-    margin-left: 204px;
+	max-width: 80rem;
+	margin : 2rem auto 2rem auto;
     padding-bottom: 100px;
-    border-left: 1px solid #ccc;
+    border: 1px solid #ccc;
 }
 .breadcrumb {
     padding: 0 0 0 25px;
@@ -308,41 +309,15 @@ thead, tfoot {
 </style>
 
 <div id="wrapper">
-	<div id="snb">
-		<div class="snb_header ico_config">
-			<h2>
-				<i class="fa fa-truck"></i>지점관리
-			</h2>
-		</div>
-		<dl>
-			<dt class="s10 menu_toggle">지점 리스트 </dt>
-			<dd class="s10">
-				<a href="<%= request.getContextPath() %>/sysAdmin/placeAdmin.do">지점 목록
-				</a>
-			</dd>
-			<dd class="s10">
-				<a href="<%=request.getContextPath() %>/sysAdmin/placeRegistAdmin.do">지점신규등록</a>
-			</dd>
-		</dl>
-	</div>
 	<div id="content">
-		<div class="breadcrumb">
-			<span>HOME</span> <i class="ionicons ion-ios-arrow-right"></i> 지점관리
-		</div>
-
-
-
-
-
-
-
-
-
+		<jsp:include page="admin_contentHeader.jsp">
+			<jsp:param value="${subject }" name="subject" />
+			<jsp:param value="${item1 }" name="item1" />
+			<jsp:param value="${item2 }" name="item2" />
+		</jsp:include>
 
 		<div class="s_wrap">
-			<h1>지점목록</h1>
-			<script type="text/javascript"
-				src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
+			<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
 			<h2>지점검색</h2>
 			<form name="fsearch" id="fsearch" method="get">
 				<input type="hidden" name="code" value="list">
@@ -355,15 +330,13 @@ thead, tfoot {
 						<tbody>
 							<tr>
 								<th scope="row">검색어</th>
-								<td><select name="searchType">
-										<option value="">지역구분</option>
-										<option value="서울">서울</option>
-										<option value="경기">경기</option>
-										<option value="강원">강원</option>
-										<option value="충청">대전/충청</option>
-										<option value="경상">부산/대구/경상</option>
-										<option value="전라">광주/전라 </option>
-										<option value="제주">제주</option>
+								<td><select name="searchType" id="searchType">
+										<option value="nlaip" ${cri.searchType eq 'nlaip' ? 'selected' : '' }>구분</option>
+										<option value="n" ${cri.searchType eq 'n' ? 'selected' : '' }>영화관명</option>
+										<option value="l" ${cri.searchType eq 'l' ? 'selected' : '' }>지역구분</option>
+										<option value="a" ${cri.searchType eq 'a' ? 'selected' : '' }>주소</option>
+										<option value="i" ${cri.searchType eq 'i' ? 'selected' : '' }>관리자ID</option>
+										<option value="p" ${cri.searchType eq 'p' ? 'selected' : '' }>전화번호</option>
 								</select> <input type="text" name="keyword" value="${cri.keyword }" class="frm_input"
 									size="30"></td>
 							</tr>
@@ -388,20 +361,20 @@ thead, tfoot {
 							<col class="w100">
 							<col class="w100">
 							<col class="w150">
-							<col class="w80">
-							<col class="w80">
+							<col class="w150">
+							<col class="w150">
 							<col class="w100">
 							<col class="w80">
 							<col class="w100">
-							<col class="w80">
+							<col class="w100">
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col">영화관명 </th>
+								<th scope="col">영화관명</th>
 								<th scope="col">지역구분</th>
-								<th scope="col">주소 </th>
-								<th scope="col">지점관리자아이디</th>
-								<th scope="col">지점관리자비밀번호 </th>
+								<th scope="col">주소</th>
+								<th scope="col">관리자ID</th>
+								<th scope="col">관리자PWD </th>
 								<th scope="col">전화번호</th>
 								<th scope="col">상영관 수</th>
 								<th scope="col">등록일시</th>
@@ -432,16 +405,9 @@ thead, tfoot {
 						</tbody>
 					</table>
 				</div>
-				<div>
+				<div class="mt-5">
 					<%@ include file="../common/pagination.jsp" %>
 				</div>
-			
-
-			<script>
-				$(function() {
-					
-				});
-			</script>
 		</div>
 
 	</div>
@@ -453,6 +419,8 @@ thead, tfoot {
 			location.href="theaterRegistForm.do";
 		});
 	});
+	
+	let searchFormUrl = "theaterAdminMain.do";
 </script>
 
 <%@ include file="sysAdminFooter.jsp" %>

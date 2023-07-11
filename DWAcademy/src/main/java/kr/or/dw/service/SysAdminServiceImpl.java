@@ -57,8 +57,9 @@ public class SysAdminServiceImpl implements SysAdminService {
 		AdminVO adminVO = new AdminVO();
 		adminVO.setAdmin_id(thr.getAdmin_id());
 		adminVO.setAdmin_pwd(thr.getAdmin_pwd());
+		adminVO.setThr_name(thr.getThr_name());
+		System.out.println("NEW ADMIN : " + adminVO);
 		sysAdminDAO.insertAdmin(adminVO);
-		System.out.println("CD : " + adminVO.getAdmin_cd());
 		thr.setAdmin_cd(adminVO.getAdmin_cd());
 		sysAdminDAO.insertTheater(thr);
 	}

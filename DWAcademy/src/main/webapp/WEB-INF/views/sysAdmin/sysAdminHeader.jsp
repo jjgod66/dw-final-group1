@@ -259,7 +259,7 @@ nav ul {
 					<li class="gnb_1dli dropdown dropdown-menu">지점관리 
 						<div class="dropdown-content">
 							<a href="<%= request.getContextPath() %>/sysAdmin/theaterAdminMain.do" class="gnb_1da">지점 목록 </a>
-							<a href="<%= request.getContextPath() %>/sysAdmin/theaterRegist.do" class="gnb_1da">지점 등록 </a>
+							<a href="<%= request.getContextPath() %>/sysAdmin/theaterRegistForm.do" class="gnb_1da">지점 등록 </a>
 						</div>
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu" >영화관리 
