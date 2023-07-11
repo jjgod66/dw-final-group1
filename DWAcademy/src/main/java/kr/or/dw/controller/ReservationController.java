@@ -85,16 +85,18 @@ public class ReservationController {
 	}
 	
 	@RequestMapping("/theaterScreen")
-	public ResponseEntity<List<ScreenSchedualCommand>> theaterScreen(String movie_cd, String date, String thr_name) throws SQLException{
+	public ResponseEntity<List<ScreenSchedualCommand>> theaterScreen(String movie_cd, String date, String thr_name){
 		ResponseEntity<List<ScreenSchedualCommand>> entity = null;
 		
 		List<ScreenSchedualCommand> screenSchedual = null;
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("movie_cd", movie_cd);
-		data.put("date", date);
-		data.put("thr_name", thr_name);
-		
-		screenSchedual = reservationService.getScreenSchedual(data);
+
+		try {
+			screenSchedual = reservationService.getScreenSchedual(movie_cd, date, thr_name);
+			entity = new ResponseEntity<List<ScreenSchedualCommand>>(screenSchedual, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<ScreenSchedualCommand>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 		
 		return entity;
 	}

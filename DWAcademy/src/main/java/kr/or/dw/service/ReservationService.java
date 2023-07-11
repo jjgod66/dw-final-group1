@@ -27,6 +27,6 @@ public interface ReservationService {
 	 * @param data
 	 * @return
 	 */
-	List<ScreenSchedualCommand> getScreenSchedual(Map<String, Object> data) throws SQLException;
+	List<ScreenSchedualCommand> getScreenSchedual(String movie_cd, String date, String thr_name) throws SQLException;
 
 }

@@ -157,16 +157,24 @@ if (movieCd == null) {
                     <div class="swiper-button-prev"></div>
                 </div>
                 <div class="mvTimeLine">
-               	 <div class="bx_notice"><p>영화와 극장을 선택해주세요.</p></div>
-<!--                     <div class="bx_notice" style="display: none;"><p>영화를 선택해주세요.</p></div> -->
-<!--                     <div class="timelist" style="display: block;"> -->
-<!--                         <div class="time_select_tit"><span class="movieIcon etc ageAll">All</span><strong>엘리멘탈</strong></div> -->
-<!--                         <div class="row" id="movie-list-1"> -->
-<!--                         </div> -->
-<!--                         <div class="time_select_tit"><span class="movieIcon etc age15">15</span><strong>범죄도시3</strong></div> -->
-<!--                         <div class="row" id="movie-list-2"> -->
-<!--                         </div> -->
-<!--                     </div> -->
+               		<ul>
+               		 <li class="mvTime">
+                           <a href="#none" data-moviecd="AN202306140002">
+                           <div>
+                           		<button type="button" class="btnTime" data-cd="04" data-seq="1" data-tm="19:00" data-dt="2023-07-11">
+	                           		<div class="loc">1관/2D</div>
+	                           		<div class="info">
+	                           			<p class="time">19:00<span>~2시간 30분</span></p><p class="num">112/<span>112석</span></p>
+	                           		</div>
+                           		</button>
+                           </div>
+<!--                                 <div class="group_infor"> -->
+<!--                                     <div class="bx_tit"><span class="movieIcon etc ageAll">All</span><strong class="tit">엘리멘탈</strong></div> -->
+<!--                                 </div> -->
+                           </a>
+                       </li>
+               		</ul>
+               	 	<div class="bx_notice"><p>영화와 극장을 선택해주세요.</p></div>
                 </div>
             </div>
         </div>

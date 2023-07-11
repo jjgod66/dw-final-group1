@@ -3,6 +3,7 @@ package kr.or.dw.service;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,11 +39,27 @@ public class ReservationServiceImpl implements ReservationService{
 		return allTheaterList;
 	}
 
+
 	@Override
-	public List<ScreenSchedualCommand> getScreenSchedual(Map<String, Object> data) throws SQLException {
-		List<ScreenSchedualCommand> screenScedual = null;
+	public List<ScreenSchedualCommand> getScreenSchedual(String movie_cd, String date, String thr_name) throws SQLException {
+		List<ScreenSchedualCommand> screenScedual = new ArrayList<ScreenSchedualCommand>();
+		Map<String, Object> data = new HashMap<>();
+		data.put("movie_cd", movie_cd);
+		data.put("date", date);
+		data.put("thr_name", thr_name);
 		
-		screenScedual = reservationDAO.selectScreenSchedual(data);
+		List<Map<String, Object>> mapList = null;
+		mapList = reservationDAO.selectScreenSchedual(data);
+		for(Map<String, Object> map : mapList) {
+			String screen_cd = (String) map.get("SCREEN_CD");
+			int buySeatCount = reservationDAO.buySeatCount(screen_cd);
+			int totalSeat = (Integer.parseInt(String.valueOf(map.get("HOUSE_ROW")))) * (Integer.parseInt(String.valueOf(map.get("HOUSE_COLUMN"))));
+			int remainSeat = totalSeat - buySeatCount;
+			map.put("remainSeat", remainSeat);
+			
+			ScreenSchedualCommand ssc = new ScreenSchedualCommand(map);
+			screenScedual.add(ssc);
+		}
 		
 		return screenScedual;
 	}
