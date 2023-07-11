@@ -69,13 +69,13 @@
 			logout-success-url="/"
 		/>
 		
-<!-- 		<session-management invalid-session-url="/common/LoginTimeOut"> -->
-<!-- 			<concurrency-control  -->
-<!-- 				expired-url="/common/LoginExpired" -->
-<!-- 				max-sessions="1" -->
-<!-- 				session-registry-ref="sessionRegistry" -->
-<!-- 			/> -->
-<!-- 		</session-management> -->
+		<session-management invalid-session-url="/common/LoginTimeOut">
+			<concurrency-control 
+				expired-url="/common/LoginExpired"
+				max-sessions="1"
+				session-registry-ref="sessionRegistry"
+			/>
+		</session-management>
 		
 	</http>
 	

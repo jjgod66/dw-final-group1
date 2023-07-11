@@ -1,11 +1,12 @@
 package kr.or.dw.controller;
 
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -56,6 +57,19 @@ public class CommonController {
 		mnv.setViewName(url);
 		return mnv;
 		
+	}
+	
+	@RequestMapping("/common/LoginTimeOut")
+	public void loginTimeOut(HttpServletRequest req, HttpServletResponse res) throws Exception {
+		System.out.println(req.getParameter("test"));
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		
+		out.println("<script>");
+		out.println("alert('세션이 만료되었습니다.\\n다시 로그인하세요!')");
+		out.println("location.href='/';");
+		out.println("</script>");
+		out.close();
 	}
 	
 

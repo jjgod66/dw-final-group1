@@ -13,6 +13,8 @@ public class ViewController {
 	@GetMapping("/member/main")
 	public String memberMain() {
 		String url = "/member/main";
+		
+		
 		return url;
 	}
 	@GetMapping("/member/additionalinfo")

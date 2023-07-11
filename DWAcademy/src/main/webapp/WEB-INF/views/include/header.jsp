@@ -65,11 +65,9 @@ request.setAttribute("GetTitle", "DWCinema");
             <ul class="nav">
             <c:choose>
                 <c:when test="${loginUser.mem_id == null || loginUser.mem_id == ''}">
-                <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="nav-link link-dark px-2">로그인</a></li>
-                </c:when>
+                <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="nav-link link-dark px-2">로그인</a></li></c:when>
                 <c:otherwise>
-                <li class="nav-item"><a href="<%=request.getContextPath()%>/common/logout.do" class="nav-link link-dark px-2">로그아웃</a></li>
-                </c:otherwise>
+                <li class="nav-item"><a href="<%=request.getContextPath() %>/common/logout.do" class="nav-link link-dark px-2">로그아웃</a></li></c:otherwise>
             </c:choose>
                 <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#join-modal" class="nav-link link-dark px-2">회원가입</a></li>
             </ul>
@@ -94,7 +92,7 @@ request.setAttribute("GetTitle", "DWCinema");
             <li role="menuitem">
                 <strong>예매하기</strong>
                 <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/booking/cinema.do">상영시간표</a></li>
+                    <li><a href="<%=request.getContextPath()%>/reservation/cinema.do">상영시간표</a></li>
                     <li><a href="#">할인안내</a></li>
                 </ul>
             </li>
