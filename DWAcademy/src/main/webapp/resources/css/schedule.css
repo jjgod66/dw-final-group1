@@ -276,3 +276,14 @@
 .mvTimeLine > div button .info .num span { color: #4aa8d8; }
 .mvTimeLine > div.check button:before { opacity:1; }
 .mvTimeLine > div.check button > p strong { font-weight: 600; }
+
+.container-disable { 
+  /* 클릭 불가능 none */
+  pointer-events : none;
+}
+
+.container-able {
+  /* 클릭 가능 auto (기본설정)*/
+  pointer-events : auto;
+  
+}
