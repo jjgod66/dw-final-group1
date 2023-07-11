@@ -3,7 +3,6 @@ package kr.or.dw.controller;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -11,11 +10,15 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+@Controller
+@RequestMapping("/SMS")
 public class SmsController{
 	
 	private String makeSignature(String url, String timestamp, String method, String accessKey, String secretKey) throws NoSuchAlgorithmException, InvalidKeyException {
@@ -80,9 +83,9 @@ public class SmsController{
 		String hostNameUrl = "https://sens.apigw.ntruss.com";     		// 호스트 URL
 		String requestUrl= "/sms/v2/services/";                   		// 요청 URL
 		String requestUrlType = "/messages";                      		// 요청 URL
-		String accessKey = "QWALu3XgiCxABC2aynAf";                     	// 네이버 클라우드 플랫폼 회원에게 발급되는 개인 인증키			// Access Key : https://www.ncloud.com/mypage/manage/info > 인증키 관리 > Access Key ID
-		String secretKey = "bXGAcyQw1FG9Zjq6f1U8SD5CHMFVsvumivXoP194";  // 2차 인증을 위해 서비스마다 할당되는 service secret key	// Service Key : https://www.ncloud.com/mypage/manage/info > 인증키 관리 > Access Key ID	
-		String serviceId = "ncp:sms:kr:178053617394:projectname";       // 프로젝트에 할당된 SMS 서비스 ID							// service ID : https://console.ncloud.com/sens/project > Simple & ... > Project > 서비스 ID
+		String accessKey = "WqdXxvMzagCv0IRNrpzG";                     	// 네이버 클라우드 플랫폼 회원에게 발급되는 개인 인증키			// Access Key : https://www.ncloud.com/mypage/manage/info > 인증키 관리 > Access Key ID
+		String secretKey = "mRXTjs3NsH0oBSUaArQi1jfB0Di2b5UwT1abGjUp";  // 2차 인증을 위해 서비스마다 할당되는 service secret key	// Service Key : https://www.ncloud.com/mypage/manage/info > 인증키 관리 > Access Key ID	
+		String serviceId = "ncp:sms:kr:311528781043:dwacademy";       // 프로젝트에 할당된 SMS 서비스 ID							// service ID : https://console.ncloud.com/sens/project > Simple & ... > Project > 서비스 ID
 		String method = "POST";											// 요청 method
 		String timestamp = Long.toString(System.currentTimeMillis()); 	// current timestamp (epoch)
 		requestUrl += serviceId + requestUrlType;
@@ -99,9 +102,9 @@ public class SmsController{
 	    toArr.put(toJson);
 	    
 	    bodyJson.put("type","SMS");							// Madantory, 메시지 Type (SMS | LMS | MMS), (소문자 가능)
-	    //bodyJson.put("contentType","");					// Optional, 메시지 내용 Type (AD | COMM) * AD: 광고용, COMM: 일반용 (default: COMM) * 광고용 메시지 발송 시 불법 스팸 방지를 위한 정보통신망법 (제 50조)가 적용됩니다.
-	    //bodyJson.put("countryCode","82");					// Optional, 국가 전화번호, (default: 82)
-	    bodyJson.put("from","01012345678");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능		
+	    bodyJson.put("contentType","COMM");					// Optional, 메시지 내용 Type (AD | COMM) * AD: 광고용, COMM: 일반용 (default: COMM) * 광고용 메시지 발송 시 불법 스팸 방지를 위한 정보통신망법 (제 50조)가 적용됩니다.
+	    bodyJson.put("countryCode","82");					// Optional, 국가 전화번호, (default: 82)
+	    bodyJson.put("from","01050027056");					// Mandatory, 발신번호, 사전 등록된 발신번호만 사용 가능		
 	    //bodyJson.put("subject","");						// Optional, 기본 메시지 제목, LMS, MMS에서만 사용 가능
 	    bodyJson.put("content","sms test in spring 222");	// Mandatory(필수), 기본 메시지 내용, SMS: 최대 80byte, LMS, MMS: 최대 2000byte
 	    bodyJson.put("messages", toArr);					// Mandatory(필수), 아래 항목들 참조 (messages.XXX), 최대 1,000개

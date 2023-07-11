@@ -71,7 +71,7 @@ public class CommonController {
 		System.out.println(req.getParameter("test"));
 		res.setContentType("text/html; charset=utf-8");
 		PrintWriter out = res.getWriter();
-		req.getSession().setMaxInactiveInterval(10);
+//		req.getSession().setMaxInactiveInterval(10);
 		
 		out.println("<script>");
 		out.println("alert('세션이 만료되었습니다.\\n다시 로그인하세요!')");
