@@ -137,5 +137,14 @@
 		   AND t.thr_name = a.thr_name
 	</select>
 	
+	<select id="selectGenreList" resultType="genre">
+		SELECT *
+		  FROM genre
+	</select>
+	
+	<select id="selectGradeList" resultType="str">
+		SELECT *
+		  FROM movie_grade
+	</select>
 	
 </mapper>

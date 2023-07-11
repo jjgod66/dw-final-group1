@@ -12,6 +12,7 @@ import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.SysAdminDAO;
 import kr.or.dw.vo.AdminVO;
+import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.TheaterVO;
 
 public class SysAdminServiceImpl implements SysAdminService {
@@ -88,6 +89,24 @@ public class SysAdminServiceImpl implements SysAdminService {
 	@Override
 	public void theaterDelete(String thr_name) throws SQLException {
 		sysAdminDAO.updateDelTheater(thr_name);
+	}
+
+	@Override
+	public List<GenreVO> selectGenreList() throws SQLException {
+		List<GenreVO> genreList = null;
+		
+		genreList = sysAdminDAO.selectGenreList();
+		
+		return genreList;
+	}
+
+	@Override
+	public List<String> selectGradeList() throws SQLException {
+		List<String> gradeList = null;
+		
+		gradeList = sysAdminDAO.selectGradeList();
+		
+		return gradeList;
 	}
 
 }

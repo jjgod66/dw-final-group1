@@ -17,6 +17,7 @@
 		<typeAlias type="kr.or.dw.vo.MoviePreviewVO" alias="moviePre"/>
 		<typeAlias type="kr.or.dw.vo.MoviePostVO" alias="moviepost"/>
 		<typeAlias type="kr.or.dw.vo.ReviewVO" alias="review"/>
+		<typeAlias type="kr.or.dw.vo.GenreVO" alias="genre"/>
 	</typeAliases>
 
 </configuration>
