@@ -1,21 +1,38 @@
 package kr.or.dw.controller;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import kr.or.dw.service.MemberService;
+import kr.or.dw.vo.MemberVO;
 
 @Controller
 public class ViewController {
 
+	
+	@Autowired
+	private MemberService memberService;
 
 	/*
 	 * 맴버 뷰어 컨트롤러 
 	 */
-	@GetMapping("/member/main")
-	public String memberMain() {
+	@RequestMapping("/member/main")
+	public ModelAndView memberMain(ModelAndView mnv, HttpSession session) {
 		String url = "/member/main";
 		
+		String id = session.getId();
 		
-		return url;
+		MemberVO member = memberService.selectMemberById(id);
+		
+		mnv.addObject("member", member);
+		mnv.setViewName(url);
+		
+		return mnv;
 	}
 	@GetMapping("/member/additionalinfo")
 	public String memberAdditionalinfo() {
