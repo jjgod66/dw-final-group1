@@ -62,7 +62,7 @@ request.setAttribute("GetTitle", "DWCinema");
                 <c:otherwise>
                 <li class="nav-item"><a href="<%=request.getContextPath() %>/common/logout.do" class="nav-link link-dark px-2">로그아웃</a></li></c:otherwise>
             </c:choose>
-                <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#join-modal" class="nav-link link-dark px-2">회원가입</a></li>
+                <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#authentication-modal" class="nav-link link-dark px-2">회원가입</a></li>
             </ul>
         </div>
     </nav>
