@@ -31,17 +31,17 @@ public class SysAdminController {
 	@Autowired
 	private SysAdminService sysAdminService;
 	
-	@RequestMapping("/index")
+	@RequestMapping("/main")
 	public ModelAndView sysAdminIndex(ModelAndView mnv) {
-		String url = "/sysAdmin/index";
+		String url = "/sysAdmin/main";
 		
 		mnv.setViewName(url);
 		return mnv;
 	}
 
-	@RequestMapping("/theaterList")
+	@RequestMapping("/theaterAdminMain")
 	public ModelAndView placeAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException {
-		String url = "/sysAdmin/theaterList";
+		String url = "/sysAdmin/theaterAdminMain";
 		
 		Map<String, Object> dataMap = sysAdminService.selectTheaterList(cri);
 		mnv.addAllObjects(dataMap);
@@ -49,16 +49,9 @@ public class SysAdminController {
 		return mnv;
 	}
 	
-
-	@GetMapping("/adminCinemaMain")
-	public String adminCinemaMain() {
-		String url = "/sysAdmin/adminCinemaMain";
-		return url;
-	}
-	
 	@RequestMapping("/theaterRegistForm")
 	public ModelAndView theaterRegistForm(ModelAndView mnv, String thr_name) throws SQLException {
-		String url = "sysAdmin/placeRegistAdmin";
+		String url = "sysAdmin/theaterRegist";
 		
 		if (thr_name != null) {
 			System.out.println("test!!");
@@ -72,7 +65,7 @@ public class SysAdminController {
 		
 		return mnv;
 	}
-	
+
 	@RequestMapping("/theaterRegist")
 	public void theaterRegist(TheaterVO thr, HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException {
 		System.out.println(thr);
@@ -87,36 +80,50 @@ public class SysAdminController {
 		out.flush();
 		out.close();
 	}
-	@GetMapping("/movieAdmin")
+	
+/*	@GetMapping("/adminCinemaMain")
+	public String adminCinemaMain() {
+		String url = "/sysAdmin/adminCinemaMain";
+		return url;
+	}*/
+	
+	
+	@GetMapping("/movieAdminMain")
 	public String movieAdmin() {
-		String url = "/sysAdmin/movieAdmin";
+		String url = "/sysAdmin/movieAdminMain";
 		return url;
 	}
-	@GetMapping("/customerAdmin")
+	
+	@GetMapping("/supportAdminMain")
 	public String customerAdmin() {
-		String url = "/sysAdmin/customerAdmin";
+		String url = "/sysAdmin/supportAdminMain";
 		return url;
 	}
-	@GetMapping("/eventAdmin")
+	
+	@GetMapping("/eventAdminMain")
 	public String eventAdmin() {
-		String url = "/sysAdmin/eventAdmin";
+		String url = "/sysAdmin/eventAdminMain";
 		return url;
 	}
-	@GetMapping("/storeAdmin")
+	
+	@GetMapping("/storeAdminMain")
 	public String storeAdmin() {
-		String url = "/sysAdmin/storeAdmin";
+		String url = "/sysAdmin/storeAdminMain";
 		return url;
 	}
+	
 	@GetMapping("/eventAdminPast")
 	public String eventAdminPast() {
 		String url="/sysAdmin/eventAdminPast";
 		return url;
 	}
+	
 	@GetMapping("/eventAdminWinner")
 	public String eventAdminWinner() {
 		String url="/sysAdmin/eventAdminWinner";
 		return url;
 	}
+	
 	@GetMapping("/eventRegist")
 	public String eventRegist() {
 		String url="/sysAdmin/eventRegist";
