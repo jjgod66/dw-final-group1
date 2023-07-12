@@ -1,9 +1,30 @@
+<%@page import="kr.or.dw.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/payment.css">
 <!-- iamport.payment.js -->
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>    
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>  
+
+<%
+if(session.getAttribute("loginUser") == null){
+%>
+<script>
+alert("로그인이 필요합니다.");
+location.href="<%=request.getContextPath()%>/main.do"
+</script>	
+<%
+}
+%>
+
+<%
+MemberVO member = null;
+if(session.getAttribute("loginUser") != null){
+	member = (MemberVO) session.getAttribute("loginUser");
+}
+%> 
+
 <div class="sub_visual">
   	<h3>예매하기</h3>
     <h6>ticket reservation</h6>
@@ -13,13 +34,23 @@
 		<div class="row">
 			<div class="col-md-3">
 				<div class="movie_infor">
-					<span class="thm"><img src="https://caching.lottecinema.co.kr//Media/MovieFile/MovieImg/202306/19438_104_1.jpg" alt="엘리멘탈"></span>
-					<strong class="tit"><span class="ic_grade gr_all"></span>&nbsp;엘리멘탈(2D자막)</strong>
+					<span class="thm"><img src="../../resources/img/poster/${mapData.MOVIE_MAINPIC_PATH }" alt="${mapData.MOVIE_NAME }"></span>
+					<strong class="tit"><span class="ic_grade gr_all"></span>&nbsp;${mapData.MOVIE_NAME }
+						<c:if test="${mapData.MOVIE_TYPE_DES eq '없음/2D' }">(2D)</c:if>
+						<c:if test="${mapData.MOVIE_TYPE_DES ne '없음/2D' }">(${mapData.MOVIE_TYPE_DES })</c:if>
+
+					</strong>
 					<dl class="dlist_infor">
 						<dt>일시</dt>
-						<dd><strong>2023-07-05 (수) 22:15 ~ 24:14</strong></dd>
+						<dd>
+						<strong>
+						<fmt:formatDate value="${mapData.STARTDATE }" pattern="yyyy-MM-dd"/>
+						<fmt:formatDate value="${mapData.STARTDATE }" pattern="HH:mm"/>
+				 		~${mapData.endTime }
+				 		</strong>
+				  	 	</dd>
 						<dt>영화관</dt>
-						<dd>가산디지털 5관 - 2D</dd>
+						<dd>${mapData.THR_NAME } ${mapData.HOUSE_NAME }</dd>
 						<dt>인원</dt>
 						<dd>
 							${moviePayment.adultSeat > 0 ? '성인 '  : '' } ${moviePayment.adultSeat > 0 ? moviePayment.adultSeat : '' }
@@ -90,7 +121,7 @@
 					</div>
 					<span>결제 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow totalPrice"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<button class="btn btn-success px-3" id="credit" onclick="requestPay();">결제하기</button>
 				</div>
@@ -98,6 +129,16 @@
 		</div>
 	</div>
 </div>
+<form id="payForm" action="/payResult.do">
+	<input type="hidden" name="adultSeat" value="${moviePayment.adultSeat}">
+	<input type="hidden" name="teenSeat" value="${moviePayment.teenSeat}">
+	<input type="hidden" name="preferSeat" value="${moviePayment.preferSeat}">
+	<input type="hidden" name="totalPrice">
+	<input type="hidden" name="screen_cd" value="${screen.screenVO.screen_cd }">
+	<input type="hidden" name="res_seats" value="${moviePayment.res_seats}">
+	<input type="hidden" name="pay_info">
+</form>
+
 <script>
 const IMP = window.IMP;
 IMP.init("imp04352208");
@@ -106,20 +147,32 @@ IMP.init("imp04352208");
 //결제화면 띄우는 메서드
 let pay_info = null;
 function requestPay() { 
+	let totalPrice = $('.totalPrice').text();
+	console.log(totalPrice);
 	let method = $('input[name="payMethod"]:checked').prop('id');
+	let movie_name = '${mapData.MOVIE_NAME}';
+	let buyer_name = '<%=member.getMem_name()%>';
+	let buyer_tel = '<%=member.getMem_phone()%>';
+	let buyer_email = '<%=member.getMem_email()%>';
+	let price = '${moviePayment.totalPrice }';
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
         merchant_uid: 'merchant_' + new Date().getTime(),
-        name: '예매',
-        amount: ${moviePayment.totalPrice },
-        buyer_email: '',
-        buyer_name: '김민경',
-        buyer_tel: '010-8771-4407',
+        name: movie_name,
+        amount: 100,
+        buyer_email: buyer_email,
+        buyer_name: buyer_name,
+        buyer_tel: buyer_tel,
     }, function (rsp) { // callback
         if (rsp.success) {
             console.log(rsp);
 			pay_info = rsp;
+			$('input[name="totalPrice"]').val(price);
+			$('input[name="pay_info"]').val(pay_info);
+			alert("결제완료");
+			$('#payForm').submit();			
+			
         } else {
             console.log(rsp);
             pay_info = rsp;

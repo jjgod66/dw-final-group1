@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import kr.or.dw.command.MoviePaymentCommand;
 import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.service.ReservationService;
+import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.ScreenVO;
 
@@ -33,11 +36,13 @@ public class ReservationController {
 	private ReservationService reservationService;
 
 	@RequestMapping("/moviePaymentForm")
-	public ModelAndView moviePaymentForm(ModelAndView mnv, MoviePaymentCommand mpc) throws SQLException{
+	public ModelAndView moviePaymentForm(ModelAndView mnv, MoviePaymentCommand mpc, HttpSession session) throws SQLException{
 		String url = "/booking/payment";
 		
 		Map<String, Object> mapData = null;
 		mapData = reservationService.getPaymentScreenInfo(mpc.getScreen_cd());
+
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 		
 		mnv.addObject("mapData", mapData);
 		mnv.addObject("moviePayment", mpc);
@@ -118,5 +123,13 @@ public class ReservationController {
 		return entity;
 	}
 	
+	@RequestMapping("/payResult")
+	public ModelAndView payResult(MoviePaymentCommand mpc, ModelAndView mnv) {
+		String url = "/booking/payResult";
+		System.out.println("컨트롤러 : " + mpc);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
 	
 }

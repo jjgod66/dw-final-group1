@@ -65,4 +65,13 @@
 		FROM movie
 		WHERE enddate > sysdate
 	</select>
+	
+	<select id="selectPaymentScreenInfo" resultType="Map">
+		SELECT s.screen_cd, house_name, startdate, movie_type_des, movie_name, movie_length, thr_name, house_name, movie_mainpic_path
+		FROM screen s, movie m, house h, movie_type mt
+		WHERE s.movie_cd = m.movie_cd
+		AND s.house_no = h.house_no
+		AND s.movie_type_cd = mt.movie_type_cd
+		AND s.screen_cd = #{screen_cd}
+	</select>
 </mapper>

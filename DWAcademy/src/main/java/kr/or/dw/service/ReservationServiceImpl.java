@@ -86,4 +86,27 @@ public class ReservationServiceImpl implements ReservationService{
 		return movieList;
 	}
 
+	@Override
+	public Map<String, Object> getPaymentScreenInfo(String screen_cd) throws SQLException {
+		Map<String, Object> mapData = null;
+		mapData = reservationDAO.selectPaymentScreenInfo(screen_cd);
+		
+		SimpleDateFormat h = new SimpleDateFormat("HH");
+		SimpleDateFormat m = new SimpleDateFormat("mm");
+		int hh = Integer.parseInt(h.format((Date)mapData.get("STARTDATE")));
+		int mm = Integer.parseInt(m.format((Date)mapData.get("STARTDATE")));
+		
+		int lengthH = Integer.parseInt(String.valueOf(mapData.get("MOVIE_LENGTH"))) / 60;
+		int lengthM = Integer.parseInt(String.valueOf(mapData.get("MOVIE_LENGTH"))) % 60;
+		hh = hh + lengthH;
+		mm = mm + lengthM;
+		String endTime = hh + ":" + mm;
+		if(hh < 10) {
+			endTime = "0" + hh + ":" + mm;
+		}
+		mapData.put("endTime", endTime);
+		
+		return mapData;
+	}
+
 }
