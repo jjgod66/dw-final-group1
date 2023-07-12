@@ -171,7 +171,7 @@ function requestPay() {
 			$('input[name="totalPrice"]').val(price);
 			$('input[name="pay_info"]').val(pay_info);
 			alert("결제완료");
-			$('#payForm').submit();			
+			$('#payForm').submit();	
 			
         } else {
             console.log(rsp);
