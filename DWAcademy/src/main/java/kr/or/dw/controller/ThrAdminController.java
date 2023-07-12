@@ -2,6 +2,7 @@ package kr.or.dw.controller;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.ThrAdminService;
+import kr.or.dw.vo.TheaterVO;
 
 @Controller
 @RequestMapping("/thrAdmin")
@@ -42,7 +44,29 @@ public class ThrAdminController {
 		mnv.setViewName(url);
 		return mnv;
 	}
-
+	
+	@RequestMapping("/theaterRegistForm")
+	public ModelAndView theaterRegistForm(ModelAndView mnv) throws SQLException {
+		
+		String url = "thrAdmin/theaterAdminRegist";
+//		Map<String, Object> subjectMap = new HashMap<String, Object>(); 
+//		 
+//		if (thr_name != null) {	// 수정일 때
+//			TheaterVO thr = sysAdminService.selectTheaterByName(thr_name);
+//			mnv.addObject("thr", thr);
+//			subjectMap = addSubject("HOME", "지점 관리", "지점 수정");
+//		} else {				// 등록일 때
+//			subjectMap = addSubject("HOME", "지점 관리", "지점 등록");
+//		}
+//		
+//		List<String> locList = sysAdminService.selectLocList();
+//		
+//		mnv.addAllObjects(subjectMap);
+//		mnv.addObject("locList", locList);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
 	@GetMapping("/movieAdminMain")
 	public String movieAdmin() {
 		
