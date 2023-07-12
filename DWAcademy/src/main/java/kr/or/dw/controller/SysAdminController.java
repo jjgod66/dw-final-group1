@@ -1,12 +1,15 @@
 package kr.or.dw.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,11 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.SysAdminService;
 import kr.or.dw.vo.GenreVO;
+import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.TheaterVO;
 
 @Controller
@@ -31,6 +37,9 @@ public class SysAdminController {
 	
 	@Autowired
 	private SysAdminService sysAdminService;
+	
+	@Resource(name ="moviePicUploadPath")
+	private String moviePicUploadPath;
 	
 	@RequestMapping("/main")
 	public ModelAndView sysAdminIndex(ModelAndView mnv) {
@@ -153,6 +162,68 @@ public class SysAdminController {
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
+	}
+	
+	@RequestMapping("/movieRegist")
+	public void movieRegist (MovieRegistCommand registReq, HttpServletRequest req, HttpServletResponse res) throws Exception {
+		
+		String moviePicUploadPath = this.moviePicUploadPath;
+
+		MovieVO movie = registReq.toMovieVO();
+		System.out.println("[[[[" + movie.getMovie_mainpic_path());
+		sysAdminService.registMovie(movie);
+		
+		String[] genres = registReq.getGenre_cd();
+		String movie_cd = movie.getMovie_cd();
+		sysAdminService.registMovieGenre(genres, movie_cd);
+		
+		// 포스터 이미지파일 로컬에 저장
+		MultipartFile poster = registReq.getMovie_mainPic_path();
+		if (poster != null) {
+			String fileName = poster.getOriginalFilename();
+			File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "mainPoster", fileName);
+			
+			if (!target.exists()) {
+				target.mkdirs();
+			}
+			
+			poster.transferTo(target);
+		}
+		// 관련 이미지파일 로컬에 저장
+		if (registReq.getUploadImg() != null) {
+			for (MultipartFile multi : registReq.getUploadImg()) {
+				String fileName = UUID.randomUUID().toString().replace("-", "") + "$$" + multi.getOriginalFilename();
+				File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "pictures", fileName);
+				
+				if (!target.exists()) {
+					target.mkdirs();
+				}
+				
+				multi.transferTo(target);
+			}
+		}
+		
+		// 관련 동영상파일 로컬에  저장
+		if (registReq.getUploadVideo() != null) {
+			for (MultipartFile multi : registReq.getUploadVideo()) {
+				String fileName = UUID.randomUUID().toString().replace("-", "") + "$$" + multi.getOriginalFilename();
+				File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "videos", fileName);
+				
+				if (!target.exists()) {
+					target.mkdirs();
+				}
+				
+				multi.transferTo(target);
+			}
+		}
+//		res.setContentType("text/html; charset=utf-8");
+//		PrintWriter out = res.getWriter();
+//		out.println("<script>");
+//		out.println("alert('테스트')");
+//		out.println("location.href='theaterAdminMain.do';");
+//		out.println("</script>");
+//		out.flush();
+//		out.close();
 	}
 	
 	@GetMapping("/supportAdminMain")

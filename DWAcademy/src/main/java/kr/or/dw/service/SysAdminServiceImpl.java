@@ -8,11 +8,13 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.SysAdminDAO;
 import kr.or.dw.vo.AdminVO;
 import kr.or.dw.vo.GenreVO;
+import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.TheaterVO;
 
 public class SysAdminServiceImpl implements SysAdminService {
@@ -107,6 +109,21 @@ public class SysAdminServiceImpl implements SysAdminService {
 		gradeList = sysAdminDAO.selectGradeList();
 		
 		return gradeList;
+	}
+
+	@Override
+	public void registMovie(MovieVO movie) throws SQLException {
+		sysAdminDAO.insertMovie(movie);
+	}
+
+	@Override
+	public void registMovieGenre(String[] genres, String movie_cd) throws SQLException {
+		Map<String, String> map = new HashMap<>();
+		map.put("movie_cd", movie_cd);
+		for (String genre : genres) {
+			map.put("genre", genre);
+			sysAdminDAO.insertGenre(map);
+		}
 	}
 
 }
