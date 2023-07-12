@@ -81,13 +81,6 @@ public class CommonController {
 	}
 	
 	// 카카오 소셜로그인
-	@RequestMapping("/kakaoLogin")
-	public String kakaoLogin() {
-		
-		return "/kakao/kakaoLogin";
-		
-	}
-	
 	@RequestMapping(value="/kakaoCode", method=RequestMethod.GET)
 	public String kakaoCode(@RequestParam(value = "code", required = false) String code) throws Exception {
 		
@@ -96,7 +89,7 @@ public class CommonController {
 		
 		String access_Token = ka.getAccessToken(code);
 		System.out.println("###access_Token#### : " + access_Token);
-		return "/kakao/kakaoLogin";
+		return "/member/PrivacyInfo";
 		/*
 		 * 리턴값의 testPage는 아무 페이지로 대체해도 괜찮습니다.
 		 * 없는 페이지를 넣어도 무방합니다.
