@@ -2,6 +2,7 @@ package kr.or.dw.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
@@ -9,6 +10,7 @@ import org.apache.ibatis.session.RowBounds;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.AdminVO;
 import kr.or.dw.vo.GenreVO;
+import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.TheaterVO;
 
 
@@ -47,5 +49,11 @@ public interface SysAdminDAO {
 
 	// 상영등급 리스트 불러오기
 	List<String> selectGradeList() throws SQLException;
+
+	// 영화정보 등록하기
+	void insertMovie(MovieVO movie) throws SQLException;
+
+	// 해당 영화 장르 등록하기
+	void insertGenre(Map<String, String> map) throws SQLException;
 
 }

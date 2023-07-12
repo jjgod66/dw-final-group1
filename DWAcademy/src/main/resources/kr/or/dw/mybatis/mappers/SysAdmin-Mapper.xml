@@ -147,4 +147,47 @@
 		  FROM movie_grade
 	</select>
 	
+	<insert id="insertMovie">
+		INSERT INTO movie 
+					(
+					 movie_cd
+					,movie_name
+					,movie_mainpic_path
+					,movie_director
+					,movie_length
+					,movie_info
+					,movie_actor
+					,movie_grade
+					,opendate
+					,enddate				
+					) 
+			 VALUES (
+			 		 #{movie_cd} || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual) || LPAD(movie_seq.nextval,4,0)
+			 		,#{movie_name}
+			 		,#{movie_mainpic_path}
+					,#{movie_director}
+					,#{movie_length}
+					,#{movie_info}
+					,#{movie_actor}
+					,#{movie_grade}
+					,#{opendate}
+					,#{enddate}
+			 		)
+		<selectKey resultType="str" keyProperty="movie_cd" order="AFTER">
+			SELECT #{movie_cd} || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual d1) || LPAD(movie_seq.currval,4,0) movie_cd FROM dual d2
+		</selectKey>
+	</insert>
+	
+	<insert id="insertGenre">
+		INSERT INTO genre_c
+					(
+					 genre_cd
+					,movie_cd
+					)
+			 VALUES (
+					 #{genre}
+					,#{movie_cd}			 
+			 		)	
+	</insert>
+	
 </mapper>
