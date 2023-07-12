@@ -20,7 +20,7 @@
                         <span class="other mt-4">멤버십 포인트</span>
                         <a class="btn mt-3"><span>포인트 이용내역</span></a>
                         <span class="other mt-4">회원 정보</span>
-                        <a class="btn mt-3"><span>개인정보 수정</span></a>
+                        <a href="<%=request.getContextPath()%>/member/PrivacyInfo.do" class="btn mt-3"><span>개인정보 수정</span></a>
                         <a href="<%=request.getContextPath()%>/member/additionalinfo.do" class="btn mt-3"><span>선택정보 수정</span></a>
                     </div>
                 </div>

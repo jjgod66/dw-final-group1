@@ -30,24 +30,24 @@ $('#sendSMS').on('click', function(){
 })
 $('#SMSCheck').on('click', function(){
 	let SMSCheckInput = $('#SMSCheckInput').val();
+	let target = document.getElementById('joinFormGo');
 	
 	if(checkNum == SMSCheckInput){
 		$('#result_checkCode').html("<i class='bi bi-check-lg'></i>").css("color", "green");
 		SMSChecked = true;
 	}else{
 		alert('인증번호가 일치하지 않습니다! \n 인증번호를 다시 요청해주세요.');
+		$('#result_checkCode').html("");
 		checkNum = "";
 		SMSChecked = false;
 	}
-})
-
-	const target = document.getElementById('joinFormGo');
 	if(SMSChecked){
 		target.disabled = false;
 	}else{
 		target.disabled = true;
 	}
-}
+})
+
 
 
 </script>

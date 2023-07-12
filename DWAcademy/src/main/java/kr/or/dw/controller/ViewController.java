@@ -42,6 +42,11 @@ public class ViewController {
 		String url = "/member/membership";
 		return url;
 	}
+	@RequestMapping("/member/PrivacyInfo")
+	public String PrivacyInfo() {
+		String url = "/member/PrivacyInfo";
+		return url;
+	}
 	
 	/*
 	 * 영화 뷰어 컨트롤러 
