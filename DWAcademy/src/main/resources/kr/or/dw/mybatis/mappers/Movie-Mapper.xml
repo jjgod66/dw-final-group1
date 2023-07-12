@@ -13,13 +13,14 @@
 						(
 							SELECT count(*) reserver, screen_cd
 							FROM reservation r
+							WHERE resdate = sysdate - 1
 							GROUP BY screen_cd
 						) sr, screen s
 					WHERE sr.screen_cd = s.screen_cd
 					GROUP BY movie_cd
 				)mr, movie m
 			WHERE mr.movie_cd(+) = m.movie_cd
-			ORDER BY reservers DESC
+			ORDER BY reservers DESC nulls last
 			)
 		WHERE rownum <![CDATA[<=]]> 10
 	</select>

@@ -45,4 +45,11 @@ public interface ReservationService {
 	 */
 	List<MovieVO> getAllMovieRes() throws SQLException;
 
+	/**
+	 * 예매할 영화 정보를 가져오는 메서드
+	 * @param screen_cd
+	 * @return
+	 */
+	Map<String, Object> getPaymentScreenInfo(String screen_cd) throws SQLException;
+
 }

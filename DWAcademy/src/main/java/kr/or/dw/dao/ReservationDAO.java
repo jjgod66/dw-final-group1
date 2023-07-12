@@ -63,4 +63,11 @@ public interface ReservationDAO {
 	 */
 	List<String> selectBuySeatList(String screen_cd);
 
+	/**
+	 * 예매할 영화 정보를 가져오는 메서드
+	 * @param screen_cd
+	 * @return
+	 */
+	Map<String, Object> selectPaymentScreenInfo(String screen_cd);
+
 }

@@ -26,6 +26,8 @@
 							${moviePayment.teenSeat > 0 ? '청소년 '  : '' } ${moviePayment.teenSeat > 0 ? moviePayment.teenSeat : '' }
 							${moviePayment.preferSeat > 0 ? '우대 '  : '' } ${moviePayment.preferSeat > 0 ? moviePayment.preferSeat : '' }
 						</dd>
+						<dt>좌석</dt>
+						<dd>${moviePayment.res_seats }</dd>
 					</dl>
 				</div>
 			</div>

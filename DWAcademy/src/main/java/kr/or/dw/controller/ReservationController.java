@@ -33,9 +33,13 @@ public class ReservationController {
 	private ReservationService reservationService;
 
 	@RequestMapping("/moviePaymentForm")
-	public ModelAndView moviePaymentForm(ModelAndView mnv, MoviePaymentCommand mpc) {
+	public ModelAndView moviePaymentForm(ModelAndView mnv, MoviePaymentCommand mpc) throws SQLException{
 		String url = "/booking/payment";
 		
+		Map<String, Object> mapData = null;
+		mapData = reservationService.getPaymentScreenInfo(mpc.getScreen_cd());
+		
+		mnv.addObject("mapData", mapData);
 		mnv.addObject("moviePayment", mpc);
 		mnv.setViewName(url);
 		return mnv;
@@ -74,7 +78,6 @@ public class ReservationController {
 		
 		ReservationDetailCommand screen = null;
 		screen = reservationService.getScreen(screen_cd);
-		
 		mnv.addObject("screen", screen);
 		mnv.setViewName(url);
 		return mnv;

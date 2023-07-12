@@ -71,6 +71,7 @@ public class ReservationServiceImpl implements ReservationService{
 		map = reservationDAO.selectScreen(screen_cd);
 		List<String> buySeatList = null;
 		buySeatList = reservationDAO.selectBuySeatList(screen_cd);
+		
 		map.put("buySeatList", buySeatList);
 		ReservationDetailCommand rdc = new ReservationDetailCommand(map);
 		
