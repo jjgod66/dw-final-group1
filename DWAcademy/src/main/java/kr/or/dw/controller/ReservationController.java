@@ -18,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.or.dw.command.MoviePaymentCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.service.ReservationService;
+import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ScreenVO;
 
 
 @Controller
@@ -48,6 +50,11 @@ public class ReservationController {
 		
 		List<Map<String, Object>> allTheaterList = null;
 		allTheaterList = reservationService.getAllTheater();
+		
+		List<MovieVO> movieList = null;
+		movieList = reservationService.getAllMovieRes();
+		
+		mnv.addObject("movieList", movieList);
 		mnv.addObject("allTheater", allTheaterList);
 		mnv.addObject("movie_cd", movie_cd);
 		mnv.setViewName(url);
@@ -61,9 +68,15 @@ public class ReservationController {
 	}
 	
 	@RequestMapping("/detail")
-	public String bookingDetail() {
+	public ModelAndView bookingDetail(ModelAndView mnv, String screen_cd) throws SQLException {
 		String url = "/booking/detail";
-		return url;
+		
+		ScreenVO screen = null;
+		screen = reservationService.getScreen(screen_cd);
+		
+		mnv.addObject("screen", screen);
+		mnv.setViewName(url);
+		return mnv;
 	}
 
 

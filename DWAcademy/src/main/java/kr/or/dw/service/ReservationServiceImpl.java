@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.dao.ReservationDAO;
+import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ScreenVO;
 
 public class ReservationServiceImpl implements ReservationService{
 
@@ -27,7 +29,6 @@ public class ReservationServiceImpl implements ReservationService{
 		data.put("date", date);
 		
 		theaterList = reservationDAO.selectMovieTheater(data);
-//		theaterList = reservationDAO.selectMovieTheater(movie_cd, date);
 		
 		return theaterList;
 	}
@@ -56,12 +57,27 @@ public class ReservationServiceImpl implements ReservationService{
 			int totalSeat = (Integer.parseInt(String.valueOf(map.get("HOUSE_ROW")))) * (Integer.parseInt(String.valueOf(map.get("HOUSE_COLUMN"))));
 			int remainSeat = totalSeat - buySeatCount;
 			map.put("remainSeat", remainSeat);
-			
 			ScreenSchedualCommand ssc = new ScreenSchedualCommand(map);
 			screenScedual.add(ssc);
 		}
 		
 		return screenScedual;
+	}
+
+	@Override
+	public ScreenVO getScreen(String screen_cd) throws SQLException {
+		ScreenVO screen = null;
+		screen = reservationDAO.selectScreen(screen_cd);
+		
+		return screen;
+	}
+
+	@Override
+	public List<MovieVO> getAllMovieRes() throws SQLException {
+		List<MovieVO> movieList = null;
+		movieList = reservationDAO.selectAllMovieRes();
+		
+		return movieList;
 	}
 
 }

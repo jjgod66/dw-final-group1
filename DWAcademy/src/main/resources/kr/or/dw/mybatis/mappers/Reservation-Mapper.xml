@@ -25,13 +25,14 @@
 	</select>
 	
 	<select id="selectScreenSchedual" resultType="Map">
-		SELECT *
+		SELECT a.*, h.*
 		FROM (
-			SELECT *
-			FROM screen
-			WHERE movie_cd = #{movie_cd}
+			SELECT screen_cd, house_no, m.movie_cd, startdate, gb_jojo, s.movie_type_cd, movie_type_des, movie_length
+			FROM screen s, movie_type mt, movie m
+			WHERE s.movie_type_cd = mt.movie_type_cd
+			AND s.movie_cd = m.movie_cd
+			AND s.movie_cd = #{movie_cd}
 			AND TO_char(startdate, 'YYYY-MM-DD') = #{date}
-			AND startdate > sysdate
 			) a, house h
 		WHERE a.house_no = h.house_no
 		AND thr_name = #{thr_name}
@@ -42,5 +43,17 @@
 		SELECT count(*) buySeat
 		FROM reservation r
 		WHERE screen_cd = #{screen_cd}
+	</select>
+	
+	<select id="selectScreen" resultType="screen">
+		SELECT *
+		FROM screen
+		WHERE screen_cd = #{screen_cd}
+	</select>
+	
+	<select id="selectAllMovieRes" resultType="movie">
+		SELECT *
+		FROM movie
+		WHERE enddate > sysdate
 	</select>
 </mapper>
