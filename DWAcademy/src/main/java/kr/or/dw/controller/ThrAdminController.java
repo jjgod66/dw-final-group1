@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.SearchCriteria;
-import kr.or.dw.service.ThrAdminServiceImpl;
+import kr.or.dw.service.ThrAdminService;
 
 @Controller
 @RequestMapping("/thrAdmin")
@@ -23,7 +23,7 @@ public class ThrAdminController {
 	private static final Logger logger = LoggerFactory.getLogger(SysAdminController.class);
 	
 	@Autowired
-	private ThrAdminServiceImpl thrAdminService;
+	private ThrAdminService thrAdminService;
 	
 	@RequestMapping("/main")
 	public ModelAndView thrAdminIndex(ModelAndView mnv) {

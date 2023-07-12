@@ -18,7 +18,8 @@
 	<bean id="memberService" class="kr.or.dw.service.MemberServiceImpl"/>
 	<bean id="reservationService" class="kr.or.dw.service.ReservationServiceImpl"/>
 	<bean id="movieService" class="kr.or.dw.service.MovieServiceImpl"/>
-	<bean id="thrService" class="kr.or.dw.service.ThrAdminServiceImpl"/>
+	<bean id="thrAdminService" class="kr.or.dw.service.ThrAdminServiceImpl"/>
+	<bean id="eventService" class="kr.or.dw.service.EventServiceImpl"/>
 
 
 	
