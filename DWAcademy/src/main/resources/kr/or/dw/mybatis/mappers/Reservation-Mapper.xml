@@ -31,9 +31,11 @@
 			FROM screen
 			WHERE movie_cd = #{movie_cd}
 			AND TO_char(startdate, 'YYYY-MM-DD') = #{date}
+			AND startdate > sysdate
 			) a, house h
 		WHERE a.house_no = h.house_no
 		AND thr_name = #{thr_name}
+		ORDER BY startdate
 	</select>
 	
 	<select id="buySeatCount" resultType="int">
