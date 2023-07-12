@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="../include/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/seatbooking.css">
 <div class="sub_visual">
@@ -81,14 +83,21 @@
             </div>
             <div class="price-table">
                 <div class="tit-area">
-                    <!--span class="movie-grade small age-all age-15">15세이상관람가</span-->
-                    <p class="price-tit">영화제목</p>
-                    <p class="price-cate">2D</p>
+                    <span class="movie-grade small">${screen.movieVO.movie_grade }</span>
+                    <p class="price-tit">${screen.movieVO.movie_name }</p>
+                    <p class="price-cate">
+                    	<c:if test="${screen.movie_type_des eq '없음/2D' }">
+                    		2D
+                    	</c:if>
+                    	<c:if test="${screen.movie_type_des ne '없음/2D' }">
+                    		${screen.movie_type_des}
+                    	</c:if>
+                    </p>
                 </div>
                 <div class="info-area">
-                    <p class="special">1관</p>
-                    <p class="date"><span>2023.06.30</span><em>(금)</em></p>
-                    <p class="other-time">22:00~23:59</p>
+                    <p class="special">${screen.houseVO.house_name}</p>
+                    <p class="date"><span><fmt:formatDate value="${screen.screenVO.startdate}" pattern="yyyy.MM.dd"/></span></p>
+                    <p class="other-time"><fmt:formatDate value="${screen.screenVO.startdate}" pattern="HH:mm"/>~23:59</p>
                     <div class="price-theater-place">
                         <span>남은좌석</span> <span class="remain-seats">0</span>/<span class="all-seats">0</span>
                     </div>
@@ -338,6 +347,6 @@ function addRowsAndColumns(rows, columns) {
 }
 
 // 초기값으로 8행 15열 설정
-addRowsAndColumns(8, 14);
+addRowsAndColumns(${screen.houseVO.house_row}, ${screen.houseVO.house_column});
 </script>
 <%@include file="../include/footer.jsp" %>

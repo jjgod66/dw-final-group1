@@ -48,12 +48,19 @@ public interface ReservationDAO {
 	 * @param screen_cd
 	 * @return
 	 */
-	ScreenVO selectScreen(String screen_cd) throws SQLException;
+	Map<String, Object> selectScreen(String screen_cd) throws SQLException;
 
 	/**
 	 * 상영중인 영화의 리스트를 가져오는 메서드
 	 * @return
 	 */
 	List<MovieVO> selectAllMovieRes() throws SQLException;
+
+	/**
+	 * 예매된 좌석 리스트 가져오는 메서드
+	 * @param screen_cd
+	 * @return
+	 */
+	List<String> selectBuySeatList(String screen_cd);
 
 }

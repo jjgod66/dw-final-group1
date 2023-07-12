@@ -45,9 +45,18 @@
 		WHERE screen_cd = #{screen_cd}
 	</select>
 	
-	<select id="selectScreen" resultType="screen">
-		SELECT *
-		FROM screen
+	<select id="selectScreen" resultType="Map">
+		SELECT m.*, h.*, mt.*, s.screen_cd, startdate, gb_jojo
+		FROM screen s, movie m, house h, movie_type mt
+		WHERE s.movie_cd = m.movie_cd
+		AND s.house_no = h.house_no
+		AND s.movie_type_cd = mt.movie_type_cd
+		AND screen_cd = #{screen_cd}
+	</select>
+	
+	<select id="selectBuySeatList" resultType="str">
+		SELECT res_seat
+		FROM reservation
 		WHERE screen_cd = #{screen_cd}
 	</select>
 	

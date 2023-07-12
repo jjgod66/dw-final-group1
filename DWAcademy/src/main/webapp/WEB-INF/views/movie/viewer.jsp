@@ -22,7 +22,7 @@
         <div class="scon_02_detail">
             <div class="lbox">
                 <img src="../../resources/img/poster/${movieView.movie.movie_mainpic_path}">
-                <a href="<%=request.getContextPath() %>/booking/movie.do?movie_cd=${movieView.movie.movie_cd }" class="btn btn-reservation">예매하기</a>
+                <a href="<%=request.getContextPath() %>/reservation/cinema.do?movie_cd=${movieView.movie.movie_cd }" class="btn btn-reservation">예매하기</a>
 <!--                 <a href="javascript:trailer();" class="btn btn-trailer">예고편</a> -->
             </div>
             <div class="rbox">

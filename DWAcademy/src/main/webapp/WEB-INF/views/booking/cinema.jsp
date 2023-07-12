@@ -339,6 +339,10 @@ function showSchedual(res){
 			m = '00';
 		}
 		time = h + ':' + m;
+		let type_des = res[i].movie_type_des;
+		if(type_des == '없음/2D'){
+			type_des = '2D';
+		}
 		let screen = '';
 		let totalSeat = res[i].houseVO.house_row*res[i].houseVO.house_column;
 		let lengthH = Math.floor(res[i].movie_length / 60);
@@ -346,7 +350,7 @@ function showSchedual(res){
 		let length = lengthH + '시간' + lengthM + '분';
 		screen += '<div class="col-12 col-lg-4" style="padding: 10px;">';
 		screen += '<button type="button" class="btnTime" data-screen_cd="' + res[i].screenVO.screen_cd + '">';
-		screen += '<div class="loc">' + res[i].houseVO.house_name + '(' + res[i].movie_type_des + ')</div>';
+		screen += '<div class="loc">' + res[i].houseVO.house_name + '(' + type_des + ')</div>';
 		screen += '<div class="info">';
 		screen += '<p class="time">' + time + '<span>~' + length + '</span></p>';
 		screen += '<p class="num">' + res[i].remainSeat + '/<span>' + totalSeat + '석</span></p>';
@@ -493,21 +497,6 @@ swiper.on('slideChange', function() {
     nextButton.classList.remove('swiper-button-disabled');
   }
 });
-// 예매 시간 데이터
-// var movieTimes = [
-// 	  { time: "10:00", duration: "1시간 40분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
-// 	  { time: "13:30", duration: "2시간 10분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
-// 	  { time: "16:20", duration: "1시간 50분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
-// 	  { time: "19:00", duration: "2시간 30분", totalSeats: 112, remainingSeats: 112, date: "2023-07-07" },
-// 	  { time: "10:00", duration: "1시간 40분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
-// 	  { time: "13:30", duration: "2시간 10분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
-// 	  { time: "16:20", duration: "1시간 50분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
-// 	  { time: "19:00", duration: "2시간 30분", totalSeats: 112, remainingSeats: 112, date: "2023-07-08" },
-// 	  { time: "10:00", duration: "1시간 40분", totalSeats: 112, remainingSeats: 112, date: "2023-07-09" },
-// 	  { time: "13:30", duration: "2시간 10분", totalSeats: 112, remainingSeats: 112, date: "2023-07-09" },
-// 	  { time: "16:20", duration: "1시간 50분", totalSeats: 112, remainingSeats: 112, date: "2023-07-09" },
-// 	  { time: "19:00", duration: "2시간 30분", totalSeats: 112, remainingSeats: 112, date: "2023-07-09" }
-// ];
 
 // 현재 시간 가져오기
 var currentTime = new Date();
@@ -515,97 +504,6 @@ var currentTime = new Date();
 // 현재 날짜 가져오기 (년-월-일 형식)
 var currentDateString = new Date().toISOString().split("T")[0];
 
-// // 각 극장의 예매 시간을 생성하는 함수
-// function createMovieTimes(theaterNumber, selectedDate) {
-//   var container = document.getElementById("movie-list-" + theaterNumber);
-
-//   // 기존에 표시된 예매 시간 삭제
-//   container.innerHTML = "";
-
-//   // 예매 시간 데이터를 반복하여 HTML 요소를 생성
-//   for (var i = 0; i < movieTimes.length; i++) {
-//     var movieTime = movieTimes[i];
-
-//     // 예매 시간의 날짜와 선택한 날짜가 일치하는지 확인
-//     if (movieTime.date !== selectedDate) {
-//       continue;
-//     }
-
-//     // 예매 시간을 Date 객체로 변환
-//     var reservationTime = new Date(movieTime.date + "T" + movieTime.time);
-
-//     // 예매 시간이 현재 시간 이전인 경우 건너뜀
-//     if (reservationTime < currentTime) {
-//       continue;
-//     }
-
-//     var colDiv = document.createElement("div");
-//     colDiv.className = "col-12 col-lg-3";
-
-//     var button = document.createElement("button");
-//     button.type = "button";
-//     button.className = "btnTime";
-//     button.dataset.cd = ("0" + (i + 1)).slice(-2);
-//     button.dataset.seq = theaterNumber;
-//     button.dataset.tm = movieTime.time;
-//     button.dataset.dt = movieTime.date;
-
-//     // 버튼 클릭 이벤트 추가
-//     button.addEventListener("click", function(event) {
-
-//       // 입력 요소를 선택합니다.
-//       const movieTimeInput = document.querySelector('input[name="movieTime"]');
-
-//       var movieDayInput = document.querySelector('input[name="movieDay"]');
-//       var movieDayValue = movieDayInput.value;
-//       if (movieDayValue.trim() === '') {
-//         alert('날짜를 선택 후 시간을 선택해 주세요.');
-//         return;
-//       }
-
-//       location.href = '/reservation/detail.do';
-
-//       var clickedButton = event.target;
-
-//       // 버튼에 저장된 날짜 가져오기
-//       var buttonDate = clickedButton.dataset.dt;
-
-//       // 클릭된 버튼의 data-moviecd 속성 값을 가져옵니다.
-//       const movieTime = button.getAttribute('data-tm');
-
-//       // 입력 요소의 value 속성에 값을 할당합니다.
-//       movieTimeInput.value = movieTime;
-//     });
-
-//     var loc = document.createElement("div");
-//     loc.className = "loc";
-//     loc.textContent = theaterNumber + "관/2D";
-
-//     var info = document.createElement("div");
-//     info.className = "info";
-
-//     var time = document.createElement("p");
-//     time.className = "time";
-//     time.textContent = movieTime.time;
-
-//     var duration = document.createElement("span");
-//     duration.textContent = "~" + movieTime.duration;
-//     time.appendChild(duration);
-
-//     var num = document.createElement("p");
-//     num.className = "num";
-//     num.innerHTML = movieTime.remainingSeats + "/<span>" + movieTime.totalSeats + "석</span>";
-
-//     info.appendChild(time);
-//     info.appendChild(num);
-
-//     button.appendChild(loc);
-//     button.appendChild(info);
-
-//     colDiv.appendChild(button);
-//     container.appendChild(colDiv);
-//   }
-// }
 
 // 초기 페이지 로드 시 오늘 날짜로 예매 시간 생성
 for (var theaterNumber = 1; theaterNumber <= 4; theaterNumber++) {

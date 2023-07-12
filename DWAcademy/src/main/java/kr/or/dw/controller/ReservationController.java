@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.MoviePaymentCommand;
+import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.service.ReservationService;
 import kr.or.dw.vo.MovieVO;
@@ -71,7 +72,7 @@ public class ReservationController {
 	public ModelAndView bookingDetail(ModelAndView mnv, String screen_cd) throws SQLException {
 		String url = "/booking/detail";
 		
-		ScreenVO screen = null;
+		ReservationDetailCommand screen = null;
 		screen = reservationService.getScreen(screen_cd);
 		
 		mnv.addObject("screen", screen);

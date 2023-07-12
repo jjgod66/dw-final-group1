@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.ScreenVO;
@@ -36,7 +37,7 @@ public interface ReservationService {
 	 * @param screen_cd
 	 * @return
 	 */
-	ScreenVO getScreen(String screen_cd) throws SQLException;
+	ReservationDetailCommand getScreen(String screen_cd) throws SQLException;
 
 	/**
 	 * 상영중인 영화의 리스트를 가져오는 메서드

@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.dao.ReservationDAO;
 import kr.or.dw.vo.MovieVO;
@@ -65,11 +66,15 @@ public class ReservationServiceImpl implements ReservationService{
 	}
 
 	@Override
-	public ScreenVO getScreen(String screen_cd) throws SQLException {
-		ScreenVO screen = null;
-		screen = reservationDAO.selectScreen(screen_cd);
+	public ReservationDetailCommand getScreen(String screen_cd) throws SQLException {
+		Map<String, Object> map = null;
+		map = reservationDAO.selectScreen(screen_cd);
+		List<String> buySeatList = null;
+		buySeatList = reservationDAO.selectBuySeatList(screen_cd);
+		map.put("buySeatList", buySeatList);
+		ReservationDetailCommand rdc = new ReservationDetailCommand(map);
 		
-		return screen;
+		return rdc;
 	}
 
 	@Override
