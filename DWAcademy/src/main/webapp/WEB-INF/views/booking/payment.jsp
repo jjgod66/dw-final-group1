@@ -129,7 +129,7 @@ if(session.getAttribute("loginUser") != null){
 		</div>
 	</div>
 </div>
-<form id="payForm" action="/payResult.do">
+<form id="payForm" action="<%=request.getContextPath()%>/reservation/payResult.do" method="post">
 	<input type="hidden" name="adultSeat" value="${moviePayment.adultSeat}">
 	<input type="hidden" name="teenSeat" value="${moviePayment.teenSeat}">
 	<input type="hidden" name="preferSeat" value="${moviePayment.preferSeat}">
@@ -158,7 +158,7 @@ function requestPay() {
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
-        merchant_uid: 'merchant_' + new Date().getTime(),
+        merchant_uid: 'M' + new Date().getTime(),
         name: movie_name,
         amount: 100,
         buyer_email: buyer_email,

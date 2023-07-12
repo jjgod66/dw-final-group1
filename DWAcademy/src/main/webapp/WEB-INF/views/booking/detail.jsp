@@ -145,6 +145,7 @@ let adultSeat = $('#adultcount').text();
 let teenSeat = $('#teencount').text();
 let preferSeat = $('#prefercount').text();
 let buySeatList = '${screen.buySeatList}';
+let totalPrice = 0;
 $(function(){
 	$('#pageNext').on('click', function(){
 		$('input[name="res_seats"]').val(selectedSeatNumbers);
@@ -226,7 +227,6 @@ function totalSeatCountDown(number){
 
 let selectedSeatNumbers = '';
 // 좌석 수와 총액 업데이트
-let totalPrice = 0;
 function updateSelectedCount() {
   const selectedSeats = document.querySelectorAll('.row .seat.selected');
   selectedSeatsCount = selectedSeats.length;
