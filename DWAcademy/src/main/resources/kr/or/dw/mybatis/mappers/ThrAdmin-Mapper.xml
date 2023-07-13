@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.ThrAdminDAO">
+	<select id="selectAllScreens" resultType="movie">
+		SELECT *
+		FROM movie
+		WHERE enddate > sysdate
+	</select>
+	
+	<select id="selectAllStart" resultType="screen">
+		SELEct *
+		from screen
+	</select>
+	
+	<select id="selectAllRe" resultType="Map">
+		SELECT t.THR_NAME, s.house_no, s.movie_cd, m.MOVIE_LENGTH, s.STARTDATE, s.STARTDATE + (m.MOVIE_LENGTH)/(24*60) AS after_movieEndTime,
+		   NVL( LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE),SYSDATE) AS before_movieEndTime,
+		   NVL(  (s.STARTDATE - LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE)) * 24 * 60 ,0) AS re
+		FROM screen s, movie m, theater t, house h
+		WHERE 1=1
+		    AND s.movie_cd = m.movie_cd
+		    AND t.THR_NAME = h.THR_NAME
+		    AND h.house_no = s.house_no
+		    AND h.thr_name = '테스트123'
+		    AND s.house_no = 1
+		ORDER BY s.house_no
+	</select>
+	
+	
+	
+</mapper>

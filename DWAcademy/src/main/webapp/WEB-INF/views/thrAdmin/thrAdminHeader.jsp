@@ -5,6 +5,7 @@
 <head>
 <meta charset="utf-8">
 <title>Insert title here</title>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">
 <link href="<%=request.getContextPath()%>/resources/img/logo_ico.png" rel="shortcut icon" type="image/x-icon">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">
@@ -29,6 +30,26 @@
 <body>
 
 <style>
+#wrapper {
+	background-color: #fff;
+	z-index: 5;
+	min-width: 300px;
+	zoom: 1;
+}
+#content {
+	max-width: 80rem;
+	margin : 0rem auto 2rem auto;
+    padding-bottom: 100px;
+}
+
+.breadcrumb {
+    padding: 0 0 0 25px;
+    color: #000;
+    line-height: 34px;
+    border-bottom: 1px solid #e9e9e9;
+    text-align: left;
+    font-size: 12px;
+}
 
 .gnb1 > li:hober{
 	ul{display:block;}
