@@ -50,4 +50,10 @@ public interface SysAdminService {
 	// 해당 영화 관련 사진 등록하기
 	void registMoviePic(List<String> movie_pics, String movie_cd) throws SQLException;
 
+	// 해당 영화 예고편 등록하기
+	void registMoviePre(List<String> movie_pres, String movie_cd) throws SQLException;
+
+	// 영화 리스트 불러오기
+	Map<String, Object> selectMovieList(SearchCriteria cri) throws SQLException;
+
 }

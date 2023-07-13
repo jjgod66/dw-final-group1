@@ -2,7 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.or.dw.dao.SysAdminDAO">
 
-	<sql id="search">
+	<sql id="searchThr">
+		<if test="searchType == 'n'.toString()">
+			AND t.thr_name LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchType == 'l'.toString()">
+			AND t.thr_loc LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchType == 'a'.toString()">
+			AND t.thr_addr LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchType == 'i'.toString()">
+			AND a.admin_id LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchType == 'p'.toString()">
+			AND t.thr_tel LIKE '%' || #{keyword} || '%'
+		</if>
+		<if test="searchType == 'nlaip'.toString()">
+			AND (
+				t.thr_name LIKE '%' || #{keyword} || '%'
+				OR
+				t.thr_loc LIKE '%' || #{keyword} || '%'
+				OR
+				t.thr_addr LIKE '%' || #{keyword} || '%'
+				OR
+				a.admin_id LIKE '%' || #{keyword} || '%'
+				OR
+				t.thr_tel LIKE '%' || #{keyword} || '%'
+				)
+		</if>
+	</sql>
+	
+	<sql id="searchMov">
 		<if test="searchType == 'n'.toString()">
 			AND t.thr_name LIKE '%' || #{keyword} || '%'
 		</if>
@@ -37,16 +68,15 @@
 		SELECT t.*, a.admin_id, a.admin_pwd
 		  FROM theater t, admin a
 		 WHERE t.admin_cd = a.admin_cd
-		 <include refid="search" />
+		 <include refid="searchThr" />
 		 ORDER BY t.gb_del ASC, t.regdate DESC
-		<!-- ORDER BY --> 
 	</select>
 	
 	<select id="selectSearchTheaterListCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM theater t, admin a
 		 WHERE t.admin_cd = a.admin_cd
-		 <include refid="search" />
+		 <include refid="searchThr" />
 	</select>
 	
 	<select id="selectLocList" resultType="str">
@@ -216,7 +246,7 @@
 					)
 	</insert>
 	
-		<insert id="insertMoviePreview">
+	<insert id="insertMoviePre">
 		INSERT INTO movie_preview
 					(
 					 movie_cd
@@ -229,4 +259,23 @@
 			 		,#{movie_pre_path}
 					)
 	</insert>
+	
+	<select id="selectSearchMovieList" resultType="Map">
+		SELECT m.*, (SELECT COUNT(*) FROM movie m1, reservation r1, screen s1 
+					  WHERE m1.movie_cd = s1.movie_cd AND s1.screen_cd = r1.screen_cd 
+					    AND TO_char(r1.RESDATE, 'YYYY-MM-DD') = to_char(SYSDATE - 1, 'YYYY-MM-DD')) reservcnt
+		  FROM movie m
+		 WHERE m.ENDDATE > SYSDATE
+<!-- 		 <include refid="searchMov" /> -->
+	</select>
+	
+	<select id="selectSearchMovieListCount" resultType="int">
+		SELECT COUNT(*) 
+		  FROM (SELECT m.*, (SELECT COUNT(*) FROM movie m1, reservation r1, screen s1 
+			     			  WHERE m1.movie_cd = s1.movie_cd AND s1.screen_cd = r1.screen_cd 
+			       				AND TO_char(r1.RESDATE, 'YYYY-MM-DD') = to_char(SYSDATE - 1, 'YYYY-MM-DD')) reservcnt
+  				  FROM movie m
+			     WHERE m.ENDDATE > SYSDATE)
+<!-- 		 <include refid="searchMov" /> -->
+	</select>
 </mapper>

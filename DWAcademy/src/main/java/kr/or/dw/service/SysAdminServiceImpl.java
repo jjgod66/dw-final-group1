@@ -147,4 +147,38 @@ public class SysAdminServiceImpl implements SysAdminService {
 		}
 	}
 
+	@Override
+	public void registMoviePre(List<String> movie_pres, String movie_cd) throws SQLException {
+		Map<String, String> map = new HashMap<>();
+		map.put("movie_cd", movie_cd);
+		for (String pre : movie_pres) {
+			map.put("movie_pre_path", pre);
+			sysAdminDAO.insertMoviePre(map);
+		}
+		
+	}
+
+	@Override
+	public Map<String, Object> selectMovieList(SearchCriteria cri) throws SQLException {
+		List<Map<String, Object>> movieList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum() + 2  ; 
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		movieList = sysAdminDAO.selectSearchMovieList(cri, rowBounds);
+		
+		int totalCount = sysAdminDAO.selectSearchMovieListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("movieList", movieList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		return dataMap;
+	}
+
 }

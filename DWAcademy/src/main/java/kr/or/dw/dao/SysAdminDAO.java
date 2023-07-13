@@ -61,5 +61,14 @@ public interface SysAdminDAO {
 
 	// 해당 영화 관련 사진 등록하기
 	void insertMoviePic(Map<String, String> map) throws SQLException;
+	
+	// 해당 영화 예고편 등록하기
+	void insertMoviePre(Map<String, String> map) throws SQLException;
+
+	// 해당하는 영화 목록을 불러온다.
+	List<Map<String, Object>> selectSearchMovieList(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
+
+	// 해당하는 영화의 총 개수를 불러온다.
+	int selectSearchMovieListCount(SearchCriteria cri) throws SQLException;
 
 }
