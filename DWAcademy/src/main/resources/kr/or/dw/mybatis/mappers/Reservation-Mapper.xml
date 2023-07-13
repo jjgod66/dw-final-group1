@@ -31,11 +31,8 @@
 			FROM screen
 			WHERE movie_cd = #{movie_cd}
 			AND TO_char(startdate, 'YYYY-MM-DD') = #{date}
-<<<<<<< Updated upstream
-			AND startdate > sysdate
-=======
 			AND startdate <![CDATA[>]]> sysdate
->>>>>>> Stashed changes
+
 			) a, house h
 		WHERE a.house_no = h.house_no
 		AND thr_name = #{thr_name}
@@ -47,8 +44,6 @@
 		FROM reservation r
 		WHERE screen_cd = #{screen_cd}
 	</select>
-<<<<<<< Updated upstream
-=======
 	
 	<select id="selectScreen" resultType="Map">
 		SELECT m.*, h.*, mt.*, s.screen_cd, startdate, gb_jojo
@@ -79,5 +74,4 @@
 		AND s.movie_type_cd = mt.movie_type_cd
 		AND s.screen_cd = #{screen_cd}
 	</select>
->>>>>>> Stashed changes
 </mapper>
