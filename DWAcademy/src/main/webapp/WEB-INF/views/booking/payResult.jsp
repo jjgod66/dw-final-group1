@@ -17,7 +17,7 @@
 						<div class="movie-poster-area">
 							<p>
 								티켓 예매번호 <!-- 티켓 예매번호 -->
-								<span class="roboto">9333-869-45371</span>
+								<span class="roboto">${mu }</span>
 							</p>
 							<img src="https://img.megabox.co.kr/SharedImg/2023/07/04/i5NJ7jDhWTPhv1gKjq2fNDYNEph5JOxu_316.jpg" alt="미션 임파서블: 데드 레코닝 PART ONE" onerror="noImg(this)">
 						</div>
@@ -97,3 +97,10 @@
 		</div>
 		<!--// inner-wrap -->
 	</div>
+	
+<script>
+$(function(){
+	console.log(${mapData});
+})
+
+</script>

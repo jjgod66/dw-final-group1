@@ -11,10 +11,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import kr.or.dw.command.MoviePaymentCommand;
 import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.dao.ReservationDAO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.PayDetailVO;
+import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
 
 public class ReservationServiceImpl implements ReservationService{
@@ -106,6 +109,22 @@ public class ReservationServiceImpl implements ReservationService{
 		}
 		mapData.put("endTime", endTime);
 		
+		return mapData;
+	}
+
+	@Override
+	public Map<String, Object> getReservationResult(List<ReservationVO> resList, PayDetailVO payDetail)
+			throws SQLException {
+		Map<String, Object> mapData = null;
+		reservationDAO.insertPayDetail(payDetail);
+		for(ReservationVO res : resList) {
+			res.setMerchant_uid(payDetail.getMerchant_uid());
+			res.setRes_no(payDetail.getMerchant_uid().replace("M", ""));
+			reservationDAO.insertRes(res);
+		}
+		mapData = reservationDAO.selectPaymentScreenInfo(resList.get(0).getScreen_cd());
+		
+		mapData.put("merchant_uid", resList.get(0).getMerchant_uid());
 		return mapData;
 	}
 

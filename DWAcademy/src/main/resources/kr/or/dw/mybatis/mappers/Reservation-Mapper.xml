@@ -3,7 +3,7 @@
 <mapper namespace="kr.or.dw.dao.ReservationDAO">
 	
 	<select id="selectMovieTheater" resultType="Map">
-		SELECT t.thr_name, t.thr_loc
+		SELECT t.thr_name thr_name, t.thr_loc thr_loc
 		FROM (
 				SELECT thr_name
 				FROM (
@@ -28,7 +28,7 @@
 	<select id="selectScreenSchedual" resultType="Map">
 		SELECT a.*, h.*
 		FROM (
-			SELECT screen_cd, house_no, m.movie_cd, startdate, gb_jojo, s.movie_type_cd, movie_type_des, movie_length
+			SELECT screen_cd, house_no, m.movie_cd movie_cd, startdate, gb_jojo, s.movie_type_cd movie_type_cd, movie_type_des, movie_length
 			FROM screen s, movie_type mt, movie m
 			WHERE s.movie_type_cd = mt.movie_type_cd
 			AND s.movie_cd = m.movie_cd
@@ -48,7 +48,7 @@
 	</select>
 	
 	<select id="selectScreen" resultType="Map">
-		SELECT m.*, h.*, mt.*, s.screen_cd, startdate, gb_jojo
+		SELECT m.*, h.*, mt.*, s.screen_cd screen_cd, startdate, gb_jojo
 		FROM screen s, movie m, house h, movie_type mt
 		WHERE s.movie_cd = m.movie_cd
 		AND s.house_no = h.house_no
@@ -69,11 +69,54 @@
 	</select>
 	
 	<select id="selectPaymentScreenInfo" resultType="Map">
-		SELECT s.screen_cd, house_name, startdate, movie_type_des, movie_name, movie_length, thr_name, house_name, movie_mainpic_path
+		SELECT s.screen_cd screen_cd, house_name, startdate, movie_type_des, movie_name, movie_length, thr_name, house_name, movie_mainpic_path
 		FROM screen s, movie m, house h, movie_type mt
 		WHERE s.movie_cd = m.movie_cd
 		AND s.house_no = h.house_no
 		AND s.movie_type_cd = mt.movie_type_cd
 		AND s.screen_cd = #{screen_cd}
 	</select>
+	
+	<insert id="insertRes" parameterType="reservation">
+		INSERT INTO reservation (res_no, merchant_uid, mem_cd, screen_cd, mem_cat, res_seat, resdate) 
+							values(
+							#{res_no} || LPAD(res_seq.nextval,4,0), 
+							#{merchant_uid}, 
+							#{mem_cd}, 
+							#{screen_cd}, 
+							#{mem_cat}, 
+							#{res_seat}, 
+							#{resdate})
+	</insert>
+	
+	<insert id="insertPayDetail">
+		INSERT INTO pay_detail (
+									imp_uid,
+									apply_num,
+									card_name,
+									card_number,
+									pay_method,
+									merchant_uid,
+									card_quota,
+									status,
+									paid_amount,
+									receipt_url
+								)
+							VALUES(
+									#{imp_uid},
+									#{apply_num},
+									#{card_name},
+									#{card_number},
+									#{pay_method},
+									'M' || #{merchant_uid} || LPAD(pay_seq.nextval,4,0),
+									#{card_quota},
+									#{status},
+									#{paid_amount},
+									#{receipt_url}
+							)
+							
+		<selectKey resultType="str" keyProperty="merchant_uid" order="AFTER">
+			SELECT 'M' || #{merchant_uid} || LPAD(pay_seq.currval,4,0) merchant_uid FROM dual
+		</selectKey>
+	</insert>
 </mapper>
