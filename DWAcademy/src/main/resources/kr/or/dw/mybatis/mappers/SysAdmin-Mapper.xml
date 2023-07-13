@@ -147,4 +147,87 @@
 		  FROM movie_grade
 	</select>
 	
+	<insert id="insertMovie">
+		INSERT INTO movie 
+					(
+					 movie_cd
+					,movie_name
+					,movie_mainpic_path
+					,movie_director
+					,movie_length
+					,movie_info
+					,movie_actor
+					,movie_grade
+					,opendate
+					,enddate				
+					) 
+			 VALUES (
+			 		 #{movie_cd} || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual) || LPAD(movie_seq.nextval,4,0)
+			 		,#{movie_name}
+			 		,#{movie_mainpic_path}
+					,#{movie_director}
+					,#{movie_length}
+					,#{movie_info}
+					,#{movie_actor}
+					,#{movie_grade}
+					,#{opendate}
+					,#{enddate}
+			 		)
+		<selectKey resultType="str" keyProperty="movie_cd" order="AFTER">
+			SELECT #{movie_cd} || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual d1) || LPAD(movie_seq.currval,4,0) movie_cd FROM dual d2
+		</selectKey>
+	</insert>
+	
+	<insert id="insertGenre_c">
+		INSERT INTO genre_c
+					(
+					 genre_cd
+					,movie_cd
+					)
+			 VALUES (
+					 #{genre}
+					,#{movie_cd}			 
+			 		)	
+	</insert>
+	
+	<insert id="insertMovieType_c">
+		INSERT INTO movie_type_c
+					(
+					 movie_cd
+					,movie_type_cd		
+					)
+			 VALUES (
+			 		 #{movie_cd}
+			 		,#{movie_type_cd}
+			 		)		
+	</insert>
+	
+	<insert id="insertMoviePic">
+		INSERT INTO movie_picture
+					(
+					 movie_cd
+					,movie_pic_no
+					,movie_pic_path
+					)
+			 VALUES	(
+			 		 #{movie_cd}
+			 		,MOVIE_PIC_SEQ.nextval
+			 		,#{movie_pic_path}
+					)
+	</insert>
+	
+		<insert id="insertMoviePreview">
+		INSERT INTO movie_preview
+					(
+					 movie_cd
+					,movie_pre_no
+					,movie_pre_path
+					)
+			 VALUES	(
+			 		 #{movie_cd}
+			 		,MOVIE_preview_SEQ.nextval
+			 		,#{movie_pre_path}
+					)
+	</insert>
+
 </mapper>

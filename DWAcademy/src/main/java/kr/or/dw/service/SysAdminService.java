@@ -36,4 +36,16 @@ public interface SysAdminService {
 	// 등급 리스트 불러오기
 	List<String> selectGradeList() throws SQLException;
 
+	// 영화정보 등록하기
+	void registMovie(MovieVO movie) throws SQLException;
+
+	// 해당 영화 장르 등록하기
+	void registMovieGenre_c(String[] genres, String movie_cd) throws SQLException;
+
+	// 해당 영화 타입 등록하기
+	void registMovieType_c(List<String> movie_types, String movie_cd) throws SQLException;
+
+	// 해당 영화 관련 사진 등록하기
+	void registMoviePic(List<String> movie_pics, String movie_cd) throws SQLException;
+
 }

@@ -1,0 +1,122 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<script>
+
+	// 상영종료일  제한
+	let nowDate = Date.now();
+	let timeOff = new Date().getTimezoneOffset()*60000;
+	let today = new Date(nowDate-timeOff).toISOString().split("T")[0];
+	$('#enddate').attr('min', today);
+	$('#opendate').on('change', function(){
+		let opendate = $(this).val();
+		let mindate;
+		if (opendate > today) {
+			mindate = opendate;
+		} else {
+			mindate = today;
+		}
+		$('#enddate').attr('min', mindate);
+		if ($('#enddate').val() < $(this).val()) {
+			$('#enddate').val('');
+		}
+	});
+	
+	// 포스터버튼 클릭
+	$('#posterBtn').on('click', function() {
+		$('#movie_mainPic_path').click();
+	});
+
+	// 포스터 이미지 프리뷰
+	function posterChange_go() {
+		let inputImage = $('input#movie_mainPic_path')[0];
+		preViewPicture(inputImage, $('div#pictureView'));
+		$('input[name="uploadPoster"]').val(inputImage.files[0].name);
+	};
+	
+	// 관련사진 이미지 프리뷰
+	$(document).on('change', 'input[name="uploadImg"]', function(){
+		let inputImg = $(this)[0];
+		preViewPicture(inputImg, $(this).siblings('#imgView'));
+	});
+	
+	// 예고편 동영상 프리뷰
+	$(document).on('change', 'input[name="uploadVideo"]', function(){
+		console.log($(this)[0].files[0]);
+	 	let inputVideo = $(this)[0].files[0];
+		let videoUrl = URL.createObjectURL(inputVideo);
+		$(this).siblings('.test').attr('src', videoUrl);
+	});
+	
+	$('input[name="genre_cd"]').on('click', function(e){
+		let genre_cnt = $('input[name="genre_cd"]:checked').length;
+		if (genre_cnt > 3) {
+			alert('장르는 3개까지 설정 가능합니다.');
+			e.preventDefault();
+		}
+	});
+	
+	Attach_action();
+	
+	// 등록버튼 클릭
+	$('#registBtn').on('click', function(){
+		
+		let form = $('form[role="form"]');
+		form.attr({'method' : 'post', 'action' : 'movieRegist.do'});
+		
+		// 러닝타임 숫자자리수 제한
+		let ml_length = $('input[name="movie_length"]').val().length;
+		if (ml_length > 4) {
+			alert("러닝타임을 확인하고 입력해주세요. (분 단위, 양의정수)");
+			$('input[name="movie_length"]').focus();
+			$('input[name="movie_length"]').click();
+			return;
+		}
+		
+		// 장르 최소 1개 선택 확인
+		let genre_cnt = $('input[name="genre_cd"]:checked').length;
+		if (genre_cnt < 1 ) {
+			alert("장르가 최소 1개는 선택되어야 합니다.");
+			$('input[name="genre_cd"]').focus();
+			return;
+		}
+		
+		// 더빙타입 최소 1개 선택 확인
+		let isdub_cnt = $('input[name="isdub"]:checked').length;
+		if (isdub_cnt < 1 ) {
+			alert("더빙타입이 최소 1개는 선택되어야 합니다.");
+			$('input[name="isdub"]').focus();
+			return;
+		}
+		
+		// 2d/3d유무 최소 1개 선택 확인
+		let is3d_cnt = $('input[name="is3d"]:checked').length;
+		if (is3d_cnt < 1 ) {
+			alert("2D/3D유무가 최소 1개는 선택되어야 합니다.");
+			$('input[name="is3d"]').focus();
+			return;
+		}
+		
+		
+		let images = $('input[name="uploadImg"]');
+		for (let image of images) {
+			console.log("img");
+			if (image.value == "") {
+				alert("사진을 선택하세요.");
+				image.focus();
+				image.click();
+				return;
+			}
+		}
+		
+		let videos = $('input[name="uploadVideo"]');
+		for (let video of videos) {
+			if (video.value == "") {
+				alert("동영상을 선택하세요.");
+				video.focus();
+				video.click();
+				return;
+			}
+		}
+		form.submit();
+	});	
+</script>

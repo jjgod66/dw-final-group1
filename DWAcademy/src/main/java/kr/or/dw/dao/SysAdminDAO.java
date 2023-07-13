@@ -48,4 +48,16 @@ public interface SysAdminDAO {
 	// 상영등급 리스트 불러오기
 	List<String> selectGradeList() throws SQLException;
 
+	// 영화정보 등록하기
+	void insertMovie(MovieVO movie) throws SQLException;
+
+	// 해당 영화 장르 등록하기
+	void insertGenre_c(Map<String, String> map) throws SQLException;
+
+	// 해당 영화 타입 등록하기
+	void insertMovieType_c(Map<String, String> map) throws SQLException;
+
+	// 해당 영화 관련 사진 등록하기
+	void insertMoviePic(Map<String, String> map) throws SQLException;
+
 }

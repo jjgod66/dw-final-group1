@@ -3,6 +3,7 @@ package kr.or.dw.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,6 +154,94 @@ public class SysAdminController {
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
+	}
+	
+	@RequestMapping("/movieRegist")
+	public void movieRegist (MovieRegistCommand registReq, HttpServletRequest req, HttpServletResponse res) throws Exception {
+		
+		String moviePicUploadPath = this.moviePicUploadPath;
+		
+		MovieVO movie = registReq.toMovieVO();
+		
+		// 영화 테이블에 등록
+		sysAdminService.registMovie(movie);
+		
+		// 영화 장르테이블에 등록
+		String[] genres = registReq.getGenre_cd();
+		String movie_cd = movie.getMovie_cd();
+		sysAdminService.registMovieGenre_c(genres, movie_cd);
+		
+		// 영화 타입 테이블에 등록
+		List<String> movie_types = new ArrayList<String>();
+		for (String dub : registReq.getIsdub()) {
+			for (String dim : registReq.getIs3d()) {
+				movie_types.add(dub.concat(dim));
+			}
+		}
+		sysAdminService.registMovieType_c(movie_types, movie_cd);
+		
+		// 관련 이미지파일 이름 DB에 저장
+		List<String> movie_pics = new ArrayList<>();
+		for ( MultipartFile pic : registReq.getUploadImg()) {
+			movie_pics.add(pic.getOriginalFilename());
+		}
+		sysAdminService.registMoviePic(movie_pics, movie_cd);
+		
+		// 관련 예고편파일 이름 DB에 저장
+		List<String> movie_pres = new ArrayList<>();
+		for ( MultipartFile pre : registReq.getUploadVideo()) {
+			movie_pres.add(pre.getOriginalFilename());
+		}
+		sysAdminService.registMoviePic(movie_pics, movie_cd);
+		
+		// 포스터 이미지파일 로컬에 저장
+		MultipartFile poster = registReq.getMovie_mainPic_path();
+		if (poster != null) {
+			String fileName = poster.getOriginalFilename();
+			File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "mainPoster", fileName);
+			
+			if (!target.exists()) {
+				target.mkdirs();
+			}
+			
+			poster.transferTo(target);
+		}
+		
+		// 관련 이미지파일 로컬에 저장
+		if (registReq.getUploadImg() != null) {
+			for (MultipartFile multi : registReq.getUploadImg()) {
+				String fileName = UUID.randomUUID().toString().replace("-", "") + "$$" + multi.getOriginalFilename();
+				File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "pictures", fileName);
+				
+				if (!target.exists()) {
+					target.mkdirs();
+				}
+				
+				multi.transferTo(target);
+			}
+		}
+		
+		// 관련 동영상파일 로컬에  저장
+		if (registReq.getUploadVideo() != null) {
+			for (MultipartFile multi : registReq.getUploadVideo()) {
+				String fileName = UUID.randomUUID().toString().replace("-", "") + "$$" + multi.getOriginalFilename();
+				File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "videos", fileName);
+				
+				if (!target.exists()) {
+					target.mkdirs();
+				}
+				
+				multi.transferTo(target);
+			}
+		}
+//		res.setContentType("text/html; charset=utf-8");
+//		PrintWriter out = res.getWriter();
+//		out.println("<script>");
+//		out.println("alert('테스트')");
+//		out.println("location.href='theaterAdminMain.do';");
+//		out.println("</script>");
+//		out.flush();
+//		out.close();
 	}
 	
 	@GetMapping("/supportAdminMain")
