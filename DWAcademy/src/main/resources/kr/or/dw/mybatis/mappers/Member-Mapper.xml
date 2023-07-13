@@ -14,6 +14,12 @@
 		WHERE mem_id = #{id}
 	</update>
 	
+	<select id="selectMemberByName" resultType="member">
+		SELECT *
+		  FROM member
+		 WHERE mem_name = #{mem_name}
+	</select>
+	
 	
 	<insert id="insert">
 		INSERT INTO member(mem_cd, mem_id, mem_pwd, mem_name, mem_email, mem_bir, mem_phone, regdate, mem_addr, mem_addr_detail, mem_zipcode)

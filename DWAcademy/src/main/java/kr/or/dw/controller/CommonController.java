@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +25,7 @@ import kr.or.dw.command.IndexMovieCommand;
 import kr.or.dw.service.KakaoService;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
+import kr.or.dw.vo.MemberVO;
 
 @Controller
 public class CommonController {
@@ -81,7 +84,7 @@ public class CommonController {
 	}
 	
 	// 카카오 소셜로그인
-	@RequestMapping(value="/kakaoCode", method=RequestMethod.GET)
+	@RequestMapping(value="/kakao/kakaoCode", method=RequestMethod.GET)
 	public String kakaoCode(@RequestParam(value = "code", required = false) String code) throws Exception {
 		
 		
@@ -98,10 +101,13 @@ public class CommonController {
     	}
 	
 	@RequestMapping(value="/kakao/callback", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView callback(ModelAndView mnv, @RequestParam String code) {
-		String url = "/kakao/callback";
-		
+	public ResponseEntity<HashMap<String, Object>> callback(ModelAndView mnv, @RequestParam String code) {
+		ResponseEntity<HashMap<String, Object>> entity = null;
+
+		HashMap<String, Object> resultMap = new HashMap<>();
 		System.out.println("#########" + code);
+		
+		
 		String access_Token = ka.getAccessToken(code);
 		
 		HashMap<String, Object> userInfo = ka.getUserInfo(access_Token);
@@ -110,10 +116,25 @@ public class CommonController {
 		System.out.println("###nickname#### : " + userInfo.get("nickname"));
 		System.out.println("###email#### : " + userInfo.get("email"));
 		
-		mnv.addAllObjects(userInfo);
-		mnv.setViewName(url);
+		String email = (String) userInfo.get("email");
 		
-		return mnv;
+		MemberVO member = memberService.selectMemberByName(email);
+
+		System.out.println(member);
+		
+		try {
+			resultMap.put("email", email);
+			resultMap.put("access_token", access_Token);
+			resultMap.put("member", member);
+			
+			
+			entity = new ResponseEntity<HashMap<String, Object>>(resultMap, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<HashMap<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
 	}
 
 	

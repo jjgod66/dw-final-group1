@@ -16,4 +16,7 @@ public interface MemberDAO {
 	// 회원의 마지막 로그인 날짜
 	void updateLastLoginDt(String id);
 
+	// 카카오 로그인을 위한 검증
+	MemberVO selectMemberByName(String email);
+
 }
