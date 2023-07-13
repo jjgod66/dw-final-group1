@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.ThrAdminService;
+import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ScreenVO;
 import kr.or.dw.vo.TheaterVO;
 
 @Controller
@@ -67,12 +69,30 @@ public class ThrAdminController {
 		return mnv;
 	}
 	
+	
 	@GetMapping("/movieAdminMain")
-	public String movieAdmin() {
+	public ModelAndView movieAdmin(ModelAndView mnv, String movie_cd) throws SQLException {
 		
 		String url = "/thrAdmin/movieAdminMain";
+		if(movie_cd == null) {
+			movie_cd = "";
+		}
 		
-		return url;
+		List<MovieVO> allScreenList = null;
+		allScreenList = thrAdminService.getAllScreens();
+		
+		List<ScreenVO> allStart = null;
+		allStart = thrAdminService.getallStart();
+		
+		List<Map<String, Object>> allRe = null;
+		allRe = thrAdminService.getAllRe();
+		
+		mnv.addObject("allRe", allRe);
+		mnv.addObject("allStart",allStart);
+		mnv.addObject("allScreenList", allScreenList);
+		mnv.addObject("movie_cd", movie_cd);
+		mnv.setViewName(url);
+		return mnv;
 	}
 	
 	
