@@ -33,6 +33,7 @@
 			AND s.movie_cd = m.movie_cd
 			AND s.movie_cd = #{movie_cd}
 			AND TO_char(startdate, 'YYYY-MM-DD') = #{date}
+			AND startdate <![CDATA[>]]> sysdate
 			) a, house h
 		WHERE a.house_no = h.house_no
 		AND thr_name = #{thr_name}
@@ -63,7 +64,7 @@
 	<select id="selectAllMovieRes" resultType="movie">
 		SELECT *
 		FROM movie
-		WHERE enddate > sysdate
+		WHERE enddate <![CDATA[>]]> sysdate
 	</select>
 	
 	<select id="selectPaymentScreenInfo" resultType="Map">
