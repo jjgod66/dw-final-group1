@@ -12,6 +12,4 @@ public class MoviePaymentCommand {
 	private int preferSeat;
 	private String res_seats;
 	private int totalPrice;
-	private String gb_jojo;
-	private Map<String, Object> pay_info;
 }
