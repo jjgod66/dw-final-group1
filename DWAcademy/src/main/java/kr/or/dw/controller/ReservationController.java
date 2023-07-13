@@ -125,6 +125,7 @@ public class ReservationController {
 	
 	@RequestMapping("/payResult")
 	public ModelAndView payResult(MoviePaymentCommand mpc, ModelAndView mnv) {
+		System.out.println("con");
 		String url = "/booking/payResult";
 		System.out.println("컨트롤러 : " + mpc);
 		

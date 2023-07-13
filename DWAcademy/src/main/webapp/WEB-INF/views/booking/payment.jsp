@@ -133,10 +133,23 @@ if(session.getAttribute("loginUser") != null){
 	<input type="hidden" name="adultSeat" value="${moviePayment.adultSeat}">
 	<input type="hidden" name="teenSeat" value="${moviePayment.teenSeat}">
 	<input type="hidden" name="preferSeat" value="${moviePayment.preferSeat}">
-	<input type="hidden" name="totalPrice">
 	<input type="hidden" name="screen_cd" value="${screen.screenVO.screen_cd }">
 	<input type="hidden" name="res_seats" value="${moviePayment.res_seats}">
-	<input type="hidden" name="pay_info">
+	<input type="hidden" name="res_seats">
+	<input type="hidden" name="discount">
+	<input type="hidden" name="pricesum">
+	<input type="hidden" name="mem_coupon_no">
+	<input type="hidden" name="use_point">
+	<input type="hidden" name="imp_uid">
+	<input type="hidden" name="merchant_uid">
+	<input type="hidden" name="apply_num">
+	<input type="hidden" name="card_name">
+	<input type="hidden" name="card_number">
+	<input type="hidden" name="pay_method">
+	<input type="hidden" name="card_quota">
+	<input type="hidden" name="status">
+	<input type="hidden" name="paid_amount">
+	<input type="hidden" name="receipt_url">
 </form>
 
 <script>
