@@ -1,7 +1,10 @@
 package kr.or.dw.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,9 +17,12 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -129,17 +135,37 @@ public class SysAdminController {
 		out.close();
 	}
 	
-/*	@GetMapping("/adminCinemaMain")
-	public String adminCinemaMain() {
-		String url = "/sysAdmin/adminCinemaMain";
-		return url;
-	}*/
-	
-	
-	@GetMapping("/movieAdminMain")
-	public String movieAdmin() {
+	@RequestMapping("/movieAdminMain")
+	public ModelAndView movieAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException, IOException {
 		String url = "/sysAdmin/movieAdminMain";
-		return url;
+		
+		Map<String, Object> dataMap = sysAdminService.selectMovieList(cri);
+		List<Map<String, Object>> movieListbefore = (List<Map<String, Object>>)dataMap.get("movieList");
+//		List<Map<String, Object>> movieListafter = new ArrayList<>(); 
+//		List<byte[]> imgUrls = new ArrayList<>();
+//		String posterPath = "";
+//		for (Map<String, Object> movie : movieListbefore) {
+//			InputStream in = null;
+//			posterPath = this.moviePicUploadPath + File.separator + movie.get("MOVIE_CD") + File.separator + "mainPoster";
+//			
+//			in = new FileInputStream(new File(posterPath, (String)movie.get("MOVIE_MAINPIC_PATH")));
+//			imgUrls.add(IOUtils.toByteArray(in));
+//			movie.put("posterPath", IOUtils.toByteArray(in));
+//			System.out.println(in);
+//			System.out.println((String)movie.get("MOVIE_MAINPIC_PATH"));
+//			movieListafter.add(movie);
+//			in.close();
+//		}
+		
+		dataMap.put("movieList", movieListbefore);
+		mnv.addAllObjects(dataMap);
+		
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "영화 리스트");
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		
+		return mnv;
 	}
 	
 	@RequestMapping("/movieRegistForm")
@@ -151,6 +177,7 @@ public class SysAdminController {
 		
 		if (movie_cd != null) {	// 수정일 때
 			subjectMap = addSubject("HOME", "영화 관리", "영화 상세정보 수정");
+//			Map<String, Object> sysAdminService.selectMovieByMovie_cd(movie_cd);
 		} else {				// 등록일 때
 			subjectMap = addSubject("HOME", "영화 관리", "영화 등록");
 		}
@@ -201,7 +228,7 @@ public class SysAdminController {
 		for ( MultipartFile pre : registReq.getUploadVideo()) {
 			movie_pres.add(pre.getOriginalFilename());
 		}
-		sysAdminService.registMoviePic(movie_pics, movie_cd);
+		sysAdminService.registMoviePre(movie_pres, movie_cd);
 		
 		// 포스터 이미지파일 로컬에 저장
 		MultipartFile poster = registReq.getMovie_mainPic_path();
@@ -243,14 +270,14 @@ public class SysAdminController {
 				multi.transferTo(target);
 			}
 		}
-//		res.setContentType("text/html; charset=utf-8");
-//		PrintWriter out = res.getWriter();
-//		out.println("<script>");
-//		out.println("alert('테스트')");
-//		out.println("location.href='theaterAdminMain.do';");
-//		out.println("</script>");
-//		out.flush();
-//		out.close();
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('영화 등록이 완료되었습니다.')");
+		out.println("location.href='theaterAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
 	}
 	
 	@GetMapping("/supportAdminMain")
@@ -297,4 +324,31 @@ public class SysAdminController {
 		subjectMap.put("item2", item2);
 		return subjectMap;
 	}
+	
+	@RequestMapping("/getPicture")
+	public ResponseEntity<byte[]> getPicture(String poster, String movie_cd) throws Exception {
+		
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+		String imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "mainPoster";
+		try {
+			in = new FileInputStream(new File(imgPath, poster));
+			
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} finally {
+			in.close();
+		}
+		return entity;
+		List<String> sibalList = new ArrayList<>();
+		sibalList.add("sibal1");
+		sibalList.add("sibal2");
+		Map<String, Object> sibalMap = new HashMap<>();
+		sibalMap.put("sibal1", 3);
+	}
 }
+
+
+
