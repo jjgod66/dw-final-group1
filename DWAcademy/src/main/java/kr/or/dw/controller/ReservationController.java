@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.MoviePaymentCommand;
-import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.service.ReservationService;
-import kr.or.dw.vo.MemberVO;
-import kr.or.dw.vo.MovieVO;
-import kr.or.dw.vo.ScreenVO;
 
 
 @Controller
@@ -36,15 +30,9 @@ public class ReservationController {
 	private ReservationService reservationService;
 
 	@RequestMapping("/moviePaymentForm")
-	public ModelAndView moviePaymentForm(ModelAndView mnv, MoviePaymentCommand mpc, HttpSession session) throws SQLException{
+	public ModelAndView moviePaymentForm(ModelAndView mnv, MoviePaymentCommand mpc) {
 		String url = "/booking/payment";
 		
-		Map<String, Object> mapData = null;
-		mapData = reservationService.getPaymentScreenInfo(mpc.getScreen_cd());
-
-		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
-		
-		mnv.addObject("mapData", mapData);
 		mnv.addObject("moviePayment", mpc);
 		mnv.setViewName(url);
 		return mnv;
@@ -60,11 +48,6 @@ public class ReservationController {
 		
 		List<Map<String, Object>> allTheaterList = null;
 		allTheaterList = reservationService.getAllTheater();
-		
-		List<MovieVO> movieList = null;
-		movieList = reservationService.getAllMovieRes();
-		
-		mnv.addObject("movieList", movieList);
 		mnv.addObject("allTheater", allTheaterList);
 		mnv.addObject("movie_cd", movie_cd);
 		mnv.setViewName(url);
@@ -78,14 +61,9 @@ public class ReservationController {
 	}
 	
 	@RequestMapping("/detail")
-	public ModelAndView bookingDetail(ModelAndView mnv, String screen_cd) throws SQLException {
+	public String bookingDetail() {
 		String url = "/booking/detail";
-		
-		ReservationDetailCommand screen = null;
-		screen = reservationService.getScreen(screen_cd);
-		mnv.addObject("screen", screen);
-		mnv.setViewName(url);
-		return mnv;
+		return url;
 	}
 
 
@@ -123,13 +101,5 @@ public class ReservationController {
 		return entity;
 	}
 	
-	@RequestMapping("/payResult")
-	public ModelAndView payResult(MoviePaymentCommand mpc, ModelAndView mnv) {
-		String url = "/booking/payResult";
-		System.out.println("컨트롤러 : " + mpc);
-		
-		mnv.setViewName(url);
-		return mnv;
-	}
 	
 }

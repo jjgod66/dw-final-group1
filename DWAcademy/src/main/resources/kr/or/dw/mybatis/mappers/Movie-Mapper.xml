@@ -3,30 +3,23 @@
 <mapper namespace="kr.or.dw.dao.MovieDAO">
 
 	<select id="selectBoxOfficeMovie10" resultType="Map">
-		SELECT movie_cd, movie_name, movie_info, movie_director, movie_actor, movie_grade, movie_length, movie_mainpic_path, opendate, enddate, nvl(all_reservers, 0) reservers
+		SELECT movie_cd, movie_name, movie_info, movie_director, movie_actor, movie_grade, movie_length, movie_mainpic_path, opendate, enddate, NVL(reservers, 0) reservers
 		FROM (
-			SELECT m.*, reservers, all_reservers
-			FROM (
-				SELECT nvl(sum(reservers), 0) reservers, nvl(sum(all_reservers), 0) all_reservers, movie_cd
-				FROM (
-					SELECT sr2.screen_cd screen_cd, nvl(reserver, 0) reservers, nvl(all_reserver, 0) all_reservers 
-					FROM (
+			SELECT m.*, reservers
+			FROM 
+				(
+					SELECT movie_cd, sum(reserver) reservers
+					FROM 
+						(
 							SELECT count(*) reserver, screen_cd
 							FROM reservation r
-							WHERE resdate = sysdate - 1
 							GROUP BY screen_cd
-						) sr, (
-							SELECT count(*) all_reserver, screen_cd
-							FROM reservation r
-							GROUP BY screen_cd
-						) sr2
-					WHERE sr.screen_cd(+) = sr2.screen_cd
-					) re, screen s
-				WHERE re.screen_cd(+) = s.screen_cd
-				GROUP BY movie_cd
-				) res, movie m
-			WHERE res.movie_cd(+) = m.movie_cd
-			ORDER BY reservers DESC NULLS LAST
+						) sr, screen s
+					WHERE sr.screen_cd = s.screen_cd
+					GROUP BY movie_cd
+				)mr, movie m
+			WHERE mr.movie_cd(+) = m.movie_cd
+			ORDER BY reservers DESC
 			)
 		WHERE rownum <![CDATA[<=]]> 10
 	</select>

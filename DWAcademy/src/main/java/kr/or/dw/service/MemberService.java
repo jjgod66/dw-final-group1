@@ -9,5 +9,9 @@ public interface MemberService {
 
 	// 회원가입
 	void join(MemberVO memVO);
+
+	// 카카오 로그인을 위한 검증
+	MemberVO selectMemberByName(String email);
+
 	
 }

@@ -33,6 +33,4 @@ public class MovieVO {
 		this.opendate = opendate;
 		this.enddate = enddate;
 	}
-	
-	
 }

@@ -4,10 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.GenreVO;
-import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.TheaterVO;
 
 public interface SysAdminService {

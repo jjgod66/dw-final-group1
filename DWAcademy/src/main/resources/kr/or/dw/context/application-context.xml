@@ -3,11 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean id="picturePath" class="java.lang.String">
+		<constructor-arg value="${member.picture.upload}"></constructor-arg>
+	</bean>
 	<bean id="imgPath" class="java.lang.String">
 		<constructor-arg value="${summernote.img}"></constructor-arg>
 	</bean>
-	<bean id="moviePicUploadPath" class="java.lang.String">
-		<constructor-arg value="${moviepic.upload}"></constructor-arg>
+	<bean id="fileUploadPath" class="java.lang.String">
+		<constructor-arg value="${pds.upload}"></constructor-arg>
 	</bean>
 
 	<bean id="storeService" class="kr.or.dw.service.StoreServiceImpl"/>

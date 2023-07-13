@@ -123,6 +123,7 @@
     outline: none;
 }
 </style>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
 <div class="modal fade" id="login-modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -142,10 +143,10 @@
                 <p class="title">간편로그인</p>
                 <div class="row">
                     <div class="col">
-                        <div class="p-t-10"><button class="btn btn--naver" type="submit">네이버로 시작하기</button></div> 
+                        <div class="p-t-10"><button class="btn btn--naver" type="button">네이버로 시작하기</button></div> 
                     </div>
                     <div class="col">
-                        <div class="p-t-10"><button class="btn btn--kakao" type="submit">카카오로 시작하기</button></div> 
+                        <div class="p-t-10"><button type="button" id="kakaoLogin" class="btn btn--kakao">카카오로 시작하기</button></div> 
                     </div>
                 </div>
                 <p class="extra new">회원이 아니신가요 ? <a href="#" data-bs-toggle="modal" data-bs-target="#join-modal"><u>회원가입</u></a></p>
@@ -155,3 +156,29 @@
         </div>
     </div>
 </div>
+<script>
+$('#kakaoLogin').on('click', function(){
+	Kakao.init('4d3eb758ca79e46a21afa1951cdbec30'); //발급받은 키 중 javascript키를 사용해준다.
+	console.log(Kakao.isInitialized()); // sdk초기화여부판단
+	Kakao.Auth.authorize({
+		  redirectUri: 'http://localhost/main',
+		});
+})
+ $.ajax({
+        type: "POST",
+        url: 'https://kauth.kakao.com/oauth/token',
+        data: {
+            grant_type: 'authorization_code',
+            client_id: '4d3eb758ca79e46a21afa1951cdbec30',
+            redirect_uri: 'http://localhost/main',
+            code
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("Content-type","application/x-www-form-urlencoded;charset=utf-8");
+        },
+        success: function (res) {
+            console.log("jquery");
+            console.log(res);
+        }
+    });
+</script>

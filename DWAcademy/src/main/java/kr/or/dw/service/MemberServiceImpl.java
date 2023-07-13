@@ -20,4 +20,9 @@ public class MemberServiceImpl implements MemberService{
 		memberDAO.insert(memVO);
 	}
 
+	@Override
+	public MemberVO selectMemberByName(String email) {
+		return memberDAO.selectMemberByName(email);
+	}
+
 }

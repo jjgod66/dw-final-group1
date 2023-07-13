@@ -44,6 +44,7 @@ public class KakaoService {
 			bw.write(sb.toString());
 			bw.flush();
 	        
+			System.out.println(authorize_code);
 			// 결과 코드가 200이라면 성공
 			int responseCode = conn.getResponseCode();
 			System.out.println("responseCode : " + responseCode);

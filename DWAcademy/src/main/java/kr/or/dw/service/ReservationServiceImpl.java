@@ -11,11 +11,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.dao.ReservationDAO;
-import kr.or.dw.vo.MovieVO;
-import kr.or.dw.vo.ScreenVO;
 
 public class ReservationServiceImpl implements ReservationService{
 
@@ -30,6 +27,7 @@ public class ReservationServiceImpl implements ReservationService{
 		data.put("date", date);
 		
 		theaterList = reservationDAO.selectMovieTheater(data);
+//		theaterList = reservationDAO.selectMovieTheater(movie_cd, date);
 		
 		return theaterList;
 	}
@@ -58,55 +56,12 @@ public class ReservationServiceImpl implements ReservationService{
 			int totalSeat = (Integer.parseInt(String.valueOf(map.get("HOUSE_ROW")))) * (Integer.parseInt(String.valueOf(map.get("HOUSE_COLUMN"))));
 			int remainSeat = totalSeat - buySeatCount;
 			map.put("remainSeat", remainSeat);
+			
 			ScreenSchedualCommand ssc = new ScreenSchedualCommand(map);
 			screenScedual.add(ssc);
 		}
 		
 		return screenScedual;
-	}
-
-	@Override
-	public ReservationDetailCommand getScreen(String screen_cd) throws SQLException {
-		Map<String, Object> map = null;
-		map = reservationDAO.selectScreen(screen_cd);
-		List<String> buySeatList = null;
-		buySeatList = reservationDAO.selectBuySeatList(screen_cd);
-		
-		map.put("buySeatList", buySeatList);
-		ReservationDetailCommand rdc = new ReservationDetailCommand(map);
-		
-		return rdc;
-	}
-
-	@Override
-	public List<MovieVO> getAllMovieRes() throws SQLException {
-		List<MovieVO> movieList = null;
-		movieList = reservationDAO.selectAllMovieRes();
-		
-		return movieList;
-	}
-
-	@Override
-	public Map<String, Object> getPaymentScreenInfo(String screen_cd) throws SQLException {
-		Map<String, Object> mapData = null;
-		mapData = reservationDAO.selectPaymentScreenInfo(screen_cd);
-		
-		SimpleDateFormat h = new SimpleDateFormat("HH");
-		SimpleDateFormat m = new SimpleDateFormat("mm");
-		int hh = Integer.parseInt(h.format((Date)mapData.get("STARTDATE")));
-		int mm = Integer.parseInt(m.format((Date)mapData.get("STARTDATE")));
-		
-		int lengthH = Integer.parseInt(String.valueOf(mapData.get("MOVIE_LENGTH"))) / 60;
-		int lengthM = Integer.parseInt(String.valueOf(mapData.get("MOVIE_LENGTH"))) % 60;
-		hh = hh + lengthH;
-		mm = mm + lengthM;
-		String endTime = hh + ":" + mm;
-		if(hh < 10) {
-			endTime = "0" + hh + ":" + mm;
-		}
-		mapData.put("endTime", endTime);
-		
-		return mapData;
 	}
 
 }
