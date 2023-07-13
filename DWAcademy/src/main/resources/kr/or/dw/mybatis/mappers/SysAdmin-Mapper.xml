@@ -178,7 +178,7 @@
 		</selectKey>
 	</insert>
 	
-	<insert id="insertGenre">
+	<insert id="insertGenre_c">
 		INSERT INTO genre_c
 					(
 					 genre_cd
@@ -190,4 +190,43 @@
 			 		)	
 	</insert>
 	
+	<insert id="insertMovieType_c">
+		INSERT INTO movie_type_c
+					(
+					 movie_cd
+					,movie_type_cd		
+					)
+			 VALUES (
+			 		 #{movie_cd}
+			 		,#{movie_type_cd}
+			 		)		
+	</insert>
+	
+	<insert id="insertMoviePic">
+		INSERT INTO movie_picture
+					(
+					 movie_cd
+					,movie_pic_no
+					,movie_pic_path
+					)
+			 VALUES	(
+			 		 #{movie_cd}
+			 		,MOVIE_PIC_SEQ.nextval
+			 		,#{movie_pic_path}
+					)
+	</insert>
+	
+		<insert id="insertMoviePreview">
+		INSERT INTO movie_preview
+					(
+					 movie_cd
+					,movie_pre_no
+					,movie_pre_path
+					)
+			 VALUES	(
+			 		 #{movie_cd}
+			 		,MOVIE_preview_SEQ.nextval
+			 		,#{movie_pre_path}
+					)
+	</insert>
 </mapper>

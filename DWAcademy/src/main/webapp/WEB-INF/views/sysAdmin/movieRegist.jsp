@@ -225,9 +225,7 @@ table th {
 									</td>
 									<th scope="row">영화소개</th>
 									<td colspan="3">
-										<textarea name="movie_info"	class="required frm_input form-control" rows="30" cols="150" style="background-position: right top; background-repeat: no-repeat; resize: none;" required>
-										${movie.movie_info }
-										</textarea>
+										<textarea name="movie_info"	class="required frm_input form-control" rows="30" cols="150" style="background-position: right top; background-repeat: no-repeat; resize: none;" required>${movie.movie_info }</textarea>
 									</td>
 								</tr>
 								<tr>
@@ -236,7 +234,7 @@ table th {
 									<th scope="row">러닝타임</th>
 									<td colspan="3">
 										<input type="text" name="movie_length" id="movie_length" value="${movie.movie_length }"
-											placeholder="양의 정수로 입력해주세요" class="frm_input wfull" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"> 분
+											placeholder="양의 정수로 입력해주세요" class="frm_input wfull" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required> 분
 									</td>
 								</tr>
 								<tr>
@@ -278,17 +276,18 @@ table th {
 
 								<tr>
 									<th scope="row">더빙타입</th>
-									<td class="td_label" colspan="3"><label><input
-											type="checkbox" name="isdub" value="DU" checked="checked">
-											더빙 </label> <label><input type="checkbox" name="isdub"
-											value="DE"> 자막 </label> <label><input type="checkbox"
-											name="isdub" value="NO"> 없음 </label></td>
+									<td class="td_label" colspan="3">
+										<label><input type="checkbox" name="isdub" value="DU">더빙 </label> 
+										<label><input type="checkbox" name="isdub" value="DE">자막 </label> 
+										<label><input type="checkbox" name="isdub" value="NO">없음 </label>
+									</td>
 								</tr>
 								<tr>
 									<th scope="row">3D유무</th>
-									<td class="td_label" colspan="3"><label><input
-											type="checkbox" name="is3d" value="2D"> 2D</label> <label><input
-											type="checkbox" name="is3d" value="3D"> 3D </label></td>
+									<td class="td_label" colspan="3">
+										<label><input type="checkbox" name="is3d" value="2D"> 2D</label> 
+										<label><input type="checkbox" name="is3d" value="3D"> 3D </label>
+									</td>
 								</tr>
 								<tr>
 									<th scope="row">관련사진</th>
@@ -335,99 +334,5 @@ table th {
 </div>
 
 <%@ include file="movieRegist_attach_js.jsp" %>
-<script>
-
-	// 상영종료일  제한
-	let nowDate = Date.now();
-	let timeOff = new Date().getTimezoneOffset()*60000;
-	let today = new Date(nowDate-timeOff).toISOString().split("T")[0];
-	$('#enddate').attr('min', today);
-	$('#opendate').on('change', function(){
-		let opendate = $(this).val();
-		let mindate;
-		if (opendate > today) {
-			mindate = opendate;
-		} else {
-			mindate = today;
-		}
-		$('#enddate').attr('min', mindate);
-		if ($('#enddate').val() < $(this).val()) {
-			$('#enddate').val('');
-		}
-	});
-	
-	// 포스터버튼 클릭
-	$('#posterBtn').on('click', function() {
-		$('#movie_mainPic_path').click();
-	});
-
-	// 포스터 이미지 프리뷰
-	function posterChange_go() {
-		let inputImage = $('input#movie_mainPic_path')[0];
-		preViewPicture(inputImage, $('div#pictureView'));
-		$('input[name="uploadPoster"]').val(inputImage.files[0].name);
-	};
-	
-	// 관련사진 이미지 프리뷰
-	$(document).on('change', 'input[name="uploadImg"]', function(){
-		let inputImg = $(this)[0];
-		preViewPicture(inputImg, $(this).siblings('#imgView'));
-	});
-	
-	// 예고편 동영상 프리뷰
-	$(document).on('change', 'input[name="uploadVideo"]', function(){
-		console.log($(this)[0].files[0]);
-	 	let inputVideo = $(this)[0].files[0];
-		let videoUrl = URL.createObjectURL(inputVideo);
-		$(this).siblings('.test').attr('src', videoUrl);
-	});
-	
-	$('input[name="genre_cd"]').on('click', function(e){
-		let genre_cnt = $('input[name="genre_cd"]:checked').length;
-		if (genre_cnt > 3) {
-			alert('장르는 3개까지 설정 가능합니다.');
-			e.preventDefault();
-		}
-	});
-	
-	
-	Attach_action();
-	
-/* 	$('#movie_length').on('keyup', function(){
-		// 러닝타임 숫자만 오게
-		let numberCheck = '/^[0-9]+$/';
-		if (!check.test($('#movie_length').val())) {
-			console.log(check.test($('#movie_length').val()));
-		}
-	}); */
-	
-	// 등록버튼 클릭
-	$('#registBtn').on('click', function(){
-		
-		let form = $('form[role="form"]');
-		form.attr({'method' : 'post', 'action' : 'movieRegist.do'});
-		
-		let images = $('input[name="uploadImg"]');
-		for (let image of images) {
-			if (image.value == "") {
-				alert("사진을 선택하세요.");
-				image.focus();
-				image.click();
-				return;
-			}
-		}
-		
-		let videos = $('input[name="uploadVideo"]');
-		for (let video of videos) {
-			if (video.value == "") {
-				alert("동영상을 선택하세요.");
-				video.focus();
-				video.click();
-				return;
-			}
-		}
-		console.log('test');
-		form.submit();
-	});	
-</script>
+<%@ include file="movieRegist_js.jsp" %>
 <%@ include file="sysAdminFooter.jsp"%>

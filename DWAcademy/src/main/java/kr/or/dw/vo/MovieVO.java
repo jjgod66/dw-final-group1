@@ -18,6 +18,8 @@ public class MovieVO {
 	private Date opendate;
 	private Date enddate;
 	
+	public MovieVO() {}
+	
 	public MovieVO(String movie_cd, String movie_name, String movie_info, String movie_director, String movie_actor,
 			String movie_grade, int movie_length, String movie_mainpic_path, Date opendate, Date enddate) {
 		this.movie_cd = movie_cd;

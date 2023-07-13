@@ -117,12 +117,33 @@ public class SysAdminServiceImpl implements SysAdminService {
 	}
 
 	@Override
-	public void registMovieGenre(String[] genres, String movie_cd) throws SQLException {
+	public void registMovieGenre_c(String[] genres, String movie_cd) throws SQLException {
 		Map<String, String> map = new HashMap<>();
 		map.put("movie_cd", movie_cd);
 		for (String genre : genres) {
 			map.put("genre", genre);
-			sysAdminDAO.insertGenre(map);
+			sysAdminDAO.insertGenre_c(map);
+		}
+	}
+
+	@Override
+	public void registMovieType_c(List<String> movie_types, String movie_cd) throws SQLException {
+		Map<String, String> map = new HashMap<>();
+		map.put("movie_cd", movie_cd);
+		for (String movie_type : movie_types) {
+			map.put("movie_type_cd", movie_type);
+			System.out.println("[[[[[[" + map.keySet().toString());
+			sysAdminDAO.insertMovieType_c(map);
+		}
+	}
+
+	@Override
+	public void registMoviePic(List<String> movie_pics, String movie_cd) throws SQLException {
+		Map<String, String> map = new HashMap<>();
+		map.put("movie_cd", movie_cd);
+		for (String pic : movie_pics) {
+			map.put("movie_pic_path", pic);
+			sysAdminDAO.insertMoviePic(map);
 		}
 	}
 

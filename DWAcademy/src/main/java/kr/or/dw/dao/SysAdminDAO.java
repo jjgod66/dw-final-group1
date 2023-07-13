@@ -54,6 +54,12 @@ public interface SysAdminDAO {
 	void insertMovie(MovieVO movie) throws SQLException;
 
 	// 해당 영화 장르 등록하기
-	void insertGenre(Map<String, String> map) throws SQLException;
+	void insertGenre_c(Map<String, String> map) throws SQLException;
+
+	// 해당 영화 타입 등록하기
+	void insertMovieType_c(Map<String, String> map) throws SQLException;
+
+	// 해당 영화 관련 사진 등록하기
+	void insertMoviePic(Map<String, String> map) throws SQLException;
 
 }
