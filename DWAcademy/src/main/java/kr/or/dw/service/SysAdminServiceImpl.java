@@ -8,11 +8,13 @@ import java.util.Map;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.SysAdminDAO;
 import kr.or.dw.vo.AdminVO;
 import kr.or.dw.vo.GenreVO;
+import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.TheaterVO;
 
 public class SysAdminServiceImpl implements SysAdminService {

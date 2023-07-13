@@ -1,5 +1,6 @@
 package kr.or.dw.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -7,7 +8,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,11 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.SysAdminService;
 import kr.or.dw.vo.GenreVO;
+import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.TheaterVO;
 
 @Controller
@@ -32,6 +38,9 @@ public class SysAdminController {
 	
 	@Autowired
 	private SysAdminService sysAdminService;
+	
+	@Resource(name ="moviePicUploadPath")
+	private String moviePicUploadPath;
 	
 	@RequestMapping("/main")
 	public ModelAndView sysAdminIndex(ModelAndView mnv) {

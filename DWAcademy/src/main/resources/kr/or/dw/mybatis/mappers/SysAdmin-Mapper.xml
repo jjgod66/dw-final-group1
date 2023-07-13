@@ -229,5 +229,4 @@
 			 		,#{movie_pre_path}
 					)
 	</insert>
-
 </mapper>

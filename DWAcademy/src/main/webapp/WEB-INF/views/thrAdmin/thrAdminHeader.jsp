@@ -18,6 +18,13 @@
 <script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- jquery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- fullcalendar CDN -->
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+  <!-- fullcalendar 언어 CDN -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
 </head>
 <body>
 
@@ -191,7 +198,7 @@ a.gnb_1da {
 
 nav ul {
 	width: 100%;
-	background-color: rgba(44, 42, 39 ,0.993);
+	background-color: 	#F5F5F5;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -201,33 +208,37 @@ nav ul {
 	display: inline-block;
 } 
 
-.dropdown {
+ .dropdown {
 	position: relative;
-} 
+}  
 .dropdown-menu {
+
 	color: black;
-	padding: 10px;
+	/* padding: 10px; */
 	font-size: 16px;
 	cursor: pointer;
-	background-color: #f5f5f5;
+	background-color: 	#D3D3D3;
 	text-align: center;
  } 
  .dropdown-content{
+ 
  	position: absolute;
  	background-color:#dcdcdc;
  	min-width: 160px;
- 	box-shadow: 0px 8px 16px 0px rgba(0 ,0 ,0 ,0.2);
- } 
+ 	/* box-shadow: 0px 8px 16px 0px rgba(0 ,0 ,0 ,0.2); */
+ }  
  .dropdown-content a {
+ 
  	color: black;
- 	padding: 12px 16px;
- 	text-decoration: none;
- 	display: block;
+ 	padding: 12px 12px;
+ 	 text-decoration: none;
+ 	display: block; 
  }
   .dropdown-content{
  	display: none;
- } 
+ }  
  .dropdown:hover .dropdown-content{
+ 	
  	display: block;
  }
  .dropdown-content a:hover {
@@ -240,14 +251,14 @@ nav ul {
 </style>
 	<header id="hd">
 		<div id="hd_wrap">
-			<div style="padding : 0.5rem;">
+			<div >
 				<img src="<%=request.getContextPath()%>/resources/img/logo.png">
 			</div>
 			<div id="tnb">
 				<ul>
 					<li>DW시네마 v1.0.1</li>
 					<li><a href="#">관리자정보</a></li>
-					<li><a href="<%=request.getContextPath() %>/sysAdmin/main.do">관리자홈</a></li>
+					<li><a href="#">관리자홈</a></li>
 					<li><a href="<%=request.getContextPath() %>/sysAdmin/adminCinemaMain.do">DW시네마 바로가기 </a></li>
 					<li id="tnb_logout"><a
 						href="">로그아웃</a></li>
@@ -258,15 +269,14 @@ nav ul {
 				<ul>
 					<li class="gnb_1dli dropdown dropdown-menu">지점관리 
 						<div class="dropdown-content">
-							<a href="<%= request.getContextPath() %>/sysAdmin/theaterAdminMain.do" class="gnb_1da">지점 목록 </a>
-							<a href="<%= request.getContextPath() %>/sysAdmin/theaterRegistForm.do" class="gnb_1da">지점 등록 </a>
+							<a href="<%= request.getContextPath() %>/thrAdmin/theaterAdminMain.do" class="gnb_1da">상영관 목록 </a>
+							<a href="<%= request.getContextPath() %>/thrAdmin/theaterRegistForm.do" class="gnb_1da">상영관 등록 </a>
 						</div>
 					</li>
-					<li class="gnb_1dli dropdown dropdown-menu" >영화관리 
+					<li class="gnb_1dli dropdown dropdown-menu" >상영영화관리 
 						<div class="dropdown-content">
-							<a href="<%= request.getContextPath() %>/sysAdmin/movieAdminMain.do" class="gnb_1da">영화리스트</a>
-							<a href="<%= request.getContextPath() %>/sysAdmin/movieRegistForm.do" class="gnb_1da">영화등록</a>
-							<a href="<%= request.getContextPath() %>/sysAdmin/movieAdmin.do" class="gnb_1da">3</a>
+							<a href="<%= request.getContextPath() %>/thrAdmin/movieAdminMain.do" class="gnb_1da">영화리스트</a>
+							<a href="<%= request.getContextPath() %>/thrAdmin/movieRegistForm.do" class="gnb_1da">영화등록</a>
 						</div>
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">고객관리 
@@ -282,16 +292,10 @@ nav ul {
 						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminMain.do" class="gnb_1da">진행중인 이벤트 </a>
 						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminPast.do" class="gnb_1da">지난 이벤트 </a>
 						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminWinner.do" class="gnb_1da">당첨자 발표 </a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/eventRegist.do" class="gnb_1da">이벤트 등록  </a>
+						<a href="<%= request.getContextPath() %>/thrAdmin/eventRegist.do" class="gnb_1da">이벤트 등록  </a>
 						</div>
 					</li>
-					<li class="gnb_1dli dropdown dropdown-menu">스토어관리 
-					<div class="dropdown-content">
-						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do" class="gnb_1da">1</a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do" class="gnb_1da">2</a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do" class="gnb_1da">3</a>
-						</div>
-					</li>
+					
 				</ul>
 			</nav> 
 			

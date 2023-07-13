@@ -212,7 +212,6 @@ nav ul {
 } 
 .dropdown-menu {
 	color: black;
-	padding: 10px;
 	font-size: 16px;
 	cursor: pointer;
 	background-color: #f5f5f5;

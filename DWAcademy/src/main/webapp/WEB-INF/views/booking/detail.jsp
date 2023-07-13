@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="../include/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/seatbooking.css">
 <div class="sub_visual">
@@ -81,19 +83,28 @@
             </div>
             <div class="price-table">
                 <div class="tit-area">
-                    <!--span class="movie-grade small age-all age-15">15세이상관람가</span-->
-                    <p class="price-tit">영화제목</p>
-                    <p class="price-cate">2D</p>
+                    <span class="movie-grade small">${screen.movieVO.movie_grade }</span>
+                    <p class="price-tit">${screen.movieVO.movie_name }
+                    	<c:if test="${screen.screenVO.gb_jojo eq 'Y'}">(조조)</c:if>
+                    </p>
+                    <p class="price-cate">
+                    	<c:if test="${screen.movie_type_des eq '없음/2D' }">
+                    		2D
+                    	</c:if>
+                    	<c:if test="${screen.movie_type_des ne '없음/2D' }">
+                    		${screen.movie_type_des}
+                    	</c:if>
+                    </p>
                 </div>
                 <div class="info-area">
-                    <p class="special">1관</p>
-                    <p class="date"><span>2023.06.30</span><em>(금)</em></p>
-                    <p class="other-time">22:00~23:59</p>
+                    <p class="special">${screen.houseVO.house_name}</p>
+                    <p class="date"><span><fmt:formatDate value="${screen.screenVO.startdate}" pattern="yyyy.MM.dd"/></span></p>
+                    <p class="other-time"><fmt:formatDate value="${screen.screenVO.startdate}" pattern="HH:mm"/>~${screen.endTime }</p>
                     <div class="price-theater-place">
-                        <span>남은좌석</span> <span class="remain-seats">0</span>/<span class="all-seats">0</span>
+                        <span>남은좌석</span> <span>${screen.remainSeat}</span>/<span class="all-seats">${screen.houseVO.house_row*screen.houseVO.house_column}</span>
                     </div>
                     <p class="poster">
-                        <img src="https://file.cineq.co.kr/i.aspx?movieid=20226411&size=210">
+                        <img src="../../resources/img/poster/${screen.movieVO.movie_mainpic_path }">
                     </p>
                 </div>
                 <div class="reserve-number-wrapper">
@@ -123,8 +134,9 @@
 	<input type="hidden" name="teenSeat">
 	<input type="hidden" name="preferSeat">
 	<input type="hidden" name="totalPrice">
-	<input type="hidden" name="screen_cd">
-	<input type="hidden" name="selectSeats">
+	<input type="hidden" name="screen_cd" value="${screen.screenVO.screen_cd }">
+	<input type="hidden" name="res_seats">
+	<input type="hidden" name="gb_jojo" value="${screen.screenVO.gb_jojo }">
 	
 </form>
 <script>
@@ -132,9 +144,11 @@ let totalSeat = 0;
 let adultSeat = $('#adultcount').text();
 let teenSeat = $('#teencount').text();
 let preferSeat = $('#prefercount').text();
+let buySeatList = '${screen.buySeatList}';
+let totalPrice = 0;
 $(function(){
 	$('#pageNext').on('click', function(){
-		$('input[name="selectSeats"]').val(selectedSeatNumbers);
+		$('input[name="res_seats"]').val(selectedSeatNumbers);
 		$('input[name="adultSeat"]').val(adultSeat);
 		$('input[name="teenSeat"]').val(teenSeat);
 		$('input[name="preferSeat"]').val(preferSeat);
@@ -171,6 +185,11 @@ $(function(){
 		preferSeat = $('#prefercount').text();
 	})
 
+	buySeatList = buySeatList.slice(1, -1).split(", ");
+
+	for(let i = 0; i < buySeatList.length; i++){
+		$('.seat[data-st="' + buySeatList[i] + '"]').addClass('occupied');
+	}
 })
 
 const container = document.querySelector('.movie-inner');
@@ -208,7 +227,6 @@ function totalSeatCountDown(number){
 
 let selectedSeatNumbers = '';
 // 좌석 수와 총액 업데이트
-let totalPrice = 0;
 function updateSelectedCount() {
   const selectedSeats = document.querySelectorAll('.row .seat.selected');
   selectedSeatsCount = selectedSeats.length;
@@ -224,13 +242,39 @@ function updateSelectedCount() {
   let adultPrice = 0;
   let teenPrice = 0;
   let preferPrice = 0;
-  if(selectedSeatsCount > adultSeat){
-	  adultPrice = adultSeat*14000;
-	  teenPrice = (selectedSeatsCount - adultSeat) < 0 ? 0 : (selectedSeatsCount - adultSeat) * 12000;
-	  preferPrice = (selectedSeatsCount - adultSeat - teenSeat) < 0 ? 0 : (selectedSeatsCount - adultSeat - teenSeat) * 6000;
-		  
+  
+
+  if("${screen.screenVO.gb_jojo}" == "N"){
+	  if(selectedSeatsCount > adultSeat){
+		  adultPrice = adultSeat*14000;
+		  if(selectedSeatsCount - adultSeat > teenSeat){
+			  teenPrice = teenSeat * 12000;
+			  preferPrice = (selectedSeatsCount - adultSeat - teenSeat) <= 0 ? 0 : (selectedSeatsCount - adultSeat - teenSeat) *6000;
+			  
+		  }else{
+			 teenPrice = (selectedSeatsCount - adultSeat)*12000;
+		  }
+			  
+	  }else{
+		  adultPrice = selectedSeatsCount*14000;
+	  }
   }else{
-	  adultPrice = selectedSeatsCount*14000;
+	  if(selectedSeatsCount > adultSeat){
+		  adultPrice = adultSeat*12000;
+		  if(selectedSeatsCount - adultSeat > teenSeat){
+			  teenPrice = teenSeat * 10000;
+			  preferPrice = (selectedSeatsCount - adultSeat - teenSeat) <= 0 ? 0 : (selectedSeatsCount - adultSeat - teenSeat) * 4000;
+			  
+		  }else{
+			 teenPrice = (selectedSeatsCount - adultSeat)*10000;
+		  }
+		  console.log(adultPrice);
+		  console.log(teenPrice);
+		  console.log(preferPrice);
+			  
+	  }else{
+		  adultPrice = selectedSeatsCount*12000;
+	  }
   }
 
   totalPrice = adultPrice + teenPrice + preferPrice;
@@ -326,18 +370,18 @@ function addRowsAndColumns(rows, columns) {
         } else if(selectedSeatsCount < totalSeat){
           remainSeats--; // 좌석 선택 시 remainSeats 감소
         }
-        remainSeatsContainer.textContent = remainSeats; // remainSeats 출력
+//         remainSeatsContainer.textContent = remainSeats; // remainSeats 출력
       });
     });
 
     seatContainer.appendChild(rowDiv);
   });
 
-  allSeatsContainer.textContent = remainSeats; // 총 좌석 수 출력
-  remainSeatsContainer.textContent = remainSeats; // remainSeats 초기값 출력
+//   allSeatsContainer.textContent = remainSeats; // 총 좌석 수 출력
+//   remainSeatsContainer.textContent = remainSeats; // remainSeats 초기값 출력
 }
 
 // 초기값으로 8행 15열 설정
-addRowsAndColumns(8, 14);
+addRowsAndColumns(${screen.houseVO.house_row}, ${screen.houseVO.house_column});
 </script>
 <%@include file="../include/footer.jsp" %>

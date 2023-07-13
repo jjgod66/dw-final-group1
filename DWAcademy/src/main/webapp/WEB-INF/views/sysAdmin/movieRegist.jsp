@@ -1,156 +1,186 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ include file="sysAdminHeader.jsp" %>
-    
-    
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ include file="sysAdminHeader.jsp"%>
+
+
 <style>
 .breadcrumb {
-    padding: 0 0 0 25px;
-    color: #000;
-    line-height: 34px;
-    border-bottom: 1px solid #e9e9e9;
-    text-align: left;
-        font-size: 12px;
+	padding: 0 0 0 25px;
+	color: #000;
+	line-height: 34px;
+	border-bottom: 1px solid #e9e9e9;
+	text-align: left;
+	font-size: 12px;
 }
+
 #content {
 	max-width: 80rem;
-	margin : 2rem auto 2rem auto;
-    padding-bottom: 100px;
-    border: 1px solid #ccc;
+	margin: 2rem auto 2rem auto;
+	padding-bottom: 100px;
+	border: 1px solid #ccc;
 }
+
 .s_wrap {
-    margin: 30px 25px;
+	margin: 30px 25px;
 }
+
 #content h1 {
-    margin: 0 0 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #888;
-    font-size: 20px;
-    line-height: 1em;
-    letter-spacing: -1px;
+	margin: 0 0 20px;
+	padding-bottom: 15px;
+	border-bottom: 1px solid #888;
+	font-size: 20px;
+	line-height: 1em;
+	letter-spacing: -1px;
 }
+
 h1, h2, h3, h4, h5, h6 {
-    font-size: 1em;
-    font-weight: 600;
+	font-size: 1em;
+	font-weight: 600;
 }
+
 #content h2 {
-    margin: 30px 0 0;
-    position: relative;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: -1px;
-    line-height: 1em;
-    padding: 0 0 10px 10px;
+	margin: 30px 0 0;
+	position: relative;
+	font-size: 16px;
+	font-weight: 600;
+	letter-spacing: -1px;
+	line-height: 1em;
+	padding: 0 0 10px 10px;
 }
+
 #content h2:before {
-    display: inline-block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 4px;
-    height: 16px;
-    background: #1a4e99;
-    content: '';
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 4px;
+	height: 16px;
+	background: #1a4e99;
+	content: '';
 }
+
 .tbl_frm01 {
-    border-top: 1px solid #888;
+	border-top: 1px solid #888;
 }
+
 .tbl_frm01 table {
-    width: 100%;
+	width: 100%;
 }
+
 .w180 {
-    width: 180px !important;
+	width: 180px !important;
 }
+
 .tbl_frm01 th {
-    font-weight: 600;
+	font-weight: 600;
 }
+
 .tbl_frm01 th, .tbl_frm01 td {
-    padding: 8px 14px;
-    height: 23px;
-    border-bottom: 1px solid #e4e5e7;
-    text-align: left;
-    vertical-align: middle;
+	padding: 8px 14px;
+	height: 23px;
+	border-bottom: 1px solid #e4e5e7;
+	text-align: left;
+	vertical-align: middle;
 }
+
 table th {
-    background-color: #f8f8f8;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    line-height: 1.3em;
+	background-color: #f8f8f8;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	line-height: 1.3em;
 }
 
 .tbl_frm01 td label {
-    margin-right: 7px;
+	margin-right: 7px;
 }
+
 .banner_or_img {
-    margin: 5px 0 0;
+	margin: 5px 0 0;
 }
+
 .frm_info {
-    display: block;
-    padding-top: 5px;
-    line-height: 1.4em;
+	display: block;
+	padding-top: 5px;
+	line-height: 1.4em;
 }
+
 .btn_confirm {
-    margin-top: 20px;
-    text-align: center;
+	margin-top: 20px;
+	text-align: center;
 }
+
 .btn_confirm a, .btn_confirm input, .btn_confirm button {
-    margin: 0 1.5px;
+	margin: 0 1.5px;
 }
+
 .btn_ssmall, .btn_small, .btn_lsmall, .btn_medium, .btn_large {
-    background: #333;
-    border: 1px solid #333;
-    color: #fff !important;
+	background: #333;
+	border: 1px solid #333;
+	color: #fff !important;
 }
+
 .btn_large {
-    padding: 10px 21px;
-    font-size: 15px;
-    line-height: 1.222;
-    font-weight: 600;
+	padding: 10px 21px;
+	font-size: 15px;
+	line-height: 1.222;
+	font-weight: 600;
 }
+
 body, div, table, th, td, pre, blockquote {
-    font-size: 12px;
+	font-size: 12px;
 }
+
 .tbl_frm02 table {
-    width: 100%;
+	width: 100%;
 }
+
 .w180 {
-    width: 180px !important;
+	width: 180px !important;
 }
+
 .tbl_frm02 th {
-    font-weight: 600;
+	font-weight: 600;
+		padding: 8px 14px;
+	height: 22px;
+	border: 1px solid #e4e5e7;
+	text-align: center;
+	vertical-align: middle;
 }
-.tbl_frm02 th, .tbl_frm02 td {
-    padding: 8px 14px;
-    height: 22px;
-    border: 1px solid #e4e5e7;
-    text-align: left;
-    vertical-align: middle;
+
+.tbl_frm02 td {
+	padding: 8px 14px;
+	height: 22px;
+	border: 1px solid #e4e5e7;
+	text-align: left;
+	vertical-align: middle;
 }
+
 table th {
-    background-color: #f8f8f8;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    line-height: 1.3em;
+	background-color: #f8f8f8;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	line-height: 1.3em;
 }
+
 .required, textarea.required {
-    background: url(/img/wrest.gif) top right no-repeat;
+	background: url(/img/wrest.gif) top right no-repeat;
 }
 
 .frm_input {
-    padding: 0 4px 1px 4px;
-    font-size: 12px;
-    font-weight: normal;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    border-radius: 0;
-    -webkit-border-radius: 0;
+	padding: 0 4px 1px 4px;
+	font-size: 12px;
+	font-weight: normal;
+	border: 1px solid #ddd;
+	background-color: #fff;
+	border-radius: 0;
+	-webkit-border-radius: 0;
 }
-</style>  
-    
+</style>
+
 <div id="wrapper">
 	<div id="content">
-		 <jsp:include page="admin_contentHeader.jsp">
+		<jsp:include page="admin_contentHeader.jsp">
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
 			<jsp:param value="${item2 }" name="item2" />
@@ -281,27 +311,27 @@ table th {
 								</tr>
 							</tbody>
 						</table>
-</div>
-</section>
+					</div>
+				</section>
 
 
-<div class="btn_confirm">
-	<c:choose>
-		<c:when test="${empty movie}">
-			<button type="button" id="registBtn" class="btn_large">등록</button>
-		</c:when>
-		<c:otherwise>
-			<button type="button" id="modifyBtn" class="btn_large">수정</button>
-			<button type="button" id="deleteBtn" class="btn_large">삭제</button>
-		</c:otherwise>
-	</c:choose>
-	<button type="button" id="cancelBtn" class="btn_large">뒤로가기</button>
-</div>
-</form>
-</div>		
+				<div class="btn_confirm">
+					<c:choose>
+						<c:when test="${empty movie}">
+							<button type="button" id="registBtn" class="btn_large">등록</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" id="modifyBtn" class="btn_large">수정</button>
+							<button type="button" id="deleteBtn" class="btn_large">삭제</button>
+						</c:otherwise>
+					</c:choose>
+					<button type="button" id="cancelBtn" class="btn_large">뒤로가기</button>
+				</div>
+			</form>
+		</div>
+		<!-- #################### -->
 	</div>
 </div>
-
 
 <%@ include file="movieRegist_attach_js.jsp" %>
 <%@ include file="movieRegist_js.jsp" %>
