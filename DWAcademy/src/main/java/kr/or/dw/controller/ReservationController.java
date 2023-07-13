@@ -143,7 +143,7 @@ public class ReservationController {
 	public String payResultRedirect(MoviePaymentCommand mpc, HttpSession session) throws Exception {
 		Map<String, Object> dataMap = payResult(mpc, session);
 
-		return "redirect:/paySuccess.do?merchant_uid=" + dataMap.get("merchant_uid");
+		return "redirect:/reservation/paySuccess.do?merchant_uid=" + dataMap.get("merchant_uid");
 	}
 	
 	@RequestMapping("/paySuccess")
