@@ -4,9 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.dw.command.MoviePaymentCommand;
 import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.PayDetailVO;
+import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
 
 public interface ReservationService {
@@ -51,5 +54,14 @@ public interface ReservationService {
 	 * @return
 	 */
 	Map<String, Object> getPaymentScreenInfo(String screen_cd) throws SQLException;
+
+	/**
+	 * 예매 후 예매정보를 가져오는 메서드
+	 * @param resList
+	 * @param payDetail
+	 * @return
+	 * @throws SQLException
+	 */
+	Map<String, Object> getReservationResult(List<ReservationVO> resList, PayDetailVO payDetail) throws SQLException;
 
 }

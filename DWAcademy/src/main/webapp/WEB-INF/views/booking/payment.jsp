@@ -129,27 +129,28 @@ if(session.getAttribute("loginUser") != null){
 		</div>
 	</div>
 </div>
-<form id="payForm" action="<%=request.getContextPath()%>/reservation/payResult.do" method="post">
+<form id="payForm" action="<%=request.getContextPath()%>/reservation/payResultRedirect.do" method="post">
 	<input type="hidden" name="adultSeat" value="${moviePayment.adultSeat}">
 	<input type="hidden" name="teenSeat" value="${moviePayment.teenSeat}">
 	<input type="hidden" name="preferSeat" value="${moviePayment.preferSeat}">
-	<input type="hidden" name="screen_cd" value="${screen.screenVO.screen_cd }">
+	<input type="hidden" name="screen_cd" value="${mapData.SCREEN_CD }">
 	<input type="hidden" name="res_seats" value="${moviePayment.res_seats}">
 	<input type="hidden" name="res_seats">
 	<input type="hidden" name="discount">
 	<input type="hidden" name="pricesum">
 	<input type="hidden" name="mem_coupon_no">
 	<input type="hidden" name="use_point">
-	<input type="hidden" name="imp_uid">
-	<input type="hidden" name="merchant_uid">
-	<input type="hidden" name="apply_num">
-	<input type="hidden" name="card_name">
-	<input type="hidden" name="card_number">
-	<input type="hidden" name="pay_method">
-	<input type="hidden" name="card_quota">
-	<input type="hidden" name="status">
-	<input type="hidden" name="paid_amount">
-	<input type="hidden" name="receipt_url">
+	<input type="hidden" name="json">
+<!-- 	<input type="hidden" name="imp_uid"> -->
+<!-- 	<input type="hidden" name="merchant_uid"> -->
+<!-- 	<input type="hidden" name="apply_num"> -->
+<!-- 	<input type="hidden" name="card_name"> -->
+<!-- 	<input type="hidden" name="card_number"> -->
+<!-- 	<input type="hidden" name="pay_method"> -->
+<!-- 	<input type="hidden" name="card_quota"> -->
+<!-- 	<input type="hidden" name="status"> -->
+<!-- 	<input type="hidden" name="paid_amount"> -->
+<!-- 	<input type="hidden" name="receipt_url"> -->
 </form>
 
 <script>
@@ -161,7 +162,6 @@ IMP.init("imp04352208");
 let pay_info = null;
 function requestPay() { 
 	let totalPrice = $('.totalPrice').text();
-	console.log(totalPrice);
 	let method = $('input[name="payMethod"]:checked').prop('id');
 	let movie_name = '${mapData.MOVIE_NAME}';
 	let buyer_name = '<%=member.getMem_name()%>';
@@ -171,7 +171,7 @@ function requestPay() {
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
-        merchant_uid: 'M' + new Date().getTime(),
+        merchant_uid: new Date().getTime(),
         name: movie_name,
         amount: 100,
         buyer_email: buyer_email,
@@ -180,9 +180,7 @@ function requestPay() {
     }, function (rsp) { // callback
         if (rsp.success) {
             console.log(rsp);
-			pay_info = rsp;
-			$('input[name="totalPrice"]').val(price);
-			$('input[name="pay_info"]').val(pay_info);
+			$('input[name="json"]').val(JSON.stringify(rsp));
 			alert("결제완료");
 			$('#payForm').submit();	
 			

@@ -1,12 +1,20 @@
 package kr.or.dw.controller;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +22,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.support.RequestContextUtils;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import kr.or.dw.command.MoviePaymentCommand;
 import kr.or.dw.command.ReservationDetailCommand;
@@ -23,6 +37,8 @@ import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.service.ReservationService;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.PayDetailVO;
+import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
 
 
@@ -123,14 +139,85 @@ public class ReservationController {
 		return entity;
 	}
 	
-	@RequestMapping("/payResult")
-	public ModelAndView payResult(MoviePaymentCommand mpc, ModelAndView mnv) {
-		System.out.println("con");
+	@RequestMapping("/payResultRedirect")
+	public String payResultRedirect(MoviePaymentCommand mpc, HttpSession session) throws Exception {
+		Map<String, Object> dataMap = payResult(mpc, session);
+
+		return "redirect:/paySuccess.do?merchant_uid=" + dataMap.get("merchant_uid");
+	}
+	
+	@RequestMapping("/paySuccess")
+	public ModelAndView paySuccess(ModelAndView mnv, String merchant_uid) {
 		String url = "/booking/payResult";
-		System.out.println("컨트롤러 : " + mpc);
 		
+		mnv.addObject("mu", merchant_uid);
 		mnv.setViewName(url);
 		return mnv;
+	}
+
+	public Map<String, Object> payResult(MoviePaymentCommand mpc, HttpSession session) throws Exception {
+		System.out.println("con");
+		String url = "/booking/payResult";
+		System.out.println("컨트롤러mpc : " + mpc);
+//		JSONParser parser = new JSONParser();
+//		JSONObject jsonObj = (JSONObject) parser.parse(mpc.getJson());
+//		System.out.println(jsonObj);
+		
+		Gson gson = new Gson();
+		PayDetailVO payDetail = gson.fromJson(mpc.getJson(), PayDetailVO.class);
+		System.out.println(payDetail);
+
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		
+		List<ReservationVO> resList = new ArrayList<>();
+		
+		String[] seatList = mpc.getRes_seats().replace(",", "").split(" ");
+		
+		String mem_cat = "";
+		if(mpc.getAdultSeat() > 0) {
+			mem_cat += "성인 " + mpc.getAdultSeat();
+			if(mpc.getTeenSeat() > 0) {
+				mem_cat += ", 청소년 " + mpc.getTeenSeat();
+				if(mpc.getPreferSeat() > 0) {
+					mem_cat += ", 우대 " + mpc.getPreferSeat();
+				}
+			}else {
+				if(mpc.getPreferSeat() > 0) {
+					mem_cat += ", 우대 " + mpc.getPreferSeat();
+				}
+			}
+		}else {
+			if(mpc.getTeenSeat() > 0) {
+				mem_cat += "청소년 " + mpc.getTeenSeat();
+				if(mpc.getPreferSeat() > 0) {
+					mem_cat += ", 우대 " + mpc.getPreferSeat();
+				}else {
+					if(mpc.getPreferSeat() > 0) {
+						mem_cat += "우대 " + mpc.getPreferSeat();
+					}
+				}
+			}
+		}
+		Date resDate = new Date(payDetail.getPaid_at());
+		
+		for(int i = 0; i < seatList.length; i++) {
+			ReservationVO reservation = new ReservationVO();
+			reservation.setScreen_cd(mpc.getScreen_cd());
+			reservation.setMerchant_uid("M" + payDetail.getMerchant_uid());
+			reservation.setMem_cd(loginUser.getMem_cd());
+			reservation.setRes_seat(seatList[i]);
+			reservation.setMem_cat(mem_cat);
+			reservation.setResdate(resDate);
+			reservation.setRes_no(payDetail.getMerchant_uid());
+			resList.add(reservation);
+		}
+		
+		Map<String, Object> mapData = null;
+		mapData = reservationService.getReservationResult(resList, payDetail);
+		mapData.put("mem_cat", mem_cat);
+		mapData.put("res_seat", mpc.getRes_seats());
+
+		return mapData;
 	}
 	
 }

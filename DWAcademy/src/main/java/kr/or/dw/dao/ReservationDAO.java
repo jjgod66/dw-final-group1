@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.PayDetailVO;
+import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
 
 @Mapper
@@ -69,5 +71,19 @@ public interface ReservationDAO {
 	 * @return
 	 */
 	Map<String, Object> selectPaymentScreenInfo(String screen_cd);
+
+	/**
+	 * 예매정보 넣는 메서드
+	 * @param res
+	 * @throws SQLException
+	 */
+	void insertRes(ReservationVO res) throws SQLException;
+
+	/**
+	 * 예매 후 결제 상세테이블 넣는 메서드
+	 * @param payDetail
+	 * @throws SQLException
+	 */
+	void insertPayDetail(PayDetailVO payDetail) throws SQLException;
 
 }
