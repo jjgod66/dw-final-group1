@@ -377,10 +377,6 @@ thead, tfoot {
 			location.href="movieRegistForm.do";
 		});
 		
-/* 		$('#futureMovieBtn').on('click',function(){
-			$('#isFuture').val('f');
-			searchList_go(1);
-		}); */
 	});
 	function isFuture(e){
 		console.log(e);
@@ -390,6 +386,7 @@ thead, tfoot {
 			$('input[name="keyword"]').val('f');
 		}
 	}
+	
 	let searchFormUrl = "movieAdminMain.do";
 </script>
 <%@ include file="sysAdminFooter.jsp"%>
