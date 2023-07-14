@@ -35,5 +35,12 @@ public class MovieController {
 		return mnv;
 	}
 	
+	@RequestMapping("/allMovie")
+	public ModelAndView allMovie(ModelAndView mnv) {
+		String url = "/movie/allMovie";
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
 	
 }
