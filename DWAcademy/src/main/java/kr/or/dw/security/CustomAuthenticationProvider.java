@@ -1,6 +1,8 @@
 package kr.or.dw.security;
 
 
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -27,7 +29,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		
 		MemberVO member = null;
 		
-		member = memberDAO.selectMemberById(login_id);
+		try {
+			member = memberDAO.selectMemberById(login_id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		if(member != null && login_pwd.equals(member.getMem_pwd())) {	// 로그인 성공
 			if(member.getGb_ban() == "Y") {

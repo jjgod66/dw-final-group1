@@ -17,6 +17,7 @@
 	<bean id="movieService" class="kr.or.dw.service.MovieServiceImpl"/>
 	<bean id="thrAdminService" class="kr.or.dw.service.ThrAdminServiceImpl"/>
 	<bean id="eventService" class="kr.or.dw.service.EventServiceImpl"/>
+	<bean id="snsService" class="kr.or.dw.service.SnsServiceImpl"/>
 
 
 	

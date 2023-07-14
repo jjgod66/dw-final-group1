@@ -9,10 +9,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,6 +27,9 @@ import kr.or.dw.dao.SnsDAO;
 import kr.or.dw.service.KakaoService;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
+import kr.or.dw.service.SnsService;
+import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.SnsVO;
 
 @Controller
 public class CommonController {
@@ -35,6 +41,9 @@ public class CommonController {
 	
 	@Autowired
 	private MovieService movieService;
+	
+	@Autowired
+	private SnsService snsService;
 
 	
 	@Autowired
@@ -89,7 +98,7 @@ public class CommonController {
 		
 		System.out.println("#########" + code);
 		
-		String access_Token = ka.getAccessToken(code);
+		Map<String, String> access_Token = ka.getAccessToken(code);
 		System.out.println("###access_Token#### : " + access_Token);
 		return "/member/PrivacyInfo";
 		/*
@@ -100,25 +109,66 @@ public class CommonController {
     	}
 	
 	@RequestMapping(value="/kakao/callback", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView callback(ModelAndView mnv, @RequestParam String code) {
+	public ModelAndView callback(ModelAndView mnv, @RequestParam String code, HttpSession session) throws SQLException {
 		String url = "/member/PrivacyInfo";
-		
-		
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		SnsVO sns = snsService.selectSnsInfo(member);
+
+		System.out.println(member.getMem_cd());
 		
 		System.out.println("#########" + code);
-		String access_Token = ka.getAccessToken(code);
+		Map<String, String> tokenMap = new HashMap<>();
+		tokenMap = ka.getAccessToken(code);
+		String access_Token = tokenMap.get("access_Token");
+		String refresh_Token = tokenMap.get("refresh_Token");
 		HashMap<String, Object> userInfo = ka.getUserInfo(access_Token);
 		
+		String email = (String) userInfo.get("email");
+		
 		System.out.println("###access_Token#### : " + access_Token);
-		System.out.println("###nickname#### : " + userInfo.get("nickname"));
-		System.out.println("###email#### : " + userInfo.get("email"));
-
-		SnsDAO.insertSocal(userInfo);
+		System.out.println("###nickname#### : " + userInfo.get("sns_name"));
+		System.out.println("###email#### : " + userInfo.get("sns_email"));
+		
+		userInfo.put("access_Token", access_Token);
+		userInfo.put("refresh_Token", refresh_Token);
+		userInfo.put("mem_cd", member.getMem_cd());
+		userInfo.put("sns", sns);
+		
+		System.out.println(userInfo);
+		
+		snsService.insertSocal(userInfo);
 		
 		mnv.addAllObjects(userInfo);
 		mnv.setViewName(url);
 		
 		return mnv;
+	}
+	
+	@RequestMapping("/common/kakaoLogin")
+	public ResponseEntity<String>kakaoLogin(String email) throws SQLException {
+		ResponseEntity<String> entity = null;
+		
+		
+		SnsVO sns = snsService.selectByMemberCode(email);
+		
+		
+		if(sns == null) {
+			try {
+				entity = new ResponseEntity<String>(HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}else {
+			MemberVO member = memberService.selectMemberCode(sns);
+			try {
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		return entity;
+		
 	}
 
 	

@@ -8,6 +8,7 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,11 @@ import com.google.gson.JsonParser;
 @Service
 public class KakaoService {
 
-		public String getAccessToken (String authorize_code) {
+		public Map<String, String> getAccessToken (String authorize_code) {
 			String access_Token = "";
 			String refresh_Token = "";
 			String reqURL = "https://kauth.kakao.com/oauth/token";
+			Map<String, String> token = new HashMap<String, String>();
 	
 		try {
 			URL url = new URL(reqURL);
@@ -66,6 +68,9 @@ public class KakaoService {
 			refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
 	        
 			
+			token.put("access_Token", access_Token);
+			token.put("refresh_Token", refresh_Token);
+			
 			
 			System.out.println("access_token : " + access_Token);
 			System.out.println("refresh_token : " + refresh_Token);
@@ -75,7 +80,7 @@ public class KakaoService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return access_Token;
+		return token;
 	}
 	
 	public HashMap<String, Object> getUserInfo(String access_Token) {
@@ -101,8 +106,8 @@ public class KakaoService {
 			JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
 			String nickname = properties.getAsJsonObject().get("nickname").getAsString();
 			String email = kakao_account.getAsJsonObject().get("email").getAsString();
-			userInfo.put("nickname", nickname);
-			userInfo.put("email", email);
+			userInfo.put("sns_name", nickname);
+			userInfo.put("sns_email", email);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
