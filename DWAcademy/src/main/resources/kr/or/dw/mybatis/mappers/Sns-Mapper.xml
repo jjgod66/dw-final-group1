@@ -10,8 +10,8 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO mem_sns_login (mem_cd, sns, sns_name, sns_email, linkdate, access_token, refresh_token)
-							VALUES (#{mem_cd}, 'K', #{sns_name}, #{sns_email}, SYSDATE, #{access_Token}, #{refresh_Token})
+		INSERT INTO mem_sns_login (mem_cd, sns, linkdate, access_token, refresh_token)
+							VALUES (#{mem_cd}, 'K', SYSDATE, #{access_Token}, #{refresh_Token})
 	</insert>
 	
 	<select id="selectSnsInfo" resultType="sns">

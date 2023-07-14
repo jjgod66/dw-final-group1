@@ -125,7 +125,7 @@
 				<tbody>
 					<tr>
 						<td scope="row" style="text-align: center;">카카오</td>
-						<td>${sns_email}</td>
+						<td>${linkDate}</td>
 						<td style="text-align: center;">
 						<c:choose>
 							<c:when test="${sns == null}">
@@ -149,8 +149,7 @@
 </div>
 <script>
 console.log(${sns_email});
-console.log(${sns});
-console.log(${sns.getLinkdate});
+console.log(${linkDate});
 function unLink_go(){
 	Kakao.API.request({
 	  url: '/v1/user/unlink',
