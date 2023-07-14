@@ -306,6 +306,13 @@ thead, tfoot {
     color: #fa2828 !important;
     background: #eeeeee !important;
 }
+.nav-item > span {
+	border: 1px solid #ccc;
+	background-color : white;
+	padding : 0.5rem;
+	margin-right : 0.5rem;
+	cursor : pointer;
+}
 </style>
 
 <div id="wrapper">
@@ -317,39 +324,46 @@ thead, tfoot {
 		</jsp:include>
 		<div class="card">
 			<div class="card-header" style="padding-bottom: 0;">
-				<ul class="nav nav-tabs">
-				  <li class="nav-item">
-				    <a class="nav-link active" aria-current="page" href="#">박스오피스</a>
+				<ul class="nav nav-tabs" style="padding-bottom: 0.4rem;">
+				  <li class="nav-item" id="boxOffice" onclick="isFuture('b'); searchList_go(1);">
+				    <span class="">박스오피스</span>
 				  </li>
-				  <li class="nav-item">
-				    <a class="nav-link" href="#">상영예정작</a>
+				  <li class="nav-item" id="futureOffice" onclick="isFuture('f'); searchList_go(1);">
+				    <span class="nav-item">상영예정작</span>
 				  </li>
 				</ul>
 				<div class="float-end">
 					<span>
-						<input type="text" class="me-3"><button type="button" class="btn_medium">검색</button>
+						<select name="searchType" id="searchType" onchange="javascript:searchList_go(1);">
+										<option value="r" ${cri.searchType eq 'r' ? 'selected' : '' }>예매율</option>
+										<option value="n" ${cri.searchType eq 'n' ? 'selected' : '' }>영화명</option>
+										<option value="d" ${cri.searchType eq 'd' ? 'selected' : '' }>개봉일</option>
+						</select>
+						<input type="hidden" id="keyword" name="keyword" value="${cri.keyword }">
 					</span>
 					<button type="button" class="btn_medium" id="movieRegistFormBtn">등록</button>
 				</div>
 			</div>
 			<div class="card-body">
-				<div class="movieList row" style="text-align: -webkit-center;">
+				<div class="container px-4">
+				<div class="movieList row gx-1 px-1" style="text-align: -webkit-center;">
 					<c:forEach items="${movieList}" var="movie">
 						<div class="col-md-3" style="border: 1px solid #ccc;">
-							<div style="width: 80%; height: 20rem; overflow: hidden;">
-								<img src="getPicture.do?poster=${movie.MOVIE_MAINPIC_PATH}&movie_cd=${movie.MOVIE_CD}" style="object-fit: cover; width: 100%; hegith:100%;">
+							<div class="p-1" style="width: 80%; height: 20rem; overflow: hidden;">
+								<img src="getPicture.do?poster=${movie.MOVIE_MAINPIC_PATH}&movie_cd=${movie.MOVIE_CD}" class="img-thumbnail" style="object-fit: cover; width: 100%; hegith:100%;">
 							</div>
 							<div>
 								${movie.GRADE } <a href="movieRegistForm.do?movie_cd=${movie.MOVIE_CD }">${movie.MOVIE_NAME}</a>
 							</div>
 							<div>
-								예매율: 100% / 개봉일: <fmt:formatDate value='${movie.OPENDATE }' pattern='yyyy-MM-dd'/>
+								예매율: ${movie.reserveRatio }% / 개봉일: <fmt:formatDate value='${movie.OPENDATE }' pattern='yyyy-MM-dd'/>
 							</div>
 						</div>
 					</c:forEach>
 				</div>
+				</div>
 			</div>
-			<div class="mt-5">
+			<div class="mt-5 mb-5">
 				<%@ include file="../common/pagination.jsp" %>
 			</div>
 		</div>
@@ -362,7 +376,20 @@ thead, tfoot {
 		$('#movieRegistFormBtn').on('click', function(){
 			location.href="movieRegistForm.do";
 		});
+		
+/* 		$('#futureMovieBtn').on('click',function(){
+			$('#isFuture').val('f');
+			searchList_go(1);
+		}); */
 	});
-	
+	function isFuture(e){
+		console.log(e);
+		if (e == "b"){
+			$('input[name="keyword"]').val('');			
+		} else if(e == "f") {
+			$('input[name="keyword"]').val('f');
+		}
+	}
+	let searchFormUrl = "movieAdminMain.do";
 </script>
 <%@ include file="sysAdminFooter.jsp"%>

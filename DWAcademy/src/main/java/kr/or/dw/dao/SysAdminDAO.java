@@ -71,4 +71,13 @@ public interface SysAdminDAO {
 	// 해당하는 영화의 총 개수를 불러온다.
 	int selectSearchMovieListCount(SearchCriteria cri) throws SQLException;
 
+	// 해당 영화 정보 불러오기
+	Map<String, Object> selectMovieByMovie_cd(String movie_cd) throws SQLException;
+
+	// 해당 영화 장르 불러오기
+	List<String> selectGenreByMovie_cd(String movie_cd) throws SQLException;
+
+	// 해당 영화 예매율 불러오기
+	double selectReservRatio(String movie_cd) throws SQLException;
+
 }

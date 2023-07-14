@@ -34,33 +34,32 @@
 	</sql>
 	
 	<sql id="searchMov">
+ 		<if test="keyword == 'f'.toString()"> 
+	 		 <![CDATA[
+				AND m.opendate > SYSDATE 
+ 			 ]]>  
+ 		</if>
+		<if test="keyword == ''.toString()">
+			<![CDATA[
+				AND m.ENDDATE > SYSDATE 
+ 			 ]]> 
+		</if>  
+		<if test="searchType == 'r'.toString()">
+			ORDER BY (SELECT round((SELECT COUNT(*) 
+  		  			   				 FROM movie m1, reservation r1, screen s1 
+ 					 				WHERE m1.movie_cd = s1.movie_cd 
+ 		   							  AND s1.screen_cd = r1.screen_cd 
+		  							  AND TO_char(r1.RESDATE, 'YYYY-MM-DD') = to_char(SYSDATE - 1, 'YYYY-MM-DD'))
+			       				 / 
+			       				(SELECT DECODE((SELECT count(*) FROM RESERVATION r WHERE resdate = sysdate - 1), 0, 1, (SELECT count(*) FROM RESERVATION r WHERE resdate = sysdate - 1)) FROM DUAL)
+		       				, 2) 
+ 					   FROM dual) ASC
+		</if>
 		<if test="searchType == 'n'.toString()">
-			AND t.thr_name LIKE '%' || #{keyword} || '%'
+			ORDER BY m.movie_name ASC
 		</if>
-		<if test="searchType == 'l'.toString()">
-			AND t.thr_loc LIKE '%' || #{keyword} || '%'
-		</if>
-		<if test="searchType == 'a'.toString()">
-			AND t.thr_addr LIKE '%' || #{keyword} || '%'
-		</if>
-		<if test="searchType == 'i'.toString()">
-			AND a.admin_id LIKE '%' || #{keyword} || '%'
-		</if>
-		<if test="searchType == 'p'.toString()">
-			AND t.thr_tel LIKE '%' || #{keyword} || '%'
-		</if>
-		<if test="searchType == 'nlaip'.toString()">
-			AND (
-				t.thr_name LIKE '%' || #{keyword} || '%'
-				OR
-				t.thr_loc LIKE '%' || #{keyword} || '%'
-				OR
-				t.thr_addr LIKE '%' || #{keyword} || '%'
-				OR
-				a.admin_id LIKE '%' || #{keyword} || '%'
-				OR
-				t.thr_tel LIKE '%' || #{keyword} || '%'
-				)
+		<if test="searchType == 'd'.toString()">
+			ORDER BY m.opendate ASC
 		</if>
 	</sql>
 	
@@ -261,21 +260,41 @@
 	</insert>
 	
 	<select id="selectSearchMovieList" resultType="Map">
-		SELECT m.*, (SELECT COUNT(*) FROM movie m1, reservation r1, screen s1 
-					  WHERE m1.movie_cd = s1.movie_cd AND s1.screen_cd = r1.screen_cd 
-					    AND TO_char(r1.RESDATE, 'YYYY-MM-DD') = to_char(SYSDATE - 1, 'YYYY-MM-DD')) reservcnt
+		SELECT m.*
 		  FROM movie m
-		 WHERE m.ENDDATE > SYSDATE
-<!-- 		 <include refid="searchMov" /> -->
+		 WHERE 1=1
+		 <include refid="searchMov" />
 	</select>
 	
 	<select id="selectSearchMovieListCount" resultType="int">
-		SELECT COUNT(*) 
-		  FROM (SELECT m.*, (SELECT COUNT(*) FROM movie m1, reservation r1, screen s1 
-			     			  WHERE m1.movie_cd = s1.movie_cd AND s1.screen_cd = r1.screen_cd 
-			       				AND TO_char(r1.RESDATE, 'YYYY-MM-DD') = to_char(SYSDATE - 1, 'YYYY-MM-DD')) reservcnt
-  				  FROM movie m
-			     WHERE m.ENDDATE > SYSDATE)
-<!-- 		 <include refid="searchMov" /> -->
+		SELECT COUNT(*)
+		  FROM movie m
+	     WHERE 1=1
+		 <include refid="searchMov" />
+	</select>
+	
+	<select id="selectReservRatio" resultType="double">
+		SELECT round((SELECT COUNT(*) 
+  		  			   				 FROM movie m1, reservation r1, screen s1 
+ 					 				WHERE s1.movie_cd = #{movie_cd}
+ 					 				  AND m1.movie_cd = s1.movie_cd
+ 		   							  AND s1.screen_cd = r1.screen_cd 
+		  							  AND TO_CHAR(r1.resdate, 'YYYYMMDD')  = TO_CHAR(sysdate-1,'YYYYMMDD'))
+			       				 / 
+			       				(SELECT DECODE((SELECT count(*) FROM RESERVATION r WHERE TO_CHAR(resdate, 'YYYYMMDD')  = TO_CHAR(sysdate-1,'YYYYMMDD')), 0, 1, (SELECT count(*) FROM RESERVATION r WHERE TO_CHAR(resdate, 'YYYYMMDD')  = TO_CHAR(sysdate-1,'YYYYMMDD'))) FROM DUAL)
+		       				, 2) * 100 reserveRatio
+ 					   FROM dual
+	</select> 
+	
+	<select id="selectMovieByMovie_cd" resultType="Map">
+		SELECT *
+		  FROM movie m
+		 WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectGenreByMovie_cd" resultType="List">
+		SELECT genre_cd
+		  FROM genre_c
+		 WHERE movie_cd = #{movie_cd}
 	</select>
 </mapper>

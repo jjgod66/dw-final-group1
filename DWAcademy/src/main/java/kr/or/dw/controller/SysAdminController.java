@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -70,6 +71,7 @@ public class SysAdminController {
 	}
 
 	@RequestMapping("/theaterRegistForm")
+//	@PostMapping("/theaterRegistForm")
 	public ModelAndView theaterRegistForm(ModelAndView mnv, String thr_name) throws SQLException {
 		
 		String url = "sysAdmin/theaterRegist";
@@ -138,26 +140,13 @@ public class SysAdminController {
 	@RequestMapping("/movieAdminMain")
 	public ModelAndView movieAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException, IOException {
 		String url = "/sysAdmin/movieAdminMain";
-		
+		cri.setPerPageNum("12");
+		System.out.println(cri);
+		System.out.println("keyword : " + cri.getKeyword());
 		Map<String, Object> dataMap = sysAdminService.selectMovieList(cri);
-		List<Map<String, Object>> movieListbefore = (List<Map<String, Object>>)dataMap.get("movieList");
-//		List<Map<String, Object>> movieListafter = new ArrayList<>(); 
-//		List<byte[]> imgUrls = new ArrayList<>();
-//		String posterPath = "";
-//		for (Map<String, Object> movie : movieListbefore) {
-//			InputStream in = null;
-//			posterPath = this.moviePicUploadPath + File.separator + movie.get("MOVIE_CD") + File.separator + "mainPoster";
-//			
-//			in = new FileInputStream(new File(posterPath, (String)movie.get("MOVIE_MAINPIC_PATH")));
-//			imgUrls.add(IOUtils.toByteArray(in));
-//			movie.put("posterPath", IOUtils.toByteArray(in));
-//			System.out.println(in);
-//			System.out.println((String)movie.get("MOVIE_MAINPIC_PATH"));
-//			movieListafter.add(movie);
-//			in.close();
-//		}
+		List<Map<String, Object>> movieList = (List<Map<String, Object>>)dataMap.get("movieList");
 		
-		dataMap.put("movieList", movieListbefore);
+		dataMap.put("movieList", movieList);
 		mnv.addAllObjects(dataMap);
 		
 		
@@ -177,7 +166,7 @@ public class SysAdminController {
 		
 		if (movie_cd != null) {	// 수정일 때
 			subjectMap = addSubject("HOME", "영화 관리", "영화 상세정보 수정");
-//			Map<String, Object> sysAdminService.selectMovieByMovie_cd(movie_cd);
+			Map<String, Object> movie = sysAdminService.selectMovieByMovie_cd(movie_cd);
 		} else {				// 등록일 때
 			subjectMap = addSubject("HOME", "영화 관리", "영화 등록");
 		}
@@ -342,11 +331,6 @@ public class SysAdminController {
 			in.close();
 		}
 		return entity;
-		List<String> sibalList = new ArrayList<>();
-		sibalList.add("sibal1");
-		sibalList.add("sibal2");
-		Map<String, Object> sibalMap = new HashMap<>();
-		sibalMap.put("sibal1", 3);
 	}
 }
 
