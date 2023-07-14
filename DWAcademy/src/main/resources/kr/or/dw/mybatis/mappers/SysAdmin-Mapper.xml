@@ -33,7 +33,7 @@
 		</if>
 	</sql>
 	
-	<sql id="searchMov">
+	<sql id="searchKeywordMov">
  		<if test="keyword == 'f'.toString()"> 
 	 		 <![CDATA[
 				AND m.opendate > SYSDATE 
@@ -44,6 +44,12 @@
 				AND m.ENDDATE > SYSDATE 
  			 ]]> 
 		</if>  
+	</sql>
+	
+	<sql id="searchTypeMov">
+		<if test="searchType == ''.toString()">
+			ORDER BY r.reserve DESC NULLS last
+		</if>
 		<if test="searchType == 'r'.toString()">
 			ORDER BY r.reserve DESC NULLS last
 		</if>
@@ -263,7 +269,8 @@
 			GROUP BY m.movie_cd
 			) r
 		WHERE m.movie_cd = r.movie_cd(+)
-		 <include refid="searchMov" />
+		 <include refid="searchKeywordMov" />
+		 <include refid="searchTypeMov" />
 	</select>
 	
 	<select id="selectSearchMovieListCount" resultType="int">
@@ -278,7 +285,8 @@
 			GROUP BY m.movie_cd
 			) r
 		WHERE m.movie_cd = r.movie_cd(+)
-		 <include refid="searchMov" />
+		 <include refid="searchKeywordMov" />
+		 <include refid="searchTypeMov" />
 	</select>
 	
 	<select id="selectReservRatio" resultType="double">
@@ -300,9 +308,15 @@
 		 WHERE movie_cd = #{movie_cd}
 	</select>
 	
-	<select id="selectGenreByMovie_cd" resultType="List">
+	<select id="selectGenreByMovie_cd" resultType="str">
 		SELECT genre_cd
 		  FROM genre_c
+		 WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectTypeByMovie_cd" resultType="str">
+		SELECT movie_type_cd
+		  FROM MOVIE_TYPE_C
 		 WHERE movie_cd = #{movie_cd}
 	</select>
 </mapper>

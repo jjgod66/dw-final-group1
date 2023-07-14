@@ -1,9 +1,12 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -190,7 +193,15 @@ public class SysAdminServiceImpl implements SysAdminService {
 		Map<String, Object> movie = sysAdminDAO.selectMovieByMovie_cd(movie_cd);
 		List<String> movieGenreList = sysAdminDAO.selectGenreByMovie_cd(movie_cd);
 		movie.put("genreList", movieGenreList);
-//		List<String> movieTypeList = 
+		List<String> movieTypeListBefore = sysAdminDAO.selectTypeByMovie_cd(movie_cd);
+		Set<String> set = new HashSet<>();
+		for (String movieType : movieTypeListBefore) {
+			set.add(movieType.substring(0, 2));
+			set.add(movieType.substring(2));
+		}
+		System.out.println("[[[[[" + set);
+		List<String> movieTypeListAfter = new ArrayList<String>(set);
+		movie.put("movieTypeList", movieTypeListAfter);
 		return null;
 	}
 
