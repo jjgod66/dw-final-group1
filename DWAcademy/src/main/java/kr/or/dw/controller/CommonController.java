@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.IndexMovieCommand;
+import kr.or.dw.dao.SnsDAO;
 import kr.or.dw.service.KakaoService;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
@@ -35,6 +36,7 @@ public class CommonController {
 	@Autowired
 	private MovieService movieService;
 
+	
 	@Autowired
 	private KakaoService ka;
 	
@@ -81,13 +83,6 @@ public class CommonController {
 	}
 	
 	// 카카오 소셜로그인
-	@RequestMapping("/kakaoLogin")
-	public String kakaoLogin() {
-		
-		return "/kakao/kakaoLogin";
-		
-	}
-	
 	@RequestMapping(value="/kakaoCode", method=RequestMethod.GET)
 	public String kakaoCode(@RequestParam(value = "code", required = false) String code) throws Exception {
 		
@@ -96,7 +91,7 @@ public class CommonController {
 		
 		String access_Token = ka.getAccessToken(code);
 		System.out.println("###access_Token#### : " + access_Token);
-		return "/kakao/kakaoLogin";
+		return "/member/PrivacyInfo";
 		/*
 		 * 리턴값의 testPage는 아무 페이지로 대체해도 괜찮습니다.
 		 * 없는 페이지를 넣어도 무방합니다.
@@ -106,16 +101,19 @@ public class CommonController {
 	
 	@RequestMapping(value="/kakao/callback", method= {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView callback(ModelAndView mnv, @RequestParam String code) {
-		String url = "/kakao/callback";
+		String url = "/member/PrivacyInfo";
+		
+		
 		
 		System.out.println("#########" + code);
 		String access_Token = ka.getAccessToken(code);
-		
 		HashMap<String, Object> userInfo = ka.getUserInfo(access_Token);
 		
 		System.out.println("###access_Token#### : " + access_Token);
 		System.out.println("###nickname#### : " + userInfo.get("nickname"));
 		System.out.println("###email#### : " + userInfo.get("email"));
+
+		SnsDAO.insertSocal(userInfo);
 		
 		mnv.addAllObjects(userInfo);
 		mnv.setViewName(url);

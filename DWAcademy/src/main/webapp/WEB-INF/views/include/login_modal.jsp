@@ -123,6 +123,11 @@
     outline: none;
 }
 </style>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
+<script>
+	Kakao.init('4d3eb758ca79e46a21afa1951cdbec30'); //발급받은 키 중 javascript키를 사용해준다.
+	console.log(Kakao.isInitialized()); // sdk초기화여부판단
+</script>
 <div class="modal fade" id="login-modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -142,10 +147,10 @@
                 <p class="title">간편로그인</p>
                 <div class="row">
                     <div class="col">
-                        <div class="p-t-10"><button class="btn btn--naver" type="submit">네이버로 시작하기</button></div> 
+                        <div class="p-t-10"><button class="btn btn--naver" type="button">네이버로 시작하기</button></div> 
                     </div>
                     <div class="col">
-                        <div class="p-t-10"><button class="btn btn--kakao" type="submit">카카오로 시작하기</button></div> 
+                        <div class="p-t-10"><button type="button" id="kakaoLogin" class="btn btn--kakao">카카오로 시작하기</button></div> 
                     </div>
                 </div>
                 <p class="extra new">회원이 아니신가요 ? <a href="#" data-bs-toggle="modal" data-bs-target="#join-modal"><u>회원가입</u></a></p>
@@ -155,3 +160,78 @@
         </div>
     </div>
 </div>
+<script>
+$('#kakaoLogin').on('click', function(){
+	Kakao.Auth.authorize({
+		  redirectUri: 'http://localhost/main',
+		  scope: 'account_email,profile_nickname',
+		  prompts: 'none'
+		});
+})
+$('#kakapLogout').on('click', function(){
+	Kakao.Auth.logout()
+	  .then(function(response) {
+	    console.log(Kakao.Auth.getAccessToken()); // null
+	  })
+	  .catch(function(error) {
+	    console.log('Not logged in.');
+	  });
+})
+
+const URLSearch = new URLSearchParams(location.search);
+console.log(URLSearch.get('code'))
+ $.ajax({
+        type: "POST",
+        url: 'https://kauth.kakao.com/oauth/token',
+        data: {
+            grant_type: 'authorization_code',
+            client_id: '4d3eb758ca79e46a21afa1951cdbec30',
+            redirect_uri: 'http://localhost/main',
+            code : URLSearch.get('code')
+        }
+        , contentType:'application/x-www-form-urlencoded;charset=utf-8'
+        , success : function(response) {
+        	console.log(response)
+            Kakao.Auth.setAccessToken(response.access_token);
+            document.querySelector('button.api-btn').style.visibility = 'visible';
+        }
+        ,error : function(jqXHR, error) {
+
+        }
+    });
+ Kakao.API.request({
+   url: '/v2/user/me',
+ })
+   .then(function(res) {
+     console.log(JSON.stringify(res));
+   })
+   .catch(function(err) {
+     console.log(
+       'failed to request user information: ' + JSON.stringify(err)
+     );
+   });
+ 
+ displayToken()
+ function displayToken() {
+   var token = getCookie('authorize-access-token');
+
+   if(token) {
+     Kakao.Auth.setAccessToken(token);
+     Kakao.Auth.getStatusInfo()
+       .then(function(res) {
+         if (res.status === 'connected') {
+           document.getElementById('token-result').innerText
+             = 'login success, token: ' + Kakao.Auth.getAccessToken();
+         }
+       })
+       .catch(function(err) {
+         Kakao.Auth.setAccessToken(null);
+       });
+   }
+ }
+
+ function getCookie(name) {
+   var parts = document.cookie.split(name + '=');
+   if (parts.length === 2) { return parts[1].split(';')[0]; }
+ }
+</script>

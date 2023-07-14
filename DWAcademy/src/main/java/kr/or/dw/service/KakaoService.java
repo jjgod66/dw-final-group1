@@ -42,7 +42,7 @@ public class KakaoService {
 	        
 			sb.append("&code=" + authorize_code);
 			bw.write(sb.toString());
-			bw.flush();
+			bw.flush(); 
 	        
 			// 결과 코드가 200이라면 성공
 			int responseCode = conn.getResponseCode();
@@ -65,6 +65,8 @@ public class KakaoService {
 			access_Token = element.getAsJsonObject().get("access_token").getAsString();
 			refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
 	        
+			
+			
 			System.out.println("access_token : " + access_Token);
 			System.out.println("refresh_token : " + refresh_Token);
 	        
@@ -105,5 +107,7 @@ public class KakaoService {
 			e.printStackTrace();
 		}
 		return userInfo;
-}
+	}
+	
+	
 }
