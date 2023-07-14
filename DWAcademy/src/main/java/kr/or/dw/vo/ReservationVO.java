@@ -14,4 +14,8 @@ public class ReservationVO {
 	private String mem_cat;
 	private String res_seat;
 	private Date resdate;
+	private int discount;
+	private int pricesum;
+	private int mem_coupon_no;
+	private int use_point;
 }

@@ -1,0 +1,1180 @@
+@charset "UTF-8";
+
+.font-roboto {
+	font-family: Roboto, Dotum, '돋움', sans-serif !important;
+	font-weight: 300 !important
+}
+
+.font-roboto.regular {
+	font-weight: 400 !important
+}
+
+
+.quick-reserve .tit-util {
+	padding-bottom: 25px
+}
+
+.quick-reserve .tit-util .tit {
+	padding-top: 5px;
+	padding-bottom: 0
+}
+
+.quick-reserve-area {
+	border: 1px solid #d8d9db;
+	border-top: 0
+}
+
+.quick-reserve-area:after, .quick-reserve-area:before {
+	content: '';
+	display: block
+}
+
+.quick-reserve-area:after {
+	clear: both
+}
+
+.quick-reserve-area p {
+	margin: 0;
+	padding: 0
+}
+
+.quick-reserve-area button {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	letter-spacing: -1px;
+	background-color: transparent
+}
+
+.quick-reserve-area .tit {
+	overflow: hidden;
+	display: block;
+	width: 100%;
+	height: 38px;
+	margin: 0;
+	padding: 0;
+	color: #222;
+	font-size: 1.2em;
+	line-height: 38px
+}
+
+.quick-reserve-area .tit-area {
+	overflow: hidden;
+	height: 38px
+}
+
+.quick-reserve-area .tit-area .tit {
+	float: left;
+	width: auto
+}
+
+.quick-reserve-area .tit-area .ico-theater-chk {
+	display: block;
+	float: right;
+	margin-top: 15px;
+	font-size: 0;
+	line-height: 0
+}
+
+.quick-reserve-area .tit-area .right {
+	float: right;
+	padding: 10px 20px 0 0
+}
+
+.quick-reserve-area .list-area {
+	position: relative;
+	width: 100%;
+	margin: 0;
+	padding: 40px 0 0 0
+}
+
+.quick-reserve-area .list-area .btn-tab {
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	height: 30px;
+	font-size: .9333em;
+	color: #222;
+	border: 1px solid #d9d8dd;
+	border-bottom: 1px solid #666;
+	background-color: #fff
+}
+
+.quick-reserve-area .list-area .btn-tab.on {
+	border-color: #666;
+	border-bottom: 0
+}
+
+.quick-reserve-area .list-area .list {
+	display: block;
+	width: 100%;
+	height: 320px;
+	margin-top: 10px
+}
+
+.quick-reserve-area .list-area .list .scroll {
+	overflow: hidden;
+	display: block;
+	width: 100%;
+	height: 100%
+}
+
+.quick-reserve-area .list-area .list .scroll ul li button {
+	display: block;
+	position: relative;
+	width: 100%;
+	min-height: 28px;
+	padding: 3px 30px 3px 30px;
+	text-align: left;
+	font-size: .8667em;
+	background-color: transparent;
+	letter-spacing: 0
+}
+
+.quick-reserve-area .list-area .list .scroll ul li button span {
+	display: inline-block;
+	margin: 0 2px 0 0;
+	vertical-align: middle
+}
+
+.quick-reserve-area .list-area .list .scroll ul li button span.txt {
+	display: inline
+}
+
+.quick-reserve-area .list-area .list .scroll ul li button span.movie-grade
+	{
+	position: absolute;
+	left: 5px;
+	top: 3px
+}
+
+.quick-reserve-area .list-area .list .scroll ul li button i {
+	position: absolute;
+	right: 5px;
+	top: 10px;
+	display: block;
+	margin: 0 2px 0 0
+}
+
+.quick-reserve-area .list-area .list .scroll ul li button.on {
+	color: #fff;
+	font-weight: 400;
+	background-color: #666
+}
+
+.quick-reserve-area .list-area .list .scroll ul li button.disabled {
+	color: #666;
+	opacity: .5;
+	cursor: default
+}
+
+.quick-reserve-area .list-area .list .scroll ul li button.disabled.on {
+	color: #fff
+}
+
+.quick-reserve-area .list-area .list .scroll ul li button[disabled] {
+	color: #666;
+	opacity: .5;
+	cursor: default
+}
+
+.quick-reserve-area .list-area .list .scroll ul li button.on[disabled] {
+	color: #fff
+}
+
+.quick-reserve-area .list-area .all-list .btn-tab {
+	border-right: 0
+}
+
+.quick-reserve-area .list-area .all-list .btn-tab.on {
+	border-right: 1px solid #555
+}
+
+.quick-reserve-area .list-area .other-list .btn-tab {
+	border-left: 0
+}
+
+.quick-reserve-area .list-area .other-list .btn-tab.on {
+	border-left: 1px solid #555
+}
+
+.quick-reserve-area .list-area .other-list .list {
+	display: none
+}
+
+.quick-reserve-area .view-area {
+	width: 100%;
+	padding: 0
+}
+
+.quick-reserve-area .view-area .choice-all {
+	overflow: hidden;
+	width: 100%;
+	height: 90px;
+	margin: 10px 0 0 0;
+	padding: 25px 0 0 0;
+	font-size: .9333em;
+	line-height: 1.3;
+	text-align: center;
+	border: 1px solid #ebebeb;
+	background-color: #fff
+}
+
+.quick-reserve-area .view-area .choice-all .iconset {
+	display: block;
+	margin: 0 auto
+}
+
+.quick-reserve-area .view-area .choice-all strong {
+	display: block;
+	padding: 0;
+	font-weight: 400
+}
+
+.quick-reserve-area .view-area .choice-all span {
+	display: block;
+	padding: 0
+}
+
+.quick-reserve-area .view-area .choice-list {
+	overflow: hidden;
+	margin: 10px 0 0 0
+}
+
+.quick-reserve-area .view-area .choice-list .bg {
+	overflow: hidden;
+	float: left;
+	width: 63px;
+	height: 90px;
+	background:
+		url(https://img.megabox.co.kr/static/pc/images/reserve/bg-empty-cell.png)
+		no-repeat center
+}
+
+.quick-reserve-area .view-area .choice-list .bg+.bg {
+	margin-left: 20px
+}
+
+.quick-reserve-area .view-area .choice-list .bg .wrap {
+	position: relative;
+	width: 100%;
+	height: 100%
+}
+
+.quick-reserve-area .view-area .choice-list .bg .wrap .img {
+	width: 100%;
+	height: 100%;
+	font-size: 0;
+	line-height: 0
+}
+
+.quick-reserve-area .view-area .choice-list .bg .wrap .img img {
+	width: 100%;
+	height: 100%
+}
+
+.quick-reserve-area .view-area .choice-list .bg .wrap .del {
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 2;
+	width: 20px;
+	height: 20px;
+	font-size: 0;
+	line-height: 0;
+	background:
+		url(https://img.megabox.co.kr/static/pc/images/reserve/btn-choice-dell.png)
+		no-repeat 0 0
+}
+
+.quick-reserve-area .movie-choice {
+	position: relative;
+	float: left;
+	width: 270px;
+	height: 529px;
+	padding: 0 20px 17px 20px;
+	border-right: 1px solid #d8d9db
+}
+
+.quick-reserve-area .movie-choice .list-area .btn-tab {
+	width: 115px
+}
+
+.quick-reserve-area .movie-choice .list-area .other-list .btn-tab {
+	left: 115px
+}
+
+.quick-reserve-area .theater-choice {
+	float: left;
+	width: 350px;
+	height: 530px;
+	padding: 0 20px 20px 20px;
+	border-right: 1px solid #d8d9db
+}
+
+.quick-reserve-area .theater-choice .list-area {
+	position: relative
+}
+
+.quick-reserve-area .theater-choice .list-area .btn-tab {
+	width: 155px
+}
+
+.quick-reserve-area .theater-choice .list-area .other-list .btn-tab {
+	left: 155px
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul {
+	position: relative;
+	height: 100%
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul:after {
+	content: '';
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: 0;
+	width: 1px;
+	height: 100%;
+	background-color: #ecf0f4
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .btn {
+	overflow: visible;
+	position: relative;
+	width: 50%;
+	padding-left: 10px;
+	padding-right: 10px
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .btn:after {
+	display: none
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .btn.on {
+	color: #444;
+	background-color: #ebebeb
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .btn.on:after {
+	content: '';
+	display: block;
+	position: absolute;
+	right: -6px;
+	top: 50%;
+	z-index: 2;
+	width: 6px;
+	height: 11px;
+	margin: -6px 0 0 0;
+	background:
+		url(https://img.megabox.co.kr/static/pc/images/reserve/bg-arr-theater-choice.png)
+		no-repeat 0 0
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .btn.has-issue:before
+	{
+	content: '';
+	display: block;
+	position: absolute;
+	left: 3px;
+	top: 9px;
+	z-index: 2;
+	width: 5px;
+	height: 5px;
+	margin: 0;
+	border-radius: 2px;
+	background-color: #329eb1
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth {
+	display: none;
+	position: absolute;
+	left: 50%;
+	top: 0;
+	width: 50%;
+	height: 320px;
+	padding: 0
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth.favorite
+	{
+	padding: 0 0 140px 0
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth.on {
+	display: block
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth .detail-list
+	{
+	width: 100%;
+	height: 100%;
+	margin: 0
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth .detail-list ul:after
+	{
+	display: none
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth .detail-list ul li button
+	{
+	padding-left: 12px;
+	padding-right: 0
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth .detail-list ul li button.on
+	{
+	color: #fff;
+	background-color: #666
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth .detail-list ul li button i
+	{
+	margin: -2px 0 0 2px
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth .no-favorite
+	{
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	text-align: center;
+	background-color: #fff
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth .no-favorite .wrap
+	{
+	position: relative;
+	height: 100%;
+	padding-top: 95px;
+	font-size: .9333em
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth .no-favorite .txt
+	{
+	display: block;
+	position: relative;
+	margin: 0 auto;
+	padding: 13px 0;
+	letter-spacing: -1px
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth .no-favorite .setting
+	{
+	display: block;
+	text-align: center
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth .no-favorite .setting a
+	{
+	display: inline-block;
+	color: #037b94;
+	text-align: center
+}
+
+.quick-reserve-area .theater-choice .list .scroll ul li .depth .no-favorite .setting a .iconset
+	{
+	display: inline-block;
+	margin-left: 4px
+}
+
+.quick-reserve-area .theater-choice .view-area .choice-all span {
+	padding: 0
+}
+
+.quick-reserve-area .theater-choice .ico-theater-renewal {
+	position: absolute;
+	left: 3px;
+	top: 9px;
+	z-index: 2;
+	width: 5px;
+	height: 5px;
+	margin: 0;
+	border-radius: 2px;
+	background-color: #503396;
+	background-image: none
+}
+
+.quick-reserve-area .theater-choice .ico-theater-new {
+	position: absolute;
+	left: 3px;
+	top: 9px;
+	z-index: 2;
+	width: 5px;
+	height: 5px;
+	margin: 0;
+	border-radius: 2px;
+	background-color: #329eb1;
+	background-image: none
+}
+
+.quick-reserve-area .theater-choice .ico-theater-open {
+	position: absolute;
+	left: 3px;
+	top: 9px;
+	z-index: 2;
+	width: 5px;
+	height: 5px;
+	margin: 0;
+	border-radius: 2px;
+	background-color: #e81002;
+	background-image: none
+}
+
+.quick-reserve-area .theater-choice .view-area .choice-list {
+	overflow: hidden;
+	margin: 0 0 0 -18px;
+	padding: 10px 0 0 0
+}
+
+.quick-reserve-area .theater-choice .view-area .choice-list .bg {
+	overflow: visible;
+	display: table;
+	table-layout: fixed;
+	float: left;
+	width: 90px;
+	height: 90px;
+	margin: 0 0 0 18px;
+	background:
+		url(https://img.megabox.co.kr/static/pc/images/reserve/bg-empty-cell-circle.png)
+		no-repeat center
+}
+
+.quick-reserve-area .theater-choice .view-area .choice-list .bg .wrap {
+	display: table-cell;
+	position: relative;
+	width: 90px;
+	height: 90px;
+	border-radius: 90px;
+	vertical-align: middle;
+	text-align: center;
+	background-color: #ebebeb
+}
+
+.quick-reserve-area .theater-choice .view-area .choice-list .bg .wrap .txt
+	{
+	display: inline-block;
+	padding: 0 10px;
+	color: #222;
+	font-size: .8667em;
+	letter-spacing: 0
+}
+
+.quick-reserve-area .theater-choice .view-area .choice-list .bg .wrap .del
+	{
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 2;
+	width: 24px;
+	height: 24px;
+	font-size: 0;
+	line-height: 0;
+	background:
+		url(https://img.megabox.co.kr/static/pc/images/reserve/btn-choice-dell-circle.png)
+		no-repeat 0 0
+}
+
+.quick-reserve-area .time-choice {
+	float: left;
+	width: calc(100% - 620px);
+	height: 530px;
+	padding: 0
+}
+
+.quick-reserve-area .time-choice .tit {
+	padding-left: 20px
+}
+
+.quick-reserve-area .time-choice .tit-area .legend {
+	font-size: .8em;
+	font-weight: 400
+}
+
+.quick-reserve-area .time-choice .tit-area .legend .iconset {
+	margin-left: 5px
+}
+
+.quick-reserve-ad-area {
+	overflow: hidden;
+	width: 1100px;
+	height: 80px;
+	margin-top: 10px
+}
+
+.mege-quick-reserve-inculde.out .time-choice {
+	width: calc(100% - 270px)
+}
+
+.mege-quick-reserve-inculde.out .hour-schedule .wrap {
+	width: 700px
+}
+
+.reserve-ininfomation-box {
+	position: relative;
+	width: 100%;
+	height: 375px;
+	background:
+		url(https://img.megabox.co.kr/static/pc/images/reserve/bg-reserve-finish-top.png)
+		no-repeat
+}
+
+.reserve-ininfomation-box:after {
+	display: block;
+	content: '';
+	clear: both
+}
+
+.reserve-ininfomation-box p {
+	padding: 0;
+	margin: 0
+}
+
+.reserve-ininfomation-box .movie-poster-area {
+	float: left;
+	padding: 40px 0;
+	width: 270px;
+	height: 375px;
+	text-align: center
+}
+
+.reserve-ininfomation-box .movie-poster-area p {
+	color: #c4c4c4;
+	margin: 0 0 20px 0
+}
+
+.reserve-ininfomation-box .movie-poster-area p span {
+	display: block;
+	color: #4aa8d8;
+	font-size: 1.3333em;
+	font-weight: 700
+}
+
+.reserve-ininfomation-box .movie-poster-area img {
+	width: 150px !important;
+	height: 216px !important
+}
+
+.reserve-ininfomation-box .movie-infomation-area {
+	float: left;
+	padding: 20px 60px;
+	width: 830px;
+	height: 375px;
+	color: #c4c4c4
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-top p.tit {
+	display: block;
+	margin: 0
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-top p.tit strong
+	{
+	color: #4aa8d8;
+	font-size: 1.6em
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-top p.tit span.righten
+	{
+	float: right;
+	line-height: 36px
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-top p.tit span.righten em
+	{
+	color: #4aa8d8
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-middle {
+	display: block;
+	margin: 10px 0;
+	padding: 20px 0 15px 0;
+	width: 100%;
+	overflow: hidden;
+	border: 1px solid #434343;
+	border-width: 1px 0 1px 0
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .dot-list li
+	{
+	position: relative;
+	padding-left: 130px;
+	color: #fff
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .dot-list li span
+	{
+	position: absolute;
+	left: 10px;
+	width: 120px;
+	color: #c4c4c4
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .dot-list li strong
+	{
+	font-size: 1.2em;
+	color: #4aa8d8
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .dot-list li em
+	{
+	font-size: .8667em;
+	color: #c4c4c4
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .inner-banner
+	{
+	position: absolute;
+	top: 90px;
+	right: 30px;
+	z-index: 2
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .inner-banner .img-area a
+	{
+	display: block;
+	font-size: 0;
+	line-height: 0
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .inner-banner .img-area a img
+	{
+	display: block;
+	width: 184px;
+	height: 156px
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-middle .inner-banner button
+	{
+	position: absolute;
+	right: 25px;
+	top: 5px;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background-color: transparent
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom {
+	width: 100%;
+	height: 32px;
+	line-height: 32px
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom .add-send
+	{
+	display: inline-block
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom .add-send button
+	{
+	width: 54px;
+	padding: 0;
+	margin: 0 0 0 10px;
+	border: 1px solid #888;
+	background: 0 0;
+	color: #fff
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom .point-save
+	{
+	position: relative;
+	display: inline-block;
+	margin: 0 0 0 20px;
+	padding: 0 0 0 20px
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom .point-save:before
+	{
+	position: absolute;
+	content: '';
+	left: 0;
+	top: 0;
+	width: 1px;
+	height: 32px;
+	background-color: #434343
+}
+
+.reserve-ininfomation-box .movie-infomation-area .movie-info-bottom .point-save a.button
+	{
+	width: 112px;
+	padding: 0;
+	margin: 0 0 0 10px;
+	border: 1px solid #888;
+	background: 0 0;
+	color: #fff
+}
+
+
+.button.large {
+	height: 46px;
+	padding: 0 30px;
+	line-height: 44px
+}
+
+
+.box-border.use-guide .dot-list>li .dash-list {
+	padding-top: 3px;
+	padding-bottom: 3px;
+	color: #666
+}
+
+.box-border.use-guide .dash-list>li {
+	font-size: .9286em;
+	line-height: 1.4
+}
+
+.box-border.use-guide .dash-list>li:before {
+	top: 7px
+}
+
+.box-border.use-guide .dash-list>li+li {
+	margin-top: 1px
+}
+
+dash-list>li {
+	position: relative;
+	padding: 0 0 0 11px;
+	font-size: .9333em
+}
+
+.dash-list>li.perple {
+	color: #6437bf;
+	font-weight: 600
+}
+
+.dash-list>li:before {
+	content: '';
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 10px;
+	width: 4px;
+	height: 1px;
+	margin: 0;
+	padding: 0;
+	background-color: #333
+}
+
+.dash-list>li.noline:before {
+	display: none
+}
+
+.dash-list>li+li {
+	margin-top: 5px
+}
+
+.dash-list>li>ul {
+	padding-top: 5px
+}
+
+.tit.purple {
+	color: #503396 !important
+}
+
+.box-border {
+	padding: 20px;
+	border: 1px solid #d8d9db;
+	background-color: #fff;
+	border-radius: 5px
+}
+
+.box-border.v1 {
+	padding: 15px;
+	border-color: #ebebeb
+}
+
+.box-border .tit, .box-border .tit-box {
+	margin: 0;
+	padding: 0 0 5px 0;
+	font-weight: 400;
+	color: #222;
+	font-size: 1.0667em
+}
+
+
+
+.btn-group {
+	padding: 20px 0 30px 0;
+	margin: 0;
+	text-align: center
+}
+
+
+.btn-group:after, .btn-group:before {
+	content: '';
+	display: table
+}
+
+.btn-group:after {
+	clear: both
+}
+
+.btn-group .left {
+	float: left
+}
+
+.btn-group .right {
+	float: right
+}
+
+.btn-group .button {
+	margin: 0 3px
+}
+
+.btn-group.left {
+	text-align: left
+}
+
+.btn-group.right {
+	text-align: right
+}
+
+.btn-group.center {
+	text-align: center
+}
+
+.btn-group.border {
+	border-top: 1px solid #eaeaea
+}
+
+button {
+	cursor: pointer;
+	letter-spacing: -.5px;
+	font-weight: 400;
+	font-family: NanumBarunGothic, Dotum, '돋움', sans-serif
+}
+
+button.reset {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background-color: transparent
+}
+
+button:focus {
+	outline: 1px dotted #000
+}
+
+.button {
+	display: inline-block;
+	height: 36px;
+	margin: 0;
+	padding: 0 15px;
+	text-align: center;
+	line-height: 34px;
+	color: #f2f4f8;
+	font-weight: 400;
+	border-radius: 4px;
+	font-family: NanumBarunGothic, Dotum, '돋움', sans-serif;
+	text-decoration: none;
+	border: 1px solid #4aa8d8;
+	vertical-align: middle;
+	background-color: #4aa8d8;
+	cursor: pointer
+}
+
+.button:hover {
+	color: #4aa8d8;
+	text-decoration: none;
+	background-color: #f2f4f8
+}
+
+.button:focus {
+	outline: 1px dotted #000
+}
+
+a.button {
+	text-decoration: none
+}
+
+a.button:focus {
+	outline: 1px dotted #000
+}
+
+.button.large {
+	height: 46px;
+	padding: 0 30px;
+	line-height: 44px
+}
+
+a.button.disabled {
+	color: #777 !important;
+	cursor: default !important;
+	background-color: #e0e0e0 !important;
+	border-color: #e0e0e0 !important
+}
+
+a.button.disabled:focus, a.button.disabled:hover {
+	color: #777 !important
+}
+
+.button[disabled] {
+	color: #777 !important;
+	cursor: default !important;
+	background-color: #e0e0e0 !important;
+	border-color: #e0e0e0 !important
+}
+
+.button[disabled]:hover {
+	color: #777 !important
+}
+
+.button.disabled {
+	color: #777 !important;
+	background-color: #e0e0e0 !important;
+	border-color: #e0e0e0 !important
+}
+
+.store-list .list li .info .tit .name {
+	overflow: hidden;
+	height: 39px;
+	margin: 0 0 10px 0;
+	color: #222;
+	font-weight: 700
+}
+
+.store-list .list li .info .tit .bundle {
+	font-size: .8667em;
+	color: #666
+}
+
+
+.layer-store-chk-pay p {
+	margin: 0;
+	padding: 0
+}
+
+.store-payment-finish {
+	border-top: 1px solid #555
+}
+
+.store-payment-finish p {
+	margin: 0;
+	padding: 0
+}
+
+.store-payment-finish .list {
+	position: relative;
+	min-height: 158px;
+	padding: 0 0 0 145px;
+	border-bottom: 1px solid #ebebeb
+}
+
+.store-payment-finish .list .img {
+	position: absolute;
+	left: 0;
+	top: 19px;
+	width: 120px;
+	height: 120px;
+	font-size: 0;
+	line-height: 0
+}
+
+.store-payment-finish .list .img img {
+	width: 120px;
+	height: 120px
+}
+
+.store-payment-finish .list .imgBanner {
+	position: absolute;
+	right: 0;
+	top: 9px;
+	width: 150px;
+	height: 140px;
+	font-size: 0;
+	line-height: 0
+}
+
+.store-payment-finish .list .imgBanner img {
+	width: 150px;
+	height: 140px
+}
+
+.store-payment-finish .list .tit {
+	padding: 40px 0 10px 0;
+	line-height: 1.1;
+	font-size: 1.2em
+}
+
+.store-payment-finish .list .bundle {
+	padding: 0 0 15px 0;
+	line-height: 1.1
+}
+
+.store-payment-finish .list .cont {
+	overflow: hidden
+}
+
+.store-payment-finish .list .cont .pay {
+	float: left
+}
+
+.store-payment-finish .list .cont .pay p {
+	float: left;
+	position: relative;
+	margin: 0 0 0 6px;
+	padding: 0 0 0 6px;
+	vertical-align: top;
+	line-height: 25px
+}
+
+.store-payment-finish .list .cont .pay p:before {
+	content: '';
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 5px;
+	width: 1px;
+	height: 13px;
+	background-color: #ebebeb
+}
+
+.store-payment-finish .list .cont .pay p:first-child {
+	margin: 0;
+	padding: 0
+}
+
+.store-payment-finish .list .cont .pay p:first-child:before {
+	display: none
+}
+
+.store-payment-finish .list .cont .pay p span {
+	display: block;
+	float: left;
+	vertical-align: top
+}
+
+.store-payment-finish .list .cont .pay p em {
+	display: block;
+	float: left;
+	margin-left: 5px;
+	font-family: Roboto;
+	font-weight: 400;
+	color: #4aa8d8;
+	font-size: 1.4666em;
+	vertical-align: top;
+	line-height: 22px
+}
+
+.store-payment-finish .list .cont .receipt {
+	float: right
+}
+
+.store-payment-finish .list .cont .receipt span {
+	display: block;
+	float: left;
+	color: #01738b
+}
+
+.store-payment-finish .list .cont .receipt em {
+	display: block;
+	float: left;
+	margin-left: 4px
+}

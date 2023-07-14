@@ -12,10 +12,6 @@
 					<span class="thm"><img src="../../resources/img/store/${product.product_pic_path }" alt="${product.product_name }"></span>
 					<strong class="tit"><span class="ic_grade gr_all"></span>&nbsp;${product.product_name }</strong>
 					<dl class="dlist_infor">
-<!-- 						<dt>일시</dt> -->
-<!-- 						<dd><strong>2023-07-05 (수) 22:15 ~ 24:14</strong></dd> -->
-<!-- 						<dt>영화관</dt> -->
-<!-- 						<dd>가산디지털 5관 - 2D</dd> -->
 						<dt>수량</dt>
 						<dd>
 							${product.amount }

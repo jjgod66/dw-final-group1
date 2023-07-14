@@ -64,4 +64,13 @@ public interface ReservationService {
 	 */
 	Map<String, Object> getReservationResult(List<ReservationVO> resList, PayDetailVO payDetail) throws SQLException;
 
+	/**
+	 * 예매 후 예매정보를 가져오는 메서드
+	 * @param resList
+	 * @param payDetail
+	 * @return
+	 * @throws SQLException
+	 */
+	Map<String, Object> getReservationResult(String merchant_uid) throws SQLException;
+
 }

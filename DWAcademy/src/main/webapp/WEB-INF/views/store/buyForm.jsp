@@ -18,8 +18,6 @@
 					<dl class="dlist_infor">
 						<dt>상품</dt>
 						<dd><strong>${product.product_content }</strong></dd>
-<!-- 						<dt>영화관</dt> -->
-<!-- 						<dd>가산디지털 5관 - 2D</dd> -->
 						<dt>수량</dt>
 						<dd>
 							${amount }
@@ -64,7 +62,7 @@
 				<div class="card card-payment p-3 text-white mb-3">
 					<span>상품 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow"><fmt:formatNumber value="" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow"><fmt:formatNumber value="${product.product_price*amount }" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<span>할인 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
@@ -72,7 +70,7 @@
 					</div>
 					<span>결제 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow"><fmt:formatNumber value="" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow"><fmt:formatNumber value="${product.product_price*amount }" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<button class="btn btn-success px-3" id="credit" onclick="requestPay();">결제하기</button>
 				</div>
@@ -80,28 +78,41 @@
 		</div>
 	</div>
 </div>
+
+<form id="buyForm" action="<%=request.getContextPath()%>/store/buyResultRedirect.do" method="post">
+	<input type="hidden" name="product_cd" value="${product.product_cd }">
+	<input type="hidden" name="amount" value="${amount }">
+	<input type="hidden" name="pricesum" value="${product.product_price*amount }">
+	<input type="hidden" name="json">
+	<input type="hidden" name="">
+	<input type="hidden" name="">
+	<input type="hidden" name="">
+</form>
 <script>
 const IMP = window.IMP;
 IMP.init("imp04352208");
 
 
 //결제화면 띄우는 메서드
-let pay_info = null;
+
 function requestPay() { 
 	let method = $('input[name="payMethod"]:checked').prop('id');
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
-        merchant_uid: 'merchant_' + new Date().getTime(),
-        name: '예매',
-        amount: ${moviePayment.totalPrice },
-        buyer_email: '',
-        buyer_name: '김민경',
-        buyer_tel: '010-8771-4407',
+        merchant_uid: 'P' + new Date().getTime(),
+        name: '${product.product_name }',
+        amount: '${product.product_price*amount }',
+        buyer_email: '${member.mem_email}',
+        buyer_name: '${member.mem_name}',
+        buyer_tel: '${member.mem_phone}',
     }, function (rsp) { // callback
         if (rsp.success) {
+        	$('input[name="json"]').val(JSON.stringify(rsp));
             console.log(rsp);
-			pay_info = rsp;
+			
+            buyForm.submit();
+			
         } else {
             console.log(rsp);
             pay_info = rsp;

@@ -147,25 +147,23 @@ public class ReservationController {
 	}
 	
 	@RequestMapping("/paySuccess")
-	public ModelAndView paySuccess(ModelAndView mnv, String merchant_uid) {
+	public ModelAndView paySuccess(ModelAndView mnv, String merchant_uid) throws SQLException {
 		String url = "/booking/payResult";
 		
-		mnv.addObject("mu", merchant_uid);
+		Map<String, Object> mapData = null;
+		mapData = reservationService.getReservationResult(merchant_uid);
+		
+		mnv.addObject("merchant_uid", merchant_uid);
+		mnv.addObject("mapData", mapData);
 		mnv.setViewName(url);
 		return mnv;
 	}
 
 	public Map<String, Object> payResult(MoviePaymentCommand mpc, HttpSession session) throws Exception {
-		System.out.println("con");
 		String url = "/booking/payResult";
-		System.out.println("컨트롤러mpc : " + mpc);
-//		JSONParser parser = new JSONParser();
-//		JSONObject jsonObj = (JSONObject) parser.parse(mpc.getJson());
-//		System.out.println(jsonObj);
 		
 		Gson gson = new Gson();
 		PayDetailVO payDetail = gson.fromJson(mpc.getJson(), PayDetailVO.class);
-		System.out.println(payDetail);
 
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 		
@@ -209,6 +207,7 @@ public class ReservationController {
 			reservation.setMem_cat(mem_cat);
 			reservation.setResdate(resDate);
 			reservation.setRes_no(payDetail.getMerchant_uid());
+			reservation.setPricesum(mpc.getTotalPrice());
 			resList.add(reservation);
 		}
 		

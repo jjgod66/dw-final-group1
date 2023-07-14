@@ -128,4 +128,27 @@ public class ReservationServiceImpl implements ReservationService{
 		return mapData;
 	}
 
+	@Override
+	public Map<String, Object> getReservationResult(String merchant_uid) throws SQLException {
+		Map<String, Object> mapData = null;
+		List<ReservationVO> resList = null;
+		resList = reservationDAO.selectReservationByMUID(merchant_uid);
+		
+		mapData = reservationDAO.selectPaymentScreenInfo(resList.get(0).getScreen_cd());
+		String res_seats = resList.get(0).getRes_seat();
+		if(resList.size() > 1) {
+			for(int i = 1; i < resList.size(); i++) {
+				res_seats += ", " + resList.get(i).getRes_seat();
+			}
+		}
+		PayDetailVO payDetail = reservationDAO.selectPayDetailByMUID(merchant_uid);
+		
+		System.out.println(payDetail);
+		mapData.put("paid_amount", payDetail.getPaid_amount());
+		mapData.put("receipt_url", payDetail.getReceipt_url());
+		mapData.put("res_seats", res_seats);
+		mapData.put("mem_cat", resList.get(0).getMem_cat());
+		return mapData;
+	}
+
 }
