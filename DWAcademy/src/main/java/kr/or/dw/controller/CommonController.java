@@ -132,7 +132,9 @@ public class CommonController {
 		userInfo.put("access_Token", access_Token);
 		userInfo.put("refresh_Token", refresh_Token);
 		userInfo.put("mem_cd", member.getMem_cd());
-		userInfo.put("sns", sns);
+		if(sns != null) {
+			userInfo.put("linkDate", sns.getLinkdate());
+		}
 		
 		System.out.println(userInfo);
 		
