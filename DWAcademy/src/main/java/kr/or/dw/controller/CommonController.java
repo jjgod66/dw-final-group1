@@ -123,7 +123,6 @@ public class CommonController {
 		String refresh_Token = tokenMap.get("refresh_Token");
 		HashMap<String, Object> userInfo = ka.getUserInfo(access_Token);
 		
-		String email = (String) userInfo.get("email");
 		
 		System.out.println("###access_Token#### : " + access_Token);
 		System.out.println("###nickname#### : " + userInfo.get("sns_name"));
@@ -153,6 +152,7 @@ public class CommonController {
 		
 		SnsVO sns = snsService.selectByMemberCode(email);
 		
+		System.out.println(sns);
 		
 		if(sns == null) {
 			try {
