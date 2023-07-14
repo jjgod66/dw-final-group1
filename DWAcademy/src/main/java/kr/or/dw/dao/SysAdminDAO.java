@@ -80,4 +80,7 @@ public interface SysAdminDAO {
 	// 해당 영화 예매율 불러오기
 	double selectReservRatio(String movie_cd) throws SQLException;
 
+	// 해당 영화 타입 불러오기
+	List<String> selectTypeByMovie_cd(String movie_cd) throws SQLException;
+
 }
