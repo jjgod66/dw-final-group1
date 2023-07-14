@@ -63,6 +63,12 @@ public class MemberController {
 		
 	}
 	
+	@RequestMapping("/member/CheckMember")
+	public String CheckMember(String SMSCheckInput) {
+		System.out.println(SMSCheckInput);
+		return null;
+	}
+	
 	
 	
 	

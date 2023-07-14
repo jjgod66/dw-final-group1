@@ -32,7 +32,19 @@ $('#SMSCheck').on('click', function(){
 	let SMSCheckInput = $('#SMSCheckInput').val();
 	let target = document.getElementById('joinFormGo');
 	
-	if(checkNum == SMSCheckInput){
+	$.ajax({
+		method : "post",
+		url : "<%=request.getContextPath()%>/member/CheckMember.do",
+		data : {SMSCheckInput : SMSCheckInput},
+		success : function(res){
+			
+		},
+		error : function(err){
+			
+		}
+	})
+	
+	if(checkNum == SMSCheckInput && checkNum != "" && SMSCheckInput != ""){
 		$('#result_checkCode').html("<i class='bi bi-check-lg'></i>").css("color", "green");
 		SMSChecked = true;
 	}else{

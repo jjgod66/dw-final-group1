@@ -46,6 +46,9 @@ public class ViewController {
 	@RequestMapping("/member/PrivacyInfo")
 	public String PrivacyInfo() {
 		String url = "/member/PrivacyInfo";
+		
+		
+		
 		return url;
 	}
 	
