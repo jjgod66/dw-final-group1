@@ -14,10 +14,12 @@
 							SELECT count(*) reserver, screen_cd
 							FROM reservation r
 							WHERE resdate = sysdate - 1
+							AND gb_cancel = 'N'
 							GROUP BY screen_cd
 						) sr, (
 							SELECT count(*) all_reserver, screen_cd
 							FROM reservation r
+							WHERE gb_cancel = 'N'
 							GROUP BY screen_cd
 						) sr2
 					WHERE sr.screen_cd(+) = sr2.screen_cd

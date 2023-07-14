@@ -86,4 +86,19 @@ public interface ReservationDAO {
 	 */
 	void insertPayDetail(PayDetailVO payDetail) throws SQLException;
 
+	/**
+	 * merchant_uid로 예매정보 가져오는 메서드
+	 * @param merchant_uid
+	 * @return
+	 */
+	List<ReservationVO> selectReservationByMUID(String merchant_uid) throws SQLException;
+
+
+	/**
+	 * 결제 상세정보 가져오는 메서드
+	 * @param merchant_uid
+	 * @return
+	 */
+	PayDetailVO selectPayDetailByMUID(String merchant_uid) throws SQLException;
+
 }

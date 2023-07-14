@@ -45,6 +45,7 @@
 		SELECT count(*) buySeat
 		FROM reservation r
 		WHERE screen_cd = #{screen_cd}
+		AND gb_cancel = 'N'
 	</select>
 	
 	<select id="selectScreen" resultType="Map">
@@ -60,6 +61,7 @@
 		SELECT res_seat
 		FROM reservation
 		WHERE screen_cd = #{screen_cd}
+		AND gb_cancel = 'N'
 	</select>
 	
 	<select id="selectAllMovieRes" resultType="movie">
@@ -78,7 +80,7 @@
 	</select>
 	
 	<insert id="insertRes" parameterType="reservation">
-		INSERT INTO reservation (res_no, merchant_uid, mem_cd, screen_cd, mem_cat, res_seat, resdate) 
+		INSERT INTO reservation (res_no, merchant_uid, mem_cd, screen_cd, mem_cat, res_seat, resdate, pricesum, gb_cancel) 
 							values(
 							#{res_no} || LPAD(res_seq.nextval,4,0), 
 							#{merchant_uid}, 
@@ -86,7 +88,9 @@
 							#{screen_cd}, 
 							#{mem_cat}, 
 							#{res_seat}, 
-							#{resdate})
+							#{resdate},
+							#{pricesum},
+							'N')
 	</insert>
 	
 	<insert id="insertPayDetail">
@@ -119,4 +123,16 @@
 			SELECT 'M' || #{merchant_uid} || LPAD(pay_seq.currval,4,0) merchant_uid FROM dual
 		</selectKey>
 	</insert>
+	
+	<select id="selectReservationByMUID" resultType="reservation">
+		SELECT *
+		FROM reservation
+		WHERE merchant_uid = #{merchant_uid}
+	</select>
+	
+	<select id="selectPayDetailByMUID" resultType="paydetail">
+		SELECT *
+		FROM pay_detail
+		WHERE merchant_uid = #{merchant_uid}
+	</select>
 </mapper>

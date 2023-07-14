@@ -138,19 +138,11 @@ if(session.getAttribute("loginUser") != null){
 	<input type="hidden" name="res_seats">
 	<input type="hidden" name="discount">
 	<input type="hidden" name="pricesum">
+	<input type="hidden" name="totalPrice" value="${moviePayment.totalPrice }">
 	<input type="hidden" name="mem_coupon_no">
 	<input type="hidden" name="use_point">
 	<input type="hidden" name="json">
-<!-- 	<input type="hidden" name="imp_uid"> -->
-<!-- 	<input type="hidden" name="merchant_uid"> -->
-<!-- 	<input type="hidden" name="apply_num"> -->
-<!-- 	<input type="hidden" name="card_name"> -->
-<!-- 	<input type="hidden" name="card_number"> -->
-<!-- 	<input type="hidden" name="pay_method"> -->
-<!-- 	<input type="hidden" name="card_quota"> -->
-<!-- 	<input type="hidden" name="status"> -->
-<!-- 	<input type="hidden" name="paid_amount"> -->
-<!-- 	<input type="hidden" name="receipt_url"> -->
+
 </form>
 
 <script>
@@ -173,7 +165,7 @@ function requestPay() {
         pay_method: 'card',
         merchant_uid: new Date().getTime(),
         name: movie_name,
-        amount: 100,
+        amount: price,
         buyer_email: buyer_email,
         buyer_name: buyer_name,
         buyer_tel: buyer_tel,

@@ -13,6 +13,7 @@
 		<typeAlias type="kr.or.dw.vo.MemberVO" alias="member"/>
 		<typeAlias type="kr.or.dw.vo.TheaterVO" alias="theater"/>
 		<typeAlias type="kr.or.dw.vo.ReservationVO" alias="reservation"/>
+		<typeAlias type="kr.or.dw.vo.PayDetailVO" alias="paydetail"/>
 		<typeAlias type="kr.or.dw.vo.MovieVO" alias="movie"/>
 		<typeAlias type="kr.or.dw.vo.AdminVO" alias="admin"/>
 		<typeAlias type="kr.or.dw.vo.MoviePictureVO" alias="moviePic"/>
