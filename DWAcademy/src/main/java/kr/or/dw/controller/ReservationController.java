@@ -1,6 +1,7 @@
 package kr.or.dw.controller;
 
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,6 +41,7 @@ import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.PayDetailVO;
 import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
+import oracle.sql.TIMESTAMP;
 
 
 @Controller
@@ -196,7 +198,8 @@ public class ReservationController {
 				}
 			}
 		}
-		Date resDate = new Date(payDetail.getPaid_at());
+		
+
 		
 		for(int i = 0; i < seatList.length; i++) {
 			ReservationVO reservation = new ReservationVO();
@@ -205,7 +208,6 @@ public class ReservationController {
 			reservation.setMem_cd(loginUser.getMem_cd());
 			reservation.setRes_seat(seatList[i]);
 			reservation.setMem_cat(mem_cat);
-			reservation.setResdate(resDate);
 			reservation.setRes_no(payDetail.getMerchant_uid());
 			reservation.setPricesum(mpc.getTotalPrice());
 			resList.add(reservation);

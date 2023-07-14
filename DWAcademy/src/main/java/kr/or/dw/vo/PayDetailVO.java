@@ -10,7 +10,7 @@ public class PayDetailVO {
 	private String apply_num;
 	private String card_name;
 	private String card_number;
-	private int paid_at;
+	private long paid_at;
 	private String pay_method;
 	private String merchant_uid;
 	private int card_quota;

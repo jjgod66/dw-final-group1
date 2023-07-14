@@ -100,9 +100,10 @@ function requestPay() {
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
-        merchant_uid: 'P' + new Date().getTime(),
+        merchant_uid: new Date().getTime(),
         name: '${product.product_name }',
-        amount: '${product.product_price*amount }',
+//         amount: '${product.product_price*amount }',
+        amount: 100,
         buyer_email: '${member.mem_email}',
         buyer_name: '${member.mem_name}',
         buyer_tel: '${member.mem_phone}',

@@ -19,4 +19,68 @@
 		FROM product
 		WHERE product_cd = #{product_cd}
 	</select>
+	
+	<insert id="insertPayDetail" parameterType="paydetail">
+		INSERT INTO pay_detail (
+									imp_uid,
+									apply_num,
+									card_name,
+									card_number,
+									pay_method,
+									merchant_uid,
+									card_quota,
+									status,
+									paid_amount,
+									receipt_url
+								)
+							VALUES(
+									#{imp_uid},
+									#{apply_num},
+									#{card_name},
+									#{card_number},
+									#{pay_method},
+									'P' || #{merchant_uid} || LPAD(pay_seq.nextval,4,0),
+									#{card_quota},
+									#{status},
+									#{paid_amount},
+									#{receipt_url}
+							)
+							
+		<selectKey resultType="str" keyProperty="merchant_uid" order="AFTER">
+			SELECT 'P' || #{merchant_uid} || LPAD(pay_seq.currval,4,0) merchant_uid FROM dual
+		</selectKey>
+	</insert>
+	
+	<insert id="insertMemBuy">
+		INSERT INTO mem_buy (merchant_uid,
+							 product_cd,
+							 mem_cd,
+							 buydate,
+							 amount,
+							 pricesum)
+					VALUES (
+							 #{merchant_uid},
+							 #{product_cd},
+							 #{mem_cd},
+							 sysdate,
+							 #{amount},
+							 #{pricesum}
+					)
+					
+	</insert>
+	
+	<select id="selectBuyResult" resultType="Map">
+		SELECT b.merchant_uid merchant_uid, b.product_cd product_cd, amount, paid_amount, product_name, product_content, product_pic_path, receipt_url
+		FROM mem_buy b, pay_detail d, product p
+		WHERE b.merchant_uid = d.merchant_uid
+		AND b.product_cd = p.product_cd
+		AND b.merchant_uid = #{merchant_uid}
+	</select>
+	
+	<select id="selectGiftInfo" resultType="Map">
+		SELECT product_name, merchant_uid, product_period
+		FROM mem_buy b, product p
+		WHERE b.product_cd = p.product_cd
+		AND merchant_uid = #{merchant_uid}
+	</select>
 </mapper>

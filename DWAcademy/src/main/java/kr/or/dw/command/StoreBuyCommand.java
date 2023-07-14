@@ -8,4 +8,6 @@ public class StoreBuyCommand {
 	private int pricesum;
 	private int amount;
 	private String json;
+	private String toname;
+	private int tophone;
 }

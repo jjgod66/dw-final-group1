@@ -3,10 +3,13 @@ package kr.or.dw.service;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Locale.Category;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.or.dw.dao.StoreDAO;
+import kr.or.dw.vo.MemBuyVO;
+import kr.or.dw.vo.PayDetailVO;
 import kr.or.dw.vo.ProductVO;
 
 public class StoreServiceImpl implements StoreService{
@@ -29,6 +32,40 @@ public class StoreServiceImpl implements StoreService{
 		product = storeDAO.selectProDetail(product_cd);
 		
 		return product;
+	}
+
+	@Override
+	public String insertMemBuyGetMUID(PayDetailVO payDetail, MemBuyVO memBuy) throws SQLException {
+
+		storeDAO.insertPayDetail(payDetail);
+		memBuy.setMerchant_uid(payDetail.getMerchant_uid());
+		
+		storeDAO.insertMemBuy(memBuy);
+		
+		return payDetail.getMerchant_uid();
+	}
+
+	@Override
+	public Map<String, Object> getBuyResultByMUID(String merchant_uid) throws SQLException {
+		Map<String, Object> mapData = null;
+		mapData = storeDAO.selectBuyResult(merchant_uid);
+		
+		return mapData;
+	}
+
+	@Override
+	public Map<String, Object> insertMemGiftGetMUID(PayDetailVO payDetail, MemBuyVO memBuy) throws SQLException {
+		
+		storeDAO.insertPayDetail(payDetail);
+		memBuy.setMerchant_uid(payDetail.getMerchant_uid());
+		
+		storeDAO.insertMemBuy(memBuy);
+		
+		Map<String, Object> mapData = null;
+		mapData = storeDAO.selectGiftInfo(payDetail.getMerchant_uid());
+		
+		
+		return mapData;
 	}
 
 }
