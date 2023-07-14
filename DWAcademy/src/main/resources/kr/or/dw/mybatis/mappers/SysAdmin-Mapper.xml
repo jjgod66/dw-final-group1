@@ -45,15 +45,7 @@
  			 ]]> 
 		</if>  
 		<if test="searchType == 'r'.toString()">
-			ORDER BY (SELECT round((SELECT COUNT(*) 
-  		  			   				 FROM movie m1, reservation r1, screen s1 
- 					 				WHERE m1.movie_cd = s1.movie_cd 
- 		   							  AND s1.screen_cd = r1.screen_cd 
-		  							  AND TO_char(r1.RESDATE, 'YYYY-MM-DD') = to_char(SYSDATE - 1, 'YYYY-MM-DD'))
-			       				 / 
-			       				(SELECT DECODE((SELECT count(*) FROM RESERVATION r WHERE resdate = sysdate - 1), 0, 1, (SELECT count(*) FROM RESERVATION r WHERE resdate = sysdate - 1)) FROM DUAL)
-		       				, 2) 
- 					   FROM dual) ASC
+			ORDER BY r.reserve DESC NULLS last
 		</if>
 		<if test="searchType == 'n'.toString()">
 			ORDER BY m.movie_name ASC
@@ -260,16 +252,32 @@
 	</insert>
 	
 	<select id="selectSearchMovieList" resultType="Map">
-		SELECT m.*
-		  FROM movie m
-		 WHERE 1=1
+		SELECT m.*, nvl(reserve,0)
+		FROM movie m, (
+			SELECT m.movie_cd, count(*) reserve
+			FROM movie m, screen s, reservation r
+			WHERE 1=1
+			AND m.movie_cd = s.movie_cd(+)
+			AND s.screen_cd = r.screen_cd(+)
+			AND TO_CHAR(resdate, 'YYYYMMDD') = TO_CHAR(sysdate-1,'YYYYMMDD')
+			GROUP BY m.movie_cd
+			) r
+		WHERE m.movie_cd = r.movie_cd(+)
 		 <include refid="searchMov" />
 	</select>
 	
 	<select id="selectSearchMovieListCount" resultType="int">
-		SELECT COUNT(*)
-		  FROM movie m
-	     WHERE 1=1
+		SELECT count(*)
+		FROM movie m, (
+			SELECT m.movie_cd, count(*) reserve
+			FROM movie m, screen s, reservation r
+			WHERE 1=1
+			AND m.movie_cd = s.movie_cd(+)
+			AND s.screen_cd = r.screen_cd(+)
+			AND TO_CHAR(resdate, 'YYYYMMDD') = TO_CHAR(sysdate-1,'YYYYMMDD')
+			GROUP BY m.movie_cd
+			) r
+		WHERE m.movie_cd = r.movie_cd(+)
 		 <include refid="searchMov" />
 	</select>
 	
