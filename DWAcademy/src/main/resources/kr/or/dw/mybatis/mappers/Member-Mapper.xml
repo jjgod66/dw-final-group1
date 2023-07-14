@@ -30,4 +30,10 @@
 						  ,#{mem_zipcode}
 							)
 	</insert>
+	
+	<select id="selectMemberCode" resultType="member">
+		SELECT *
+		  FROM member
+		 WHERE mem_cd = #{mem_cd}
+	</select>
 </mapper>

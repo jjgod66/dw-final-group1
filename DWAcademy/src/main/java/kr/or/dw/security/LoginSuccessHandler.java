@@ -1,7 +1,7 @@
 package kr.or.dw.security;
 
 import java.io.IOException;
-
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,12 +31,17 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		
 		MemberVO member = user.getMemberVO();
 		String id = member.getMem_id();
-		memberDAO.updateLastLoginDt(id);
+		try {
+			memberDAO.updateLastLoginDt(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", member);
 
-
+		System.out.println(member);
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
 	

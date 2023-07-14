@@ -125,13 +125,21 @@
 				<tbody>
 					<tr>
 						<td scope="row" style="text-align: center;">카카오</td>
-						<td>연동 정보</td>
-						<td style="text-align: center;"><a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/kakao/callback">연동</a></td>
+						<td>${sns_email}</td>
+						<td style="text-align: center;">
+						<c:choose>
+							<c:when test="${sns == null}">
+								<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/kakao/callback">연동</a>
+							</c:when>
+							<c:otherwise>
+								<a id="kakao-login-btn" href="#" onclick="unLink_go();">연동해제</a>
+							</c:otherwise>
+						</c:choose>
+						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
-
 		</div>
 	</div>
 	<div class="btn-group py-3">
@@ -140,15 +148,19 @@
 	</div>
 </div>
 <script>
-
-Kakao.API.request({
-  url: '/v1/user/unlink',
-  success: function(response) {
-    console.log(response);
-  },
-  fail: function(error) {
-    console.log(error);
-  },
-});
+console.log(${sns_email});
+console.log(${sns});
+console.log(${sns.getLinkdate});
+function unLink_go(){
+	Kakao.API.request({
+	  url: '/v1/user/unlink',
+	  success: function(response) {
+	    console.log(response);
+	  },
+	  fail: function(error) {
+	    console.log(error);
+	  },
+	});
+}
 </script>
 <%@ include file="../include/member_footer.jsp" %>
