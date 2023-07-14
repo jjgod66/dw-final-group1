@@ -125,10 +125,10 @@
 				<tbody>
 					<tr>
 						<td scope="row" style="text-align: center;">카카오</td>
-						<td>${linkDate}</td>
+						<td>${userInfo.linkDate}</td>
 						<td style="text-align: center;">
 						<c:choose>
-							<c:when test="${sns == null}">
+							<c:when test="${userInfo.sns_cd eq null}">
 								<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/kakao/callback">연동</a>
 							</c:when>
 							<c:otherwise>

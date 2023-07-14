@@ -11,12 +11,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,7 +72,9 @@ public class CommonController {
 			IndexMovieCommand imc = new IndexMovieCommand(movieMap);
 			movieList.add(imc);
 		}
-
+		
+		
+		
 		mnv.addObject("movieList", movieList);
 		mnv.setViewName(url);
 		return mnv;
@@ -128,6 +132,7 @@ public class CommonController {
 		System.out.println("###nickname#### : " + userInfo.get("sns_name"));
 		System.out.println("###email#### : " + userInfo.get("sns_email"));
 		
+		userInfo.put("sns_cd", sns.getMem_cd());
 		userInfo.put("access_Token", access_Token);
 		userInfo.put("refresh_Token", refresh_Token);
 		userInfo.put("mem_cd", member.getMem_cd());
@@ -139,34 +144,39 @@ public class CommonController {
 		
 		snsService.insertSocal(userInfo);
 		
-		mnv.addAllObjects(userInfo);
+		mnv.addObject("userInfo", userInfo);
 		mnv.setViewName(url);
 		
 		return mnv;
 	}
 	
 	@RequestMapping("/common/kakaoLogin")
-	public ResponseEntity<String>kakaoLogin(String email) throws SQLException {
-		ResponseEntity<String> entity = null;
+	public ResponseEntity<MemberVO>kakaoLogin(String email, HttpServletRequest req, HttpSession session) throws SQLException {
+		ResponseEntity<MemberVO> entity = null;
 		
 		
 		SnsVO sns = snsService.selectByMemberCode(email);
-		
+		System.out.println(email);
 		System.out.println(sns);
 		
 		if(sns == null) {
 			try {
-				entity = new ResponseEntity<String>(HttpStatus.OK);
+				entity = new ResponseEntity<>(HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
-				entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+				entity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}else {
 			MemberVO member = memberService.selectMemberCode(sns);
+			System.out.println(member);
+			
+			session.setAttribute("loginUser", member);
+			
 			try {
-				
+				entity = new ResponseEntity<MemberVO>(member, HttpStatus.OK);
 			} catch (Exception e) {
-				// TODO: handle exception
+				e.printStackTrace();
+				entity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
 		return entity;

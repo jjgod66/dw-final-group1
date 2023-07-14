@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <script>
 const URLSearch = new URLSearchParams(location.search);
-console.log(URLSearch.get('code'))
+	let email = "";
  $.ajax({
         method: "POST",
         url: 'https://kauth.kakao.com/oauth/token',
@@ -16,41 +16,41 @@ console.log(URLSearch.get('code'))
         , success : function(response) {
         	console.log(response)
             Kakao.Auth.setAccessToken(response.access_token);
-            document.querySelector('button.api-btn').style.visibility = 'visible';
+			Kakao.API.request({
+		   		url: '/v2/user/me'
+			})
+		   	.then(function(res) {
+		   		console.log(res);
+				email = JSON.stringify(res);
+				$.ajax({
+					method : "post",
+					url : "<%=request.getContextPath()%>/common/kakaoLogin.do",
+					data : {email : res.kakao_account.email},
+					success : function(res){
+						if(res == ""){
+							$('#authentication-modal').modal('show');
+						}else{
+							location.reload();
+						}
+					},
+					error : function(err){
+						alert(err.status);
+					}
+				})
+		   	})
+		   	.catch(function(err) {
+		   		alert('err');
+		   	});
         }
         ,error : function(jqXHR, error) {
         	console.log(error.status);
         }
     });
 $('#kakaoLogin').on('click', function(){
-	let email = "";
-	
 	Kakao.Auth.authorize({
 		  redirectUri: 'http://localhost/main',
 		});
-	Kakao.API.request({
-   		url: '/v2/user/me',
-	})
-   	.then(function(res) {
-   	 	console.log(JSON.stringify(res));
-		email = JSON.stringify(res)
-   	})
-   	.catch(function(err) {
-     	console.log(
-       		'failed to request user information: ' + JSON.stringify(err)
-     	);
-   	});
-	$.ajax({
-		method : "post",
-		url : "<%=request.getContextPath()%>/common/kakaoLogin.do",
-		data : eamil,
-		success : function(res){
-			alert(res);
-		},
-		error : function(err){
-			alert(err.status);
-		}
-	})
+	
 })
 $('#kakapLogout').on('click', function(){
 	Kakao.Auth.logout()
@@ -70,8 +70,7 @@ $('#kakapLogout').on('click', function(){
      Kakao.Auth.getStatusInfo()
        .then(function(res) {
          if (res.status === 'connected') {
-           document.getElementById('token-result').innerText
-             = 'login success, token: ' + Kakao.Auth.getAccessToken();
+             alert('login success, token: ' + Kakao.Auth.getAccessToken())
          }
        })
        .catch(function(err) {
