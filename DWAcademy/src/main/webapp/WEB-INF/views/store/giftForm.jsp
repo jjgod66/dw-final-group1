@@ -34,11 +34,11 @@
 						<table style="width: 90%; border-collapse: separate; border-spacing: 10px;">
 							<tr>
 								<th style="width: 20%;"><label for="name">이름</label></th>
-								<td><input class="textBox3" type="text" id="name" style="width: 50%;"></td>
+								<td><input class="textBox3" type="text" id="toinsertname" style="width: 50%;"></td>
 							</tr>
 							<tr>
 								<th><label for="phone">휴대폰번호</label></th>
-								<td><input class="textBox3" type="text" id="phone" style="width: 50%;"></td>
+								<td><input class="textBox3" type="text" id="toinsertphone" style="width: 50%;"></td>
 							</tr>
 <!-- 							<tr> -->
 <!-- 								<th><label for="message">메세지</label></th> -->
@@ -83,7 +83,7 @@
 				<div class="card card-payment p-3 text-white mb-3">
 					<span>상품 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow"><fmt:formatNumber value="" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow"><fmt:formatNumber value="${product.product_price*amount }" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<span>할인 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
@@ -91,7 +91,7 @@
 					</div>
 					<span>결제 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow"><fmt:formatNumber value="" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow"><fmt:formatNumber value="${product.product_price*amount }" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<button class="btn btn-success px-3" id="credit" onclick="requestPay();">결제하기</button>
 				</div>
@@ -99,28 +99,45 @@
 		</div>
 	</div>
 </div>
+<form id="giftForm" action="<%=request.getContextPath()%>/store/giftResult.do" method="post">
+	<input type="hidden" name="product_cd" value="${product.product_cd }">
+	<input type="hidden" name="amount" value="${amount }">
+	<input type="hidden" name="pricesum" value="${product.product_price*amount }">
+	<input type="hidden" name="json">
+	<input type="hidden" name="toname">
+	<input type="hidden" name="tophone">
+</form>
 <script>
 const IMP = window.IMP;
 IMP.init("imp04352208");
 
 
 //결제화면 띄우는 메서드
-let pay_info = null;
 function requestPay() { 
 	let method = $('input[name="payMethod"]:checked').prop('id');
+	let toname = $('#toinsertname').val();
+	console.log(toname);
+	let tophone = $('#toinsertphone').val();
+	console.log(tophone);
+	$('input[name="toname"]').val(toname);
+	$('input[name="tophone"]').val(tophone);
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
-        merchant_uid: 'merchant_' + new Date().getTime(),
-        name: '예매',
-        amount: ${moviePayment.totalPrice },
-        buyer_email: '',
-        buyer_name: '김민경',
-        buyer_tel: '010-8771-4407',
+        merchant_uid: new Date().getTime(),
+        name: '${product.product_name }',
+//         amount: '${product.product_price*amount }',
+        amount: 100,
+        buyer_email: '${member.mem_email}',
+        buyer_name: '${member.mem_name}',
+        buyer_tel: '${member.mem_phone}',
     }, function (rsp) { // callback
         if (rsp.success) {
+        	$('input[name="json"]').val(JSON.stringify(rsp));
             console.log(rsp);
-			pay_info = rsp;
+			alert("결제되었습니다.");
+            giftForm.submit();
+			
         } else {
             console.log(rsp);
             pay_info = rsp;

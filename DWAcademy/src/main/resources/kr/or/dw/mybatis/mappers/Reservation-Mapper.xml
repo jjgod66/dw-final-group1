@@ -88,7 +88,7 @@
 							#{screen_cd}, 
 							#{mem_cat}, 
 							#{res_seat}, 
-							#{resdate},
+							sysdate,
 							#{pricesum},
 							'N')
 	</insert>

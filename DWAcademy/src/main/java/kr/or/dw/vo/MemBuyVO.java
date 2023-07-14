@@ -9,9 +9,9 @@ public class MemBuyVO {
 	private String product_cd;
 	private String mem_cd;
 	private String buydate;
-	private String amount;
-	private String discount;
-	private String pricesum;
-	private String mem_coupon_no;
-	private String use_point;
+	private int amount;
+	private int discount;
+	private int pricesum;
+	private int mem_coupon_no;
+	private int use_point;
 }

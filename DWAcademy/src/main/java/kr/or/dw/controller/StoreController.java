@@ -2,6 +2,7 @@ package kr.or.dw.controller;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 
+import kr.or.dw.command.GiftSMSCommand;
 import kr.or.dw.command.StoreBuyCommand;
 import kr.or.dw.service.StoreService;
 import kr.or.dw.vo.MemBuyVO;
@@ -85,26 +87,87 @@ public class StoreController {
 		return mnv;
 	}
 	
-	@RequestMapping("paySuccess")
-	public ModelAndView paySuccess(ModelAndView mnv) {
-		String url = "/store/payResult";
+	@RequestMapping("buySuccess")
+	public ModelAndView buySuccess(ModelAndView mnv, String merchant_uid) throws SQLException {
+		String url = "/store/buyResult";
+		
+		Map<String, Object> mapData = null;
+		mapData = storeService.getBuyResultByMUID(merchant_uid);
+		
+		mnv.addObject("mapData", mapData);
 		
 		mnv.setViewName(url);
 		return mnv;
 	}
 	
 	@RequestMapping("/buyResultRedirect")
-	public String buyResultRedirect(StoreBuyCommand sbc, HttpSession session) {
+	public String buyResultRedirect(StoreBuyCommand sbc, HttpSession session) throws SQLException {
 		
-		return "redirect:/store/buySuccess.do?merchant_uid=";
+		String merchant_uid = buyResult(sbc, (MemberVO) session.getAttribute("loginUser"));
+
+		return "redirect:/store/buySuccess.do?merchant_uid=" + merchant_uid;
 	
 	}
 	
-	public String buyResult(StoreBuyCommand sbc, HttpSession session) {
+	public String buyResult(StoreBuyCommand sbc, MemberVO member) throws SQLException {
 		Gson gson = new Gson();
 		PayDetailVO payDetail = gson.fromJson(sbc.getJson(), PayDetailVO.class);
 		
-//		MemBuyVO memBuy = 
+		MemBuyVO memBuy = new MemBuyVO();
+		memBuy.setAmount(sbc.getAmount());
+		memBuy.setMem_cd(member.getMem_cd());
+		memBuy.setPricesum(sbc.getPricesum());
+		memBuy.setMerchant_uid(payDetail.getMerchant_uid());
+		memBuy.setProduct_cd(sbc.getProduct_cd());
+		String merchant_uid = null;
+		merchant_uid = storeService.insertMemBuyGetMUID(payDetail, memBuy);
+		return merchant_uid;
 		
+		
+	}
+	
+	@RequestMapping("/giftResult")
+	public ModelAndView giftResult(StoreBuyCommand sbc, HttpSession session, ModelAndView mnv) throws SQLException {
+		System.out.println("con1");
+		String url = "/store/giftSMS";
+		Map<String, Object> dataMap = null;
+		dataMap = giftResultMap(sbc, (MemberVO) session.getAttribute("loginUser"));
+		System.out.println("con2");
+
+		GiftSMSCommand gsc = new GiftSMSCommand();
+		gsc.setMem_name(((MemberVO) session.getAttribute("loginUser")).getMem_name());
+		gsc.setMerchant_uid((String) dataMap.get("MERCHANT_UID"));
+		gsc.setProduct_name((String) dataMap.get("PRODUCT_NAME"));
+		gsc.setProduct_period(Integer.parseInt(String.valueOf(dataMap.get("PRODUCT_PERIOD"))));
+		gsc.setToname(sbc.getToname());
+		gsc.setTophone(sbc.getTophone());
+
+		mnv.addObject("giftInfo", gsc);
+		mnv.setViewName(url);
+		return mnv;
+	
+	}
+	
+	public Map<String, Object> giftResultMap(StoreBuyCommand sbc, MemberVO member) throws SQLException {
+		Gson gson = new Gson();
+		PayDetailVO payDetail = gson.fromJson(sbc.getJson(), PayDetailVO.class);
+		
+		MemBuyVO memBuy = new MemBuyVO();
+		memBuy.setAmount(sbc.getAmount());
+		memBuy.setMem_cd(member.getMem_cd());
+		memBuy.setPricesum(sbc.getPricesum());
+		memBuy.setMerchant_uid(payDetail.getMerchant_uid());
+		memBuy.setProduct_cd(sbc.getProduct_cd());
+		Map<String, Object> dataMap = null;
+		dataMap = storeService.insertMemGiftGetMUID(payDetail, memBuy);
+		return dataMap;
+		
+		
+	}
+	
+	@RequestMapping("/giftSuccess")
+	public String giftSuccess(String merchant_uid) throws SQLException {
+
+		return "redirect:/store/buySuccess.do?merchant_uid=" + merchant_uid;
 	}
 }
