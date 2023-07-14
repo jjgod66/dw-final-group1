@@ -56,8 +56,8 @@
 		searchForm.find('[name="perPageNum"]').val(perPageNum);
 		searchForm.find('[name="searchType"]').val($('select[name="searchType"]').val());
 		searchForm.find('[name="keyword"]').val($('input[name="keyword"]').val());
+		console.log("test" + searchForm.find('[name="keyword"]').val());
 		searchForm.attr("method", "post");
-		
 		if (url) {
 			searchForm.attr("action", url);
 		} else {

@@ -56,4 +56,7 @@ public interface SysAdminService {
 	// 영화 리스트 불러오기
 	Map<String, Object> selectMovieList(SearchCriteria cri) throws SQLException;
 
+	// 해당 영화 정보 불러오기
+	Map<String, Object> selectMovieByMovie_cd(String movie_cd) throws SQLException;
+
 }

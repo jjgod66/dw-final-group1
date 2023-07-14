@@ -132,7 +132,6 @@ public class SysAdminServiceImpl implements SysAdminService {
 		map.put("movie_cd", movie_cd);
 		for (String movie_type : movie_types) {
 			map.put("movie_type_cd", movie_type);
-			System.out.println("[[[[[[" + map.keySet().toString());
 			sysAdminDAO.insertMovieType_c(map);
 		}
 	}
@@ -163,11 +162,16 @@ public class SysAdminServiceImpl implements SysAdminService {
 		List<Map<String, Object>> movieList = null;
 		
 		int offset = cri.getPageStartRowNum();
-		int limit = cri.getPerPageNum() + 2  ; 
+		int limit = cri.getPerPageNum(); 
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		movieList = sysAdminDAO.selectSearchMovieList(cri, rowBounds);
 		
+		for (Map<String, Object> movie : movieList) {
+			String movie_cd = (String)movie.get("MOVIE_CD");
+			double reserveRatio = sysAdminDAO.selectReservRatio(movie_cd);
+			movie.put("reserveRatio", reserveRatio);
+		}
 		int totalCount = sysAdminDAO.selectSearchMovieListCount(cri);
 		
 		PageMaker pageMaker = new PageMaker();
@@ -179,6 +183,15 @@ public class SysAdminServiceImpl implements SysAdminService {
 		dataMap.put("pageMaker", pageMaker);
 		
 		return dataMap;
+	}
+
+	@Override
+	public Map<String, Object> selectMovieByMovie_cd(String movie_cd) throws SQLException {
+		Map<String, Object> movie = sysAdminDAO.selectMovieByMovie_cd(movie_cd);
+		List<String> movieGenreList = sysAdminDAO.selectGenreByMovie_cd(movie_cd);
+		movie.put("genreList", movieGenreList);
+//		List<String> movieTypeList = 
+		return null;
 	}
 
 }

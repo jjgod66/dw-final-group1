@@ -317,7 +317,7 @@ table th {
 
 				<div class="btn_confirm">
 					<c:choose>
-						<c:when test="${empty movie}">
+						<c:when test="${empty movie_cd}">
 							<button type="button" id="registBtn" class="btn_large">등록</button>
 						</c:when>
 						<c:otherwise>
