@@ -1,6 +1,7 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +48,112 @@ public class MovieServiceImpl implements MovieService{
 		mvc.setType_list(type_list);
 		
 		return mvc;
+	}
+
+	@Override
+	public List<Map<String, Object>> searchAllMovieList(String searchType, String keyword) throws SQLException {
+		List<Map<String, Object>> movieList = null;
+		Map<String, String> param = new HashMap<>();
+		param.put("searchType", searchType);
+		param.put("keyword", keyword);
+		movieList = movieDAO.selectSearchAllMovie(param);
+		
+		int yes_all_reserver = movieDAO.selectYesAllReserver();
+		for(Map<String, Object> movie : movieList) {
+			movie.put("all_reserver", yes_all_reserver);
+		}
+		
+		return movieList;
+	}
+
+	@Override
+	public List<Map<String, Object>> searchScreenMovieList(String searchType, String keyword) throws SQLException {
+		List<Map<String, Object>> movieList = null;
+		Map<String, String> param = new HashMap<>();
+		param.put("searchType", searchType);
+		param.put("keyword", keyword);
+		movieList = movieDAO.selectSearchScreenMovie(param);
+		
+		int yes_all_reserver = movieDAO.selectYesAllReserver();
+		for(Map<String, Object> movie : movieList) {
+			movie.put("all_reserver", yes_all_reserver);
+		}
+		
+		return movieList;
+	}
+
+	@Override
+	public List<Map<String, Object>> searchComingMovieList(String searchType, String keyword) throws SQLException {
+		List<Map<String, Object>> movieList = null;
+		Map<String, String> param = new HashMap<>();
+		param.put("searchType", searchType);
+		param.put("keyword", keyword);
+		movieList = movieDAO.selectSearchComingMovie(param);
+		
+		int yes_all_reserver = movieDAO.selectYesAllReserver();
+		for(Map<String, Object> movie : movieList) {
+			movie.put("all_reserver", yes_all_reserver);
+		}
+		
+		return movieList;
+	}
+
+	@Override
+	public String clickMovieLike(String movie_cd, String mem_cd) throws SQLException {
+		String result = null;
+		
+		Map<String, String> param = new HashMap<>();
+		param.put("movie_cd", movie_cd);
+		param.put("mem_cd", mem_cd);
+		
+		int exist = 0;
+		exist = movieDAO.selectMovieLikeExist(param);
+		
+		if(exist == 0) {
+			movieDAO.insertMovieLike(param);
+			result = "insert";
+		}else {
+			movieDAO.deleteMovieLike(param);
+			result = "delete";
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int getMoiveLikeCount(String movie_cd) throws SQLException {
+		int count = 0;
+		count = movieDAO.selectMovieLikeCount(movie_cd);
+		
+		return count;
+	}
+
+	@Override
+	public int memLikeMovieExist(String mem_cd, String movie_cd) throws SQLException {
+		Map<String, String> param = new HashMap<>();
+		param.put("movie_cd", movie_cd);
+		param.put("mem_cd", mem_cd);
+		
+		int exist = 0;
+		exist = movieDAO.selectMovieLikeExist(param);
+		return exist;
+	}
+
+	@Override
+	public Map<String, Integer> getMovieReserve(String movie_cd) throws SQLException {
+		Map<String, Integer> reserMap = new HashMap<>();
+		
+		int all_reservers = movieDAO.selectMovieAllReservers(movie_cd);
+		
+		int yes_all_reservers = movieDAO.selectYesAllReserver();
+		
+		int yes_movie_reservers = movieDAO.selectYesMovieReserver(movie_cd);
+		
+		reserMap.put("all_reservers", all_reservers);
+		reserMap.put("yes_all_reservers", yes_all_reservers);
+		reserMap.put("yes_movie_reservers", yes_movie_reservers);
+		
+		return reserMap;
 	}
 
 }

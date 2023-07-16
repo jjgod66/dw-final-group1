@@ -23,4 +23,58 @@ public interface MovieService {
 	 */
 	MovieViewerCommand getMovieView(String movie_cd) throws SQLException;
 
+	/**
+	 * 전체 영화 검색타입, 키워드에 따라 가져오는 메서드
+	 * @param searchType
+	 * @param keyword
+	 * @return
+	 */
+	List<Map<String, Object>> searchAllMovieList(String searchType, String keyword) throws SQLException;
+
+	/**
+	 * 현재 상영영화 검색타입, 키워드에따라 가져오는 메서드
+	 * @param searchType
+	 * @param keyword
+	 * @return
+	 */
+	List<Map<String, Object>> searchScreenMovieList(String searchType, String keyword) throws SQLException;
+
+	/**
+	 * 상영예정 영화 검색타입, 키워드에 따라 가져오는 메서드
+	 * @param searchType
+	 * @param keyword
+	 * @return
+	 */
+	List<Map<String, Object>> searchComingMovieList(String searchType, String keyword) throws SQLException;
+
+	/**
+	 * 영화 좋아요 누르는 메서드
+	 * @param movie_cd
+	 * @param mem_cd
+	 * @return
+	 */
+	String clickMovieLike(String movie_cd, String mem_cd) throws SQLException;
+
+	/**
+	 * 영화 좋아요 수 가져오는 메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	int getMoiveLikeCount(String movie_cd) throws SQLException;
+
+	/**
+	 * 회원이 영화 좋아요를 눌렀는지 안눌렀는지 확인하는 메서드
+	 * @param mem_cd
+	 * @param movie_cd
+	 * @return
+	 */
+	int memLikeMovieExist(String mem_cd, String movie_cd) throws SQLException;
+
+	/**
+	 * 영화의 누적 관객수, 예매율 구하는메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	Map<String, Integer> getMovieReserve(String movie_cd) throws SQLException;
+
 }
