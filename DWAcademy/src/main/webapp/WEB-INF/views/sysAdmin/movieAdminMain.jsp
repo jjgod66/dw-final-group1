@@ -350,7 +350,7 @@ thead, tfoot {
 					<c:forEach items="${movieList}" var="movie">
 						<div class="col-md-3" style="border: 1px solid #ccc;">
 							<div class="p-1" style="width: 80%; height: 20rem; overflow: hidden;">
-								<img src="getPicture.do?poster=${movie.MOVIE_MAINPIC_PATH}&movie_cd=${movie.MOVIE_CD}" class="img-thumbnail" style="object-fit: cover; width: 100%; hegith:100%;">
+								<img src="getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&movie_cd=${movie.MOVIE_CD}&type=p" class="img-thumbnail" style="object-fit: cover; width: 100%; hegith:100%;">
 							</div>
 							<div>
 								${movie.GRADE } <a href="movieRegistForm.do?movie_cd=${movie.MOVIE_CD }">${movie.MOVIE_NAME}</a>
