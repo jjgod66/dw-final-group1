@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="sysAdminHeader.jsp"%>
 
 
@@ -201,14 +203,14 @@ table th {
 								<tr>
 									<th scope="row">제목</th>
 									<td colspan="3">
-									<input type="text" name="movie_name" value="${movie.movie_name }" id="movie_name" 
+									<input type="text" name="movie_name" value="${MOVIE_NAME }" id="movie_name" 
 										class="required frm_input form-control" style="background-position: right top; background-repeat: no-repeat;" required>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">감독</th>
 									<td colspan="3">
-									<input type="text" name="movie_director" value="${movie.movie_director }" id="movie_director"
+									<input type="text" name="movie_director" value="${MOVIE_DIRECTOR }" id="movie_director"
 										class="required frm_input form-control"	style="background-position: right top; background-repeat: no-repeat;" required>
 									</td>
 								</tr>
@@ -220,12 +222,11 @@ table th {
 											<input type="button" id="posterBtn" value="포스터 등록" style="width: 30%; height: 3rem;"> 
 											<input id="inputFileName" type="text" name="" style="width: 68%; height: 3rem;" disabled>
 											<input type="file" name="movie_mainPic_path" id="movie_mainPic_path" accept=".jpeg, .png, .jpg, .gif" style="display: none;" onchange="posterChange_go();" required> 
-<!-- 											<input id="picture" class="form-control" type="hidden" name="uploadPoster"> -->
 										</div>
 									</td>
 									<th scope="row">영화소개</th>
 									<td colspan="3">
-										<textarea name="movie_info"	class="required frm_input form-control" rows="30" cols="150" style="background-position: right top; background-repeat: no-repeat; resize: none;" required>${movie.movie_info }</textarea>
+										<textarea name="movie_info"	class="required frm_input form-control" rows="30" cols="150" style="background-position: right top; background-repeat: no-repeat; resize: none;" required>${MOVIE_INFO }</textarea>
 									</td>
 								</tr>
 								<tr>
@@ -233,7 +234,7 @@ table th {
 								<tr>
 									<th scope="row">러닝타임</th>
 									<td colspan="3">
-										<input type="text" name="movie_length" id="movie_length" value="${movie.movie_length }"
+										<input type="text" name="movie_length" id="movie_length" value="${MOVIE_LENGTH }"
 											placeholder="양의 정수로 입력해주세요" class="frm_input wfull" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required> 분
 									</td>
 								</tr>
@@ -241,52 +242,51 @@ table th {
 									<th scope="row">장르</th>
 									<td colspan="3">
 										<c:forEach items="${genreList }" var="genre">
-											<input type="checkbox" name="genre_cd" id="${genre.genre_cd }" value="${genre.genre_cd }"><label for="${genre.genre_cd }">${genre.genre_name }</label>
+											<input type="checkbox" name="genre_cd" id="${genre.genre_cd }" value="${genre.genre_cd }" ${movieGenreList.contains(genre.genre_cd) ? 'checked' : '' }><label for="${genre.genre_cd }">${genre.genre_name }</label>
 										</c:forEach>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">관람등급</th>
-									<td colspan="3"><select name="movie_grade">
+									<td colspan="3">
+										<select name="movie_grade">
 											<c:forEach items="${gradeList }" var="grade">
-												<option value="${grade}">${grade}</option>
+												<option value="${grade}" ${grade eq MOVIE_GRADE ? 'selected' : '' }>${grade}</option>
 											</c:forEach>
-									</select></td>
+										</select>
+									</td>
 								</tr>
 								<tr>
 									<th scope="row">개봉일</th>
 									<td colspan="3"><input type="date" name="opendate"
-										id="opendate" class="frm_input" required></td>
+										id="opendate" class="frm_input" value="<fmt:formatDate value='${OPENDATE }' pattern='yyyy-MM-dd'/>" required></td>
 								</tr>
 								<tr>
 									<th scope="row">상영종료일</th>
 									<td colspan="3">
-										<input type="date" name="enddate" id="enddate" class="frm_input" required>
+										<input type="date" name="enddate" id="enddate" value="<fmt:formatDate value='${ENDDATE }' pattern='yyyy-MM-dd'/>" class="frm_input" required>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">출연진</th>
-									<td colspan="3"><input type="text" name="movie_actor"
-										id="movie_actor" class="required frm_input form-control"
-										size="80"
-										style="background-position: right top; background-repeat: no-repeat;"
-										required></td>
+									<td colspan="3"><input type="text" name="movie_actor" id="movie_actor" class="required frm_input form-control" size="80"
+										value="${MOVIE_ACTOR }" style="background-position: right top; background-repeat: no-repeat;" required></td>
 								</tr>
 
 
 								<tr>
 									<th scope="row">더빙타입</th>
 									<td class="td_label" colspan="3">
-										<label><input type="checkbox" name="isdub" value="DU">더빙 </label> 
-										<label><input type="checkbox" name="isdub" value="DE">자막 </label> 
-										<label><input type="checkbox" name="isdub" value="NO">없음 </label>
+										<label><input type="checkbox" name="isdub" value="DU" ${movieTypeList.contains('DU') ? 'checked' : '' }>더빙 </label> 
+										<label><input type="checkbox" name="isdub" value="DE" ${movieTypeList.contains('DE') ? 'checked' : '' }>자막 </label> 
+										<label><input type="checkbox" name="isdub" value="NO" ${movieTypeList.contains('NO') ? 'checked' : '' }>없음 </label>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">3D유무</th>
 									<td class="td_label" colspan="3">
-										<label><input type="checkbox" name="is3d" value="2D"> 2D</label> 
-										<label><input type="checkbox" name="is3d" value="3D"> 3D </label>
+										<label><input type="checkbox" name="is3d" value="2D" ${movieTypeList.contains('2D') ? 'checked' : '' }> 2D</label> 
+										<label><input type="checkbox" name="is3d" value="3D" ${movieTypeList.contains('3D') ? 'checked' : '' }> 3D </label>
 									</td>
 								</tr>
 								<tr>
@@ -295,6 +295,14 @@ table th {
 										<button class="btn btn-xs btn-primary" type="button" id="addImgBtn">사진 추가</button>
 										<div class="imgInput">
 											<div class="inputImgRow row">
+												<c:forEach items="${ movieImgList}" var="img">
+													<div class="col-md-3 imgCol">
+														<input type="file" name="uploadImg" accept=".jpeg, .png, .jpg, .gif" style="display: inline;">
+														<button class="btn btn-outline-danger btn-sm" type="button" id="cancelAddBtn">X</button>
+														<div id="imgView" style="border: 1px solid green; height: 12rem; width: 10rem; margin: 0 auto; margin-bottom: 5px;
+															background-image: url('getPicture.do?name=${img}&movie_cd=${MOVIE_CD }&type=i'); background-size:cover; background-repeat: no-repeat"></div>
+													</div>
+												</c:forEach>
 											</div>
 										</div>
 									</td>
@@ -313,7 +321,7 @@ table th {
 						</table>
 					</div>
 				</section>
-
+				<img id="test" src="">
 
 				<div class="btn_confirm">
 					<c:choose>

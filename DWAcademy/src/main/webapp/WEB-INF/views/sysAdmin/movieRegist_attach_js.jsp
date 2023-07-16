@@ -53,6 +53,16 @@ function Attach_action(){
 		}
 	});
 	
+	// 수정일때 기본 포스터
+	let imageURL = "getPicture.do?poster=${MOVIE_MAINPIC_PATH}&movie_cd=${MOVIE_CD}";	// 이미지명 가지고 와서 셋팅
+ 	$('div#pictureView').css({
+								'background-image' : 'url("' + imageURL + '")',
+								'background-position' : 'center',
+								'background-size' : 'cover',
+								'background-repeat' : 'no-repeat'
+							});
+	
+	
 }
 
 

@@ -30,7 +30,7 @@
 	function posterChange_go() {
 		let inputImage = $('input#movie_mainPic_path')[0];
 		preViewPicture(inputImage, $('div#pictureView'));
-		$('input[name="uploadPoster"]').val(inputImage.files[0].name);
+// 		$('input[name="uploadPoster"]').val(inputImage.files[0].name);
 	};
 	
 	// 관련사진 이미지 프리뷰
@@ -119,4 +119,5 @@
 		}
 		form.submit();
 	});	
+	
 </script>

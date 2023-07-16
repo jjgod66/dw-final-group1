@@ -319,4 +319,10 @@
 		  FROM MOVIE_TYPE_C
 		 WHERE movie_cd = #{movie_cd}
 	</select>
+	
+	<select id="selectMoiveImgByMovie_cd" resultType="str">
+		SELECT movie_pic_path
+		  FROM movie_picture
+		 WHERE movie_cd = #{movie_cd}
+	</select>
 </mapper>

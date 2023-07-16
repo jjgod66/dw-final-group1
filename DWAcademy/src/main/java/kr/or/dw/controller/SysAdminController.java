@@ -167,6 +167,7 @@ public class SysAdminController {
 		if (movie_cd != null) {	// 수정일 때
 			subjectMap = addSubject("HOME", "영화 관리", "영화 상세정보 수정");
 			Map<String, Object> movie = sysAdminService.selectMovieByMovie_cd(movie_cd);
+			mnv.addAllObjects(movie);
 		} else {				// 등록일 때
 			subjectMap = addSubject("HOME", "영화 관리", "영화 등록");
 		}
@@ -315,13 +316,22 @@ public class SysAdminController {
 	}
 	
 	@RequestMapping("/getPicture")
-	public ResponseEntity<byte[]> getPicture(String poster, String movie_cd) throws Exception {
+	public ResponseEntity<byte[]> getPicture(String name, String movie_cd, String type) throws Exception {
 		
 		InputStream in = null;
 		ResponseEntity<byte[]> entity = null;
-		String imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "mainPoster";
+		String imgPath = "";
+		if (type != "" && type != null) {
+			if (type.equals("p")) {
+				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "mainPoster";
+			} else if (type.equals("i")) {
+				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "pictures";
+			} else if (type.equals("v")) {
+				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "videos";
+			}
+		} 
 		try {
-			in = new FileInputStream(new File(imgPath, poster));
+			in = new FileInputStream(new File(imgPath, name));
 			
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
 		} catch (FileNotFoundException e) {

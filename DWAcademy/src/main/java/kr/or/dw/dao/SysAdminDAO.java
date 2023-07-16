@@ -83,4 +83,7 @@ public interface SysAdminDAO {
 	// 해당 영화 타입 불러오기
 	List<String> selectTypeByMovie_cd(String movie_cd) throws SQLException;
 
+	// 해당 영화 관련 이미지 불러오기
+	List<String> selectMoiveImgByMovie_cd(String movie_cd);
+
 }

@@ -190,19 +190,24 @@ public class SysAdminServiceImpl implements SysAdminService {
 
 	@Override
 	public Map<String, Object> selectMovieByMovie_cd(String movie_cd) throws SQLException {
+		//영화 기본정보
 		Map<String, Object> movie = sysAdminDAO.selectMovieByMovie_cd(movie_cd);
+		//영화 장르
 		List<String> movieGenreList = sysAdminDAO.selectGenreByMovie_cd(movie_cd);
-		movie.put("genreList", movieGenreList);
+		movie.put("movieGenreList", movieGenreList);
+		//영화 타입
 		List<String> movieTypeListBefore = sysAdminDAO.selectTypeByMovie_cd(movie_cd);
 		Set<String> set = new HashSet<>();
 		for (String movieType : movieTypeListBefore) {
 			set.add(movieType.substring(0, 2));
 			set.add(movieType.substring(2));
 		}
-		System.out.println("[[[[[" + set);
 		List<String> movieTypeListAfter = new ArrayList<String>(set);
 		movie.put("movieTypeList", movieTypeListAfter);
-		return null;
+		//영화 관련 사진
+		List<String> movieImgList = sysAdminDAO.selectMoiveImgByMovie_cd(movie_cd);
+		movie.put("movieImgList", movieImgList);
+		return movie;
 	}
 
 }
