@@ -10,9 +10,9 @@
         <div class="movieChartBeScreen_btn_wrap">
             <div class="tabBtn_wrap">
                 <h3><a href="#none" class="active" id="btnMovie">박스오피스</a></h3>
-                <h3><a href="#none" id="btnReserMovie">상영예정작</a></h3>
+<!--                 <h3><a href="#none" id="btnReserMovie">상영예정작</a></h3> -->
             </div>
-            <a href="#" class="btn btn-allView">전체보기</a>
+            <a href="<%=request.getContextPath() %>/movie/allMovie.do" class="btn btn-allView">전체보기</a>
         </div>
         <ol>
             <div class="schedule-slider">

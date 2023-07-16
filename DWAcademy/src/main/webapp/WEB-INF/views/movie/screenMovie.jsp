@@ -107,8 +107,8 @@ select {
 %>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <div class="sub_visual">
-    <h3>전체영화</h3>
-    <h6>All Movie</h6>
+    <h3>상영영화</h3>
+    <h6>Screen Movie</h6>
 </div>
 <div style="width: 100%;">
 <div style="padding: 30px;">
@@ -116,8 +116,8 @@ select {
 		<div style="width: 90%; margin: 0 auto;">
 		<div class="tab-list fixed">
 			<ul class="nav nav-tabs" role="tablist">
-				<li class="nav-item active" data-bs-toggle="tab" aria-selected="true" role="tab"><a href="/movie/allMovie.do">전체</a></li>
-				<li class="nav-item" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab"><a href="/movie/screenMovie.do">현재상영</a></li>
+				<li class="nav-item" data-bs-toggle="tab" aria-selected="false" role="tab"><a href="/movie/allMovie.do">전체</a></li>
+				<li class="nav-item active" data-bs-toggle="tab" aria-selected="true" tabindex="-1" role="tab"><a href="/movie/screenMovie.do">현재상영</a></li>
 				<li class="nav-item" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab"><a href="/movie/comingMovie.do">상영예정</a></li>
 				<li class="nav-item" id="like" style="display: none;" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab"><a href="/movie/likeGenreMovie.do">선호장르</a></li>
 			</ul>
@@ -203,7 +203,7 @@ select {
 	</div>
 </div>
 </div>
-<form id="searchForm" method="post" action="<%=request.getContextPath() %>/movie/allMovie.do">
+<form id="searchForm" method="post" action="<%=request.getContextPath() %>/movie/screenMovie.do">
 	<input type="hidden" name="searchType">
 	<input type="hidden" name="keyword">
 </form>

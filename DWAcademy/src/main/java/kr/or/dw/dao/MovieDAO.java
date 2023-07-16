@@ -71,4 +71,84 @@ public interface MovieDAO {
 	 */
 	String[] selectMovieGenreByCd(String movie_cd);
 
+//	/**
+//	 * 전체 영화 검색타입, 키워드에 따라 가져오는 메서드
+//	 * @param searchType
+//	 * @param keyword
+//	 * @return
+//	 */
+//	Map<String, Object> selectSearchAllMovie(String searchType, String keyword) throws SQLException;
+
+	/**
+	 * 전체 영화 검색타입, 키워드에 따라 가져오는 메서드
+	 * @param param
+	 * @return
+	 * @throws SQLException
+	 */
+	List<Map<String, Object>> selectSearchAllMovie(Map<String, String> param) throws SQLException;
+
+	/**
+	 * 전날의 모든 예매수 가져오는 메서드
+	 * @return
+	 * @throws SQLException
+	 */
+	int selectYesAllReserver() throws SQLException;
+
+	/**
+	 * 현재 상영영화 검색타입, 키워드에따라 가져오는 메서드
+	 * @param searchType
+	 * @param keyword
+	 * @return
+	 */
+	List<Map<String, Object>> selectSearchScreenMovie(Map<String, String> param) throws SQLException;
+	
+	/**
+	 * 상영예정 영화 검색타입, 키워드에따라 가져오는 메서드
+	 * @param searchType
+	 * @param keyword
+	 * @return
+	 */
+	List<Map<String, Object>> selectSearchComingMovie(Map<String, String> param) throws SQLException;
+
+	/**
+	 * 회원이 해당 영화에 좋아요를 눌렀는지 안눌렀는지 확인하는 메서드
+	 * @param param
+	 * @return
+	 */
+	int selectMovieLikeExist(Map<String, String> param) throws SQLException;
+
+	/**
+	 * 영화 좋아요 추가하는 메서드
+	 * @param param
+	 */
+	void insertMovieLike(Map<String, String> param) throws SQLException;
+
+	/**
+	 * 영화 좋아요 삭제하는 메서드
+	 * @param param
+	 */
+	void deleteMovieLike(Map<String, String> param) throws SQLException;
+
+	/**
+	 * 영화의 좋아요 수 가져오는 메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	int selectMovieLikeCount(String movie_cd) throws SQLException;
+
+	/**
+	 * 영화의 누적관객수 구하는 메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	int selectMovieAllReservers(String movie_cd) throws SQLException;
+
+	/**
+	 * 해당 영화 전날 예매수 가져오는 메서드
+	 * @param movie_cd
+	 * @return
+	 * @throws SQLException
+	 */
+	int selectYesMovieReserver(String movie_cd) throws SQLException;
+
 }
