@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.dw.command.MovieViewerCommand;
+import kr.or.dw.vo.ReviewVO;
 
 
 public interface MovieService {
@@ -76,5 +77,28 @@ public interface MovieService {
 	 * @return
 	 */
 	Map<String, Integer> getMovieReserve(String movie_cd) throws SQLException;
+
+	/**
+	 * 회원이 해당 영화를 봤는지 안봤는지 확인하는 메세ㅓ드
+	 * @param mem_cd
+	 * @param movie_cd
+	 * @return
+	 */
+	String getMovieWatchYN(String mem_cd, String movie_cd) throws SQLException;
+
+	/**
+	 * 리뷰작성하는 메서드
+	 * @param review
+	 * @throws SQLException
+	 */
+	void registReview(ReviewVO review) throws SQLException;
+
+	/**
+	 * 영화 리뷰 3개 가져오는 메서드
+	 * @param movie_cd
+	 * @return
+	 * @throws SQLException
+	 */
+	List<ReviewVO> getMovieReview3(String movie_cd) throws SQLException;
 
 }

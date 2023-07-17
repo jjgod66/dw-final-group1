@@ -223,4 +223,35 @@
 		AND TO_CHAR(resdate, 'YYYYMMDD') = TO_CHAR(sysdate - 1, 'YYYYMMDD') 
 		AND GB_CANCEL = 'N'
 	</select>
+	
+	<select id="selectMovieWatchYN" resultType="int">
+		SELECT COUNT(*)
+		FROM reservation r, screen s
+		WHERE r.screen_cd = s.screen_cd
+		AND mem_cd = #{mem_cd}
+		AND movie_cd = #{movie_cd}
+		AND gb_cancel = 'N'
+		AND startdate <![CDATA[<]]> sysdate
+	</select>
+	
+	<select id="selectMovieReviewYN" resultType="int">
+		SELECT count(*)
+		FROM review
+		WHERE mem_cd = #{mem_cd}
+		AND movie_cd = #{movie_cd}
+		AND gb_del = 'N'
+	</select>
+	
+	<insert id="insertReview" parameterType="review">
+		INSERT INTO review (review_no, mem_cd, movie_cd, review_rating, review_content, regdate, gb_del) 
+		VALUES (review_seq.nextval, #{mem_cd}, #{movie_cd}, #{review_rating}, #{review_content}, sysdate, 'N')
+	</insert>
+	
+	<select id="selectReview3" resultType="review">
+		SELECT *
+		FROM review
+		WHERE gb_del = 'N'
+		AND movie_cd = #{movie_cd}
+		AND rownum <![CDATA[<=]]> 3
+	</select>
 </mapper>
