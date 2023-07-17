@@ -15,9 +15,10 @@
 	</select>
 	
 	<select id="selectAllRe" resultType="Map">
-		SELECT t.THR_NAME, s.house_no, s.movie_cd, m.MOVIE_LENGTH, s.STARTDATE, s.STARTDATE + (m.MOVIE_LENGTH)/(24*60) AS after_movieEndTime,
-		   NVL( LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE),SYSDATE) AS before_movieEndTime,
-		   NVL(  (s.STARTDATE - LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE)) * 24 * 60 ,0) AS re
+		SELECT t.THR_NAME, s.house_no, s.movie_cd, m.MOVIE_LENGTH, TO_CHAR(s.STARTDATE,'HH24:MI')as startTime, TO_CHAR( s.STARTDATE + (m.MOVIE_LENGTH)/(24*60),'HH24:MI' )AS EndTime,
+		   TO_CHAR(LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE), 'yyyy-MM-dd HH24:MI:SS') AS before_movieEndTime,
+		  TO_CHAR(round( NVL(  (s.STARTDATE - LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE)) * 24 * 60 ,0) )) AS re ,
+		   s.screen_cd
 		FROM screen s, movie m, theater t, house h
 		WHERE 1=1
 		    AND s.movie_cd = m.movie_cd
