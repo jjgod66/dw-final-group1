@@ -1,11 +1,13 @@
 package kr.or.dw.controller;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.JsonArray;
 
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.ThrAdminService;
@@ -86,8 +90,21 @@ public class ThrAdminController {
 		
 		List<Map<String, Object>> allRe = null;
 		allRe = thrAdminService.getAllRe();
-		
-		mnv.addObject("allRe", allRe);
+		List<JSONObject> newAllRe = new ArrayList<>();
+		for( Map<String,Object> map : allRe){
+
+		    JSONObject json = new JSONObject();
+
+		    for( Map.Entry<String,Object> entry : map.entrySet() ){
+
+		        String key = entry.getKey();
+		        Object value = entry.getValue();
+		        json.put(key, value);	
+		    }	
+		    newAllRe.add(json);
+		}
+		System.out.println(newAllRe);
+		mnv.addObject("allRe", newAllRe);
 		mnv.addObject("allStart",allStart);
 		mnv.addObject("allScreenList", allScreenList);
 		mnv.addObject("movie_cd", movie_cd);

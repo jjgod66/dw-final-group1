@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
     <title>Movie Schedule</title>
     <style>
     	table {
@@ -37,8 +38,8 @@
         .cell {
         margin : 0;
     	padding : 0;
-            display: inline-block;
-            width: 1px;
+            display: inherit;
+            width: 10px;
             height: 30px;
              position: relative;
             text-align: center;
@@ -63,7 +64,27 @@
 		</tr>
 		<tr>
 			<c:forEach items="${allRe }" var="Re">
-				<td>${Re.re}</td>
+				<td>${Re.RE}</td>
+			</c:forEach>
+		</tr>
+		<tr>
+			<c:forEach items="${allRe }" var="Re">
+				<td>${Re.SCREEN_CD}</td>
+			</c:forEach>
+		</tr>
+		<tr>
+			<c:forEach items="${allRe }" var="Re">
+				<td>${Re.THR_NAME}</td>
+			</c:forEach>
+		</tr>
+		<tr>
+			<c:forEach items="${allRe }" var="Re">
+				<td>${Re.STARTTIME}</td>
+			</c:forEach>
+		</tr>
+		<tr>
+			<c:forEach items="${allRe }" var="Re">
+				<td>${Re.ENDTIME}</td>
 			</c:forEach>
 		</tr>
 	</table>
@@ -97,105 +118,45 @@
 	<tr>
 		<th>1관</th>
 		<td colspan="21" id="timeWrap">
-		</td>
-	</tr>
-	<tr>
-		<th>2관</th>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-	</tr>
-	<tr>
-		<th>3관</th>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-	</tr>
-	<tr>
-		<th>4관</th>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
-		<td></td>
+		      
+    	</td>
 	</tr>
   </table>
     
    <script>
-        window.onload = function() {
-            var startTime = '  ${start.startdate }'; // Assuming startTime is a string in "HH:mm" format
-            var startHour = parseInt(startTime.substring(0, 2));
-            var startMinute = parseInt(startTime.substring(3, 5));
+   window.onload = function() {
+	   
+	   // 데이터베이스에서 영화 시작 시간과 종료 시간을 가져옵니다.
+	   
+	   /* let list = new Array(); */
+	   let list = ${allRe};
+	   for(let a = 0; a<2; a++){
+		   var startTime = list[a].STARTTIME; // 예시: "08:00"
+		   var endTime = list[a].ENDTIME; // 예시: "09:49"
+	   // 영화 시작 시간과 종료 시간에서 시간과 분을 추출합니다.
+	   var startHour = parseInt(startTime.substring(0, 2));
+	   var startMinute = parseInt(startTime.substring(3, 5));
+	   var endHour = parseInt(endTime.substring(0, 2));
+	   var endMinute = parseInt(endTime.substring(3, 5));
+		
+	   // timeWrap 요소를 가져옵니다.
+	   var timeWrap = document.getElementById('timeWrap');
 
-            var currentTime = new Date();
-            currentTime.setHours(7, 0, 0, 0); // Set initial time to 07:00
+	   // 1200개의 span 요소를 생성하고 배경색을 적용합니다.
+	   for (let i = 0; i < 1200; i++) {
+	     var span = document.createElement("span");
+	     span.classList.add("cell");
+	     let start = startHour * 60 + startMinute - 420; //60
+	     let end = endHour * 60 + endMinute - 420; //169
+		     for (j=start; j<=end; j++){
+		  	 $('#timeWrap span:nth-child('+j+')').css('background-color', 'red');
+		     timeWrap.appendChild(span);
+	  		 }  
+	   }
+	   }
+	 };
 
-            for (var i = 0; i < 1200; i++) {
-                var cell = document.createElement("span");
-                cell.classList.add("cell");
-				
-                	if(i >= 100 && i <= 300){
-	                    cell.style.backgroundColor = "white"; // Movie has started
-	                    cell.style.float = "left";
-                	}else{
-	                    cell.style.backgroundColor = "red"; // Movie has not started yet
-	                    cell.style.float = "left";
-                	}
-                	
 
-                 document.getElementById('timeWrap').appendChild(cell); 
-                currentTime.setMinutes(currentTime.getMinutes() + 1); // Increment time by 1 minute
-            }
-        };
     </script>
 </head>
 <body>
