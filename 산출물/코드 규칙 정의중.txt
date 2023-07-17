@@ -19,8 +19,10 @@ CODE
 
 
 예매코드
+'M' + new Date().getTime()
 
 스토어상품코드 
+'P' + new Date().getTime()
 
 포인트코드
 

@@ -156,4 +156,40 @@ public class MovieServiceImpl implements MovieService{
 		return reserMap;
 	}
 
+	@Override
+	public String getMovieWatchYN(String mem_cd, String movie_cd) throws SQLException {
+		Map<String, String> param = new HashMap<>();
+		param.put("mem_cd", mem_cd);
+		param.put("movie_cd", movie_cd);
+		
+		String result = "non";
+		int count = 0;
+		count = movieDAO.selectMovieWatchYN(param);
+		
+		int review = 0;
+		if(count > 0) {
+			result = "watch";
+			review = movieDAO.selectMovieReviewYN(param);
+		}
+		
+		if(review > 0) {
+			result = "write";
+		}
+		return result;
+	}
+
+	@Override
+	public void registReview(ReviewVO review) throws SQLException {
+
+		movieDAO.insertReview(review);
+	}
+
+	@Override
+	public List<ReviewVO> getMovieReview3(String movie_cd) throws SQLException {
+		List<ReviewVO> reviewList = null;
+		reviewList = movieDAO.selectReview3(movie_cd);
+		
+		return reviewList;
+	}
+
 }

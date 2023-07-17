@@ -151,4 +151,34 @@ public interface MovieDAO {
 	 */
 	int selectYesMovieReserver(String movie_cd) throws SQLException;
 
+	/**
+	 * 회원이 해당 영화를 봤는지 안봤는지 본 갯수 가져오는 메서드
+	 * @param param
+	 * @return
+	 * @throws SQLException
+	 */
+	int selectMovieWatchYN(Map<String, String> param) throws SQLException;
+
+	/**
+	 * 회원이 리뷰를 달았는지 안달았는지 확인하는 메서드
+	 * @param param
+	 * @return
+	 */
+	int selectMovieReviewYN(Map<String, String> param) throws SQLException;
+
+	/**
+	 * 리뷰작성하는 메서드
+	 * @param review
+	 * @throws SQLException
+	 */
+	void insertReview(ReviewVO review) throws SQLException;
+
+	/**
+	 * 리뷰 3개 가져오는 메서드 
+	 * @param movie_cd
+	 * @return
+	 * @throws SQLException
+	 */
+	List<ReviewVO> selectReview3(String movie_cd) throws SQLException;
+
 }
