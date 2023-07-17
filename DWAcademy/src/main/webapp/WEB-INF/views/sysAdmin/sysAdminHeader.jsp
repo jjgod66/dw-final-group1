@@ -9,7 +9,8 @@
 <script src="<%=request.getContextPath() %>/resources/summernote/lang/summernote-ko-KR.js"></script>
 <link  href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3/css/bootstrap.min.css" rel="stylesheet">
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
-
+<link href="//vjs.zencdn.net/7.10.2/video-js.min.css" rel="stylesheet">
+<script src="//vjs.zencdn.net/7.10.2/video.min.js"></script>
 <link href="<%=request.getContextPath()%>/resources/img/logo_ico.png" rel="shortcut icon" type="image/x-icon">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">

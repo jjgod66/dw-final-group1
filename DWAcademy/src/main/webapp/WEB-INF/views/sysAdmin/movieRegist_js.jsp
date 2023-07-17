@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script>
-
+console.log('${movieVideoList}');
 	// 상영종료일  제한
 	let nowDate = Date.now();
 	let timeOff = new Date().getTimezoneOffset()*60000;
@@ -30,7 +30,7 @@
 	function posterChange_go() {
 		let inputImage = $('input#movie_mainPic_path')[0];
 		preViewPicture(inputImage, $('div#pictureView'));
-// 		$('input[name="uploadPoster"]').val(inputImage.files[0].name);
+		$('input[name="inputPosterName"]').val(inputImage.files[0].name);
 	};
 	
 	// 관련사진 이미지 프리뷰
@@ -43,6 +43,7 @@
 	$(document).on('change', 'input[name="uploadVideo"]', function(){
 		console.log($(this)[0].files[0]);
 	 	let inputVideo = $(this)[0].files[0];
+	 	console.log(inputVideo);
 		let videoUrl = URL.createObjectURL(inputVideo);
 		$(this).siblings('.test').attr('src', videoUrl);
 	});
@@ -62,7 +63,27 @@
 		
 		let form = $('form[role="form"]');
 		form.attr({'method' : 'post', 'action' : 'movieRegist.do'});
+		checkForm();
 		
+		form.submit();
+	});
+	$('#modifyBtn').on('click', function(){
+		let input = $('<input>').attr({
+										'type' : 'hidden',
+										'name' : 'movie_cd',
+										'value' : '${MOVIE_CD}'
+									  });
+		$('form[role="form"]').prepend(input);
+		let form = $('form[role="form"]');
+		form.attr({'method' : 'post', 'action' : 'movieModify.do'});
+		checkForm();
+		
+		form.submit();
+	});
+	$('#cancelBtn').on('click', function(){
+		location.href="/sysAdmin/movieAdminMain.do";
+	});
+	function checkForm(){
 		// 러닝타임 숫자자리수 제한
 		let ml_length = $('input[name="movie_length"]').val().length;
 		if (ml_length > 4) {
@@ -97,27 +118,26 @@
 		}
 		
 		
-		let images = $('input[name="uploadImg"]');
-		for (let image of images) {
-			console.log("img");
-			if (image.value == "") {
-				alert("사진을 선택하세요.");
-				image.focus();
-				image.click();
-				return;
-			}
-		}
+// 		let images = $('input[name="uploadImg"]');
+// 		for (let image of images) {
+// 			console.log("img");
+// 			if (image.value == "") {
+// 				alert("사진을 선택하세요.");
+// 				image.focus();
+// 				image.click();
+// 				return;
+// 			}
+// 		}
 		
-		let videos = $('input[name="uploadVideo"]');
-		for (let video of videos) {
-			if (video.value == "") {
-				alert("동영상을 선택하세요.");
-				video.focus();
-				video.click();
-				return;
-			}
-		}
-		form.submit();
-	});	
+// 		let videos = $('input[name="uploadVideo"]');
+// 		for (let video of videos) {
+// 			if (video.value == "") {
+// 				alert("동영상을 선택하세요.");
+// 				video.focus();
+// 				video.click();
+// 				return;
+// 			}
+// 		}
+	}
 	
 </script>

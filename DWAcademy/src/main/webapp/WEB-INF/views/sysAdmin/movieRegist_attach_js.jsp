@@ -18,6 +18,16 @@ function Attach_action(){
 	
 	// 사진 삭제 버튼
 	$('.imgInput').on('click', '#cancelAddBtn',function(){
+		if($(this).closest('div.imgCol').hasClass('alreadyImg')) {
+			let pno = $(this).siblings('#imgName').val();
+			console.log(pno);
+			let input = $('<input>').attr({
+				'type' : 'hidden',
+				'name' : 'deleteImg',
+				'value' : pno
+			  });
+			$('form[role="form"]').prepend(input);
+		}
 		$(this).closest('div.imgCol').remove();
 	});
 	
@@ -54,15 +64,28 @@ function Attach_action(){
 	});
 	
 	// 수정일때 기본 포스터
-	let imageURL = "getPicture.do?poster=${MOVIE_MAINPIC_PATH}&movie_cd=${MOVIE_CD}";	// 이미지명 가지고 와서 셋팅
+	let imageURL = 'getPicture.do?name=${MOVIE_MAINPIC_PATH}&movie_cd=${MOVIE_CD}&type=p';	// 이미지명 가지고 와서 셋팅
  	$('div#pictureView').css({
 								'background-image' : 'url("' + imageURL + '")',
 								'background-position' : 'center',
 								'background-size' : 'cover',
 								'background-repeat' : 'no-repeat'
 							});
+	// 수정일때 기본 동영상들
 	
+
 	
+// 	// 수정일 때 기존 관련 이미지 삭제
+// 		let parent = $(this).parent('a[name="attachedFile"]');
+// 		if (!confirm(parent.attr("attach-fileName") + " 파일을 삭제하시겠습니까?")) return false;
+		
+// 		let ano = parent.attr('attach-no');
+// 		$(this).parents('li.attach-item').remove();
+//  		let input = $('<input>').attr({
+// 		'type' : 'hidden',
+// 		'name' : 'deleteFile',
+// 		'value' : 
+// 	  });
 }
 
 
