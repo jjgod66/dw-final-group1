@@ -84,6 +84,30 @@ public interface SysAdminDAO {
 	List<String> selectTypeByMovie_cd(String movie_cd) throws SQLException;
 
 	// 해당 영화 관련 이미지 불러오기
-	List<String> selectMoiveImgByMovie_cd(String movie_cd);
+	List<Map<String, Object>> selectMoiveImgByMovie_cd(String movie_cd) throws SQLException;
+
+	// 해당 영화 기본 정보 수정하기
+	void updateMovie(MovieVO movie) throws SQLException;
+	
+	// 해당 영화 기존 장르 지우기
+	void deleteMovieGenre_c(String movie_cd) throws SQLException;
+
+	// 해당 영화 기존 타입 지우기
+	void deleteMovieType_c(String movie_cd) throws SQLException;
+	
+	// 해당 영화의 삭제할 사진 이름 불러오기
+	String selectMovieDelImgByPno(int pno) throws SQLException;
+	
+	// 해당 영화의 선택한 삭제사진 삭제하기
+	void deleteMovieImg(int pno) throws SQLException;
+
+	// 해당 영화의 선택한 삭제사진 삭제하기
+	String selectMovieDelVideoByPno(int pno) throws SQLException;
+	
+	// 해당 영화의 선택한 삭제예고편 삭제하기
+	void deleteMovieVideo(int pno) throws SQLException;
+
+	// 해당 영화의 이미 올라간 비디오 불러오기
+	List<Map<String, Object>> selectMoiveVideoByMovie_cd(String movie_cd) throws SQLException;
 
 }

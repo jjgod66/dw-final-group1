@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.command.MovieModifyCommand;
 import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.SysAdminService;
@@ -167,6 +168,8 @@ public class SysAdminController {
 		if (movie_cd != null) {	// 수정일 때
 			subjectMap = addSubject("HOME", "영화 관리", "영화 상세정보 수정");
 			Map<String, Object> movie = sysAdminService.selectMovieByMovie_cd(movie_cd);
+			List<Map<String, Object>> movieVideoList = sysAdminService.selectMoiveVideoByMovie_cd(movie_cd);
+			movie.put("movieVideoList", movieVideoList);
 			mnv.addAllObjects(movie);
 		} else {				// 등록일 때
 			subjectMap = addSubject("HOME", "영화 관리", "영화 등록");
@@ -236,7 +239,7 @@ public class SysAdminController {
 		// 관련 이미지파일 로컬에 저장
 		if (registReq.getUploadImg() != null) {
 			for (MultipartFile multi : registReq.getUploadImg()) {
-				String fileName = UUID.randomUUID().toString().replace("-", "") + "$$" + multi.getOriginalFilename();
+				String fileName = multi.getOriginalFilename();
 				File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "pictures", fileName);
 				
 				if (!target.exists()) {
@@ -250,7 +253,7 @@ public class SysAdminController {
 		// 관련 동영상파일 로컬에  저장
 		if (registReq.getUploadVideo() != null) {
 			for (MultipartFile multi : registReq.getUploadVideo()) {
-				String fileName = UUID.randomUUID().toString().replace("-", "") + "$$" + multi.getOriginalFilename();
+				String fileName = multi.getOriginalFilename();
 				File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "videos", fileName);
 				
 				if (!target.exists()) {
@@ -268,6 +271,99 @@ public class SysAdminController {
 		out.println("</script>");
 		out.flush();
 		out.close();
+	}
+	
+	@RequestMapping("/movieModify")
+	public void movieModify (MovieModifyCommand modifyReq, HttpServletResponse res) throws Exception {
+		MovieVO movie = modifyReq.toParseMovie();
+		
+		// 포스터 수정 + 로컬 파일 수정
+		String fileName = savePicture(modifyReq.getMovie_mainPic_path(), modifyReq.getOldPicture(), modifyReq.getMovie_cd(), "p");
+		movie.setMovie_mainpic_path(fileName);
+		
+		if (modifyReq.getMovie_mainPic_path().isEmpty()) {
+			movie.setMovie_mainpic_path(modifyReq.getOldPicture());
+		}
+		
+		sysAdminService.modifyMovie(movie);
+		
+		// 장르 수정
+		String[] genres = modifyReq.getGenre_cd();
+		String movie_cd = movie.getMovie_cd();
+		sysAdminService.modifyMovieGenre_c(genres, movie_cd);
+		
+		// 영화 타입 수정
+		List<String> movie_types = new ArrayList<String>();
+		for (String dub : modifyReq.getIsdub()) {
+			for (String dim : modifyReq.getIs3d()) {
+				movie_types.add(dub.concat(dim));
+			}
+		}
+		sysAdminService.modifyMovieType_c(movie_types, movie_cd);
+		
+		// 영화 관련 사진 수정
+		// 삭제된 파일을 로컬 서버에서 삭제
+		if (modifyReq.getDeleteImg() != null && modifyReq.getDeleteImg().length > 0) {
+			for (int pno : modifyReq.getDeleteImg()) {
+				String imgName = sysAdminService.selectMovieDelImgByPno(pno);
+				File deleteFile = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "pictures" , imgName);
+				if (deleteFile.exists()) {
+					deleteFile.delete();
+				}
+				sysAdminService.deleteMovieImg(pno);
+			}
+		}
+		// 관련 이미지파일 이름 DB에 저장
+		List<String> movie_pics = new ArrayList<>();
+		for ( MultipartFile pic : modifyReq.getUploadImg()) {
+			movie_pics.add(pic.getOriginalFilename());
+		}
+		sysAdminService.registMoviePic(movie_pics, movie_cd);
+		// 관련 이미지파일 로컬에 저장
+		if (modifyReq.getUploadImg() != null) {
+			for (MultipartFile multi : modifyReq.getUploadImg()) {
+				String imgName = multi.getOriginalFilename();
+				File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "pictures", imgName);
+				
+				if (!target.exists()) {
+					target.mkdirs();
+				}
+				
+				multi.transferTo(target);
+			}
+		}
+		
+		// 영화 관련 예고편 수정
+		// 삭제된 파일을 로컬 서버에서 삭제
+			if (modifyReq.getDeleteVideo() != null && modifyReq.getDeleteVideo().length > 0) {
+				for (int pno : modifyReq.getDeleteImg()) {
+					String videoName = sysAdminService.selectMovieDelVideoByPno(pno);
+					File deleteFile = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "videos" , videoName);
+					if (deleteFile.exists()) {
+						deleteFile.delete();
+					}
+					sysAdminService.deleteMovieVideo(pno);
+				}
+			}
+			// 관련 예고편파일 이름 DB에 저장
+			List<String> movie_videos = new ArrayList<>();
+			for ( MultipartFile video : modifyReq.getUploadVideo()) {
+				movie_videos.add(video.getOriginalFilename());
+			}
+			sysAdminService.registMoviePre(movie_pics, movie_cd);
+			// 관련 예고편파일 로컬에 저장
+			if (modifyReq.getUploadVideo() != null) {
+				for (MultipartFile multi : modifyReq.getUploadVideo()) {
+					String videoName = multi.getOriginalFilename();
+					File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "videos", videoName);
+					
+					if (!target.exists()) {
+						target.mkdirs();
+					}
+					
+					multi.transferTo(target);
+				}
+			}
 	}
 	
 	@GetMapping("/supportAdminMain")
@@ -315,8 +411,42 @@ public class SysAdminController {
 		return subjectMap;
 	}
 	
+	private String savePicture(MultipartFile multi, String oldPicture, String movie_cd, String type) throws Exception {
+		
+		String fileName = null;
+		
+		// 파일 유무 확인
+		if (!(multi == null || multi.isEmpty() || multi.getSize() > 1024 * 1024 * 10)) {
+			// 파일 저장 폴더 설정
+			String imgPath = "";
+			if (type.equals("p")) {
+				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "mainPoster";
+			} else if (type.equals("i")) {
+				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "pictures";
+			} else if (type.equals("v")) {
+				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "videos";
+			}
+			fileName = multi.getOriginalFilename();
+			File storeFile = new File(imgPath, fileName);
+			
+			storeFile.mkdirs();
+			
+			// local HDD에 저장
+			multi.transferTo(storeFile);
+			
+			if (!oldPicture.isEmpty()) {
+				File oldFile = new File(imgPath, oldPicture);
+				if (oldFile.exists()) {
+					oldFile.delete();
+				}
+			}
+		}
+		
+		return fileName;
+	}
+	
 	@RequestMapping("/getPicture")
-	public ResponseEntity<byte[]> getPicture(String name, String movie_cd, String type) throws Exception {
+	public ResponseEntity<byte[]> getPicture(String name, String movie_cd, String type) throws IOException  {
 		
 		InputStream in = null;
 		ResponseEntity<byte[]> entity = null;
@@ -329,10 +459,10 @@ public class SysAdminController {
 			} else if (type.equals("v")) {
 				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "videos";
 			}
-		} 
+		}
+		
 		try {
 			in = new FileInputStream(new File(imgPath, name));
-			
 			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -340,6 +470,7 @@ public class SysAdminController {
 		} finally {
 			in.close();
 		}
+		
 		return entity;
 	}
 }

@@ -320,9 +320,56 @@
 		 WHERE movie_cd = #{movie_cd}
 	</select>
 	
-	<select id="selectMoiveImgByMovie_cd" resultType="str">
+	<select id="selectMoiveImgByMovie_cd" resultType="Map">
+		SELECT *
+		  FROM movie_picture
+		 WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<update id="updateMovie">
+		UPDATE movie
+		   SET movie_name = #{movie_name}
+		      ,movie_director = #{movie_director}
+		      ,movie_info = #{movie_info}
+		      ,movie_actor = #{movie_actor}
+		      ,movie_grade = #{movie_grade}
+		      ,movie_length = #{movie_length}
+		      ,enddate = #{enddate}
+		      ,movie_mainpic_path = #{movie_mainpic_path}
+		 WHERE movie_cd = #{movie_cd}
+	</update>
+	
+	<delete id="deleteMovieGenre_c">
+		DELETE FROM genre_c WHERE movie_cd = #{movie_cd}
+	</delete>
+	
+	<delete id="deleteMovieType_c">
+		DELETE FROM MOVIE_TYPE_C WHERE movie_cd = #{movie_cd}
+	</delete>
+	
+	<select id="selectMovieDelImgByPno" resultType="str">
 		SELECT movie_pic_path
 		  FROM movie_picture
+		 WHERE movie_pic_no = #{pno}
+	</select>
+	
+	<delete id="deleteMovieImg">
+		DELETE FROM MOVIE_PICTURE WHERE movie_pic_no = #{pno}
+	</delete>
+	
+	<select id="selectMovieDelVideoByPno" resultType="str">
+		SELECT movie_pre_path
+		  FROM movie_preview
+		 WHERE movie_pre_no = #{pre}
+	</select>
+	
+	<delete id="deleteMovieVideo">
+		DELETE FROM movie_preview WHERE movie_pre_no = #{pno}
+	</delete>
+	
+	<select id="selectMoiveVideoByMovie_cd" resultType="Map">
+		SELECT *
+		  FROM movie_preview
 		 WHERE movie_cd = #{movie_cd}
 	</select>
 </mapper>

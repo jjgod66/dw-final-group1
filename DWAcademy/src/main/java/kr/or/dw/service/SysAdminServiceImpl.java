@@ -205,9 +205,66 @@ public class SysAdminServiceImpl implements SysAdminService {
 		List<String> movieTypeListAfter = new ArrayList<String>(set);
 		movie.put("movieTypeList", movieTypeListAfter);
 		//영화 관련 사진
-		List<String> movieImgList = sysAdminDAO.selectMoiveImgByMovie_cd(movie_cd);
+		List<Map<String, Object>> movieImgList = sysAdminDAO.selectMoiveImgByMovie_cd(movie_cd);
 		movie.put("movieImgList", movieImgList);
 		return movie;
+	}
+
+	@Override
+	public void modifyMovie(MovieVO movie) throws SQLException {
+		sysAdminDAO.updateMovie(movie);
+	}
+
+	@Override
+	public void modifyMovieGenre_c(String[] genres, String movie_cd) throws SQLException {
+		sysAdminDAO.deleteMovieGenre_c(movie_cd);
+		Map<String, String> map = new HashMap<>();
+		map.put("movie_cd", movie_cd);
+		for (String genre : genres) {
+			map.put("genre", genre);
+			sysAdminDAO.insertGenre_c(map);
+		}
+	}
+
+	@Override
+	public void modifyMovieType_c(List<String> movie_types, String movie_cd) throws SQLException {
+		sysAdminDAO.deleteMovieType_c(movie_cd);
+		Map<String, String> map = new HashMap<>();
+		map.put("movie_cd", movie_cd);
+		for (String movie_type : movie_types) {
+			map.put("movie_type_cd", movie_type);
+			sysAdminDAO.insertMovieType_c(map);
+		}
+	}
+
+	@Override
+	public String selectMovieDelImgByPno(int pno) throws SQLException {
+		
+		return sysAdminDAO.selectMovieDelImgByPno(pno);
+	}
+
+	@Override
+	public void deleteMovieImg(int pno) throws SQLException {
+		sysAdminDAO.deleteMovieImg(pno);
+	}
+
+	@Override
+	public String selectMovieDelVideoByPno(int pno) throws SQLException {
+		return sysAdminDAO.selectMovieDelVideoByPno(pno);
+	}
+
+	@Override
+	public void deleteMovieVideo(int pno) throws SQLException {
+		sysAdminDAO.deleteMovieVideo(pno);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMoiveVideoByMovie_cd(String movie_cd) throws SQLException {
+		List<Map<String, Object>> selectMoiveVideoByMovie_cd = null;
+		
+		selectMoiveVideoByMovie_cd = sysAdminDAO.selectMoiveVideoByMovie_cd(movie_cd);
+		
+		return selectMoiveVideoByMovie_cd;
 	}
 
 }

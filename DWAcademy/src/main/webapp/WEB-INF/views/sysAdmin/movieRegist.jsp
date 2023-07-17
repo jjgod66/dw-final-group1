@@ -191,6 +191,7 @@ table th {
 			<form enctype="multipart/form-data" role="form" name="registForm">
 				<section id="anc_sitfrm_ini">
 					<h2>기본정보</h2>
+<%-- 					<input type="hidden" name="movie_cd" value="${MOVIE_CD }"> --%>
 					<div class="tbl_frm02">
 						<table>
 							<colgroup>
@@ -217,10 +218,11 @@ table th {
 								<tr>
 									<th scope="row" style="text-align: center;">포스터</th>
 									<td style="width: 30%;">
+										<input type="hidden" name="oldPicture" value="${MOVIE_MAINPIC_PATH }">
 										<div id="pictureView" style="border: 1px solid green; height: 30rem; width: 100%; margin: 0 auto; margin-bottom: 5px;"></div>
 										<div>
 											<input type="button" id="posterBtn" value="포스터 등록" style="width: 30%; height: 3rem;"> 
-											<input id="inputFileName" type="text" name="" style="width: 68%; height: 3rem;" disabled>
+											<input id="inputPosterName" type="text" name="inputPosterName" style="width: 68%; height: 3rem;" value="${MOVIE_MAINPIC_PATH }" disabled>
 											<input type="file" name="movie_mainPic_path" id="movie_mainPic_path" accept=".jpeg, .png, .jpg, .gif" style="display: none;" onchange="posterChange_go();" required> 
 										</div>
 									</td>
@@ -259,7 +261,7 @@ table th {
 								<tr>
 									<th scope="row">개봉일</th>
 									<td colspan="3"><input type="date" name="opendate"
-										id="opendate" class="frm_input" value="<fmt:formatDate value='${OPENDATE }' pattern='yyyy-MM-dd'/>" required></td>
+										id="opendate" class="frm_input" value="<fmt:formatDate value='${OPENDATE }' pattern='yyyy-MM-dd'/>" ${MOVIE_CD eq '' ? '' : 'disabled'} required></td>
 								</tr>
 								<tr>
 									<th scope="row">상영종료일</th>
@@ -296,11 +298,12 @@ table th {
 										<div class="imgInput">
 											<div class="inputImgRow row">
 												<c:forEach items="${ movieImgList}" var="img">
-													<div class="col-md-3 imgCol">
+													<div class="col-md-3 imgCol alreadyImg">
 														<input type="file" name="uploadImg" accept=".jpeg, .png, .jpg, .gif" style="display: inline;">
 														<button class="btn btn-outline-danger btn-sm" type="button" id="cancelAddBtn">X</button>
 														<div id="imgView" style="border: 1px solid green; height: 12rem; width: 10rem; margin: 0 auto; margin-bottom: 5px;
-															background-image: url('getPicture.do?name=${img}&movie_cd=${MOVIE_CD }&type=i'); background-size:cover; background-repeat: no-repeat"></div>
+															background-image: url('getPicture.do?name=${img.MOVIE_PIC_PATH}&movie_cd=${img.MOVIE_CD }&type=i'); background-size:cover; background-repeat: no-repeat"></div>
+														<input id="imgName" class="form-control" type="hidden" name="imgName" value="${img.MOVIE_PIC_NO }">
 													</div>
 												</c:forEach>
 											</div>
@@ -313,6 +316,13 @@ table th {
 										<button class="btn btn-xs btn-primary" type="button" id="addVideoBtn">동영상 추가</button>
 										<div class="videoInput">
 											<div class="inputVideoRow row">
+												<c:forEach items="${movieVideoList}" var="video">
+													<div class="col-md-6 videoCol">
+														<input type="file" name="uploadVideo" accept="video/mp4,video/mkv, video/x-m4v,video/*" style="display: inline;">
+														<button class="btn btn-outline-danger btn-sm" type="button" id="cancelAddBtn">X</button>
+														<video class="test" style="width: 100%; height: 100%;" controls src='getPicture.do?name=${video.MOVIE_PRE_PATH}&movie_cd=${video.MOVIE_CD}&type=v'></video>
+													</div>
+												</c:forEach>
 											</div>
 										</div>
 									</td>
@@ -321,21 +331,19 @@ table th {
 						</table>
 					</div>
 				</section>
-				<img id="test" src="">
-
+			</form>
 				<div class="btn_confirm">
 					<c:choose>
-						<c:when test="${empty movie_cd}">
+						<c:when test="${empty MOVIE_CD}">
 							<button type="button" id="registBtn" class="btn_large">등록</button>
 						</c:when>
 						<c:otherwise>
 							<button type="button" id="modifyBtn" class="btn_large">수정</button>
-							<button type="button" id="deleteBtn" class="btn_large">삭제</button>
+<!-- 							<button type="button" id="deleteBtn" class="btn_large">삭제</button> -->
 						</c:otherwise>
 					</c:choose>
 					<button type="button" id="cancelBtn" class="btn_large">뒤로가기</button>
 				</div>
-			</form>
 		</div>
 		<!-- #################### -->
 	</div>
