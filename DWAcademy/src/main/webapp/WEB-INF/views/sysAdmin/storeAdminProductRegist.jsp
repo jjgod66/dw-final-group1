@@ -33,19 +33,19 @@
 	<div class="container-fluid">
 		<form enctype="multipart/form-data" role="form" name="registForm">
 			<section id="anc_sitfrm_ini">
-				<div class="row" style="margin: 3rem;">
+				<div class="row" style="margin: 2rem 6rem;">
 					<div class="col-md-4">
 						<div style="width: 20rem; height: 20rem; border: 1px solid black;">
 							이미지
 						</div>
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-8" style="align-self: center;">
 						<div class="row">
-							<div>1</div>
-							<div>2</div>
-							<div>3</div>
-							<div>4</div>
-							<div>5</div>
+							<div><input type="text" class="form-control" style="margin-bottom : 1rem;"></div>
+							<div><input type="text" class="form-control" style="margin-bottom : 1rem;"></div>
+							<div><input type="text" class="form-control" style="margin-bottom : 1rem;"></div>
+							<div><input type="text" class="form-control" style="margin-bottom : 1rem;"></div>
+							<div><input type="text" class="form-control" style="margin-bottom : 1rem;"></div>
 						</div>
 					</div>
 					<div class="col-md-12">ccc</div>

@@ -115,28 +115,6 @@
 			$('input[name="is3d"]').focus();
 			return;
 		}
-		
-		
-// 		let images = $('input[name="uploadImg"]');
-// 		for (let image of images) {
-// 			console.log("img");
-// 			if (image.value == "") {
-// 				alert("사진을 선택하세요.");
-// 				image.focus();
-// 				image.click();
-// 				return;
-// 			}
-// 		}
-		
-// 		let videos = $('input[name="uploadVideo"]');
-// 		for (let video of videos) {
-// 			if (video.value == "") {
-// 				alert("동영상을 선택하세요.");
-// 				video.focus();
-// 				video.click();
-// 				return;
-// 			}
-// 		}
 	}
 	
 </script>
