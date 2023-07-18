@@ -9,6 +9,10 @@
 	text-align: left;
 	font-size: 12px;
 }
+h1, h2, h3, h4, h5, h6 {
+	font-size: 1em;
+	font-weight: 600;
+}
 </style>
 <section class="content-header">
 	<div class="breadcrumb">

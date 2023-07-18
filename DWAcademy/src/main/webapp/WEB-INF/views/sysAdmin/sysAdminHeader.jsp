@@ -293,8 +293,8 @@ nav ul {
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">스토어관리 
 					<div class="dropdown-content">
-						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do" class="gnb_1da">1</a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do" class="gnb_1da">2</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminGiftcardMain.do?CategoryIdx=1" class="gnb_1da">기프트카드</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminGiftcardMain.do?CategoryIdx=2" class="gnb_1da">팝콘/스낵/음료</a>
 						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do" class="gnb_1da">3</a>
 						</div>
 					</li>

@@ -83,9 +83,6 @@
     border-bottom: 1px solid #e9e9e9;
     text-align: left;
 }
-.breadcrumb span {
-    font-weight: 400;
-}
 .breadcrumb .ionicons {
     margin: 0 7px 1px;
     vertical-align: middle;
@@ -313,6 +310,9 @@ thead, tfoot {
 	margin-right : 0.5rem;
 	cursor : pointer;
 }
+#boxOffice, #futureOffice {
+	padding : 0.3rem;
+}
 </style>
 
 <div id="wrapper">
@@ -326,10 +326,10 @@ thead, tfoot {
 			<div class="card-header" style="padding-bottom: 0;">
 				<ul class="nav nav-tabs" style="padding-bottom: 0.4rem;">
 				  <li class="nav-item" id="boxOffice" onclick="isFuture('b'); searchList_go(1);">
-				    <span class="">박스오피스</span>
+				    <button class="btn_medium">박스오피스</button>
 				  </li>
 				  <li class="nav-item" id="futureOffice" onclick="isFuture('f'); searchList_go(1);">
-				    <span class="nav-item">상영예정작</span>
+				    <button class="btn_medium">상영예정작</button>
 				  </li>
 				</ul>
 				<div class="float-end">
@@ -341,7 +341,7 @@ thead, tfoot {
 						</select>
 						<input type="hidden" id="keyword" name="keyword" value="${cri.keyword }">
 					</span>
-					<button type="button" class="btn_medium" id="movieRegistFormBtn">등록</button>
+					<button type="button" class="btn_medium" id="movieRegistFormBtn" style="margin: 0.3rem;">&nbsp;&nbsp;등록&nbsp;&nbsp;</button>
 				</div>
 			</div>
 			<div class="card-body">
