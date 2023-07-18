@@ -19,6 +19,10 @@ public interface MemberDAO {
 	// 회원의 마지막 로그인 날짜
 	void updateLastLoginDt(String id) throws SQLException;
 
+	// 회원 코드 가져오기
 	MemberVO selectMemberCode(SnsVO sns) throws SQLException;
+
+	// 회원 체크하기
+	MemberVO CheckMember(String mem_phone) throws SQLException;
 
 }

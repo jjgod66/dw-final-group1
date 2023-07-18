@@ -159,12 +159,14 @@ public class CommonController {
 		System.out.println(email);
 		System.out.println(sns);
 		
+		req.setAttribute("kakaoEmail", email);
+		
 		if(sns == null) {
 			try {
-				entity = new ResponseEntity<>(HttpStatus.OK);
+				entity = new ResponseEntity<MemberVO>(HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
-				entity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}else {
 			MemberVO member = memberService.selectMemberCode(sns);
