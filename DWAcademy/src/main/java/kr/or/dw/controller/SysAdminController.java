@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -24,9 +25,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.support.ResourceRegion;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRange;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -34,7 +39,10 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -355,7 +363,7 @@ public class SysAdminController {
 		// 영화 관련 예고편 수정
 		// 삭제된 파일을 로컬 서버에서 삭제
 			if (modifyReq.getDeleteVideo() != null && modifyReq.getDeleteVideo().length > 0) {
-				for (int pno : modifyReq.getDeleteImg()) {
+				for (int pno : modifyReq.getDeleteVideo()) {
 					String videoName = sysAdminService.selectMovieDelVideoByPno(pno);
 					File deleteFile = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "videos" , videoName);
 					if (deleteFile.exists()) {
@@ -405,9 +413,9 @@ public class SysAdminController {
 		return url;
 	}
 	
-	@RequestMapping("/storeAdminGiftcardMain")
+	@RequestMapping("/storeAdminMain")
 	public ModelAndView storeAdmin(ModelAndView mnv, String CategoryIdx) throws SQLException {
-		String url = "/sysAdmin/storeAdminGiftcardMain";
+		String url = "/sysAdmin/storeAdminMain";
 		
 		List<ProductVO> productList = null;
 		productList = storeService.selectProDiv(CategoryIdx);
@@ -425,6 +433,16 @@ public class SysAdminController {
 		mnv.addObject("productList", productList);
 		mnv.setViewName(url);
 		
+		return mnv;
+	}
+	
+	@RequestMapping("storeAdminDetail")
+	public ModelAndView storeAdminDetail (ModelAndView mnv) {
+		String url = "/sysAdmin/storeAdminDetail";
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "스토어 관리", "상품 상세");
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
 		return mnv;
 	}
 	
@@ -536,12 +554,35 @@ public class SysAdminController {
 		
 		return entity;
 	}
-//	File file = new File(this.moviePicUploadPath + File.separator + "DO202307130025" + File.separator + "videos", "테스트용동영상1.mp4");
-	@GetMapping(path = "/getVideo", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-	public org.springframework.core.io.Resource getVideo() throws FileNotFoundException, IOException {
-	    return new ByteArrayResource(FileCopyUtils.copyToByteArray(new FileInputStream(this.moviePicUploadPath + File.separator + "DO202307130025" + File.separator + "videos" + File.separator + "테스트용동영상1.mp4")));
-	}
+	
+	 @GetMapping(value = "getVideo")
+	    public ResponseEntity<ResourceRegion> getVideo(@RequestHeader HttpHeaders headers, String movie_cd, String movie_pre_path) throws IOException {
+	        logger.info("VideoController.getVideo");
+	        System.out.println("[[[[[" + movie_cd);
+	        System.out.println("@@@" + movie_pre_path);
+	        UrlResource video = new UrlResource("file:"+ this.moviePicUploadPath + File.separator + movie_cd + File.separator + "videos" + File.separator + movie_pre_path);
+	        ResourceRegion resourceRegion;
 
+	        final long chunkSize = 1000000L;
+	        long contentLength = video.contentLength();
+
+	        Optional<HttpRange> optional = headers.getRange().stream().findFirst();
+	        HttpRange httpRange;
+	        if (optional.isPresent()) {
+	            httpRange = optional.get();
+	            long start = httpRange.getRangeStart(contentLength);
+	            long end = httpRange.getRangeEnd(contentLength);
+	            long rangeLength = Long.min(chunkSize, end - start + 1);
+	            resourceRegion = new ResourceRegion(video, start, rangeLength);
+	        } else {
+	            long rangeLength = Long.min(chunkSize, contentLength);
+	            resourceRegion = new ResourceRegion(video, 0, rangeLength);
+	        }
+
+	        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
+	                .contentType(MediaTypeFactory.getMediaType(video).orElse(MediaType.APPLICATION_OCTET_STREAM))
+	                .body(resourceRegion);
+	    }
 }
 
 

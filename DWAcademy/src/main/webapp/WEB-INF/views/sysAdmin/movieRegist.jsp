@@ -317,11 +317,13 @@ table th {
 										<div class="videoInput">
 											<div class="inputVideoRow row">
 												<c:forEach items="${movieVideoList}" var="video">
-													<div class="col-md-6 videoCol">
+													<div class="col-md-6 videoCol alreadyVideo">
 														<input type="file" name="uploadVideo" accept="video/mp4,video/mkv, video/x-m4v,video/*" style="display: inline;">
 														<button class="btn btn-outline-danger btn-sm" type="button" id="cancelAddBtn">X</button>
-<%-- 														<video class="test" style="width: 100%; height: 100%;" controls src='getPicture.do?name=${video.MOVIE_PRE_PATH}&movie_cd=${video.MOVIE_CD}&type=v'></video> --%>
-														<video class="test" style="width: 100%; height: 100%;" controls src='getVideo.do'></video>
+														<video class="vi" style="width: 100%; height: 100%;" controls>
+															<source src='getVideo.do?movie_cd=${video.MOVIE_CD }&movie_pre_path=${video.MOVIE_PRE_PATH}'  type="video/mp4">
+														</video>
+														<input id="videoName" class="form-control" type="hidden" name="imgName" value="${video.MOVIE_PRE_NO }">
 													</div>
 												</c:forEach>
 											</div>

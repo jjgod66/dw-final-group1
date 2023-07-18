@@ -40,18 +40,24 @@ function Attach_action(){
 		let input = $('<input>').attr({"type" : "file", "name" : "uploadVideo", "accept" : "video/mp4,video/mkv, video/x-m4v,video/*"}).css("display", "inline");
 		let videoCol = $('<div>').addClass('col-md-6 videoCol');
 		$('.inputVideoRow').append(videoCol);
-		videoCol.append(input).append("<button class='btn btn-outline-danger btn-sm' type='button' id='cancelAddBtn'>X</button>").append("<video class='test' style='width: 100%; height: 100%;' controls></video>");
+		videoCol.append(input).append("<button class='btn btn-outline-danger btn-sm' type='button' id='cancelAddBtn'>X</button>").append("<video class='vi' style='width: 100%; height: 100%;' controls></video>");
 	});
 	
 	// 동영상 삭제 버튼
 	$('.videoInput').on('click', '#cancelAddBtn',function(){
+		if($(this).closest('div.videoCol').hasClass('alreadyVideo')) {
+			let pno = $(this).siblings('#videoName').val();
+			console.log(pno);
+			let input = $('<input>').attr({
+				'type' : 'hidden',
+				'name' : 'deleteVideo',
+				'value' : pno	
+			  });
+			$('form[role="form"]').prepend(input);
+		}
 		$(this).closest('div.videoCol').remove();
 	});
-	
-	// 동영상 삭제 버튼
-	$('.videoInput').on('click', '#cancelAddBtn',function(){
-		$(this).parent('div.inputRow').remove();
-	});
+
 	
 	// 파일 용량 체크
 	$('.fileInput').on('change', 'input[type="file"]', function(){
@@ -71,21 +77,6 @@ function Attach_action(){
 								'background-size' : 'cover',
 								'background-repeat' : 'no-repeat'
 							});
-	// 수정일때 기본 동영상들
-	
-
-	
-// 	// 수정일 때 기존 관련 이미지 삭제
-// 		let parent = $(this).parent('a[name="attachedFile"]');
-// 		if (!confirm(parent.attr("attach-fileName") + " 파일을 삭제하시겠습니까?")) return false;
-		
-// 		let ano = parent.attr('attach-no');
-// 		$(this).parents('li.attach-item').remove();
-//  		let input = $('<input>').attr({
-// 		'type' : 'hidden',
-// 		'name' : 'deleteFile',
-// 		'value' : 
-// 	  });
 }
 
 
