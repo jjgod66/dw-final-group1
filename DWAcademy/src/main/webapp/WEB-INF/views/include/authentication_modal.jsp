@@ -147,7 +147,6 @@
     margin-bottom: 3vh;
 }
 </style>
-<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
 <div class="modal fade" id="authentication-modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -165,7 +164,7 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">생년월일</label>
-								<input class="input--style-3 js-datepicker" type="text" name="mem_bir">
+								<input class="input--style-3 js-datepicker" type="text" name="mem_bir" readonly>
 						</div>
 					</div>
 				</div>
@@ -173,7 +172,7 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">전화번호</label>
-							<input class="input--style-3" id="phone" type="text" name="mem_phone">
+							<input class="input--style-3" id="phone" type="text">
 						</div>
 						<div>
 							<button type="button" id="sendSMS" class="btn btn--signup" >인증번호 보내기</button>

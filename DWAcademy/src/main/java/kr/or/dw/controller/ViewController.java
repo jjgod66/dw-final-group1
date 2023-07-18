@@ -1,5 +1,8 @@
 package kr.or.dw.controller;
 
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.service.MemberService;
+import kr.or.dw.service.SnsService;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.SnsVO;
 
 @Controller
 public class ViewController {
@@ -18,6 +23,9 @@ public class ViewController {
 	
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private SnsService snsService;
 
 	/*
 	 * 맴버 뷰어 컨트롤러 
@@ -44,10 +52,15 @@ public class ViewController {
 		return url;
 	}
 	@RequestMapping("/member/PrivacyInfo")
-	public String PrivacyInfo() {
+	public String PrivacyInfo(HttpServletRequest req, HttpSession session) throws SQLException {
 		String url = "/member/PrivacyInfo";
+		System.out.println(session.getAttribute("loginUser"));
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		SnsVO sns = new SnsVO();
 		
-		
+		sns = snsService.selectSnsInfo(member);
+		System.out.println(sns);
+		req.setAttribute("sns", sns);
 		
 		return url;
 	}

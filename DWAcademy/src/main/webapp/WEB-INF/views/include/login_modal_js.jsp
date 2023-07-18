@@ -27,9 +27,13 @@ const URLSearch = new URLSearchParams(location.search);
 					url : "<%=request.getContextPath()%>/common/kakaoLogin.do",
 					data : {email : res.kakao_account.email},
 					success : function(res){
-						if(res == ""){
+						console.log(res);
+						if(res.gb == "non_member"){
 							$('#authentication-modal').modal('show');
-						}else{
+							$('input[name="mem_email"]').val(res.mem_email);
+						}else if(res.gb == "noConnect"){
+							alert('연동된 계정이 없습니다! 소셜로그인은 [마이페이지 > 개인정보수정] 에서 연동 후 사용해주세요.');
+						}else {
 							location.reload();
 						}
 					},

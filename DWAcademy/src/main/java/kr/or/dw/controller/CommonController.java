@@ -86,7 +86,6 @@ public class CommonController {
 		System.out.println(req.getParameter("test"));
 		res.setContentType("text/html; charset=utf-8");
 		PrintWriter out = res.getWriter();
-//		req.getSession().setMaxInactiveInterval(10);
 		
 		out.println("<script>");
 		out.println("alert('세션이 만료되었습니다.\\n다시 로그인하세요!')");
@@ -113,7 +112,7 @@ public class CommonController {
     	}
 	
 	@RequestMapping(value="/kakao/callback", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView callback(ModelAndView mnv, @RequestParam String code, HttpSession session) throws SQLException {
+	public ModelAndView callback(ModelAndView mnv, @RequestParam String code, HttpSession session, HttpServletRequest req) throws SQLException {
 		String url = "/member/PrivacyInfo";
 		MemberVO member = (MemberVO) session.getAttribute("loginUser");
 		SnsVO sns = snsService.selectSnsInfo(member);
@@ -132,7 +131,9 @@ public class CommonController {
 		System.out.println("###nickname#### : " + userInfo.get("sns_name"));
 		System.out.println("###email#### : " + userInfo.get("sns_email"));
 		
-		userInfo.put("sns_cd", sns.getMem_cd());
+		if(sns != null) {
+			userInfo.put("sns_cd", sns.getMem_cd());
+		}
 		userInfo.put("access_Token", access_Token);
 		userInfo.put("refresh_Token", refresh_Token);
 		userInfo.put("mem_cd", member.getMem_cd());
@@ -144,6 +145,8 @@ public class CommonController {
 		
 		snsService.insertSocal(userInfo);
 		
+//		req.setAttribute("userInfo", userInfo);
+
 		mnv.addObject("userInfo", userInfo);
 		mnv.setViewName(url);
 		
@@ -151,24 +154,44 @@ public class CommonController {
 	}
 	
 	@RequestMapping("/common/kakaoLogin")
-	public ResponseEntity<MemberVO>kakaoLogin(String email, HttpServletRequest req, HttpSession session) throws SQLException {
+	public ResponseEntity<MemberVO>kakaoLogin(String email, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws SQLException {
 		ResponseEntity<MemberVO> entity = null;
 		
-		
 		SnsVO sns = snsService.selectByMemberCode(email);
-		System.out.println(email);
-		System.out.println(sns);
+		MemberVO memberChk = memberService.CheckMemberEmail(email);
+		System.out.println("email : " + email);
+		System.out.println("sns : " + sns);
+		System.out.println("memberChk : " + memberChk.getMem_email());
+		MemberVO sns_email = new MemberVO();
 		
-		req.setAttribute("kakaoEmail", email);
+		sns_email.setMem_email(email);
 		
-		if(sns == null) {
+		System.out.println(sns_email);
+		
+		
+		if(memberChk.getMem_email() == null) {
+			sns_email.setGb("non_member");
+			System.out.println('1');
 			try {
-				entity = new ResponseEntity<MemberVO>(HttpStatus.OK);
+				entity = new ResponseEntity<MemberVO>(sns_email, HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
 				entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-		}else {
+		}else if(sns == null) {
+			sns_email.setGb("noConnect");
+			System.out.println('2');
+			
+			try {
+				entity = new ResponseEntity<MemberVO>(sns_email, HttpStatus.OK);
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+		}else if(memberChk != null && sns != null){
+			System.out.println('3');
+			sns_email.setGb("member");
 			MemberVO member = memberService.selectMemberCode(sns);
 			System.out.println(member);
 			
@@ -178,7 +201,7 @@ public class CommonController {
 				entity = new ResponseEntity<MemberVO>(member, HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
-				entity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+				entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 		}
 		return entity;

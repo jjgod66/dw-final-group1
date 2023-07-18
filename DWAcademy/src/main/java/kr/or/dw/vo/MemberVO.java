@@ -32,4 +32,5 @@ public class MemberVO {
 	private Date stopdate;
 	private String gb_sleep;
 	private Date lastlogindate;
+	private String gb;
 }

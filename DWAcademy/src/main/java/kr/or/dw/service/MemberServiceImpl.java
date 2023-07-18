@@ -33,4 +33,9 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.CheckMember(mem_phone);
 	}
 
+	@Override
+	public MemberVO CheckMemberEmail(String email) throws SQLException {
+		return memberDAO.CheckMemberEmail(email);
+	}
+
 }
