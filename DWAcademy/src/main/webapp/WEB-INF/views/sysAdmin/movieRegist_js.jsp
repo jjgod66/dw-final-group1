@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <script>
-console.log('${movieVideoList}');
 	// 상영종료일  제한
 	let nowDate = Date.now();
 	let timeOff = new Date().getTimezoneOffset()*60000;

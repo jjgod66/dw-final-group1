@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -21,21 +22,31 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import kr.or.dw.command.MovieModifyCommand;
 import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.service.StoreService;
 import kr.or.dw.service.SysAdminService;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.TheaterVO;
 
 @Controller
@@ -46,6 +57,9 @@ public class SysAdminController {
 	
 	@Autowired
 	private SysAdminService sysAdminService;
+	
+	@Autowired
+	private StoreService storeService;
 	
 	@Resource(name ="moviePicUploadPath")
 	private String moviePicUploadPath;
@@ -267,7 +281,7 @@ public class SysAdminController {
 		PrintWriter out = res.getWriter();
 		out.println("<script>");
 		out.println("alert('영화 등록이 완료되었습니다.')");
-		out.println("location.href='theaterAdminMain.do';");
+		out.println("location.href='movieAdminMain.do';");
 		out.println("</script>");
 		out.flush();
 		out.close();
@@ -315,21 +329,26 @@ public class SysAdminController {
 		}
 		// 관련 이미지파일 이름 DB에 저장
 		List<String> movie_pics = new ArrayList<>();
+		
 		for ( MultipartFile pic : modifyReq.getUploadImg()) {
-			movie_pics.add(pic.getOriginalFilename());
+			if (pic != null && pic.getOriginalFilename() != "") {
+				movie_pics.add(pic.getOriginalFilename());
+			}
 		}
 		sysAdminService.registMoviePic(movie_pics, movie_cd);
 		// 관련 이미지파일 로컬에 저장
 		if (modifyReq.getUploadImg() != null) {
 			for (MultipartFile multi : modifyReq.getUploadImg()) {
-				String imgName = multi.getOriginalFilename();
-				File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "pictures", imgName);
-				
-				if (!target.exists()) {
-					target.mkdirs();
+				if (multi != null && multi.getOriginalFilename() != "") {
+					String imgName = multi.getOriginalFilename();
+					File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "pictures", imgName);
+					
+					if (!target.exists()) {
+						target.mkdirs();
+					}
+					
+					multi.transferTo(target);
 				}
-				
-				multi.transferTo(target);
 			}
 		}
 		
@@ -348,22 +367,36 @@ public class SysAdminController {
 			// 관련 예고편파일 이름 DB에 저장
 			List<String> movie_videos = new ArrayList<>();
 			for ( MultipartFile video : modifyReq.getUploadVideo()) {
-				movie_videos.add(video.getOriginalFilename());
+				if (video != null && video.getOriginalFilename() != "") {
+					movie_videos.add(video.getOriginalFilename());
+				}
 			}
-			sysAdminService.registMoviePre(movie_pics, movie_cd);
+			sysAdminService.registMoviePre(movie_videos, movie_cd);
 			// 관련 예고편파일 로컬에 저장
 			if (modifyReq.getUploadVideo() != null) {
 				for (MultipartFile multi : modifyReq.getUploadVideo()) {
-					String videoName = multi.getOriginalFilename();
-					File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "videos", videoName);
-					
-					if (!target.exists()) {
-						target.mkdirs();
+					if (multi != null && multi.getOriginalFilename() != "") {
+						String videoName = multi.getOriginalFilename();
+						File target = new File(moviePicUploadPath  + File.separator + movie_cd + File.separator + "videos", videoName);
+						
+						if (!target.exists()) {
+							target.mkdirs();
+						}
+						
+						multi.transferTo(target);
 					}
-					
-					multi.transferTo(target);
 				}
 			}
+			
+			res.setContentType("text/html; charset=utf-8");
+			PrintWriter out = res.getWriter();
+			out.println("<script>");
+			out.println("alert('영화 수정이 완료되었습니다.')");
+			out.println("location.href='movieAdminMain.do';");
+			out.println("</script>");
+			out.flush();
+			out.close();
+			
 	}
 	
 	@GetMapping("/supportAdminMain")
@@ -372,15 +405,45 @@ public class SysAdminController {
 		return url;
 	}
 	
+	@RequestMapping("/storeAdminGiftcardMain")
+	public ModelAndView storeAdmin(ModelAndView mnv, String CategoryIdx) throws SQLException {
+		String url = "/sysAdmin/storeAdminGiftcardMain";
+		
+		List<ProductVO> productList = null;
+		productList = storeService.selectProDiv(CategoryIdx);
+		System.out.println(CategoryIdx);
+		Map<String, Object> subjectMap = null;
+		String item2 = "";
+		if (CategoryIdx.equals("1")) {
+			item2 = "기프트카드 목록";
+			subjectMap = addSubject("HOME", "스토어 관리", item2);
+		} else if (CategoryIdx.equals("2")) {
+			item2 = "팝콘/음료/굿즈 목록";
+			subjectMap = addSubject("HOME", "스토어 관리", item2);
+		}
+		mnv.addAllObjects(subjectMap);
+		mnv.addObject("productList", productList);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("storeAdminProductRegist")
+	public ModelAndView storeAdminProductRegist(ModelAndView mnv) {
+		String url = "/sysAdmin/storeAdminProductRegist";
+		
+		
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "스토어 관리", "상품 등록");
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
+		
+	}
+	
 	@GetMapping("/eventAdminMain")
 	public String eventAdmin() {
 		String url = "/sysAdmin/eventAdminMain";
-		return url;
-	}
-	
-	@GetMapping("/storeAdminMain")
-	public String storeAdmin() {
-		String url = "/sysAdmin/storeAdminMain";
 		return url;
 	}
 	
@@ -473,6 +536,12 @@ public class SysAdminController {
 		
 		return entity;
 	}
+//	File file = new File(this.moviePicUploadPath + File.separator + "DO202307130025" + File.separator + "videos", "테스트용동영상1.mp4");
+	@GetMapping(path = "/getVideo", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public org.springframework.core.io.Resource getVideo() throws FileNotFoundException, IOException {
+	    return new ByteArrayResource(FileCopyUtils.copyToByteArray(new FileInputStream(this.moviePicUploadPath + File.separator + "DO202307130025" + File.separator + "videos" + File.separator + "테스트용동영상1.mp4")));
+	}
+
 }
 
 
