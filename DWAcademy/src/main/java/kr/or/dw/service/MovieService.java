@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import kr.or.dw.command.MovieViewerCommand;
 import kr.or.dw.vo.ReviewVO;
 
@@ -99,6 +101,51 @@ public interface MovieService {
 	 * @return
 	 * @throws SQLException
 	 */
-	List<ReviewVO> getMovieReview3(String movie_cd) throws SQLException;
+	List<Map<String, Object>> getMovieReview3(String movie_cd, HttpSession session) throws SQLException;
+
+	/**
+	 * 리뷰 좋아요 누르는 메서드
+	 * @param review_no
+	 * @param mem_cd
+	 */
+	void reviewLike(String review_no, String mem_cd) throws SQLException;
+	
+	/**
+	 * 리뷰 좋아요 취소하는 메서드
+	 * @param review_no
+	 * @param mem_cd
+	 */
+	void reviewLikeDel(String review_no, String mem_cd) throws SQLException;
+
+	/**
+	 * 영화 리뷰 신고하는 메서드
+	 * @param review_no
+	 * @param mem_cd
+	 * @return 
+	 */
+	String reviewReport(int review_no, String mem_cd) throws SQLException;
+
+	/**
+	 * 리뷰 수정하는 메서드
+	 * @param review
+	 */
+	void updateReview(ReviewVO review) throws SQLException;
+
+	/**
+	 * 회원 선호 장르 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<String> getMemLikeGenre(String mem_cd) throws SQLException;
+
+	/**
+	 * 회원 선호 장르에 따른 영화 리스트 가져오는 메서드
+	 * @param searchType
+	 * @param keyword
+	 * @param memLikeGenreList
+	 * @return
+	 */
+	List<Map<String, Object>> searchLikeGenreMovieList(String searchType, String keyword,
+			List<String> memLikeGenreList) throws SQLException;
 
 }

@@ -6,6 +6,17 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/payment.css">
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>  
+<%@ include file="coupon_modal.jsp" %>
+
+<style>
+.couponbtn:hover{
+	background-color: #F2F2F2;
+}
+
+#couponCanBtn:hover{
+ cursor: pointer;
+}
+</style>
 
 <%
 if(session.getAttribute("loginUser") == null){
@@ -66,6 +77,16 @@ if(session.getAttribute("loginUser") != null){
 				<div class="group_discount">
 					<h3 class="tit_payment">쿠폰</h3>
 					<div class="tab_wrap">
+						<div id="couponInfo" style="display: none; color: gray; padding: 10px;">
+							<div id="couponname" style="text-decoration: underline;">
+							</div>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<div id="coupondis">
+							</div>
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+							<span style="color: red;" id="couponCanBtn">X</span>
+						</div>
+						<button class="btn couponbtn" style="border: 1px solid #bbb; margin: 5px;">쿠폰조회</button>
 					</div>
 				</div>
 				<div class="group_discount">
@@ -73,10 +94,10 @@ if(session.getAttribute("loginUser") != null){
 					<div class="tab_wrap">
 						<div class="inner_con2">
 							<dt><label class="noneInput">보유 포인트</label></dt>
-							<dd class="amtValue"><span class="hasPoint">500000</span>원</dd>
+							<dd class="amtValue"><span class="hasPoint">0</span>원</dd>
 							
 							<dt class="secondTit"><label for="cjOnePointipt">사용할 포인트</label></dt>
-							<dd><input class="textBox2" type="text" id="cjOnePointipt" value="0">원</dd>
+							<dd><input class="textBox2" type="text" id="cjOnePointipt" value="0" style="width: 100px;">원</dd>
 				
 							<dt class="secondTit"><input type="checkbox" class="form-check-input"  id="cjOnePointchk"></dt>
 							<dd><label for="cjOnePointchk">모두사용</label></dd>
@@ -117,11 +138,11 @@ if(session.getAttribute("loginUser") != null){
 					</div>
 					<span>할인 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow">0</h2> <span>원</span>
+						<h2 class="mb-0 yellow" id="disprice">0</h2> <span>원</span>
 					</div>
 					<span>결제 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow totalPrice"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow totalPrice" id="totalpp"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<button class="btn btn-success px-3" id="credit" onclick="requestPay();">결제하기</button>
 				</div>
@@ -153,13 +174,14 @@ IMP.init("imp04352208");
 //결제화면 띄우는 메서드
 let pay_info = null;
 function requestPay() { 
+	console.log($('#totalpp').text());
 	let totalPrice = $('.totalPrice').text();
 	let method = $('input[name="payMethod"]:checked').prop('id');
 	let movie_name = '${mapData.MOVIE_NAME}';
 	let buyer_name = '<%=member.getMem_name()%>';
 	let buyer_tel = '<%=member.getMem_phone()%>';
 	let buyer_email = '<%=member.getMem_email()%>';
-	let price = '${moviePayment.totalPrice }';
+	let price = ($('#totalpp').text()).replace(',', '');
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
@@ -187,6 +209,18 @@ function requestPay() {
 
 $(function(){
 	$('#credit').on('click', function(){
+		
+	})
+	
+	$('.couponbtn').on('click', function(){
+		$('#coupon-modal').modal("show");
+	})
+	
+	$('#couponCanBtn').on('click', function(){
+		$('#couponInfo').css('display', 'none');
+		$('.couponbtn').css('display', '');
+		$('#disprice').text(0);
+		$('#totalpp').text((${moviePayment.totalPrice }).toLocaleString());
 		
 	})
 })

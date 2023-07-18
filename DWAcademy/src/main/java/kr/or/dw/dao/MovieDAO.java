@@ -179,6 +179,59 @@ public interface MovieDAO {
 	 * @return
 	 * @throws SQLException
 	 */
-	List<ReviewVO> selectReview3(String movie_cd) throws SQLException;
+	List<Map<String, Object>> selectReview3(String movie_cd) throws SQLException;
+
+	/**
+	 * 리뷰 종아요 누르는 메서드
+	 * @param param
+	 */
+	void insertReviewLike(Map<String, String> param) throws SQLException;
+
+	/**
+	 * 리뷰 좋아요 취소하는 메서드
+	 * @param param
+	 */
+	void deleteReviewLike(Map<String, String> param) throws SQLException;
+
+	/**
+	 * 회원이 해당 리뷰에 좋아요를 남겼는지 안남겼는지 확인하는 메서드
+	 * @param param
+	 * @return
+	 */
+	int selectReviewLikeYN(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 회원이 영화리뷰를 신고했는지 안했는지 확인하는 메서드
+	 * @param param
+	 * @return
+	 */
+	int reviewReportYN(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 영화리뷰 신고하는 메서드
+	 * @param param
+	 */
+	void insertReviewReport(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 영화리뷰 수정하는 메서드
+	 * @param review
+	 * @throws SQLException
+	 */
+	void updateReview(ReviewVO review) throws SQLException;
+
+	/**
+	 * 회원 선호 장르 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<String> selectMemLikeGenre(String mem_cd) throws SQLException;
+
+	/**
+	 * 회원 선호 장르에 해당하는 영화 목록 가져오는 메서드
+	 * @param param
+	 * @return
+	 */
+	List<Map<String, Object>> selectLikeGenreMovie(Map<String, String> param) throws SQLException;
 
 }

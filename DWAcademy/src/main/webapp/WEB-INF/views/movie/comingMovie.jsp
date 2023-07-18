@@ -116,10 +116,10 @@ select {
 		<div style="width: 90%; margin: 0 auto;">
 		<div class="tab-list fixed">
 			<ul class="nav nav-tabs" role="tablist">
-				<li class="nav-item" data-bs-toggle="tab" aria-selected="false" role="tab"><a href="/movie/allMovie.do">전체</a></li>
-				<li class="nav-item" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab"><a href="/movie/screenMovie.do">현재상영</a></li>
-				<li class="nav-item active" data-bs-toggle="tab" aria-selected="true" tabindex="-1" role="tab"><a href="/movie/comingMovie.do">상영예정</a></li>
-				<li class="nav-item" id="like" style="display: none;" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab"><a href="/movie/likeGenreMovie.do">선호장르</a></li>
+				<li class="nav-item"><a href="/movie/allMovie.do">전체</a></li>
+				<li class="nav-item"><a href="/movie/screenMovie.do">현재상영</a></li>
+				<li class="nav-item active"><a href="/movie/comingMovie.do">상영예정</a></li>
+				<li class="nav-item" id="like" style="display: none;"><a href="/movie/likeGenreMovie.do">선호장르</a></li>
 			</ul>
 		</div>
 <!-- 			<ul style="margin: 30px 10px 0px 10px;"> -->
@@ -160,7 +160,7 @@ select {
 	</div>
 	<div class="movie_container" style="width: 1300px; margin: 0 auto; display: flex;">
 		<div class="row" style="width: 90%; margin: 0 auto;">
-			<c:forEach items="#{movieList }" var="movie">
+			<c:forEach items="${movieList }" var="movie">
 				<div class="movie col-3" style="padding: 30px 20px 30px 20px;">	
 				 <div class="item_poster">
 				        <div class="thumb_item">

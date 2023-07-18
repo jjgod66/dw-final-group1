@@ -3,31 +3,36 @@
 <mapper namespace="kr.or.dw.dao.MovieDAO">
 
 	<select id="selectBoxOfficeMovie10" resultType="Map">
-		SELECT movie_cd, movie_name, movie_info, movie_director, movie_actor, movie_grade, movie_length, movie_mainpic_path, opendate, enddate, nvl(reservers, 0) reservers
+		SELECT *
 		FROM (
-			SELECT m.*, nvl(reserve, 0) reserve, reservers
+			SELECT m2.movie_cd movie_cd, reservers, movie_name, movie_grade, movie_length, movie_mainpic_path, opendate
 			FROM (
-				SELECT nvl(sum(reserve), 0) reserve, nvl(sum(reservers), 0) reservers, movie_cd
+				SELECT m.movie_cd, nvl(sum(reserve), 0) reserve, nvl(sum(reservers), 0) reservers
 				FROM (
-					SELECT sr2.screen_cd screen_cd, nvl(reserver, 0) reserve, nvl(all_reserver, 0) reservers 
+					SELECT s.*, reserve, reservers
 					FROM (
-							SELECT count(*) reserver, screen_cd
-							FROM reservation r
-							WHERE TO_CHAR(resdate, 'YYYYMMDD') =  TO_CHAR(sysdate - 1, 'YYYYMMDD') 
-							AND gb_cancel = 'N'
-							GROUP BY screen_cd
-						) sr, (
-							SELECT count(*) all_reserver, screen_cd
-							FROM reservation r
-							WHERE gb_cancel = 'N'
-							GROUP BY screen_cd
-						) sr2
-					WHERE sr.screen_cd(+) = sr2.screen_cd
-					) re, screen s
-				WHERE re.screen_cd(+) = s.screen_cd
-				GROUP BY movie_cd
-				) res, movie m
-			WHERE res.movie_cd(+) = m.movie_cd
+						SELECT count(*) reserve, screen_cd
+						FROM reservation
+						WHERE TO_CHAR(resdate, 'YYYYMMDD') =  TO_CHAR(sysdate - 1, 'YYYYMMDD') 
+						AND gb_cancel = 'N'
+						GROUP BY screen_cd
+						) r, 
+						(
+						SELECT count(*) reservers, r.screen_cd
+						FROM reservation r, screen s
+						WHERE r.screen_cd = s.screen_cd
+						AND gb_cancel = 'N'
+						AND startdate <![CDATA[<]]> sysdate
+						GROUP BY r.screen_cd
+						) r2, screen s
+					WHERE r.screen_cd(+) = s.screen_cd
+					AND s.screen_cd = r2.screen_cd(+)
+					) s, movie m
+				WHERE s.movie_cd(+) = m.movie_cd
+				GROUP BY m.movie_cd
+				) m1, movie m2
+			WHERE m1.movie_cd = m2.movie_cd
+			AND enddate > SYSDATE
 			ORDER BY reserve DESC NULLS LAST
 			)
 		WHERE rownum <![CDATA[<=]]> 10
@@ -182,6 +187,49 @@
 		</if>
 	</select>
 	
+	<select id="selectLikeGenreMovie" resultType="Map">
+		SELECT mcd.movie_cd, nvl(reserve, 0) reserve, movie_name, movie_grade, movie_length, movie_mainpic_path, opendate
+		FROM (
+			SELECT movie_cd, nvl(sum(reserve), 0) reserve
+			FROM (
+				SELECT count(*) reserve, screen_cd
+				FROM reservation
+				WHERE TO_CHAR(resdate, 'YYYYMMDD') =  TO_CHAR(sysdate - 1, 'YYYYMMDD') 
+				AND gb_cancel = 'N'
+				GROUP BY screen_cd
+				) r, screen s
+			WHERE r.screen_cd(+) = s.screen_cd
+			GROUP BY movie_cd
+			) res,
+			(
+			SELECT m.movie_cd
+			FROM genre_c gc, movie m
+			WHERE gc.movie_cd = m.movie_cd
+			AND (genre_cd = #{likegenre1}
+			<if test="likegenre2!=null and !likegenre2.equals('')">
+				OR genre_cd = #{likegenre2}
+			</if>
+			<if test="likegenre3!=null and !likegenre3.equals('')">
+				OR genre_cd = #{likegenre3}
+			</if>
+			)
+			GROUP BY m.movie_cd
+			) mcd, movie m
+		WHERE res.movie_cd(+) = mcd.movie_cd	
+		AND m.movie_cd = mcd.movie_cd
+		AND enddate <![CDATA[>]]> SYSDATE
+		AND movie_name like '%' || #{keyword} || '%'
+		<if test="searchType == 'reserve'.toString()">
+			ORDER BY reserve DESC NULLS last
+		</if>
+		<if test="searchType == 'movie_name'.toString()">
+			ORDER BY movie_name
+		</if>
+		<if test="searchType == 'opendate'.toString()">
+			ORDER BY opendate
+		</if>
+	</select>
+	
 	<select id="selectMovieLikeExist" resultType="int">
 		SELECT COUNT(*)
 		FROM movie_like
@@ -247,11 +295,56 @@
 		VALUES (review_seq.nextval, #{mem_cd}, #{movie_cd}, #{review_rating}, #{review_content}, sysdate, 'N')
 	</insert>
 	
-	<select id="selectReview3" resultType="review">
-		SELECT *
-		FROM review
-		WHERE gb_del = 'N'
+	<select id="selectReview3" resultType="Map">
+		SELECT r.*, nvl(reviewlike, 0) reviewlike, mem_id, mem_pic_path
+		FROM (
+			SELECT count(*) reviewlike, review_no
+			FROM review_like
+			GROUP BY review_no
+			)rl, review r, MEMBER m
+		WHERE rl.review_no(+) = r.review_no
+		AND r.mem_cd = m.mem_cd
+		AND r.gb_del = 'N'
 		AND movie_cd = #{movie_cd}
 		AND rownum <![CDATA[<=]]> 3
+	</select>
+	
+	<insert id="insertReviewLike">
+		INSERT INTO review_like (review_no, mem_cd) VALUES(#{review_no}, #{mem_cd})
+	</insert>
+	
+	<delete id="deleteReviewLike">
+		DELETE review_like 
+		WHERE review_no = #{review_no}
+		AND mem_cd = #{mem_cd}
+	</delete>
+	
+	<select id="selectReviewLikeYN" resultType="int">
+		SELECT COUNT(*)
+		FROM review_like
+		WHERE mem_cd = #{mem_cd}
+		AND review_no = #{review_no}
+	</select>
+	
+	<select id="reviewReportYN" resultType="int">
+		SELECT COUNT(*)
+		FROM review_report
+		WHERE review_no = #{review_no}
+		AND mem_cd = #{mem_cd}
+	</select>
+	
+	<insert id="insertReviewReport">
+		INSERT INTO review_report (review_no, mem_cd) VALUES(#{review_no}, #{mem_cd})
+	</insert>
+	
+	<update id="updateReview">
+		UPDATE review SET review_content = #{review_content}, review_rating = #{review_rating}, updatedate = sysdate
+		WHERE review_no = #{review_no}
+	</update>
+	
+	<select id="selectMemLikeGenre" resultType="str">
+		SELECT genre_cd
+		FROM mem_like_genre
+		where mem_cd = #{mem_cd}
 	</select>
 </mapper>

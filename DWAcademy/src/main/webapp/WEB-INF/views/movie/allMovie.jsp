@@ -116,10 +116,10 @@ select {
 		<div style="width: 90%; margin: 0 auto;">
 		<div class="tab-list fixed">
 			<ul class="nav nav-tabs" role="tablist">
-				<li class="nav-item active" data-bs-toggle="tab" aria-selected="true" role="tab"><a href="/movie/allMovie.do">전체</a></li>
-				<li class="nav-item" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab"><a href="/movie/screenMovie.do">현재상영</a></li>
-				<li class="nav-item" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab"><a href="/movie/comingMovie.do">상영예정</a></li>
-				<li class="nav-item" id="like" style="display: none;" data-bs-toggle="tab" aria-selected="false" tabindex="-1" role="tab"><a href="/movie/likeGenreMovie.do">선호장르</a></li>
+				<li class="nav-item active"><a href="/movie/allMovie.do">전체</a></li>
+				<li class="nav-item"><a href="/movie/screenMovie.do">현재상영</a></li>
+				<li class="nav-item"><a href="/movie/comingMovie.do">상영예정</a></li>
+				<li class="nav-item" id="like" style="display: none;"><a href="/movie/likeGenreMovie.do">선호장르</a></li>
 			</ul>
 		</div>
 <!-- 			<ul style="margin: 30px 10px 0px 10px;"> -->
@@ -160,7 +160,7 @@ select {
 	</div>
 	<div class="movie_container" style="width: 1300px; margin: 0 auto; display: flex;">
 		<div class="row" style="width: 90%; margin: 0 auto;">
-			<c:forEach items="#{movieList }" var="movie">
+			<c:forEach items="${movieList }" var="movie">
 				<div class="movie col-3" style="padding: 30px 20px 30px 20px;">	
 				 <div class="item_poster">
 				        <div class="thumb_item">
@@ -183,7 +183,7 @@ select {
 				            </strong>
 				            <span class="txt_append">
 				                <span class="info_txt">상영시간<span class="txt_grade">${movie.MOVIE_LENGTH}</span>분</span>
-				                <span class="info_txt">예매율<span class="txt_num">${movie.RESERVE == 0 ? 0 : movie.RESERVE / movie.all_reserver}</span>%</span>
+				                <span class="info_txt">예매율<span class="txt_num">${movie.RESERVE == 0 ? 0 : movie.RESERVE / movie.all_reserver * 100}</span>%</span>
 				            </span>
 				            <span class="txt_info">
 					                                        개봉일<span class="txt_num"><fmt:formatDate value="${movie.OPENDATE}" pattern="yyyy-MM-dd"/></span>
