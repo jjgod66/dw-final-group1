@@ -36,4 +36,10 @@
 		  FROM member
 		 WHERE mem_cd = #{mem_cd}
 	</select>
+	
+	<select id="CheckMember" resultType="member">
+		SELECT *
+		  FROM member
+		 WHERE mem_phone = #{mem_phone}
+	</select>
 </mapper>

@@ -28,4 +28,9 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.selectMemberCode(sns);
 	}
 
+	@Override
+	public MemberVO CheckMember(String mem_phone) throws SQLException {
+		return memberDAO.CheckMember(mem_phone);
+	}
+
 }

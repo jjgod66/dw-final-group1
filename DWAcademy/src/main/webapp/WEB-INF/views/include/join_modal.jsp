@@ -205,7 +205,7 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">이메일</label>
-							<input class="input--style-3" type="email" name="mem_email">
+							<input class="input--style-3" type="email" name="mem_email" value=${kakaoEmail}>
 							<div><span id="result_emailCheck" style="font-size:12px;"></span></div>
 						</div>
 					</div>

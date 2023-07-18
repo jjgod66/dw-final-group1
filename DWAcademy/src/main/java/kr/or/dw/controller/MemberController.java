@@ -2,6 +2,7 @@ package kr.or.dw.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,9 +65,21 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/CheckMember")
-	public String CheckMember(String SMSCheckInput) {
-		System.out.println(SMSCheckInput);
-		return null;
+	public ResponseEntity<MemberVO> CheckMember(String mem_phone) throws SQLException {
+		ResponseEntity<MemberVO> entity = null;
+		System.out.println(mem_phone);
+		
+		MemberVO member = memberService.CheckMember(mem_phone);
+		System.out.println(member);
+		
+		try {
+			entity = new ResponseEntity<MemberVO>(member, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
 	}
 	
 	

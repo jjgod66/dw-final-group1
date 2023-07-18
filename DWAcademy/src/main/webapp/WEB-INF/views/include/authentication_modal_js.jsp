@@ -20,6 +20,7 @@ $('#sendSMS').on('click', function(){
 		method : 'post',
 		data : {"phone" : phone},
 		success : function(res){
+			alert('메세지를 성공적으로 보냈습니다!')
 			console.log(res);
 			checkNum = res;
 		},
@@ -30,17 +31,21 @@ $('#sendSMS').on('click', function(){
 })
 $('#SMSCheck').on('click', function(){
 	let SMSCheckInput = $('#SMSCheckInput').val();
+	let mem_phone = $('#phone').val();
 	let target = document.getElementById('joinFormGo');
-	
 	$.ajax({
 		method : "post",
 		url : "<%=request.getContextPath()%>/member/CheckMember.do",
-		data : {SMSCheckInput : SMSCheckInput},
+		data : {mem_phone : mem_phone},
 		success : function(res){
-			
+			if(res != null || res != ""){
+				alert('이미 가입된 회원입니다! 소셜로그인은 [마이페이지 > 개인정보수정] 에서 연동 후 사용해주세요.');
+				$('#authentication-modal').modal('hide');
+				
+			}
 		},
 		error : function(err){
-			
+			alert(err.status);
 		}
 	})
 	
@@ -59,6 +64,7 @@ $('#SMSCheck').on('click', function(){
 		target.disabled = true;
 	}
 })
+
 
 
 
