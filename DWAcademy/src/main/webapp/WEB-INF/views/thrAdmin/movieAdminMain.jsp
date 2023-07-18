@@ -8,154 +8,242 @@
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
     <title>Movie Schedule</title>
     <style>
-    	table {
+    
+    .table {
+         /* width: -webkit-fill-available; */
+         border-collapse: collapse;
+         text-align: center;
+    }
+    .table:after {
+    	display: block;
+    	content: "";
+    	clear: both;
     	
-      border-collapse: collapse;
-      text-align: center;
     }
-    th {
-    
-      width: 50px;
-      height: 50px;
+    ul {
+      list-style: none;
+      margin : 0;
+      padding : 0;
       border: 1px solid black;
     }
-    tr {
-    margin : 0;
-    	padding : 0;
-      width: 50px;
-      height: 50px;
-      border: 1px solid black;
+    li {
+        float: left;
+   		margin : 0;
+    	padding : 4px;
+    	width: 50px;
+	    height: 50px;
+	    border: 1px solid black; 
     }
-    td {
-    margin : 0;
-    	padding : 0;
-   	  width: 80px;
-      height: 30px;
-      border: 1px solid black;
-      /* padding: 30px; */
+    ul#timeTable li {
+    	width: 8px;
+    	padding: 4px 0;
     }
-    
-        .cell {
-        margin : 0;
-    	padding : 0;
-            display: inherit;
-            width: 10px;
-            height: 30px;
-             position: relative;
-            text-align: center;
+    ul#timeTable li.room {
+    	width: 50px;
+    	padding: 4px;
+    }
+    ul#timeTable li.red {
+    	background-color: red;
+    	border-left: 0;
+    	border-right: 0;
+    	width: 10px;
+    }
+    ul#timeTable li.red:first-child {
+    	border-right: 0;
+    	width: 9px;
+    }
+       .cell {
             font-size: 12px;
         }
+        .addcell {
+        	width: calc(100% - 1297px) !important;
+        }
     </style>
-	<table>
-		<tr>
-			<c:forEach items="${allScreenList }" var="movie">
-				<td>${movie.movie_name}</td>
-			</c:forEach>
-		</tr>
-		<tr>
-			<c:forEach items="${allScreenList }" var="movie">
-				<td>${movie.movie_length} 분</td>
-			</c:forEach>
-		</tr>
-		<tr>
-			<c:forEach items="${allStart }" var="start">
-				<td>${start.startdate}</td>
-			</c:forEach>
-		</tr>
-		<tr>
-			<c:forEach items="${allRe }" var="Re">
-				<td>${Re.RE}</td>
-			</c:forEach>
-		</tr>
-		<tr>
-			<c:forEach items="${allRe }" var="Re">
-				<td>${Re.SCREEN_CD}</td>
-			</c:forEach>
-		</tr>
-		<tr>
-			<c:forEach items="${allRe }" var="Re">
-				<td>${Re.THR_NAME}</td>
-			</c:forEach>
-		</tr>
-		<tr>
-			<c:forEach items="${allRe }" var="Re">
-				<td>${Re.STARTTIME}</td>
-			</c:forEach>
-		</tr>
-		<tr>
-			<c:forEach items="${allRe }" var="Re">
-				<td>${Re.ENDTIME}</td>
-			</c:forEach>
-		</tr>
-	</table>
-    
-    <br>
-    
-    <table>
-    <tr>
-    	<th>시간</th>
-    	<td>07시</td>
-    	<td>08시</td>
-    	<td>09시</td>
-    	<td>10시</td>
-    	<td>11시</td>
-    	<td>12시</td>
-    	<td>13시</td>
-    	<td>14시</td>
-    	<td>15시</td>
-    	<td>16시</td>
-    	<td>17시</td>
-    	<td>18시</td>
-    	<td>19시</td>
-    	<td>20시</td>
-    	<td>21시</td>
-    	<td>22시</td>
-    	<td>23시</td>
-    	<td>00시</td>
-    	<td>01시</td>
-    	<td>02시</td>
-    </tr>
-	<tr>
-		<th>1관</th>
-		<td colspan="21" id="timeWrap">
-		      
-    	</td>
-	</tr>
-  </table>
+
+    <div class="table">
+    <ul>
+    	<li>시간</li>
+    	<li>07시</li>
+    	<li>08시</li>
+    	<li>09시</li>
+    	<li>10시</li>
+    	<li>11시</li>
+    	<li>12시</li>
+    	<li>13시</li>
+    	<li>14시</li>
+    	<li>15시</li>
+    	<li>16시</li>
+    	<li>17시</li>
+    	<li>18시</li>
+    	<li>19시</li>
+    	<li>20시</li>
+    	<li>21시</li>
+    	<li>22시</li>
+    	<li>23시</li>
+    	<li>00시</li>
+    	<li>01시</li>
+    	<li>02시</li>
+    </ul>
+    </div>
+    <div class="table">
+	<ul id="timeTable">
+		<li class="room">1관</li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+  </div>
     
    <script>
    window.onload = function() {
-	   
-	   // 데이터베이스에서 영화 시작 시간과 종료 시간을 가져옵니다.
-	   
-	   /* let list = new Array(); */
 	   let list = ${allRe};
-	   for(let a = 0; a<2; a++){
-		   var startTime = list[a].STARTTIME; // 예시: "08:00"
-		   var endTime = list[a].ENDTIME; // 예시: "09:49"
-	   // 영화 시작 시간과 종료 시간에서 시간과 분을 추출합니다.
-	   var startHour = parseInt(startTime.substring(0, 2));
-	   var startMinute = parseInt(startTime.substring(3, 5));
-	   var endHour = parseInt(endTime.substring(0, 2));
-	   var endMinute = parseInt(endTime.substring(3, 5));
-		
-	   // timeWrap 요소를 가져옵니다.
-	   var timeWrap = document.getElementById('timeWrap');
+	   for (let a = 0; a < 2; a++) {
+	     var startTime = list[a].STARTTIME; // 예시: "08:00"
+	     var endTime = list[a].ENDTIME; // 예시: "09:49"
+	     var startHour = parseInt(startTime.substring(0, 2));
+	     var startMinute = parseInt(startTime.substring(3, 5));
+	     var endHour = parseInt(endTime.substring(0, 2));
+	     var endMinute = parseInt(endTime.substring(3, 5));
 
-	   // 1200개의 span 요소를 생성하고 배경색을 적용합니다.
-	   for (let i = 0; i < 1200; i++) {
-	     var span = document.createElement("span");
-	     span.classList.add("cell");
-	     let start = startHour * 60 + startMinute - 420; //60
-	     let end = endHour * 60 + endMinute - 420; //169
-		     for (j=start; j<=end; j++){
-		  	 $('#timeWrap span:nth-child('+j+')').css('background-color', 'red');
-		     timeWrap.appendChild(span);
-	  		 }  
-	   }
+	     var timeTable = document.getElementById('timeTable');
+	     var tdList = timeTable.getElementsByTagName('li');
+
+	     var start = (startHour * 60 + startMinute - 420)/10 +1; // 6
+	     var end = (endHour * 60 + endMinute - 420)/10+1; // 16.9
+
+	     for (let i = start; i <= end; i++) {
+	       tdList[i].classList.add("red");
+	       var div = document.createElement('div');
+	       div.classList.add("cell")
+	       div.textContent =list[a].MOVIE_NAME +list[a].MOVIE_LENGTH +'분'+ list[a].STARTTIME + '-' + list[a].ENDTIME; 
+	       tdList[i].appendChild(div);
+	     }
+	     
+	       if (start !== end) {
+	         tdList[start].classList.add("addcell");
+	         for (let i = start + 1; i <= end; i++) {
+	           tdList[i].style.display = 'none';
+	         }
+	       }
 	   }
 	 };
-
 
     </script>
 </head>
