@@ -165,7 +165,7 @@ EDIT ON
             <div class="modal-body">
             	<h3 class="fs-3 text-center my-2"></h3>
             	<h5>영화 "${movieView.movie.movie_name }"</h5><h5>어떠셨나요?</h5>
-                <form action="<%=request.getContextPath()%>/movie/reviewRegist.do" method="POST" id="reviewRegistForm">
+                <form method="POST" id="reviewRegistForm">
                 <div class="input-group">
 	                <div style="display: flex;">
 	                    <fieldset class="rate" id="rate" style="">
@@ -187,12 +187,15 @@ EDIT ON
                     <textarea class="form-control" style="width: 85%; height: 200px; resize: none;" placeholder="리뷰를 남겨주세요." id="reviewtext" name="review_content"></textarea>
 					<p style="text-align: right; width: 100%;">
 			            <span id="writecount">0</span>
-			            <span>/100 자</span>
+			            <span>/50 자</span>
 		            </p>
                 </div>
                 <div class="p-t-10" style="display: flex;">
-	                <div style="width: 50%; margin: 0 auto;">
+	                <div style="width: 50%; margin: 0 auto;" id="regDiv">
 	                    <button class="btn btn-regist" type="button" data-target="#" style="float: right;" id="reiveRegistBtn">등록</button>
+	                </div>
+	                <div style="width: 50%; margin: 0 auto; display: none" id="updDiv">
+	                    <button class="btn btn-regist" type="button" data-target="#" style="float: right;" id="reiveUpdateBtn">수정</button>
 	                </div>
 	                <div style="width: 50%; margin: 0 auto;">
 	                    <button class="btn btn-cancel" type="button" data-target="#" style="float: left;" id="reiveCancelBtn">취소</button>
@@ -200,6 +203,7 @@ EDIT ON
                 </div>
                 <input name="review_rating" type="hidden">
                 <input name="movie_cd" type="hidden" value="${movieView.movie.movie_cd }">
+                <input name="review_no" type="hidden" value="0">
                 </form>
             </div>
         </div>
@@ -209,12 +213,28 @@ EDIT ON
 <script>
 
 $(function() {
+	
+	$('#reiveUpdateBtn').on('click', function(){
+		if($('input[name="rating"]:checked').length == 0){
+    		alert("별점을 선택해주세요.");
+    		return;
+    	}
+    	if($('#reviewtext').val().length < 1){
+    		alert("내용을 작성해주세요.");
+    		return;
+    	}
+    	$('input[name="review_rating"]').val($('input[name="rating"]:checked').val());
+		
+		$('#reviewRegistForm').prop('action', '<%=request.getContextPath()%>/movie/reviewUpdate.do');
+		$('#reviewRegistForm').submit();
+	})
+	
     $('#reviewtext').on('keyup', function() {
         $('#writecount').html($(this).val().length);
  
-        if($(this).val().length > 100) {
-            $(this).val($(this).val().substring(0, 100));
-            $('#writecount').html("100");
+        if($(this).val().length > 50) {
+            $(this).val($(this).val().substring(0, 50));
+            $('#writecount').html("50");
         }
     });
     
@@ -234,6 +254,7 @@ $(function() {
     		return;
     	}
     	$('input[name="review_rating"]').val($('input[name="rating"]:checked').val());
+    	$('#reviewRegistForm').prop('action', '<%=request.getContextPath()%>/movie/reviewRegist.do');
     	$('#reviewRegistForm').submit();
     	
     })

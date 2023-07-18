@@ -23,6 +23,7 @@ import kr.or.dw.command.MovieViewerCommand;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.ReviewVO;
+import oracle.net.aso.s;
 
 
 @Controller
@@ -55,8 +56,8 @@ public class MovieController {
 		Map<String, Integer> reserMap = null;
 		reserMap = movieService.getMovieReserve(movie_cd);
 		
-		List<ReviewVO> review3List = null;
-		review3List = movieService.getMovieReview3(movie_cd);
+		List<Map<String, Object>> review3List = null;
+		review3List = movieService.getMovieReview3(movie_cd, session);
 		
 		mnv.addObject("mem_cd", mem_cd);
 		mnv.addObject("reviewList", review3List);
@@ -131,6 +132,42 @@ public class MovieController {
 		return mnv;
 	}
 	
+	@RequestMapping("/likeGenreMovie")
+	public ModelAndView likeGenreMovie(ModelAndView mnv, String searchType, String keyword, HttpSession session) throws Exception {
+		String url = "/movie/likeGenreMovie";
+		
+		if(searchType == null || ("").equals(searchType)) {
+			searchType = "reserve";
+		}
+		
+		if(keyword == null) {
+			keyword = "";
+		}
+		String genreYN = "Y";
+		List<Map<String, Object>> movieList = null;
+		
+		if(session.getAttribute("loginUser") != null) {
+			
+			String mem_cd = ((MemberVO)session.getAttribute("loginUser")).getMem_cd();
+			List<String> memLikeGenreList = null;
+			memLikeGenreList = movieService.getMemLikeGenre(mem_cd);
+			
+			
+			if(memLikeGenreList.isEmpty()) {
+				genreYN = "N";
+			}else {
+				movieList = movieService.searchLikeGenreMovieList(searchType, keyword, memLikeGenreList);
+			}
+			
+		}
+		mnv.addObject("genreYN", genreYN);
+		mnv.addObject("movieList", movieList);
+		mnv.addObject("keyword", keyword);
+		mnv.addObject("searchType", searchType);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
 	@RequestMapping("/likeMovie")
 	public ResponseEntity<String> movieLike(String movie_cd, HttpSession session){
 		ResponseEntity<String> entity = null;
@@ -188,4 +225,82 @@ public class MovieController {
 	    out.flush();
 	    out.close();
 	}
+	
+	@RequestMapping("/reviewUpdate")
+	public void reviewUpdate(ReviewVO review, HttpSession session, HttpServletRequest req, HttpServletResponse res) throws Exception {
+		
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		String mem_cd = member.getMem_cd();
+		
+		review.setMem_cd(mem_cd);
+		movieService.updateReview(review);
+		
+		res.setContentType("text/html; charset=utf-8");
+	    PrintWriter out = res.getWriter();
+	    out.println("<script>");
+	    out.println("alert('리뷰가 수정되었습니다.');");
+	    out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + review.getMovie_cd() + "';");
+	    out.println("</script>");
+	    out.flush();
+	    out.close();
+	}
+	
+	@RequestMapping("/reviewLike")
+	public ResponseEntity<String> reviewLike(String review_no, HttpSession session){
+		ResponseEntity<String> entity = null;
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		
+		try {
+			movieService.reviewLike(review_no, mem_cd);
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/reviewLikeDel")
+	public ResponseEntity<String> reviewLikeDel(String review_no, HttpSession session){
+		ResponseEntity<String> entity = null;
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		
+		try {
+			movieService.reviewLikeDel(review_no, mem_cd);
+			entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/reviewReport")
+	public void reviewReport(int review_no, String movie_cd, HttpSession session, HttpServletRequest req, HttpServletResponse res) throws Exception {
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		
+		String result = movieService.reviewReport(review_no, mem_cd);
+		if(result.equals("S")) {
+			res.setContentType("text/html; charset=utf-8");
+			PrintWriter out = res.getWriter();
+			out.println("<script>");
+			out.println("alert('신고가 접수되었습니다.');");
+			out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + movie_cd  + "';");
+			out.println("</script>");
+			out.flush();
+			out.close();
+		}else {
+			res.setContentType("text/html; charset=utf-8");
+			PrintWriter out = res.getWriter();
+			out.println("<script>");
+			out.println("alert('이미 신고한 리뷰입니다.');");
+			out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + movie_cd  + "';");
+			out.println("</script>");
+			out.flush();
+			out.close();
+		}
+	}
+	
 }

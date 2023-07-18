@@ -2,6 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../include/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/viewer.css">
 <script src="https://www.gstatic.com/charts/loader.js"></script>
@@ -9,6 +10,7 @@
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="../../resources/css/boxoffice.css">
 <%@ include file="review_modal.jsp" %>
+<%@ include file="review_report_modal.jsp" %>
 <%-- <%@ include file="../common/boxoffice_detail.jsp" %> --%>
 <%
 	String mem_cd = "";
@@ -28,7 +30,8 @@
 <%--             <h2><%=movieNm%><em><%=movieNmEn%></em></h2> --%>
             <p class="sinfo">
             <span>
-            	<c:forEach items="${movieView.genre_list }" var="genre">${genre } </c:forEach> </span><span>${movieView.movie.movie_length }분
+            	<c:forEach items="${movieView.genre_list }" var="genre">${genre } </c:forEach> </span>
+            	<span><c:forEach items="${movieView.type_list }" var="type" varStatus="sta"><c:if test="${!sta.last }">${type }, </c:if><c:if test="${sta.last }">${type }</c:if></c:forEach>
             </span></p>
         </div>
         <div class="scon_02_detail">
@@ -148,41 +151,51 @@
 			</div>
 		</div>
         <div class="container">
-        	<c:if test="${reviewList[0].review_no == null}">
+        	<c:if test="${reviewList[0].REVIEW_NO == null}">
         		<div class="reviews-members row" style="margin: 30px 0px 30px 0px;" >
-        			<p>등록된 리뷰가 없습니다.</p>
+	        		<div style="text-align: center;">
+        				<p>등록된 리뷰가 없습니다.</p>
+    	   			 </div>
         		</div>
         	</c:if>
-			<c:if test="${reviewList[0].review_no != null}">
+			<c:if test="${reviewList[0].REVIEW_NO != null}">
 				<c:forEach items="${reviewList }" var="review">
 			        <div class="reviews-members row" style="margin: 30px 0px 30px 0px;" >
 						<div class="col-1">
-							<img alt="Generic placeholder image" src="http://bootdey.com/img/Content/avatar/avatar1.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
-							<p style="text-align: center;">${review.mem_cd }</p>
+							<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+							<p style="text-align: center;">
+							<c:set var="mem_id_code" value="${review.MEM_ID}" />
+							    ${fn:substring(mem_id_code,0,3) }**
+							</p>
 						</div>
 						<div class="card col-11">
 							<div class="card-body row" style="padding-right: 0;">
 								<div class="reviews-members-header col-2" style="padding : 10px 30px; border-right: solid 1px #e5e5e5;">
-									<h1>${review.review_rating } <span style="font-size: small;">점</span></h1>
+									<h1 id="review_rating" data-review_rating="${review.REVIEW_RATING }">${review.REVIEW_RATING } <span style="font-size: small;">점</span></h1>
 								</div>
 								<div class="reviews-members-body col-8" style="padding : 10px 30px; border-right: solid 1px #e5e5e5;">
-									<p>${review.review_content }</p>
-									<p style="font-size: small; color: gray;"><fmt:formatDate value="${review.regdate }" pattern="yyyy-MM-dd HH:mm"/></p>
+									<p id="review_content">${review.REVIEW_CONTENT }</p>
+									<p style="font-size: small; color: gray;"><fmt:formatDate value="${review.REGDATE }" pattern="yyyy-MM-dd HH:mm"/></p>
 								</div>
 								<div class="reviews-members-body col-2 row" style="padding : 20px 0px; display: flex;">
-									<a href="javascript:reviewHeart();" id="likeBtn" style="color: black; text-align: right;" class="col-6">
-										<i class="fa-regular fa-thumbs-up">&nbsp;<span>0</span></i>
-									</a>
-									<a href="javascript:reviewHeartDel();" id="likeCancelBtn" style="color: black; display: none">
-										<i class="fa-solid fa-thumbs-up">&nbsp;<span>0</span></i>
-									</a>
-									<c:if test="${review.mem_cd != mem_cd }">
-										<a href="javascript:reviewReport();" style="color: black; text-align: center;" class="col-6">
+									<c:if test="${review.reviewLikeActive == 'N'}">
+										<a href="javascript:void(0);" id="likeBtn" style="color: black; text-align: right;" class="col-6" data-review_no="${review.REVIEW_NO }">
+											<i class="fa-regular fa-thumbs-up">&nbsp;<span class="${review.REVIEW_NO }">${review.REVIEWLIKE }</span></i>
+										</a>
+									</c:if>
+									<c:if test="${review.reviewLikeActive == 'Y'}">
+										<a href="javascript:void(0);" id="likeCancelBtn" style="color: black; text-align: right;" class="col-6" data-review_no="${review.REVIEW_NO }">
+											<i class="fa-solid fa-thumbs-up">&nbsp;<span class="${review.REVIEW_NO }">${review.REVIEWLIKE }</span></i>
+										</a>
+									</c:if>
+									<c:if test="${review.MEM_CD != mem_cd }">
+										<a href="javascript:void(0)" style="color: black; text-align: center;" class="col-6" id="reviewReportBtn" data-review_no="${review.REVIEW_NO }">
 											<p>신고</p>
 										</a>
 									</c:if>
-									<c:if test="${review.mem_cd == mem_cd }">
-										<a href="javascript:reviewUpdate();" style="color: black; text-align: center;" class="col-6">
+								
+									<c:if test="${review.MEM_CD == mem_cd }">
+										<a href="javascript:void(0);" style="color: black; text-align: center;" class="col-6" id="reviewUpdateBtn" data-review_no="${review.REVIEW_NO }">
 											<p>수정</p>
 										</a>
 									</c:if>
@@ -377,6 +390,31 @@
 <script>
 
 $(function() {
+	
+	$('#reviewUpdateBtn').on('click', function(){
+		let review_content = $(this).parents('.card').find('#review_content').text();
+		let review_rating = $(this).parents('.card').find('#review_rating').data("review_rating");
+		$('#reviewtext').text(review_content);
+		$('fieldset#rate').find('input[name="rating"][value=' + review_rating + ']').prop('checked', 'checked');
+		$('#writecount').text(review_content.length);
+		$('#updDiv').css('display', '');
+		$('#regDiv').css('display', 'none');
+		$('#review-modal').find('input[name="review_no"]').val($(this).data('review_no'));
+		console.log($(this).data('review_no'));
+		
+		$('#review-modal').modal("show");
+	})
+	
+	$('.reviews-members-body').on('click', '#reviewReportBtn', function(){
+		if(mem_cd == null || mem_cd == ""){
+			alert("로그인이 필요합니다.");
+			return;
+		}
+		$('#reviewReportModalInputRN').val($(this).data('review_no'));
+		$('#review-report-modal').modal("show");
+	})
+
+	
 	$('#reviewModalBtn').on('click', function(){
 		if(mem_cd == null || mem_cd == ""){
 			alert("로그인이 필요합니다.");
@@ -404,8 +442,70 @@ $(function() {
 		})
 	
 	})
+	
+	$('.reviews-members-body').on('click', '#likeBtn', function(){
+		if(mem_cd == null || mem_cd == ""){
+			alert("로그인이 필요합니다.");
+			return;
+		}
+		let review_no = $(this).data('review_no');
+		reviewHeart(review_no);
+		$(this).find('i').removeClass('fa-regular');
+		$(this).find('i').addClass('fa-solid');
+		$(this).prop('id', 'likeCancelBtn');
+		let likecount = $(this).find('span').text();
+		likecount++;
+		$(this).find('span').text(likecount);
+	})
+	
+	$('.reviews-members-body').on('click', '#likeCancelBtn', function(){
+		let review_no = $(this).data('review_no');
+		reviewHeartDel(review_no);
+		$(this).find('i').removeClass('fa-solid');
+		$(this).find('i').addClass('fa-regular');
+		$(this).prop('id', 'likeBtn');
+		let likecount = $(this).find('span').text();
+		likecount--;
+		$(this).find('span').text(likecount);
+		
+	})
 });
 
+function reviewHeart(review_no){
+	if(mem_cd == null || mem_cd == ""){
+		alert("로그인이 필요합니다.");
+		return;
+	}
+	
+	$.ajax({
+		url : '<%=request.getContextPath()%>/movie/reviewLike.do',
+		method : 'post',
+		data : {'review_no' : review_no},
+		success : function(res){
+			console.log(res);
+		},
+		errer : function(err){
+			alert(err.status);
+		}
+	})
+	
+}
+
+function reviewHeartDel(review_no){
+
+	$.ajax({
+		url : '<%=request.getContextPath()%>/movie/reviewLikeDel.do',
+		method : 'post',
+		data : {'review_no' : review_no},
+		success : function(res){
+			console.log(res);
+		},
+		errer : function(err){
+			alert(err.status);
+		}
+	})
+	
+}
 
 var mySwiper = new Swiper('.swiper-container', {
 
@@ -424,10 +524,6 @@ let mem_cd = "<%=mem_cd%>";
 console.log(mem_cd);
 let movie_cd = '${movieView.movie.movie_cd }';
 function movieHeart(){
-	if(mem_cd == null || mem_cd == ""){
-		alert("로그인이 필요합니다.");
-		return;
-	}
 	
 
 	$.ajax({

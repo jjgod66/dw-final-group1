@@ -107,8 +107,8 @@ select {
 %>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <div class="sub_visual">
-    <h3>상영영화</h3>
-    <h6>Screen Movie</h6>
+    <h3>선호장르영화</h3>
+    <h6>Genre Movie</h6>
 </div>
 <div style="width: 100%;">
 <div style="padding: 30px;">
@@ -117,9 +117,9 @@ select {
 		<div class="tab-list fixed">
 			<ul class="nav nav-tabs" role="tablist">
 				<li class="nav-item"><a href="/movie/allMovie.do">전체</a></li>
-				<li class="nav-item active"><a href="/movie/screenMovie.do">현재상영</a></li>
+				<li class="nav-item"><a href="/movie/screenMovie.do">현재상영</a></li>
 				<li class="nav-item"><a href="/movie/comingMovie.do">상영예정</a></li>
-				<li class="nav-item" id="like" style="display: none;"><a href="/movie/likeGenreMovie.do">선호장르</a></li>
+				<li class="nav-item active" id="like" style="display: none;"><a href="/movie/likeGenreMovie.do">선호장르</a></li>
 			</ul>
 		</div>
 <!-- 			<ul style="margin: 30px 10px 0px 10px;"> -->
@@ -160,13 +160,16 @@ select {
 	</div>
 	<div class="movie_container" style="width: 1300px; margin: 0 auto; display: flex;">
 		<div class="row" style="width: 90%; margin: 0 auto;">
+			<c:if test="${genreYN eq 'N'}">
+				<div style="text-align: center;">선호 장르가 등록되지 않았습니다.</div>
+			</c:if>
 			<c:forEach items="${movieList }" var="movie">
 				<div class="movie col-3" style="padding: 30px 20px 30px 20px;">	
 				 <div class="item_poster">
 				        <div class="thumb_item">
 				            <div class="poster_movie" style="background: url('../../resources/img/poster/${movie.MOVIE_MAINPIC_PATH}') no-repeat center /cover">
-				<%-- 	                                        <span class="rank_num">${movie.movie_grade}</span> --%>
-				<%-- 	                                        <span class="txt_tag">${movie.movie_grade}</span> --%>
+					                                        <span class="rank_num">${movie.movie_grade}</span>
+					                                        <span class="txt_tag">${movie.movie_grade}</span>
 				                <div class="movieChart_btn_wrap">
 				                    <a href="<%=request.getContextPath()%>/movie/viewer.do?movie_cd=${movie.MOVIE_CD}" class="btn_movieChart_detail">상세보기</a>
 				                    <a href="<%=request.getContextPath()%>/reservation/cinema.do?movie_cd=${movie.MOVIE_CD}" class="btn_movieChart_ticketing">예매하기</a>
@@ -203,22 +206,29 @@ select {
 	</div>
 </div>
 </div>
-<form id="searchForm" method="post" action="<%=request.getContextPath() %>/movie/screenMovie.do">
+<form id="searchForm" method="post" action="<%=request.getContextPath() %>/movie/comingMovie.do">
 	<input type="hidden" name="searchType">
 	<input type="hidden" name="keyword">
 </form>
 <script>
 $(function(){
+	if($('.movie.col-3').length <= 12){
+		$('#btnAddMovie').css('display', 'none');
+	}
+	
 	let mem_cd = "<%=mem_cd%>";
+	
+	if(mem_cd == null || mem_cd == ""){
+		alert("로그인이 필요합니다.");
+		location.href="<%=request.getContextPath()%>/main.do"
+	}
+	
 	console.log(mem_cd);
 	if(mem_cd != null && mem_cd !== ""){
 		$('#like').css('display', '');
 		$('.nav.nav-tabs li').css('width', '25%');
 	}
-	
-	if($('.movie.col-3').length <= 12){
-		$('#btnAddMovie').css('display', 'none');
-	}
+
 	
 	$('#searchType').on('change', function(){
 		$('#searchForm').find('input[name="searchType"]').val($('select[name="searchType"]').val());

@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.or.dw.command.MovieViewerCommand;
 import kr.or.dw.dao.MovieDAO;
+import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
@@ -99,6 +102,23 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	@Override
+	public List<Map<String, Object>> searchLikeGenreMovieList(String searchType, String keyword,
+			List<String> memLikeGenreList) throws SQLException {
+		List<Map<String, Object>> movieList = null;
+
+		Map<String, String> param = new HashMap<>();
+		param.put("searchType", searchType);
+		param.put("keyword", keyword);
+		for(int i = 0; i < memLikeGenreList.size(); i++) {
+			param.put("likegenre" + (i+1), memLikeGenreList.get(i));
+		}
+		
+		movieList = movieDAO.selectLikeGenreMovie(param);
+		
+		return movieList;
+	}
+	
+	@Override
 	public String clickMovieLike(String movie_cd, String mem_cd) throws SQLException {
 		String result = null;
 		
@@ -185,11 +205,81 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	@Override
-	public List<ReviewVO> getMovieReview3(String movie_cd) throws SQLException {
-		List<ReviewVO> reviewList = null;
+	public List<Map<String, Object>> getMovieReview3(String movie_cd, HttpSession session) throws SQLException {
+		List<Map<String, Object>> reviewList = null;
 		reviewList = movieDAO.selectReview3(movie_cd);
+
+		for(Map<String, Object> review : reviewList) {
+			String reviewLikeActive = "N";
+			if(session.getAttribute("loginUser") != null) {
+				int count = 0;
+				Map<String, Object> param = new HashMap<>();
+				param.put("review_no", review.get("REVIEW_NO"));
+				param.put("mem_cd", ((MemberVO)session.getAttribute("loginUser")).getMem_cd());
+				count = movieDAO.selectReviewLikeYN(param);
+				if(count > 0) {
+					reviewLikeActive = "Y";
+				}
+			}
+			review.put("reviewLikeActive", reviewLikeActive);
+		}
+		
 		
 		return reviewList;
 	}
+
+	@Override
+	public void reviewLike(String review_no, String mem_cd) throws SQLException {
+		Map<String, String> param = new HashMap<>();
+		param.put("review_no", review_no);
+		param.put("mem_cd", mem_cd);
+		
+		movieDAO.insertReviewLike(param);
+	}
+
+	@Override
+	public void reviewLikeDel(String review_no, String mem_cd) throws SQLException {
+		Map<String, String> param = new HashMap<>();
+		param.put("review_no", review_no);
+		param.put("mem_cd", mem_cd);
+		
+		movieDAO.deleteReviewLike(param);
+		
+	}
+
+	@Override
+	public String reviewReport(int review_no, String mem_cd) throws SQLException {
+		String result = "S";
+		Map<String, Object> param = new HashMap<>();
+		param.put("review_no", review_no);
+		param.put("mem_cd", mem_cd);
+		
+		int cnt = 0;
+		cnt = movieDAO.reviewReportYN(param);
+		
+		if(cnt > 0) {
+			result = "F";
+		}else {
+			movieDAO.insertReviewReport(param);
+		}
+		
+		return result;
+		
+	}
+
+	@Override
+	public void updateReview(ReviewVO review) throws SQLException {
+		movieDAO.updateReview(review);
+		
+	}
+
+	@Override
+	public List<String> getMemLikeGenre(String mem_cd) throws SQLException {
+		List<String> memLikeGenreList = null;
+		memLikeGenreList = movieDAO.selectMemLikeGenre(mem_cd);
+		
+		return memLikeGenreList;
+	}
+
 
 }
