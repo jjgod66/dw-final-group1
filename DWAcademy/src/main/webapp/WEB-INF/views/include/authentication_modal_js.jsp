@@ -4,30 +4,34 @@
 let checkNum = "";
 let SMSChecked = false;
 $('#sendSMS').on('click', function(){
-	if($('input[name=mem_name]') == ""){
+	if($('input[name="mem_name"]') == ""){
 		alert('이름을 입력해주세요.');
 		$('input[name=mem_name]').focus();
 		return;
 	}
-	if($('input[name=mem_bir]') == ""){
+	if($('input[name="mem_bir"]') == ""){
 		alert('생년월일을 입력해주세요.');
 		$('input[name=mem_bir]').focus();
 		return;
 	}
 	let phone = $('#phone').val();
-	$.ajax({
-		url : '<%=request.getContextPath()%>/SMS/send.do',
-		method : 'post',
-		data : {"phone" : phone},
-		success : function(res){
-			alert('메세지를 성공적으로 보냈습니다!')
-			console.log(res);
-			checkNum = res;
-		},
-		error : function(err){
-			alert(err.status);
-		}
-	})
+	if(phone != ""){
+		$.ajax({
+			url : '<%=request.getContextPath()%>/SMS/send.do',
+			method : 'post',
+			data : {"phone" : phone},
+			success : function(res){
+				alert('메세지를 성공적으로 보냈습니다!')
+				console.log(res);
+				checkNum = res;
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	}else{
+		alert('번호를 입력해주세요.');
+	}
 })
 $('#SMSCheck').on('click', function(){
 	let SMSCheckInput = $('#SMSCheckInput').val();
@@ -38,10 +42,11 @@ $('#SMSCheck').on('click', function(){
 		url : "<%=request.getContextPath()%>/member/CheckMember.do",
 		data : {mem_phone : mem_phone},
 		success : function(res){
-			if(res != null || res != ""){
+			$('input[name="mem_phone"]').val(mem_phone);
+			if(res != ""){
 				alert('이미 가입된 회원입니다! 소셜로그인은 [마이페이지 > 개인정보수정] 에서 연동 후 사용해주세요.');
 				$('#authentication-modal').modal('hide');
-				
+				location.reload();
 			}
 		},
 		error : function(err){

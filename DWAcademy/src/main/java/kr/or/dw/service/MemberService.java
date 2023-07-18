@@ -16,8 +16,11 @@ public interface MemberService {
 	// 회원 코드 가져오기
 	MemberVO selectMemberCode(SnsVO sns) throws SQLException;
 
-	// 회원인지 체크하기
-	MemberVO CheckMember(String mem_phone) throws SQLException;	
+	// 회원인지 체크하기(번호)
+	MemberVO CheckMember(String mem_phone) throws SQLException;
+
+	// 회원인지 체크하기(이메일)
+	MemberVO CheckMemberEmail(String email) throws SQLException;	
 
 	
 }

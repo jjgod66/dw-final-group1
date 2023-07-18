@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/member_header.jsp" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
 .additionalinfo-wrapper {
 }
@@ -102,6 +104,7 @@
 }
 </style>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
 <div class="additionalinfo-wrapper">
 	<h2 class="tit">개인정보 수정</h2>
 	<div class="box-radius">
@@ -125,15 +128,15 @@
 				<tbody>
 					<tr>
 						<td scope="row" style="text-align: center;">카카오</td>
-						<td>${userInfo.linkDate}</td>
+						<td><fmt:formatDate value="${sns.linkdate}" pattern="yyyy-MM-dd"/> ${sns.sns_email}</td>
 						<td style="text-align: center;">
 						<c:choose>
-							<c:when test="${userInfo.sns_cd eq null}">
-								<a id="kakao-login-btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/kakao/callback">연동</a>
+							<c:when test="${sns.mem_cd eq null}">
+								<a id="btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/kakao/callback">연동</a>
 							</c:when>
-							<c:otherwise>
-								<a id="kakao-login-btn" href="#" onclick="unLink_go();">연동해제</a>
-							</c:otherwise>
+							<c:when test="${sns.mem_cd ne null}">
+								<a id="btn" href="#" onclick="unLink_go();">연동해제</a>
+							</c:when>
 						</c:choose>
 						</td>
 					</tr>
@@ -148,13 +151,12 @@
 	</div>
 </div>
 <script>
-console.log(${sns_email});
-console.log(${linkDate});
 function unLink_go(){
 	Kakao.API.request({
 	  url: '/v1/user/unlink',
 	  success: function(response) {
 	    console.log(response);
+	    location.reload();
 	  },
 	  fail: function(error) {
 	    console.log(error);

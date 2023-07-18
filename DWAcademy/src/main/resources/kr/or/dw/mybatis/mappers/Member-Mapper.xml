@@ -38,8 +38,14 @@
 	</select>
 	
 	<select id="CheckMember" resultType="member">
-		SELECT *
+		SELECT mem_phone
 		  FROM member
 		 WHERE mem_phone = #{mem_phone}
+	</select>
+	
+	<select id="CheckMemberEmail" resultType="member">
+		SELECT mem_email
+		  FROM member
+		 WHERE mem_email = #{email}
 	</select>
 </mapper>

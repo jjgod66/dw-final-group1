@@ -195,7 +195,6 @@
 							<label class="label">생년월일</label>
 							<div class="input-group-icon">
 								<input class="input--style-3 js-datepicker" type="text" name="mem_bir" readonly>
-								<i class="bi bi-calendar-week js-btn-calendar"></i>
 							</div>
 						</div>
 					</div>
@@ -205,7 +204,7 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">이메일</label>
-							<input class="input--style-3" type="email" name="mem_email" value=${kakaoEmail}>
+							<input class="input--style-3" type="email" name="mem_email" value="">
 							<div><span id="result_emailCheck" style="font-size:12px;"></span></div>
 						</div>
 					</div>

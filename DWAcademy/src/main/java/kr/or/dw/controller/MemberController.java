@@ -15,7 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import kr.or.dw.service.KakaoService;
 import kr.or.dw.service.MemberService;
+import kr.or.dw.service.SnsService;
 import kr.or.dw.vo.MemberVO;
 
 @Controller
@@ -27,17 +29,19 @@ public class MemberController {
 	private MemberService memberService;
 	
 	@RequestMapping("/member/join")
-	public void join(MemberVO memVO, HttpServletRequest req, HttpServletResponse res) throws Exception {
+	public void join(String sns, MemberVO memVO, HttpServletRequest req, HttpServletResponse res) throws Exception {
 		System.out.println("test");
-		
+		System.out.println(sns);
 		
 		memberService.join(memVO);
+		
+		
 		
 		res.setContentType("text/html; charset=utf-8");
 	    PrintWriter out = res.getWriter();
 	    out.println("<script>");
 	    out.println("alert('회원가입이 정상적으로 되었습니다.');");
-	    out.println("location.href='" + req.getContextPath() + "/main.do';");
+	    out.println("location.href='" + req.getContextPath() + "/';");
 	    out.println("</script>");
 	}
 	
