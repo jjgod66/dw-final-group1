@@ -28,6 +28,10 @@ public class MovieServiceImpl implements MovieService{
 		List<Map<String, Object>> movieList = null;
 		
 		movieList = movieDAO.selectBoxOfficeMovie10();
+		int yes_all_reserver = movieDAO.selectYesAllReserver();
+		for(Map<String, Object> movie : movieList) {
+			movie.put("all_reserver", yes_all_reserver);
+		}
 		return movieList;
 	}
 
@@ -64,6 +68,7 @@ public class MovieServiceImpl implements MovieService{
 		int yes_all_reserver = movieDAO.selectYesAllReserver();
 		for(Map<String, Object> movie : movieList) {
 			movie.put("all_reserver", yes_all_reserver);
+			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
 		}
 		
 		return movieList;
@@ -80,6 +85,7 @@ public class MovieServiceImpl implements MovieService{
 		int yes_all_reserver = movieDAO.selectYesAllReserver();
 		for(Map<String, Object> movie : movieList) {
 			movie.put("all_reserver", yes_all_reserver);
+			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
 		}
 		
 		return movieList;
@@ -96,6 +102,7 @@ public class MovieServiceImpl implements MovieService{
 		int yes_all_reserver = movieDAO.selectYesAllReserver();
 		for(Map<String, Object> movie : movieList) {
 			movie.put("all_reserver", yes_all_reserver);
+			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
 		}
 		
 		return movieList;
@@ -114,6 +121,12 @@ public class MovieServiceImpl implements MovieService{
 		}
 		
 		movieList = movieDAO.selectLikeGenreMovie(param);
+		
+		int yes_all_reserver = movieDAO.selectYesAllReserver();
+		for(Map<String, Object> movie : movieList) {
+			movie.put("all_reserver", yes_all_reserver);
+			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
+		}
 		
 		return movieList;
 	}

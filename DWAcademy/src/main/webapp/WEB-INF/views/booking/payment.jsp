@@ -81,7 +81,8 @@ if(session.getAttribute("loginUser") != null){
 							<div id="couponname" style="text-decoration: underline;">
 							</div>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-							<div id="coupondis">
+							<div>
+							-<span id="coupondis"></span>원
 							</div>
 							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 							<span style="color: red;" id="couponCanBtn">X</span>
@@ -134,7 +135,7 @@ if(session.getAttribute("loginUser") != null){
 				<div class="card card-payment p-3 text-white mb-3">
 					<span>상품 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow"><fmt:formatNumber value="${moviePayment.pricesum }" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<span>할인 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
@@ -142,7 +143,7 @@ if(session.getAttribute("loginUser") != null){
 					</div>
 					<span>결제 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow totalPrice" id="totalpp"><fmt:formatNumber value="${moviePayment.totalPrice }" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow totalPrice" id="totalpp"><fmt:formatNumber value="${moviePayment.pricesum }" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<button class="btn btn-success px-3" id="credit" onclick="requestPay();">결제하기</button>
 				</div>
@@ -156,12 +157,10 @@ if(session.getAttribute("loginUser") != null){
 	<input type="hidden" name="preferSeat" value="${moviePayment.preferSeat}">
 	<input type="hidden" name="screen_cd" value="${mapData.SCREEN_CD }">
 	<input type="hidden" name="res_seats" value="${moviePayment.res_seats}">
-	<input type="hidden" name="res_seats">
-	<input type="hidden" name="discount">
-	<input type="hidden" name="pricesum">
-	<input type="hidden" name="totalPrice" value="${moviePayment.totalPrice }">
-	<input type="hidden" name="mem_coupon_no">
-	<input type="hidden" name="use_point">
+	<input type="hidden" name="discount" value="0">
+	<input type="hidden" name="pricesum"  value="${moviePayment.pricesum }">
+	<input type="hidden" name="mem_coupon_no" value="0">
+	<input type="hidden" name="use_point" value="0">
 	<input type="hidden" name="json">
 
 </form>
@@ -182,10 +181,20 @@ function requestPay() {
 	let buyer_tel = '<%=member.getMem_phone()%>';
 	let buyer_email = '<%=member.getMem_email()%>';
 	let price = ($('#totalpp').text()).replace(',', '');
+	
+	let merchant_uid = new Date().getTime();
+	if(price <= 0){
+		alert("결제금액이 0원으로 결제과정이 생략됩니다.");
+		$('#payForm').prop('action', '<%=request.getContextPath()%>/reservation/pay0ResultRedirect.do');
+		$('#payForm').append('<input type="hidden" name="merchant_uid" value="' + merchant_uid + '">');
+		$('#payForm').submit();
+		return;
+	}
+	
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
-        merchant_uid: new Date().getTime(),
+        merchant_uid: merchant_uid,
         name: movie_name,
         amount: price,
         buyer_email: buyer_email,
@@ -219,8 +228,10 @@ $(function(){
 	$('#couponCanBtn').on('click', function(){
 		$('#couponInfo').css('display', 'none');
 		$('.couponbtn').css('display', '');
-		$('#disprice').text(0);
-		$('#totalpp').text((${moviePayment.totalPrice }).toLocaleString());
+		$('#disprice').text($('#disprice').text().replace(',', '') - $('#coupondis').text());
+		$('#totalpp').text((parseInt($('#totalpp').text().replace(',', '')) + parseInt($('#coupondis').text())).toLocaleString());
+		$('#payForm input[name="mem_coupon_no"]').val(0);
+		$('#payForm input[name="discount"]').val(parseInt($('#payForm input[name="discount"]').val()) - parseInt($('#coupondis').text()));
 		
 	})
 })

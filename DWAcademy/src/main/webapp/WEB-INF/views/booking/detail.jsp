@@ -104,7 +104,7 @@
                         <span>남은좌석</span> <span>${screen.remainSeat}</span>/<span class="all-seats">${screen.houseVO.house_row*screen.houseVO.house_column}</span>
                     </div>
                     <p class="poster">
-                        <img src="../../resources/img/poster/${screen.movieVO.movie_mainpic_path }">
+                        <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${screen.movieVO.movie_mainpic_path }&movie_cd=${screen.movieVO.movie_cd }&type=p">
                     </p>
                 </div>
                 <div class="reserve-number-wrapper">
@@ -133,7 +133,7 @@
 	<input type="hidden" name="adultSeat">
 	<input type="hidden" name="teenSeat">
 	<input type="hidden" name="preferSeat">
-	<input type="hidden" name="totalPrice">
+	<input type="hidden" name="pricesum">
 	<input type="hidden" name="screen_cd" value="${screen.screenVO.screen_cd }">
 	<input type="hidden" name="res_seats">
 	<input type="hidden" name="gb_jojo" value="${screen.screenVO.gb_jojo }">
@@ -152,7 +152,7 @@ $(function(){
 		$('input[name="adultSeat"]').val(adultSeat);
 		$('input[name="teenSeat"]').val(teenSeat);
 		$('input[name="preferSeat"]').val(preferSeat);
-		$('input[name="totalPrice"]').val(totalPrice);
+		$('input[name="pricesum"]').val(totalPrice);
 		if(totalSeat != selectedSeatsCount || selectedSeatsCount == 0){
 			alert("좌석을 선택해주세요.");
 			return;

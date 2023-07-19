@@ -15,6 +15,7 @@ import kr.or.dw.command.MoviePaymentCommand;
 import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.dao.ReservationDAO;
+import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.PayDetailVO;
 import kr.or.dw.vo.ReservationVO;
@@ -124,10 +125,30 @@ public class ReservationServiceImpl implements ReservationService{
 		}
 		mapData = reservationDAO.selectPaymentScreenInfo(resList.get(0).getScreen_cd());
 		
+		if(resList.get(0).getMem_coupon_no() != 0) {
+			int mem_coupon_no = resList.get(0).getMem_coupon_no();
+			reservationDAO.useMemCoupon(mem_coupon_no);
+		}
+		
 		mapData.put("merchant_uid", resList.get(0).getMerchant_uid());
 		return mapData;
 	}
 
+	@Override
+	public String pay0InsertRes(List<ReservationVO> resList) throws SQLException {
+		for(ReservationVO res : resList) {
+			reservationDAO.insertPay0Res(res);
+		}
+		
+		if(resList.get(0).getMem_coupon_no() != 0) {
+			int mem_coupon_no = resList.get(0).getMem_coupon_no();
+			reservationDAO.useMemCoupon(mem_coupon_no);
+		}
+		
+		String merchant_uid = resList.get(0).getMerchant_uid();
+		return merchant_uid;
+	}
+	
 	@Override
 	public Map<String, Object> getReservationResult(String merchant_uid) throws SQLException {
 		Map<String, Object> mapData = null;
@@ -141,14 +162,34 @@ public class ReservationServiceImpl implements ReservationService{
 				res_seats += ", " + resList.get(i).getRes_seat();
 			}
 		}
-		PayDetailVO payDetail = reservationDAO.selectPayDetailByMUID(merchant_uid);
 		
-		System.out.println(payDetail);
-		mapData.put("paid_amount", payDetail.getPaid_amount());
-		mapData.put("receipt_url", payDetail.getReceipt_url());
+		System.out.println("resultSer1");
+		PayDetailVO payDetail = reservationDAO.selectPayDetailByMUID(merchant_uid);
+		System.out.println("resultSer2");
+		
+		
+		int pay_amount = 0;
+		String receipt_url = "";
+		
+		if(payDetail != null) {
+			pay_amount = payDetail.getPaid_amount();
+			receipt_url = payDetail.getReceipt_url();
+		}
+		System.out.println("resultSer3");
+		
+		mapData.put("paid_amount", pay_amount);
+		mapData.put("receipt_url", receipt_url);
 		mapData.put("res_seats", res_seats);
 		mapData.put("mem_cat", resList.get(0).getMem_cat());
 		return mapData;
 	}
+
+	@Override
+	public List<CouponVO> getCouponList(String mem_cd) throws SQLException {
+		List<CouponVO> couponList = null;
+		couponList = reservationDAO.selectCouponList(mem_cd);
+		return couponList;
+	}
+
 
 }

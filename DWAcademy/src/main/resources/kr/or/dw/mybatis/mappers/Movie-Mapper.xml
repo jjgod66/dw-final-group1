@@ -3,39 +3,27 @@
 <mapper namespace="kr.or.dw.dao.MovieDAO">
 
 	<select id="selectBoxOfficeMovie10" resultType="Map">
-		SELECT *
+		SELECT m2.movie_cd movie_cd, reserve, movie_name, movie_grade, movie_length, movie_mainpic_path, opendate
 		FROM (
-			SELECT m2.movie_cd movie_cd, reservers, movie_name, movie_grade, movie_length, movie_mainpic_path, opendate
+			SELECT m.movie_cd, nvl(sum(reserve), 0) reserve
 			FROM (
-				SELECT m.movie_cd, nvl(sum(reserve), 0) reserve, nvl(sum(reservers), 0) reservers
+				SELECT s.*, reserve
 				FROM (
-					SELECT s.*, reserve, reservers
-					FROM (
-						SELECT count(*) reserve, screen_cd
-						FROM reservation
-						WHERE TO_CHAR(resdate, 'YYYYMMDD') =  TO_CHAR(sysdate - 1, 'YYYYMMDD') 
-						AND gb_cancel = 'N'
-						GROUP BY screen_cd
-						) r, 
-						(
-						SELECT count(*) reservers, r.screen_cd
-						FROM reservation r, screen s
-						WHERE r.screen_cd = s.screen_cd
-						AND gb_cancel = 'N'
-						AND startdate <![CDATA[<]]> sysdate
-						GROUP BY r.screen_cd
-						) r2, screen s
-					WHERE r.screen_cd(+) = s.screen_cd
-					AND s.screen_cd = r2.screen_cd(+)
-					) s, movie m
-				WHERE s.movie_cd(+) = m.movie_cd
-				GROUP BY m.movie_cd
-				) m1, movie m2
-			WHERE m1.movie_cd = m2.movie_cd
-			AND enddate > SYSDATE
-			ORDER BY reserve DESC NULLS LAST
-			)
-		WHERE rownum <![CDATA[<=]]> 10
+					SELECT count(*) reserve, screen_cd
+					FROM reservation
+					WHERE TO_CHAR(resdate, 'YYYYMMDD') =  TO_CHAR(sysdate - 1, 'YYYYMMDD') 
+					AND gb_cancel = 'N'
+					GROUP BY screen_cd
+					) r, screen s
+				WHERE r.screen_cd(+) = s.screen_cd
+				) s, movie m
+			WHERE s.movie_cd(+) = m.movie_cd
+			GROUP BY m.movie_cd
+			) m1, movie m2
+		WHERE m1.movie_cd = m2.movie_cd
+		AND enddate <![CDATA[>]]> SYSDATE
+		AND movie_name like '%' || #{keyword} || '%'
+		ORDER BY reserve DESC NULLS last
 	</select>
 	
 	<select id="selectMovieDetail" parameterType="str" resultType="movie">
@@ -259,6 +247,7 @@
 		WHERE r.screen_cd = s.screen_cd
 		AND s.MOVIE_CD = m.MOVIE_CD 
 		AND s.movie_cd = #{movie_cd}
+		AND startdate <![CDATA[<]]> sysdate
 		AND GB_CANCEL = 'N'
 	</select>
 	

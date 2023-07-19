@@ -7,6 +7,7 @@ import java.util.Map;
 import kr.or.dw.command.MoviePaymentCommand;
 import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
+import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.PayDetailVO;
 import kr.or.dw.vo.ReservationVO;
@@ -72,5 +73,19 @@ public interface ReservationService {
 	 * @throws SQLException
 	 */
 	Map<String, Object> getReservationResult(String merchant_uid) throws SQLException;
+
+	/**
+	 * 회원 쿠폰 리스트 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<CouponVO> getCouponList(String mem_cd) throws SQLException;
+
+	/**
+	 * 총 결제 금액이 0원일때 처리해주는 메서드
+	 * @param resList
+	 * @return 
+	 */
+	String pay0InsertRes(List<ReservationVO> resList) throws SQLException;
 
 }

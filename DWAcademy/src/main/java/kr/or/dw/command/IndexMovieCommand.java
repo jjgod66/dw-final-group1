@@ -14,7 +14,8 @@ public class IndexMovieCommand {
 	private int movie_length;
 	private String movie_mainpic_path;
 	private Date opendate;
-	private int reservers;
+	private int reserve;
+	private int all_reserver;
 	
 	public IndexMovieCommand(Map<String, Object> movieMap) {
 
@@ -24,11 +25,12 @@ public class IndexMovieCommand {
 		this.movie_length = Integer.parseInt(String.valueOf(movieMap.get("MOVIE_LENGTH")));
 		this.movie_mainpic_path = (String) movieMap.get("MOVIE_MAINPIC_PATH");
 		this.opendate = (Date) movieMap.get("OPENDATE");
-		this.reservers = Integer.parseInt(String.valueOf(movieMap.get("RESERVERS")));
+		this.reserve = Integer.parseInt(String.valueOf(movieMap.get("RESERVE")));
+		this.all_reserver = (int) movieMap.get("all_reserver");
 	}
 
 	public IndexMovieCommand(String movie_cd, String movie_name, String movie_grade, int movie_length,
-			String movie_mainpic_path, Date opendate, int reservers) {
+			String movie_mainpic_path, Date opendate, int reserve, int all_reserver) {
 		super();
 		this.movie_cd = movie_cd;
 		this.movie_name = movie_name;
@@ -36,7 +38,8 @@ public class IndexMovieCommand {
 		this.movie_length = movie_length;
 		this.movie_mainpic_path = movie_mainpic_path;
 		this.opendate = opendate;
-		this.reservers = reservers;
+		this.reserve = reserve;
+		this.all_reserver = all_reserver;
 	}
 	
 	public IndexMovieCommand() {}

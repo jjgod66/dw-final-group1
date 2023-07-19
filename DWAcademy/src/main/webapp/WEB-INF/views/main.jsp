@@ -22,7 +22,7 @@
 	                     <li class="swiper-slide">
 	                            <div class="item_poster">
 	                                <div class="thumb_item">
-	                                    <div class="poster_movie" style="background: url('../../resources/img/poster/${movie.movie_mainpic_path}') no-repeat center /cover">
+	                                    <div class="poster_movie" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movie.movie_mainpic_path}&movie_cd=${movie.movie_cd }&type=p') no-repeat center /cover">
 <%-- 	                                        <span class="rank_num">${movie.movie_grade}</span> --%>
 <%-- 	                                        <span class="txt_tag">${movie.movie_grade}</span> --%>
 	                                        <div class="movieChart_btn_wrap">
@@ -40,7 +40,7 @@
 	                                    </strong>
 	                                    <span class="txt_append">
 	                                        <span class="info_txt">상영시간<span class="txt_grade">${movie.movie_length}</span>분</span>
-	                                        <span class="info_txt">누적관객수<span class="txt_num">${movie.reservers}</span></span>
+	                                        <span class="info_txt">예매율<span class="txt_num">${movie.reserve == 0 ? 0 : movie.reserve / movie.all_reserver * 100}</span>%</span>
 	                                    </span>
 	                                    <span class="txt_info">
 	                                        개봉일<span class="txt_num"><fmt:formatDate value="${movie.opendate}" pattern="yyyy-MM-dd"/></span>

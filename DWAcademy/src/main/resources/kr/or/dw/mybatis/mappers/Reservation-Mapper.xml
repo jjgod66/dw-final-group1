@@ -71,7 +71,7 @@
 	</select>
 	
 	<select id="selectPaymentScreenInfo" resultType="Map">
-		SELECT s.screen_cd screen_cd, house_name, startdate, movie_type_des, movie_name, movie_length, thr_name, house_name, movie_mainpic_path
+		SELECT s.screen_cd screen_cd, house_name, startdate, movie_type_des, movie_name, movie_length, thr_name, house_name, movie_mainpic_path, s.movie_cd
 		FROM screen s, movie m, house h, movie_type mt
 		WHERE s.movie_cd = m.movie_cd
 		AND s.house_no = h.house_no
@@ -80,7 +80,7 @@
 	</select>
 	
 	<insert id="insertRes" parameterType="reservation">
-		INSERT INTO reservation (res_no, merchant_uid, mem_cd, screen_cd, mem_cat, res_seat, resdate, pricesum, gb_cancel) 
+		INSERT INTO reservation (res_no, merchant_uid, mem_cd, screen_cd, mem_cat, res_seat, resdate, pricesum, gb_cancel, discount, mem_coupon_no, use_point) 
 							values(
 							#{res_no} || LPAD(res_seq.nextval,4,0), 
 							#{merchant_uid}, 
@@ -90,8 +90,35 @@
 							#{res_seat}, 
 							sysdate,
 							#{pricesum},
-							'N')
+							'N',
+							#{discount},
+							#{mem_coupon_no},
+							#{use_point})
 	</insert>
+	
+	<insert id="insertPay0Res">
+		INSERT INTO reservation (res_no, merchant_uid, mem_cd, screen_cd, mem_cat, res_seat, resdate, pricesum, gb_cancel, discount, mem_coupon_no, use_point) 
+							values(
+							#{res_no} || LPAD(pay_seq.nextval,4,0) || LPAD(res_seq.nextval,4,0), 
+							'M' || #{merchant_uid} || LPAD(pay_seq.nextval,4,0), 
+							#{mem_cd}, 
+							#{screen_cd}, 
+							#{mem_cat}, 
+							#{res_seat}, 
+							sysdate,
+							#{pricesum},
+							'N',
+							#{discount},
+							#{mem_coupon_no},
+							#{use_point})
+		<selectKey resultType="str" keyProperty="merchant_uid" order="AFTER">
+			SELECT 'M' || #{merchant_uid} || LPAD(pay_seq.currval,4,0) merchant_uid FROM dual
+		</selectKey>
+	</insert>
+	
+	<update id="useMemCoupon">
+		UPDATE mem_coupon SET gb_use = 'Y' WHERE mem_coupon_no = #{mem_coupon_no}
+	</update>
 	
 	<insert id="insertPayDetail">
 		INSERT INTO pay_detail (
@@ -134,5 +161,14 @@
 		SELECT *
 		FROM pay_detail
 		WHERE merchant_uid = #{merchant_uid}
+	</select>
+	
+	<select id="selectCouponList" resultType="coupon">
+		SELECT *
+		FROM mem_coupon mc, coupon c
+		WHERE mc.coupon_cd = c.coupon_cd
+		AND enddate > sysdate
+		AND gb_use = 'N'
+		AND mem_cd = #{mem_cd}
 	</select>
 </mapper>
