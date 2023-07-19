@@ -372,4 +372,31 @@
 		  FROM movie_preview
 		 WHERE movie_cd = #{movie_cd}
 	</select>
+	
+	<insert id="insertProduct">
+		INSERT INTO product
+					(
+					 PRODUCT_CD
+					,PRODUCT_NAME
+					,PRODUCT_CONTENT
+					,PRODUCT_PRICE
+					,PRODUCT_DIV
+					,PRODUCT_PERIOD
+					,PRODUCT_INFO
+					,PRODUCT_PIC_PATH
+					)
+			 VALUES (
+					 'P' || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual) || LPAD(product_seq.nextval,4,0)
+					,#{product_name}
+					,#{product_content}
+					,#{product_price}
+					,#{product_div}
+					,#{product_period}
+					,#{product_info}
+					,#{product_pic_path}
+			 		)
+		<selectKey resultType="str" keyProperty="product_cd" order="AFTER">
+			SELECT 'P' || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual d1) || LPAD(product_seq.currval,4,0) movie_cd FROM dual d2
+		</selectKey>
+	</insert>
 </mapper>

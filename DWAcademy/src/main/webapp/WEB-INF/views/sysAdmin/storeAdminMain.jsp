@@ -86,7 +86,7 @@ if (CategoryIdx == null) {
 </div>
 <script>
 	$('#registProductBtn').on('click', function(){
-		location.href='storeAdminProductRegist.do';
+		location.href='storeAdminProductRegistForm.do';
 	});
 </script>
 <%@ include file="sysAdminFooter.jsp"%>

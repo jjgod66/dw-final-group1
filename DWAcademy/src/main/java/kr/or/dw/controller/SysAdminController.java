@@ -49,6 +49,7 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import kr.or.dw.command.MovieModifyCommand;
 import kr.or.dw.command.MovieRegistCommand;
+import kr.or.dw.command.ProductRegistCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.StoreService;
 import kr.or.dw.service.SysAdminService;
@@ -71,6 +72,9 @@ public class SysAdminController {
 	
 	@Resource(name ="moviePicUploadPath")
 	private String moviePicUploadPath;
+	
+	@Resource(name ="storePicUploadPath")
+	private String storePicUploadPath;
 	
 	@RequestMapping("/main")
 	public ModelAndView sysAdminIndex(ModelAndView mnv) {
@@ -437,8 +441,13 @@ public class SysAdminController {
 	}
 	
 	@RequestMapping("storeAdminDetail")
-	public ModelAndView storeAdminDetail (ModelAndView mnv) {
+	public ModelAndView storeAdminDetail (ModelAndView mnv, String product_cd) throws SQLException {
 		String url = "/sysAdmin/storeAdminDetail";
+		
+		ProductVO product = null;
+		product = storeService.selectProDetail(product_cd);
+		
+		mnv.addObject("product", product);
 		
 		Map<String, Object> subjectMap = addSubject("HOME", "스토어 관리", "상품 상세");
 		mnv.addAllObjects(subjectMap);
@@ -446,17 +455,53 @@ public class SysAdminController {
 		return mnv;
 	}
 	
-	@RequestMapping("storeAdminProductRegist")
-	public ModelAndView storeAdminProductRegist(ModelAndView mnv) {
+	@RequestMapping("storeAdminProductRegistForm")
+	public ModelAndView storeAdminProductRegist(ModelAndView mnv, String product_cd) throws SQLException {
 		String url = "/sysAdmin/storeAdminProductRegist";
-		
-		
-		
-		Map<String, Object> subjectMap = addSubject("HOME", "스토어 관리", "상품 등록");
+		Map<String, Object> subjectMap = null;
+		if (product_cd != null) {
+			subjectMap = addSubject("HOME", "스토어 관리", "상품 수정");
+			ProductVO product = null;
+			product = storeService.selectProDetail(product_cd);
+			
+			mnv.addObject("product", product);
+		} else {
+			subjectMap = addSubject("HOME", "스토어 관리", "상품 등록");
+		}
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
+	}
+	
+	@RequestMapping("storeAdminProductRegist")
+	public void storeAdminProductRegist(ProductRegistCommand registReq, HttpServletResponse res) throws SQLException, IOException {
+		String storePicUploadPath = this.storePicUploadPath;
+		ProductVO product = registReq.toParseProduct();
+		System.out.println("~~~~~~" + product.getProduct_name());
+		sysAdminService.registProduct(product);
+		String product_cd = product.getProduct_cd();
+		// 이미지파일 로컬에 저장
+		MultipartFile image = registReq.getProduct_pic_path();
+		if (image != null) {
+			String fileName = image.getOriginalFilename();
+			
+			File target = new File(storePicUploadPath  + File.separator + product_cd, fileName);
+			
+			if (!target.exists()) {
+				target.mkdirs();
+			}
+			
+			image.transferTo(target);
+		}
 		
+//		res.setContentType("text/html; charset=utf-8");
+//		PrintWriter out = res.getWriter();
+//		out.println("<script>");
+//		out.println("alert('상품 등록이 완료되었습니다.')");
+//		out.println("location.href='storeAdminMain.do?CategoryIdx=1';");
+//		out.println("</script>");
+//		out.flush();
+//		out.close();
 	}
 	
 	@GetMapping("/eventAdminMain")

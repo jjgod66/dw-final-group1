@@ -27,6 +27,10 @@ if (CategoryIdx == null) {
                 <div class="main_img">
                     <img class="" src="/resources/img/store/${product.product_pic_path }">
                 </div>
+                <div>
+                	<div style="font-weight: bold; border-bottom: 1px solid #dee2e6">상품이용안내</div>
+                	<textarea disabled style="border: none; resize: none; background-color: inherit" cols="50" rows="10">${product.product_info }</textarea>
+                </div>
             </div>
             <div class="pd_detail">
                 <table class="pd_table" summary="상품 상세설명에 대한 표입니다">

@@ -18,6 +18,7 @@ import kr.or.dw.dao.SysAdminDAO;
 import kr.or.dw.vo.AdminVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.TheaterVO;
 
 public class SysAdminServiceImpl implements SysAdminService {
@@ -265,6 +266,11 @@ public class SysAdminServiceImpl implements SysAdminService {
 		selectMoiveVideoByMovie_cd = sysAdminDAO.selectMoiveVideoByMovie_cd(movie_cd);
 		
 		return selectMoiveVideoByMovie_cd;
+	}
+
+	@Override
+	public void registProduct(ProductVO product) throws SQLException {
+		sysAdminDAO.insertProduct(product);
 	}
 
 }

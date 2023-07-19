@@ -11,6 +11,7 @@ import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.AdminVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.TheaterVO;
 
 
@@ -109,5 +110,8 @@ public interface SysAdminDAO {
 
 	// 해당 영화의 이미 올라간 비디오 불러오기
 	List<Map<String, Object>> selectMoiveVideoByMovie_cd(String movie_cd) throws SQLException;
+
+	// 새 스토어 상품 등록하기
+	void insertProduct(ProductVO product) throws SQLException;
 
 }
