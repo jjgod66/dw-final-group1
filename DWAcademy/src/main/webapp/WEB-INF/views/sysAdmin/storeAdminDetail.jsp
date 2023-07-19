@@ -55,8 +55,8 @@ if (CategoryIdx == null) {
     <div class="container">
         <div class="lnb" style="padding-top: 0;">
             <ul>
-                <li<%= CategoryIdx.equals("1") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=1">기프트카드</a></li>
-                <li<%= CategoryIdx.equals("2") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=2">팝콘/스낵/음료</a></li>
+                <li<%= CategoryIdx.equals("1") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/sysAdmin/storeAdminMain.do?CategoryIdx=1">기프트카드</a></li>
+                <li<%= CategoryIdx.equals("2") ? " class='on'" : "" %>><a href="<%=request.getContextPath()%>/sysAdmin/storeAdminMain.do?CategoryIdx=2">팝콘/스낵/음료</a></li>
             </ul>
         </div>
         <div class="content_wrap">
@@ -101,17 +101,12 @@ if (CategoryIdx == null) {
                 </tr>
                 </tbody>
                 </table>
-                <div class="bx_num">
-                    <button class="btn_mins">삭제</button>
-                    <div class="txt_num">1</div>
-                    <button class="btn_plus">추가</button>
+                <div>
+	               	<div>이용안내</div>
+               		<textarea disabled style="border: none; resize: none; background-color: inherit" cols="46" rows="10">${product.product_info }</textarea>
                 </div>
-                <div class="txt_price_wrap">
-                    총 상품금액<strong class="txt_price_str"><span class="totalprice">${product.product_price}</span><em>원</em></strong>
-                </div>
-                <div class="btn_wrap">
-                    <button class="btn_col2 ty7" id="gift">선물하기</button>
-                    <button class="btn_col1 ty7" id="buy">구매하기</button>
+                 <div class="btn_wrap">
+                    <button class="btn_col2 ty7" id="modifyProductBtn">수정</button>
                 </div>
             </div>
         </div>
@@ -126,43 +121,9 @@ if (CategoryIdx == null) {
 
 <script>
 	$(function(){
-		let totalprice = 0;
-		let amount = $('.txt_num').text();
-		let price = ${product.product_price};
-		$('.totalprice').text(price.toLocaleString());
-		price = ${product.product_price };
-		$('.btn_plus').on('click', function(){
-			amount++;
-			$('.txt_num').text(amount);
-			totalprice = amount*price;
-			$('.totalprice').text(totalprice.toLocaleString());
-
+		$('#modifyProductBtn').on('click', function(){
+			location.href="storeAdminProductRegistForm.do?product_cd=${product.product_cd}";
 		});
-		
-		$('.btn_mins').on('click', function(){
-			if(amount > 1){
-				amount--;
-				$('.txt_num').text(amount);
-				totalprice = amount*price;
-				$('.totalprice').text(totalprice.toLocaleString());
-			}
-		});
-		
-		$('#buy').on('click', function(){
-			$('#payForm').prop('action', 'buyForm.do');
-			$('input[name="totalprice"]').val(totalprice.toLocaleString());
-			$('input[name="amount"]').val(amount);
-			$('#payForm').submit();
-		})
-		
-		$('#gift').on('click', function(){
-			$('#payForm').prop('action', 'giftForm.do');
-			$('input[name="amount"]').val(amount);
-			$('#payForm').submit();
-		})
-		
-		
-
-	})
+	});
 </script>
 <%@ include file="../include/footer.jsp" %>

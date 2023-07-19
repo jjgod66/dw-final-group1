@@ -178,6 +178,9 @@ table th {
 	border-radius: 0;
 	-webkit-border-radius: 0;
 }
+.videoCol {
+	margin-bottom: 3rem;
+}
 </style>
 
 <div id="wrapper">
@@ -299,7 +302,7 @@ table th {
 											<div class="inputImgRow row">
 												<c:forEach items="${ movieImgList}" var="img">
 													<div class="col-md-3 imgCol alreadyImg">
-														<input type="file" name="uploadImg" accept=".jpeg, .png, .jpg, .gif" style="display: inline;">
+														<input type="file" name="uploadImg" accept=".jpeg, .png, .jpg, .gif" style="display: none;">
 														<button class="btn btn-outline-danger btn-sm" type="button" id="cancelAddBtn">X</button>
 														<div id="imgView" style="border: 1px solid green; height: 12rem; width: 10rem; margin: 0 auto; margin-bottom: 5px;
 															background-image: url('getPicture.do?name=${img.MOVIE_PIC_PATH}&movie_cd=${img.MOVIE_CD }&type=i'); background-size:cover; background-repeat: no-repeat"></div>
@@ -318,7 +321,7 @@ table th {
 											<div class="inputVideoRow row">
 												<c:forEach items="${movieVideoList}" var="video">
 													<div class="col-md-6 videoCol alreadyVideo">
-														<input type="file" name="uploadVideo" accept="video/mp4,video/mkv, video/x-m4v,video/*" style="display: inline;">
+														<input type="file" name="uploadVideo" accept="video/mp4,video/mkv, video/x-m4v,video/*" style="display: none;">
 														<button class="btn btn-outline-danger btn-sm" type="button" id="cancelAddBtn">X</button>
 														<video class="vi" style="width: 100%; height: 100%;" controls>
 															<source src='getVideo.do?movie_cd=${video.MOVIE_CD }&movie_pre_path=${video.MOVIE_PRE_PATH}'  type="video/mp4">

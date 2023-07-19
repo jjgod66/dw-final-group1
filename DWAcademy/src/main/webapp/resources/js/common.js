@@ -109,7 +109,6 @@ function preViewPicture(inputImage, target){
 		alert("사진 용량은 3MB 이하만 가능 합니다.");
 		return;
 	};
-	
 	// 파일명 inputTag에 삽입
 	target.next().find('#inputFileName').val(inputImage.files[0].name);
 	
