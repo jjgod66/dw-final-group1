@@ -231,9 +231,6 @@
 		    <version>${org.springframework-security}</version>
 		</dependency>
 		
-		
-		
-		
 		<!-- @Inject -->
 		<dependency>
 			<groupId>javax.inject</groupId>

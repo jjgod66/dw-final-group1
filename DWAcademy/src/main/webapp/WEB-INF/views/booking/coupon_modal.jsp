@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
 
 #coupon-modal .modal-content{
@@ -206,18 +208,15 @@ tbody th {
 		                    		</tr>
 	                    		</thead>
 	                    		<tbody>
-		                    		<tr id="1">
-		                    			<td id="couname" style="width: 150px;">발렌타인데이 쿠폰</td>
-		                    			<td id="coudis" style="width: 80px;">3000원</td>
-		                    			<td style="width: 120px;">~2023-08-20</td>
-		                    			<td style="width: 50px;"><input type="radio" name="couponchk" value="1"></td>
-		                    		</tr>
-		                    		<tr id="2">
-		                    			<td id="couname" style="width: 150px;">화이트데이 쿠폰</td>
-		                    			<td id="coudis" style="width: 80px;">5000원</td>
-		                    			<td style="width: 120px;">~2023-08-20</td>
-		                    			<td style="width: 50px;"><input type="radio" name="couponchk" value="2"></td>
-		                    		</tr>
+	                    			<c:forEach items="${couponList }" var="coupon">
+			                    		<tr id="${coupon.mem_coupon_no }">
+			                    			<td id="couname" style="width: 150px;">${coupon.coupon_name }</td>
+			                    			<td id="coudis" style="width: 80px;">${coupon.discount }</td>
+			                    			<td style="width: 120px;">~<fmt:formatDate value="${coupon.enddate }" pattern="yyyy-MM-dd"/></td>
+			                    			<td style="width: 50px;"><input type="radio" name="couponchk" value="${coupon.mem_coupon_no }"></td>
+			                    		</tr>
+	                    			
+	                    			</c:forEach>
 	                    		</tbody>
                     		</table>
                    		</div>
@@ -243,6 +242,7 @@ tbody th {
 $(function(){
 	$('#couCancelBtn').on('click', function(){
 		$('#coupon-modal').modal("hide");
+		$('input[name="couponchk"]').prop("checked", '');
 	})
 	
 	$('#couRegistBtn').on('click', function(){
@@ -252,9 +252,24 @@ $(function(){
 		let coudis = $('input[name="couponchk"]:checked').parents('tr').find('#coudis').text();
 // 		console.log(couname);
 		$('#couponname').text(couname);
-		$('#coupondis').text('-' + coudis);
-		$('#disprice').text(coudis.replace('원', ''));
-		$('#totalpp').text((${moviePayment.totalPrice } - (coudis.replace('원', ''))).toLocaleString());
+		
+		if(coudis.substr(-1) == '원'){
+			$('#coupondis').text(coudis.replace('원', ''));
+			$('#disprice').text((parseInt(coudis.replace('원', ''))).toLocaleString());
+			$('#totalpp').text((${moviePayment.pricesum } - (coudis.replace('원', ''))).toLocaleString());
+			
+		}else{
+			let disp = ${moviePayment.pricesum } / 100 * coudis.replace('%', '');
+			$('#coupondis').text(disp);
+			$('#disprice').text(disp.toLocaleString());
+			$('#totalpp').text((${moviePayment.pricesum } - disp).toLocaleString());
+			
+		}
+		
+		$('#payForm input[name="mem_coupon_no"]').val($('input[name="couponchk"]:checked').parents('tr').prop('id'));
+		$('#payForm input[name="discount"]').val(parseInt($('#payForm input[name="discount"]').val()) + parseInt($('#coupondis').text()));
+		console.log('폼으로 갈 할인금액 : ' + $('#payForm input[name="discount"]').val());
+		console.log('폼으로 갈 쿠폰번호 : ' + $('#payForm input[name="mem_coupon_no"]').val())
 		$('.couponbtn').css('display', 'none');
 		$('#coupon-modal').modal("hide");
 		$('input[name="couponchk"]').prop("checked", '');

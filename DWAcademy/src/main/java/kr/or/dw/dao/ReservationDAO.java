@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import kr.or.dw.command.ScreenSchedualCommand;
+import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.PayDetailVO;
 import kr.or.dw.vo.ReservationVO;
@@ -100,5 +101,25 @@ public interface ReservationDAO {
 	 * @return
 	 */
 	PayDetailVO selectPayDetailByMUID(String merchant_uid) throws SQLException;
+
+	/**
+	 * 회원 쿠폰 리스트 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<CouponVO> selectCouponList(String mem_cd) throws SQLException;
+
+	/**
+	 * 쿠폰사용하는 메서드
+	 * @param mem_coupon_no
+	 */
+	void useMemCoupon(int mem_coupon_no) throws SQLException;
+
+	/**
+	 * 총 결제 금액이 0원일때 처리해주는 메서드
+	 * @param res
+	 * @throws SQLException
+	 */
+	void insertPay0Res(ReservationVO res) throws SQLException;
 
 }

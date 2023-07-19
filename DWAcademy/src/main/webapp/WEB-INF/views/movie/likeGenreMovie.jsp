@@ -167,7 +167,7 @@ select {
 				<div class="movie col-3" style="padding: 30px 20px 30px 20px;">	
 				 <div class="item_poster">
 				        <div class="thumb_item">
-				            <div class="poster_movie" style="background: url('../../resources/img/poster/${movie.MOVIE_MAINPIC_PATH}') no-repeat center /cover">
+				            <div class="poster_movie" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&movie_cd=${movie.MOVIE_CD}&type=p') no-repeat center /cover">
 					                                        <span class="rank_num">${movie.movie_grade}</span>
 					                                        <span class="txt_tag">${movie.movie_grade}</span>
 				                <div class="movieChart_btn_wrap">
@@ -186,7 +186,7 @@ select {
 				            </strong>
 				            <span class="txt_append">
 				                <span class="info_txt">상영시간<span class="txt_grade">${movie.MOVIE_LENGTH}</span>분</span>
-				                <span class="info_txt">예매율<span class="txt_num">${movie.RESERVE == 0 ? 0 : movie.RESERVE / movie.all_reserver}</span>%</span>
+				                <span class="info_txt">예매율<span class="txt_num">${movie.resRate }</span>%</span>
 				            </span>
 				            <span class="txt_info">
 					                                        개봉일<span class="txt_num"><fmt:formatDate value="${movie.OPENDATE}" pattern="yyyy-MM-dd"/></span>

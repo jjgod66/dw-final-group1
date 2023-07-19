@@ -1,8 +1,8 @@
 package kr.or.dw.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,12 +36,16 @@ import kr.or.dw.command.MoviePaymentCommand;
 import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.service.ReservationService;
+import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.PayDetailVO;
 import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
-import oracle.sql.TIMESTAMP;
+import net.sourceforge.barbecue.Barcode;
+import net.sourceforge.barbecue.BarcodeException;
+import net.sourceforge.barbecue.BarcodeFactory;
+import net.sourceforge.barbecue.BarcodeImageHandler;
 
 
 @Controller
@@ -62,6 +66,10 @@ public class ReservationController {
 
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 		
+		List<CouponVO> couponList = null;
+		couponList = reservationService.getCouponList(loginUser.getMem_cd());
+		
+		mnv.addObject("couponList", couponList);
 		mnv.addObject("mapData", mapData);
 		mnv.addObject("moviePayment", mpc);
 		mnv.setViewName(url);
@@ -141,6 +149,69 @@ public class ReservationController {
 		return entity;
 	}
 	
+	@RequestMapping("/pay0ResultRedirect")
+	public String pay0ResultRedirect(MoviePaymentCommand mpc, HttpSession session) throws Exception {
+		String merchant_uid = mpc.getMerchant_uid();
+		
+		merchant_uid = pay0result(mpc, session);
+		
+		return "redirect:/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
+	}
+	
+	public String pay0result(MoviePaymentCommand mpc, HttpSession session) throws Exception {
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		List<ReservationVO> resList = new ArrayList<>();
+		
+		String[] seatList = mpc.getRes_seats().replace(",", "").split(" ");
+		String mem_cat = "";
+		if(mpc.getAdultSeat() > 0) {
+			mem_cat += "성인 " + mpc.getAdultSeat();
+			if(mpc.getTeenSeat() > 0) {
+				mem_cat += ", 청소년 " + mpc.getTeenSeat();
+				if(mpc.getPreferSeat() > 0) {
+					mem_cat += ", 우대 " + mpc.getPreferSeat();
+				}
+			}else {
+				if(mpc.getPreferSeat() > 0) {
+					mem_cat += ", 우대 " + mpc.getPreferSeat();
+				}
+			}
+		}else {
+			if(mpc.getTeenSeat() > 0) {
+				mem_cat += "청소년 " + mpc.getTeenSeat();
+				if(mpc.getPreferSeat() > 0) {
+					mem_cat += ", 우대 " + mpc.getPreferSeat();
+				}else {
+					if(mpc.getPreferSeat() > 0) {
+						mem_cat += "우대 " + mpc.getPreferSeat();
+					}
+				}
+			}else {
+				mem_cat += "우대 " + mpc.getPreferSeat();
+			}
+		}
+		
+		for(int i = 0; i < seatList.length; i++) {
+			ReservationVO reservation = new ReservationVO();
+			reservation.setScreen_cd(mpc.getScreen_cd());
+			reservation.setMerchant_uid("M" + mpc.getMerchant_uid());
+			reservation.setMem_cd(loginUser.getMem_cd());
+			reservation.setRes_seat(seatList[i]);
+			reservation.setMem_cat(mem_cat);
+			reservation.setRes_no(mpc.getMerchant_uid());
+			reservation.setPricesum(mpc.getPricesum());
+			reservation.setDiscount(mpc.getDiscount());
+			reservation.setMem_coupon_no(mpc.getMem_coupon_no());
+			reservation.setUse_point(mpc.getUse_point());
+			resList.add(reservation);
+			
+		}
+		
+		String merchant_uid = reservationService.pay0InsertRes(resList);
+		
+		return merchant_uid;
+	}
+	
 	@RequestMapping("/payResultRedirect")
 	public String payResultRedirect(MoviePaymentCommand mpc, HttpSession session) throws Exception {
 		Map<String, Object> dataMap = payResult(mpc, session);
@@ -149,11 +220,13 @@ public class ReservationController {
 	}
 	
 	@RequestMapping("/paySuccess")
-	public ModelAndView paySuccess(ModelAndView mnv, String merchant_uid) throws SQLException {
+	public ModelAndView paySuccess(ModelAndView mnv, String merchant_uid) throws Exception {
 		String url = "/booking/payResult";
 		
 		Map<String, Object> mapData = null;
 		mapData = reservationService.getReservationResult(merchant_uid);
+
+		barbecuecod(merchant_uid);
 		
 		mnv.addObject("merchant_uid", merchant_uid);
 		mnv.addObject("mapData", mapData);
@@ -162,11 +235,9 @@ public class ReservationController {
 	}
 
 	public Map<String, Object> payResult(MoviePaymentCommand mpc, HttpSession session) throws Exception {
-		String url = "/booking/payResult";
 		
 		Gson gson = new Gson();
 		PayDetailVO payDetail = gson.fromJson(mpc.getJson(), PayDetailVO.class);
-
 		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
 		
 		List<ReservationVO> resList = new ArrayList<>();
@@ -196,6 +267,8 @@ public class ReservationController {
 						mem_cat += "우대 " + mpc.getPreferSeat();
 					}
 				}
+			}else {
+				mem_cat += "우대 " + mpc.getPreferSeat();
 			}
 		}
 		
@@ -209,7 +282,10 @@ public class ReservationController {
 			reservation.setRes_seat(seatList[i]);
 			reservation.setMem_cat(mem_cat);
 			reservation.setRes_no(payDetail.getMerchant_uid());
-			reservation.setPricesum(mpc.getTotalPrice());
+			reservation.setPricesum(mpc.getPricesum());
+			reservation.setDiscount(mpc.getDiscount());
+			reservation.setMem_coupon_no(mpc.getMem_coupon_no());
+			reservation.setUse_point(mpc.getUse_point());
 			resList.add(reservation);
 		}
 		
@@ -221,4 +297,18 @@ public class ReservationController {
 		return mapData;
 	}
 	
+	public void barbecuecod(String merchant_uid) throws Exception {
+		Barcode barcode = BarcodeFactory.createCode128(merchant_uid);
+        File file = new File("C:/DWAcademyFiles/barcode/reservation/" + merchant_uid + ".png");
+        
+        BarcodeImageHandler.savePNG(barcode, file);
+	}
+	
+	@RequestMapping("/photoTicket")
+	public ModelAndView photoTicketMain(ModelAndView mnv) {
+		String url = "/booking/photoTicket";
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
 }

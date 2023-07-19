@@ -28,7 +28,7 @@
 								티켓 예매번호 <!-- 티켓 예매번호 -->
 								<span class="roboto">${merchant_uid }</span>
 							</p>
-							<img src="../../resources/img/poster/${mapData.MOVIE_MAINPIC_PATH }" alt="미션 임파서블: 데드 레코닝 PART ONE" onerror="noImg(this)">
+							<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${mapData.MOVIE_MAINPIC_PATH}&movie_cd=${mapData.MOVIE_CD}&type=p" onerror="noImg(this)">
 						</div>
 
 						<!-- movie-infomation-area -->
@@ -60,7 +60,9 @@
 							</div>
 
 								<div class="btn-group pt30">
-									<a href="${mapData.receipt_url }" class="button large" id="btn_bill_print" title="영수증출력">영수증출력 <!-- 영수증출력 --></a>
+									<c:if test="${mapData.receipt_url ne '' }">
+										<a href="${mapData.receipt_url }" class="button large" id="btn_bill_print" title="영수증출력">영수증출력 <!-- 영수증출력 --></a>
+									</c:if>
 									<a href="#" class="button large" title="예매내역 페이지로 이동">예매내역 <!-- 예매내역 --></a>
 								</div>
 						</div>

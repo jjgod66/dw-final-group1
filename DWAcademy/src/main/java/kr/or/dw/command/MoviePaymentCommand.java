@@ -1,6 +1,5 @@
 package kr.or.dw.command;
 
-import java.util.Map;
 
 import lombok.Data;
 
@@ -11,6 +10,12 @@ public class MoviePaymentCommand {
 	private int teenSeat;
 	private int preferSeat;
 	private String res_seats;
-	private int totalPrice;
+	private int pricesum;
 	private String json;
+	private int discount;
+	private int mem_coupon_no;
+	private int use_point;
+	private String merchant_uid;
+	
+	
 }

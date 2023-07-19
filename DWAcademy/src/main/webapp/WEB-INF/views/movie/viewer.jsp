@@ -36,7 +36,8 @@
         </div>
         <div class="scon_02_detail">
             <div class="lbox">
-                <img src="../../resources/img/poster/${movieView.movie.movie_mainpic_path}">
+<%--                 <img src="../../resources/img/poster/${movieView.movie.movie_mainpic_path}"> --%>
+                <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieView.movie.movie_mainpic_path}&movie_cd=${movieView.movie.movie_cd}&type=p">
                 <a href="<%=request.getContextPath() %>/reservation/cinema.do?movie_cd=${movieView.movie.movie_cd }" class="btn btn-reservation">예매하기</a>
                 <a href="javascript:movieHeart();" class="btn btn-heart ${active }">♡ <span id="likeCount">${likeCount }</span></a>
             </div>
@@ -120,7 +121,7 @@
                     <div class="reviwer-info">
                         <div class="rate">
                             <p class="tit">예매율</p>
-                            <p class="cont"><i class="bi bi-ticket"></i><em>${reserMap.yes_movie_reservers == 0 ? 0 : reserMap.yes_movie_reservers / reserMap.yes_all_reservers}</em>%</p>
+                            <p class="cont"><i class="bi bi-ticket"></i><em>${reserMap.yes_movie_reservers == 0 ? 0 : reserMap.yes_movie_reservers / reserMap.yes_all_reservers * 100}</em>%</p>
                         </div>
                         <div class="audience">
                             <div class="tit">누적관객수</div>
