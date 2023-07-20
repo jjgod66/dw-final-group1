@@ -277,7 +277,7 @@ nav ul {
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">고객관리 
 					<div class="dropdown-content">
-						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">공지사항</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/noticeAdminMain.do" class="gnb_1da">공지사항</a>
 						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">FAQ</a>
 						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">1:1문의</a>
 						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">회원목록 </a>
@@ -295,7 +295,7 @@ nav ul {
 					<div class="dropdown-content">
 						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do?CategoryIdx=1" class="gnb_1da">기프트카드</a>
 						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do?CategoryIdx=2" class="gnb_1da">팝콘/스낵/음료</a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminMain.do" class="gnb_1da">3</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/storeAdminProductRegistForm.do" class="gnb_1da">상품등록</a>
 						</div>
 					</li>
 				</ul>

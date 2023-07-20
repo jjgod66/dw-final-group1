@@ -399,4 +399,16 @@
 			SELECT 'P' || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual d1) || LPAD(product_seq.currval,4,0) movie_cd FROM dual d2
 		</selectKey>
 	</insert>
+	
+	<update id="updateProduct">
+		UPDATE product
+		   SET product_name = #{product_name}
+		      ,product_content = #{product_content}
+		      ,product_price = #{product_price}
+		      ,product_div = #{product_div}
+		      ,product_period = #{product_period}
+		      ,product_info = #{product_info}
+		      ,product_pic_path = #{product_pic_path}
+		 WHERE product_cd = #{product_cd}
+	</update>
 </mapper>

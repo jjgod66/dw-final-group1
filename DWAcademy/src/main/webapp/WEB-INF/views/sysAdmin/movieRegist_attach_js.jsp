@@ -70,7 +70,7 @@ function Attach_action(){
 	});
 	
 	// 수정일때 기본 포스터
-	let imageURL = 'getPicture.do?name=${MOVIE_MAINPIC_PATH}&movie_cd=${MOVIE_CD}&type=p';	// 이미지명 가지고 와서 셋팅
+	let imageURL = 'getPicture.do?name=${MOVIE_MAINPIC_PATH}&item_cd=${MOVIE_CD}&type=moviePoster';	// 이미지명 가지고 와서 셋팅
  	$('div#pictureView').css({
 								'background-image' : 'url("' + imageURL + '")',
 								'background-position' : 'center',

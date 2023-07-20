@@ -305,7 +305,7 @@ table th {
 														<input type="file" name="uploadImg" accept=".jpeg, .png, .jpg, .gif" style="display: none;">
 														<button class="btn btn-outline-danger btn-sm" type="button" id="cancelAddBtn">X</button>
 														<div id="imgView" style="border: 1px solid green; height: 12rem; width: 10rem; margin: 0 auto; margin-bottom: 5px;
-															background-image: url('getPicture.do?name=${img.MOVIE_PIC_PATH}&movie_cd=${img.MOVIE_CD }&type=i'); background-size:cover; background-repeat: no-repeat"></div>
+															background-image: url('getPicture.do?name=${img.MOVIE_PIC_PATH}&item_cd=${img.MOVIE_CD }&type=movieImg'); background-size:cover; background-repeat: no-repeat"></div>
 														<input id="imgName" class="form-control" type="hidden" name="imgName" value="${img.MOVIE_PIC_NO }">
 													</div>
 												</c:forEach>

@@ -87,4 +87,7 @@ public interface SysAdminService {
 	// 새 스토어 상품 등록하기
 	void registProduct(ProductVO product) throws SQLException;
 
+	// 스토어 상품 수정하기
+	void modifyProduct(ProductVO product) throws SQLException;
+
 }
