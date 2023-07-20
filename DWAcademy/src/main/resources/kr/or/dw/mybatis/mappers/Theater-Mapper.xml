@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.TheaterDAO">
+	<select id="selectThrByLoc" resultType="str">
+		SELECT thr_name
+		FROM theater
+		WHERE thr_loc = #{thr_loc}
+	</select>
+	
+	<select id="selectTheaterInfo" resultType="theater">
+		SELECT *
+		FROM theater
+		WHERE thr_name = #{thr_name}
+	</select>
+	
+	<select id="selectLikeThrCount" resultType="int">
+		SELECT COUNT(*)
+		FROM mem_like_theater
+		WHERE mem_cd = #{mem_cd}
+	</select>
+	
+	<select id="selectThisThrLikeYN" resultType="int">
+		SELECT COUNT(*)
+		FROM mem_like_theater
+		WHERE mem_cd = #{mem_cd}
+		AND thr_name = #{thr_name}
+	</select>
+	
+	<delete id="deleteLikeThr">
+		DELETE mem_like_theater WHERE mem_cd = #{mem_cd} AND thr_name = #{thr_name}
+	</delete>
+	
+	<insert id="insertLikeThr">
+		INSERT INTO mem_like_theater (mem_cd, thr_name) VALUES (#{mem_cd}, #{thr_name})
+	</insert>
+</mapper>

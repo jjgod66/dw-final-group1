@@ -45,4 +45,17 @@ public interface StoreDAO {
 	 */
 	Map<String, Object> selectGiftInfo(String merchant_uid);
 
+	/**
+	 * 상품 선물할때 회원 결제 테이블에 데이터 넣는 메서드
+	 * @param payDetail
+	 * @throws SQLException
+	 */
+	void insertPayDetailG(PayDetailVO payDetail) throws SQLException;
+
+	/**
+	 * 회원 상품 테이블에 추가하는 메서드
+	 * @param param
+	 */
+	void insertMemPro(Map<String, String> param) throws SQLException;
+
 }

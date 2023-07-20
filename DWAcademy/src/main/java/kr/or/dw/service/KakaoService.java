@@ -22,7 +22,7 @@ public class KakaoService {
 		public Map<String, String> getAccessToken (String authorize_code) {
 			String access_Token = "";
 			String refresh_Token = "";
-			String reqURL = "https://kauth.kakao.com/oauth/token";
+			String reqURL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/kakao/callback&code=" + authorize_code;
 			Map<String, String> token = new HashMap<String, String>();
 	
 		try {
@@ -35,21 +35,22 @@ public class KakaoService {
 			conn.setDoOutput(true);
 			// POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
 	        
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-			StringBuilder sb = new StringBuilder();
-			sb.append("grant_type=authorization_code");
-	        
-			sb.append("&client_id=bf62309a02d7160678300f689ce8d447"); //본인이 발급받은 key
-			sb.append("&redirect_uri=http://localhost/kakao/callback"); // 본인이 설정한 주소
-	        
-			sb.append("&code=" + authorize_code);
-			bw.write(sb.toString());
-			bw.flush(); 
+			// Buffer는 대용량의 String을 사용할 때 용이함. 짧으면 오히려 느림.
+//			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+//			StringBuilder sb = new StringBuilder();
+//			sb.append("grant_type=authorization_code");
+//	        
+//			sb.append("&client_id=bf62309a02d7160678300f689ce8d447"); //본인이 발급받은 key
+//			sb.append("&redirect_uri=http://localhost/kakao/callback"); // 본인이 설정한 주소
+//	        
+//			sb.append("&code=" + authorize_code);
+//			bw.write(sb.toString());
+//			bw.flush(); 
 	        
 			// 결과 코드가 200이라면 성공
 			int responseCode = conn.getResponseCode();
 			System.out.println("responseCode : " + responseCode);
-	        
+	        System.out.println(conn.getInputStream().toString());
 			// 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = "";
@@ -75,8 +76,8 @@ public class KakaoService {
 			System.out.println("access_token : " + access_Token);
 			System.out.println("refresh_token : " + refresh_Token);
 	        
-			br.close();
-			bw.close();
+//			br.close();
+//			bw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -91,8 +92,11 @@ public class KakaoService {
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Authorization", "Bearer " + access_Token);
+			
 			int responseCode = conn.getResponseCode();
+			
 			System.out.println("responseCode : " + responseCode);
+			
 			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 			String line = "";
 			String result = "";
