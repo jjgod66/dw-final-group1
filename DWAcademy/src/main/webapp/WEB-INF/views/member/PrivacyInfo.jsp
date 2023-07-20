@@ -140,7 +140,7 @@
 								<a id="btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/kakao/callback">연동</a>
 							</c:when>
 							<c:when test="${kakao.mem_cd ne null and kakao.sns eq 'K'}">
-								<a id="btn" href="#" onclick="unLink_go();">연동해제</a>
+								<a id="btn" href="<%=request.getContextPath()%>/kakao/unConnect">연동해제</a>
 							</c:when>
 						</c:choose>
 						</td>
@@ -154,7 +154,7 @@
 								<a id="btn" href="<%=request.getContextPath()%>${url}">연동</a>
 							</c:when>
 							<c:when test="${naver.mem_cd ne null and naver.sns eq 'N'}">
-								<a id="btn" href="#" onclick="unLink_go();">연동해제 </a>
+								<a id="btn" href="<%=request.getContextPath()%>/naver/unConnect.do">연동해제 </a>
 							</c:when>
 						</c:choose>
 						</td>
@@ -169,21 +169,4 @@
 		<button class="button purple large" id="updateBtn">수정</button>
 	</div>
 </div>
-<script>
-function unLink_go(){
-	Kakao.API.request({
-	  url: '/v1/user/unlink',
-	})
-	.then(function(res){
-		location.href="<%=request.getContextPath()%>/sns/unlink.do",
-// 		alert('success: ' + JSON.stringify(res));
-	    console.log(response);
-	    location.reload();
-	})
-	.catch(function(err){
-// 		alert('fail: ' + JSON.stringify(err));
-		console.log(err);
-	})
-}
-</script>
 <%@ include file="../include/member_footer.jsp" %>

@@ -41,7 +41,11 @@
 		   AND sns = 'N'
 	</select>
 	
-	<delete id="delete">
-		DELETE mem_sns_login WHERE sns_email = #{mem_email}
+	<delete id="kakaoDelete">
+		DELETE mem_sns_login WHERE sns_email = #{mem_email} AND sns = 'K'
+	</delete>
+	
+	<delete id="neverDelete">
+		DELETE mem_sns_login WHERE sns_email = #{mem_email} AND sns = 'N'
 	</delete>
 </mapper>

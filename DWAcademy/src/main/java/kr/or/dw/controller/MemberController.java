@@ -45,6 +45,8 @@ public class MemberController {
 	@RequestMapping("/member/PrivacyInfo")
 	public ModelAndView PrivacyInfo(ModelAndView mnv, HttpServletRequest req, HttpSession session) throws SQLException {
 		String url = "/member/PrivacyInfo";
+		
+		
 		System.out.println(session.getAttribute("loginUser"));
 		MemberVO member = (MemberVO) session.getAttribute("loginUser");
 		SnsVO kakao = new SnsVO();
