@@ -12,4 +12,25 @@
 		FROM theater
 		WHERE thr_name = #{thr_name}
 	</select>
+	
+	<select id="selectLikeThrCount" resultType="int">
+		SELECT COUNT(*)
+		FROM mem_like_theater
+		WHERE mem_cd = #{mem_cd}
+	</select>
+	
+	<select id="selectThisThrLikeYN" resultType="int">
+		SELECT COUNT(*)
+		FROM mem_like_theater
+		WHERE mem_cd = #{mem_cd}
+		AND thr_name = #{thr_name}
+	</select>
+	
+	<delete id="deleteLikeThr">
+		DELETE mem_like_theater WHERE mem_cd = #{mem_cd} AND thr_name = #{thr_name}
+	</delete>
+	
+	<insert id="insertLikeThr">
+		INSERT INTO mem_like_theater (mem_cd, thr_name) VALUES (#{mem_cd}, #{thr_name})
+	</insert>
 </mapper>

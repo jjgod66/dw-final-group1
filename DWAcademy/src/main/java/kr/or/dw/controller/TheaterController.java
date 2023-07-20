@@ -2,6 +2,8 @@ package kr.or.dw.controller;
 
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.service.TheaterService;
+import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.TheaterVO;
 
 @Controller
@@ -64,6 +67,47 @@ private static final Logger logger = LoggerFactory.getLogger(TheaterController.c
 		mnv.setViewName(url);
 		
 		return mnv;
+	}
+	
+	@RequestMapping("/likeThr")
+	public ResponseEntity<String> clickLikeThr(String thr_name, HttpSession session){
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		
+		ResponseEntity<String> entity = null;
+		
+		String result = "";
+		try {
+			result = theaterService.clickLikeThr(thr_name, mem_cd);
+			entity = new ResponseEntity<String>(result, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+		
+	}
+	
+	@RequestMapping("/likeThrYN")
+	public ResponseEntity<String> likeThrYN(String thr_name, HttpSession session){
+		ResponseEntity<String> entity = null;
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		String result = "N";
+		
+		int cnt = 0;
+		try {
+			cnt = theaterService.likeThrYN(thr_name, mem_cd);
+			if(cnt > 0) {
+				result = "Y";
+			}
+			entity = new ResponseEntity<String>(result, HttpStatus.OK);
+		} catch (SQLException e) {
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			e.printStackTrace();
+		}
+
+		
+		return entity;
 	}
 
 }

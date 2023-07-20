@@ -1,12 +1,31 @@
+<%@page import="kr.or.dw.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@include file="../include/header.jsp"%>
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0b454d2cc25dc49cf0d959c1f64b6aad"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=services,clusterer,drawing"></script>
+
 <style>
+.tit-util {
+    margin: 50px 0 10px;
+}
+.tit-util:after {
+    clear: both;
+}
+.tit-util:after, .tit-util:before {
+    content: '';
+    display: block;
+}
 
-
+.tit-util .tit {
+    float: left;
+    padding: 0!important;
+    line-height: 1.1;
+}
+.tit-util .float-end a {
+    color: #333;
+}
 
 .accordion-list {
 	border-top: 1px solid #555
@@ -452,6 +471,13 @@ h3.tit.small {
     padding: 0 0 0 8px;
 }
 </style>
+<%
+	String mem_cd = "";
+	if(session.getAttribute("loginUser") != null){
+		MemberVO member = (MemberVO)session.getAttribute("loginUser");
+		mem_cd = member.getMem_cd();
+	}
+%>
 <div id="contents" class="no-padding">
 
 	<div class="sub_visual theater-detail-page">
@@ -549,9 +575,14 @@ h3.tit.small {
 
 			</ul>
 		</div>
-		<div id="brchNoti">
-			<h2 class="tit small mt70">공지사항</h2>
-
+		<div class="tit-util">
+			<h2 class="tit small">공지사항</h3>
+			<div class="float-end">
+				<a href="/support/notice.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+			</div>
+		</div>
+		<div id="brchNoti" style="margin-bottom : 20px;">
+<!-- 			<h2 class="tit small mt70">공지사항</h2> -->
 			<!-- accordion-list -->
 			<div class="accordion-list">
 				<ul>
@@ -586,14 +617,6 @@ h3.tit.small {
 				</ul>
 			</div>
 			<!--// accordion-list -->
-			<!-- pagination -->
-			<div class="mb-5" style="margin-top: 5px;">
-				<%@ include file="../common/pagination.jsp" %>
-			</div>
-<!-- 			<nav class="pagination" style="text-align: center;"> -->
-<%-- 				<%@ include file="../common/pagination.jsp" %> --%>
-<!-- 			</nav> -->
-			<!--// pagination -->
 		</div>
 	</div>
 
@@ -617,14 +640,57 @@ var marker = new kakao.maps.Marker({
 
 marker.setMap(map);
 
+let mem_cd = '<%=mem_cd%>';
+let thr_name = '${theater.thr_name}';
 $(function(){
-// 	 $('.btn-like').hover(function() {
-// 		$(".btn-like").find('.noneThLikeIcon').css('display', 'none');
-// 		$(".btn-like").find('.ThLikeIcon').css('display', '');
-//         }, function(){
-// 			$(".btn-like").find('.ThLikeIcon').css('display', 'none');
-// 			$(".btn-like").find('.noneThLikeIcon').css('display', '');
-//         });
+	if(mem_cd != ''){
+		
+		$.ajax({
+			url : '<%=request.getContextPath()%>/theater/likeThrYN.do',
+			method : 'post',
+			data : {"thr_name" : thr_name},
+			success : function(res){
+				if(res == 'Y'){
+					$('.noneThLikeIcon').css('display', 'none');
+					$('.ThLikeIcon').css('display', '');
+				}
+			},
+			error : function(err){
+				alert(errstatus);
+			}
+		});
+		
+	}
+	
+	$('.btn-like').on('click', function(){
+		if(mem_cd == ''){
+			alert('로그인이 필요한 서비스입니다.');
+			return;
+		}
+		
+		$.ajax({
+			url: '<%=request.getContextPath()%>/theater/likeThr.do',
+			method : 'post',
+			data : {'thr_name' : thr_name},
+			success : function(res){
+				console.log(res);
+				if(res == 'over'){
+					alert("선호 극장은 5개까지만 선택 가능합니다.");
+				}else if(res == 'like'){
+					$('.noneThLikeIcon').css('display', 'none');
+					$('.ThLikeIcon').css('display', '');
+				}else{
+					$('.ThLikeIcon').css('display', 'none');
+					$('.noneThLikeIcon').css('display', '');
+				}
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		});
+		
+		
+	})
 })
 </script>
 <%@ include file="../include/footer.jsp"%>
