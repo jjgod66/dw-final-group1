@@ -14,7 +14,7 @@ import com.github.scribejava.core.model.Response;
 import com.github.scribejava.core.model.Verb;
 import com.github.scribejava.core.oauth.OAuth20Service;
 
-public class NaverLoginBO {
+public class NaverLoginBO2 {
 	 	/* 인증 요청문을 구성하는 파라미터 */
 		//client_id: 애플리케이션 등록 후 발급받은 클라이언트 아이디
 		//response_type: 인증 과정에 대한 구분값. code로 값이 고정돼 있습니다.
@@ -22,7 +22,7 @@ public class NaverLoginBO {
 		//state: 애플리케이션이 생성한 상태 토큰
 		private final static String CLIENT_ID = "xECJaEapJzaHHIpgDcjz";
 	    private final static String CLIENT_SECRET = "ep7rTSf5so";
-	    private final static String REDIRECT_URI = "http://localhost/callback";
+	    private final static String REDIRECT_URI = "http://localhost/naver/connect";
 	    private final static String SESSION_STATE = "oauth_state";
 	    /* 프로필 조회 API URL */
 	    private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";

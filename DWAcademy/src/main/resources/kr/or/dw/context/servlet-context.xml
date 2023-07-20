@@ -30,6 +30,7 @@
 	
 	<context:component-scan base-package="kr.or.dw" />
 	<beans:bean id="naverLoginBO" class="kr.or.dw.service.NaverLoginBO" />
+	<beans:bean id="naverLoginBO2" class="kr.or.dw.service.NaverLoginBO2" />
 	
 	<interceptors>
 		<interceptor>

@@ -8,12 +8,25 @@ import kr.or.dw.vo.SnsVO;
 
 public interface SnsService {
 
-	SnsVO selectByMemberCode(String email) throws SQLException;
+	// 카카오 로그인 회원 간편로그인 테이블에서 이메일 체크
+	SnsVO kakaoSelectByMemberCode(String email) throws SQLException;
 
-	void insertSocal(HashMap<String, Object> userInfo) throws SQLException;
+	void kakaoInsert(HashMap<String, Object> userInfo) throws SQLException;
 
-	SnsVO selectSnsInfo(MemberVO member) throws SQLException;
+	// 간편로그인 카카오 정보 가져오기
+	SnsVO selectKakaoInfo(MemberVO member) throws SQLException;
 
+	// 간편로그인 네이버 정보 가져오기
+	SnsVO selectNaverInfo(MemberVO member) throws SQLException;
+	
+	// 간편로그인 연동해제
 	void unlink(MemberVO user) throws SQLException;
+
+	// 네이버 로그인 회원 간편로그인 테이블에서 이메일 체크
+	SnsVO naverSelectByMemberCode(String email) throws SQLException;
+
+	// 네이버 연동시 DB 저장
+	void naverInsert(HashMap<String, Object> naverUserInfo) throws SQLException;
+
 
 }

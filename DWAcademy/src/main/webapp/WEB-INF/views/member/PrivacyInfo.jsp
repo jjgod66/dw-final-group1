@@ -133,26 +133,28 @@
 				<tbody>
 					<tr>
 						<td scope="row" style="text-align: center;">카카오</td>
-						<td><fmt:formatDate value="${sns.linkdate}" pattern="yyyy-MM-dd"/> ${sns.sns_email}</td>
+						<td><fmt:formatDate value="${kakao.linkdate}" pattern="yyyy-MM-dd"/> ${kakao.sns_email}</td>
 						<td style="text-align: center;">
 						<c:choose>
-							<c:when test="${sns.mem_cd eq null}">
+							<c:when test="${kakao.mem_cd eq null or kakao.sns ne 'K'}">
 								<a id="btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/kakao/callback">연동</a>
 							</c:when>
-							<c:when test="${sns.mem_cd ne null}">
+							<c:when test="${kakao.mem_cd ne null and kakao.sns eq 'K'}">
 								<a id="btn" href="#" onclick="unLink_go();">연동해제</a>
 							</c:when>
 						</c:choose>
 						</td>
+					</tr>
+					<tr>
 						<td scope="row" style="text-align: center;">네이버</td>
-						<td><fmt:formatDate value="${sns.linkdate}" pattern="yyyy-MM-dd"/> ${sns.sns_email}</td>
+						<td><fmt:formatDate value="${naver.linkdate}" pattern="yyyy-MM-dd"/> ${naver.sns_email}</td>
 						<td style="text-align: center;">
 						<c:choose>
-							<c:when test="${sns.mem_cd eq null}">
-								<a id="btn" href="#">연동</a>
+							<c:when test="${naver.mem_cd eq null or naver.sns ne 'N'}">
+								<a id="btn" href="<%=request.getContextPath()%>${url}">연동</a>
 							</c:when>
-							<c:when test="${sns.mem_cd ne null}">
-								<a id="btn" href="#" onclick="unLink_go();">연동해제</a>
+							<c:when test="${naver.mem_cd ne null and naver.sns eq 'N'}">
+								<a id="btn" href="#" onclick="unLink_go();">연동해제 </a>
 							</c:when>
 						</c:choose>
 						</td>

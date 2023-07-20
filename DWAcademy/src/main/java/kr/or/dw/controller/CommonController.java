@@ -1,10 +1,8 @@
 package kr.or.dw.controller;
 
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,27 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.IndexMovieCommand;
-import kr.or.dw.dao.SnsDAO;
-import kr.or.dw.service.KakaoService;
-import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
-import kr.or.dw.service.SnsService;
-import kr.or.dw.vo.MemberVO;
-import kr.or.dw.vo.SnsVO;
+import kr.or.dw.service.NaverLoginBO;
 
 @Controller
 public class CommonController {
@@ -43,6 +31,14 @@ public class CommonController {
 	@Autowired
 	private MovieService movieService;
 	
+	/* NaverLoginBO */
+	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
+	
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
 
 	
 	
@@ -55,8 +51,8 @@ public class CommonController {
 		return url;
 	}
 	
-	@RequestMapping("/main")
-	public ModelAndView index(ModelAndView mnv) throws SQLException {
+	@RequestMapping(value = "/main", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView index(ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/main";
 		List<Map<String, Object>> movieListMap = null;
 		movieListMap = movieService.getIndexBoxOfficeMovie10();
@@ -66,7 +62,17 @@ public class CommonController {
 		for(Map<String, Object> movieMap : movieListMap) {
 			IndexMovieCommand imc = new IndexMovieCommand(movieMap);
 			movieList.add(imc);
+			
 		}
+		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+		
+		//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+		//redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+		System.out.println("네이버:" + naverAuthUrl);
+		
+		//네이버 
+		mnv.addObject("url", naverAuthUrl);
 		
 		
 		
