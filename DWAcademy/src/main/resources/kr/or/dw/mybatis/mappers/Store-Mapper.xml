@@ -50,6 +50,36 @@
 			SELECT 'P' || #{merchant_uid} || LPAD(pay_seq.currval,4,0) merchant_uid FROM dual
 		</selectKey>
 	</insert>
+	<insert id="insertPayDetailG" parameterType="paydetail">
+		INSERT INTO pay_detail (
+									imp_uid,
+									apply_num,
+									card_name,
+									card_number,
+									pay_method,
+									merchant_uid,
+									card_quota,
+									status,
+									paid_amount,
+									receipt_url
+								)
+							VALUES(
+									#{imp_uid},
+									#{apply_num},
+									#{card_name},
+									#{card_number},
+									#{pay_method},
+									'P' || #{merchant_uid} || LPAD(pay_seq.nextval,4,0),
+									#{card_quota},
+									#{status},
+									#{paid_amount},
+									#{receipt_url}
+							)
+							
+		<selectKey resultType="str" keyProperty="merchant_uid" order="AFTER">
+			SELECT 'G' || #{merchant_uid} || LPAD(pay_seq.currval,4,0) merchant_uid FROM dual
+		</selectKey>
+	</insert>
 	
 	<insert id="insertMemBuy">
 		INSERT INTO mem_buy (merchant_uid,
@@ -67,6 +97,11 @@
 							 #{pricesum}
 					)
 					
+	</insert>
+	
+	<insert id="insertMemPro">
+		INSERT INTO mem_product (mem_product_cd, mem_cd, product_cd, gb_use, enddate) VALUES 
+		(#{product_cd} || lpad(mem_pro_seq.nextval,4,0), #{mem_cd}, #{product_cd}, 'N', sysdate + (SELECT product_period FROM product WHERE product_cd = #{product_cd}))
 	</insert>
 	
 	<select id="selectBuyResult" resultType="Map">

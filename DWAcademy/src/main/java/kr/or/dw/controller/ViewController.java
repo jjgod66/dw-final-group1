@@ -77,11 +77,11 @@ public class ViewController {
 	/*
 	 * 극장 뷰어 컨트롤러 
 	 */
-	@GetMapping("/theater/main")
-	public String theaterMain() {
-		String url = "/theater/main";
-		return url;
-	}
+//	@GetMapping("/theater/main")
+//	public String theaterMain() {
+//		String url = "/theater/main";
+//		return url;
+//	}
 
 	/*
 	 * 예매 뷰어 컨트롤러 

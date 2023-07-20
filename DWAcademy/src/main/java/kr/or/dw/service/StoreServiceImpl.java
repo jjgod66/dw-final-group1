@@ -1,6 +1,7 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale.Category;
 import java.util.Map;
@@ -42,6 +43,12 @@ public class StoreServiceImpl implements StoreService{
 		
 		storeDAO.insertMemBuy(memBuy);
 		
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("mem_cd", memBuy.getMem_cd());
+		param.put("product_cd",memBuy.getProduct_cd());
+		
+		storeDAO.insertMemPro(param);
+		
 		return payDetail.getMerchant_uid();
 	}
 
@@ -56,7 +63,7 @@ public class StoreServiceImpl implements StoreService{
 	@Override
 	public Map<String, Object> insertMemGiftGetMUID(PayDetailVO payDetail, MemBuyVO memBuy) throws SQLException {
 		
-		storeDAO.insertPayDetail(payDetail);
+		storeDAO.insertPayDetailG(payDetail);
 		memBuy.setMerchant_uid(payDetail.getMerchant_uid());
 		
 		storeDAO.insertMemBuy(memBuy);
@@ -64,6 +71,11 @@ public class StoreServiceImpl implements StoreService{
 		Map<String, Object> mapData = null;
 		mapData = storeDAO.selectGiftInfo(payDetail.getMerchant_uid());
 		
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("mem_cd", memBuy.getMem_cd());
+		param.put("product_cd",memBuy.getProduct_cd());
+		
+		storeDAO.insertMemPro(param);
 		
 		return mapData;
 	}
