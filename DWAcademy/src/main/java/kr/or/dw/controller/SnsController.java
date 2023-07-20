@@ -30,6 +30,7 @@ import com.github.scribejava.core.model.OAuth2AccessToken;
 import kr.or.dw.service.KakaoService;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.service.NaverLoginBO;
+import kr.or.dw.service.NaverLoginBO2;
 import kr.or.dw.service.SnsService;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.SnsVO;
@@ -56,32 +57,22 @@ public class SnsController {
 	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
 		this.naverLoginBO = naverLoginBO;
 	}
+	/* NaverLoginBO */
+	private NaverLoginBO2 naverLoginBO2;
 	
-	//로그인 첫 화면 요청 메소드
-		@RequestMapping(value = "/naver_id_login", method = { RequestMethod.GET, RequestMethod.POST })
-		public String login(Model model, HttpSession session) {
-			
-			/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
-			String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
-			
-			//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
-			//redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
-			System.out.println("네이버:" + naverAuthUrl);
-			
-			//네이버 
-			model.addAttribute("url", naverAuthUrl);
-	 
-			return "main";
-		}
-	 
+	@Autowired
+	private void setNaverLoginBO(NaverLoginBO2 naverLoginBO2) {
+		this.naverLoginBO2 = naverLoginBO2;
+	}
+	
 		//네이버 로그인 성공시 callback호출 메소드
 		@RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
-		public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) throws IOException, ParseException {
+		public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, HttpServletResponse res) throws IOException, ParseException, Exception {
 			
 			System.out.println("여기는 callback");
 			OAuth2AccessToken oauthToken;
 	        oauthToken = naverLoginBO.getAccessToken(session, code, state);
-	 
+	        
 	        //1. 로그인 사용자 정보를 읽어온다.
 			apiResult = naverLoginBO.getUserProfile(oauthToken);  //String형식의 json데이터
 			
@@ -100,16 +91,111 @@ public class SnsController {
 			//Top레벨 단계 _response 파싱
 			JSONObject response_obj = (JSONObject)jsonObj.get("response");
 			//response의 nickname값 파싱
-			String nickname = (String)response_obj.get("nickname");
-	 
-			System.out.println(nickname);
+			String email = (String)response_obj.get("email");
+			System.out.println("email : " + email);
+			
+			SnsVO sns = snsService.naverSelectByMemberCode(email);
+			System.out.println(sns);
+			MemberVO memberChk = memberService.CheckMemberEmail(email);
+			System.out.println(memberChk);
+			MemberVO sns_email = new MemberVO();
+			
+			sns_email.setMem_email(email);
+			System.out.println(sns_email);
+			
+			res.setContentType("text/html; charset=utf-8");
+			PrintWriter out = res.getWriter();
+			
+			if(memberChk.getMem_email() == null) {
+				sns_email.setGb("non_member");
+				System.out.println('1');
+				
+				out.println("<script>");
+				out.println("$('#authentication-modal').modal('show');");
+				out.println("$('input[name=mem_email]').val(" + sns_email.getMem_email() + ");");
+				out.println("</script>");
+				out.close();
+				
+			}else if(sns == null) {
+				sns_email.setGb("noConnect");
+				System.out.println('2');
+				
+				out.println("<script>");
+				out.println("alert('연동된 계정이 없습니다! 소셜로그인은 [마이페이지 > 개인정보수정] 에서 연동 후 사용해주세요.')");
+				out.println("location.href='/';");
+				out.println("</script>");
+				out.close();
+				
+			}else if(memberChk != null && sns != null){
+				System.out.println('3');
+				sns_email.setGb("member");
+				MemberVO member = memberService.selectMemberCode(sns);
+				System.out.println(member);
+				
+				session.setAttribute("loginUser", member);
+
+				return "redirect:main.do";
+			}
+			
 			
 			//4.파싱 닉네임 세션으로 저장
-			session.setAttribute("sessionId",nickname); //세션 생성
+//			session.setAttribute("sessionId",nickname); //세션 생성
 			
-			model.addAttribute("result", apiResult);
-		     
-			return "main";
+//			model.addAttribute("result", apiResult);
+		    return null;
+		}
+		
+		@RequestMapping(value = "/naver/connect", method = {RequestMethod.GET, RequestMethod.POST})
+		public String naverConnect(@RequestParam String code, @RequestParam String state, HttpSession session, HttpServletResponse res) throws ParseException, Exception {
+			OAuth2AccessToken oauthToken;
+	        oauthToken = naverLoginBO2.getAccessToken(session, code, state);
+			MemberVO member = (MemberVO) session.getAttribute("loginUser");
+			String mem_cd = member.getMem_cd();
+			
+			
+	        //1. 로그인 사용자 정보를 읽어온다.
+			apiResult = naverLoginBO2.getUserProfile(oauthToken);  //String형식의 json데이터
+			
+			/** apiResult json 구조
+			{"resultcode":"00",
+			 "message":"success",
+			 "response":{"id":"33666449","nickname":"shinn****","age":"20-29","gender":"M","email":"sh@naver.com","name":"\uc2e0\ubc94\ud638"}}
+			**/
+			
+			//2. String형식인 apiResult를 json형태로 바꿈
+			JSONParser parser = new JSONParser();
+			Object obj = parser.parse(apiResult);
+			JSONObject jsonObj = (JSONObject) obj;
+			
+			//3. 데이터 파싱 
+			//Top레벨 단계 _response 파싱
+			JSONObject response_obj = (JSONObject)jsonObj.get("response");
+			//response의 nickname값 파싱
+			String sns_email = (String)response_obj.get("email");
+			String access_token = oauthToken.getAccessToken();
+			String refresh_token = oauthToken.getRefreshToken();
+			System.out.println("email : " + sns_email);
+			System.out.println("response_obj : " + response_obj);
+			System.out.println("refresh : " + refresh_token);
+			System.out.println("aceess : " + access_token);
+			HashMap<String, Object> naverUserInfo = new HashMap<>();
+			
+			naverUserInfo.put("mem_cd", mem_cd);
+			naverUserInfo.put("access_token", access_token);
+			naverUserInfo.put("refresh_token", refresh_token);
+			naverUserInfo.put("sns_email", sns_email);
+			
+			
+			snsService.naverInsert(naverUserInfo);
+			
+			res.setContentType("text/html; charset=utf-8");
+			PrintWriter out = res.getWriter();
+			
+			out.println("<script>");
+			out.println("alert('연동되었습니다.')");
+			out.println("</script>");
+			out.close();
+			return "redirect:/member/PrivacyInfo.do";
 		}
 		
 		//로그아웃
@@ -155,8 +241,6 @@ public class SnsController {
 		public ModelAndView callback(ModelAndView mnv, @RequestParam String code, HttpSession session, HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException {
 			String url = "/member/PrivacyInfo";
 			MemberVO member = (MemberVO) session.getAttribute("loginUser");
-			SnsVO sns = snsService.selectSnsInfo(member);
-
 			System.out.println(member.getMem_cd());
 			
 			System.out.println("#########" + code);
@@ -171,19 +255,13 @@ public class SnsController {
 			System.out.println("###nickname#### : " + userInfo.get("sns_name"));
 			System.out.println("###email#### : " + userInfo.get("sns_email"));
 			
-			if(sns != null) {
-				userInfo.put("sns_cd", sns.getMem_cd());
-			}
 			userInfo.put("access_Token", access_Token);
 			userInfo.put("refresh_Token", refresh_Token);
 			userInfo.put("mem_cd", member.getMem_cd());
-			if(sns != null) {
-				userInfo.put("linkDate", sns.getLinkdate());
-			}
 			
 			System.out.println(userInfo);
 			
-			snsService.insertSocal(userInfo);
+			snsService.kakaoInsert(userInfo);
 			
 //			req.setAttribute("userInfo", userInfo);
 
@@ -205,7 +283,7 @@ public class SnsController {
 		public ResponseEntity<MemberVO>kakaoLogin(String email, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws SQLException {
 			ResponseEntity<MemberVO> entity = null;
 			
-			SnsVO sns = snsService.selectByMemberCode(email);
+			SnsVO sns = snsService.kakaoSelectByMemberCode(email);
 			MemberVO memberChk = memberService.CheckMemberEmail(email);
 			System.out.println("email : " + email);
 			System.out.println("sns : " + sns);
