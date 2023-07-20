@@ -14,4 +14,6 @@ public interface SnsService {
 
 	SnsVO selectSnsInfo(MemberVO member) throws SQLException;
 
+	void unlink(MemberVO user) throws SQLException;
+
 }

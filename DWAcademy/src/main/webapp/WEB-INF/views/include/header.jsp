@@ -40,6 +40,7 @@ request.setAttribute("GetTitle", "DWCinema");
 <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/moment.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/daterangepicker.js"></script>
+<script>location.href="<%=request.getContextPath()%>/naver_id_login.do" return</script>
 </head>
 <body>
 <!-- Preloader -->

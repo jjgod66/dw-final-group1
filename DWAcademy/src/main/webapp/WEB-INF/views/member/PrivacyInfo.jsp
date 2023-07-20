@@ -105,6 +105,11 @@
 </style>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
+<script>
+	Kakao.init('4d3eb758ca79e46a21afa1951cdbec30'); //발급받은 키 중 javascript키를 사용해준다.
+	console.log(Kakao.isInitialized()); // sdk초기화여부판단
+</script>
 <div class="additionalinfo-wrapper">
 	<h2 class="tit">개인정보 수정</h2>
 	<div class="box-radius">
@@ -139,6 +144,18 @@
 							</c:when>
 						</c:choose>
 						</td>
+						<td scope="row" style="text-align: center;">네이버</td>
+						<td><fmt:formatDate value="${sns.linkdate}" pattern="yyyy-MM-dd"/> ${sns.sns_email}</td>
+						<td style="text-align: center;">
+						<c:choose>
+							<c:when test="${sns.mem_cd eq null}">
+								<a id="btn" href="#">연동</a>
+							</c:when>
+							<c:when test="${sns.mem_cd ne null}">
+								<a id="btn" href="#" onclick="unLink_go();">연동해제</a>
+							</c:when>
+						</c:choose>
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -154,14 +171,17 @@
 function unLink_go(){
 	Kakao.API.request({
 	  url: '/v1/user/unlink',
-	  success: function(response) {
+	})
+	.then(function(res){
+		location.href="<%=request.getContextPath()%>/sns/unlink.do",
+// 		alert('success: ' + JSON.stringify(res));
 	    console.log(response);
 	    location.reload();
-	  },
-	  fail: function(error) {
-	    console.log(error);
-	  },
-	});
+	})
+	.catch(function(err){
+// 		alert('fail: ' + JSON.stringify(err));
+		console.log(err);
+	})
 }
 </script>
 <%@ include file="../include/member_footer.jsp" %>

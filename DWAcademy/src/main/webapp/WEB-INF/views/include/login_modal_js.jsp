@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
 <script>
 const URLSearch = new URLSearchParams(location.search);
 	let email = "";
@@ -65,26 +66,4 @@ $('#kakapLogout').on('click', function(){
 	    console.log('Not logged in.');
 	  });
 })
-
- function displayToken() {
-   var token = getCookie('authorize-access-token');
-
-   if(token) {
-     Kakao.Auth.setAccessToken(token);
-     Kakao.Auth.getStatusInfo()
-       .then(function(res) {
-         if (res.status === 'connected') {
-             alert('login success, token: ' + Kakao.Auth.getAccessToken())
-         }
-       })
-       .catch(function(err) {
-         Kakao.Auth.setAccessToken(null);
-       });
-   }
- }
-
- function getCookie(name) {
-   var parts = document.cookie.split(name + '=');
-   if (parts.length === 2) { return parts[1].split(';')[0]; }
- }
 </script>
