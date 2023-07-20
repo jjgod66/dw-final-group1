@@ -114,4 +114,7 @@ public interface SysAdminDAO {
 	// 새 스토어 상품 등록하기
 	void insertProduct(ProductVO product) throws SQLException;
 
+	// 스토어 상품 수정하기
+	void updateProduct(ProductVO product) throws SQLException;
+
 }

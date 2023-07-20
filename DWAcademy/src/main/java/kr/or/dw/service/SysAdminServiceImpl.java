@@ -273,4 +273,9 @@ public class SysAdminServiceImpl implements SysAdminService {
 		sysAdminDAO.insertProduct(product);
 	}
 
+	@Override
+	public void modifyProduct(ProductVO product) throws SQLException {
+		sysAdminDAO.updateProduct(product);
+	}
+
 }

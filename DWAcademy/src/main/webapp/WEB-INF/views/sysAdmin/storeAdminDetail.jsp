@@ -62,11 +62,11 @@ if (CategoryIdx == null) {
         <div class="content_wrap">
             <div class="pd_img">
                 <div class="main_img">
-                    <img class="" src="/resources/img/store/${product.product_pic_path }">
+                    <img class="" src="getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd }&type=productImg">
                 </div>
             </div>
             <div class="pd_detail">
-                <table class="pd_table" summary="상품 상세설명에 대한 표입니다">
+                <table class="pd_table" style="margin-bottom: 1rem;" summary="상품 상세설명에 대한 표입니다">
                 <caption>상품 상세내용</caption>
                 <colgroup>
                     <col style="width: 30%;">
@@ -102,7 +102,7 @@ if (CategoryIdx == null) {
                 </tbody>
                 </table>
                 <div>
-	               	<div>이용안내</div>
+	               	<div class="mb-2" style="font-weight: bold;">이용안내</div>
                		<textarea disabled style="border: none; resize: none; background-color: inherit" cols="46" rows="10">${product.product_info }</textarea>
                 </div>
                  <div class="btn_wrap">
