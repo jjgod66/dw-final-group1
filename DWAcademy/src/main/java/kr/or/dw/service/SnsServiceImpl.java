@@ -29,4 +29,9 @@ public class SnsServiceImpl implements SnsService{
 		return snsDAO.selectSnsInfo(member);
 	}
 
+	@Override
+	public void unlink(MemberVO user) throws SQLException {
+		snsDAO.delete(user);
+	}
+
 }

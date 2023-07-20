@@ -147,7 +147,7 @@
                 <p class="title">간편로그인</p>
                 <div class="row">
                     <div class="col">
-                        <div class="p-t-10"><button class="btn btn--naver" type="button">네이버로 시작하기</button></div> 
+                        <div class="p-t-10"><a href="<%=request.getContextPath()%>${url}" class="btn btn--naver" type="button">네이버로 시작하기</a></div> 
                     </div>
                     <div class="col">
                         <div class="p-t-10"><button type="button" id="kakaoLogin" class="btn btn--kakao">카카오로 시작하기</button></div> 

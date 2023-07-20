@@ -29,6 +29,7 @@
 	</beans:bean>
 	
 	<context:component-scan base-package="kr.or.dw" />
+	<beans:bean id="naverLoginBO" class="kr.or.dw.service.NaverLoginBO" />
 	
 	<interceptors>
 		<interceptor>
