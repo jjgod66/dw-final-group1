@@ -530,17 +530,45 @@ public class SysAdminController {
 	}
 	
 	@RequestMapping("/noticeAdminMain")
-	public ModelAndView noticeAdminMain(ModelAndView mnv, SearchCriteria cri) {
+	public ModelAndView noticeAdminMain(ModelAndView mnv, SearchCriteria cri) throws SQLException {
 		String url = "/sysAdmin/noticeAdminMain";
 		
-//		List<NoticeVO> noticeList = sysAdminService.selectNoticeList();
-		List<NoticeVO> noticeList = new ArrayList<>();
-		
-		mnv.addObject(noticeList);
+		Map<String, Object> dataMap = sysAdminService.selectNoticeList(cri);
+		mnv.addAllObjects(dataMap);
+		System.out.println("[[[[[" + dataMap);
 		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 메인");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
+	}
+	
+	@RequestMapping("/noticeAdminDetail")
+	public ModelAndView noticeAdminDetail(ModelAndView mnv, String notice_no, String type) throws SQLException {
+		String url = "/sysAdmin/noticeAdminDetail";
+		if (notice_no != null) {
+			NoticeVO notice = sysAdminService.selectNoticeByNotice_no(Integer.parseInt(notice_no));
+			mnv.addObject("notice", notice);
+		}
+		mnv.addObject("type", type);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 게시글");
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("noticeAdminRegist")
+	public void noticeAdminRegist (NoticeVO notice, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.registNotice(notice);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('공지사항 게시물 등록이 완료되었습니다.')");
+		out.println("location.href='noticeAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
 	}
 	
 	@GetMapping("/eventAdminMain")
