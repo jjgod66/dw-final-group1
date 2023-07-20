@@ -20,4 +20,20 @@ public interface TheaterService {
 	 */
 	TheaterVO getTheaterInfo(String thr_name) throws SQLException;
 
+	/**
+	 * 선호 극장 버튼 눌렀을 때 메서드
+	 * @param thr_name
+	 * @param mem_cd
+	 * @return
+	 */
+	String clickLikeThr(String thr_name, String mem_cd) throws SQLException;
+
+	/**
+	 * 선호극장인지 아닌지 확인하는 메서드
+	 * @param thr_name
+	 * @param mem_cd
+	 * @return
+	 */
+	int likeThrYN(String thr_name, String mem_cd) throws SQLException;
+
 }
