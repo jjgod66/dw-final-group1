@@ -35,8 +35,8 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 	@Override
-	public void unlink(MemberVO user) throws SQLException {
-		snsDAO.delete(user);
+	public void kakaounlink(MemberVO user) throws SQLException {
+		snsDAO.kakaoDelete(user);
 	}
 
 	@Override
@@ -47,6 +47,11 @@ public class SnsServiceImpl implements SnsService{
 	@Override
 	public void naverInsert(HashMap<String, Object> naverUserInfo) throws SQLException {
 		snsDAO.naverInsert(naverUserInfo);
+	}
+
+	@Override
+	public void naverUnlink(MemberVO user) throws SQLException {
+		snsDAO.neverDelete(user);
 	}
 
 

@@ -1,7 +1,13 @@
 package kr.or.dw.controller;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +45,7 @@ import kr.or.dw.vo.SnsVO;
 public class SnsController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	private static String access_token;
 
 	@Autowired
 	private SnsService snsService;
@@ -92,6 +99,10 @@ public class SnsController {
 			JSONObject response_obj = (JSONObject)jsonObj.get("response");
 			//response의 nickname값 파싱
 			String email = (String)response_obj.get("email");
+			
+			System.out.println(oauthToken);
+			
+			
 			System.out.println("email : " + email);
 			
 			SnsVO sns = snsService.naverSelectByMemberCode(email);
@@ -156,6 +167,7 @@ public class SnsController {
 	        //1. 로그인 사용자 정보를 읽어온다.
 			apiResult = naverLoginBO2.getUserProfile(oauthToken);  //String형식의 json데이터
 			
+			
 			/** apiResult json 구조
 			{"resultcode":"00",
 			 "message":"success",
@@ -172,8 +184,9 @@ public class SnsController {
 			JSONObject response_obj = (JSONObject)jsonObj.get("response");
 			//response의 nickname값 파싱
 			String sns_email = (String)response_obj.get("email");
-			String access_token = oauthToken.getAccessToken();
+			access_token = oauthToken.getAccessToken();
 			String refresh_token = oauthToken.getRefreshToken();
+			System.out.println(oauthToken);
 			System.out.println("email : " + sns_email);
 			System.out.println("response_obj : " + response_obj);
 			System.out.println("refresh : " + refresh_token);
@@ -193,31 +206,105 @@ public class SnsController {
 			
 			out.println("<script>");
 			out.println("alert('연동되었습니다.')");
+			out.println("location.href='/member/PrivacyInfo';");
 			out.println("</script>");
 			out.close();
-			return "redirect:/member/PrivacyInfo.do";
+			return null;
 		}
 		
 		//로그아웃
-		@RequestMapping(value = "/logout", method = { RequestMethod.GET, RequestMethod.POST })
-		public String logout(HttpSession session)throws IOException {
-				System.out.println("여기는 logout");
-				session.invalidate();
-	 
+		@RequestMapping(value = "/naver/unConnect", method = { RequestMethod.GET, RequestMethod.POST })
+		public String naverUnConnect(HttpSession session, HttpServletResponse res)throws IOException, SQLException {
+				System.out.println("여기는 unLink");
+				
+				MemberVO member = (MemberVO) session.getAttribute("loginUser");
+				SnsVO snsToken = snsService.selectNaverInfo(member);
+				System.out.println(snsToken.getAccess_token());
+				
+				
+				URL url = new URL("https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=xECJaEapJzaHHIpgDcjz&client_secret=ep7rTSf5so&service_provider=NAVER&access_token=" + snsToken.getAccess_token());
+				
+				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				
+				conn.setRequestMethod("POST");
+				conn.setDoOutput(true);
+				
+				System.out.println(url);
+				BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+				String line = "";
+				String result = "";
 		        
-				return "redirect:index.jsp";
+				while ((line = br.readLine()) != null) {
+					result += line;
+				}
+				System.out.println("response body : " + result);
+
+				System.out.println("getContentType():" + conn.getContentType()); // 응답 콘텐츠 유형 구하기
+		        System.out.println("getResponseCode():"    + conn.getResponseCode()); // 응답 코드 구하기
+		        System.out.println("getResponseMessage():" + conn.getResponseMessage());
+				int responseCode = conn.getResponseCode();
+				System.out.println("responseCode : " + responseCode);
+				
+		        res.setContentType("text/html; charset=utf-8");
+				PrintWriter out = res.getWriter();
+				
+				out.println("<script>");
+				out.println("alert('연동이 해제되었습니다.')");
+				out.println("location.href='/member/PrivacyInfo';");
+				out.println("</script>");
+				out.close();
+				
+				MemberVO user = (MemberVO) session.getAttribute("loginUser");
+				
+				snsService.naverUnlink(user);
+				
+				
+				return null;
 			}
 	
-	@RequestMapping("/sns/unlink")
-	public String unlink(HttpSession session) throws SQLException {
-		String url = "/member/PrivacyInfo";
+	@RequestMapping("/kakao/unConnect")
+	public String kakaoUnConnect(HttpSession session, HttpServletResponse res) throws Exception {
+		String reqURL = "https://kapi.kakao.com/v1/user/unlink";
 		
-		
+	    try {
+	    	MemberVO member = (MemberVO) session.getAttribute("loginUser");
+	    	SnsVO kakao = snsService.selectKakaoInfo(member);
+	    	
+	        URL url = new URL(reqURL);
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("POST");
+	        conn.setRequestProperty("Authorization", "Bearer " + kakao.getAccess_token());
+	        
+	        int responseCode = conn.getResponseCode();
+	        System.out.println("responseCode : " + responseCode);
+	        
+	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        
+	        String result = "";
+	        String line = "";
+	        
+	        while ((line = br.readLine()) != null) {
+	            result += line;
+	        }
+	        System.out.println(result);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    
+	    res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+
 		MemberVO user = (MemberVO) session.getAttribute("loginUser");
 		
-		snsService.unlink(user);
+		snsService.kakaounlink(user);
 		
-		return url;
+		out.println("<script>");
+		out.println("alert('연동이 해제되었습니다.')");
+		out.println("location.href='/member/PrivacyInfo';");
+		out.println("</script>");
+		out.close();
+		
+		return null;
 	}
 	
 	// 카카오 소셜로그인
@@ -250,7 +337,7 @@ public class SnsController {
 			String refresh_Token = tokenMap.get("refresh_Token");
 			HashMap<String, Object> userInfo = ka.getUserInfo(access_Token);
 			
-			
+			System.out.println(tokenMap);
 			System.out.println("###access_Token#### : " + access_Token);
 			System.out.println("###nickname#### : " + userInfo.get("sns_name"));
 			System.out.println("###email#### : " + userInfo.get("sns_email"));
@@ -276,7 +363,7 @@ public class SnsController {
 			out.println("location.href='/member/PrivacyInfo';");
 			out.println("</script>");
 			out.close();
-			return mnv;
+			return null;
 		}
 		
 		@RequestMapping("/common/kakaoLogin")
