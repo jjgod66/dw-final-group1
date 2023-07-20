@@ -8,6 +8,7 @@ import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.TheaterVO;
 
@@ -89,5 +90,14 @@ public interface SysAdminService {
 
 	// 스토어 상품 수정하기
 	void modifyProduct(ProductVO product) throws SQLException;
+
+	// 공지사항 게시글 목록 불러오기
+	Map<String, Object> selectNoticeList(SearchCriteria cri) throws SQLException;
+
+	// 해당 공지사항 게시글 불러오기
+	NoticeVO selectNoticeByNotice_no(int notice_no) throws SQLException;
+
+	// 공지사항 등록하기
+	void registNotice(NoticeVO notice) throws SQLException;
 
 }

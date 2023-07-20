@@ -61,6 +61,18 @@
 		</if>
 	</sql>
 	
+	<sql id="searchNotice">
+		<if test="searchType == 'all'.toString()">
+		</if>
+		<if test="searchType == 'thr'.toString()">
+			AND notice_thr != 'DW시네마'
+		</if>
+		<if test="searchType == 'thr'.toString()">
+			AND notice_thr = 'DW시네마'
+		</if>
+		AND notice_title LIKE '%' || #{keyword} || '%'
+	</sql>
+	
 	<select id="selectSearchTheaterList" resultType="theater">
 		SELECT t.*, a.admin_id, a.admin_pwd
 		  FROM theater t, admin a
@@ -411,4 +423,46 @@
 		      ,product_pic_path = #{product_pic_path}
 		 WHERE product_cd = #{product_cd}
 	</update>
+	
+	<select id="selectNoticeList" resultType="notice">
+		SELECT *
+		  FROM notice
+		 WHERE 1=1
+		  <include refid="searchNotice"/>
+	</select>
+	
+	<select id="selectSearchNoticeListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM notice
+		 WHERE 1=1
+		<include refid="searchNotice"/>
+	</select>
+	
+	<select id="selectNoticeByNotice_no" resultType="notice">
+		SELECT *
+		  FROM notice
+		 WHERE notice_no = #{notice_no}
+	</select>
+	
+	<insert id="insertNotice">
+		INSERT INTO notice
+					(
+					 notice_no
+					,admin_cd
+					,notice_title
+					,notice_content
+					,notice_thr
+					,regdate
+					,gb_del
+					)
+			 VALUES (
+			 		 notice_seq.nextval
+			 		,'S202307200022'
+			 		,#{notice_title}
+			 		,#{notice_content}
+			 		,'DW시네마'
+			 		,SYSDATE
+			 		,'N'
+			 		)		
+	</insert>
 </mapper>

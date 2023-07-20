@@ -18,6 +18,7 @@ import kr.or.dw.dao.SysAdminDAO;
 import kr.or.dw.vo.AdminVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.TheaterVO;
 
@@ -276,6 +277,37 @@ public class SysAdminServiceImpl implements SysAdminService {
 	@Override
 	public void modifyProduct(ProductVO product) throws SQLException {
 		sysAdminDAO.updateProduct(product);
+	}
+
+	@Override
+	public Map<String, Object> selectNoticeList(SearchCriteria cri) throws SQLException {
+		List<NoticeVO> noticeList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum(); 
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		noticeList = sysAdminDAO.selectNoticeList(cri, rowBounds);
+		
+		int totalCount = sysAdminDAO.selectSearchNoticeListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("noticeList", noticeList);
+		dataMap.put("pageMaker", pageMaker);
+		return dataMap;
+	}
+
+	@Override
+	public NoticeVO selectNoticeByNotice_no(int notice_no) throws SQLException {
+		NoticeVO notice = sysAdminDAO.selectNoticeByNotice_no(notice_no);
+		return notice;
+	}
+
+	@Override
+	public void registNotice(NoticeVO notice) throws SQLException {
+		sysAdminDAO.insertNotice(notice);
 	}
 
 }
