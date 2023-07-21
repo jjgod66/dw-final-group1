@@ -9,6 +9,7 @@ import org.apache.ibatis.session.RowBounds;
 
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.AdminVO;
+import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
@@ -129,5 +130,26 @@ public interface SysAdminDAO {
 
 	// 공지사항 등록하기
 	void insertNotice(NoticeVO notice) throws SQLException;
+
+	// 공지사항 수정하기
+	void updateNotice(NoticeVO notice) throws SQLException;
+
+	// 공지사항 수정하기
+	void deleteNotice(NoticeVO notice) throws SQLException;
+
+	// faq 게시글 목록 불러오기
+	List<FaqVO> selectFaqList(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
+
+	// 해당하는 faq게시글의 총 개수를 불러온다.
+	int selectSearchFaqListCount(SearchCriteria cri) throws SQLException;
+
+	// FAQ 게시글 수정하기
+	void updateFaq(FaqVO faq) throws SQLException;
+
+	// FAQ 게시글 삭제하기
+	void deleteFaq(FaqVO faq) throws SQLException;
+
+	// FAQ 게시글 등록하기
+	void insertFaq(FaqVO faq) throws SQLException;
 	
 }

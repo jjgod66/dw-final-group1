@@ -36,6 +36,9 @@
     line-height: 1.444;
     font-weight: 600;
 }
+textarea:focus {
+	outline: none;
+}
 </style>
 <div id="wrapper">
 	<div id="content">
@@ -49,8 +52,8 @@
 			<div class="card-header">
 				<c:choose>
 					<c:when test="${type eq 'read' }">
-						<input type="hidden" value="${notice.notice_no }">
-						<span id="notice_title">${notice.notice_title }</span>
+						<input type="hidden" value="${notice.notice_no }" name="notice_no">
+						<span id="notice_title_before">${notice.notice_title }</span>
 						<span style="float: right;">작성일 : <fmt:formatDate value='${notice.regdate }' pattern='yyyy-MM-dd'/></span>
 					</c:when>
 					<c:when test="${type eq 'create' }">
@@ -61,7 +64,7 @@
 			<div class="card-body">
 				<c:choose>
 					<c:when test="${type eq 'read' }">
-						<textarea name="notice_content" id="notice_content" rows="10" cols="157" style="resize:none;" readonly>${notice.notice_content }</textarea>
+						<textarea name="notice_content_before" id="notice_content_before" rows="10" cols="157" style="resize:none; border:none;" readonly>${notice.notice_content }</textarea>
 					</c:when>
 					<c:when test="${type eq 'create' }">
 						<textarea rows="10" cols="157" name="notice_content"  placeholder="내용을 입력하세요" style="resize:none;"></textarea>
@@ -76,7 +79,6 @@
 					</c:when>
 					<c:otherwise>
 						<button class="btn_medium" id="modifyCertifyBtn">수정</button>
-						<button class="btn_medium" id="deleteBtn">삭제</button>
 					</c:otherwise>
 				</c:choose>
 				<button class="btn_medium">뒤로가기</button>
@@ -88,15 +90,15 @@
 	// 수정버튼 클릭시
 	$('#modifyCertifyBtn').on('click', function(){
 		$(this).remove();
-		let title = $('#notice_title').text();
-		let titleInput = $('<input type="text" name="notice_title" size="80">').val(title);
-		$('#notice_title').html(titleInput);
+		let titleText = $('#notice_title_before').text();
+		let titleInput = $('<input type="text" name="notice_title" size="80">').val(titleText);
+		$('#notice_title_before').html(titleInput);
 		
-		let content = $('#notice_content').text();
+		let content = $('#notice_content_before').text();
 		let contentInput = $('<textarea rows="10" cols="157" name="notice_content" style="resize:none;">').val(content);
-		$('#notice_content').html(contentInput);
+		$('.card-body').html(contentInput);
 		
-		$('.card-footer').prepend('<button class="btn_medium" id="modifyBtn">수정?</button>');
+		$('.card-footer').prepend('<button class="btn_medium" id="modifyBtn">수정완료</button>  <button class="btn_medium" id="deleteBtn">삭제하기</button>');
 	});
 	
 	// 등록버튼 클릭시
@@ -104,7 +106,22 @@
 		let registForm = $('form[name="form"]');
 		registForm.attr('action', 'noticeAdminRegist.do');
 		registForm.submit();
-		
+	});
+	
+	// 수정버튼 클릭시
+	$('.card-footer').on('click','#modifyBtn', function(){
+		let modifyForm = $('form[name="form"]');
+		modifyForm.attr('action', 'noticeAdminModify.do');
+		modifyForm.submit();
+	});
+	
+	// 삭제버튼 클릭시
+		$('.card-footer').on('click','#deleteBtn', function(){
+			if(confirm('정말로 해당 글을 삭제하시겠습니까?')){
+				let deleteForm = $('form[name="form"]');
+				deleteForm.attr('action', 'noticeAdminDelete.do');
+				deleteForm.submit();
+			}
 	});
 </script>
 <%@ include file="sysAdminFooter.jsp" %>
