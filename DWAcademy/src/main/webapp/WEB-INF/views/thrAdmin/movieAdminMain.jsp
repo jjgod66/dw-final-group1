@@ -697,27 +697,7 @@ window.onload = function() {
 	    $(".cell").on("click", function() {
 	      const screenCd = $(this).data("screenCd1"); 
 	      alert(screenCd);
-	      $.ajax({
-	        url: '/api/getMovieInfo?screenCd='+'${screenCd}',
-	        method: 'GET',
-	        dataType: 'json',
-	        success: function(data) {
-	          // Populate the modal with the fetched movie information
-	          $("#theaterName").text(data.theaterName);
-	          $("#startTime").text(data.startTime);
-	          $("#endTime").text(data.endTime);
-	          $("#movieName").text(data.movieName);
-	          $("#movieLength").text(data.movieLength);
-	          $("#movieCode1").text(data.movieCode1);
-	          $("#movieCode2").text(data.movieCode2);
-	          $("#theaterNumber").text(data.theaterNumber);
-	          // Show the modal
-	          $("#myModal").show();
-	        },
-	        error: function(xhr, status, error) {
-	          console.error('Error fetching data:', xhr.responseText);
-	        }
-	      });
+	      
 	    });
 
 	    // Close modal when the close button is clicked
