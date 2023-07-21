@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.dw.vo.ClickMovieInfoVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.ScreenVO;
 
@@ -17,5 +18,8 @@ public interface ThrAdminService {
 
 	//영화 관리 리스트에서 테이블안에 배경색지정 정보 가져오기 
 	List<Map<String, Object>> getAllRe() throws SQLException;
+	
+	//클릭한 상영영화의 모든 정보 그냥 다 가져오기 
+	ClickMovieInfoVO getMovieInfoByScreenCd(String screenCd) throws SQLException;
 
 }

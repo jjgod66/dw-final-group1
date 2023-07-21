@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.or.dw.dao.ThrAdminDAO;
+import kr.or.dw.vo.ClickMovieInfoVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.ScreenVO;
 
@@ -38,6 +39,13 @@ public class ThrAdminServiceImpl implements ThrAdminService {
 		List<Map<String, Object>> allRe = null;
 		allRe = thrAdminDAO.selectAllRe();
 		return allRe;
+	}
+	@Override
+	public ClickMovieInfoVO getMovieInfoByScreenCd(String screenCd) throws SQLException {
+		// TODO Auto-generated method stub
+		ClickMovieInfoVO movieInfo = null;
+		movieInfo = thrAdminDAO.selectAllRe1(screenCd);
+		return movieInfo;
 	}
 
 }

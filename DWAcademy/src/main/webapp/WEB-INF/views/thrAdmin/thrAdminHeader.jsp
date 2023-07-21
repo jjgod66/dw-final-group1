@@ -141,11 +141,11 @@ a.gnb_1da {
     /* height: 34px; */
     padding: 0 10px;
     color: #fff;
-    font-size: 17px;
+    font-size: 13px;
     font-weight: 400;
     text-align: center;
     text-decoration: none;
-    line-height: 2.0em;
+    line-height: 1.5em;
 }
 #tnb ul a:focus, #tnb a:hover {
     color: #EBFBFF;
@@ -219,7 +219,7 @@ a.gnb_1da {
 
 nav ul {
 	width: 100%;
-	background-color: 	#F5F5F5;
+	background-color: 	#d0ebff;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
@@ -236,7 +236,7 @@ nav ul {
 
 	color: black;
 	/* padding: 10px; */
-	font-size: 16px;
+	font-size: 13px;
 	cursor: pointer;
 	background-color: 	#D3D3D3;
 	text-align: center;
@@ -244,7 +244,7 @@ nav ul {
  .dropdown-content{
  
  	position: absolute;
- 	background-color:#dcdcdc;
+ 	background-color:#d0ebff;
  	min-width: 160px;
  	/* box-shadow: 0px 8px 16px 0px rgba(0 ,0 ,0 ,0.2); */
  }  
@@ -263,7 +263,7 @@ nav ul {
  	display: block;
  }
  .dropdown-content a:hover {
-	background-color: #aaaaaa
+	background-color: #87CEFA		
 }
 .dropdown-menu:hover:not(.hone){
 	background-color: #3c3c3c;
@@ -296,8 +296,7 @@ nav ul {
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu" >상영영화관리 
 						<div class="dropdown-content">
-							<a href="<%= request.getContextPath() %>/thrAdmin/movieAdminMain.do" class="gnb_1da">영화리스트</a>
-							<a href="<%= request.getContextPath() %>/thrAdmin/movieRegistForm.do" class="gnb_1da">영화등록</a>
+							<a href="<%= request.getContextPath() %>/thrAdmin/movieAdminMain.do" class="gnb_1da">지점영화관리 </a>
 						</div>
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">고객관리 
