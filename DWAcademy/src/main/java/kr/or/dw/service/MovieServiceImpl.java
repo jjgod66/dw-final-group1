@@ -68,7 +68,11 @@ public class MovieServiceImpl implements MovieService{
 		int yes_all_reserver = movieDAO.selectYesAllReserver();
 		for(Map<String, Object> movie : movieList) {
 			movie.put("all_reserver", yes_all_reserver);
-			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
+			double resRate = 0.0;
+			if(yes_all_reserver > 0) {
+				resRate = (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100;
+			}
+			movie.put("resRate", resRate);
 		}
 		
 		return movieList;
@@ -85,9 +89,12 @@ public class MovieServiceImpl implements MovieService{
 		int yes_all_reserver = movieDAO.selectYesAllReserver();
 		for(Map<String, Object> movie : movieList) {
 			movie.put("all_reserver", yes_all_reserver);
-			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
+			double resRate = 0.0;
+			if(yes_all_reserver > 0) {
+				resRate = (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100;
+			}
+			movie.put("resRate", resRate);
 		}
-		
 		return movieList;
 	}
 
@@ -102,7 +109,11 @@ public class MovieServiceImpl implements MovieService{
 		int yes_all_reserver = movieDAO.selectYesAllReserver();
 		for(Map<String, Object> movie : movieList) {
 			movie.put("all_reserver", yes_all_reserver);
-			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
+			double resRate = 0.0;
+			if(yes_all_reserver > 0) {
+				resRate = (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100;
+			}
+			movie.put("resRate", resRate);
 		}
 		
 		return movieList;
@@ -125,7 +136,11 @@ public class MovieServiceImpl implements MovieService{
 		int yes_all_reserver = movieDAO.selectYesAllReserver();
 		for(Map<String, Object> movie : movieList) {
 			movie.put("all_reserver", yes_all_reserver);
-			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
+			double resRate = 0.0;
+			if(yes_all_reserver > 0) {
+				resRate = (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100;
+			}
+			movie.put("resRate", resRate);
 		}
 		
 		return movieList;

@@ -1,3 +1,4 @@
+<%@page import="kr.or.dw.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -6,6 +7,12 @@
 String CategoryIdx = request.getParameter("CategoryIdx");
 if (CategoryIdx == null) {
     CategoryIdx = "";
+}
+
+String mem_cd = "";
+if(session.getAttribute("loginUser") != null){
+	MemberVO member = (MemberVO) session.getAttribute("loginUser");
+	mem_cd = member.getMem_cd();
 }
 %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/store.css">
@@ -113,6 +120,11 @@ if (CategoryIdx == null) {
 		});
 		
 		$('#buy').on('click', function(){
+			if('<%=mem_cd%>' == "" || '<%=mem_cd%>' == null){
+				alert("로그인이 필요합니다.");
+				return;
+			}
+			
 			$('#payForm').prop('action', 'buyForm.do');
 			$('input[name="totalprice"]').val(totalprice.toLocaleString());
 			$('input[name="amount"]').val(amount);
@@ -120,6 +132,11 @@ if (CategoryIdx == null) {
 		})
 		
 		$('#gift').on('click', function(){
+			if('<%=mem_cd%>' == "" || '<%=mem_cd%>' == null){
+				alert("로그인이 필요합니다.");
+				return;
+			}
+			
 			$('#payForm').prop('action', 'giftForm.do');
 			$('input[name="amount"]').val(amount);
 			$('#payForm').submit();

@@ -1,6 +1,9 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import kr.or.dw.vo.TheaterVO;
 
@@ -35,5 +38,13 @@ public interface TheaterService {
 	 * @return
 	 */
 	int likeThrYN(String thr_name, String mem_cd) throws SQLException;
+
+	/**
+	 * 해당 날짜에 해당 지점에서 상영하는 모든 영화 리스트 가져오는 메서드
+	 * @param thr_name
+	 * @param date
+	 * @return
+	 */
+	List<List<List<Map<String, Object>>>> getAllScreenList(String thr_name, Date date) throws SQLException;
 
 }

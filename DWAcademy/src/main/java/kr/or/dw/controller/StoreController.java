@@ -67,6 +67,12 @@ public class StoreController {
 		ProductVO product = null;
 		product = storeService.selectProDetail(product_cd);
 		
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		
+		int point = 0;
+		point = storeService.getPoint(loginUser.getMem_cd());
+		
+		mnv.addObject("point", point);
 		mnv.addObject("member", (MemberVO) session.getAttribute("loginUser"));
 		mnv.addObject("product", product);
 		mnv.addObject("amount", amount);
@@ -79,7 +85,11 @@ public class StoreController {
 		String url = "/store/giftForm";
 		ProductVO product = null;
 		product = storeService.selectProDetail(product_cd);
+		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		int point = 0;
+		point = storeService.getPoint(loginUser.getMem_cd());
 		
+		mnv.addObject("point", point);
 		mnv.addObject("member", (MemberVO) session.getAttribute("loginUser"));
 		mnv.addObject("product", product);
 		mnv.addObject("amount", amount);
@@ -119,6 +129,8 @@ public class StoreController {
 		memBuy.setPricesum(sbc.getPricesum());
 		memBuy.setMerchant_uid(payDetail.getMerchant_uid());
 		memBuy.setProduct_cd(sbc.getProduct_cd());
+		memBuy.setDiscount(sbc.getDiscount());
+		memBuy.setUse_point(sbc.getUse_point());
 		String merchant_uid = null;
 		merchant_uid = storeService.insertMemBuyGetMUID(payDetail, memBuy);
 		return merchant_uid;
@@ -158,6 +170,8 @@ public class StoreController {
 		memBuy.setPricesum(sbc.getPricesum());
 		memBuy.setMerchant_uid(payDetail.getMerchant_uid());
 		memBuy.setProduct_cd(sbc.getProduct_cd());
+		memBuy.setDiscount(sbc.getDiscount());
+		memBuy.setUse_point(sbc.getUse_point());
 		Map<String, Object> dataMap = null;
 		dataMap = storeService.insertMemGiftGetMUID(payDetail, memBuy);
 		return dataMap;

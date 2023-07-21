@@ -18,6 +18,7 @@ import kr.or.dw.dao.ReservationDAO;
 import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.PayDetailVO;
+import kr.or.dw.vo.PointVO;
 import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
 
@@ -130,6 +131,15 @@ public class ReservationServiceImpl implements ReservationService{
 			reservationDAO.useMemCoupon(mem_coupon_no);
 		}
 		
+		if(resList.get(0).getUse_point() > 0) {
+			PointVO point = new PointVO();
+			point.setMem_cd(resList.get(0).getMem_cd());
+			point.setMerchant_uid(resList.get(0).getMerchant_uid());
+			point.setPoint(resList.get(0).getUse_point());
+			
+			reservationDAO.useMemPoint(point);
+		}
+		
 		mapData.put("merchant_uid", resList.get(0).getMerchant_uid());
 		return mapData;
 	}
@@ -146,6 +156,16 @@ public class ReservationServiceImpl implements ReservationService{
 		}
 		
 		String merchant_uid = resList.get(0).getMerchant_uid();
+		
+		if(resList.get(0).getUse_point() > 0) {
+			PointVO point = new PointVO();
+			point.setMem_cd(resList.get(0).getMem_cd());
+			point.setMerchant_uid(merchant_uid);
+			point.setPoint(resList.get(0).getUse_point());
+			
+			reservationDAO.useMemPoint(point);
+		}
+		
 		return merchant_uid;
 	}
 	
@@ -189,6 +209,23 @@ public class ReservationServiceImpl implements ReservationService{
 		List<CouponVO> couponList = null;
 		couponList = reservationDAO.selectCouponList(mem_cd);
 		return couponList;
+	}
+
+	@Override
+	public int getPoint(String mem_cd) throws SQLException {
+		int point = 0;
+		List<PointVO> pointList = null;
+		pointList = reservationDAO.selectMemPointList(mem_cd);
+		
+		for(PointVO pointVO : pointList) {
+			if(pointVO.getPoint_cd().subSequence(0, 1).equals("A")) {
+				point += pointVO.getPoint();
+			}else {
+				point -= pointVO.getPoint();
+			}
+		}
+		
+		return point;
 	}
 
 

@@ -69,6 +69,10 @@ public class ReservationController {
 		List<CouponVO> couponList = null;
 		couponList = reservationService.getCouponList(loginUser.getMem_cd());
 		
+		int point = 0;
+		point = reservationService.getPoint(loginUser.getMem_cd());
+		
+		mnv.addObject("point", point);
 		mnv.addObject("couponList", couponList);
 		mnv.addObject("mapData", mapData);
 		mnv.addObject("moviePayment", mpc);

@@ -22,6 +22,8 @@
 	<bean id="eventService" class="kr.or.dw.service.EventServiceImpl"/>
 	<bean id="snsService" class="kr.or.dw.service.SnsServiceImpl"/>
 	<bean id="theaterService" class="kr.or.dw.service.TheaterServiceImpl"/>
+	<bean id="pointService" class="kr.or.dw.service.PointServiceImpl"/>
+	<bean id="couponService" class="kr.or.dw.service.CouponServiceImpl"/>
 
 
 	

@@ -40,4 +40,11 @@ public interface StoreService {
 	 */
 	Map<String, Object> insertMemGiftGetMUID(PayDetailVO payDetail, MemBuyVO memBuy) throws SQLException;
 
+	/**
+	 * 회원 포인트 잔액 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	int getPoint(String mem_cd) throws SQLException;
+
 }

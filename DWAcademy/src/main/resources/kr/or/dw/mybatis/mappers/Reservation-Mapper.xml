@@ -120,6 +120,10 @@
 		UPDATE mem_coupon SET gb_use = 'Y' WHERE mem_coupon_no = #{mem_coupon_no}
 	</update>
 	
+	<insert id="useMemPoint" parameterType="point">
+		INSERT INTO point (point_cd, mem_cd, merchant_uid, point, regdate) VALUES('U' || LPAD(point_seq.nextval,4,0), #{mem_cd}, #{merchant_uid}, #{point}, sysdate)
+	</insert>
+	
 	<insert id="insertPayDetail">
 		INSERT INTO pay_detail (
 									imp_uid,
@@ -170,5 +174,11 @@
 		AND enddate > sysdate
 		AND gb_use = 'N'
 		AND mem_cd = #{mem_cd}
+	</select>
+	
+	<select id="selectMemPointList" resultType="point">
+		SELECT *
+		FROM point
+		WHERE mem_cd = #{mem_cd}
 	</select>
 </mapper>

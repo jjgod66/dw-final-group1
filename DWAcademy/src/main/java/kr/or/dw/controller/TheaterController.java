@@ -1,6 +1,9 @@
 package kr.or.dw.controller;
 
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -68,6 +71,24 @@ private static final Logger logger = LoggerFactory.getLogger(TheaterController.c
 		
 		return mnv;
 	}
+	
+	@RequestMapping("/screenSchedule")
+	public ModelAndView screenSchedule(ModelAndView mnv, String thr_name) throws SQLException {
+		String url = "/theater/screenSchedule";
+		
+		TheaterVO theater = null;
+		theater = theaterService.getTheaterInfo(thr_name);
+		
+		List<List<List<Map<String, Object>>>> allScreenList = null;
+		allScreenList = theaterService.getAllScreenList(thr_name, new Date());
+		
+		mnv.addObject("theater", theater);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	
 	
 	@RequestMapping("/likeThr")
 	public ResponseEntity<String> clickLikeThr(String thr_name, HttpSession session){

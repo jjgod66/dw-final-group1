@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import kr.or.dw.vo.MemBuyVO;
 import kr.or.dw.vo.PayDetailVO;
+import kr.or.dw.vo.PointVO;
 import kr.or.dw.vo.ProductVO;
 
 @Mapper
@@ -57,5 +58,19 @@ public interface StoreDAO {
 	 * @param param
 	 */
 	void insertMemPro(Map<String, String> param) throws SQLException;
+
+	/**
+	 * 회원 포인트 적립, 사용 리스트 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 * @throws SQLException
+	 */
+	List<PointVO> selectMemPointList(String mem_cd) throws SQLException;
+
+	/**
+	 * 포인트 사용 메서드
+	 * @param pointVO
+	 */
+	void useMemPoint(PointVO pointVO) throws SQLException;
 
 }

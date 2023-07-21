@@ -254,22 +254,20 @@ $(function(){
 		$('#couponname').text(couname);
 		
 		if(coudis.substr(-1) == '원'){
+	
 			$('#coupondis').text(coudis.replace('원', ''));
-			$('#disprice').text((parseInt(coudis.replace('원', ''))).toLocaleString());
-			$('#totalpp').text((${moviePayment.pricesum } - (coudis.replace('원', ''))).toLocaleString());
+			$('#disprice').text((parseInt($('#disprice').text().replace(',', '')) + parseInt(coudis.replace('원', ''))).toLocaleString());
+			$('#totalpp').text(($('#totalpp').text().replace(',', '') - (coudis.replace('원', ''))).toLocaleString());
 			
 		}else{
 			let disp = ${moviePayment.pricesum } / 100 * coudis.replace('%', '');
 			$('#coupondis').text(disp);
-			$('#disprice').text(disp.toLocaleString());
-			$('#totalpp').text((${moviePayment.pricesum } - disp).toLocaleString());
+			$('#disprice').text((parseInt($('#disprice').text().replace(',', '')) + parseInt(disp)).toLocaleString());
+			$('#totalpp').text(($('#totalpp').text().replace(',', '') - disp).toLocaleString());
 			
 		}
 		
 		$('#payForm input[name="mem_coupon_no"]').val($('input[name="couponchk"]:checked').parents('tr').prop('id'));
-		$('#payForm input[name="discount"]').val(parseInt($('#payForm input[name="discount"]').val()) + parseInt($('#coupondis').text()));
-		console.log('폼으로 갈 할인금액 : ' + $('#payForm input[name="discount"]').val());
-		console.log('폼으로 갈 쿠폰번호 : ' + $('#payForm input[name="mem_coupon_no"]').val())
 		$('.couponbtn').css('display', 'none');
 		$('#coupon-modal').modal("hide");
 		$('input[name="couponchk"]').prop("checked", '');
