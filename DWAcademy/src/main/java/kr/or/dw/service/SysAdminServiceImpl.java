@@ -21,6 +21,7 @@ import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
+import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.TheaterVO;
 
 public class SysAdminServiceImpl implements SysAdminService {
@@ -354,6 +355,25 @@ public class SysAdminServiceImpl implements SysAdminService {
 	@Override
 	public void registFaq(FaqVO faq) throws SQLException {
 		sysAdminDAO.insertFaq(faq);
+	}
+
+	@Override
+	public Map<String, Object> selectQnaList(SearchCriteria cri) throws SQLException {
+		List<QnaVO> qnaList = null;
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum(); 
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		qnaList = sysAdminDAO.selectQnaList(cri, rowBounds);
+		
+		int totalCount = sysAdminDAO.selectSearchQnaListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("qnaList", qnaList);
+		dataMap.put("pageMaker", pageMaker);
+		return dataMap;
 	}
 
 }
