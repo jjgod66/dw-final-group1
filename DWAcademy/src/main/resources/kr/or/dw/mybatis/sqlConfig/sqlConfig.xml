@@ -26,7 +26,7 @@
 		<typeAlias type="kr.or.dw.vo.SnsVO" alias="sns"/>
 		<typeAlias type="kr.or.dw.vo.CouponVO" alias="coupon"/>
 		<typeAlias type="kr.or.dw.vo.NoticeVO" alias="notice"/>
-		<typeAlias type="kr.or.dw.vo.TheaterVO" alias="theater"/>
+		<typeAlias type="kr.or.dw.vo.FaqVO" alias="faq"/>
 
 
 	</typeAliases>
