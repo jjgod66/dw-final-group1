@@ -1,7 +1,9 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,16 @@ public class TheaterServiceImpl implements TheaterService{
 		cnt = theaterDAO.selectThisThrLikeYN(param);
 		
 		return cnt;
+	}
+
+	@Override
+	public List<List<List<Map<String, Object>>>> getAllScreenList(String thr_name, Date date) throws SQLException {
+		List<List<List<Map<String, Object>>>> allScreenList = null;
+		List<List<Map<String, Object>>> movieList = null;
+		List<Map<String, Object>> houseList = null;
+		
+		
+		return null;
 	}
 
 	

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import kr.or.dw.dao.StoreDAO;
 import kr.or.dw.vo.MemBuyVO;
 import kr.or.dw.vo.PayDetailVO;
+import kr.or.dw.vo.PointVO;
 import kr.or.dw.vo.ProductVO;
 
 public class StoreServiceImpl implements StoreService{
@@ -49,6 +50,15 @@ public class StoreServiceImpl implements StoreService{
 		
 		storeDAO.insertMemPro(param);
 		
+		if(memBuy.getUse_point() > 0) {
+			PointVO pointVO = new PointVO();
+			pointVO.setMem_cd(memBuy.getMem_cd());
+			pointVO.setMerchant_uid(payDetail.getMerchant_uid());
+			pointVO.setPoint(memBuy.getUse_point());
+			
+			storeDAO.useMemPoint(pointVO);
+		}
+		
 		return payDetail.getMerchant_uid();
 	}
 
@@ -77,7 +87,33 @@ public class StoreServiceImpl implements StoreService{
 		
 		storeDAO.insertMemPro(param);
 		
+		if(memBuy.getUse_point() > 0) {
+			PointVO pointVO = new PointVO();
+			pointVO.setMem_cd(memBuy.getMem_cd());
+			pointVO.setMerchant_uid(payDetail.getMerchant_uid());
+			pointVO.setPoint(memBuy.getUse_point());
+			
+			storeDAO.useMemPoint(pointVO);
+		}
+		
 		return mapData;
+	}
+
+	@Override
+	public int getPoint(String mem_cd) throws SQLException {
+		int point = 0;
+		List<PointVO> pointList = null;
+		pointList = storeDAO.selectMemPointList(mem_cd);
+		
+		for(PointVO pointVO : pointList) {
+			if(pointVO.getPoint_cd().subSequence(0, 1).equals("A")) {
+				point += pointVO.getPoint();
+			}else {
+				point -= pointVO.getPoint();
+			}
+		}
+		
+		return point;
 	}
 
 }

@@ -4,6 +4,12 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/payment.css">
 <!-- iamport.payment.js -->
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>    
+<style>
+#pointApplyBtn:hover{
+	background-color: #F2F2F2;
+}
+
+</style>
 <div class="payment-wrapper">
 	<div class="container py-5">
 		<div class="row">
@@ -28,7 +34,11 @@
 							<dd class="amtValue"><span class="hasPoint">${member.point }</span>원</dd>
 							
 							<dt class="secondTit"><label for="cjOnePointipt">사용할 포인트</label></dt>
-							<dd><input class="textBox2" type="text" id="cjOnePointipt" value="0">원</dd>
+							<dd>
+								<input class="textBox2" type="text" id="cjOnePointipt" style="width: 100px;" placeholder="0">원
+								<input type="button" id="pointApplyBtn" value="적용" class="btn" style="padding: 2px 5px; margin-left: 5px; border: solid 1px gray;">
+								<input type="button" id="pointApplyCancelBtn" value="취소" class="btn" style="padding: 2px 5px; margin-left: 5px; border: solid 1px gray;">
+							</dd>
 				
 							<dt class="secondTit"><input type="checkbox" class="form-check-input"  id="cjOnePointchk"></dt>
 							<dd><label for="cjOnePointchk">모두사용</label></dd>

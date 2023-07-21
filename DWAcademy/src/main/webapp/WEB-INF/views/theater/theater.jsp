@@ -495,8 +495,8 @@ h3.tit.small {
 
 		<div class="tab-list fixed mb40 tab-layer">
 			<ul>
-				<li class="on"><a href="#tab01" title="극장정보 탭으로 이동">극장정보</a></li>
-				<li><a href="#tab02" title="상영시간표 탭으로 이동">상영시간표</a></li>
+				<li class="on"><a href="<%=request.getContextPath()%>/theater/theater.do?thr_name=${theater.thr_name}" title="극장정보 탭으로 이동">극장정보</a></li>
+				<li><a href="<%=request.getContextPath()%>/theater/screenSchedule.do?thr_name=${theater.thr_name}" title="상영시간표 탭으로 이동">상영시간표</a></li>
 				<li><a href="#tab03" title="관람료 탭으로 이동">관람료</a></li>
 			</ul>
 		</div>

@@ -525,7 +525,10 @@ let mem_cd = "<%=mem_cd%>";
 console.log(mem_cd);
 let movie_cd = '${movieView.movie.movie_cd }';
 function movieHeart(){
-	
+	if(mem_cd == null || mem_cd == ""){
+		alert("로그인이 필요합니다.");
+		return;
+	}
 
 	$.ajax({
 		url : '<%=request.getContextPath()%>/movie/likeMovie.do',
