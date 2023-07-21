@@ -278,7 +278,7 @@ nav ul {
 					<div class="dropdown-content">
 						<a href="<%= request.getContextPath() %>/sysAdmin/noticeAdminMain.do" class="gnb_1da">공지사항</a>
 						<a href="<%= request.getContextPath() %>/sysAdmin/faqAdminMain.do" class="gnb_1da">FAQ</a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">1:1문의</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/qnaAdminMain.do" class="gnb_1da">1:1문의</a>
 						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">회원목록 </a>
 						</div>
 					</li>

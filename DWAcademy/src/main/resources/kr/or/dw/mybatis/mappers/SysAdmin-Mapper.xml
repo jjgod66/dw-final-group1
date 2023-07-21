@@ -98,6 +98,10 @@
 			 )
 	</sql>
 	
+	<sql id="searchQna">
+	
+	</sql>
+	
 	<select id="selectSearchTheaterList" resultType="theater">
 		SELECT t.*, a.admin_id, a.admin_pwd
 		  FROM theater t, admin a
@@ -556,4 +560,17 @@
 		 WHERE faq_no = ${faq_no}
 	</update>
 	
+	<select id="selectQnaList" resultType="qna">
+		SELECT *
+		  FROM question
+		 WHERE que_sel = 'S'
+		 <include refid="searchQna"/>
+	</select>
+	
+	<select id="selectSearchQnaListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM question
+		 WHERE que_sel = 'S'
+		 <include refid="searchQna"/>
+	</select>
 </mapper>

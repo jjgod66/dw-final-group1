@@ -608,7 +608,6 @@ public class SysAdminController {
 		Map<String, Object> dataMap = sysAdminService.selectFaqList(cri);
 		mnv.addAllObjects(dataMap);
 		
-		System.out.println(dataMap.get("pageMaker"));
 		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "FAQ 메인");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
@@ -655,6 +654,19 @@ public class SysAdminController {
 		out.println("</script>");
 		out.flush();
 		out.close();
+	}
+
+	@RequestMapping("qnaAdminMain")
+	public ModelAndView qnaAdminMain (ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/sysAdmin/qnaAdminMain";
+		Map<String,Object> dataMap = sysAdminService.selectQnaList(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "1:1문의 메인");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
 	}
 	
 	@GetMapping("/eventAdminMain")

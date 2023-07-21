@@ -119,4 +119,7 @@ public interface SysAdminService {
 	// FAQ 게시글 등록하기
 	void registFaq(FaqVO faq) throws SQLException;
 
+	// 1:1 문의 게시글 목록 불러오기
+	Map<String, Object> selectQnaList(SearchCriteria cri) throws SQLException;
+
 }

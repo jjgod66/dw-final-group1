@@ -195,6 +195,7 @@ textarea:focus {
 			 $('input[name="faq_no"]').val(faqNo);
 			 $('#modalTitle').text('FAQ 수정');
 			 $('#registBtn').remove();
+			 
 		 });
 		
 		// 모달 안의 수정버튼 클릭시

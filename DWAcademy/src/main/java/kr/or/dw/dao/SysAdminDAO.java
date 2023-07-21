@@ -14,6 +14,7 @@ import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
+import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.TheaterVO;
 
 
@@ -151,5 +152,11 @@ public interface SysAdminDAO {
 
 	// FAQ 게시글 등록하기
 	void insertFaq(FaqVO faq) throws SQLException;
+
+	// 1:1문의 게시글 목록 불러오기
+	List<QnaVO> selectQnaList(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
+
+	// 해당하는 1:1문의 게시글의 총 개수를 불러온다.
+	int selectSearchQnaListCount(SearchCriteria cri) throws SQLException;
 	
 }
