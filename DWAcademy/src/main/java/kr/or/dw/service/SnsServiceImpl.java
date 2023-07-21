@@ -15,18 +15,44 @@ public class SnsServiceImpl implements SnsService{
 	private SnsDAO snsDAO;
 	
 	@Override
-	public SnsVO selectByMemberCode(String email) throws SQLException {
-		return snsDAO.selectByMemberCode(email);
+	public SnsVO kakaoSelectByMemberCode(String email) throws SQLException {
+		return snsDAO.kakaoSelectByMemberCode(email);
 	}
 
 	@Override
-	public void insertSocal(HashMap<String, Object> userInfo) throws SQLException {
-		snsDAO.insert(userInfo);
+	public void kakaoInsert(HashMap<String, Object> userInfo) throws SQLException {
+		snsDAO.kakaoInsert(userInfo);
 	}
 
 	@Override
-	public SnsVO selectSnsInfo(MemberVO member) throws SQLException {
-		return snsDAO.selectSnsInfo(member);
+	public SnsVO selectKakaoInfo(MemberVO member) throws SQLException {
+		return snsDAO.selectKakaoInfo(member);
 	}
+
+	@Override
+	public SnsVO selectNaverInfo(MemberVO member) throws SQLException {
+		return snsDAO.selectNaverInfo(member);
+	}
+
+	@Override
+	public void kakaounlink(MemberVO user) throws SQLException {
+		snsDAO.kakaoDelete(user);
+	}
+
+	@Override
+	public SnsVO naverSelectByMemberCode(String email) throws SQLException {
+		return snsDAO.naverSelectByMemberCode(email);
+	}
+
+	@Override
+	public void naverInsert(HashMap<String, Object> naverUserInfo) throws SQLException {
+		snsDAO.naverInsert(naverUserInfo);
+	}
+
+	@Override
+	public void naverUnlink(MemberVO user) throws SQLException {
+		snsDAO.neverDelete(user);
+	}
+
 
 }

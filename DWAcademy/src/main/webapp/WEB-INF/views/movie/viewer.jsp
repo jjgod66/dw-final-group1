@@ -37,7 +37,7 @@
         <div class="scon_02_detail">
             <div class="lbox">
 <%--                 <img src="../../resources/img/poster/${movieView.movie.movie_mainpic_path}"> --%>
-                <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieView.movie.movie_mainpic_path}&movie_cd=${movieView.movie.movie_cd}&type=p">
+                <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieView.movie.movie_mainpic_path}&item_cd=${movieView.movie.movie_cd}&type=moviePoster">
                 <a href="<%=request.getContextPath() %>/reservation/cinema.do?movie_cd=${movieView.movie.movie_cd }" class="btn btn-reservation">예매하기</a>
                 <a href="javascript:movieHeart();" class="btn btn-heart ${active }">♡ <span id="likeCount">${likeCount }</span></a>
             </div>

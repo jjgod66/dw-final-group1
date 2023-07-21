@@ -105,6 +105,11 @@
 </style>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
+<script>
+	Kakao.init('4d3eb758ca79e46a21afa1951cdbec30'); //발급받은 키 중 javascript키를 사용해준다.
+	console.log(Kakao.isInitialized()); // sdk초기화여부판단
+</script>
 <div class="additionalinfo-wrapper">
 	<h2 class="tit">개인정보 수정</h2>
 	<div class="box-radius">
@@ -128,14 +133,28 @@
 				<tbody>
 					<tr>
 						<td scope="row" style="text-align: center;">카카오</td>
-						<td><fmt:formatDate value="${sns.linkdate}" pattern="yyyy-MM-dd"/> ${sns.sns_email}</td>
+						<td><fmt:formatDate value="${kakao.linkdate}" pattern="yyyy-MM-dd"/> ${kakao.sns_email}</td>
 						<td style="text-align: center;">
 						<c:choose>
-							<c:when test="${sns.mem_cd eq null}">
+							<c:when test="${kakao.mem_cd eq null or kakao.sns ne 'K'}">
 								<a id="btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/kakao/callback">연동</a>
 							</c:when>
-							<c:when test="${sns.mem_cd ne null}">
-								<a id="btn" href="#" onclick="unLink_go();">연동해제</a>
+							<c:when test="${kakao.mem_cd ne null and kakao.sns eq 'K'}">
+								<a id="btn" href="<%=request.getContextPath()%>/kakao/unConnect">연동해제</a>
+							</c:when>
+						</c:choose>
+						</td>
+					</tr>
+					<tr>
+						<td scope="row" style="text-align: center;">네이버</td>
+						<td><fmt:formatDate value="${naver.linkdate}" pattern="yyyy-MM-dd"/> ${naver.sns_email}</td>
+						<td style="text-align: center;">
+						<c:choose>
+							<c:when test="${naver.mem_cd eq null or naver.sns ne 'N'}">
+								<a id="btn" href="<%=request.getContextPath()%>${url}">연동</a>
+							</c:when>
+							<c:when test="${naver.mem_cd ne null and naver.sns eq 'N'}">
+								<a id="btn" href="<%=request.getContextPath()%>/naver/unConnect.do">연동해제 </a>
 							</c:when>
 						</c:choose>
 						</td>
@@ -150,18 +169,4 @@
 		<button class="button purple large" id="updateBtn">수정</button>
 	</div>
 </div>
-<script>
-function unLink_go(){
-	Kakao.API.request({
-	  url: '/v1/user/unlink',
-	  success: function(response) {
-	    console.log(response);
-	    location.reload();
-	  },
-	  fail: function(error) {
-	    console.log(error);
-	  },
-	});
-}
-</script>
 <%@ include file="../include/member_footer.jsp" %>

@@ -35,6 +35,10 @@
 	<beans:bean class="kr.or.dw.util.Scheduler" />
 	<task:annotation-driven scheduler="scheduler"/>
 	<task:scheduler id="scheduler" pool-size="10"/>
+
+	<beans:bean id="naverLoginBO" class="kr.or.dw.service.NaverLoginBO" />
+	<beans:bean id="naverLoginBO2" class="kr.or.dw.service.NaverLoginBO2" />
+
 	
 	<interceptors>
 		<interceptor>

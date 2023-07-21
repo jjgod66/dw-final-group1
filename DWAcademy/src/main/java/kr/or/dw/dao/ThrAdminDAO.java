@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.or.dw.vo.ClickMovieInfoVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.ScreenVO;
 
@@ -19,5 +20,6 @@ public interface ThrAdminDAO {
 	
 	//배경색 위한것 
 	List<Map<String, Object>> selectAllRe() throws SQLException;
+	ClickMovieInfoVO selectAllRe1(String screenCd) throws SQLException;
 
 }

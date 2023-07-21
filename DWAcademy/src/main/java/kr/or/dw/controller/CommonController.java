@@ -3,7 +3,6 @@ package kr.or.dw.controller;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,45 +10,37 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.omg.CORBA.Request;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.IndexMovieCommand;
-import kr.or.dw.dao.SnsDAO;
-import kr.or.dw.service.KakaoService;
-import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
-import kr.or.dw.service.SnsService;
-import kr.or.dw.vo.MemberVO;
-import kr.or.dw.vo.SnsVO;
+import kr.or.dw.service.NaverLoginBO;
 
 @Controller
 public class CommonController {
 
 	private static final Logger logger = LoggerFactory.getLogger(CommonController.class);
 	
-	@Autowired
-	private MemberService memberService;
 	
 	@Autowired
 	private MovieService movieService;
 	
-	@Autowired
-	private SnsService snsService;
-
+	/* NaverLoginBO */
+	private NaverLoginBO naverLoginBO;
+	private String apiResult = null;
 	
 	@Autowired
-	private KakaoService ka;
+	private void setNaverLoginBO(NaverLoginBO naverLoginBO) {
+		this.naverLoginBO = naverLoginBO;
+	}
+
+	
 	
 	@RequestMapping("/security/accessDenied")
 	public String accessDenied(HttpServletResponse res) throws Exception{
@@ -60,8 +51,8 @@ public class CommonController {
 		return url;
 	}
 	
-	@RequestMapping("/main")
-	public ModelAndView index(ModelAndView mnv) throws SQLException {
+	@RequestMapping(value = "/main", method = { RequestMethod.GET, RequestMethod.POST })
+	public ModelAndView index(ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/main";
 		List<Map<String, Object>> movieListMap = null;
 		movieListMap = movieService.getIndexBoxOfficeMovie10();
@@ -71,7 +62,17 @@ public class CommonController {
 		for(Map<String, Object> movieMap : movieListMap) {
 			IndexMovieCommand imc = new IndexMovieCommand(movieMap);
 			movieList.add(imc);
+			
 		}
+		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
+		String naverAuthUrl = naverLoginBO.getAuthorizationUrl(session);
+		
+		//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
+		//redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
+		System.out.println("네이버:" + naverAuthUrl);
+		
+		//네이버 
+		mnv.addObject("url", naverAuthUrl);
 		
 		
 		
@@ -94,121 +95,7 @@ public class CommonController {
 		out.close();
 	}
 	
-	// 카카오 소셜로그인
-	@RequestMapping(value="/kakaoCode", method=RequestMethod.GET)
-	public String kakaoCode(@RequestParam(value = "code", required = false) String code) throws Exception {
-		
-		
-		System.out.println("#########" + code);
-		
-		Map<String, String> access_Token = ka.getAccessToken(code);
-		System.out.println("###access_Token#### : " + access_Token);
-		return "/member/PrivacyInfo";
-		/*
-		 * 리턴값의 testPage는 아무 페이지로 대체해도 괜찮습니다.
-		 * 없는 페이지를 넣어도 무방합니다.
-		 * 404가 떠도 제일 중요한건 #########인증코드 가 잘 출력이 되는지가 중요하므로 너무 신경 안쓰셔도 됩니다.
-		 */
-    	}
-	
-	@RequestMapping(value="/kakao/callback", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView callback(ModelAndView mnv, @RequestParam String code, HttpSession session, HttpServletRequest req) throws SQLException {
-		String url = "/member/PrivacyInfo";
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
-		SnsVO sns = snsService.selectSnsInfo(member);
 
-		System.out.println(member.getMem_cd());
-		
-		System.out.println("#########" + code);
-		Map<String, String> tokenMap = new HashMap<>();
-		tokenMap = ka.getAccessToken(code);
-		String access_Token = tokenMap.get("access_Token");
-		String refresh_Token = tokenMap.get("refresh_Token");
-		HashMap<String, Object> userInfo = ka.getUserInfo(access_Token);
-		
-		
-		System.out.println("###access_Token#### : " + access_Token);
-		System.out.println("###nickname#### : " + userInfo.get("sns_name"));
-		System.out.println("###email#### : " + userInfo.get("sns_email"));
-		
-		if(sns != null) {
-			userInfo.put("sns_cd", sns.getMem_cd());
-		}
-		userInfo.put("access_Token", access_Token);
-		userInfo.put("refresh_Token", refresh_Token);
-		userInfo.put("mem_cd", member.getMem_cd());
-		if(sns != null) {
-			userInfo.put("linkDate", sns.getLinkdate());
-		}
-		
-		System.out.println(userInfo);
-		
-		snsService.insertSocal(userInfo);
-		
-//		req.setAttribute("userInfo", userInfo);
-
-		mnv.addObject("userInfo", userInfo);
-		mnv.setViewName(url);
-		
-		return mnv;
-	}
-	
-	@RequestMapping("/common/kakaoLogin")
-	public ResponseEntity<MemberVO>kakaoLogin(String email, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws SQLException {
-		ResponseEntity<MemberVO> entity = null;
-		
-		SnsVO sns = snsService.selectByMemberCode(email);
-		MemberVO memberChk = memberService.CheckMemberEmail(email);
-		System.out.println("email : " + email);
-		System.out.println("sns : " + sns);
-		System.out.println("memberChk : " + memberChk.getMem_email());
-		MemberVO sns_email = new MemberVO();
-		
-		sns_email.setMem_email(email);
-		
-		System.out.println(sns_email);
-		
-		
-		if(memberChk.getMem_email() == null) {
-			sns_email.setGb("non_member");
-			System.out.println('1');
-			try {
-				entity = new ResponseEntity<MemberVO>(sns_email, HttpStatus.OK);
-			} catch (Exception e) {
-				e.printStackTrace();
-				entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-		}else if(sns == null) {
-			sns_email.setGb("noConnect");
-			System.out.println('2');
-			
-			try {
-				entity = new ResponseEntity<MemberVO>(sns_email, HttpStatus.OK);
-			} catch (Exception e) {
-				e.printStackTrace();
-				entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-			
-		}else if(memberChk != null && sns != null){
-			System.out.println('3');
-			sns_email.setGb("member");
-			MemberVO member = memberService.selectMemberCode(sns);
-			System.out.println(member);
-			
-			session.setAttribute("loginUser", member);
-			
-			try {
-				entity = new ResponseEntity<MemberVO>(member, HttpStatus.OK);
-			} catch (Exception e) {
-				e.printStackTrace();
-				entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-		}
-		return entity;
-		
-	}
-
-	
 	
 	
 }

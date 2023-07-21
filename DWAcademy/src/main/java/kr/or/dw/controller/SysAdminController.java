@@ -37,6 +37,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -49,12 +50,15 @@ import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBo
 
 import kr.or.dw.command.MovieModifyCommand;
 import kr.or.dw.command.MovieRegistCommand;
+import kr.or.dw.command.ProductModifyCommand;
 import kr.or.dw.command.ProductRegistCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.StoreService;
 import kr.or.dw.service.SysAdminService;
+import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.TheaterVO;
 
@@ -304,7 +308,7 @@ public class SysAdminController {
 		MovieVO movie = modifyReq.toParseMovie();
 		
 		// 포스터 수정 + 로컬 파일 수정
-		String fileName = savePicture(modifyReq.getMovie_mainPic_path(), modifyReq.getOldPicture(), modifyReq.getMovie_cd(), "p");
+		String fileName = savePicture(modifyReq.getMovie_mainPic_path(), modifyReq.getOldPicture(), modifyReq.getMovie_cd(), "moviePoster");
 		movie.setMovie_mainpic_path(fileName);
 		
 		if (modifyReq.getMovie_mainPic_path().isEmpty()) {
@@ -477,7 +481,6 @@ public class SysAdminController {
 	public void storeAdminProductRegist(ProductRegistCommand registReq, HttpServletResponse res) throws SQLException, IOException {
 		String storePicUploadPath = this.storePicUploadPath;
 		ProductVO product = registReq.toParseProduct();
-		System.out.println("~~~~~~" + product.getProduct_name());
 		sysAdminService.registProduct(product);
 		String product_cd = product.getProduct_cd();
 		// 이미지파일 로컬에 저장
@@ -494,14 +497,164 @@ public class SysAdminController {
 			image.transferTo(target);
 		}
 		
-//		res.setContentType("text/html; charset=utf-8");
-//		PrintWriter out = res.getWriter();
-//		out.println("<script>");
-//		out.println("alert('상품 등록이 완료되었습니다.')");
-//		out.println("location.href='storeAdminMain.do?CategoryIdx=1';");
-//		out.println("</script>");
-//		out.flush();
-//		out.close();
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('상품 등록이 완료되었습니다.')");
+		out.println("location.href='storeAdminDetail.do?product_cd=" + product_cd + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/storeAdminProductModify")
+	public void storeAdminProductModify(ProductModifyCommand modifyReq, HttpServletResponse res) throws Exception {
+		ProductVO product = modifyReq.toParseProduct();
+		
+		// 포스터 수정 + 로컬 파일 수정
+		String fileName = savePicture(modifyReq.getProduct_pic_path(), modifyReq.getOldPicture(), modifyReq.getProduct_cd(), "productImg");
+		product.setProduct_pic_path(fileName);
+		
+		if (modifyReq.getProduct_pic_path().isEmpty()) {
+			product.setProduct_pic_path(modifyReq.getOldPicture());
+		}
+		
+		sysAdminService.modifyProduct(product);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('상품 수정이 완료되었습니다.')");
+		out.println("location.href='storeAdminDetail.do?product_cd=" + modifyReq.getProduct_cd() + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/noticeAdminMain")
+	public ModelAndView noticeAdminMain(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/sysAdmin/noticeAdminMain";
+		
+		Map<String, Object> dataMap = sysAdminService.selectNoticeList(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 메인");
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/noticeAdminDetail")
+	public ModelAndView noticeAdminDetail(ModelAndView mnv, String notice_no, String type) throws SQLException {
+		String url = "/sysAdmin/noticeAdminDetail";
+		if (notice_no != null) {
+			NoticeVO notice = sysAdminService.selectNoticeByNotice_no(Integer.parseInt(notice_no));
+			mnv.addObject("notice", notice);
+		}
+		mnv.addObject("type", type);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 게시글");
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("noticeAdminRegist")
+	public void noticeAdminRegist (NoticeVO notice, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.registNotice(notice);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('공지사항 게시물 등록이 완료되었습니다.')");
+		out.println("location.href='noticeAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("noticeAdminModify")
+	public void noticeAdminModify (NoticeVO notice, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.modifyNotice(notice);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('공지사항 게시물 수정이 완료되었습니다.')");
+		out.println("location.href='noticeAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("noticeAdminDelete")
+	public void noticeAdminDelete (NoticeVO notice, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.deleteNotice(notice);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('공지사항 게시물 삭제가 완료되었습니다.')");
+		out.println("location.href='noticeAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("faqAdminMain")
+	public ModelAndView faqAdminMain (ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/sysAdmin/faqAdminMain";
+		
+		Map<String, Object> dataMap = sysAdminService.selectFaqList(cri);
+		mnv.addAllObjects(dataMap);
+		
+		System.out.println(dataMap.get("pageMaker"));
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "FAQ 메인");
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("faqAdminModify")
+	public void faqAdminModify (FaqVO faq, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.modifyFaq(faq);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('FAQ 게시물 수정이 완료되었습니다.')");
+		out.println("location.href='faqAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("faqAdminRegist")
+	public void faqAdminRegist (FaqVO faq, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.registFaq(faq);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('FAQ 게시물 등록이 완료되었습니다.')");
+		out.println("location.href='faqAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("faqAdminDelete")
+	public void faqAdminDelete (FaqVO faq, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.deleteFaq(faq);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('FAQ 게시물 삭제가 완료되었습니다.')");
+		out.println("location.href='faqAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
 	}
 	
 	@GetMapping("/eventAdminMain")
@@ -537,7 +690,7 @@ public class SysAdminController {
 		return subjectMap;
 	}
 	
-	private String savePicture(MultipartFile multi, String oldPicture, String movie_cd, String type) throws Exception {
+	private String savePicture(MultipartFile multi, String oldPicture, String item_cd, String type) throws Exception {
 		
 		String fileName = null;
 		
@@ -545,12 +698,14 @@ public class SysAdminController {
 		if (!(multi == null || multi.isEmpty() || multi.getSize() > 1024 * 1024 * 10)) {
 			// 파일 저장 폴더 설정
 			String imgPath = "";
-			if (type.equals("p")) {
-				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "mainPoster";
-			} else if (type.equals("i")) {
-				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "pictures";
-			} else if (type.equals("v")) {
-				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "videos";
+			if (type.equals("moviePoster")) {
+				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "mainPoster";
+			} else if (type.equals("movieImg")) {
+				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "pictures";
+			} else if (type.equals("movieVideo")) {
+				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "videos";
+			} else if (type.equals("productImg")) {
+				imgPath = this.storePicUploadPath + File.separator + item_cd;
 			}
 			fileName = multi.getOriginalFilename();
 			File storeFile = new File(imgPath, fileName);
@@ -572,18 +727,18 @@ public class SysAdminController {
 	}
 	
 	@RequestMapping("/getPicture")
-	public ResponseEntity<byte[]> getPicture(String name, String movie_cd, String type) throws IOException  {
+	public ResponseEntity<byte[]> getPicture(String name, String item_cd, String type) throws IOException  {
 		
 		InputStream in = null;
 		ResponseEntity<byte[]> entity = null;
 		String imgPath = "";
 		if (type != "" && type != null) {
-			if (type.equals("p")) {
-				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "mainPoster";
-			} else if (type.equals("i")) {
-				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "pictures";
-			} else if (type.equals("v")) {
-				imgPath = this.moviePicUploadPath + File.separator + movie_cd + File.separator + "videos";
+			if (type.equals("moviePoster")) {
+				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "mainPoster";
+			} else if (type.equals("movieImg")) {
+				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "pictures";
+			} else if (type.equals("productImg")) {
+				imgPath = this.storePicUploadPath + File.separator + item_cd;
 			}
 		}
 		
@@ -603,8 +758,6 @@ public class SysAdminController {
 	 @GetMapping(value = "getVideo")
 	    public ResponseEntity<ResourceRegion> getVideo(@RequestHeader HttpHeaders headers, String movie_cd, String movie_pre_path) throws IOException {
 	        logger.info("VideoController.getVideo");
-	        System.out.println("[[[[[" + movie_cd);
-	        System.out.println("@@@" + movie_pre_path);
 	        UrlResource video = new UrlResource("file:"+ this.moviePicUploadPath + File.separator + movie_cd + File.separator + "videos" + File.separator + movie_pre_path);
 	        ResourceRegion resourceRegion;
 

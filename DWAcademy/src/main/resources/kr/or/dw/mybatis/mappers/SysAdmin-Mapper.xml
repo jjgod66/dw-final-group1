@@ -61,6 +61,43 @@
 		</if>
 	</sql>
 	
+	<sql id="searchNotice">
+		<if test="searchType == 'all'.toString()">
+		</if>
+		<if test="searchType == 'thr'.toString()">
+			AND notice_thr != 'DW시네마'
+		</if>
+		<if test="searchType == 'thr'.toString()">
+			AND notice_thr = 'DW시네마'
+		</if>
+		AND notice_title LIKE '%' || #{keyword} || '%'
+	</sql>
+	
+	<sql id="searchFaq">
+		<if test="searchType == 'all'.toString()">
+		</if>
+		<if test="searchType == 'reservation'.toString()">
+			AND faq_div = '영화예매'
+		</if>
+		<if test="searchType == 'pay'.toString()">
+			AND faq_div = '결제수단'
+		</if>
+		<if test="searchType == 'membership'.toString()">
+			AND faq_div = '멤버십'
+		</if>
+		<if test="searchType == 'store'.toString()">
+			AND faq_div = '스토어'
+		</if>
+		<if test="searchType == 'giftcard'.toString()">
+			AND faq_div = '기프트카드'
+		</if>
+		AND  (
+			 faq_title LIKE '%' || #{keyword} || '%'
+			 OR
+			 faq_content LIKE '%' || #{keyword} || '%'
+			 )
+	</sql>
+	
 	<select id="selectSearchTheaterList" resultType="theater">
 		SELECT t.*, a.admin_id, a.admin_pwd
 		  FROM theater t, admin a
@@ -399,4 +436,124 @@
 			SELECT 'P' || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual d1) || LPAD(product_seq.currval,4,0) movie_cd FROM dual d2
 		</selectKey>
 	</insert>
+	
+	<update id="updateProduct">
+		UPDATE product
+		   SET product_name = #{product_name}
+		      ,product_content = #{product_content}
+		      ,product_price = #{product_price}
+		      ,product_div = #{product_div}
+		      ,product_period = #{product_period}
+		      ,product_info = #{product_info}
+		      ,product_pic_path = #{product_pic_path}
+		 WHERE product_cd = #{product_cd}
+	</update>
+	
+	<select id="selectNoticeList" resultType="notice">
+		SELECT *
+		  FROM notice
+		 WHERE gb_del = 'N'
+		  <include refid="searchNotice"/>
+		 ORDER BY notice_no DESC
+	</select>
+	
+	<select id="selectSearchNoticeListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM notice
+		 WHERE gb_del = 'N'
+		<include refid="searchNotice"/>
+	</select>
+	
+	<select id="selectNoticeByNotice_no" resultType="notice">
+		SELECT *
+		  FROM notice
+		 WHERE notice_no = #{notice_no}
+	</select>
+	
+	<insert id="insertNotice">
+		INSERT INTO notice
+					(
+					 notice_no
+					,admin_cd
+					,notice_title
+					,notice_content
+					,notice_thr
+					,regdate
+					,gb_del
+					)
+			 VALUES (
+			 		 notice_seq.nextval
+			 		,'S202307200022'
+			 		,#{notice_title}
+			 		,#{notice_content}
+			 		,'DW시네마'
+			 		,SYSDATE
+			 		,'N'
+			 		)		
+	</insert>
+	
+	<update id="updateNotice">
+		UPDATE notice
+		   SET notice_title = #{notice_title}
+		      ,notice_content = #{notice_content}
+		      ,updatedate = SYSDATE
+		 WHERE notice_no = #{notice_no}
+	</update>
+	
+	<update id="deleteNotice">
+		UPDATE notice
+		   SET gb_del = 'Y'
+		 WHERE notice_no = #{notice_no}
+	</update>
+	
+	<select id="selectFaqList" resultType="faq">
+		SELECT *
+		  FROM faq
+		 WHERE gb_del = 'N'
+		 <include refid="searchFaq"/>
+		 ORDER BY faq_no DESC
+	</select>
+	
+	<select id="selectSearchFaqListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM faq
+		 WHERE gb_del = 'N'
+		 <include refid="searchFaq"/>
+	</select>
+	
+	<insert id="insertFaq">
+		INSERT INTO faq
+					(
+					 faq_no
+					,faq_title
+					,faq_content
+					,regdate
+					,gb_del
+					,faq_div
+					)
+			 VALUES (
+			 		 faq_seq.nextval
+			 		,#{faq_title}
+			 		,#{faq_content}
+			 		,SYSDATE
+			 		,'N'
+			 		,#{faq_div}
+			 		)
+	</insert>
+	
+	<update id="updateFaq">
+		UPDATE faq
+		   SET faq_title = #{faq_title}
+		      ,faq_content = #{faq_content}
+		      ,faq_div = #{faq_div}
+		      ,updatedate = SYSDATE
+		 WHERE faq_no = #{faq_no}
+	</update>
+	
+	<update id="deleteFaq">
+		UPDATE faq
+		   SET gb_del = 'Y'
+		 WHERE faq_no = ${faq_no}
+	</update>
+	
 </mapper>

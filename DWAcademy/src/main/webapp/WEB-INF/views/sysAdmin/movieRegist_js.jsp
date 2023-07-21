@@ -66,6 +66,8 @@
 		
 		form.submit();
 	});
+	
+	// 수정버튼 클릭
 	$('#modifyBtn').on('click', function(){
 		let input = $('<input>').attr({
 										'type' : 'hidden',
@@ -79,9 +81,13 @@
 		
 		form.submit();
 	});
+	
+	// 뒤로가기버튼 클릭
 	$('#cancelBtn').on('click', function(){
 		location.href="/sysAdmin/movieAdminMain.do";
 	});
+	
+	// 작성폼 확인
 	function checkForm(){
 		// 러닝타임 숫자자리수 제한
 		let ml_length = $('input[name="movie_length"]').val().length;

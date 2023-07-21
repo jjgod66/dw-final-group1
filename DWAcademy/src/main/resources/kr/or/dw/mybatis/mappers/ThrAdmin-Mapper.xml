@@ -18,7 +18,22 @@
 		SELECT t.THR_NAME, s.house_no, s.movie_cd, m.MOVIE_LENGTH, TO_CHAR(s.STARTDATE,'HH24:MI')as startTime, TO_CHAR( s.STARTDATE + (m.MOVIE_LENGTH)/(24*60),'HH24:MI' )AS EndTime,
 		   TO_CHAR(LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE), 'yyyy-MM-dd HH24:MI:SS') AS before_movieEndTime,
 		  TO_CHAR(round( NVL(  (s.STARTDATE - LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE)) * 24 * 60 ,0) )) AS re ,
-		   s.screen_cd , m.MOVIE_NAME
+		   s.screen_cd , m.MOVIE_NAME ,COUNT(t.THR_NAME) OVER () AS tcount
+		FROM screen s, movie m, theater t, house h
+		WHERE 1=1
+		    AND s.movie_cd = m.movie_cd
+		    AND t.THR_NAME = h.THR_NAME
+		    AND h.house_no = s.house_no
+		    AND h.thr_name = '테스트123'
+		    AND s.house_no = 1
+		ORDER BY s.house_no
+	</select>
+	
+	<select id="selectAllRe1" resultType="Map">
+		SELECT t.THR_NAME, s.house_no, s.movie_cd, m.MOVIE_LENGTH, TO_CHAR(s.STARTDATE,'HH24:MI')as startTime, TO_CHAR( s.STARTDATE + (m.MOVIE_LENGTH)/(24*60),'HH24:MI' )AS EndTime,
+		   TO_CHAR(LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE), 'yyyy-MM-dd HH24:MI:SS') AS before_movieEndTime,
+		  TO_CHAR(round( NVL(  (s.STARTDATE - LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE)) * 24 * 60 ,0) )) AS re ,
+		   s.screen_cd , m.MOVIE_NAME ,COUNT(t.THR_NAME) OVER () AS tcount
 		FROM screen s, movie m, theater t, house h
 		WHERE 1=1
 		    AND s.movie_cd = m.movie_cd

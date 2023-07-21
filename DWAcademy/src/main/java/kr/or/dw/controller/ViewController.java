@@ -51,19 +51,6 @@ public class ViewController {
 		String url = "/member/membership";
 		return url;
 	}
-	@RequestMapping("/member/PrivacyInfo")
-	public String PrivacyInfo(HttpServletRequest req, HttpSession session) throws SQLException {
-		String url = "/member/PrivacyInfo";
-		System.out.println(session.getAttribute("loginUser"));
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
-		SnsVO sns = new SnsVO();
-		
-		sns = snsService.selectSnsInfo(member);
-		System.out.println(sns);
-		req.setAttribute("sns", sns);
-		
-		return url;
-	}
 	
 	/*
 	 * 영화 뷰어 컨트롤러 
