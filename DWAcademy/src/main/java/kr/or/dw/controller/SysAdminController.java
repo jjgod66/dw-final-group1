@@ -37,6 +37,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -54,6 +55,7 @@ import kr.or.dw.command.ProductRegistCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.StoreService;
 import kr.or.dw.service.SysAdminService;
+import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
@@ -535,7 +537,7 @@ public class SysAdminController {
 		
 		Map<String, Object> dataMap = sysAdminService.selectNoticeList(cri);
 		mnv.addAllObjects(dataMap);
-		System.out.println("[[[[[" + dataMap);
+		
 		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 메인");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
@@ -566,6 +568,90 @@ public class SysAdminController {
 		out.println("<script>");
 		out.println("alert('공지사항 게시물 등록이 완료되었습니다.')");
 		out.println("location.href='noticeAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("noticeAdminModify")
+	public void noticeAdminModify (NoticeVO notice, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.modifyNotice(notice);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('공지사항 게시물 수정이 완료되었습니다.')");
+		out.println("location.href='noticeAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("noticeAdminDelete")
+	public void noticeAdminDelete (NoticeVO notice, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.deleteNotice(notice);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('공지사항 게시물 삭제가 완료되었습니다.')");
+		out.println("location.href='noticeAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("faqAdminMain")
+	public ModelAndView faqAdminMain (ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/sysAdmin/faqAdminMain";
+		
+		Map<String, Object> dataMap = sysAdminService.selectFaqList(cri);
+		mnv.addAllObjects(dataMap);
+		
+		System.out.println(dataMap.get("pageMaker"));
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "FAQ 메인");
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("faqAdminModify")
+	public void faqAdminModify (FaqVO faq, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.modifyFaq(faq);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('FAQ 게시물 수정이 완료되었습니다.')");
+		out.println("location.href='faqAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("faqAdminRegist")
+	public void faqAdminRegist (FaqVO faq, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.registFaq(faq);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('FAQ 게시물 등록이 완료되었습니다.')");
+		out.println("location.href='faqAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("faqAdminDelete")
+	public void faqAdminDelete (FaqVO faq, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.deleteFaq(faq);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('FAQ 게시물 삭제가 완료되었습니다.')");
+		out.println("location.href='faqAdminMain.do';");
 		out.println("</script>");
 		out.flush();
 		out.close();

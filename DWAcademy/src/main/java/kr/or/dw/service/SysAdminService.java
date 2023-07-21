@@ -6,6 +6,7 @@ import java.util.Map;
 
 import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
@@ -99,5 +100,23 @@ public interface SysAdminService {
 
 	// 공지사항 등록하기
 	void registNotice(NoticeVO notice) throws SQLException;
+
+	// 공지사항 수정하기
+	void modifyNotice(NoticeVO notice) throws SQLException;
+
+	// 공지사항 삭제하기
+	void deleteNotice(NoticeVO notice) throws SQLException;
+
+	// FAQ 게시글 목록 불러오기
+	Map<String, Object> selectFaqList(SearchCriteria cri) throws SQLException;
+
+	// FAQ 게시글 수정하기
+	void modifyFaq(FaqVO faq) throws SQLException;
+
+	// FAQ 게시글 삭제하기
+	void deleteFaq(FaqVO faq) throws SQLException;
+
+	// FAQ 게시글 등록하기
+	void registFaq(FaqVO faq) throws SQLException;
 
 }

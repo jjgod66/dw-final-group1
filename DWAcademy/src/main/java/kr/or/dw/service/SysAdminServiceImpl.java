@@ -16,6 +16,7 @@ import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.SysAdminDAO;
 import kr.or.dw.vo.AdminVO;
+import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
@@ -308,6 +309,51 @@ public class SysAdminServiceImpl implements SysAdminService {
 	@Override
 	public void registNotice(NoticeVO notice) throws SQLException {
 		sysAdminDAO.insertNotice(notice);
+	}
+
+	@Override
+	public void modifyNotice(NoticeVO notice) throws SQLException {
+		sysAdminDAO.updateNotice(notice);
+	}
+
+	@Override
+	public void deleteNotice(NoticeVO notice) throws SQLException {
+		sysAdminDAO.deleteNotice(notice);
+		
+	}
+
+	@Override
+	public Map<String, Object> selectFaqList(SearchCriteria cri) throws SQLException {
+		List<FaqVO> faqList = null;
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum(); 
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		faqList = sysAdminDAO.selectFaqList(cri, rowBounds);
+		
+		int totalCount = sysAdminDAO.selectSearchFaqListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("faqList", faqList);
+		dataMap.put("pageMaker", pageMaker);
+		return dataMap;
+	}
+
+	@Override
+	public void modifyFaq(FaqVO faq) throws SQLException {
+		sysAdminDAO.updateFaq(faq);
+	}
+
+	@Override
+	public void deleteFaq(FaqVO faq) throws SQLException {
+		sysAdminDAO.deleteFaq(faq);
+	}
+
+	@Override
+	public void registFaq(FaqVO faq) throws SQLException {
+		sysAdminDAO.insertFaq(faq);
 	}
 
 }

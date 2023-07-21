@@ -73,6 +73,31 @@
 		AND notice_title LIKE '%' || #{keyword} || '%'
 	</sql>
 	
+	<sql id="searchFaq">
+		<if test="searchType == 'all'.toString()">
+		</if>
+		<if test="searchType == 'reservation'.toString()">
+			AND faq_div = '영화예매'
+		</if>
+		<if test="searchType == 'pay'.toString()">
+			AND faq_div = '결제수단'
+		</if>
+		<if test="searchType == 'membership'.toString()">
+			AND faq_div = '멤버십'
+		</if>
+		<if test="searchType == 'store'.toString()">
+			AND faq_div = '스토어'
+		</if>
+		<if test="searchType == 'giftcard'.toString()">
+			AND faq_div = '기프트카드'
+		</if>
+		AND  (
+			 faq_title LIKE '%' || #{keyword} || '%'
+			 OR
+			 faq_content LIKE '%' || #{keyword} || '%'
+			 )
+	</sql>
+	
 	<select id="selectSearchTheaterList" resultType="theater">
 		SELECT t.*, a.admin_id, a.admin_pwd
 		  FROM theater t, admin a
@@ -427,14 +452,15 @@
 	<select id="selectNoticeList" resultType="notice">
 		SELECT *
 		  FROM notice
-		 WHERE 1=1
+		 WHERE gb_del = 'N'
 		  <include refid="searchNotice"/>
+		 ORDER BY notice_no DESC
 	</select>
 	
 	<select id="selectSearchNoticeListCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM notice
-		 WHERE 1=1
+		 WHERE gb_del = 'N'
 		<include refid="searchNotice"/>
 	</select>
 	
@@ -465,4 +491,69 @@
 			 		,'N'
 			 		)		
 	</insert>
+	
+	<update id="updateNotice">
+		UPDATE notice
+		   SET notice_title = #{notice_title}
+		      ,notice_content = #{notice_content}
+		      ,updatedate = SYSDATE
+		 WHERE notice_no = #{notice_no}
+	</update>
+	
+	<update id="deleteNotice">
+		UPDATE notice
+		   SET gb_del = 'Y'
+		 WHERE notice_no = #{notice_no}
+	</update>
+	
+	<select id="selectFaqList" resultType="faq">
+		SELECT *
+		  FROM faq
+		 WHERE gb_del = 'N'
+		 <include refid="searchFaq"/>
+		 ORDER BY faq_no DESC
+	</select>
+	
+	<select id="selectSearchFaqListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM faq
+		 WHERE gb_del = 'N'
+		 <include refid="searchFaq"/>
+	</select>
+	
+	<insert id="insertFaq">
+		INSERT INTO faq
+					(
+					 faq_no
+					,faq_title
+					,faq_content
+					,regdate
+					,gb_del
+					,faq_div
+					)
+			 VALUES (
+			 		 faq_seq.nextval
+			 		,#{faq_title}
+			 		,#{faq_content}
+			 		,SYSDATE
+			 		,'N'
+			 		,#{faq_div}
+			 		)
+	</insert>
+	
+	<update id="updateFaq">
+		UPDATE faq
+		   SET faq_title = #{faq_title}
+		      ,faq_content = #{faq_content}
+		      ,faq_div = #{faq_div}
+		      ,updatedate = SYSDATE
+		 WHERE faq_no = #{faq_no}
+	</update>
+	
+	<update id="deleteFaq">
+		UPDATE faq
+		   SET gb_del = 'Y'
+		 WHERE faq_no = ${faq_no}
+	</update>
+	
 </mapper>
