@@ -8,6 +8,14 @@
 
 
 <style>
+td{vertical-align: middle;
+
+}
+#wls {
+    font-weight: 550;
+    background: #f1f1f1;
+    text-align: center;
+}
 #wrapper {
     background-color: #fff;
     z-index: 5;
@@ -49,17 +57,18 @@ margin: 0px 100px 0px 87px;
     content: '';
 }
 .cell {
-			width:70px;
-            font-size: 11px;
+			cursor: pointer;
+			transition: background-color 0.2s;
+            font-size: 13px;
         }
-td{
-	/* border: 1px solid black; */
-}
-tr{height: 40px;}
+.cell:hover {
+  background-color: #b8e6ff;
+}       
+
 table {
+		border-color: #dddddd;
 		justify-content:center;
 		width:80%;
-		border: 1px solid black;
          border-collapse: collapse;
          text-align: center;
     }
@@ -83,6 +92,7 @@ table {
   padding: 20px;
   border: 1px solid #888;
   width: 60%;
+  color: #333;
 }
 
 .close {
@@ -90,8 +100,28 @@ table {
   float: right;
   font-size: 28px;
   font-weight: bold;
+  cursor: pointer;
 }
 
+.info {
+	margin-left:12%;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #d0ebff	;
+}
 .close:hover,
 .close:focus {
   color: black;
@@ -112,6 +142,12 @@ table {
     margin-top: 20px;
     text-align: center;
 }
+.grey1 {
+    background: #dcdcdc;
+    border: 1px solid #dcdcdc;
+    color: #505050 !important;
+}
+
 .grey {
     background: #888;
     border: 1px solid #888;
@@ -123,8 +159,40 @@ table {
     line-height: 1.444;
     font-weight: 600;
 }
-</style>
 
+
+.calendar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#calendar {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+}
+
+
+.date-item {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.date-item:hover {
+  background-color: #d0ebff;
+}
+#nextBtn {
+  margin-right: 250px;
+}
+#prevBtn {
+  margin-left: 250px;
+}
+</style>
+<!-- ##################################################################### -->
 <div id="wrapper">
 	<div id="content">
 		
@@ -137,34 +205,302 @@ table {
 <div class="s_wrap">
 			<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
 			<h2>영화리스트 </h2>
+			
+			
+			
+  <div class="calendar-container">
+    <button id="prevBtn" class="btn btn-link">
+	  <i class="material-icons">chevron_left</i>
+	</button>
+    <div id="calendar">
+      <!-- Dates will be added dynamically here -->
+    </div>
+    <button id="nextBtn" class="btn btn-link">
+	 <i class="material-icons">chevron_right</i>
+	</button>
+  </div>
+<%@ include file="calenderScript.jsp" %>
+			
+			
+			
+			
+			
 
-<div class="tbl_frm02" style="margin-left:auto;margin-right:auto;">
-<table >
-  <tr >
-    <th >시간</th>
-    <td colspan="6" style="border:1px solid black;">07시</td>
-    <td colspan="6"style="border:1px solid black;">08시</td>
-    <td colspan="6"style="border:1px solid black;">09시</td>
-    <td colspan="6"style="border:1px solid black;">10시</td>
-    <td colspan="6"style="border:1px solid black;">11시</td>
-    <td colspan="6"style="border:1px solid black;">12시</td>
-    <td colspan="6"style="border:1px solid black;">13시</td>
-    <td colspan="6"style="border:1px solid black;">14시</td>
-    <td colspan="6"style="border:1px solid black;">15시</td>
-    <td colspan="6"style="border:1px solid black;">16시</td>
-    <td colspan="6"style="border:1px solid black;">17시</td>
-    <td colspan="6"style="border:1px solid black;">18시</td>
-    <td colspan="6"style="border:1px solid black;">19시</td>
-    <td colspan="6"style="border:1px solid black;">20시</td>
-    <td colspan="6"style="border:1px solid black;">21시</td>
-    <td colspan="6"style="border:1px solid black;">22시</td>
-    <td colspan="6"style="border:1px solid black;">23시</td>
-    <td colspan="6"style="border:1px solid black;">00시</td>
-    <td colspan="6"style="border:1px solid black;">01시</td>
-    <td colspan="6"style="border:1px solid black;">02시</td>
+<div class="tbl_frm02 table-responsive" style="margin-left:auto;margin-right:auto;">
+<table class="table table-striped">
+  <tr id="wls">
+    <th style="border:1px solid #bfbfbf;">시간</th>
+    <td colspan="6" style="border:1px solid #bfbfbf;">07시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">08시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">09시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">10시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">11시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">12시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">13시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">14시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">15시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">16시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">17시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">18시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">19시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">20시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">21시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">22시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">23시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">00시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">01시</td>
+    <td colspan="6"style="border:1px solid #bfbfbf;">02시</td>
   </tr>
-  <tr id="timeTable">
-    <th style="border:1px solid black;">1관</th>
+  <tr id="timeTable" style="border:1px solid #dddddd;">
+    <th style="border:1px solid #bfbfbf;">1관</th>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+     <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    
+  </tr>
+<tr id="timeTable2" style="border:1px solid #dddddd;">
+    <th style="border:1px solid #bfbfbf;">2관</th>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+        <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+     <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    
+  </tr>
+<tr id="timeTable3" style="border:1px solid #dddddd;">
+    <th style="border:1px solid #bfbfbf;">3관</th>
     <td></td>
     <td></td>
     <td></td>
@@ -292,24 +628,26 @@ table {
 </div>
 
 
-<!-- <button id="addMovieBtn">영화 수정하기 </button> -->
 
-	<div class="btn_confirm">
-		 <input type="button" value="영화수정" id="addMovieBtn" class="btn_medium grey">
-	</div>
-
-<!-- The modal -->
+<div class="btn_confirm">
+<button class=" btn_medium grey1" id="openModalBtn">영화 등록</button>
+</div>
 <div id="myModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
-    <ul id="movieInfoList">
-      <!-- Movie information will be added dynamically here -->
-    </ul>
+    <h2>영화정보 </h2>
+    <div class="info">
+      <p><strong>영화관 명 :</strong> <span id="theaterName"></span></p>
+      <p><strong>시작 시간 :</strong> <span id="startTime"></span></p>
+      <p><strong>끝나는 시간 :</strong> <span id="endTime"></span></p>
+      <p><strong>영화 제목 :</strong> <span id="movieName"></span></p>
+      <p><strong>상영 길이 :</strong> <span id="movieLength"></span></p>
+      <p><strong>Screen_cd :</strong> <span id="movieCode1"></span></p>
+      <p><strong>Movie_cd :</strong> <span id="movieCode2"></span></p>
+      <p><strong>상영관 넘버 :</strong> <span id="theaterNumber"></span></p>
+    </div>
   </div>
 </div>
-
-
-
 
 </div>
 </div>
@@ -318,7 +656,7 @@ table {
 <script>
 window.onload = function() {
 	  let list = ${allRe};
-	  for (let a = 0; a < 2; a++) {
+	  for (let a = 0; a < list[a].TCOUNT; a++) {
 	    var startTime = list[a].STARTTIME; // 예시: "08:00"
 	    var endTime = list[a].ENDTIME; // 예시: "09:49"
 	    var startHour = parseInt(startTime.substring(0, 2));
@@ -333,13 +671,15 @@ window.onload = function() {
 	    var end = (endHour * 60 + endMinute - 420) / 10; // 16.9
 	    // 배경색 및 영화 정보 추가
  	    for (let i = start; i <= end; i++) {
-        tdList[i].style.backgroundColor = '#FFC5D0';
+        tdList[i].style.backgroundColor = '#d0ebff';
 
         if (i == start) {
           var div = document.createElement('div');
           div.classList.add("cell");
+          div.dataset.screenCd1 = list[a].SCREEN_CD;
           div.textContent = list[a].MOVIE_NAME +'\n'+ list[a].MOVIE_LENGTH + '분\n' +list[a].STARTTIME +'~'+ list[a].ENDTIME;
           tdList[i].appendChild(div);
+          
         }
       }
 	    // 병합된 셀 설정
@@ -347,59 +687,76 @@ window.onload = function() {
 	      tdList[start].setAttribute('colspan', end - start + 1);
 	      for (let i = start + 1; i <= end; i++) {
 	    	  tdList[i].style.width = '0';
-	          tdList[i+1].style.display = 'none';
+	          tdList[i].style.display = 'none';
 	      }
 	    }    
 	  }
-	  // 영화수정하기버튼눌렀을때 
-	  function openModal() {
-		    
-	      movieInfoList.innerHTML = '';
-	      let list = ${allRe}; 
-	      
-	      
-		  for (let a = 0; a < 2; a++) {
-		      list.forEach(function(movie) {
-		        let listItem = document.createElement('li');
-		        listItem.textContent = list[a].MOVIE_NAME +'\n'+ list[a].MOVIE_LENGTH +'분'+'\n'+'상영시간: ' +list[a].STARTTIME +'~'+ list[a].ENDTIME;
-	      //상영관이름넣기
-	      let thrName = document.createElement('div');
-	      thrName.textContent = '상영관 이름 : ' + list[a].THR_NAME;
-	      movieInfoList.appendChild(thrName);
-		        //tnw수정버튼넣기
-		          let editButton = document.createElement('button');
-		          editButton.textContent = '수정';
-		          editButton.classList.add("btn_medium");
-		          editButton.addEventListener('click', function() {
-		            console.log('movie: ', list[a].MOVIE_NAME);
-		          });
-		          listItem.appendChild(editButton);
-		          movieInfoList.appendChild(listItem);
-		      });
-		  }
-	      modal.style.display = 'block';
-	    }
-
-	    const addMovieBtn = document.getElementById('addMovieBtn');
-	    const modal = document.getElementById('myModal');
-	    const movieInfoList = document.getElementById('movieInfoList');
-	   //수정버튼 눌렀을때 
-		  addMovieBtn.addEventListener('click', function() {
-		    openModal();
-		  });
-
-	    modal.addEventListener('click', function(event) {
-	      if (event.target === modal || event.target.className === 'close') {
-	        modal.style.display = 'none';
-	      }
-	    });
-	  
-	  
-	  
-	  
-	  
 	};
+	
+	$(document).ready(function() {
+	    $(".cell").on("click", function() {
+	      const screenCd = $(this).data("screenCd1"); 
+	      alert(screenCd);
+	      $.ajax({
+	        url: '/api/getMovieInfo?screenCd='+'${screenCd}',
+	        method: 'GET',
+	        dataType: 'json',
+	        success: function(data) {
+	          // Populate the modal with the fetched movie information
+	          $("#theaterName").text(data.theaterName);
+	          $("#startTime").text(data.startTime);
+	          $("#endTime").text(data.endTime);
+	          $("#movieName").text(data.movieName);
+	          $("#movieLength").text(data.movieLength);
+	          $("#movieCode1").text(data.movieCode1);
+	          $("#movieCode2").text(data.movieCode2);
+	          $("#theaterNumber").text(data.theaterNumber);
+	          // Show the modal
+	          $("#myModal").show();
+	        },
+	        error: function(xhr, status, error) {
+	          console.error('Error fetching data:', xhr.responseText);
+	        }
+	      });
+	    });
 
+	    // Close modal when the close button is clicked
+	    $(".close").on("click", function() {
+	      $("#myModal").hide();
+	    });
+	  });
+	
+	
+	
+	// 버튼 변수지정
+	  const modal = document.getElementById('myModal');
+	  const btn = document.getElementById('openModalBtn');
+
+	  // 클릭시 기능
+	  btn.addEventListener('click', function() {
+	    modal.style.display = 'block';
+	    // 연결할 데이터
+	    document.getElementById('theaterName').textContent = data.THR_NAME;
+	      document.getElementById('startTime').textContent = data.STARTTIME;
+	      document.getElementById('endTime').textContent = data.ENDTIME;
+	      document.getElementById('movieName').textContent = data.MOVIE_NAME;
+	      document.getElementById('movieLength').textContent = data.MOVIE_LENGTH;
+	      document.getElementById('movieCode1').textContent = data.SCREEN_CD;
+	      document.getElementById('movieCode2').textContent = data.MOVIE_CD;
+	      document.getElementById('theaterNumber').textContent = data.HOUSE_NO;
+	  });
+
+	  // x클릭시 모달창 닫힘
+	  document.querySelector('.close').addEventListener('click', function() {
+	    modal.style.display = 'none';
+	  });
+
+	  // 아무대나클릭시 닫힘
+	  window.addEventListener('click', function(event) {
+	    if (event.target === modal) {
+	      modal.style.display = 'none';
+	    }
+	  });
 </script>
 
 <%@ include file="thrAdminFooter.jsp"%>

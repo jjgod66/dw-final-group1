@@ -14,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonArray;
 
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.ThrAdminService;
+import kr.or.dw.vo.ClickMovieInfoVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.ScreenVO;
 import kr.or.dw.vo.TheaterVO;
@@ -76,12 +78,10 @@ public class ThrAdminController {
 	
 	@GetMapping("/movieAdminMain")
 	public ModelAndView movieAdmin(ModelAndView mnv, String movie_cd) throws SQLException {
-		
 		String url = "/thrAdmin/movieAdminMain";
 		if(movie_cd == null) {
 			movie_cd = "";
 		}
-		
 		List<MovieVO> allScreenList = null;
 		allScreenList = thrAdminService.getAllScreens();
 		
@@ -92,11 +92,8 @@ public class ThrAdminController {
 		allRe = thrAdminService.getAllRe();
 		List<JSONObject> newAllRe = new ArrayList<>();
 		for( Map<String,Object> map : allRe){
-
 		    JSONObject json = new JSONObject();
-
 		    for( Map.Entry<String,Object> entry : map.entrySet() ){
-
 		        String key = entry.getKey();
 		        Object value = entry.getValue();
 		        json.put(key, value);	
@@ -112,6 +109,10 @@ public class ThrAdminController {
 		return mnv;
 	}
 	
+	@GetMapping("/api/getMovieInfo")
+	public ClickMovieInfoVO getMovieInfo (@RequestParam("screenCd") String screenCd) throws SQLException {
+		return thrAdminService.getMovieInfoByScreenCd(screenCd);
+	}
 	
 	@GetMapping("/supportAdminMain")
 	public String customerAdmin() {
