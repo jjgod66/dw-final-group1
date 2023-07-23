@@ -61,13 +61,13 @@ textarea:focus {
 					</c:when>
 				</c:choose>
 			</div>
-			<div class="card-body">
+			<div class="card-body text-center">
 				<c:choose>
 					<c:when test="${type eq 'read' }">
-						<textarea name="notice_content_before" id="notice_content_before" rows="10" cols="157" style="resize:none; border:none;" readonly>${notice.notice_content }</textarea>
+						<textarea name="notice_content_before" id="notice_content_before" rows="10" cols="150" style="resize:none; border:none;" readonly>${notice.notice_content }</textarea>
 					</c:when>
 					<c:when test="${type eq 'create' }">
-						<textarea rows="10" cols="157" name="notice_content"  placeholder="내용을 입력하세요" style="resize:none;"></textarea>
+						<textarea rows="10" cols="150" name="notice_content"  placeholder="내용을 입력하세요" style="resize:none;"></textarea>
 					</c:when>
 				</c:choose>
 			</div>
@@ -81,12 +81,15 @@ textarea:focus {
 						<button class="btn_medium" id="modifyCertifyBtn">수정</button>
 					</c:otherwise>
 				</c:choose>
-				<button class="btn_medium">뒤로가기</button>
+				<button class="btn_medium" id="cancelBtn">뒤로가기</button>
 			</div>
 		</div>
 	</div>
 </div>
 <script>
+window.onload = function(){
+	SmartEditor_summernote($('#notice_content'));
+	
 	// 수정버튼 클릭시
 	$('#modifyCertifyBtn').on('click', function(){
 		$(this).remove();
@@ -95,7 +98,7 @@ textarea:focus {
 		$('#notice_title_before').html(titleInput);
 		
 		let content = $('#notice_content_before').text();
-		let contentInput = $('<textarea rows="10" cols="157" name="notice_content" style="resize:none;">').val(content);
+		let contentInput = $('<textarea rows="10" cols="150" name="notice_content" style="resize:none;">').val(content);
 		$('.card-body').html(contentInput);
 		
 		$('.card-footer').prepend('<button class="btn_medium" id="modifyBtn">수정완료</button>  <button class="btn_medium" id="deleteBtn">삭제하기</button>');
@@ -116,12 +119,20 @@ textarea:focus {
 	});
 	
 	// 삭제버튼 클릭시
-		$('.card-footer').on('click','#deleteBtn', function(){
-			if(confirm('정말로 해당 글을 삭제하시겠습니까?')){
-				let deleteForm = $('form[name="form"]');
-				deleteForm.attr('action', 'noticeAdminDelete.do');
-				deleteForm.submit();
-			}
+	$('.card-footer').on('click','#deleteBtn', function(){
+		if(confirm('정말로 해당 글을 삭제하시겠습니까?')){
+			let deleteForm = $('form[name="form"]');
+			deleteForm.attr('action', 'noticeAdminDelete.do');
+			deleteForm.submit();
+		}
 	});
+	// 뒤로가기버튼 클릭시
+	$('#cancelBtn').on('click', function(){
+		history.go(-1);
+	});
+	
+}
+	
 </script>
+<%@ include file="../common/summernote.jsp" %>
 <%@ include file="sysAdminFooter.jsp" %>

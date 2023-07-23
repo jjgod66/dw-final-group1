@@ -4,10 +4,8 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>Insert title here</title>
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/summernote/summernote.min.css">
-<script src="<%=request.getContextPath() %>/resources/summernote/lang/summernote-ko-KR.js"></script>
-<link  href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3/css/bootstrap.min.css" rel="stylesheet">
+<title>DWCinema [관리자]</title>
+<link  href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
 <link href="//vjs.zencdn.net/7.10.2/video-js.min.css" rel="stylesheet">
 <script src="//vjs.zencdn.net/7.10.2/video.min.js"></script>
@@ -23,6 +21,9 @@
 <script src="<%=request.getContextPath()%>/resources/js/scrollbar.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
+<script src="<%=request.getContextPath() %>/resources/summernote/summernote-lite.js"></script>
+<script src="<%=request.getContextPath() %>/resources/summernote/lang/summernote-ko-KR.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/summernote/summernote.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
