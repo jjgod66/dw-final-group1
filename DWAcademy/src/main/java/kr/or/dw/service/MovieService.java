@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import kr.or.dw.command.MovieViewerCommand;
+import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.ReviewVO;
 
 
@@ -147,5 +148,11 @@ public interface MovieService {
 	 */
 	List<Map<String, Object>> searchLikeGenreMovieList(String searchType, String keyword,
 			List<String> memLikeGenreList) throws SQLException;
+
+	/**
+	 * 모든 영화의 리뷰를 가져오는 메서드
+	 * @return
+	 */
+	List<Map<String, Object>> getAllMovieReview() throws SQLException;
 
 }

@@ -24,7 +24,7 @@ public interface MemberService {
 	MemberVO CheckMemberEmail(String email) throws SQLException;
 
 	// 개인정보 수집 동의 업데이트
-	void additionUpdate(Map<String, Object> dataMap) throws SQLException;	
+	void additionUpdate(Map<String, Object> dataMap) throws SQLException;
 
 	
 }

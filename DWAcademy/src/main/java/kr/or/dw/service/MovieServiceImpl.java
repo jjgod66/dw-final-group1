@@ -309,5 +309,11 @@ public class MovieServiceImpl implements MovieService{
 		return memLikeGenreList;
 	}
 
+	@Override
+	public List<Map<String, Object>> getAllMovieReview() throws SQLException {
+		return movieDAO.getAllMovieReview();
+	}
+
+
 
 }
