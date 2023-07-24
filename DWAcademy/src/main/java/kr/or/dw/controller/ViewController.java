@@ -41,6 +41,31 @@ public class ViewController {
 		
 		return mnv;
 	}
+	@GetMapping("/member/bookinglist")
+	public String memberBookinglist() {
+		String url = "/member/bookinglist";
+		return url;
+	}
+	@GetMapping("/member/discount-coupon")
+	public String memberDiscountcoupon() {
+		String url = "/member/discount-coupon";
+		return url;
+	}
+	@GetMapping("/member/moviestory")
+	public String memberMoviestory() {
+		String url = "/member/moviestory";
+		return url;
+	}
+	@GetMapping("/member/myinquiry")
+	public String memberMyinquiry() {
+		String url = "/member/myinquiry";
+		return url;
+	}
+	@GetMapping("/member/point-list")
+	public String memberPointlist() {
+		String url = "/member/point-list";
+		return url;
+	}
 	@GetMapping("/member/additionalinfo")
 	public String memberAdditionalinfo() {
 		String url = "/member/additionalinfo";
