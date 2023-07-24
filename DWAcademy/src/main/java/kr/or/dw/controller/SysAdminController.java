@@ -40,8 +40,10 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,11 +57,13 @@ import kr.or.dw.command.ProductRegistCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.StoreService;
 import kr.or.dw.service.SysAdminService;
+import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
+import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.TheaterVO;
 
 @Controller
@@ -95,7 +99,7 @@ public class SysAdminController {
 		
 		Map<String, Object> dataMap = sysAdminService.selectTheaterList(cri);
 		mnv.addAllObjects(dataMap);
-		Map<String, Object> subjectMap = addSubject("HOME", "지점 관리", "지점 리스트");
+		Map<String, Object> subjectMap = addSubject("HOME", "지점 관리", "지점 리스트", url+".do");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -111,9 +115,9 @@ public class SysAdminController {
 		if (thr_name != null) {	// 수정일 때
 			TheaterVO thr = sysAdminService.selectTheaterByName(thr_name);
 			mnv.addObject("thr", thr);
-			subjectMap = addSubject("HOME", "지점 관리", "지점 수정");
+			subjectMap = addSubject("HOME", "지점 관리", "지점 수정", url+".do");
 		} else {				// 등록일 때
-			subjectMap = addSubject("HOME", "지점 관리", "지점 등록");
+			subjectMap = addSubject("HOME", "지점 관리", "지점 등록", url+".do");
 		}
 		
 		List<String> locList = sysAdminService.selectLocList();
@@ -181,7 +185,7 @@ public class SysAdminController {
 		mnv.addAllObjects(dataMap);
 		
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "영화 리스트");
+		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "영화 리스트", url+".do");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		
@@ -196,13 +200,13 @@ public class SysAdminController {
 		
 		
 		if (movie_cd != null) {	// 수정일 때
-			subjectMap = addSubject("HOME", "영화 관리", "영화 상세정보 수정");
+			subjectMap = addSubject("HOME", "영화 관리", "영화 상세정보 수정", url+".do");
 			Map<String, Object> movie = sysAdminService.selectMovieByMovie_cd(movie_cd);
 			List<Map<String, Object>> movieVideoList = sysAdminService.selectMoiveVideoByMovie_cd(movie_cd);
 			movie.put("movieVideoList", movieVideoList);
 			mnv.addAllObjects(movie);
 		} else {				// 등록일 때
-			subjectMap = addSubject("HOME", "영화 관리", "영화 등록");
+			subjectMap = addSubject("HOME", "영화 관리", "영화 등록", url+".do");
 		}
 		
 		List<GenreVO> genreList = sysAdminService.selectGenreList();
@@ -432,10 +436,10 @@ public class SysAdminController {
 		String item2 = "";
 		if (CategoryIdx.equals("1")) {
 			item2 = "기프트카드 목록";
-			subjectMap = addSubject("HOME", "스토어 관리", item2);
+			subjectMap = addSubject("HOME", "스토어 관리", item2, url+".do");
 		} else if (CategoryIdx.equals("2")) {
 			item2 = "팝콘/음료/굿즈 목록";
-			subjectMap = addSubject("HOME", "스토어 관리", item2);
+			subjectMap = addSubject("HOME", "스토어 관리", item2, url+".do");
 		}
 		mnv.addAllObjects(subjectMap);
 		mnv.addObject("productList", productList);
@@ -453,7 +457,7 @@ public class SysAdminController {
 		
 		mnv.addObject("product", product);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "스토어 관리", "상품 상세");
+		Map<String, Object> subjectMap = addSubject("HOME", "스토어 관리", "상품 상세", url+".do");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -464,13 +468,13 @@ public class SysAdminController {
 		String url = "/sysAdmin/storeAdminProductRegist";
 		Map<String, Object> subjectMap = null;
 		if (product_cd != null) {
-			subjectMap = addSubject("HOME", "스토어 관리", "상품 수정");
+			subjectMap = addSubject("HOME", "스토어 관리", "상품 수정", url+".do");
 			ProductVO product = null;
 			product = storeService.selectProDetail(product_cd);
 			
 			mnv.addObject("product", product);
 		} else {
-			subjectMap = addSubject("HOME", "스토어 관리", "상품 등록");
+			subjectMap = addSubject("HOME", "스토어 관리", "상품 등록", url+".do");
 		}
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
@@ -538,7 +542,7 @@ public class SysAdminController {
 		Map<String, Object> dataMap = sysAdminService.selectNoticeList(cri);
 		mnv.addAllObjects(dataMap);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 메인");
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 메인", url+".do");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -553,7 +557,7 @@ public class SysAdminController {
 		}
 		mnv.addObject("type", type);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 게시글");
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 게시글", url+".do");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -608,7 +612,7 @@ public class SysAdminController {
 		Map<String, Object> dataMap = sysAdminService.selectFaqList(cri);
 		mnv.addAllObjects(dataMap);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "FAQ 메인");
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "FAQ 메인", url+".do");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -661,18 +665,82 @@ public class SysAdminController {
 		String url = "/sysAdmin/qnaAdminMain";
 		Map<String,Object> dataMap = sysAdminService.selectQnaList(cri);
 		mnv.addAllObjects(dataMap);
-		
-		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "1:1문의 메인");
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "1:1문의 메인", url+".do");
 		mnv.addAllObjects(subjectMap);
 		
 		mnv.setViewName(url);
 		return mnv;
 	}
 	
-	@GetMapping("/eventAdminMain")
-	public String eventAdmin() {
+	@RequestMapping("qnaAdminDetail")
+	public ModelAndView qnaAdminDetail (ModelAndView mnv, String que_no) throws NumberFormatException, SQLException {
+		String url = "/sysAdmin/qnaAdminDetail";
+		
+		QnaVO qna = sysAdminService.selectQnaByQue_no(Integer.parseInt(que_no));
+		mnv.addObject("qna", qna);
+		
+		AnswerVO ans = sysAdminService.selectAnsByQue_no(Integer.parseInt(que_no));
+		mnv.addObject("ans", ans);
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "1:1문의 게시글", url+".do");
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("answerRegist")
+	public void answerRegist(AnswerVO ans, HttpServletResponse res) throws IOException, SQLException {
+		
+		sysAdminService.registAns(ans);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('답변 등록이 완료되었습니다.')");
+		out.println("location.href='qnaAdminDetail.do?que_no=" + ans.getQue_no() + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("answerModify")
+	public void answerModify(AnswerVO ans, HttpServletResponse res) throws IOException, SQLException {
+		
+		sysAdminService.modifyAns(ans);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('답변 수정이 완료되었습니다.')");
+		out.println("location.href='qnaAdminDetail.do?que_no=" + ans.getQue_no() + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminMain")
+	public ModelAndView eventAdmin(ModelAndView mnv) {
 		String url = "/sysAdmin/eventAdminMain";
-		return url;
+
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "진행중인 이벤트", url+".do");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/eventAdminTypeMain")
+	public ModelAndView eventAdminTypeMain(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/sysAdmin/eventAdminTypeMain";
+		
+		Map<String, Object> dataMap = sysAdminService.selectEventList(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "진행중인 이벤트", url+".do");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
 	}
 	
 	@GetMapping("/eventAdminPast")
@@ -699,6 +767,15 @@ public class SysAdminController {
 		subjectMap.put("subject", subject);
 		subjectMap.put("item1", item1);
 		subjectMap.put("item2", item2);
+		return subjectMap;
+	}
+	
+	private Map<String, Object> addSubject(String subject, String item1, String item2, String url) {
+		Map<String, Object> subjectMap = new HashMap<String, Object>();
+		subjectMap.put("subject", subject);
+		subjectMap.put("item1", item1);
+		subjectMap.put("item2", item2);
+		subjectMap.put("url", url);
 		return subjectMap;
 	}
 	

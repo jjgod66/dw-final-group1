@@ -5,10 +5,15 @@
 <head>
 <meta charset="utf-8">
 <title>DWCinema [관리자]</title>
-<link  href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
-<link href="//vjs.zencdn.net/7.10.2/video-js.min.css" rel="stylesheet">
 <script src="//vjs.zencdn.net/7.10.2/video.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+<%-- <script src="<%=request.getContextPath()%>/resources/js/scrollbar.js"></script> --%>
+<script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
+<%-- <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script> --%>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
+<link href="//vjs.zencdn.net/7.10.2/video-js.min.css" rel="stylesheet">
 <link href="<%=request.getContextPath()%>/resources/img/logo_ico.png" rel="shortcut icon" type="image/x-icon">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">
@@ -16,14 +21,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/swiper.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/scrollbar.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
-<script src="<%=request.getContextPath() %>/resources/summernote/summernote-lite.js"></script>
-<script src="<%=request.getContextPath() %>/resources/summernote/lang/summernote-ko-KR.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/summernote/summernote.min.css">
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>

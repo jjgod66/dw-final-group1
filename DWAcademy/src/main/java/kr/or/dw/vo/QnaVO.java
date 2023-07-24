@@ -19,6 +19,7 @@ public class QnaVO {
 	private String writer_pwd;
 	private String thr_name;
 	private Date regdate;
+	private String ans_content;
 	
 	public QnaVO () {}
 }

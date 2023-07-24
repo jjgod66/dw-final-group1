@@ -16,6 +16,8 @@ import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.SysAdminDAO;
 import kr.or.dw.vo.AdminVO;
+import kr.or.dw.vo.AnswerVO;
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
@@ -372,6 +374,46 @@ public class SysAdminServiceImpl implements SysAdminService {
 		pageMaker.setTotalCount(totalCount);
 		Map<String, Object> dataMap = new HashMap<>();
 		dataMap.put("qnaList", qnaList);
+		dataMap.put("pageMaker", pageMaker);
+		return dataMap;
+	}
+
+	@Override
+	public QnaVO selectQnaByQue_no(int que_no) throws SQLException {
+		QnaVO qna = sysAdminDAO.selectQnaByQue_no(que_no);
+		return qna;
+	}
+
+	@Override
+	public AnswerVO selectAnsByQue_no(int que_no) throws SQLException {
+		AnswerVO ans = sysAdminDAO.selectAnsByQue_no(que_no);
+		return ans;
+	}
+
+	@Override
+	public void registAns(AnswerVO ans) throws SQLException {
+		sysAdminDAO.insertAns(ans);
+	}
+
+	@Override
+	public void modifyAns(AnswerVO ans) throws SQLException {
+		sysAdminDAO.updateAns(ans);
+	}
+
+	@Override
+	public Map<String, Object> selectEventList(SearchCriteria cri) throws SQLException {
+
+		List<EventVO> eventList = null;
+		eventList = sysAdminDAO.selectEventList(cri);
+		
+		int totalCount = sysAdminDAO.selectSearchEventListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("eventList", eventList);
 		dataMap.put("pageMaker", pageMaker);
 		return dataMap;
 	}
