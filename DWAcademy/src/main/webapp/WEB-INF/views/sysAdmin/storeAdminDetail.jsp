@@ -50,6 +50,7 @@ if (CategoryIdx == null) {
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
 			<jsp:param value="${item2 }" name="item2" />
+			<jsp:param value="${url }" name="url" />
 		</jsp:include>
 		<div class="store-detail" style="padding: 0;">
     <div class="container">

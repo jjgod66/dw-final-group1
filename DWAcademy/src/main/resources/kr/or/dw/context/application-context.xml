@@ -12,6 +12,9 @@
 	<bean id="storePicUploadPath" class="java.lang.String">
 		<constructor-arg value="${storepic.upload}"></constructor-arg>
 	</bean>
+	<bean id="eventPicUploadPath" class="java.lang.String">
+		<constructor-arg value="${eventpic.upload}"></constructor-arg>
+	</bean>
 
 	<bean id="storeService" class="kr.or.dw.service.StoreServiceImpl"/>
 	<bean id="sysAdminService" class="kr.or.dw.service.SysAdminServiceImpl"/>

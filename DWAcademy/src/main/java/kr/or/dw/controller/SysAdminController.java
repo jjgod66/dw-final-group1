@@ -84,6 +84,9 @@ public class SysAdminController {
 	@Resource(name ="storePicUploadPath")
 	private String storePicUploadPath;
 	
+	@Resource(name ="eventPicUploadPath")
+	private String eventPicUploadPath;
+	
 	@RequestMapping("/main")
 	public ModelAndView sysAdminIndex(ModelAndView mnv) {
 		String url = "/sysAdmin/main";
@@ -106,18 +109,17 @@ public class SysAdminController {
 	}
 
 	@RequestMapping("/theaterRegistForm")
-//	@PostMapping("/theaterRegistForm")
 	public ModelAndView theaterRegistForm(ModelAndView mnv, String thr_name) throws SQLException {
 		
-		String url = "sysAdmin/theaterRegist";
+		String url = "/sysAdmin/theaterRegist";
 		Map<String, Object> subjectMap = new HashMap<String, Object>(); 
 		 
 		if (thr_name != null) {	// 수정일 때
 			TheaterVO thr = sysAdminService.selectTheaterByName(thr_name);
 			mnv.addObject("thr", thr);
-			subjectMap = addSubject("HOME", "지점 관리", "지점 수정", url+".do");
+			subjectMap = addSubject("HOME", "지점 관리", "지점 수정", url+"Form.do?thr_name="+thr_name);
 		} else {				// 등록일 때
-			subjectMap = addSubject("HOME", "지점 관리", "지점 등록", url+".do");
+			subjectMap = addSubject("HOME", "지점 관리", "지점 등록", url+"Form.do");
 		}
 		
 		List<String> locList = sysAdminService.selectLocList();
@@ -200,13 +202,13 @@ public class SysAdminController {
 		
 		
 		if (movie_cd != null) {	// 수정일 때
-			subjectMap = addSubject("HOME", "영화 관리", "영화 상세정보 수정", url+".do");
+			subjectMap = addSubject("HOME", "영화 관리", "영화 상세정보 수정", url+"Form.do?movie_cd="+movie_cd);
 			Map<String, Object> movie = sysAdminService.selectMovieByMovie_cd(movie_cd);
 			List<Map<String, Object>> movieVideoList = sysAdminService.selectMoiveVideoByMovie_cd(movie_cd);
 			movie.put("movieVideoList", movieVideoList);
 			mnv.addAllObjects(movie);
 		} else {				// 등록일 때
-			subjectMap = addSubject("HOME", "영화 관리", "영화 등록", url+".do");
+			subjectMap = addSubject("HOME", "영화 관리", "영화 등록", url+"Form.do");
 		}
 		
 		List<GenreVO> genreList = sysAdminService.selectGenreList();
@@ -436,10 +438,10 @@ public class SysAdminController {
 		String item2 = "";
 		if (CategoryIdx.equals("1")) {
 			item2 = "기프트카드 목록";
-			subjectMap = addSubject("HOME", "스토어 관리", item2, url+".do");
+			subjectMap = addSubject("HOME", "스토어 관리", item2, url+".do?CategoryIdx=1");
 		} else if (CategoryIdx.equals("2")) {
 			item2 = "팝콘/음료/굿즈 목록";
-			subjectMap = addSubject("HOME", "스토어 관리", item2, url+".do");
+			subjectMap = addSubject("HOME", "스토어 관리", item2, url+".do?CategoryIdx=2");
 		}
 		mnv.addAllObjects(subjectMap);
 		mnv.addObject("productList", productList);
@@ -457,7 +459,7 @@ public class SysAdminController {
 		
 		mnv.addObject("product", product);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "스토어 관리", "상품 상세", url+".do");
+		Map<String, Object> subjectMap = addSubject("HOME", "스토어 관리", "상품 상세", url+".do?product_cd="+product_cd);
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -468,7 +470,7 @@ public class SysAdminController {
 		String url = "/sysAdmin/storeAdminProductRegist";
 		Map<String, Object> subjectMap = null;
 		if (product_cd != null) {
-			subjectMap = addSubject("HOME", "스토어 관리", "상품 수정", url+".do");
+			subjectMap = addSubject("HOME", "스토어 관리", "상품 수정", url+"Form.do?product_cd="+product_cd);
 			ProductVO product = null;
 			product = storeService.selectProDetail(product_cd);
 			
@@ -557,7 +559,7 @@ public class SysAdminController {
 		}
 		mnv.addObject("type", type);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 게시글", url+".do");
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 게시글", url+".do?"+(notice_no == null ? "" : "notice_no="+notice_no+"&")+"type="+type);
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -681,7 +683,7 @@ public class SysAdminController {
 		
 		AnswerVO ans = sysAdminService.selectAnsByQue_no(Integer.parseInt(que_no));
 		mnv.addObject("ans", ans);
-		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "1:1문의 게시글", url+".do");
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "1:1문의 게시글", url+".do?que_no="+que_no);
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -718,9 +720,10 @@ public class SysAdminController {
 	}
 	
 	@RequestMapping("/eventAdminMain")
-	public ModelAndView eventAdmin(ModelAndView mnv) {
+	public ModelAndView eventAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException {
 		String url = "/sysAdmin/eventAdminMain";
-
+		Map<String, Object> dataMap = sysAdminService.selectEventListForMain();
+		mnv.addAllObjects(dataMap);
 		
 		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "진행중인 이벤트", url+".do");
 		mnv.addAllObjects(subjectMap);
@@ -732,12 +735,21 @@ public class SysAdminController {
 	@RequestMapping("/eventAdminTypeMain")
 	public ModelAndView eventAdminTypeMain(ModelAndView mnv, SearchCriteria cri) throws SQLException {
 		String url = "/sysAdmin/eventAdminTypeMain";
-		
+		System.out.println(cri);
 		Map<String, Object> dataMap = sysAdminService.selectEventList(cri);
 		mnv.addAllObjects(dataMap);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "진행중인 이벤트", url+".do");
+		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "진행중인 이벤트", "/sysAdmin/eventAdminMain.do");
 		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/eventAdminDetail")
+	public ModelAndView eventAdminDetail (ModelAndView mnv) {
+		String url = "/sysAdmin/eventAdminDetail";
+		
 		
 		mnv.setViewName(url);
 		return mnv;
@@ -828,6 +840,10 @@ public class SysAdminController {
 				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "pictures";
 			} else if (type.equals("productImg")) {
 				imgPath = this.storePicUploadPath + File.separator + item_cd;
+			} else if (type.equals("eventThumb")) {
+				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "thumb";
+			} else if (type.equals("eventImg")) {
+				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "img";
 			}
 		}
 		
