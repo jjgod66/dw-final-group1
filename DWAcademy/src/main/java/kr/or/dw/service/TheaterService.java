@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.TheaterVO;
 
 public interface TheaterService {
@@ -45,6 +46,20 @@ public interface TheaterService {
 	 * @param date
 	 * @return
 	 */
-	List<List<List<Map<String, Object>>>> getAllScreenList(String thr_name, Date date) throws SQLException;
+	List<List<List<Map<String,Object>>>> getAllScreenList(String thr_name, Date date) throws SQLException;
+
+	/**
+	 * 극장 공지사항 5개만 가져오는 메서드
+	 * @return
+	 * @throws SQLException
+	 */
+	List<Map<String, Object>> getThrNotice() throws SQLException;
+
+	/**
+	 * 해당 극장의 공지사항 5개만 가져오는 메서드
+	 * @param thr_name
+	 * @return
+	 */
+	List<NoticeVO> getThisThrNotice(String thr_name) throws SQLException;
 
 }

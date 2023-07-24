@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="../include/header.jsp" %>
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/theater_main.css">
@@ -200,20 +201,27 @@
 			</div>
 		</div>
 		<div class="accordion-list">
+			<c:if test="${empty noticeList }">
+				<div style="text-align: center; margin: 50px 0;">공지사항이 없습니다.</div>
+			</c:if>
+			<c:if test="${!empty noticeList }">
 				<ul>
-					<li>
-						<div class="title ">
-							<a href="" title="[강남] 8/9 영화관 상영재개 및 극장방문시 진입로 안내">
-								<p class="cont-thr">[강남]</p>
-								<div class="cont-tit">[강남] 8/9 영화관 상영재개 및 극장방문시 진입로 안내</div>
-								<p class="cont-admin">서울</p>
-								<p class="cont-date">2022.08.09</p>
-							</a>
-						</div>
-					</li>
+					<c:forEach items="${noticeList }" var="notice">
+						<li>
+							<div class="title">
+								<a href="" title="${notice.NOTICE_TITLE }">
+									<p class="cont-thr">[${notice.NOTICE_THR }]</p>
+									<div class="cont-tit">${notice.NOTICE_TITLE }</div>
+									<p class="cont-admin">${notice.THR_LOC }</p>
+									<p class="cont-date"><fmt:formatDate value="${notice.REGDATE }" pattern="yyyy-MM-dd"/></p>
+								</a>
+							</div>
+						</li>
+					</c:forEach>
 					
 				</ul>
-			</div>
+			</c:if>
+		</div>
 
 	</div>
 </div>

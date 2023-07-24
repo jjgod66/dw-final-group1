@@ -228,5 +228,13 @@ public class ReservationServiceImpl implements ReservationService{
 		return point;
 	}
 
+	@Override
+	public List<String> getMemLikeThr(String mem_cd) throws SQLException {
+		List<String> memLikeThrList = null;
+		memLikeThrList = reservationDAO.selectMemLikeThr(mem_cd);
+		
+		return memLikeThrList;
+	}
+
 
 }

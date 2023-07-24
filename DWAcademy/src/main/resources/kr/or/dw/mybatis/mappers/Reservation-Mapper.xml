@@ -181,4 +181,10 @@
 		FROM point
 		WHERE mem_cd = #{mem_cd}
 	</select>
+	
+	<select id="selectMemLikeThr" resultType="str">
+		SELECT thr_name
+		FROM mem_like_theater
+		WHERE mem_cd = #{mem_cd}
+	</select>
 </mapper>

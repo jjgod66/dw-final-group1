@@ -1,6 +1,7 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.or.dw.dao.TheaterDAO;
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.TheaterVO;
 
 public class TheaterServiceImpl implements TheaterService{
@@ -71,13 +73,88 @@ public class TheaterServiceImpl implements TheaterService{
 	}
 
 	@Override
-	public List<List<List<Map<String, Object>>>> getAllScreenList(String thr_name, Date date) throws SQLException {
-		List<List<List<Map<String, Object>>>> allScreenList = null;
-		List<List<Map<String, Object>>> movieList = null;
-		List<Map<String, Object>> houseList = null;
+	public List<List<List<Map<String,Object>>>> getAllScreenList(String thr_name, Date date) throws SQLException {
+		List<List<List<Map<String, Object>>>> allScreenList = new ArrayList<>();
+		List<String> movieList = null;
+		List<String> houseList = null;
 		
+		Map<String, Object> param = new HashMap<>();
+		param.put("thr_name", thr_name);
+		param.put("date", date);
 		
-		return null;
+		List<Map<String, Object>> houseScreenList = null;
+		movieList = theaterDAO.selectDayMovieList(param);
+		
+		for(String movie_cd : movieList) {
+			
+			Map<String, Object> param2 = new HashMap<>();
+			param2.put("movie_cd", movie_cd);
+			param2.put("date", date);
+			param2.put("thr_name", thr_name);
+			houseList = theaterDAO.selectDayHouseList(param2);
+			
+			List<List<Map<String, Object>>> houseMovieList = new ArrayList<>();
+			for(String house_no : houseList) {
+				
+				Map<String, Object> param3 = new HashMap<>();
+				param3.put("movie_cd", movie_cd);
+				param3.put("date", date);
+				param3.put("thr_name", thr_name);
+				param3.put("house_no", house_no);
+				
+				
+				houseScreenList = theaterDAO.selectHouseScreenList(param3);
+				houseMovieList.add(houseScreenList);
+			}
+			
+			
+			allScreenList.add(houseMovieList);
+			
+			
+		}
+		System.out.println("asl" + allScreenList);
+		
+		return allScreenList;
+	}
+
+	@Override
+	public List<Map<String, Object>> getThrNotice() throws SQLException {
+		List<Map<String, Object>> noticeAllList = null;
+		noticeAllList = theaterDAO.selectThrNotice();
+		
+		List<Map<String, Object>> noticeList = new ArrayList<>();
+		int cnt = 5;
+		if(noticeAllList.size() < 5) {
+			cnt = noticeAllList.size();
+		}
+		if(cnt > 0) {
+			for(int i = 0; i < cnt; i++) {
+				noticeList.add(noticeAllList.get(i));
+			}
+		}
+		
+		return noticeList;
+	}
+
+	@Override
+	public List<NoticeVO> getThisThrNotice(String thr_name) throws SQLException {
+		List<NoticeVO> noticeAllList = null;
+		
+		noticeAllList = theaterDAO.selectThisThrNotice(thr_name);
+		
+		List<NoticeVO> noticeList = new ArrayList<>();
+		
+		int cnt = 5;
+		if(noticeAllList.size() < 5) {
+			cnt = noticeAllList.size();
+		}
+		if(cnt > 0) {
+			for(int i = 0; i < cnt; i++) {
+				noticeList.add(noticeAllList.get(i));
+			}
+		}
+		
+		return noticeList;
 	}
 
 	

@@ -9,6 +9,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="../../resources/css/boxoffice.css">
+<%@ include file="picture_modal.jsp" %>
 <%@ include file="review_modal.jsp" %>
 <%@ include file="review_report_modal.jsp" %>
 <%-- <%@ include file="../common/boxoffice_detail.jsp" %> --%>
@@ -75,14 +76,27 @@
                     <div class="reviwer-wrapper">
 <!--                         <div class="reviwer-inner"> -->
                             <div>
-                                <div class="reviwer-star-title">&nbsp;10</div>
-                                <div role="img" aria-label="별점 5개 만점에5개를 받았습니다." class="reviwer-star-img">
-                                    <span aria-hidden="true" jsname="fI6EEc" class="star" data-number="2"><span class="star-on" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span></span>
-                                    <span aria-hidden="true" jsname="fI6EEc" class="star" data-number="4"><span class="star-on" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span></span>
-                                    <span aria-hidden="true" jsname="fI6EEc" class="star" data-number="6"><span class="star-on" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span></span>
-                                    <span aria-hidden="true" jsname="fI6EEc" class="star" data-number="8"><span class="star-on" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span></span>
-                                    <span aria-hidden="true" jsname="fI6EEc" class="star" data-number="10"><span class="star-on" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span></span>
-                                </div>
+                                <div class="reviwer-star-title">${movie_rate_avg }</div>
+<!--                                 <div role="img" aria-label="별점 5개 만점에5개를 받았습니다." class="reviwer-star-img"> -->
+<!--                                     <span aria-hidden="true" jsname="fI6EEc" class="star" data-number="2"><span class="star-on" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span></span> -->
+<!--                                     <span aria-hidden="true" jsname="fI6EEc" class="star" data-number="4"><span class="star-on" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span></span> -->
+<!--                                     <span aria-hidden="true" jsname="fI6EEc" class="star" data-number="6"><span class="star-on" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span></span> -->
+<!--                                     <span aria-hidden="true" jsname="fI6EEc" class="star" data-number="8"><span class="star-on" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span></span> -->
+<!--                                     <span aria-hidden="true" jsname="fI6EEc" class="star" data-number="10"><span class="star-on" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"></path><path d="M0 0h24v24H0z" fill="none"></path><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"></path></svg></span></span> -->
+<!--                                 </div> -->
+                                <fieldset class="rateDe" id="rate" style="">
+	                                <input type="radio" id="rating10" name="rating" value="10"><label for="rating10" title="10점"></label>
+	                                <input type="radio" id="rating9" name="rating" value="9"><label class="half" for="rating9" title="9점"></label>
+	                                <input type="radio" id="rating8" name="rating" value="8"><label for="rating8" title="8점"></label>
+	                                <input type="radio" id="rating7" name="rating" value="7"><label class="half" for="rating7" title="7점"></label>
+	                                <input type="radio" id="rating6" name="rating" value="6"><label for="rating6" title="6점"></label>
+	                                <input type="radio" id="rating5" name="rating" value="5"><label class="half" for="rating5" title="5점"></label>
+	                                <input type="radio" id="rating4" name="rating" value="4"><label for="rating4" title="4점"></label>
+	                                <input type="radio" id="rating3" name="rating" value="3"><label class="half" for="rating3" title="3점"></label>
+	                                <input type="radio" id="rating2" name="rating" value="2"><label for="rating2" title="2점"></label>
+	                                <input type="radio" id="rating1" name="rating" value="1"><label class="half" for="rating1" title="1점"></label>
+	
+	                     </fieldset>
                             </div>
 <!--                             <div class="reviwer-graph"> -->
 <!--                                 <div class="reviwer-graph-img" role="img" aria-label="별점 평점이 5인 리뷰 1개"> -->
@@ -254,64 +268,28 @@
 				<div class="col-2"></div>
 			</div>
 		</div>
-<!--         <div class="container"> -->
-<!-- 	        <div id="demo" class="carousel slide carousel-dark" style="height: 420px;"> -->
-<!-- 			  <div class="carousel-inner"> -->
-<!-- 			    <div class="carousel-item active" style=""> -->
-<!-- 			      <img src="../../resources/img/poster/미션임파서블.jpg" alt="Los Angeles" class="d-block" style="width: auto; height: 400px; display : block; margin : auto;"> -->
-<!-- 			    </div> -->
-<!-- 			    <div class="carousel-item"> -->
-<!-- 			      <img src="../../resources/img/store/15464115505070.jpg" alt="Chicago" class="d-block" style="width: auto; height: 400px; display : block; margin : auto;"> -->
-<!-- 			    </div> -->
-<!-- 			    <div class="carousel-item"> -->
-<!-- 			      <img src="../../resources/img/poster/엘리멘탈 메인 포스터.jpg" alt="New York" class="d-block" style="width: auto; height: 400px; display : block; margin : auto;"> -->
-<!-- 			    </div> -->
-<!-- 			  </div> -->
-			  
-<!-- 			  <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev"> -->
-<!-- 			    <span class="carousel-control-prev-icon"></span> -->
-<!-- 			  </button> -->
-<!-- 			  <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next"> -->
-<!-- 			    <span class="carousel-control-next-icon black"></span> -->
-<!-- 			  </button> -->
-<!-- 			</div> -->
-<!--         </div> -->
 
-        <div class="container">
-        	<div class="row" style="width: 100%; margin: 0px 0px 30px 0px;">
-        		<div class="col-2">
-        			<img src="../../resources/img/store/15464115505070.jpg" style="width: 100%; border: solid 1px black;">
-        		</div>
-        		<div class="col-2">
-        			<img src="../../resources/img/store/15464115505070.jpg" style="width: 100%; border: solid 1px black;">
-        		</div>
-        		<div class="col-2">
-        			<img src="../../resources/img/store/15464115505070.jpg" style="width: 100%; border: solid 1px black;">
-        		</div>
-        		<div class="col-2">
-        			<img src="../../resources/img/poster/엘리멘탈 메인 포스터.jpg" style="width: 100%; border: solid 1px black;">
-        		</div>
-        		<div class="col-2">
-        			<img src="../../resources/img/store/15464115505070.jpg" style="width: 100%; border: solid 1px black;">
-        		</div>
-        		<div class="col-2">
-        			<img src="../../resources/img/poster/엘리멘탈 메인 포스터.jpg" style="width: 100%; border: solid 1px black;">
-        		</div>
-        		<div class="col-2">
-        			<img src="../../resources/img/poster/엘리멘탈 메인 포스터.jpg" style="width: 100%; border: solid 1px black;">
-        		</div>
-        		<div class="col-2">
-        			<img src="../../resources/img/poster/엘리멘탈 메인 포스터.jpg" style="width: 100%; border: solid 1px black;">
-        		</div>
-
-        	</div>
+        <div class="moviePics container">
+	        <c:if test="${empty pictureList }">
+	        	<div style="margin: 20px auto; padding : 10px; text-align:center;">등록된 사진이 없습니다.</div>
+	        </c:if>
+	        <c:if test="${!empty pictureList }">
+	        	<div class="row" style="width: 100%; margin: 0px 0px 30px 0px;">
+	        		<c:forEach items="${pictureList }" var="pic">
+		        		<div class="col-2" id="moviePic">
+		        			<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${pic.movie_pic_path}&item_cd=${movieView.movie.movie_cd}&type=movieImg" style="width: 100%; border: solid 1px black;">
+		        		</div>
+	        		</c:forEach>
+	
+	        	</div>
+        	</c:if>
         </div>
 
-		<div class="container" id="addMovieDiv" style="margin: 0 auto;">
-			<div style="width: 100%; margin: 20px;">
-				<button type="button" class="btn" id="btnAddMovie" style="width: 100%; border: 1px solid gray;">더보기 <i class="iconset ico-btn-more-arr"></i></button>
-			</div>
-		</div>
+<!-- 		<div class="container" id="addMovieDiv" style="margin: 0 auto;"> -->
+<!-- 			<div style="width: 100%; margin: 20px;"> -->
+<!-- 				<button type="button" class="btn" id="btnAddMovie" style="width: 100%; border: 1px solid gray;">더보기 <i class="iconset ico-btn-more-arr"></i></button> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
     </div>
     <div class="preview">
    		<div class="container" style="padding-top: 10px;">
@@ -325,34 +303,47 @@
 			</div>
 		</div>
         <div class="container" style="padding-bottom: 10px;">
-	        <div id="demo" class="carousel slide carousel-dark" style="height: 420px;">
-			  <div class="carousel-inner">
-			    <div class="carousel-item active" style="">
-			    	<video src="../../resources/img/test/video/테스트용동영상1.mp4" style="height: 400px; display : block; margin : auto;" controls></video>
-<!-- 			    	<video> -->
-<!-- 					  <source src="../../resources/img/test/video/테스트용동영상1.mp4"></source> -->
-<!-- 					</video> -->
-			    </div>
-			    <div class="carousel-item">
-			    	<video src="../../resources/img/test/video/테스트용동영상2.mp4" style="height: 400px; display : block; margin : auto;" controls></video>
-			    </div>
-			    <div class="carousel-item">
-			    	<video src="../../resources/img/test/video/테스트용동영상3.mp4" style="height: 400px; display : block; margin : auto;" controls></video>
-			    </div>
-			  </div>
+		  	<c:if test="${empty previewList }">
+		  		<div style="margin: 20px auto; padding : 10px; text-align:center;">등록된 예고편이 없습니다.</div>
+		  	</c:if>
+		  	<c:if test="${!empty previewList }">
+		        <div id="demo" class="carousel slide carousel-dark" style="height: 420px;">
 			  
-			  <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
-			    <span class="carousel-control-prev-icon"></span>
-			  </button>
-			  <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
-			    <span class="carousel-control-next-icon black"></span>
-			  </button>
-			</div>
+				  <div class="carousel-inner">
+					<c:forEach items="${previewList }" var="preview">
+					    <div class="carousel-item active" style="">
+						 	<video class="vi" style="height: 400px; display : block; margin : auto;" controls>
+								<source src='<%=request.getContextPath()%>/sysAdmin/getVideo.do?movie_cd=${movieView.movie.movie_cd }&movie_pre_path=${preview.movie_pre_path}'  type="video/mp4">
+							</video>
+					    	
+					    </div>
+				 	</c:forEach>
+				    
+				  </div>
+				  
+				  <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+				    <span class="carousel-control-prev-icon"></span>
+				  </button>
+				  <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+				    <span class="carousel-control-next-icon black"></span>
+				  </button>
+				</div>
+			</c:if>
         </div>
     </div>
 </div>
 <style>
+.rateDe { display: inline-block;border: 0;margin-right: 15px;}
+.rateDe > input {display: none;}
+.rateDe > label {float: right;color: #ddd}
+.rateDe > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005 ";}
+.rateDe .half:before {content: "\f089 "; position: absolute;padding-right: 0;}
+.rateDe input:checked ~ label{ color: #4aa8d8 !important;  }
 
+
+#moviePic:hover{
+	cursor: pointer;
+}
 
 .fulltrailer {
     display: none;
@@ -391,6 +382,14 @@
 <script>
 
 $(function() {
+	let rateAvg = ${movie_rate_avg };
+	$('.rateDe input[name=rating][value="' + Math.round(rateAvg) + '"]').prop('checked', 'checked');
+	
+	$('.moviePics').on('click', '#moviePic', function(){
+		let imgsrc = $(this).find('img').prop('src');
+		$('.moviePicDetail').find('img').prop('src', imgsrc);
+		$('#picture-modal').modal('show');
+	})
 	
 	$('#reviewUpdateBtn').on('click', function(){
 		let review_content = $(this).parents('.card').find('#review_content').text();

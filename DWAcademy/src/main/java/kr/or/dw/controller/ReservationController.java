@@ -81,7 +81,7 @@ public class ReservationController {
 	}
 	
 	@RequestMapping("/cinema")
-	public ModelAndView bookingCinema(ModelAndView mnv, String movie_cd) throws SQLException {
+	public ModelAndView bookingCinema(ModelAndView mnv, String movie_cd, HttpSession session) throws SQLException {
 		String url = "/booking/cinema";
 		
 		if(movie_cd == null) {
@@ -94,6 +94,15 @@ public class ReservationController {
 		List<MovieVO> movieList = null;
 		movieList = reservationService.getAllMovieRes();
 		
+		List<String> likeThrList = null;
+		
+		if(session.getAttribute("loginUser") != null) {
+			String mem_cd = ((MemberVO)session.getAttribute("loginUser")).getMem_cd();
+			
+			likeThrList = reservationService.getMemLikeThr(mem_cd);
+		}
+		
+		mnv.addObject("likeThrList", likeThrList);
 		mnv.addObject("movieList", movieList);
 		mnv.addObject("allTheater", allTheaterList);
 		mnv.addObject("movie_cd", movie_cd);

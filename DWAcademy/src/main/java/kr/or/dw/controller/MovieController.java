@@ -22,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import kr.or.dw.command.MovieViewerCommand;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.MoviePictureVO;
+import kr.or.dw.vo.MoviePreviewVO;
 import kr.or.dw.vo.ReviewVO;
 import oracle.net.aso.s;
 
@@ -59,6 +61,18 @@ public class MovieController {
 		List<Map<String, Object>> review3List = null;
 		review3List = movieService.getMovieReview3(movie_cd, session);
 		
+		List<MoviePreviewVO> moviePreviewList = null;
+		moviePreviewList = movieService.getMoviePreview(movie_cd);
+		
+		List<MoviePictureVO> moviePicList = null;
+		moviePicList = movieService.getMoviePicture(movie_cd);
+		
+		double movie_rate_avg = 0.0;
+		movie_rate_avg = movieService.getMovieRateAvg(movie_cd);
+		
+		mnv.addObject("movie_rate_avg", movie_rate_avg);
+		mnv.addObject("previewList", moviePreviewList);
+		mnv.addObject("pictureList", moviePicList);
 		mnv.addObject("mem_cd", mem_cd);
 		mnv.addObject("reviewList", review3List);
 		mnv.addObject("reserMap", reserMap);
