@@ -99,6 +99,41 @@
 	</sql>
 	
 	<sql id="searchQna">
+		<if test="searchType == 'b'.toString()">
+			AND que_type = '영화정보문의'
+		</if>
+		<if test="searchType == 'c'.toString()">
+			AND que_type = '회원 및 포인트 문의'
+		</if>
+		<if test="searchType == 'd'.toString()">
+			AND que_type = '예매/결제관련문의'
+		</if>
+		<if test="searchType == 'e'.toString()">
+			AND que_type = '이벤트문의'
+		</if>
+		<if test="searchType == 'f'.toString()">
+			AND que_type = '일반문의'
+		</if>
+		<if test="searchType == 'g'.toString()">
+			AND que_type = '제안/건의'
+		</if>
+		<if test="searchType2 == 'b'.toString()">
+			AND a.ans_content IS NULL
+		</if>
+		<if test="searchType2 == 'c'.toString()">
+			AND a.ans_content IS NOT NULL
+		</if>
+		AND (
+			que_title LIKE '%' || #{keyword} || '%'
+			OR
+			que_content LIKE '%' || #{keyword} || '%'
+			OR
+			writer_name LIKE '%' || #{keyword} || '%'
+			)
+	</sql>
+	
+	<sql id="searchEvent">
+	
 	
 	</sql>
 	
@@ -562,15 +597,55 @@
 	
 	<select id="selectQnaList" resultType="qna">
 		SELECT *
-		  FROM question
+		  FROM question q, answer a
 		 WHERE que_sel = 'S'
+		   AND q.que_no = a.que_no(+)
 		 <include refid="searchQna"/>
+		 ORDER BY q.que_no DESC
 	</select>
 	
 	<select id="selectSearchQnaListCount" resultType="int">
 		SELECT COUNT(*)
-		  FROM question
+		  FROM question q, answer a
 		 WHERE que_sel = 'S'
+		   AND q.que_no = a.que_no(+)
 		 <include refid="searchQna"/>
+	</select>
+	
+	<select id="selectQnaByQue_no" resultType="qna">
+		SELECT *
+		  FROM question
+		 WHERE que_no = #{que_no}
+	</select>
+	
+	<select id='selectAnsByQue_no' resultType="ans">
+		SELECT *
+		  FROM answer
+		 WHERE que_no = #{que_no}
+	</select>
+	
+	<insert id="insertAns">
+		INSERT INTO answer
+		     VALUES (#{que_no}, 'S202307200022', #{ans_content}, SYSDATE)   
+	</insert>
+	
+	<update id="updateAns">
+		UPDATE answer
+		   SET ans_content = #{ans_content}
+		 WHERE que_no = #{que_no}
+	</update>
+	
+	<select id="selectEventList" resultType="event">
+		SELECT *
+		  FROM event
+		 WHERE 1=1
+		 <include refid="searchEvent"/>
+	</select>
+	
+	<select id="selectSearchEventListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM event
+		 WHERE 1=1
+		 <include refid="searchEvent"/>
 	</select>
 </mapper>

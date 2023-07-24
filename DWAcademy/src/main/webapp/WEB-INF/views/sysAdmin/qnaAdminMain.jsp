@@ -50,23 +50,24 @@
 			<div class="col-md-10">
 		        <div class="board-header" style="justify-content: space-between;">
 					<div class="searchSelect">
-						<select>
-							<option>전체</option>
-							<option>영화정보문의</option>
-							<option>회원 및 포인트 문의</option>
-							<option>예매/결제관련문의</option>
-							<option>이벤트문의</option>
-							<option>일반문의</option>
-							<option>제안/건의</option>
+						<select id="searchType" name="searchType">
+							<option value="a" ${cri.searchType eq '' || cri.searchType eq 'a' ? 'selected' : ''}>전체</option>
+							<option value="b" ${cri.searchType eq 'b' ? 'selected' : ''}>영화정보문의</option>
+							<option value="c" ${cri.searchType eq 'c' ? 'selected' : ''}>회원 및 포인트 문의</option>
+							<option value="d" ${cri.searchType eq 'd' ? 'selected' : ''}>예매/결제관련문의</option>
+							<option value="e" ${cri.searchType eq 'e' ? 'selected' : ''}>이벤트문의</option>
+							<option value="f" ${cri.searchType eq 'f' ? 'selected' : ''}>일반문의</option>
+							<option value="g" ${cri.searchType eq 'g' ? 'selected' : ''}>제안/건의</option>
 						</select>
-						<select>
-							<option>답변상태</option>
-							<option>답변대기</option>
-							<option>답변완료</option>
+						<select id="searchType2" name="searchType2">
+							<option value="a" ${cri.searchType2 eq '' || cri.searchType2 eq 'a'? 'selected' : ''}>답변상태</option>
+							<option value="b" ${cri.searchType2 eq 'b' ? 'selected' : ''}>답변대기</option>
+							<option value="c" ${cri.searchType2 eq 'c' ? 'selected' : ''}>답변완료</option>
 						</select>
 					</div>
 					<div class="searchKeyword">
-						<input type="text"><button><i class="bi bi-search"></i></button>
+						<input type="text" name="keyword" id="keyword" value="${cri.keyword }" placeholder="제목,내용,작성자이름">
+						<button id="searchBtn" onclick="searchList_go(1);"><i class="bi bi-search"></i></button>
 					</div>
 		        </div>
 		        <div class="board-body">
@@ -74,7 +75,7 @@
 		                <tr>
 							<th width="15%">유형</th>			                
 							<th>제목</th>			                
-							<th width="10%">이름</th>			                
+							<th width="15%">이름</th>			                
 							<th width="10%">회원여부</th>			                
 							<th width="15%">문의날짜</th>			                
 							<th width="10%">답변상태</th>			                
@@ -88,11 +89,11 @@
 		            	<c:forEach items="${ qnaList}" var="qna">
 		            		<tr>
 		            			<td>${qna.que_type }</td>
-		            			<td>${qna.que_title }</td>
+		            			<td><a href="qnaAdminDetail.do?que_no=${qna.que_no }">${qna.que_title }</a></td>
 		            			<td>${qna.writer_name }</td>
 		            			<td>${qna.gb_mem eq 'Y' ? '회원' : '비회원' }</td>
 		            			<td><fmt:formatDate value='${qna.regdate}' pattern='yyyy-MM-dd'/></td>
-		            			<td></td>
+		            			<td>${empty qna.ans_content ? '답변대기' : '답변완료' }</td>
 		            		</tr>
 		            	</c:forEach>
 						</tbody>
@@ -107,7 +108,18 @@
 	</div>
 </div>
 <script>
-
+	let searchFormUrl = "qnaAdminMain.do";
+	
+	$('#searchType').on('change', function(){
+		$('input[name="keyword"]').val('');
+		searchList_go(1);
+	});
+	
+	$('#searchType2').on('change', function(){
+		$('input[name="keyword"]').val('');
+		searchList_go(1);
+	});
+	
 	
 </script>
 <%@ include file="sysAdminFooter.jsp"%>
