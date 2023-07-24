@@ -1,6 +1,7 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,6 +37,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public MemberVO CheckMemberEmail(String email) throws SQLException {
 		return memberDAO.CheckMemberEmail(email);
+	}
+
+	@Override
+	public void additionUpdate(Map<String, Object> dataMap) throws SQLException {
+		memberDAO.additionUpdate(dataMap);
 	}
 
 }

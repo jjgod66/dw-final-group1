@@ -1,8 +1,10 @@
 package kr.or.dw.dao;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.SnsVO;
@@ -27,5 +29,8 @@ public interface MemberDAO {
 
 	// 회원 체크하기 (이메일)
 	MemberVO CheckMemberEmail(String email) throws SQLException;
+
+	// 개인정보 수집 동의 업데이트
+	void additionUpdate(Map<String, Object> dataMap)throws SQLException;
 
 }

@@ -67,10 +67,16 @@ public class ViewController {
 		return url;
 	}
 	@GetMapping("/member/additionalinfo")
-	public String memberAdditionalinfo() {
+	public ModelAndView memberAdditionalinfo(ModelAndView mnv, HttpSession session) {
 		String url = "/member/additionalinfo";
-		return url;
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		
+		mnv.addObject("member", member);
+		mnv.setViewName(url);
+		
+		return mnv;
 	}
+	
 	@GetMapping("/member/membership")
 	public String memberShip() {
 		String url = "/member/membership";
