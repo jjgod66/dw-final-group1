@@ -1,6 +1,8 @@
 package kr.or.dw.controller;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.service.TheaterService;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.TheaterVO;
 
 @Controller
@@ -36,8 +39,11 @@ private static final Logger logger = LoggerFactory.getLogger(TheaterController.c
 		String[] thrList = null;
 		String loc = "서울";
 		thrList = theaterService.getThrListByLoc(loc);
+		List<Map<String, Object>> noticeList = null;
+		noticeList = theaterService.getThrNotice();
 		
-		mnv.addObject(thrList);
+		mnv.addObject("noticeList", noticeList);
+		mnv.addObject("thrList", thrList);
 		mnv.setViewName(url);
 		return mnv;
 	}
@@ -66,6 +72,10 @@ private static final Logger logger = LoggerFactory.getLogger(TheaterController.c
 		TheaterVO theater = null;
 		theater = theaterService.getTheaterInfo(thr_name);
 		
+		List<NoticeVO> noticeList = null;
+		noticeList = theaterService.getThisThrNotice(thr_name);
+		
+		mnv.addObject("noticeList", noticeList);
 		mnv.addObject("theater", theater);
 		mnv.setViewName(url);
 		
@@ -79,13 +89,36 @@ private static final Logger logger = LoggerFactory.getLogger(TheaterController.c
 		TheaterVO theater = null;
 		theater = theaterService.getTheaterInfo(thr_name);
 		
-		List<List<List<Map<String, Object>>>> allScreenList = null;
+		List<List<List<Map<String,Object>>>> allScreenList = null;
 		allScreenList = theaterService.getAllScreenList(thr_name, new Date());
 		
+		System.out.println(allScreenList);
+		
+		mnv.addObject("allScreenList", allScreenList);
 		mnv.addObject("theater", theater);
 		mnv.setViewName(url);
 		
 		return mnv;
+	}
+	
+	@RequestMapping("/scheduleDay")
+	public ResponseEntity<List<List<List<Map<String,Object>>>>> scheduleDay(String thr_name, String date) throws ParseException{
+		ResponseEntity<List<List<List<Map<String,Object>>>>> entity = null;
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        Date dDate = formatter.parse(date);
+        
+        List<List<List<Map<String,Object>>>> allScreenList = null;
+		try {
+			allScreenList = theaterService.getAllScreenList(thr_name, dDate);
+			entity = new ResponseEntity<List<List<List<Map<String,Object>>>>>(allScreenList, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<List<List<Map<String,Object>>>>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+		
 	}
 	
 	

@@ -95,4 +95,11 @@ public interface ReservationService {
 	 */
 	int getPoint(String mem_cd) throws SQLException;
 
+	/**
+	 * 회원 선호극장 목록 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<String> getMemLikeThr(String mem_cd) throws SQLException;
+
 }

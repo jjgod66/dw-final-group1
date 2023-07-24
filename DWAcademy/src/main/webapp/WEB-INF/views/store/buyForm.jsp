@@ -19,7 +19,7 @@
 		<div class="row">
 			<div class="col-md-3">
 				<div class="movie_infor">
-					<span class="thm"><img src="../../resources/img/store/${product.product_pic_path }" alt="${product.product_name }"></span>
+					<span class="thm"><img src="<%=request.getContextPath()%>/sysAdmin/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd}&type=productImg" alt="${product.product_name }"></span>
 					<strong class="tit"><span class="ic_grade gr_all"></span>&nbsp;${product.product_name }</strong>
 					<dl class="dlist_infor">
 						<dt>상품</dt>

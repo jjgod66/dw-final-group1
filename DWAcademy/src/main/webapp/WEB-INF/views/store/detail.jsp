@@ -32,7 +32,7 @@ if(session.getAttribute("loginUser") != null){
         <div class="content_wrap">
             <div class="pd_img">
                 <div class="main_img">
-                    <img class="" src="/resources/img/store/${product.product_pic_path }">
+                    <img class="" src="<%=request.getContextPath()%>/sysAdmin/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd}&type=productImg">
                 </div>
                 <div>
                 	<div style="font-weight: bold; border-bottom: 1px solid #dee2e6">상품이용안내</div>

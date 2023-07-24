@@ -59,14 +59,18 @@ if(session.getAttribute("loginUser") != null){
             <div class="group_top"><h4 class="tit">영화관 선택</h4></div>
             <div class="inner">
                 <ul class="cinema-list">
-                    <li class="cinema-click likeThr">
-                        <a href="javascript:;">선호극장<em>(0)</em></a>
-                        <div class="depth2">
-                            <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
-                                <li class=""><a href="#all">전체</a></li>
-                            </ul>
-                        </div>
-                    </li>
+                	<c:if test="${!empty likeThrList }">
+	                    <li class="cinema-click likeThr">
+	                        <a href="javascript:;">선호극장<em>(0)</em></a>
+	                        <div class="depth2">
+	                            <ul style="height: 760px; overflow-y: auto; overflow-x:hidden">
+	                            	<c:forEach items="${likeThrList }" var="thr">
+	                                	<li class=""><a href="#" style="color: gray;" class="container-disable theater" id="${thr }">${thr }</a></li>
+	                            	</c:forEach>
+	                            </ul>
+	                        </div>
+	                    </li>
+                	</c:if>
                      <li class="cinema-click se">
                         <a href="javascript:;">서울 <em>(0)</em></a>
                         <div class="depth2">
@@ -319,7 +323,6 @@ function divLoc(res){
 		}else if(res[i].THR_LOC == "제주"){
 			jeNum++;
 		}
-		
 		$('#' + res[i].THR_NAME).removeClass('container-disable');
 		$('#' + res[i].THR_NAME).addClass('container-able')
 		$('#' + res[i].THR_NAME).css('color', 'black');
@@ -333,7 +336,9 @@ function divLoc(res){
 	$('.bu a em').text("(" + buNum + ")");
 	$('.je a em').text("(" + jeNum + ")");
  
-
+	let likeNum = 0;
+	likeNum = $('.likeThr .container-able').length;
+	$('.likeThr a em').text("(" + likeNum + ")")
 }
 
 //시간표 보여주는 함수

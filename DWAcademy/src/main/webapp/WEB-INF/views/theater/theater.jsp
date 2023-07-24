@@ -1,6 +1,7 @@
 <%@page import="kr.or.dw.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="../include/header.jsp"%>
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0b454d2cc25dc49cf0d959c1f64b6aad"></script>
@@ -585,36 +586,25 @@ h3.tit.small {
 <!-- 			<h2 class="tit small mt70">공지사항</h2> -->
 			<!-- accordion-list -->
 			<div class="accordion-list">
-				<ul>
-					<li><div class="title ">
-							<a href="" title="[강남] 8/9 영화관 상영재개 및 극장방문시 진입로 안내">
-								<div class="cont-tit">[강남] 8/9 영화관 상영재개 및 극장방문시 진입로 안내</div>
-								<p class="cont-admin">강남</p>
-								<p class="cont-date">2022.08.09</p>
-							</a>
-						</div></li>
-					<li><div class="title ">
-							<a href="" title="[강남] 8/8 정전으로 인한 상영중단 및 취소 안내">
-								<div class="cont-tit">[강남] 8/8 정전으로 인한 상영중단 및 취소 안내</div>
-								<p class="cont-admin">강남</p>
-								<p class="cont-date">2022.08.08</p>
-							</a>
-						</div></li>
-					<li><div class="title ">
-							<a href="" title="[강남] 7월 9일 긴급점검으로 인한 운영중단 및  취소 안내 ">
-								<div class="cont-tit">[강남] 7월 9일 긴급점검으로 인한 운영중단 및 취소 안내</div>
-								<p class="cont-admin">강남</p>
-								<p class="cont-date">2022.07.09</p>
-							</a>
-						</div></li>
-					<li><div class="title ">
-							<a href="" title="[강남] 영화 관람요금 변경 안내">
-								<div class="cont-tit">[강남] 영화 관람요금 변경 안내</div>
-								<p class="cont-admin">강남</p>
-								<p class="cont-date">2022.04.27</p>
-							</a>
-						</div></li>
-				</ul>
+				<c:if test="${empty noticeList }">
+					<div style="text-align: center; margin: 50px 0;">공지사항이 없습니다.</div>
+				</c:if>
+				<c:if test="${!empty noticeList }">
+					<ul>
+						<c:forEach items="${noticeList }" var="notice">
+							<li>
+								<div class="title ">
+									<a href="" title="${notice.notice_title }">
+										<div class="cont-tit">${notice.notice_title }</div>
+										<p class="cont-admin">${notice.notice_thr }</p>
+										<p class="cont-date"><fmt:formatDate value="${notice.regdate }" pattern="yyyy-MM-dd"/> </p>
+									</a>
+								</div>
+							</li>
+						</c:forEach>
+						
+					</ul>
+				</c:if>
 			</div>
 			<!--// accordion-list -->
 		</div>

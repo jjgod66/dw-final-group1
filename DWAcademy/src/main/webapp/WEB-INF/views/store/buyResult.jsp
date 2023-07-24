@@ -19,7 +19,7 @@
 
 				<div class="store-payment-finish" style="width: 90%; margin: 0 auto;">
 					<div class="list">
-                    <div class="img"><img src="../../resources/img/store/${mapData.PRODUCT_PIC_PATH }" alt="" onerror="noImg(this);"></div>
+                    <div class="img"><img src="<%=request.getContextPath()%>/sysAdmin/getPicture.do?name=${mapData.PRODUCT_PIC_PATH }&item_cd=${mapData.PRODUCT_CD }&type=productImg" alt="" onerror="noImg(this);"></div>
                     <p class="tit">${mapData.PRODUCT_NAME }</p>
                     <p class="bundle">${mapData.PRODUCT_CONTENT }</p>
 
