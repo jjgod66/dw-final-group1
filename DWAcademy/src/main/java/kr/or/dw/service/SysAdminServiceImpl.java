@@ -418,4 +418,20 @@ public class SysAdminServiceImpl implements SysAdminService {
 		return dataMap;
 	}
 
+	@Override
+	public Map<String, Object> selectEventListForMain() throws SQLException {
+		
+		List<EventVO> movEventList = sysAdminDAO.selectmovEventList();
+		List<EventVO> thrEventList = sysAdminDAO.selectThrEventList();
+		List<EventVO> actorEventList = sysAdminDAO.selectactorEventList();
+		
+		
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("movEventList", movEventList);
+		dataMap.put("thrEventList", thrEventList);
+		dataMap.put("actorEventList", actorEventList);
+		return dataMap;
+		
+	}
+
 }

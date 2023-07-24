@@ -46,6 +46,7 @@ textarea:focus {
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
 			<jsp:param value="${item2 }" name="item2" />
+			<jsp:param value="${url }" name="url" />
 		</jsp:include>
 		<div class="card" style="margin : 0 0.5rem;">
 			<form name="form" method="post">

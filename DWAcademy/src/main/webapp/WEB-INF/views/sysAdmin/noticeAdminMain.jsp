@@ -44,6 +44,7 @@
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
 			<jsp:param value="${item2 }" name="item2" />
+			<jsp:param value="${url }" name="url" />
 		</jsp:include>
 		<div class="row">
 			<div class="col-md-1"></div>
@@ -51,7 +52,7 @@
 		        <div class="board-header">
 		            <div class="board-nav">
 		                <ul>
-		                    <li><a href="#" class="${cri.searchType eq 'all' ? 'active' : '' }" id="all">전체</a></li>
+		                    <li><a href="#" class="${cri.searchType eq 'all' || cri.searchType eq '' ? 'active' : '' }" id="all">전체</a></li>
 		                    <li><a href="#" id="dwc" class="${cri.searchType eq 'dwc' ? 'active' : '' }">DW시네마 공지</a></li>
 		                    <li><a href="#" id="thr" class="${cri.searchType eq 'thr' ? 'active' : '' }">지점공지</a></li>
 		                </ul>

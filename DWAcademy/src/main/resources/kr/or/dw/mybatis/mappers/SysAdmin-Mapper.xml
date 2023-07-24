@@ -133,8 +133,20 @@
 	</sql>
 	
 	<sql id="searchEvent">
-	
-	
+		<if test="searchType == '영화'.toString()">
+			AND event_div = #{searchType}
+		</if>
+		<if test="searchType == '극장'.toString()">
+			AND event_div = #{searchType}
+		</if>
+		<if test="searchType == '시사회/무대인사'.toString()">
+			AND event_div = #{searchType}
+		</if>
+		AND (
+			 event_title LIKE '%' || #{keyword} || '%'
+			 OR
+			 event_content LIKE '%' || #{keyword} || '%'
+			)
 	</sql>
 	
 	<select id="selectSearchTheaterList" resultType="theater">
@@ -638,14 +650,48 @@
 	<select id="selectEventList" resultType="event">
 		SELECT *
 		  FROM event
-		 WHERE 1=1
+		 WHERE enddate <![CDATA[>]]> SYSDATE
 		 <include refid="searchEvent"/>
+		 ORDER BY startdate DESC
 	</select>
 	
 	<select id="selectSearchEventListCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM event
-		 WHERE 1=1
+		 WHERE enddate <![CDATA[>]]> SYSDATE
 		 <include refid="searchEvent"/>
+	</select>
+	
+	<select id="selectmovEventList" resultType="event">
+		SELECT *
+		  FROM (
+		  		SELECT * 
+		  		  FROM event 
+		  		 WHERE event_div = '영화' 
+		  		 ORDER BY startdate DESC 
+		  		)
+		  WHERE ROWNUM <![CDATA[<=]]> 4	
+	</select>
+	
+	<select id="selectThrEventList" resultType="event">
+		SELECT *
+ 		  FROM (
+  				SELECT * 
+  		 		  FROM event 
+  				 WHERE event_div = '극장' 
+  		 		 ORDER BY startdate DESC 
+  				)
+ 		 WHERE ROWNUM <![CDATA[<=]]> 4	
+	</select>
+	
+	<select id="selectactorEventList" resultType="event">
+		SELECT *
+		  FROM (
+		  		SELECT * 
+		  		  FROM event 
+		  		 WHERE event_div = '시사회/무대인사' 
+		  		 ORDER BY startdate DESC 
+		  		)
+		  WHERE ROWNUM <![CDATA[<=]]> 4			
 	</select>
 </mapper>

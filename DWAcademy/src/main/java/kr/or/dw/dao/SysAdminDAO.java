@@ -178,5 +178,15 @@ public interface SysAdminDAO {
 
 	// 해당하는 이벤트 게시글의 총 개수를 불러온다.
 	int selectSearchEventListCount(SearchCriteria cri) throws SQLException;
+
+	// 영화관련 진행중 이벤트 4개를 불러온다.
+	List<EventVO> selectmovEventList() throws SQLException;
+
+	// 영화관관련 진행중 이벤트 4개를 불러온다.
+	List<EventVO> selectThrEventList() throws SQLException;
+
+	// 시사회/무대인사관련 진행중 이벤트 4개를 불러온다.
+	List<EventVO> selectactorEventList() throws SQLException;
+
 	
 }

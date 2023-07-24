@@ -48,42 +48,51 @@
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
 			<jsp:param value="${item2 }" name="item2" />
+			<jsp:param value="${url }" name="url" />
 		</jsp:include>
-		<div>
-			<ul class="nav nav-tabs nav-fill">
-			  <li class="nav-item">
-			    <a class="nav-link active" aria-current="page" href="eventAdminMain.do">전체</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" href="eventAdminTypeMain.do?">영화</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" href="eventAdminTypeMain.do">극장</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" href="eventAdminTypeMain.do">시사회/무대인사</a>
-			  </li>
-			</ul>
-		</div>
-		<div>
-			<div style="display: flex; justify-content: space-between;">
-				<span class="ms-3 me-3">전체 ${pageMaker.totalCount}건</span>
-				<span class="ms-3 me-3"><input type="text"><button>검색</button></span>
+		<div class="ms-3 me-3">
+			<div>
+				<ul class="nav nav-tabs nav-fill searchTypeList">
+				  <li class="nav-item">
+				    <a class="nav-link" aria-current="page" href="eventAdminMain.do">전체</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link ${cri.searchType eq '영화' ? 'active' : ''}" href="javascript:searchList_go(1);">영화</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link ${cri.searchType eq '극장' ? 'active' : ''}" href="javascript:searchList_go(1);">극장</a>
+				  </li>
+				  <li class="nav-item">
+				    <a class="nav-link ${cri.searchType eq '시사회/무대인사' ? 'active' : ''}" href="javascript:searchList_go(1);">시사회/무대인사</a>
+				  </li>
+				</ul>
+				<select name="searchType" style="display : none;">
+					<option value="전체" >1</option>
+					<option value="영화" ${cri.searchType eq '영화' ? 'selected' : ''}>2</option>
+					<option value="극장" ${cri.searchType eq '극장' ? 'selected' : ''}>3</option>
+					<option value="시사회/무대인사" ${cri.searchType eq '시사회/무대인사' ? 'selected' : ''}>4</option>
+				</select>
 			</div>
 			<div>
-				<div class="eventCards row mt-5 ms-3 ml-3">
-					<c:forEach items="${eventList}" var="event">
-						<div class="col-md-3">
-							<div class="card" style="width: 18rem;">
-								<img src="..." class="card-img-top" alt="...">
-								<div class="card-body">
-									<h5 class="card-title">${event.event_title }</h5>
-									<p class="card-text">${event.event_content }</p>
-									<a href="#" class="btn btn-primary">Go somewhere</a>
+				<div style="display: flex; justify-content: space-between;">
+					<span class="ms-3 me-3">전체 ${pageMaker.totalCount}건</span>
+					<span class="ms-3 me-3"><input type="text" name="keyword"><button class="btn_medium" onclick="javascript:searchList_go(1);">검색</button></span>
+				</div>
+				<div>
+					<div class="eventCards row gx-3 gy-3">
+						<c:forEach items="${eventList}" var="event">
+							<div class="col-md-3" style="text-align: -webkit-center;">
+								<div class="card text-center" style="width: 18rem;">
+									<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+									<div class="card-body">
+										<h3 class="card-title">${event.event_title }</h3>
+										<p class="card-text"><fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/></p>
+	<!-- 									<a href="#" class="btn btn-primary">Go somewhere</a> -->
+									</div>
 								</div>
 							</div>
-						</div>
-					</c:forEach>
+						</c:forEach>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -94,11 +103,12 @@
 </div>
     
 <script>
-	if ($('select[name="searchType"]').length == 0 ) {
-	console.log('test');
-	} else {
-		console.log('test!');
-	}
 	let searchFormUrl = "eventAdminTypeMain.do";
+	
+	$('.searchTypeList a').on('click', function(){
+		let searchType = $(this).html();
+		$('select[name="searchType"] option[value="'+ searchType +'"]').prop('selected', true);
+		$('input[name="keyword"]').val('');
+	});
 </script>   
 <%@ include file="sysAdminFooter.jsp"%>

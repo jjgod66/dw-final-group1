@@ -137,6 +137,9 @@ public interface SysAdminService {
 	void modifyAns(AnswerVO ans) throws SQLException;
 
 	// 해당 이벤트 목록을 불러오기
-	Map<String, Object> selectEventList(SearchCriteria cri) throws SQLException;; 
+	Map<String, Object> selectEventList(SearchCriteria cri) throws SQLException;
+
+	// 이벤트 메인페이지 각 이벤트 목록을 불러오기
+	Map<String, Object> selectEventListForMain() throws SQLException; 
 
 }
