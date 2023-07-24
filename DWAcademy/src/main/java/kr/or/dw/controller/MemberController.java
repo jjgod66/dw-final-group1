@@ -2,11 +2,14 @@ package kr.or.dw.controller;
 
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,6 +130,26 @@ public class MemberController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/member/addition")
+	public ResponseEntity<String> additionUpdate(String gb_sms_alert, String gb_email_alert, HttpSession session) throws SQLException{
+		ResponseEntity<String> entity = null;
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		MemberVO id = (MemberVO) session.getAttribute("loginUser");
+		dataMap.put("gb_sms_alert", gb_sms_alert);
+		dataMap.put("gb_email_alert", gb_email_alert);
+		dataMap.put("mem_id", id.getMem_id());
+		memberService.additionUpdate(dataMap);
+		try {
+			
+			entity = new ResponseEntity<String>("", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		return entity;

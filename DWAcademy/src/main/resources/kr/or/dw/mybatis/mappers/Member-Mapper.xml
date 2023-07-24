@@ -16,7 +16,7 @@
 	
 	
 	<insert id="insert">
-		INSERT INTO member(mem_cd, mem_id, mem_pwd, mem_name, mem_email, mem_bir, mem_phone, regdate, mem_addr, mem_addr_detail, mem_zipcode)
+		INSERT INTO member(mem_cd, mem_id, mem_pwd, mem_name, mem_email, mem_bir, mem_phone, regdate, mem_addr, mem_addr_detail, mem_zipcode, gb_email_alert, gb_sms_alert)
 					VALUES('M' || TO_char(#{mem_bir}, 'YYYYMMDD') || lpad(mem_seq.nextVal,4,0)
 						  ,#{mem_id}
 						  ,#{mem_pwd}
@@ -28,6 +28,8 @@
 						  ,#{mem_addr}
 						  ,#{mem_addr_detail}
 						  ,#{mem_zipcode}
+						  ,#{gb_email_alert}
+						  ,#{gb_sms_alert}
 							)
 	</insert>
 	
@@ -48,4 +50,10 @@
 		  FROM member
 		 WHERE mem_email = #{email}
 	</select>
+	
+	<update id="additionUpdate">
+		UPDATE member SET gb_email_alert = #{gb_email_alert},
+						  gb_sms_alert = #{gb_sms_alert}
+		WHERE mem_id = #{mem_id}
+	</update>
 </mapper>

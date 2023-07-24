@@ -153,7 +153,7 @@
             <!-- Modal body -->
             <div class="modal-body">
             	<h3 class="fs-3 text-center my-2">회원가입</h3>
-				<form role="joinForm" action="<%=request.getContextPath()%>/member/join.do" method="post">
+				<form class="memberInfo">
 				<div class="row row-space">
 					<div class="col-8">
 						<div class="input-group">
@@ -219,7 +219,7 @@
 					<div class="col-2">
 						<div class="input-group">
 							<label class="label">우편번호</label>
-							<input class="input--style-3" type="text" id="addr_post" name="mem_zipcode" required>
+							<input class="input--style-3" type="text" id="addr_post" name="mem_zipcode" readonly>
 						</div>
 					</div>
 					<div class="col-5">
