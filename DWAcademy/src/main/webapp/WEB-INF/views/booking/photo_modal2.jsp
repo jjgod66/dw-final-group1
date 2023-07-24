@@ -115,20 +115,22 @@
     
 <div class="modal fade" id="photo-modal">
 	<div class="modal-dialog modal-dialog-centered">
-<!--         <div class="modal-content"> -->
+        <div class="modal-content">
 			<div class="photo_them">
 			    <div class="them_img">
-			    	<img id="image" src="">
+<!-- 			    	<img id="image" src=""> -->
 			    </div>
 			</div>
 			<button>올리기</button>
 			<button>취소</button>
 		</div>
-<!-- 	</div> -->
+	</div>
 </div>
 
 <script>
-var cropper;
+
+
+
 //사진 업로드 버튼
 // $('#inputfile').on('change', function(){
 
