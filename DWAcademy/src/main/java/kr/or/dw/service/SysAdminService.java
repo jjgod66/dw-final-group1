@@ -7,6 +7,7 @@ import java.util.Map;
 import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.AnswerVO;
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
@@ -140,6 +141,18 @@ public interface SysAdminService {
 	Map<String, Object> selectEventList(SearchCriteria cri) throws SQLException;
 
 	// 이벤트 메인페이지 각 이벤트 목록을 불러오기
-	Map<String, Object> selectEventListForMain() throws SQLException; 
+	Map<String, Object> selectEventListForMain() throws SQLException;
+
+	// 이벤트 등록하기
+	void registEvent(EventVO event) throws SQLException;
+
+	// 해당하는 이벤트 게시글 조회
+	EventVO selectEventByEvent_no(int event_no) throws SQLException;
+
+	// 이벤트 게시글 이미지 경로 수정
+	void modifyEventContent(Map<String, Object> modifyEventContentMap) throws SQLException;
+
+	// 해당하는 이벤트 게시글 수정
+	void modifyEvent(EventVO event) throws SQLException; 
 
 }

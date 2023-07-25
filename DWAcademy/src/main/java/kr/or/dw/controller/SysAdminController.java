@@ -50,6 +50,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import kr.or.dw.command.EventRegistCommand;
 import kr.or.dw.command.MovieModifyCommand;
 import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.ProductModifyCommand;
@@ -58,6 +59,7 @@ import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.StoreService;
 import kr.or.dw.service.SysAdminService;
 import kr.or.dw.vo.AnswerVO;
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
@@ -747,13 +749,127 @@ public class SysAdminController {
 	}
 	
 	@RequestMapping("/eventAdminDetail")
-	public ModelAndView eventAdminDetail (ModelAndView mnv) {
+	public ModelAndView eventAdminDetail (ModelAndView mnv, String event_no, String type) throws NumberFormatException, SQLException {
 		String url = "/sysAdmin/eventAdminDetail";
 		
+		if (event_no != null) {
+			EventVO event = sysAdminService.selectEventByEvent_no(Integer.parseInt(event_no));
+			mnv.addObject("event", event);
+		}
+		mnv.addObject("type", type);
 		
+		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "진행중인 이벤트", url+".do?"+(event_no == null ? "" : "event_no="+event_no+"&")+"type="+type);
+		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
 	}
+	
+	@RequestMapping("/eventAdminRegist")
+	public void eventAdminRegist (EventRegistCommand registReq, HttpServletRequest req, HttpServletResponse res) throws SQLException, IllegalStateException, IOException {
+		String eventPicUploadPath = this.eventPicUploadPath;
+		EventVO event = registReq.toEventVO();
+		
+		// 이벤트 테이블에 등록
+		sysAdminService.registEvent(event);
+		int event_no = event.getEvent_no();
+		String newContent = registReq.getEvent_content().replace("/sysAdmin/getTempImg.do?fileName="+registReq.getOldFileName() 
+																 ,"/sysAdmin/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+		
+		Map<String, Object> modifyEventContentMap = new HashMap<>();
+		modifyEventContentMap.put("event_no", event_no);
+		modifyEventContentMap.put("newContent", newContent);
+		sysAdminService.modifyEventContent(modifyEventContentMap);
+		
+		// 이벤트 썸네일 로컬에 저장
+		MultipartFile thumb = registReq.getEvent_thum_path();
+		if (thumb != null) {
+			String fileName = thumb.getOriginalFilename();
+			File target = new File(eventPicUploadPath + File.separator + event.getEvent_no() + File.separator + "thumb", fileName);
+			
+			if (!target.exists()) {
+				target.mkdirs();
+			}
+			
+			thumb.transferTo(target);
+		}
+		
+		// 이벤트 이미지 로컬에 저장
+		if (registReq.getEvent_pic_path() != null) {
+			String fileName = event.getEvent_pic_path();
+			File oldFile = new File(eventPicUploadPath + File.separator + "temp", registReq.getOldFileName());
+			File newFilePath = new File(eventPicUploadPath + File.separator + event.getEvent_no() + File.separator + "img");
+			if (!newFilePath.exists()) {
+				newFilePath.mkdirs();
+			}
+			boolean renameTo = oldFile.renameTo(new File(newFilePath, fileName));
+		}
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('이벤트 등록이 완료되었습니다.')");
+		out.println("location.href='eventAdminDetail.do?type=read&event_no=" + event_no + "'");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminModify")
+	public void eventAdminModify (EventRegistCommand registReq, HttpServletRequest req, HttpServletResponse res) throws SQLException, IllegalStateException, IOException {
+		String eventPicUploadPath = this.eventPicUploadPath;
+		EventVO event = registReq.toEventVO();
+		System.out.println(registReq);
+		sysAdminService.modifyEvent(event);
+		int event_no = event.getEvent_no();
+		String newContent = registReq.getEvent_content().replace("/sysAdmin/getTempImg.do?fileName="+registReq.getOldFileName() 
+																	,"/sysAdmin/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+
+		Map<String, Object> modifyEventContentMap = new HashMap<>();
+		modifyEventContentMap.put("event_no", event.getEvent_no());
+		modifyEventContentMap.put("newContent", newContent);
+		sysAdminService.modifyEventContent(modifyEventContentMap);
+		
+		// 이벤트 썸네일 로컬에 저장
+		MultipartFile thumb = registReq.getEvent_thum_path();
+		if (thumb != null) {
+			String fileName = thumb.getOriginalFilename();
+			File newFilePath = new File(eventPicUploadPath + File.separator + event_no + File.separator + "thumb");
+			File[] fileList = newFilePath.listFiles();
+			for (File file : fileList) {
+				file.delete();
+			}
+			File target = new File(eventPicUploadPath + File.separator + event_no + File.separator + "thumb", fileName);
+			if (!target.exists()) {
+				target.mkdirs();
+			}
+			
+			thumb.transferTo(target);
+		}
+		
+		// 이벤트 이미지 로컬에 저장
+		if (registReq.getEvent_pic_path() != null) {
+			String fileName = event.getEvent_pic_path();
+			File oldFile = new File(eventPicUploadPath + File.separator + "temp", registReq.getOldFileName());
+			File newFilePath = new File(eventPicUploadPath + File.separator + event_no + File.separator + "img");
+			File[] fileList = newFilePath.listFiles();
+			for (File file : fileList) {
+				file.delete();
+			}
+			if (!newFilePath.exists()) {
+				newFilePath.mkdirs();
+			}
+			boolean renameTo = oldFile.renameTo(new File(newFilePath, fileName));
+		}
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('이벤트 수정이 완료되었습니다.')");
+		out.println("location.href='eventAdminDetail.do?type=read&event_no=" + event_no + "'");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}	
 	
 	@GetMapping("/eventAdminPast")
 	public String eventAdminPast() {
@@ -860,7 +976,7 @@ public class SysAdminController {
 		return entity;
 	}
 	
-	 @GetMapping(value = "getVideo")
+	 @RequestMapping(value = "getVideo")
 	    public ResponseEntity<ResourceRegion> getVideo(@RequestHeader HttpHeaders headers, String movie_cd, String movie_pre_path) throws IOException {
 	        logger.info("VideoController.getVideo");
 	        UrlResource video = new UrlResource("file:"+ this.moviePicUploadPath + File.separator + movie_cd + File.separator + "videos" + File.separator + movie_pre_path);
@@ -886,6 +1002,77 @@ public class SysAdminController {
 	                .contentType(MediaTypeFactory.getMediaType(video).orElse(MediaType.APPLICATION_OCTET_STREAM))
 	                .body(resourceRegion);
 	    }
+	 
+	 @RequestMapping("/uploadTempImg")
+		public ResponseEntity<String> uploadTempImg(MultipartFile file, HttpServletRequest req) {
+			ResponseEntity<String> result = null;
+			
+			int fileSize = 5 * 1024 * 1024;
+			
+			if (file.getSize() > fileSize) {
+				return new ResponseEntity<String>("용량 초과입니다.", HttpStatus.BAD_REQUEST);
+			}
+			
+			String savePath = eventPicUploadPath + File.separator + "temp";
+			String fileName = UUID.randomUUID().toString().replace("-", "")+"$$"+file.getOriginalFilename();
+			
+			File saveFile = new File(savePath, fileName);
+			
+			if(!saveFile.exists()) {
+				saveFile.mkdirs();
+			}
+			
+			try {
+				file.transferTo(saveFile);
+				result = new ResponseEntity<String>(req.getContextPath() + "/sysAdmin/getTempImg.do?fileName=" + fileName, HttpStatus.OK);
+			} catch (Exception e) {
+				result = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			return result;
+		}
+	 
+		@RequestMapping("/getTempImg")
+		public ResponseEntity<byte[]> getTempImg(String fileName, HttpServletRequest req) throws IOException {
+			ResponseEntity<byte[]> entity = null;
+			
+			// 저장경로
+			String savePath = eventPicUploadPath + File.separator + "temp";
+			File sendFile = new File(savePath, fileName);
+			
+			InputStream in = null;
+			
+			try {
+				in = new FileInputStream(sendFile);
+				entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+			} finally {
+				in.close();
+			}
+			
+			return entity;
+		}
+		
+		@RequestMapping("/deleteTempImg")
+		public ResponseEntity<String> deleteTempImg(@RequestBody Map<String, String> data) {
+			ResponseEntity<String> result = null;
+			String savePath = eventPicUploadPath + File.separator + "temp";
+			File target = new File(savePath, data.get("fileName"));
+			
+			if (!target.exists()) {
+				result = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			} else {
+				try {
+					target.delete();
+					result = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+				} catch (Exception e) {
+					result = new ResponseEntity<String>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+			}
+			return result;
+		}
 }
 
 
