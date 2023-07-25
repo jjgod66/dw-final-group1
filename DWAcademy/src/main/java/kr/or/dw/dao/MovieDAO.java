@@ -233,6 +233,12 @@ public interface MovieDAO {
 	 * @return
 	 */
 	List<Map<String, Object>> selectLikeGenreMovie(Map<String, String> param) throws SQLException;
+	
+	/**
+	 * 모든 영화의 리뷰를 가져오는 메서드
+	 * @return
+	 */
+	List<Map<String, Object>> getAllMovieReview() throws SQLException;
 
 	/**
 	 * 영화 평균 평점 가져오는 메서드

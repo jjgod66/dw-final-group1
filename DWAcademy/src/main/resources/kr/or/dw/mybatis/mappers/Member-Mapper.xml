@@ -56,4 +56,5 @@
 						  gb_sms_alert = #{gb_sms_alert}
 		WHERE mem_id = #{mem_id}
 	</update>
+	
 </mapper>
