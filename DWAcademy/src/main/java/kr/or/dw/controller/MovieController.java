@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.MovieViewerCommand;
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MoviePictureVO;
+import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
 import kr.or.dw.vo.ReviewVO;
 import oracle.net.aso.s;
@@ -70,6 +72,10 @@ public class MovieController {
 		double movie_rate_avg = 0.0;
 		movie_rate_avg = movieService.getMovieRateAvg(movie_cd);
 		
+		List<Map<String, Object>> moviePostList = null;
+		moviePostList = movieService.getMoviePost4(movie_cd);
+		
+		mnv.addObject("moviePostList", moviePostList);
 		mnv.addObject("movie_rate_avg", movie_rate_avg);
 		mnv.addObject("previewList", moviePreviewList);
 		mnv.addObject("pictureList", moviePicList);
@@ -315,6 +321,21 @@ public class MovieController {
 			out.flush();
 			out.close();
 		}
+	}
+	
+	@RequestMapping("/moviePost")
+	public ModelAndView moviePost(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/movie/moviepost";
+		
+		cri.setPerPageNum("12");
+		if("".equals(cri.getSearchType())) {
+			cri.setSearchType("regdate");
+		}
+		Map<String, Object> dataMap = movieService.getMoviePost(cri);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		return mnv;
 	}
 	
 }

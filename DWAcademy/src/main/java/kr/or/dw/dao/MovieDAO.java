@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
@@ -240,5 +242,28 @@ public interface MovieDAO {
 	 * @return
 	 */
 	double selectMovieRateAvg(String movie_cd) throws SQLException;
+
+	/**
+	 * 해당 영화의 무비포스트 맵으로 가져오는 메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	List<Map<String, Object>> selectMoviePostMap(String movie_cd) throws SQLException;
+
+	/**
+	 * 무비포스트 가져오는 메서드
+	 * @param cri
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Map<String, Object>> selectSearchMoviePostList(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
+
+	/**
+	 * 무비포스트 갯수 
+	 * @param cri
+	 * @return
+	 * @throws SQLException
+	 */
+	int selectSearchMoviePostcnt(SearchCriteria cri) throws SQLException;
 
 }

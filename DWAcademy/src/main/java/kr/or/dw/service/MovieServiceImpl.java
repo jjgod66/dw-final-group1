@@ -1,15 +1,19 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.or.dw.command.MovieViewerCommand;
+import kr.or.dw.command.PageMaker;
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.MovieDAO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MoviePictureVO;
@@ -329,6 +333,50 @@ public class MovieServiceImpl implements MovieService{
 		movie_rate_avg = movieDAO.selectMovieRateAvg(movie_cd);
 		
 		return movie_rate_avg;
+	}
+
+	@Override
+	public List<Map<String, Object>> getMoviePost4(String movie_cd) throws SQLException {
+		List<Map<String, Object>> allMoviePostList = null;
+		allMoviePostList = movieDAO.selectMoviePostMap(movie_cd);
+		
+		int cnt = 4;
+		if(allMoviePostList.size() < 4) {
+			cnt = allMoviePostList.size();
+		}
+		
+		List<Map<String, Object>> moviePostList = new ArrayList<Map<String, Object>>();
+		if(cnt > 0) {
+			for(int i = 0; i < cnt; i++) {
+				moviePostList.add(allMoviePostList.get(i));
+			}
+		}
+		
+		return moviePostList;
+	}
+
+	@Override
+	public Map<String, Object> getMoviePost(SearchCriteria cri) throws SQLException {
+		
+		List<Map<String, Object>> moviePostList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		moviePostList = movieDAO.selectSearchMoviePostList(cri, rowBounds);
+		
+		int totalCount = movieDAO.selectSearchMoviePostcnt(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("moviePostList", moviePostList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		return dataMap;
 	}
 
 

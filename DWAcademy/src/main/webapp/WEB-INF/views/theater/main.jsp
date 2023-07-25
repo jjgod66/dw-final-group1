@@ -175,29 +175,37 @@
 		<div class="tit-util">
 			<h3 class="tit">극장 이벤트</h3>
 			<div class="float-end">
-				<a href="/event/theater.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/event/main.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div class="event-box" style="margin-top: 20px;">
+			<c:if test="${empty eventList }">
+				<div style="text-align: center; margin: 50px 0;">이벤트가 없습니다.</div>
+			</c:if>
+			<c:if test="${!empty eventList }">
 			<ul>
-				<li>
-					<a href="#" data-no="13527" data-netfunnel="N" class="eventBtn" title="[금정AK플라자] 오픈 1주년 기념 이벤트 상세보기">
-						<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/22/lYvh9Hm1azfGygwBm4ew3sAwY6y04FEP.jpg" alt="[금정AK플라자] 오픈 1주년 기념 이벤트" onerror="noImg(this);"></p>
-						<p class="tit">
-							[금정AK플라자] 오픈 1주년 기념 이벤트
-						</p>
-						<p class="date">
-							2023.07.13 ~ 2023.07.13
-						</p>
-					</a>
-				</li>
+				<c:forEach items="${eventList }" var="event">
+					<li>
+						<a href="#" data-netfunnel="N" class="eventBtn">
+							<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" onerror="noImg(this);"></p>
+							<p class="tit">
+								${event.event_title }
+							</p>
+							<p class="date">
+							<fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ 
+							<fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/>
+							</p>
+						</a>
+					</li>
+				</c:forEach>
 
 			</ul>
+			</c:if>
 		</div>
 		<div class="tit-util">
 			<h3 class="tit">극장 공지사항</h3>
 			<div class="float-end">
-				<a href="/support/notice.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/support/notice.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div class="accordion-list">

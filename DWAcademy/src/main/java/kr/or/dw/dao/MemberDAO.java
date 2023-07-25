@@ -1,6 +1,7 @@
 package kr.or.dw.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -32,5 +33,20 @@ public interface MemberDAO {
 
 	// 개인정보 수집 동의 업데이트
 	void additionUpdate(Map<String, Object> dataMap)throws SQLException;
+
+	//지난달 회원들의 영화 예매횟수 가져오는 메서드
+	List<Map<String, Object>> selectMemMonthResCnt() throws SQLException;
+
+	//회원 등급 vip로 업데이트
+	void updateMemGradeVIP(String mem_cd) throws SQLException;
+
+	//회원 등급 normal로 업데이트
+	void updateMemGradeNormal(String mem_cd) throws SQLException;
+
+	//1년동안 로그인 안한 회원들 코드 가져오는 메서드
+	String[] selectNotLoginYearMem() throws SQLException;
+
+	//회원 휴면계정으로 업데이트
+	void updateMemSleep(String mem) throws SQLException;
 
 }

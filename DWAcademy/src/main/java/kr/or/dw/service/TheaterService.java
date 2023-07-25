@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.TheaterVO;
 
@@ -61,5 +62,11 @@ public interface TheaterService {
 	 * @return
 	 */
 	List<NoticeVO> getThisThrNotice(String thr_name) throws SQLException;
+
+	/**
+	 * 극장 이벤트 4개 가져오는 메서드
+	 * @return
+	 */
+	List<EventVO> getThrEvent() throws SQLException;
 
 }

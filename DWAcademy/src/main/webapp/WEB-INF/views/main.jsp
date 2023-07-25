@@ -36,7 +36,7 @@
 	                                        <c:if test="${movie.movie_grade eq '전체 관람가'}"><img src="../../resources/img/moviegrade/ALL.png" style="width: 8%; height: 8%;"></c:if>
 	                                        <c:if test="${movie.movie_grade eq '12세 관람가'}"><img src="../../resources/img/moviegrade/12.png" style="width: 8%; height: 8%;"></c:if>
 	                                        <c:if test="${movie.movie_grade eq '15세 관람가'}"><img src="../../resources/img/moviegrade/15.png" style="width: 8%; height: 8%;"></c:if>
-	                                        <c:if test="${movie.movie_grade eq '청소년 관람불가'}"><img src="../../resources/img/moviegrade/18.png" style="width: 8%; height: 8%;"></c:if><a href="movie-view.jsp?movieCd=${movie.movie_cd}#view" class="link_txt" data-tiara-layer="moviename"> ${movie.movie_name}</a>
+	                                        <c:if test="${movie.movie_grade eq '청소년 관람불가'}"><img src="../../resources/img/moviegrade/18.png" style="width: 8%; height: 8%;"></c:if><a href="<%=request.getContextPath()%>/movie/viewer.do?movie_cd=${movie.movie_cd}" class="link_txt" data-tiara-layer="moviename"> ${movie.movie_name}</a>
 	                                    </strong>
 	                                    <span class="txt_append">
 	                                        <span class="info_txt">상영시간<span class="txt_grade">${movie.movie_length}</span>분</span>
