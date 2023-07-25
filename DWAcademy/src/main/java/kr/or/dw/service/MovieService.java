@@ -155,8 +155,8 @@ public interface MovieService {
 	 * 모든 영화의 리뷰를 가져오는 메서드
 	 * @return
 	 */
-	List<Map<String, Object>> getAllMovieReview() throws SQLException;
-	 * 영화 예고편 목록 가져오는 메서드
+	List<Map<String, Object>> getAllMovieReview(HttpSession session) throws SQLException;
+	 /** 영화 예고편 목록 가져오는 메서드
 	 * @param movie_cd
 	 * @return
 	 */
@@ -175,5 +175,12 @@ public interface MovieService {
 	 * @return
 	 */
 	double getMovieRateAvg(String movie_cd) throws SQLException;
+
+	/**
+	 * 리뷰를 검색하는 메서드
+	 * @param searchReview
+	 * @return
+	 */
+	List<Map<String, Object>> searchReview(String keyword, HttpSession session) throws SQLException;
 
 }

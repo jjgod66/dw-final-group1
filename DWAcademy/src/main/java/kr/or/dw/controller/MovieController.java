@@ -324,17 +324,31 @@ public class MovieController {
 	}
 	
 	@RequestMapping("/review")
-	public ModelAndView movieReview(ModelAndView mnv) throws SQLException {
+	public ModelAndView movieReview(ModelAndView mnv, HttpSession session, HttpServletResponse res, HttpServletRequest req) throws SQLException, IOException {
 		String url = "/movie/review";
 		
-		List<Map<String, Object>> reviewList = movieService.getAllMovieReview();
+		List<Map<String, Object>> reviewList = movieService.getAllMovieReview(session);
 		System.out.println(reviewList.get(0).get("MOVIE_NAME"));
-		System.out.println(reviewList.get(0).get("MEM_ID"));
-		
+		System.out.println(reviewList.get(0));
 		
 		mnv.addObject("reviewList", reviewList);
 		mnv.setViewName(url);
 		
 		return mnv;
+	}
+	
+	@RequestMapping("/searchReview")
+	public ModelAndView searchReview(ModelAndView mnv,String keyword, HttpSession session) throws SQLException{
+		String url = "movie/review";
+		
+		System.out.println(keyword);
+		List<Map<String, Object>> review = movieService.searchReview(keyword, session);
+		System.out.println(review.get(0));
+		mnv.addObject("reviewList", review);
+		mnv.setViewName(url);
+			
+		return mnv;
+		
+		
 	}
 }
