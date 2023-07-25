@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.css" integrity="sha512-C4k/QrN4udgZnXStNFS5osxdhVECWyhMsK1pnlk+LkC7yJGCqoYxW4mH3/ZXLweODyzolwdWSqmmadudSHMRLA==" crossorigin="anonymous" referrerpolicy="no-referrer" />    
+<!-- <link rel="stylesheet" type="text/css" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css"> -->
+<!-- <script src="https://fengyuanchen.github.io/cropper/js/cropper.js"></script> -->
     <style>
 
 #photo-modal .modal-content{
@@ -63,7 +66,7 @@
     padding: 0 33px;
     font-family: Poppins;
     cursor: pointer;
-    color: #fff;
+/*     color: #fff; */
     -webkit-transition: all 0.4s ease;
     -o-transition: all 0.4s ease;
     -moz-transition: all 0.4s ease;
@@ -78,7 +81,7 @@
     color: #fff;
     font-size: 13px;
     border-color: #4aa8d8;
-    width: 70%;
+    width: 49%;
     margin-bottom: 3vh;
     margin-left: 10px;
     margin-right: 10px;
@@ -88,7 +91,7 @@
     color: #4aa8d8;
     font-size: 13px;
     border-color: #4aa8d8;
-    width: 70%;
+    width: 49%;
     margin-bottom: 3vh;
     margin-left: 10px;
     margin-right: 10px;
@@ -103,6 +106,10 @@
     outline: none;
 }
 
+.p-t-10{
+	margin-top: 10px; 
+}
+
 .photo_box{margin:0 auto ;max-width:500px;} 
 .photo_them{position:relative;margin-top:20px;width:100%;height:500px;}
 .them_img, .result_box{position:absolute;top:0;left:0;width:100%;height:100%;}
@@ -114,20 +121,116 @@
 </style>
     
 <div class="modal fade" id="photo-modal">
-	<div class="modal-dialog modal-dialog-centered">
+	<div class="modal-dialog modal-dialog-centered" style="max-width: 800px;">
         <div class="modal-content">
 			<div class="photo_them">
 			    <div class="them_img">
-<!-- 			    	<img id="image" src=""> -->
+<!-- 			    	<img id="image" src="" style="width:100%;"> -->
 			    </div>
 			</div>
-			<button>올리기</button>
-			<button>취소</button>
+			 <div class="p-t-10" style="display: flex;">
+				<button class="btn btn-regist" id="crop">자르기</button>
+				<button class="btn btn-regist" id="success" style="display:none">완료</button>
+				<button class="btn btn-cancel" id="modalCancel">취소</button>
+			</div>
 		</div>
 	</div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.js" integrity="sha512-LjPH94gotDTvKhoxqvR5xR2Nur8vO5RKelQmG52jlZo7SwI5WLYwDInPn1n8H9tR0zYqTqfNxWszUEy93cHHwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+
+$(function(){
+	var cropper;
+	$('#crop').on('click', function(){
+		$(this).css('display', 'none');
+		$('#success').css('display', '');
+		
+		let image = $('#image');
+		cropper = image.cropper( {
+			dragMode: 'move',
+			viewMode:1,
+			aspectRatio: 0.647,
+			minCropBoxWidth:200,
+        });
+		
+    })
+    
+    $('#modalCancel').on('click', function(){
+    	$('.them_img').html('');
+    	$('#inputfile').val('');
+    	$('#photo-modal').modal('hide');
+    	$('#crop').css('display', '');
+		$('#success').css('display', 'none');
+    	
+    })
+    
+    
+    $('#success').on('click', function(){
+    	var image = $('#image');
+    	var result = $('#result');
+    	var canvas;
+    	if($('input[type="file"]').val() != ""){
+    	canvas = image.cropper('getCroppedCanvas');
+    	result.css('background-image','url(' + canvas.toDataURL("image/jpg") + ')');
+
+    	canvas.toBlob(function (blob) {
+    		var formData = new FormData();
+			
+    		formData.append('croppedImage', blob);
+    		$.ajax({
+    			url : '<%=request.getContextPath()%>/photoTicket/uploadImg.do',
+           		method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                	console.log(res);
+                	$('#photo-modal').modal('hide');
+                	$('.them_img').html('');
+                	$('#inputfile').val('');
+                	$('#imgupbtn').css('display', 'none');
+                	$('#crop').css('display', '');
+            		$('#success').css('display', 'none');
+            		$('input[name="frontPic"]').val(res);
+                },
+                error: function (err) {
+                	alert(err.status);
+                },
+    		});
+    	})
+      }else{
+          alert('사진을 업로드 해주세요');
+          $('input[type="file"]').focus();
+          return;
+      }
+    	
+//     	cropper.getCroppedCanvas();
+//     	console.log(cropper.getCroppedCanvas());
+    	
+//     	cropper.getCroppedCanvas().toBlob(function (blob){
+//     		//HTMLCanvasElement를 return 받아서 blob파일로 변환해준다
+//     		  const formData = new FormData();
+
+//    			  formData.append('croppedImage', blob/*, 'example.png' , 0.7*/);
+//     			//새로운 formData를 생성해서 앞에서 변경해준 blob파일을 삽입한다.(이름 지정 가능, 맨뒤 매개변수는 화질 설정)
+//     		  // jQuery.ajax이용해서 서버에 업로드
+//     		  $.ajax({
+<%--     			url : '<%=request.getContextPath()%>/photoTicket/uploadImg.do', --%>
+//     		    method: 'POST',
+//     		    data: formData,//앞에서 생성한 formData
+//     		  	processData : false,	// data 파라미터 강제 string 변환 방지
+//     		    contentType : false,	// application/x-www-form-urlencoded; 방지
+//     		    success : function(res) {
+//     		      console.log(res);
+//     		    },
+//     		    error : function(err) {
+//     		      alert(err.status);
+//     		    },
+//     		  });
+//     		}/*, 'image/png' */);//서버에 저장 형식 사용 가능
+    })
+    
+})
 
 
 

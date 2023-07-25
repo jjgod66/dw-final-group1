@@ -349,4 +349,56 @@
 		FROM review
 		WHERE movie_cd = #{movie_cd}
 	</select>
+	
+	<select id="selectMoviePostMap" resultType="Map">
+		SELECT mp.movie_cd, mp.movie_pic_no, movie_pic_path, mpost_content, mp.regdate, movie_name, mpost_no, mem_id 
+		FROM moviepost mp, movie m, movie_picture p, MEMBER mb
+		WHERE mp.movie_cd = m.movie_cd
+		AND mp.mem_cd = mb.mem_cd
+		AND p.movie_pic_no = mp.movie_pic_no
+		AND mp.gb_del = 'N'
+		AND mp.movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectSearchMoviePostList" resultType="Map">
+		SELECT mp.movie_cd, mp.movie_pic_no, movie_pic_path, mpost_content, mp.regdate, movie_name, mp.mpost_no, mem_id, mp.mem_cd, nvl(likecnt, 0) likecnt, nvl(replycnt, 0) replycnt
+		FROM moviepost mp, movie m, movie_picture p, MEMBER mb
+			,(SELECT COUNT(*) likecnt, mpost_no
+			FROM mp_like
+			GROUP BY mpost_no) ml,
+			(SELECT COUNT(*) replycnt, mpost_no
+			FROM reply
+			GROUP BY mpost_no) mr
+		WHERE mp.movie_cd = m.movie_cd
+		AND mp.mem_cd = mb.mem_cd
+		AND p.movie_pic_no = mp.movie_pic_no
+		AND mp.mpost_no = ml.mpost_no(+)
+		AND mp.mpost_no = mr.mpost_no(+)
+		AND mp.gb_del = 'N'
+		AND movie_name like '%' || #{keyword} || '%'
+		<if test="searchType == 'like'.toString()">
+			ORDER BY likecnt DESC NULLS last
+		</if>
+		<if test="searchType == 'regdate'.toString()">
+			ORDER BY mp.regdate DESC
+		</if>
+	</select>
+	
+	<select id="selectSearchMoviePostcnt" resultType="int">
+		SELECT COUNT(*)
+		FROM moviepost mp, movie m, movie_picture p, MEMBER mb
+			,(SELECT COUNT(*) likecnt, mpost_no
+			FROM mp_like
+			GROUP BY mpost_no) ml,
+			(SELECT COUNT(*) replycnt, mpost_no
+			FROM reply
+			GROUP BY mpost_no) mr
+		WHERE mp.movie_cd = m.movie_cd
+		AND mp.mem_cd = mb.mem_cd
+		AND p.movie_pic_no = mp.movie_pic_no
+		AND mp.mpost_no = ml.mpost_no(+)
+		AND mp.mpost_no = mr.mpost_no(+)
+		AND mp.gb_del = 'N'
+		AND movie_name like '%' || #{keyword} || '%'
+	</select>
 </mapper>

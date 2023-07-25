@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.service.TheaterService;
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.TheaterVO;
@@ -42,6 +43,10 @@ private static final Logger logger = LoggerFactory.getLogger(TheaterController.c
 		List<Map<String, Object>> noticeList = null;
 		noticeList = theaterService.getThrNotice();
 		
+		List<EventVO> eventList = null;
+		eventList = theaterService.getThrEvent();
+		
+		mnv.addObject("eventList", eventList);
 		mnv.addObject("noticeList", noticeList);
 		mnv.addObject("thrList", thrList);
 		mnv.setViewName(url);

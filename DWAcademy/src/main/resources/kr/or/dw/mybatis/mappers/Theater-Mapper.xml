@@ -91,4 +91,11 @@
 		WHERE notice_thr = #{thr_name}
 		ORDER BY n.regdate DESC
 	</select>
+	
+	<select id="selectThrEvent" resultType="event">
+		SELECT *
+		FROM event
+		WHERE event_div = '극장'
+		ORDER BY regdate DESC
+	</select>
 </mapper>

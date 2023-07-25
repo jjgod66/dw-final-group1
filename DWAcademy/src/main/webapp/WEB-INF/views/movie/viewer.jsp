@@ -162,7 +162,7 @@
 				</div>
 				<div class="col-8">
 				</div>
-				<div class="col-2"><a href="#" style="float: right;">리뷰 전체보기 ></a></div>
+				<div class="col-2"><a href="<%=request.getContextPath()%>/movie/review.do" style="float: right;">리뷰 전체보기 ></a></div>
 			</div>
 		</div>
         <div class="container">
@@ -234,27 +234,37 @@
 				<div class="col-2"><a href="#" style="float: right; color: #fff;">무비포스트 전체보기 ></a></div>
 			</div>
 		</div>
-        <div class="container" style="height: 400px; padding-bottom: 10px;">
-        	<div class="row" style="height: 100%">
-        		<div class="col-3 post" style="height: 100%">
-        			<div class="card" style="margin: 20px; height: 90%;">
-        				<div class="card-body" style="height: 45%; background-image: url('../../resources/img/poster/미션임파서블.jpg');  background-repeat : no-repeat; background-size : cover;"></div>
-        				<div class="card-body" style="height: 55%;">
-        					<div><p style="font-size: small;">ddsjfa00</p></div>
-        					<br>
-        					<div>영화이름 엘리멘탈</div>
-        					<div><p style="font-size: small;">포스트내용ㄴㅇ라먼ㅇ리ㅓㄴ</p></div>
-        					<br>
-        					<div><p style="font-size: x-small;">2023-07-17 11:25<br><br></p></div>
-        					<div>
-        						<i class="fa-regular fa-thumbs-up">&nbsp;<span>0</span></i>
-        						&nbsp;&nbsp;&nbsp;&nbsp;
-        						<i class="fa-regular fa-message">&nbsp;<span>0</span></i>
-        					</div>
-        				</div>
-        			</div>
-        		</div>	
+        <div class="container" style="padding-bottom: 10px;">
+        <c:if test="${empty moviePostList }">
+        	<div style="text-align: center; color :white; margin-bottom: 50px;">
+    			<p>등록된 무비포스트가 없습니다.</p>
+	   		</div>
+        </c:if>
+        <c:if test="${!empty moviePostList }">
+        	<div class="row" style="height: 400px;">
+        		<c:forEach items="${moviePostList }" var="moviePost">
+	        		<div class="col-3 post" style="height: 100%">
+	        			<div class="card" style="margin: 20px; height: 90%;">
+	        				<div class="card-body" style="height: 45%; background-image: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${moviePost.MOVIE_PIC_PATH}&item_cd=${moviePost.MOVIE_CD}&type=movieImg');  background-repeat : no-repeat; background-size : cover;"></div>
+	        				<div class="card-body" style="height: 55%;">
+	        					<div><p style="font-size: small;"><c:set var="mem_id_post" value="${moviePost.MEM_ID}" />
+							    ${fn:substring(mem_id_post,0,3) }**</p></div>
+	        					<br>
+	        					<div>${moviePost.MOVIE_NAME }</div>
+	        					<div><p style="font-size: small;">${moviePost.MPOST_CONTENT }</p></div>
+	        					<br>
+	        					<div><p style="font-size: x-small;"><fmt:formatDate value="${moviePost.REGDATE }" pattern="yyyy-MM-dd HH:mm"/><br><br></p></div>
+	        					<div>
+	        						<i class="fa-regular fa-thumbs-up">&nbsp;<span>0</span></i>
+	        						&nbsp;&nbsp;&nbsp;&nbsp;
+	        						<i class="fa-regular fa-message">&nbsp;<span>0</span></i>
+	        					</div>
+	        				</div>
+	        			</div>
+	        		</div>
+        		</c:forEach>
         	</div>
+       	 </c:if>
         </div>
     </div>
     <div class="photo">

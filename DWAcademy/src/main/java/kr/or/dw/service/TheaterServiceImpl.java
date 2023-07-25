@@ -10,6 +10,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.or.dw.dao.TheaterDAO;
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.TheaterVO;
 
@@ -155,6 +156,27 @@ public class TheaterServiceImpl implements TheaterService{
 		}
 		
 		return noticeList;
+	}
+
+	@Override
+	public List<EventVO> getThrEvent() throws SQLException {
+		List<EventVO> allEventList = null;
+		
+		allEventList = theaterDAO.selectThrEvent();
+		List<EventVO> eventList = new ArrayList<>();
+		
+		int cnt = 4;
+		if(allEventList.size() < 4) {
+			cnt = allEventList.size();
+		}
+		if(cnt > 0) {
+			for(int i = 0; i < cnt; i++) {
+				eventList.add(allEventList.get(i));
+			}
+		}
+		
+		
+		return eventList;
 	}
 
 	
