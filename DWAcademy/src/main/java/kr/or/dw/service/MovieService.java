@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import kr.or.dw.command.MovieViewerCommand;
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
@@ -153,6 +154,10 @@ public interface MovieService {
 			List<String> memLikeGenreList) throws SQLException;
 
 	/**
+	 * 모든 영화의 리뷰를 가져오는 메서드
+	 * @return
+	 */
+	List<Map<String, Object>> getAllMovieReview() throws SQLException;
 	 * 영화 예고편 목록 가져오는 메서드
 	 * @param movie_cd
 	 * @return

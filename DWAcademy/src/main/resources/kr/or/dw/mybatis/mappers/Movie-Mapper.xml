@@ -298,6 +298,13 @@
 		AND rownum <![CDATA[<=]]> 3
 	</select>
 	
+	<select id="getAllMovieReview" resultType="Map">
+		SELECT m.MOVIE_NAME , r.*, mem.MEM_ID 
+		  FROM movie m, review r, MEMBER mem
+		 WHERE m.MOVIE_CD = r.MOVIE_CD
+ 		   AND mem.MEM_CD = r.MEM_CD
+	</select>
+	
 	<insert id="insertReviewLike">
 		INSERT INTO review_like (review_no, mem_cd) VALUES(#{review_no}, #{mem_cd})
 	</insert>

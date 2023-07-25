@@ -83,14 +83,6 @@ public class ViewController {
 		return url;
 	}
 	
-	/*
-	 * 영화 뷰어 컨트롤러 
-	 */
-	@GetMapping("/movie/review")
-	public String movieReview() {
-		String url = "/movie/review";
-		return url;
-	}
 
 	/*
 	 * 극장 뷰어 컨트롤러 

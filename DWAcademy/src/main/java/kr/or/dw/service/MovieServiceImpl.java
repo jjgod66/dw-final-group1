@@ -314,6 +314,10 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	@Override
+	public List<Map<String, Object>> getAllMovieReview() throws SQLException {
+		return movieDAO.getAllMovieReview();
+	}
+
 	public List<MoviePreviewVO> getMoviePreview(String movie_cd) throws SQLException {
 		List<MoviePreviewVO> moviePreList = null;
 		moviePreList = movieDAO.selectMoviePreview(movie_cd);

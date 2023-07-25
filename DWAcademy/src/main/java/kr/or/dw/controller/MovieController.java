@@ -16,13 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.MovieViewerCommand;
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
@@ -38,6 +41,9 @@ public class MovieController {
 	
 	@Autowired
 	private MovieService movieService;
+	
+	@Autowired
+	private MemberService memberService;
 
 	@RequestMapping("/viewer")
 	public ModelAndView detail(ModelAndView mnv, String movie_cd, HttpSession session) throws SQLException{
@@ -338,4 +344,19 @@ public class MovieController {
 		return mnv;
 	}
 	
+}
+	@RequestMapping("/review")
+	public ModelAndView movieReview(ModelAndView mnv) throws SQLException {
+		String url = "/movie/review";
+		
+		List<Map<String, Object>> reviewList = movieService.getAllMovieReview();
+		System.out.println(reviewList.get(0).get("MOVIE_NAME"));
+		System.out.println(reviewList.get(0).get("MEM_ID"));
+		
+		
+		mnv.addObject("reviewList", reviewList);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
 }
