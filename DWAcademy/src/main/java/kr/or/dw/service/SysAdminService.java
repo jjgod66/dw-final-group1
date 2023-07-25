@@ -6,11 +6,13 @@ import java.util.Map;
 
 import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
+import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.TheaterVO;
 
 public interface SysAdminService {
@@ -121,5 +123,23 @@ public interface SysAdminService {
 
 	// 1:1 문의 게시글 목록 불러오기
 	Map<String, Object> selectQnaList(SearchCriteria cri) throws SQLException;
+
+	// 해당 1:1문의 게시글 불러오기
+	QnaVO selectQnaByQue_no(int que_no) throws SQLException;
+
+	// 해당 1:1문의 게시글 답변 불러오기
+	AnswerVO selectAnsByQue_no(int que_no) throws SQLException;
+
+	// 해당 1:1문의 게시글의 답변 등록하기
+	void registAns(AnswerVO ans) throws SQLException;
+
+	// 해당 1:1문의 게시글의 답변 수정하기
+	void modifyAns(AnswerVO ans) throws SQLException;
+
+	// 해당 이벤트 목록을 불러오기
+	Map<String, Object> selectEventList(SearchCriteria cri) throws SQLException;
+
+	// 이벤트 메인페이지 각 이벤트 목록을 불러오기
+	Map<String, Object> selectEventListForMain() throws SQLException; 
 
 }

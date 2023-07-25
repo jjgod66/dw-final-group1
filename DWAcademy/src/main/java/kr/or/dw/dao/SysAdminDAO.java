@@ -9,6 +9,8 @@ import org.apache.ibatis.session.RowBounds;
 
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.AdminVO;
+import kr.or.dw.vo.AnswerVO;
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
@@ -158,5 +160,33 @@ public interface SysAdminDAO {
 
 	// 해당하는 1:1문의 게시글의 총 개수를 불러온다.
 	int selectSearchQnaListCount(SearchCriteria cri) throws SQLException;
+
+	// 해당 1:1문의 게시글 불러오기
+	QnaVO selectQnaByQue_no(int que_no) throws SQLException;
+
+	// 해당 1:1문의 게시글 답변 불러오기
+	AnswerVO selectAnsByQue_no(int que_no) throws SQLException;
+
+	// 해당 1:1문의 게시글의 답변 등록하기
+	void insertAns(AnswerVO ans) throws SQLException;
+
+	// 해당 1:1문의 게시글의 답변 수정하기
+	void updateAns(AnswerVO ans) throws SQLException;
+
+	// 이벤트 게시글 목록 불러오기
+	List<EventVO> selectEventList(SearchCriteria cri) throws SQLException;
+
+	// 해당하는 이벤트 게시글의 총 개수를 불러온다.
+	int selectSearchEventListCount(SearchCriteria cri) throws SQLException;
+
+	// 영화관련 진행중 이벤트 4개를 불러온다.
+	List<EventVO> selectmovEventList() throws SQLException;
+
+	// 영화관관련 진행중 이벤트 4개를 불러온다.
+	List<EventVO> selectThrEventList() throws SQLException;
+
+	// 시사회/무대인사관련 진행중 이벤트 4개를 불러온다.
+	List<EventVO> selectactorEventList() throws SQLException;
+
 	
 }

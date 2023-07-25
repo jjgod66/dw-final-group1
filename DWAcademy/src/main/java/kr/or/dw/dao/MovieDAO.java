@@ -240,4 +240,11 @@ public interface MovieDAO {
 	 */
 	List<Map<String, Object>> getAllMovieReview() throws SQLException;
 
+	/**
+	 * 영화 평균 평점 가져오는 메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	double selectMovieRateAvg(String movie_cd) throws SQLException;
+
 }

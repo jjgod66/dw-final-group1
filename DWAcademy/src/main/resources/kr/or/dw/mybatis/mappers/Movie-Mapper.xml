@@ -344,4 +344,9 @@
 		where mem_cd = #{mem_cd}
 	</select>
 	
+	<select id="selectMovieRateAvg" resultType="double">
+		SELECT nvl(ROUND(avg(review_rating), 3),0)
+		FROM review
+		WHERE movie_cd = #{movie_cd}
+	</select>
 </mapper>

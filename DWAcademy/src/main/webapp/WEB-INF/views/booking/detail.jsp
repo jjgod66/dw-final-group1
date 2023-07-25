@@ -104,7 +104,7 @@
                         <span>남은좌석</span> <span>${screen.remainSeat}</span>/<span class="all-seats">${screen.houseVO.house_row*screen.houseVO.house_column}</span>
                     </div>
                     <p class="poster">
-                        <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${screen.movieVO.movie_mainpic_path }&movie_cd=${screen.movieVO.movie_cd }&type=p">
+                        <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${screen.movieVO.movie_mainpic_path }&item_cd=${screen.movieVO.movie_cd }&type=moviePoster">
                     </p>
                 </div>
                 <div class="reserve-number-wrapper">

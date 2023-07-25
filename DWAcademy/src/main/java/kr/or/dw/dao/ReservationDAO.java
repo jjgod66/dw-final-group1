@@ -136,4 +136,11 @@ public interface ReservationDAO {
 	 */
 	void useMemPoint(PointVO point) throws SQLException;
 
+	/**
+	 * 회원 선호극장 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<String> selectMemLikeThr(String mem_cd) throws SQLException;
+
 }

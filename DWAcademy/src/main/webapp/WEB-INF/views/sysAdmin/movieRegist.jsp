@@ -189,6 +189,7 @@ table th {
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
 			<jsp:param value="${item2 }" name="item2" />
+			<jsp:param value="${url }" name="url" />
 		</jsp:include>
 		<div class="s_wrap">
 			<form enctype="multipart/form-data" role="form" name="registForm">

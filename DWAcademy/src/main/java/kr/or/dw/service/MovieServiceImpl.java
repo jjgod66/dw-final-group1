@@ -314,6 +314,26 @@ public class MovieServiceImpl implements MovieService{
 		return movieDAO.getAllMovieReview();
 	}
 
+	public List<MoviePreviewVO> getMoviePreview(String movie_cd) throws SQLException {
+		List<MoviePreviewVO> moviePreList = null;
+		moviePreList = movieDAO.selectMoviePreview(movie_cd);
+		return moviePreList;
+	}
+
+	@Override
+	public List<MoviePictureVO> getMoviePicture(String movie_cd) throws SQLException {
+		List<MoviePictureVO> moviePicList = null;
+		moviePicList = movieDAO.selectMoviePicture(movie_cd);
+		return moviePicList;
+	}
+
+	@Override
+	public double getMovieRateAvg(String movie_cd) throws SQLException {
+		double movie_rate_avg = 0.0;
+		movie_rate_avg = movieDAO.selectMovieRateAvg(movie_cd);
+		
+		return movie_rate_avg;
+	}
 
 
 }

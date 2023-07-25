@@ -1,6 +1,8 @@
 <%@page import="kr.or.dw.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="../include/header.jsp"%>
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 
@@ -515,6 +517,9 @@ tr {
     border-bottom: 1px solid #ebebeb;
     text-align: center;
 }
+.theater-list .theater-type-box .theater-time .time-list-table tbody tr td:hover {
+    background-color: #ebebeb;
+}
 
 .theater-list .theater-type-box .theater-time .time-list-table tbody tr td .td-ab {
     width: 100%;
@@ -564,7 +569,9 @@ tr {
     border-bottom: 0;
 }
 
-
+a {
+	color : black;
+}
 </style>
 <%
 	String mem_cd = "";
@@ -575,7 +582,6 @@ tr {
 %>
 
 <div id="contents" class="no-padding">
-
 	<div class="sub_visual theater-detail-page">
 	    <h3>${theater.thr_name }</h3>
 	    <button type="button" class="btn btn-like click" style="margin: 20px auto;">
@@ -606,54 +612,73 @@ tr {
                 <div class="swiper-button-prev"></div>
             </div>
 		</div>
-		<div class="theater-list">
-			<div class="theater-tit">
-				<p class="movie-grade age-15"></p>
-				<p>
-					<a href="/movie-detail?rpstMovieNo=23048900"
-						title="미션 임파서블: 데드 레코닝 PART ONE 상세보기">미션 임파서블: 데드 레코닝 PART ONE</a>
-				</p>
-				<p class="infomation">
-					<span>상영중</span>/상영시간 163분
-				</p>
-			</div>
-			<div class="theater-type-box">
-				<div class="theater-type">
-					<p class="theater-name">1관</p>
-					<p class="chair">총 232석</p>
+		<div id="movieShow">
+			<c:if test="${empty allScreenList }">
+				<div class="theater-list" style="text-align: center; margin: 20px 0;">
+				해당 날짜에 상영하는 영화가 없습니다.
 				</div>
-				<div class="theater-time">
-					<div class="theater-time-box">
-						<table class="time-list-table">
-							<tbody>
-								<tr>
-									<td class="">
-										<div class="td-ab">
-											<div class="txt-center">
-												<a href="" title="영화예매하기">
-													<div class="ico-box">
-														<i class="iconset ico-off"></i>
-													</div>
-														<p>2D/더빙</p>
-													<p class="time">19:20</p>
-													<p class="chair">168석</p>
-													<div class="play-time">
-													</div>
-												</a>
-											</div>
-										</div>
-									</td>
-									
-								</tr>
-							</tbody>
-						</table>
+			</c:if>
+			<c:forEach items="${allScreenList }" var="movie">
+				<div class="theater-list">
+					<div class="theater-tit">
+						<div style="display: inline; float: left; margin-right: 10px;">
+					 	<c:if test="${movie[0][0].MOVIE_GRADE  eq '전체 관람가'}"><img src="../../resources/img/moviegrade/ALL.png" style="width: 23px; height: 23px;"></c:if>
+	                    <c:if test="${movie[0][0].MOVIE_GRADE eq '12세 관람가'}"><img src="../../resources/img/moviegrade/12.png" style="width: 23px; height: 23px;"></c:if>
+	                    <c:if test="${movie[0][0].MOVIE_GRADE eq '15세 관람가'}"><img src="../../resources/img/moviegrade/15.png" style="width: 23px; height: 23px;"></c:if>
+	                    <c:if test="${movie[0][0].MOVIE_GRADE eq '청소년 관람불가'}"><img src="../../resources/img/moviegrade/18.png" style="width: 23px; height: 23px;"></c:if>
+						</div>
+	<!-- 					<p class="movie-grade age-15"></p> -->
+						<p>
+							<a href="<%=request.getContextPath()%>/movie/viewer.do?movie_cd=${movie[0][0].MOVIE_CD }">${movie[0][0].MOVIE_NAME }</a>
+						</p>
+						<p class="infomation">
+							상영시간 ${movie[0][0].MOVIE_LENGTH }분
+						</p>
 					</div>
+					<c:forEach items="${movie }" var="house">
+						<div class="theater-type-box">
+								<div class="theater-type">
+									<p class="theater-name">${house[0].HOUSE_NAME }</p>
+									<p class="chair">총 ${house[0].HOUSE_ROW * house[0].HOUSE_COLUMN } 석</p>
+								</div>
+							<div class="theater-time">
+								<div class="theater-time-box">
+									<table class="time-list-table">
+										<tbody>
+											<tr>
+												<c:forEach items="${house }" var="screen">
+													<td>
+														<div class="td-ab">
+															<div class="txt-center">
+																<a href="javascript:screenDetail('${screen.SCREEN_CD}');" title="영화예매하기">
+																	<div class="ico-box">
+																		<i class="iconset ico-off"></i>
+																	</div>
+																		<p>
+																		<c:if test="${screen.MOVIE_TYPE_DES eq '없음/2D'}">2D</c:if>
+																		<c:if test="${screen.MOVIE_TYPE_DES eq '없음/3D'}">3D</c:if>
+																		<c:if test="${screen.MOVIE_TYPE_DES ne '없음/2D' and screen.MOVIE_TYPE_DES ne '없음/3D'}">${screen.MOVIE_TYPE_DES }</c:if>
+																		</p>
+																	<p class="time"><fmt:formatDate value="${screen.STARTDATE }" pattern="HH:mm"/></p>
+																	<p class="chair">${screen.HOUSE_ROW * screen.HOUSE_COLUMN - screen.RESERVER } 석</p>
+																	<div class="play-time">
+																	</div>
+																</a>
+															</div>
+														</div>
+													</td>
+												</c:forEach>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+		
 				</div>
-			</div>
-
-
+			</c:forEach>
 		</div>
-
 	</div>
 </div>
 
@@ -662,6 +687,23 @@ tr {
 let mem_cd = '<%=mem_cd%>';
 let thr_name = '${theater.thr_name}';
 $(function(){
+	$('#swiper-wrapper').on('click', '.btnDay', function(){
+		let date = $(this).data('dt');
+		
+		$.ajax({
+			url : '<%=request.getContextPath()%>/theater/scheduleDay.do',
+			method : 'post',
+			data : {"date" : date, "thr_name" : thr_name},
+			success : function(res){
+				console.log(res);
+				scheduleSetting(res);
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
+
 	if(mem_cd != ''){
 		
 		$.ajax({
@@ -712,6 +754,107 @@ $(function(){
 	})
 })
 
+function scheduleSetting(res){
+	let app = '';
+	
+	for(let i = 0; i < res.length; i++){
+		app += '<div class="theater-list">';
+		app += '<div class="theater-tit">';
+		app += 	'<div style="display: inline; float: left; margin-right: 10px;">'
+		if(res[i][0][0].MOVIE_GRADE == '전체 관람가'){
+			app += '<img src="../../resources/img/moviegrade/ALL.png" style="width: 23px; height: 23px;">';
+		}else if(res[i][0][0].MOVIE_GRADE == '12세 관람가'){
+			app += '<img src="../../resources/img/moviegrade/12.png" style="width: 23px; height: 23px;">';
+		}else if(res[i][0][0].MOVIE_GRADE == '15세 관람가'){
+			app += '<img src="../../resources/img/moviegrade/15.png" style="width: 23px; height: 23px;">';
+		}else{
+			app += '<img src="../../resources/img/moviegrade/18.png" style="width: 23px; height: 23px;">';
+		}
+		app += '</div>';	
+		app += '<p>';
+		app += '<a href="<%=request.getContextPath()%>/movie/viewer.do?movie_cd=' + res[i][0][0].MOVIE_CD + '">' + res[i][0][0].MOVIE_NAME + '</a>';
+		app += '</p>';
+		app += '<p class="infomation">';
+		app += '상영시간 ' + res[i][0][0].MOVIE_LENGTH + '분';
+		app += '</p>';
+		app += '</div>';	
+		
+		for(let j = 0; j < res[i].length; j++){
+			app += '<div class="theater-type-box">';
+			app += '<div class="theater-type">';
+			app += '<p class="theater-name">' + res[i][j][0].HOUSE_NAME + '</p>';
+			app += '<p class="chair">총 ' + res[i][j][0].HOUSE_ROW * res[i][j][0].HOUSE_COLUMN + ' 석</p>';
+			app += '</div>';
+			app += '<div class="theater-time">';
+			app += '<div class="theater-time-box">';
+			app += '<table class="time-list-table">';
+			app += '<tbody>';
+			app += '<tr>';
+			for(let k = 0; k < res[i][j].length; k++){
+				app += '<td>';
+				app += '<div class="td-ab">';
+				app += '<div class="txt-center">';
+				app += '<a href="javascript:screenDetail(\'' + res[i][j][k].SCREEN_CD + '\');" title="영화예매하기">';
+				app += '<div class="ico-box">';
+				app += '<i class="iconset ico-off"></i>';
+				app += '</div>';
+				app += '<p>';
+				if(res[i][j][k].MOVIE_TYPE_DES == '없음/2D'){
+					app += '2D';
+				}else if(res[i][j][k].MOVIE_TYPE_DES == '없음/3D'){
+					app += '3D';
+				}else{
+					app += res[i][j][k].MOVIE_TYPE_DES;
+				}
+				app += '</p>';
+				let date = new Date(res[i][j][k].STARTDATE);
+				let hour = date.getHours();
+				if(hour < 10){
+					hour = '0' + hour;
+				}
+				let min = date.getMinutes();
+				if(min < 10){
+					min = '0' + min;
+				}
+				app += '<p class="time">' + hour + ':' + min + '</p>';
+				let reSeats = res[i][j][k].HOUSE_ROW * res[i][j][k].HOUSE_COLUMN;
+				if(res[i][j][k].RESERVER > 0){
+					reSeats -= res[i][j][k].RESERVER;
+				}
+				app += '<p class="chair">' + reSeats + ' 석</p>';
+				app += '<div class="play-time">';
+				app += '</div>';
+				app += '</a>';
+				app += '</div>';
+				app += '</div>';
+				app += '</td>';
+				
+			}
+			app += '</tr>';
+			app += '</tbody>';
+			app += '</table>';
+			app += '</div>';
+			app += '</div>';
+			app += '</div>';
+		}
+	 app += '</div>';
+	}
+	if(res.length == 0){
+		app += '<div class="theater-list" style="text-align: center; margin: 20px 0;">';
+		app += '해당 날짜에 상영하는 영화가 없습니다';
+		app += '</div>';
+	}
+$('#movieShow').html(app);
+}
+
+function screenDetail(screen_cd){
+	if(mem_cd == ''){
+		alert("로그인이 필요합니다.");
+		return;
+	}
+	location.href="<%=request.getContextPath()%>/reservation/detail.do?screen_cd=" + screen_cd;
+}
+
 // 요일 한글로 변환 함수
 function getKoreanDayOfWeek(dayOfWeek) {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
@@ -741,7 +884,7 @@ while (currentDate <= endDate) {
 
   // 태그 생성
   var tag = '<div class="swiper-slide" style="width: 113.75px; margin-right: 10px;">' +
-                '<a href="#" class="btnDay ' + isDisabled + ' ' + isActive + '" data-dt="' + currentDate.toISOString().split('T')[0] + '">' +
+                '<a href="#" class="btnDay ' + isDisabled + ' ' + isActive + '" data-dt="' + currentDate.toISOString().split('T')[0].replace('-', '').replace('-', '') + '">' +
                     '<div class="time">' +
                         '<strong>' + day + '</strong>' +
                         '<p>' + koreanDayOfWeek + '</p>' +
@@ -763,17 +906,17 @@ wrapperElement.innerHTML = dateList.join('');
 // .btnMovie 클래스를 가진 모든 버튼 엘리먼트를 선택합니다.
 const btnMovies = document.querySelectorAll('.btnMovie');
 
-// 입력 요소를 선택합니다.
-const movieCdInput = document.querySelector('input[name="movieCd"]');
+// // 입력 요소를 선택합니다.
+// const movieCdInput = document.querySelector('input[name="movieCd"]');
 
-// 각 버튼에 대해 클릭 이벤트 리스너를 추가합니다.
-$('.cinema-click').click(function(event) {
-  // 클릭된 버튼의 data-moviecd 속성 값을 가져옵니다.
+// // 각 버튼에 대해 클릭 이벤트 리스너를 추가합니다.
+// $('.cinema-click').click(function(event) {
+//   // 클릭된 버튼의 data-moviecd 속성 값을 가져옵니다.
 
-  $('.cinema-click').removeClass('active');
-  $(this).addClass('active');
+//   $('.cinema-click').removeClass('active');
+//   $(this).addClass('active');
 
-});
+// });
 
 // btnDay 클래스 클릭 이벤트 처리
 var btnDayList = document.getElementsByClassName('btnDay');
@@ -799,20 +942,20 @@ for (var i = 0; i < btnDayList.length; i++) {
     // 클릭한 버튼에 active 클래스 추가
     this.classList.add('active');
 
-    // 선택된 날짜에 해당하는 데이터 가져오기
-    var selectedDate = this.dataset.dt;
+//     // 선택된 날짜에 해당하는 데이터 가져오기
+//     var selectedDate = this.dataset.dt;
 
-    // 데이터를 갖고 있는 input 요소 가져오기
-    var movieDay = document.querySelector('input[name="movieDay"]');
-    if (movieDay) {
-      // 선택된 날짜 값을 input 요소의 value로 설정
-      movieDay.value = selectedDate;
-    }
+//     // 데이터를 갖고 있는 input 요소 가져오기
+//     var movieDay = document.querySelector('input[name="movieDay"]');
+//     if (movieDay) {
+//       // 선택된 날짜 값을 input 요소의 value로 설정
+//       movieDay.value = selectedDate;
+//     }
 
-    // 각 극장에 대한 예매 시간 생성
-    for (var theaterNumber = 1; theaterNumber <= 4; theaterNumber++) {
-      createMovieTimes(theaterNumber, selectedDate);
-    }
+//     // 각 극장에 대한 예매 시간 생성
+//     for (var theaterNumber = 1; theaterNumber <= 4; theaterNumber++) {
+//       createMovieTimes(theaterNumber, selectedDate);
+//     }
   });
 }
 
@@ -856,10 +999,10 @@ var currentTime = new Date();
 var currentDateString = new Date().toISOString().split("T")[0];
 
 
-// 초기 페이지 로드 시 오늘 날짜로 예매 시간 생성
-for (var theaterNumber = 1; theaterNumber <= 4; theaterNumber++) {
-  createMovieTimes(theaterNumber, currentDateString);
-}
+// // 초기 페이지 로드 시 오늘 날짜로 예매 시간 생성
+// for (var theaterNumber = 1; theaterNumber <= 4; theaterNumber++) {
+//   createMovieTimes(theaterNumber, currentDateString);
+// }
 
 </script>
 <%@ include file="../include/footer.jsp"%>

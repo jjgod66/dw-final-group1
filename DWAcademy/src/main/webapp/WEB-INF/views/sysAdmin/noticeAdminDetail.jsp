@@ -46,8 +46,9 @@ textarea:focus {
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
 			<jsp:param value="${item2 }" name="item2" />
+			<jsp:param value="${url }" name="url" />
 		</jsp:include>
-		<div class="card">
+		<div class="card" style="margin : 0 0.5rem;">
 			<form name="form" method="post">
 			<div class="card-header">
 				<c:choose>
@@ -61,13 +62,16 @@ textarea:focus {
 					</c:when>
 				</c:choose>
 			</div>
-			<div class="card-body text-center">
+			<div class="card-body">
 				<c:choose>
 					<c:when test="${type eq 'read' }">
-						<textarea name="notice_content_before" id="notice_content_before" rows="10" cols="150" style="resize:none; border:none;" readonly>${notice.notice_content }</textarea>
+						<div id="notice_content_before" id="notice_content_before">${notice.notice_content }</div>
+						<div id="hideDiv" style="display: none;">
+							<textarea name="notice_content" id="notice_content" class="summernote">${notice.notice_content }</textarea>
+						</div>
 					</c:when>
 					<c:when test="${type eq 'create' }">
-						<textarea rows="10" cols="150" name="notice_content"  placeholder="내용을 입력하세요" style="resize:none;"></textarea>
+						<textarea name="notice_content" id="notice_content" class="summernote"></textarea>
 					</c:when>
 				</c:choose>
 			</div>
@@ -88,8 +92,7 @@ textarea:focus {
 </div>
 <script>
 window.onload = function(){
-	SmartEditor_summernote($('#notice_content'));
-	
+	let modifyBoard = $('<div id="displaynone" style="display: none;"><textarea name="notice_content" id="notice_content" class="summernote">${notice.notice_content }</textarea></div>');
 	// 수정버튼 클릭시
 	$('#modifyCertifyBtn').on('click', function(){
 		$(this).remove();
@@ -98,8 +101,8 @@ window.onload = function(){
 		$('#notice_title_before').html(titleInput);
 		
 		let content = $('#notice_content_before').text();
-		let contentInput = $('<textarea rows="10" cols="150" name="notice_content" style="resize:none;">').val(content);
-		$('.card-body').html(contentInput);
+		$('#notice_content_before').remove();
+		$('#hideDiv').show();
 		
 		$('.card-footer').prepend('<button class="btn_medium" id="modifyBtn">수정완료</button>  <button class="btn_medium" id="deleteBtn">삭제하기</button>');
 	});
@@ -128,11 +131,32 @@ window.onload = function(){
 	});
 	// 뒤로가기버튼 클릭시
 	$('#cancelBtn').on('click', function(){
-		history.go(-1);
+		location.href='noticeAdminMain.do';
 	});
 	
 }
 	
 </script>
-<%@ include file="../common/summernote.jsp" %>
+<script>
+// summernote
+summernote();
+function summernote () {
+	$('.summernote').summernote({
+		lang: 'ko-KR',
+		height: 300,
+		fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+		toolbar: [
+	// 		[groupName, [list of button]]
+			['fontname', ['fontname']],
+			['fontsize', ['fontsize']],
+			['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+			['color', ['forecolor','color']],
+			['table', ['table']],
+			['para', ['ul', 'ol', 'paragraph']],
+			['height', ['height']],
+			]
+	});
+}
+</script>
 <%@ include file="sysAdminFooter.jsp" %>

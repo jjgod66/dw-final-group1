@@ -8,6 +8,8 @@ import javax.servlet.http.HttpSession;
 
 import kr.or.dw.command.MovieViewerCommand;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.MoviePictureVO;
+import kr.or.dw.vo.MoviePreviewVO;
 import kr.or.dw.vo.ReviewVO;
 
 
@@ -154,5 +156,24 @@ public interface MovieService {
 	 * @return
 	 */
 	List<Map<String, Object>> getAllMovieReview() throws SQLException;
+	 * 영화 예고편 목록 가져오는 메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	List<MoviePreviewVO> getMoviePreview(String movie_cd) throws SQLException;
+
+	/**
+	 * 영화 사진 목록 가져오는 메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	List<MoviePictureVO> getMoviePicture(String movie_cd) throws SQLException;
+
+	/**
+	 * 해당 영화 평균 평점 가져오는 메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	double getMovieRateAvg(String movie_cd) throws SQLException;
 
 }

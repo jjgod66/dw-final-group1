@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../include/header.jsp" %>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" type="text/css" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+<script src="https://fengyuanchen.github.io/cropper/js/cropper.js"></script>
 <%@ include file="photo_modal2.jsp" %>
 <style>
 .photocontainer {
@@ -75,6 +75,14 @@
 </div>
 
 <script>
+function inputfileclick(){
+	$('#inputfile').click();
+}
+
+function photomodal(){
+$('#photo-modal').modal('show');
+}
+
 var cropper;
 	$(function(){
 		$('#inputfile').on('change', function(){
@@ -87,7 +95,16 @@ var cropper;
 			 	var reader = new FileReader(); 
 			 	reader.onload = function(event) { 
 			 		image.attr("src", event.target.result);
-// 			     cropper = image.cropper( {
+			     cropper = image.cropper( {
+	        			dragMode: 'move',
+	        			viewMode:1,
+	        			aspectRatio: 0.647,
+	                    });
+			     }; 
+			 	reader.readAsDataURL(event.target.files[0]);
+			 	$('#photo-modal').modal('show');
+			 	
+// 			 	cropper = image.cropper( {
 // 	        			dragMode: 'move',
 // 	        			viewMode:1,
 // 	        			aspectRatio: 1,
@@ -101,63 +118,52 @@ var cropper;
 // 	                    cropBoxResizable: false,
 // 	                    toggleDragModeOnDblclick: false
 // 	                    });
-			     }; 
-			 	reader.readAsDataURL(event.target.files[0]);
-			 	$('#photo-modal').modal('show');
+
 			 	
 		})
 		
 		
-		$('#photo-modal').on('show-bd-modal', function(){
-			var image = document.querySelector('#image');
-		      var minAspectRatio = 0.5;
-		      var maxAspectRatio = 1.5;
-		      var cropper = new Cropper(image, {
-		        ready: function () {
-		          var cropper = this.cropper;
-		          var containerData = cropper.getContainerData();
-		          var cropBoxData = cropper.getCropBoxData();
-		          var aspectRatio = cropBoxData.width / cropBoxData.height;
-		          var newCropBoxWidth;
+// 		$('#photo-modal').on('show-bd-modal', function(){
+// 			var image = document.querySelector('#image');
+// 		      var minAspectRatio = 0.5;
+// 		      var maxAspectRatio = 1.5;
+// 		      var cropper = new Cropper(image, {
+// 		        ready: function () {
+// 		          var cropper = this.cropper;
+// 		          var containerData = cropper.getContainerData();
+// 		          var cropBoxData = cropper.getCropBoxData();
+// 		          var aspectRatio = cropBoxData.width / cropBoxData.height;
+// 		          var newCropBoxWidth;
 
-		          if (aspectRatio < minAspectRatio || aspectRatio > maxAspectRatio) {
-		            newCropBoxWidth = cropBoxData.height * ((minAspectRatio + maxAspectRatio) / 2);
+// 		          if (aspectRatio < minAspectRatio || aspectRatio > maxAspectRatio) {
+// 		            newCropBoxWidth = cropBoxData.height * ((minAspectRatio + maxAspectRatio) / 2);
 
-		            cropper.setCropBoxData({
-		              left: (containerData.width - newCropBoxWidth) / 2,
-		              width: newCropBoxWidth
-		            });
-		          }
-		        },
+// 		            cropper.setCropBoxData({
+// 		              left: (containerData.width - newCropBoxWidth) / 2,
+// 		              width: newCropBoxWidth
+// 		            });
+// 		          }
+// 		        },
 
-		        cropmove: function () {
-		          var cropper = this.cropper;
-		          var cropBoxData = cropper.getCropBoxData();
-		          var aspectRatio = cropBoxData.width / cropBoxData.height;
+// 		        cropmove: function () {
+// 		          var cropper = this.cropper;
+// 		          var cropBoxData = cropper.getCropBoxData();
+// 		          var aspectRatio = cropBoxData.width / cropBoxData.height;
 
-		          if (aspectRatio < minAspectRatio) {
-		            cropper.setCropBoxData({
-		              width: cropBoxData.height * minAspectRatio
-		            });
-		          } else if (aspectRatio > maxAspectRatio) {
-		            cropper.setCropBoxData({
-		              width: cropBoxData.height * maxAspectRatio
-		            });
-		          }
-		        },
-		      });
-		})
+// 		          if (aspectRatio < minAspectRatio) {
+// 		            cropper.setCropBoxData({
+// 		              width: cropBoxData.height * minAspectRatio
+// 		            });
+// 		          } else if (aspectRatio > maxAspectRatio) {
+// 		            cropper.setCropBoxData({
+// 		              width: cropBoxData.height * maxAspectRatio
+// 		            });
+// 		          }
+// 		        },
+// 		      });
+// 		})
 	})
 	
 	
-function inputfileclick(){
-		$('#inputfile').click();
-		
-	}
-function photomodal(){
-	$('#photo-modal').modal('show');
-		
-		
-}
 </script>
 <%@include file="../include/footer.jsp" %>
