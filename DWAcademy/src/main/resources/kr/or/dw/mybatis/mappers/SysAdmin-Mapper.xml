@@ -694,4 +694,59 @@
 		  		)
 		  WHERE ROWNUM <![CDATA[<=]]> 4			
 	</select>
+	
+	<insert id="insertEvent">
+		INSERT INTO event
+		            (
+		           	 event_no
+		           	,relate_cd
+		           	,event_div
+		           	,startdate
+		           	,enddate
+		           	,event_title
+		           	,event_content
+		           	,event_pic_path
+		           	,regdate
+		           	,event_thum_path
+		            )
+		     VALUES (
+		     		 event_seq.nextval
+		     		,#{relate_cd}
+		     		,#{event_div}
+		     		,#{startdate}
+		     		,#{enddate}
+		     		,#{event_title}
+		     		,#{event_content}
+		     		,#{event_pic_path}
+		     		,SYSDATE
+		     		,#{event_thum_path}
+		      		)      
+ 		<selectKey resultType="int" keyProperty="event_no" order="AFTER">
+			select event_seq.currval from dual
+		</selectKey>
+	</insert>
+	
+	<select id="selectEventByEvent_no" resultType="event">
+		SELECT *
+		  FROM event
+		 WHERE event_no = #{event_no}
+	</select>
+	
+	<update id="updateEventContent">
+		UPDATE event
+		   SET event_content = #{newContent} 
+		 WHERE event_no = #{event_no}
+	</update>
+	
+	<update id="updateEvent">
+		UPDATE event
+		   SET relate_cd = #{relate_cd}
+		      ,event_div = #{event_div}
+		      ,enddate = #{enddate}
+		      ,event_title = #{event_title}
+		      ,event_content = #{event_content}
+		      ,event_pic_path = #{event_pic_path}
+		      ,event_thum_path = #{event_thum_path}
+		 WHERE event_no = #{event_no}
+	</update>
 </mapper>

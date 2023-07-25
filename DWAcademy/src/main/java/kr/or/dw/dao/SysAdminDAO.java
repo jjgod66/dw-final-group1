@@ -188,5 +188,16 @@ public interface SysAdminDAO {
 	// 시사회/무대인사관련 진행중 이벤트 4개를 불러온다.
 	List<EventVO> selectactorEventList() throws SQLException;
 
+	// 이벤트 등록하기
+	void insertEvent(EventVO event) throws SQLException;
+
+	// 해당하는 이벤트 게시글 조회
+	EventVO selectEventByEvent_no(int event_no) throws SQLException;
+
+	// 이벤트 게시글 이미지 경로 수정
+	void updateEventContent(Map<String, Object> modifyEventContentMap) throws SQLException;
+
+	// 해당하는 이벤트 게시글 수정
+	void updateEvent(EventVO event) throws SQLException;
 	
 }

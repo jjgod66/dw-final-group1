@@ -656,7 +656,7 @@ button:hover {
 <script>
 window.onload = function() {
 	  let list = ${allRe};
-	  for (let a = 0; a < list[a].TCOUNT; a++) {
+	  for (let a = 0; a < list.length; a++) {
 	    var startTime = list[a].STARTTIME; // 예시: "08:00"
 	    var endTime = list[a].ENDTIME; // 예시: "09:49"
 	    var startHour = parseInt(startTime.substring(0, 2));

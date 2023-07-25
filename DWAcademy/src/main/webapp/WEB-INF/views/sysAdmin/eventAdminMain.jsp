@@ -77,7 +77,7 @@
 			</div>
 			<div>
 				<div>
-					<div class="row mt-2 mb-2"><div class="col-md-2 text-end" style="margin-left: auto;"><button class="btn_medium">이벤트 등록</button></div></div>
+					<div class="row mt-2 mb-2"><div class="col-md-2 text-end" style="margin-left: auto;"><button class="btn_medium" id="registBtn">이벤트 등록</button></div></div>
 					<div class="eventTypeHeader">
 						<span class="typeName">영화</span>
 						<span class="float-end moreBtn" data-searchType="영화">더보기 ></span>
@@ -86,7 +86,9 @@
 						<c:forEach items="${movEventList}" var="event">
 							<div class="col-md-3">
 								<div class="card text-center" style="width: 18rem;">
-									<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+									<a href="/sysAdmin/eventAdminDetail?type=read&event_no=${event.event_no }">
+										<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+									</a>
 									<div class="card-body">
 										<h3 class="card-title">${event.event_title }</h3>
 										<p class="card-text"><fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/></p>
@@ -105,7 +107,9 @@
 						<c:forEach items="${thrEventList}" var="event">
 							<div class="col-md-3">
 								<div class="card text-center" style="width: 18rem;">
-									<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+									<a href="/sysAdmin/eventAdminDetail?type=read&event_no=${event.event_no }">
+										<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+									</a>
 									<div class="card-body">
 										<h3 class="card-title">${event.event_title }</h3>
 										<p class="card-text"><fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/></p>
@@ -124,7 +128,9 @@
 						<c:forEach items="${actorEventList}" var="event">
 							<div class="col-md-3">
 								<div class="card text-center" style="width: 18rem;">
-									<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+									<a href="/sysAdmin/eventAdminDetail?type=read&event_no=${event.event_no }">
+										<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+									</a>
 									<div class="card-body">
 										<h3 class="card-title">${event.event_title }</h3>
 										<p class="card-text"><fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/></p>
@@ -153,6 +159,9 @@
 		$('select[name="searchType"] option[value="'+ searchType +'"]').prop('selected', true);
 		$('input[name="keyword"]').val('');
 		searchList_go(1, 'eventAdminTypeMain.do');
+	});
+	$('#registBtn').on('click', function(){
+		location.href='eventAdminDetail.do?type=create';
 	});
 </script>    
 <%@ include file="sysAdminFooter.jsp"%>
