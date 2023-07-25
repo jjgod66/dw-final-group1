@@ -158,7 +158,8 @@ public interface MovieService {
 	 * @return
 	 */
 	List<Map<String, Object>> getAllMovieReview() throws SQLException;
-	 * 영화 예고편 목록 가져오는 메서드
+	
+	/** 영화 예고편 목록 가져오는 메서드
 	 * @param movie_cd
 	 * @return
 	 */
