@@ -344,7 +344,6 @@ public class MovieController {
 		return mnv;
 	}
 	
-}
 	@RequestMapping("/review")
 	public ModelAndView movieReview(ModelAndView mnv) throws SQLException {
 		String url = "/movie/review";
