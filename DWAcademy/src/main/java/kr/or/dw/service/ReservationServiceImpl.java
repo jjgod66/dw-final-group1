@@ -183,9 +183,7 @@ public class ReservationServiceImpl implements ReservationService{
 			}
 		}
 		
-		System.out.println("resultSer1");
 		PayDetailVO payDetail = reservationDAO.selectPayDetailByMUID(merchant_uid);
-		System.out.println("resultSer2");
 		
 		
 		int pay_amount = 0;
@@ -195,12 +193,46 @@ public class ReservationServiceImpl implements ReservationService{
 			pay_amount = payDetail.getPaid_amount();
 			receipt_url = payDetail.getReceipt_url();
 		}
-		System.out.println("resultSer3");
 		
+		int adult = 0;
+		int teen = 0;
+		int prefer = 0;
+		for(int i = 0; i < resList.size(); i ++) {
+			if(resList.get(i).getMem_cat().equals("성인")) {
+				adult += 1;
+			}else if(resList.get(i).getMem_cat().equals("청소년")) {
+				teen += 1;
+			}else {
+				prefer += 1;
+			}
+		}
+		String mem_cat = "";
+		if(adult > 0) {
+			mem_cat += "성인 " + adult + "명";
+			if(teen > 0) {
+				mem_cat += ", 청소년 " + teen + "명";
+				if(prefer > 0) {
+					mem_cat += ", 우대 " + prefer + "명";
+				}
+			}else{
+				mem_cat += ", 우대 " + prefer + "명";
+			}
+			
+		}else if(teen > 0) {
+			mem_cat += "청소년 " + teen + "명";
+			if(prefer > 0) {
+				mem_cat += ", 우대 " + prefer + "명";
+			}
+		}else{
+			mem_cat += "우대 " + prefer + "명";
+		}
+		
+		mapData.put("reservation", resList.get(0));
+		mapData.put("payDetail", payDetail);
 		mapData.put("paid_amount", pay_amount);
 		mapData.put("receipt_url", receipt_url);
 		mapData.put("res_seats", res_seats);
-		mapData.put("mem_cat", resList.get(0).getMem_cat());
+		mapData.put("mem_cat", mem_cat);
 		return mapData;
 	}
 
@@ -238,11 +270,11 @@ public class ReservationServiceImpl implements ReservationService{
 
 	@Override
 	public Map<String, String> getResSMSInfo(String merchant_uid) throws SQLException {
-		Map<String, Object> SMSInfoAll = null;
+		List<Map<String, Object>> SMSInfoAll = null;
 		SMSInfoAll = reservationDAO.selectResSMSInfo(merchant_uid);
-		String stMemPhone = (String) SMSInfoAll.get("MEM_PHONE");
-		String movie_name = (String) SMSInfoAll.get("MOVIE_NAME");
-		Date Dstartdate = (Date) SMSInfoAll.get("STARTDATE");
+		String stMemPhone = (String) SMSInfoAll.get(0).get("MEM_PHONE");
+		String movie_name = (String) SMSInfoAll.get(0).get("MOVIE_NAME");
+		Date Dstartdate = (Date) SMSInfoAll.get(0).get("STARTDATE");
 		
 		Map<String, String> SMSInfo = new HashMap<>();
 		

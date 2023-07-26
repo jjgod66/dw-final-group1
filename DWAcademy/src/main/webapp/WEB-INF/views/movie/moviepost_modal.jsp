@@ -1,52 +1,38 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
-HTML CSSResult Skip Results Iframe
-EDIT ON
-@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
-       .rate { display: inline-block;border: 0;margin-right: 15px;}
-.rate > input {display: none;}
-.rate > label {float: right;color: #ddd}
-.rate > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005 ";}
-.rate .half:before {content: "\f089 "; position: absolute;padding-right: 0;}
-.rate input:checked ~ label, 
-.rate label:hover,.rate label:hover ~ label { color: #f73c32 !important;  } 
-.rate input:checked + .rate label:hover,
-.rate input input:checked ~ label:hover,
-.rate input:checked ~ .rate label:hover ~ label,  
-.rate label:hover ~ input:checked ~ label { color: #f73c32 !important;  }
 
-#moviepost_modal .modal-content{
+#moviepost-modal .modal-content{
     border-radius: 0.7rem;
 }
-#moviepost_modal .modal-header img{
+#moviepost-modal .modal-header img{
     width: 100px;
 }
-#moviepost_modal .modal-title{
+#moviepost-modal .modal-title{
     margin-left:auto;
     margin-right: auto;
 }
-#moviepost_modal .modal-header{
+#moviepost-modal .modal-header{
     border-bottom: none;
     padding-bottom: 0;
     padding-top: 4vh;
 }
-#moviepost_modal .modal-footer{
+#moviepost-modal .modal-footer{
     border-top: none;
 }
-#moviepost_modal button:active{
+#moviepost-modal button:active{
     outline: none;
 }
-#moviepost_modal button:focus{
+#moviepost-modal button:focus{
    outline: none;
 }
-#moviepost_modal .modal-body{
+#moviepost-modal .modal-body{
     text-align: center;
 }
-#moviepost_modal form{
-    padding: 3vh;
-}
-#moviepost_modal input {
+
+#moviepost-modal input {
     outline: none;
     margin: 0;
     border: none;
@@ -57,10 +43,10 @@ EDIT ON
     font-size: 14px;
     font-family: inherit;
 }
-#moviepost_modal .input-group {
+#moviepost-modal .input-group {
     margin-bottom: 1rem;
 }
-#moviepost_modal .input--style-3 {
+#moviepost-modal .input--style-3 {
     padding: 0.75rem !important;
     outline: none;
     width: 100% !important;
@@ -71,7 +57,7 @@ EDIT ON
     background: #f9f9f9;
     border: 1px solid #eee;
 }
-#moviepost_modal .btn {
+#moviepost-modal .btn {
     display: inline-block;
     line-height: 42px;
     padding: 0 33px;
@@ -85,116 +71,172 @@ EDIT ON
     font-size: 18px;
     width: 100%
 }
-#moviepost_modal .btn--naver {
-    background-color: #27d34a !important;
-    background-image: url(https://vendor-cdn.imweb.me/images/naver_login2x.png);
-    background-size: 16px;
-    background-position: 15px 50%;
-    background-repeat: no-repeat;
-    border-color: #27d34a !important;
-    color: #fff !important;
-    font-size: 12px;
-    padding: 0;
-}
-#moviepost_modal .btn--kakao {
-    background-color: #ffeb00 !important;
-    background-image: url(https://vendor-cdn.imweb.me/images/kakao_icon.png);
-    background-size: 20px;
-    background-position: 12px 49%;
-    background-repeat: no-repeat;
-    border-color: #ffeb00 !important ;
-    color: #333 !important;
-    font-size: 12px;
-    padding: 0;
-}
-#moviepost_modal .btn--login {
-    background: #4aa8d8;
-    color: #fff;
-    font-size: 13px;
-    border-color: #4aa8d8;
-    margin-bottom: 3vh;
-}
-#moviepost_modal .btn-regist {
+
+
+#moviepost-modal .btn-regist {
     background: #4aa8d8;
     color: #fff;
     font-size: 13px;
     border-color: #4aa8d8;
     width: 50%;
-    margin-bottom: 3vh;
     margin-left: 10px;
     margin-right: 10px;
 }
-#moviepost_modal .btn-cancel {
+#moviepost-modal .btn-cancel {
     background: #fff;
     color: #4aa8d8;
     font-size: 13px;
     border-color: #4aa8d8;
     width: 50%;
-    margin-bottom: 3vh;
     margin-left: 10px;
     margin-right: 10px;
 }
-#moviepost_modal .extra{
+#moviepost-modal .extra{
       padding-bottom: 4vh;
       color: rgb(143, 141, 141);
      font-size:13px;
 }
-#moviepost_modal .extra a{
+#moviepost-modal .extra a{
     color: rgb(143, 141, 141);
     font-size:13px;
 }
-#moviepost_modal .col{
+#moviepost-modal .col{
       padding: 2vh 10px 4vh;
 }
-#moviepost_modal .new{
+#moviepost-modal .new{
       padding-bottom: 0;
 }
-#moviepost_modal .btn-primary{
+#moviepost-modal .btn-primary{
       width:40%;
       margin:30%
 }
-#moviepost_modal .btn:focus{
+#moviepost-modal .btn:focus{
     box-shadow: none;
     outline: none;
 }
+
+#picture:hover{
+	cursor: pointer;
+}
 </style>
-<div class="modal fade" id="moviepost-modal">
+<div class="modal fade" id="moviepost-modal" style="--bs-modal-width: 1000px;">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <!-- Modal body -->
-            <div class="modal-body">
-            	<h3 class="fs-3 text-center my-2"></h3>
-            	<h5>무비포스트 작성하기</h5>
-                <form method="POST" id="reviewRegistForm">
-                <div class="input-group">
-	                <div style="display: flex;">
+<!-- 	    <form id="moviePostForm"> -->
+	        <div class="modal-content">
+	            <!-- Modal body -->
+	            <div class="modal-body row">
+	            	<div class="col-6">
+		            	<h3 class="fs-3 text-center my-2"></h3>
+		            	<h5>무비포스트 작성</h5>
+		                <div class="input-group" style="margin: 20px 0;">
+		                	<select id="movie_select" name="movie_cd" style="width: 100%;">
+		                		<c:if test="${empty watchMovie }">
+		                			<option>본 영화가 없습니다.</option>
+		                		</c:if>
+		                		<c:if test="${!empty watchMovie }">
+		                			<option>영화 선택</option>
+		                		<c:forEach items="${watchMovie }" var="movie">
+		                			<option value="${movie.movie_cd }">${movie.movie_name }</option>
+		                		</c:forEach>
+		                		</c:if>
+		                	</select>
+		<!-- 	                <div style="display: flex;"> -->
+		<!-- 	                </div> -->
+		                </div>
+		                <div class="pic-group" style="height: 400px; overflow-y: auto; overflow-x: hidden;">
+			                <div class="row" id="moviePicGroup">
+			              		 <div style="text-align: center; margin-top: 200px;" id="noMovie">
+				              		 영화를 선택하세요
+			              		 </div>
+	
+			                </div>
+		                </div>
+	            	</div>
+	            	<div class="col-6">
+	            		<div class="pic" style="height: 300px; border: solid 1px #eee; text-align: center; margin-bottom: 10px;" id="selPic">
+	            			<div id="noPic" style="text-align: center; margin-top: 150px;">사진을 선택하세요.</div>
+	            		</div>
+		                <div class="input-group">
+		                    <textarea class="form-control" style="width: 85%; height: 200px; resize: none;" placeholder="내용을 작성해주세요." id="posttext" name="post_content"></textarea>
+							<p style="text-align: right; width: 100%;">
+					            <span id="writecount">0</span>
+					            <span>/50 자</span>
+				            </p>
+		                </div>
+		                <div class="p-t-10" style="display: flex;">
+			                <div style="width: 50%; margin: 0 auto;" id="regDiv">
+			                    <button class="btn btn-regist" type="button" data-target="#" style="float: right;" id="postRegistBtn">등록</button>
+			                </div>
+			                <div style="width: 50%; margin: 0 auto; display: none" id="updDiv">
+			                    <button class="btn btn-regist" type="button" data-target="#" style="float: right;" id="postUpdateBtn">수정</button>
+			                </div>
+			                <div style="width: 50%; margin: 0 auto;">
+			                    <button class="btn btn-cancel" type="button" data-target="#" style="float: left;" id="postCancelBtn">취소</button>
+			                </div>
+		                </div>
 	                </div>
-                </div>
-                <div class="input-group">
-                    <textarea class="form-control" style="width: 85%; height: 200px; resize: none;" placeholder="리뷰를 남겨주세요." id="reviewtext" name="review_content"></textarea>
-					<p style="text-align: right; width: 100%;">
-			            <span id="writecount">0</span>
-			            <span>/50 자</span>
-		            </p>
-                </div>
-                <div class="p-t-10" style="display: flex;">
-	                <div style="width: 50%; margin: 0 auto;" id="regDiv">
-	                    <button class="btn btn-regist" type="button" data-target="#" style="float: right;" id="reiveRegistBtn">등록</button>
-	                </div>
-	                <div style="width: 50%; margin: 0 auto; display: none" id="updDiv">
-	                    <button class="btn btn-regist" type="button" data-target="#" style="float: right;" id="reiveUpdateBtn">수정</button>
-	                </div>
-	                <div style="width: 50%; margin: 0 auto;">
-	                    <button class="btn btn-cancel" type="button" data-target="#" style="float: left;" id="reiveCancelBtn">취소</button>
-	                </div>
-                </div>
-                <input name="review_rating" type="hidden">
-                <input name="movie_cd" type="hidden" value="">
-                <input name="review_no" type="hidden" value="0">
-                </form>
-            </div>
-        </div>
+	            </div>
+	        </div>
+<!--         </form> -->
     </div>
 </div>
 <script>
+
+$(function(){
+	$('#posttext').on('keyup', function() {
+        $('#writecount').html($(this).val().length);
+ 
+        if($(this).val().length > 50) {
+            $(this).val($(this).val().substring(0, 50));
+            $('#writecount').html("50");
+        }
+    });
+	
+	$('#moviepost-modal').on('hidden.bs.modal', function (e) {
+		$(this).find('#moviePostForm')[0].reset();
+	});
+	
+	$('#movie_select').on('change', function(){
+		let movie_cd = $(this).val();
+		let show = '<div id="noPic" style="text-align: center; margin-top: 150px;">사진을 선택하세요.</div>';
+		$('#selPic').html(show);
+		$.ajax({
+			url : '<%=request.getContextPath()%>/movie/moviePic.do',
+			data : {"movie_cd" : movie_cd},
+			method : 'post',
+			success : function(res){
+				console.log(res);
+				moviePicShow(res);
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
+	
+	$('#postCancelBtn').on('click', function(){
+		$('#moviepost-modal').modal('hide');
+	})
+	
+	$('#moviePicGroup').on('click', '#picture', function(){
+		let movie_cd = $(this).data("movie_cd");
+		let path = $(this).data("path");
+		let show = '<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + path + '&item_cd=' + movie_cd + '&type=movieImg" style="max-height: 300px; max-width: 464px;">';
+		$('#selPic').html(show);
+	})
+})
+
+
+function moviePicShow(res){
+	let movie_cd = $('#movie_select').val();
+	let show = '';
+	for(let i = 0; i < res.length; i++){
+		let path = res[i].movie_pic_path;
+		let movie_cd = res[i].movie_cd;
+		show += '<div class="col-4" style="margin-bottom: 10px;" id="picture" data-movie_cd="' + movie_cd + '" data-path="' + path + '">';
+		show += '<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + path + '&item_cd=' + movie_cd + '&type=movieImg" style="width: 100%; height: auto;">'
+		show += '</div>'
+	}
+	$('#moviePicGroup').html(show);
+}
 </script>
