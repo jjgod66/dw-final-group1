@@ -257,7 +257,8 @@ public interface MovieDAO {
 	 * @return
 	 */
 	List<Map<String, Object>> searchReview(String keyword) throws SQLException;
-	 * 해당 영화의 무비포스트 맵으로 가져오는 메서드
+	
+	/** 해당 영화의 무비포스트 맵으로 가져오는 메서드
 	 * @param movie_cd
 	 * @return
 	 */
