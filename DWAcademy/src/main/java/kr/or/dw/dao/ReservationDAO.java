@@ -143,4 +143,11 @@ public interface ReservationDAO {
 	 */
 	List<String> selectMemLikeThr(String mem_cd) throws SQLException;
 
+	/**
+	 * 예매 후 보낼 문자에 필요한 정보 가져오는 메서드
+	 * @param merchant_uid
+	 * @return
+	 */
+	Map<String, Object> selectResSMSInfo(String merchant_uid) throws SQLException;
+
 }

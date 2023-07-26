@@ -102,4 +102,11 @@ public interface ReservationService {
 	 */
 	List<String> getMemLikeThr(String mem_cd) throws SQLException;
 
+	/**
+	 * 예매 후 보낼 문자에 들어갈 정보 가져오는 메서드
+	 * @param merchant_uid
+	 * @return
+	 */
+	Map<String, String> getResSMSInfo(String merchant_uid) throws SQLException;
+
 }

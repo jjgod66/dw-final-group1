@@ -187,4 +187,13 @@
 		FROM mem_like_theater
 		WHERE mem_cd = #{mem_cd}
 	</select>
+	
+	<select id="selectResSMSInfo" resultType="Map">
+		SELECT mem_phone, movie_name, startdate
+		FROM screen s, movie m, MEMBER mb, reservation r
+		WHERE r.screen_cd = s.screen_cd
+		AND s.movie_cd = m.movie_cd
+		AND r.mem_cd = mb.mem_cd
+		AND merchant_uid = #{merchant_uid}
+	</select>
 </mapper>

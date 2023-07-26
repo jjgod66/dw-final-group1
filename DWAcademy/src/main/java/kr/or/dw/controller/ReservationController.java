@@ -1,5 +1,7 @@
 package kr.or.dw.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -9,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -31,6 +34,12 @@ import org.springframework.web.servlet.support.RequestContextUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 import kr.or.dw.command.MoviePaymentCommand;
 import kr.or.dw.command.ReservationDetailCommand;
@@ -228,8 +237,13 @@ public class ReservationController {
 	@RequestMapping("/payResultRedirect")
 	public String payResultRedirect(MoviePaymentCommand mpc, HttpSession session) throws Exception {
 		Map<String, Object> dataMap = payResult(mpc, session);
-
-		return "redirect:/reservation/paySuccess.do?merchant_uid=" + dataMap.get("merchant_uid");
+		String merchant_uid = (String) dataMap.get("merchant_uid");
+		Map<String, String> smsInfo = reservationService.getResSMSInfo(merchant_uid);
+		
+		SmsController s = new SmsController();
+		s.reservationSMS(smsInfo);
+		
+		return "redirect:/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
 	}
 	
 	@RequestMapping("/paySuccess")
@@ -239,8 +253,8 @@ public class ReservationController {
 		Map<String, Object> mapData = null;
 		mapData = reservationService.getReservationResult(merchant_uid);
 
-		barbecuecod(merchant_uid);
-		
+//		barbecuecod(merchant_uid);
+		QRcreate(merchant_uid);
 		mnv.addObject("merchant_uid", merchant_uid);
 		mnv.addObject("mapData", mapData);
 		mnv.setViewName(url);
@@ -315,6 +329,25 @@ public class ReservationController {
         File file = new File("C:/DWAcademyFiles/barcode/reservation/" + merchant_uid + ".png");
         
         BarcodeImageHandler.savePNG(barcode, file);
+	}
+	
+	public void QRcreate(String merchant_uid) {
+		QRCodeWriter qrCodeWriter = new QRCodeWriter();
+		BitMatrix bitMatrix;
+		try {
+			bitMatrix = qrCodeWriter.encode(merchant_uid, BarcodeFormat.QR_CODE, 200, 200);
+			BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+			String fileName = merchant_uid + ".png";
+			File file = new File("C:/DWAcademyFiles/QR/reservation/" + fileName);
+			file.mkdirs();
+			ImageIO.write(bufferedImage, "png", file);
+		} catch (WriterException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+
 	}
 	
 	@RequestMapping("/photoTicket")

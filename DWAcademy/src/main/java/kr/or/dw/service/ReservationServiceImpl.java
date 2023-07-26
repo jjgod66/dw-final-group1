@@ -236,5 +236,27 @@ public class ReservationServiceImpl implements ReservationService{
 		return memLikeThrList;
 	}
 
+	@Override
+	public Map<String, String> getResSMSInfo(String merchant_uid) throws SQLException {
+		Map<String, Object> SMSInfoAll = null;
+		SMSInfoAll = reservationDAO.selectResSMSInfo(merchant_uid);
+		String stMemPhone = (String) SMSInfoAll.get("MEM_PHONE");
+		String movie_name = (String) SMSInfoAll.get("MOVIE_NAME");
+		Date Dstartdate = (Date) SMSInfoAll.get("STARTDATE");
+		
+		Map<String, String> SMSInfo = new HashMap<>();
+		
+		String mem_phone = stMemPhone.replace("-", "");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String startdate = format.format(Dstartdate);
+		
+		SMSInfo.put("mem_phone", mem_phone);
+		SMSInfo.put("movie_name", movie_name);
+		SMSInfo.put("startdate", startdate);
+		SMSInfo.put("merchant_uid", merchant_uid);
+		
+		return SMSInfo;
+	}
+
 
 }
