@@ -62,6 +62,7 @@
 #tnb ul a {
     display: inline-block;
     text-decoration: none;
+    color: black;
 }
 #tnb ul #tnb_logout {
     border-right: 0;
@@ -106,8 +107,8 @@
     display: table-cell;
     margin: 0 0 0 -1px;
     border: 1px solid #2d3032;
-    border-top: 0;
-    border-bottom: 0;
+/*     border-top: 0; */
+/*     border-bottom: 0; */
     justify-content: center;
 }
 a.gnb_1da {
@@ -122,11 +123,11 @@ a.gnb_1da {
     line-height: 2.0em;
 }
 #tnb ul a:focus, #tnb a:hover {
-    color: #EBFBFF;
+    color: #4aa8d8;
 }
 #tnb ul a {
     display: inline-block;
-    color: #dcdcdc;
+    color: black;
     text-decoration: none;
 }
 #snb {
@@ -205,9 +206,12 @@ nav ul {
 	cursor: pointer;
 	background-color: #f5f5f5;
 	text-align: center;
+	--bs-dropdown-border-radius: 0;
  } 
  .dropdown-content{
  	position: absolute;
+ 	top: 2.5rem;
+ 	border-radius : 0;
  	background-color:#dcdcdc;
  	min-width: 160px;
  	box-shadow: 0px 8px 16px 0px rgba(0 ,0 ,0 ,0.2);
@@ -231,25 +235,33 @@ nav ul {
 	background-color: #3c3c3c;
 	color: white;
 }
+.pagination li a{
+	color : black;
+	background-color : #fafafa;
+}
+.pagination li.active a {
+	background-color : black;
+	border : none;
+}
 </style>
 	<header id="hd">
-		<div id="hd_wrap">
-			<div style="padding : 0.5rem;">
+		<div id="hd_wrap" style="background-color : #fafafa;">
+			<div style="padding : 0.5rem;" class="text-center">
 				<img src="<%=request.getContextPath()%>/resources/img/logo.png">
 			</div>
 			<div id="tnb">
 				<ul>
-					<li>DW시네마 v1.0.1</li>
-					<li><a href="#">관리자정보</a></li>
-					<li><a href="<%=request.getContextPath() %>/sysAdmin/main.do">관리자홈</a></li>
-					<li><a href="<%=request.getContextPath() %>/sysAdmin/adminCinemaMain.do">DW시네마 바로가기 </a></li>
+<!-- 					<li>DW시네마 v1.0.1</li> -->
+<!-- 					<li><a href="#">관리자정보</a></li> -->
+					<li><a href="<%=request.getContextPath() %>/sysAdmin/main.do">ADMIN HOME</a></li>
+					<li><a href="<%=request.getContextPath() %>/main.do">DWCinema HOME</a></li>
 					<li id="tnb_logout"><a
-						href="">로그아웃</a></li>
+						href="">LOGOUT</a></li>
 				</ul>
 			</div>
 
 			<nav id="gnb">
-				<ul>
+				<ul style="text-align: -webkit-center;">
 					<li class="gnb_1dli dropdown dropdown-menu">지점관리 
 						<div class="dropdown-content">
 							<a href="<%= request.getContextPath() %>/sysAdmin/theaterAdminMain.do" class="gnb_1da">지점 목록 </a>
@@ -273,9 +285,8 @@ nav ul {
 					<li class="gnb_1dli dropdown dropdown-menu">이벤트관리 
 					<div class="dropdown-content">
 						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminMain.do" class="gnb_1da">진행중인 이벤트 </a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminPast.do" class="gnb_1da">지난 이벤트 </a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminWinner.do" class="gnb_1da">당첨자 발표 </a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/eventRegist.do" class="gnb_1da">이벤트 등록  </a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminPastMain.do" class="gnb_1da">지난 이벤트 </a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminDetail.do?type=create" class="gnb_1da">이벤트 등록  </a>
 						</div>
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">스토어관리 

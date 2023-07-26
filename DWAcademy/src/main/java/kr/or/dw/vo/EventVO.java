@@ -20,4 +20,6 @@ public class EventVO {
 	private String event_pic_path;
 	private Date regdate;
 	private String event_thum_path;
+	private String winner_content;
+	private String winnerdate;
 }

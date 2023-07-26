@@ -42,6 +42,16 @@
 .moreBtn {
 	cursor: pointer;
 }
+.card img {
+	width : 100%;
+	height: 15rem;
+}
+.eventTypeHeader {
+	margin-bottom : 1rem;
+}
+.pagination li a{
+	color : black;
+}
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
 <div id="wrapper">
@@ -76,8 +86,8 @@
 				</select>
 			</div>
 			<div>
-				<div>
-					<div class="row mt-2 mb-2"><div class="col-md-2 text-end" style="margin-left: auto;"><button class="btn_medium" id="registBtn">이벤트 등록</button></div></div>
+				<div class="row mt-2 mb-2"><div class="col-md-2 text-end" style="margin-left: auto;"><button class="btn_medium" id="registBtn">이벤트 등록</button></div></div>
+				<div class="mt-5">
 					<div class="eventTypeHeader">
 						<span class="typeName">영화</span>
 						<span class="float-end moreBtn" data-searchType="영화">더보기 ></span>
@@ -98,7 +108,7 @@
 						</c:forEach>
 					</div>
 				</div>
-				<div>
+				<div class="mt-5">
 					<div class="eventTypeHeader">
 						<span class="typeName">극장</span>
 						<span class="float-end moreBtn" data-searchType="극장">더보기 ></span>
@@ -119,7 +129,7 @@
 						</c:forEach>
 					</div>
 				</div>
-				<div>
+				<div class="mt-5">
 					<div class="eventTypeHeader">
 						<span class="typeName">시사회/무대인사</span>
 						<span class="float-end moreBtn" data-searchType="시사회/무대인사">더보기 ></span>

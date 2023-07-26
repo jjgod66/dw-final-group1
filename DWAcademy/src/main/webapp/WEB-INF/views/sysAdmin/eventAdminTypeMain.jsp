@@ -40,6 +40,10 @@
 	font-size : 1.5rem;
 	font-weight : bold;
 }
+.card img {
+	width : 100%;
+	height: 15rem;
+}
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
 <div id="wrapper">
@@ -74,9 +78,9 @@
 				</select>
 			</div>
 			<div>
-				<div style="display: flex; justify-content: space-between;">
-					<span class="ms-3 me-3">전체 ${pageMaker.totalCount}건</span>
-					<span class="ms-3 me-3"><input type="text" name="keyword"><button class="btn_medium" onclick="javascript:searchList_go(1);">검색</button></span>
+				<div class="mt-3 mb-3" style="display: flex; justify-content: space-between;">
+					<span class="ms-3 me-3">전체 <span style="color: red;"><b>${pageMaker.totalCount}</b></span>건</span>
+					<span class="ms-3 me-3"><input type="text"  style="height:2.5rem;" name="keyword"><button class="btn_medium ms-2" style="height:2.5rem;" onclick="javascript:searchList_go(1);">검색</button></span>
 				</div>
 				<div>
 					<div class="eventCards row gx-3 gy-3">

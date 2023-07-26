@@ -18,6 +18,7 @@ import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.TheaterVO;
+import kr.or.dw.vo.WinnerBoardVO;
 
 
 @Mapper
@@ -199,5 +200,26 @@ public interface SysAdminDAO {
 
 	// 해당하는 이벤트 게시글 수정
 	void updateEvent(EventVO event) throws SQLException;
+
+	// 해당하는 이벤트 게시글 삭제
+	void deleteEvent(int event_no) throws SQLException;
+
+	// 지난 이벤트 게시글 목록 불러오기
+	List<EventVO> selectEventListforPast(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
+
+	// 지난 이벤트 게시글 총 수 불러오기
+	int selectEventListforPastCount(SearchCriteria cri) throws SQLException;
+
+	// 당첨자발표 게시글 등록하기
+	void insertWinnerBoard(WinnerBoardVO wb) throws SQLException;
+
+	// 해당 당첨자발표 게시글 조회
+	WinnerBoardVO selectWbByEvent_no(int event_no) throws SQLException;
+
+	// 해당 당첨자발표 게시글 수정
+	void updateWinnerBoard(WinnerBoardVO wb) throws SQLException;
+
+	// 해당 당첨자발표 게시글 삭제
+	void deleteWinnerBoard(WinnerBoardVO wb) throws SQLException;
 	
 }
