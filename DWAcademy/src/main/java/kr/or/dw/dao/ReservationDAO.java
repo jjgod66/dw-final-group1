@@ -148,6 +148,6 @@ public interface ReservationDAO {
 	 * @param merchant_uid
 	 * @return
 	 */
-	Map<String, Object> selectResSMSInfo(String merchant_uid) throws SQLException;
+	List<Map<String, Object>> selectResSMSInfo(String merchant_uid) throws SQLException;
 
 }

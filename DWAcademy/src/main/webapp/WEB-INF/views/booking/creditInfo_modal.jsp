@@ -117,10 +117,6 @@
     color: #4aa8d8;
     font-size: 13px;
     border-color: #4aa8d8;
-    width: 50%;
-    margin-bottom: 3vh;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 #creditInfo-modal .extra{
       padding-bottom: 4vh;
@@ -153,22 +149,7 @@ table {
 th, td {
   border: 1px solid #aaa;
 }
-tbody tr:last-child th,
-tbody tr:last-child td {
-/*   border-bottom: 0; */
-}
-tbody tr td:last-child {
-   border-right: 0; 
-}
-tbody tr td:first-child {
-   border-left: 0; 
-}
-thead tr th:last-child {
-   border-right: 0; 
-}
-thead tr th:first-child {
-   border-left: 0; 
-}
+
 
  th, td { 
    padding-top: 0.6rem; 
@@ -180,6 +161,11 @@ thead tr th:first-child {
 thead th,
 tbody th {
   background-color: #f8f8f8;
+}
+
+#creCancelBtn:hover{
+	background: #4aa8d8;
+    color: #fff;
 }
 </style>
 <div class="modal fade" id="creditInfo-modal">
@@ -194,24 +180,24 @@ tbody th {
 <!-- 	                    	사용할 쿠폰을 선택해주세요. -->
 <!-- 	                </div> -->
 <!--                 </div> -->
-                <div class="input-group" style="margin-top: 10px; display: ;">
+                <div class="input-group" style="margin-top: 20px; display: ;">
 <!--                     		<div> -->
 	                    	<table style="width: 100%;">
 	                    		<tr style="font-size: 11px;">
 	                    			<th style="width: 20%;">상품금액</th>
-	                    			<td style="width: 80%;">214455</th>
+	                    			<td style="width: 80%;"><fmt:formatNumber value="${mapData.reservation.pricesum }" pattern="#,##0"></fmt:formatNumber>원</th>
 	                    		</tr>
 	                    		<tr style="font-size: 11px;">
 	                    			<th style="width: 20%;">할인금액</th>
-	                    			<td style="width: 80%;">214455</th>
+	                    			<td style="width: 80%;"><fmt:formatNumber value="${mapData.reservation.discount }" pattern="#,##0"></fmt:formatNumber>원</th>
 	                    		</tr>
 	                    		<tr style="font-size: 11px;">
 	                    			<th style="width: 20%;">최종 결제금액</th>
-	                    			<td style="width: 80%;">214455</th>
+	                    			<td style="width: 80%;"><fmt:formatNumber value="${mapData.paid_amount }" pattern="#,##0"></fmt:formatNumber>원</th>
 	                    		</tr>
 	                    		<tr style="font-size: 11px;">
 	                    			<th style="width: 20%;">결제일시</th>
-	                    			<td style="width: 80%;">214455</th>
+	                    			<td style="width: 80%;"><fmt:formatDate value="${mapData.reservation.resdate }" pattern="yyyy-MM-dd HH:mm:ss"/> </th>
 	                    		</tr>
                     		</table>
 <!--                    		</div> -->
@@ -223,7 +209,7 @@ tbody th {
 <!-- 	                </div> -->
 	               
 	                <div style="width: 50%; margin: 0 auto;">
-	                    <button class="btn btn-cancel" type="button" data-target="#" style="float: left;" id="couCancelBtn">취소</button>
+	                    <button class="btn btn-cancel" type="button" data-target="#" style="float: left;" id="creCancelBtn">닫기</button>
 	                </div>
                 </div>
             </div>
@@ -232,5 +218,9 @@ tbody th {
 </div>
 
 <script>
-
+$(function(){
+	$('#creCancelBtn').on('click', function(){
+		$('#creditInfo-modal').modal('hide');
+	})
+})
 </script>

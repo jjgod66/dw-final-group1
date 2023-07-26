@@ -353,6 +353,22 @@ public class MovieController {
 		return mnv;
 	}
 	
+	@RequestMapping("/moviePic")
+	public ResponseEntity<List<MoviePictureVO>> getMoviePic(String movie_cd){
+		ResponseEntity<List<MoviePictureVO>> entity = null;
+		
+		List<MoviePictureVO> moviePicList = null;
+		try {
+			moviePicList = movieService.getMoviePicture(movie_cd);
+			entity = new ResponseEntity<List<MoviePictureVO>>(moviePicList, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<MoviePictureVO>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
 	@RequestMapping("/review")
 	public ModelAndView movieReview(SearchCriteria cri, ModelAndView mnv, HttpSession session, HttpServletResponse res, HttpServletRequest req) throws SQLException, IOException {
 		String url = "/movie/review";

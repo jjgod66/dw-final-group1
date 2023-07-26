@@ -442,9 +442,8 @@ public class MovieServiceImpl implements MovieService{
 		
 		if(member != null) {
 			String mem_cd = member.getMem_cd();
-			List<MovieVO> watchMovie = new ArrayList<MovieVO>();
+			List<MovieVO> watchMovie = null;
 			watchMovie = movieDAO.selectMovieCode(mem_cd);
-			System.out.println(watchMovie);
 			dataMap.put("watchMovie", watchMovie);
 		}
 		
