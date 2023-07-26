@@ -7,8 +7,10 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import kr.or.dw.command.MovieViewerCommand;
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.MoviePictureVO;
+import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
 import kr.or.dw.vo.ReviewVO;
 
@@ -156,7 +158,8 @@ public interface MovieService {
 	 * @return
 	 */
 	List<Map<String, Object>> getAllMovieReview(HttpSession session) throws SQLException;
-	 /** 영화 예고편 목록 가져오는 메서드
+	
+	/** 영화 예고편 목록 가져오는 메서드
 	 * @param movie_cd
 	 * @return
 	 */
@@ -182,5 +185,17 @@ public interface MovieService {
 	 * @return
 	 */
 	List<Map<String, Object>> searchReview(String keyword, HttpSession session) throws SQLException;
+	 * 해당 영화 무비포스트 4개 가져오는 메서드
+	 * @param movie_cd 
+	 * @return
+	 */
+	List<Map<String, Object>> getMoviePost4(String movie_cd) throws SQLException;
+
+	/**
+	 * 무비포스트 목록 가져오는 메서드
+	 * @param cri
+	 * @return
+	 */
+	Map<String, Object> getMoviePost(SearchCriteria cri) throws SQLException;
 
 }

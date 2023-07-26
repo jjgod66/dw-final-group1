@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.TheaterVO;
 
@@ -87,5 +88,12 @@ public interface TheaterDAO {
 	 * @return
 	 */
 	List<NoticeVO> selectThisThrNotice(String thr_name) throws SQLException;
+
+	/**
+	 * 극장 이벤트 가져오는 메서드
+	 * @return
+	 * @throws SQLException
+	 */
+	List<EventVO> selectThrEvent() throws SQLException;
 
 }

@@ -25,6 +25,12 @@ public interface MemberService {
 
 	// 개인정보 수집 동의 업데이트
 	void additionUpdate(Map<String, Object> dataMap) throws SQLException;
+	
+	// 회원 등급 업데이트
+	void updateMemgrade() throws SQLException;
+
+	//회원 휴면 전환
+	void sleepMem() throws SQLException;	
 
 	
 }

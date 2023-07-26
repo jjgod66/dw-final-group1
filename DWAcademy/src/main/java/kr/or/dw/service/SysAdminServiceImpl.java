@@ -434,4 +434,27 @@ public class SysAdminServiceImpl implements SysAdminService {
 		
 	}
 
+	@Override
+	public void registEvent(EventVO event) throws SQLException {
+		sysAdminDAO.insertEvent(event);
+		
+	}
+
+	@Override
+	public EventVO selectEventByEvent_no(int event_no) throws SQLException {
+		EventVO event = sysAdminDAO.selectEventByEvent_no(event_no);
+		return event;
+	}
+
+	@Override
+	public void modifyEventContent(Map<String, Object> modifyEventContentMap) throws SQLException {
+		sysAdminDAO.updateEventContent(modifyEventContentMap);
+	}
+
+	@Override
+	public void modifyEvent(EventVO event) throws SQLException {
+		sysAdminDAO.updateEvent(event);
+		
+	}
+
 }

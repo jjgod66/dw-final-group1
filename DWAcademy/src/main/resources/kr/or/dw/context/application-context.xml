@@ -15,6 +15,9 @@
 	<bean id="eventPicUploadPath" class="java.lang.String">
 		<constructor-arg value="${eventpic.upload}"></constructor-arg>
 	</bean>
+	<bean id="photoTicketUploadPath" class="java.lang.String">
+		<constructor-arg value="${phototicket.upload}"></constructor-arg>
+	</bean>
 
 	<bean id="storeService" class="kr.or.dw.service.StoreServiceImpl"/>
 	<bean id="sysAdminService" class="kr.or.dw.service.SysAdminServiceImpl"/>
@@ -27,6 +30,7 @@
 	<bean id="theaterService" class="kr.or.dw.service.TheaterServiceImpl"/>
 	<bean id="pointService" class="kr.or.dw.service.PointServiceImpl"/>
 	<bean id="couponService" class="kr.or.dw.service.CouponServiceImpl"/>
+	<bean id="photoTicketService" class="kr.or.dw.service.PhotoTicketServiceImpl"/>
 
 
 	

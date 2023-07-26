@@ -83,7 +83,9 @@
 						<c:forEach items="${eventList}" var="event">
 							<div class="col-md-3" style="text-align: -webkit-center;">
 								<div class="card text-center" style="width: 18rem;">
-									<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+									<a href="/sysAdmin/eventAdminDetail?type=read&event_no=${event.event_no }">
+										<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+									</a>
 									<div class="card-body">
 										<h3 class="card-title">${event.event_title }</h3>
 										<p class="card-text"><fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/></p>
