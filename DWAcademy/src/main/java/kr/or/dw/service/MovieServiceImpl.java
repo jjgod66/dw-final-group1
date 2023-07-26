@@ -315,10 +315,24 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllMovieReview(HttpSession session) throws SQLException {
+	public Map<String, Object> getAllMovieReview(HttpSession session, SearchCriteria cri) throws SQLException {
 		List<Map<String, Object>> reviewList = null;
-		reviewList = movieDAO.getAllMovieReview();
-
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		reviewList = movieDAO.getAllMovieReview(cri, rowBounds);
+		
+		int totalCount = movieDAO.getSearchReviewListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("reviewList", reviewList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		
 		for(Map<String, Object> review : reviewList) {
 			String reviewLikeActive = "N";
 			if(session.getAttribute("loginUser") != null) {
@@ -336,7 +350,7 @@ public class MovieServiceImpl implements MovieService{
 
 		}
 		
-		return reviewList;
+		return dataMap;
 		
 	}
 
@@ -405,7 +419,7 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	@Override
-	public Map<String, Object> getMoviePost(SearchCriteria cri) throws SQLException {
+	public Map<String, Object> getMoviePost(SearchCriteria cri, HttpSession session) throws SQLException {
 		
 		List<Map<String, Object>> moviePostList = null;
 		
@@ -424,6 +438,15 @@ public class MovieServiceImpl implements MovieService{
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		dataMap.put("moviePostList", moviePostList);
 		dataMap.put("pageMaker", pageMaker);
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		
+		if(member != null) {
+			String mem_cd = member.getMem_cd();
+			List<MovieVO> watchMovie = new ArrayList<MovieVO>();
+			watchMovie = movieDAO.selectMovieCode(mem_cd);
+			System.out.println(watchMovie);
+			dataMap.put("watchMovie", watchMovie);
+		}
 		
 		return dataMap;
 	}

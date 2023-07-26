@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="kr.or.dw.vo.MemberVO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="../include/header.jsp" %>
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="../../resources/css/boxoffice.css">
 <style>
 .board-search {
     position: relative;
@@ -59,8 +61,15 @@ select {
 	background-color: #fff;
 }
 </style>
+<%@ include file="moviepost_modal.jsp" %>
+<%
+	String mem_cd = "";
+	if(session.getAttribute("loginUser") != null){
+		MemberVO member = (MemberVO)session.getAttribute("loginUser");
+		mem_cd = member.getMem_cd();
+	}
+%>
 <c:set var="cri" value="${pageMaker.cri }" />
-
 <div class="sub_visual">
     <h3>무비포스트</h3>
     <h6>Movie Post</h6>
@@ -70,7 +79,7 @@ select {
 	<div style="padding: 30px;">
 		<div style="width: 1300px; margin: 0 auto;">
 			<div style="width: 95%; margin: 0 auto;">
-				<div style="margin: 20px 10px 10px 0px; float: left"><input type="button" class="btn-mp-write" value="무비포스트 작성"></div>
+				<div style="margin: 20px 10px 10px 0px; float: left"><input id="moviepostModalBtn" type="button" class="btn-mp-write" value="무비포스트 작성"></div>
 				<div style="margin: 20px 0px 10px 10px; float: right; display: flex;">
 					<div style="margin: 10px;">
 						<span>
@@ -133,7 +142,7 @@ select {
 </div>
 <script>
 let searchFormUrl = "moviePost.do";
-
+let mem_cd = "<%=mem_cd%>";
 $(function(){
 	let mplist = '${moviePostList}';
 	if(mplist == '[]'){
@@ -143,6 +152,35 @@ $(function(){
 	$('#searchBtn').on('click', function(){
 		searchList_go(1);
 	})
+	
+	$('#moviepostModalBtn').on('click', function(){
+		if(mem_cd == null || mem_cd == ""){
+			alert("로그인이 필요합니다.");
+			return;
+		}
+		$('#moviepost-modal').modal("show");
+		
+	
+	})
+// 		$.ajax({
+<%-- 			url : "<%=request.getContextPath()%>/movie/watchYN.do", --%>
+// 			method : 'post',
+// 			data : {"movie_cd" : movie_cd},
+// 			success : function(res){
+// 				console.log(res);
+// 				if(res == "non"){
+// 					alert("무비포스트는 관람 후 작성 가능합니다.");SELECT COUNT(*)
+// 					return;
+// 				}else if(res == "write"){
+// 					alert("무비포스트는 영화 당 한 개만 작성 가능합니다.");
+// 					return;
+// 				}
+// 			},
+// 			error : function(err){
+// 				alert(err);
+// 			}
+// 		})
+	
 })
 
 </script>

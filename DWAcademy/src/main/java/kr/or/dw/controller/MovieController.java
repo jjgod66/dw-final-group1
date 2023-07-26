@@ -306,14 +306,18 @@ public class MovieController {
 	@RequestMapping("/reviewReport")
 	public void reviewReport(int review_no, String movie_cd, HttpSession session, HttpServletRequest req, HttpServletResponse res) throws Exception {
 		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
-		
+		System.out.println(movie_cd);
 		String result = movieService.reviewReport(review_no, mem_cd);
 		if(result.equals("S")) {
 			res.setContentType("text/html; charset=utf-8");
 			PrintWriter out = res.getWriter();
 			out.println("<script>");
 			out.println("alert('신고가 접수되었습니다.');");
-			out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + movie_cd  + "';");
+			if(movie_cd == null || movie_cd == "") {
+				out.println("location.href='" + req.getContextPath() + "/movie/review.do';");
+			}else {
+				out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + movie_cd  + "';");
+			}
 			out.println("</script>");
 			out.flush();
 			out.close();
@@ -322,7 +326,11 @@ public class MovieController {
 			PrintWriter out = res.getWriter();
 			out.println("<script>");
 			out.println("alert('이미 신고한 리뷰입니다.');");
-			out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + movie_cd  + "';");
+			if(movie_cd == null || movie_cd == "") {
+				out.println("location.href='" + req.getContextPath() + "/movie/review.do';");
+			}else {
+				out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + movie_cd  + "';");
+			}
 			out.println("</script>");
 			out.flush();
 			out.close();
@@ -330,14 +338,15 @@ public class MovieController {
 	}
 	
 	@RequestMapping("/moviePost")
-	public ModelAndView moviePost(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+	public ModelAndView moviePost(ModelAndView mnv, SearchCriteria cri, HttpSession session) throws SQLException {
 		String url = "/movie/moviepost";
+		
 		
 		cri.setPerPageNum("12");
 		if("".equals(cri.getSearchType())) {
 			cri.setSearchType("regdate");
 		}
-		Map<String, Object> dataMap = movieService.getMoviePost(cri);
+		Map<String, Object> dataMap = movieService.getMoviePost(cri, session);
 		
 		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
@@ -345,14 +354,13 @@ public class MovieController {
 	}
 	
 	@RequestMapping("/review")
-	public ModelAndView movieReview(ModelAndView mnv, HttpSession session, HttpServletResponse res, HttpServletRequest req) throws SQLException, IOException {
+	public ModelAndView movieReview(SearchCriteria cri, ModelAndView mnv, HttpSession session, HttpServletResponse res, HttpServletRequest req) throws SQLException, IOException {
 		String url = "/movie/review";
 		
-		List<Map<String, Object>> reviewList = movieService.getAllMovieReview(session);
-		System.out.println(reviewList.get(0).get("MOVIE_NAME"));
-		System.out.println(reviewList.get(0));
+		Map<String, Object> dataMap = movieService.getAllMovieReview(session, cri);
+		System.out.println(dataMap);
 		
-		mnv.addObject("reviewList", reviewList);
+		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
 		
 		return mnv;

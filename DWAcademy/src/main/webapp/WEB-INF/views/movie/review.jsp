@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/viewer.css">
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
+<%@ include file="review_report_modal.jsp" %>
 <%
 	String mem_cd = "";
 	if(session.getAttribute("loginUser") != null){
@@ -82,7 +83,7 @@
 </div>
 <script>
 let mem_cd = "<%=mem_cd%>";
-let searchFormUrl = "/movie/searchReview.do";
+let searchFormUrl = "/movie/review.do";
 $('.reviews-members-body').on('click', '#likeBtn', function(){
 	if(mem_cd == null || mem_cd == ""){
 		alert("로그인이 필요합니다.");
@@ -109,6 +110,15 @@ $('.reviews-members-body').on('click', '#likeCancelBtn', function(){
 	$(this).find('span').text(likecount);
 	
 })
+
+$('.reviews-members-body').on('click', '#reviewReportBtn', function(){
+		if(mem_cd == null || mem_cd == ""){
+			alert("로그인이 필요합니다.");
+			return;
+		}
+		$('#reviewReportModalInputRN').val($(this).data('review_no'));
+		$('#review-report-modal').modal("show");
+	})
 
 function reviewHeart(review_no){
 	if(mem_cd == null || mem_cd == ""){
