@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="../include/header.jsp" %>
-<!DOCTYPE html>
+<%@include file="creditInfo_modal.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/seatbooking.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/resResult.css">
 <!-- <div class="sub_visual"> -->
@@ -60,9 +60,7 @@
 							</div>
 
 								<div class="btn-group pt30">
-									<c:if test="${mapData.receipt_url ne '' }">
-										<a href="${mapData.receipt_url }" class="button large" id="btn_bill_print" title="영수증출력">영수증출력 <!-- 영수증출력 --></a>
-									</c:if>
+									<a href="#" class="button large" id="btn_credit_info">결제정보</a>
 									<a href="#" class="button large" title="예매내역 페이지로 이동">예매내역 <!-- 예매내역 --></a>
 								</div>
 						</div>
@@ -100,4 +98,11 @@
 		<!--// inner-wrap -->
 	</div>
 	
+<script>
+$(function(){
+	$('#btn_credit_info').on('click', function(){
+		$('#creditInfo-modal').modal('show');
+	})
+})
+</script>
 <%@include file="../include/footer.jsp" %>
