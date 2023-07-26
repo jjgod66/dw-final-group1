@@ -506,4 +506,24 @@ public class SysAdminServiceImpl implements SysAdminService {
 		sysAdminDAO.deleteWinnerBoard(wb);
 	}
 
+	@Override
+	public List<NoticeVO> selectNoticeForMain() throws SQLException {
+		return sysAdminDAO.selectNoticeForMain();
+	}
+
+	@Override
+	public List<QnaVO> selectQnaForMain() throws SQLException {
+		return sysAdminDAO.selectQnaForMain();
+	}
+
+	@Override
+	public List<EventVO> selectEventForMain() throws SQLException {
+		return sysAdminDAO.selectEventForMainPage();
+	}
+
+	@Override
+	public List<MovieVO> selectCurrentMovieForMain() throws SQLException {
+		return sysAdminDAO.selectCurrentMovieForMain();
+	}
+
 }

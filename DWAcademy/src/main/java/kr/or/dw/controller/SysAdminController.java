@@ -94,8 +94,18 @@ public class SysAdminController {
 	private String eventPicUploadPath;
 	
 	@RequestMapping("/main")
-	public ModelAndView sysAdminIndex(ModelAndView mnv) {
+	public ModelAndView sysAdminIndex(ModelAndView mnv) throws SQLException {
 		String url = "/sysAdmin/main";
+		
+		List<MovieVO> currentMovieList = sysAdminService.selectCurrentMovieForMain();
+		mnv.addObject("currentMovieList", currentMovieList);
+		
+		List<NoticeVO> noticeList = sysAdminService.selectNoticeForMain();
+		mnv.addObject("noticeList", noticeList);
+		List<QnaVO> qnaList = sysAdminService.selectQnaForMain();
+		mnv.addObject("qnaList", qnaList);
+		List<EventVO> eventList = sysAdminService.selectEventForMain();
+		mnv.addObject("eventList", eventList);
 		
 		mnv.setViewName(url);
 		return mnv;

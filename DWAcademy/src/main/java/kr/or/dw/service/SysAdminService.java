@@ -172,6 +172,19 @@ public interface SysAdminService {
 	void modifyWinnerBoard(WinnerBoardVO wb) throws SQLException;
 
 	// 해당 당첨자발표 게시글 삭제
-	void deleteWinnerBoard(WinnerBoardVO wb) throws SQLException; 
+	void deleteWinnerBoard(WinnerBoardVO wb) throws SQLException;
+	
+	// 메인용 공지사항 게시글 목록 가져오기
+	List<NoticeVO> selectNoticeForMain() throws SQLException;
+
+	// 메인용 1:1문의 게시글 목록 가져오기
+	List<QnaVO> selectQnaForMain() throws SQLException;
+
+	// 메인용 1:1문의 게시글 목록 가져오기
+	List<EventVO> selectEventForMain() throws SQLException;
+
+	// 메인용 상영영화 목록 가져오기
+	List<MovieVO> selectCurrentMovieForMain() throws SQLException;
+
 
 }
