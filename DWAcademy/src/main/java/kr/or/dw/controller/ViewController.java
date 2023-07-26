@@ -41,11 +41,6 @@ public class ViewController {
 		
 		return mnv;
 	}
-	@GetMapping("/member/bookinglist")
-	public String memberBookinglist() {
-		String url = "/member/bookinglist";
-		return url;
-	}
 	@GetMapping("/member/discount-coupon")
 	public String memberDiscountcoupon() {
 		String url = "/member/discount-coupon";

@@ -200,4 +200,11 @@ public interface MovieService {
 	 */
 	Map<String, Object> getMoviePost(SearchCriteria cri, HttpSession session) throws SQLException;
 
+	/**
+	 * 마이페이지 예매 정보를 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> selectMovieInfo(String mem_cd) throws SQLException;
+
 }
