@@ -805,4 +805,50 @@
 		  FROM winner_board
 		 WHERE event_no = #{event_no}
 	</delete>
+	
+	<select id="selectNoticeForMain" resultType="notice">
+		SELECT *
+		  FROM (
+		  		SELECT *
+		  		  FROM notice
+		 		 WHERE gb_del = 'N'
+		   		   AND notice_thr = 'DW시네마'
+		   		 ORDER BY notice_no DESC
+		  		)
+		   WHERE ROWNUM <![CDATA[<=]]> 5
+	</select>
+	
+	<select id="selectQnaForMain" resultType="qna">
+		SELECT *
+  		  FROM (
+  		 		SELECT q.*, a.ANS_CONTENT
+		 		  FROM QUESTION q , ANSWER a 
+		 		 WHERE q.QUE_NO = a.QUE_NO(+) 
+		  		   AND QUE_SEL = 'S'
+			 	 ORDER BY q.QUE_NO DESC
+			    )
+ 		 WHERE ROWNUM <![CDATA[<=]]> 5
+	</select>
+	
+	<select id="selectEventForMainPage" resultType="event">
+		SELECT *
+		  FROM (
+		  		SELECT *
+		  		  FROM event
+		  		 ORDER BY regdate DESC
+		  	    )
+		 WHERE ROWNUM <![CDATA[<=]]> 4
+	</select>
+	
+	<select id="selectCurrentMovieForMain" resultType="movie">
+		SELECT *
+		  FROM (
+		  		SELECT *
+		  		  FROM movie
+		  		 WHERE opendate <![CDATA[<=]]> SYSDATE
+		  		   AND enddate <![CDATA[>]]> SYSDATE
+		  		 ORDER BY opendate DESC
+		  		)
+		 WHERE ROWNUM <![CDATA[<=]]> 8
+	</select>
 </mapper>

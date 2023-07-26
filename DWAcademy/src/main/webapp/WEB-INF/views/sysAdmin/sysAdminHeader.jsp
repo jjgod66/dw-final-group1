@@ -22,6 +22,8 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+ <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
@@ -247,12 +249,10 @@ nav ul {
 	<header id="hd">
 		<div id="hd_wrap" style="background-color : #fafafa;">
 			<div style="padding : 0.5rem;" class="text-center">
-				<img src="<%=request.getContextPath()%>/resources/img/logo.png">
+				<a href="<%=request.getContextPath() %>/sysAdmin/main.do"><img src="<%=request.getContextPath()%>/resources/img/logo.png"></a>
 			</div>
 			<div id="tnb">
 				<ul>
-<!-- 					<li>DW시네마 v1.0.1</li> -->
-<!-- 					<li><a href="#">관리자정보</a></li> -->
 					<li><a href="<%=request.getContextPath() %>/sysAdmin/main.do">ADMIN HOME</a></li>
 					<li><a href="<%=request.getContextPath() %>/main.do">DWCinema HOME</a></li>
 					<li id="tnb_logout"><a
@@ -279,7 +279,7 @@ nav ul {
 						<a href="<%= request.getContextPath() %>/sysAdmin/noticeAdminMain.do" class="gnb_1da">공지사항</a>
 						<a href="<%= request.getContextPath() %>/sysAdmin/faqAdminMain.do" class="gnb_1da">FAQ</a>
 						<a href="<%= request.getContextPath() %>/sysAdmin/qnaAdminMain.do" class="gnb_1da">1:1문의</a>
-						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">회원목록 </a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/userAdminMain.do" class="gnb_1da">회원목록 </a>
 						</div>
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">이벤트관리 
