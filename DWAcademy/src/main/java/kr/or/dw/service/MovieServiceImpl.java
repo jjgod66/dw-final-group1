@@ -449,4 +449,9 @@ public class MovieServiceImpl implements MovieService{
 		
 		return dataMap;
 	}
+
+	@Override
+	public List<Map<String, Object>> selectMovieInfo(String mem_cd) throws SQLException {
+		return movieDAO.selectMovieInfo(mem_cd);
+	}
 }

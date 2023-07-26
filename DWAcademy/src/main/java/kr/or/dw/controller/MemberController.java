@@ -2,7 +2,9 @@ package kr.or.dw.controller;
 
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,14 +18,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.dao.MovieDAO;
 import kr.or.dw.service.MemberService;
+import kr.or.dw.service.MovieService;
 import kr.or.dw.service.NaverLoginBO;
 import kr.or.dw.service.NaverLoginBO2;
 import kr.or.dw.service.SnsService;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.MoviePictureVO;
+import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.SnsVO;
 
 @Controller
@@ -36,6 +43,9 @@ public class MemberController {
 	
 	@Autowired
 	private SnsService snsService;
+	
+	@Autowired
+	private MovieService movieService;
 	
 	/* NaverLoginBO */
 	private NaverLoginBO2 naverLoginBO2;
@@ -155,6 +165,25 @@ public class MemberController {
 		return entity;
 	}
 	
+	@RequestMapping("/member/bookinglist")
+	public ModelAndView memberBookinglist(ModelAndView mnv, HttpSession session) throws SQLException {
+		String url = "/member/bookinglist";
+		
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		String mem_cd = member.getMem_cd();
+		if(member != null) {
+		
+			List<Map<String, Object>> movieInfo = movieService.selectMovieInfo(mem_cd);
+		
+			mnv.addObject("movieInfo", movieInfo);
+			System.out.println(movieInfo);
+		}
+		
+		
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
 	
 	
 	

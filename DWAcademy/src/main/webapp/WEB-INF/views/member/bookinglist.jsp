@@ -280,106 +280,19 @@ h3.tit {
 		</tbody>
 	</table>
 </div>
-<div id="bokdList"><div class="no-history-reservation mt20">	예매 내역이 없습니다. </div></div>
-<h3 class="tit mt70">예매취소내역</h3>
-<ul class="dot-list">
-	<li>상영일 기준 7일간 취소내역을 확인하실 수 있습니다.</li>
-</ul>
-<div class="table-wrap mt10">
-	<table class="board-list" summary="취소일시, 영화명, 극장, 상영일시, 취소금액 항목을 가진 취소내역 목록 표">
-		<caption>취소일시, 영화명, 극장, 상영일시, 취소금액 항목을 가진 취소내역 목록 표</caption>
-		<colgroup>
-			<col style="width:160px;">
-			<col>
-			<col style="width:130px;">
-			<col style="width:188px;">
-			<col style="width:105px;">
-		</colgroup>
-		<thead>
-			<tr>
-				<th scope="col">취소일시</th>
-				<th scope="col">영화명</th>
-				<th scope="col">극장</th>
-				<th scope="col">상영일시</th>
-				<th scope="col">취소금액</th>
-			</tr>
-		</thead>
-		<tbody><tr><td colspan="5" class="a-c">취소내역이 없습니다.</td></tr></tbody>
-	</table>
-</div>
-<div class="cont">
-	<strong>[예매 안내]</strong>
-	<ul class="dot-list mb30">
-		<li>만 4세(48개월) 이상부터는 영화티켓을 반드시 구매하셔야 입장 가능합니다.</li>
-		<li>예매 변경은 불가능하며, 취소 후 재 예매를 하셔야만 합니다.</li>
-	</ul>
+<div>총 1건</div>
+<c:if test="">
+	<div id="bokdList"><div class="no-history-reservation mt20">예매 내역이 없습니다.</div></div>
+</c:if>
+	<c:forEach items="${movieInfo}" var="movieInfo">
+	<div class="container">
+		<div class="card-body row" style="padding-rigth: 0;">
+			<div class="col-3" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat center /cover"></div>
+			<div class="col-9">${movieInfo.MOVIE_CD}</div>
+		</div>
+	</div>
+	</c:forEach>
 
-	<strong>[티켓교환 안내]</strong>
-	<ul class="dot-list mb30">
-		<li>극장의 무인발권기(KIOSK)를 통해 예매번호 또는 고객확인번호(생년월일+휴대폰번호)를 입력하여 편리하게 티켓을 발권하실 수 있습니다.</li>
-		<li>무인발권기 이용이 어려우신경우, 티켓교환권을 출력하여 매표소에 방문하시면 티켓을 발권하실 수 있습니다.</li>
-		<li>(티켓교환권 출력이 어려운경우 예매번호와 신분증을 지참하여 매표소에 방문하시면 티켓을 발권하실 수 있습니다)</li>
-	</ul>
-
-	<strong>[예매취소 안내]</strong>
-	<ul class="dot-list">
-		<li>온라인(홈페이지/모바일) 예매 취소는 상영시간 20분전까지 입니다.</li>
-		<li>위탁 예매 사이트 이용 시 취소 및 환불 규정은 해당 사이트 규정을 따릅니다.</li>
-		<li>LIVE 공연 콘텐트는 취소 기준은 아래와 같습니다.
-			<ul class="dash-list">
-				<li>관람 4일전 : 취소 가능</li>
-				<li>관람 3일 ~ 1일전 : 취소 수수료 부담 후 취소 가능</li>
-				<li>관람 당일 : 취소 및 환불 불가</li>
-			</ul>
-		</li>
-		<li>공연 관람시 시작 시간 이후에는 입장이 제한 됩니다.</li>
-		<li>발권된 티켓은 상영시간 전까지 현장 방문 시에만 취소가 가능합니다.</li>
-	</ul>
-</div>
-</section>
-<section id="myPurcArea"  class="content-section" style="display: none">
-<div class="board-list-util mb10">
-	<p class="result-count pt00">
-		<strong>전체 <b class="font-gblue">0</b>건</strong>
-	</p>
-</div>
-<div class="table-wrap">
-	<table class="board-list" summary="결제일시, 구분, 상품명, 결제금액, 상태 항목을 가진 결제내역 목록 표">
-		<caption>결제일시, 구분, 상품명, 결제금액, 상태 항목을 가진 결제내역 목록 표</caption>
-		<colgroup>
-			<col style="width:160px;">
-			<col style="width:150px;">
-			<col>
-			<col style="width:120px;">
-			<col style="width:120px;">
-		</colgroup>
-		<thead>
-			<tr>
-				<th scope="col">결제일시</th>
-				<th scope="col">구분</th>
-				<th scope="col">상품명</th>
-				<th scope="col">결제금액</th>
-				<th scope="col">상태</th>
-			</tr>
-		</thead>
-		<tbody><tr><td colspan="5" class="a-c">결제내역이 없습니다.</td></tr></tbody>
-	</table>
-</div>
-<div class="cont">
-	<strong>[스토어 구매/취소 안내]</strong>
-	<ul class="dot-list mb30">
-		<li>스토어 상품은 구매 후 취소가능기간 내 100% 환불이 가능하며, 부분환불은 불가 합니다. </li>
-		<li>(ex. 3개의 쿠폰을 한 번에 구매하신 경우, 3개 모두 취소만 가능하며 그 중 사용하신 쿠폰이 있는 경우 환불이 불가합니다)</li>
-		<li>스토어 교환권은 MMS로 최대 1회 재전송 하실 수 있습니다.</li>
-	</ul>
-	<strong>[모바일오더 구매/취소 안내]</strong>
-	<ul class="dot-list mb30">
-		<li class="font-red">ⓘ 모바일오더는 모바일앱을 통해 이용하실 수 있습니다.</li>
-		<li>모바일오더는 구매 후 즉시 조리되는 상품으로 취소가 불가 합니다.</li>
-		<li>극장 매점에서 주문번호가 호출되면 상품을 수령하실 수 있습니다.</li>
-		<li>극장 상황에 따라 상품준비시간이 다소 길어질 수 있습니다.</li>
-	</ul>
-</div>
 </section>
 <script>
 $(document).ready(function () {
