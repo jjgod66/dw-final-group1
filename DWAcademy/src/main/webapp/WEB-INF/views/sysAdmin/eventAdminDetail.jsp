@@ -98,6 +98,7 @@ textarea:focus {
 									<input type="text" id="thumb_name" class="form-control" value="${event.event_thum_path }" disabled>
 									<input type="hidden" id="event_pic_path" name="event_pic_path">
 									<input type="hidden" id="oldFileName" name="oldFileName">
+									<input type="hidden" id="removeFileName" name="removeFileName">
 								</span>
 							</div>
 						</div>
@@ -185,7 +186,7 @@ window.onload = function(){
 		registForm.submit();
 	});
 	
-	// 수정버튼 클릭시
+	// 수정완료버튼 클릭시
 	$('.card-footer').on('click','#modifyBtn', function(){
 		checkForm();
 		if ($('form[role="form"] .is-invalid').length > 0) {
@@ -207,7 +208,12 @@ window.onload = function(){
 	});
 	// 뒤로가기버튼 클릭시
 	$('#cancelBtn').on('click', function(){
-		location.href='eventAdminMain.do';
+		let enddate = "<fmt:formatDate value='${event.enddate }' pattern='yyyy-MM-dd hh:mm:ss'/>";
+		if (new Date(enddate) >= new Date()) {
+			location.href='eventAdminMain.do';
+		} else {
+			location.href='eventAdminPastMain.do';
+		}
 	});
 	
 	// 썸네일추가버튼 클릭시
@@ -215,6 +221,9 @@ window.onload = function(){
 		$('input[name="event_thum_path"]').click();
 	});
 	$('input[name="event_thum_path"]').on('change', function(){
+		if ($('#oldFileName')) {
+			$('#removeFileName').val($('#thumb_name').val());
+		}
 		$('#thumb_name').val($(this)[0].files[0].name);
 	});
 	

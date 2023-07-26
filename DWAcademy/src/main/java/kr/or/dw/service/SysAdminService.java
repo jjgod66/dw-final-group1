@@ -15,6 +15,7 @@ import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.TheaterVO;
+import kr.or.dw.vo.WinnerBoardVO;
 
 public interface SysAdminService {
 
@@ -153,6 +154,24 @@ public interface SysAdminService {
 	void modifyEventContent(Map<String, Object> modifyEventContentMap) throws SQLException;
 
 	// 해당하는 이벤트 게시글 수정
-	void modifyEvent(EventVO event) throws SQLException; 
+	void modifyEvent(EventVO event) throws SQLException;
+
+	// 해당하는 이벤트 게시글 삭제
+	void deleteEvent(int event_no) throws SQLException;
+
+	// 지난 이벤트 게시글 목록 불러오기
+	Map<String, Object> selectEventListforPast(SearchCriteria cri) throws SQLException;
+
+	// 당첨자발표 게시글 등록하기
+	void registWinnerBoard(WinnerBoardVO wb) throws SQLException;
+
+	// 해당 당첨자발표 게시글 조회
+	WinnerBoardVO selectWbByEvent_no(int event_no) throws SQLException;
+
+	// 해당 당첨자발표 게시글 수정
+	void modifyWinnerBoard(WinnerBoardVO wb) throws SQLException;
+
+	// 해당 당첨자발표 게시글 삭제
+	void deleteWinnerBoard(WinnerBoardVO wb) throws SQLException; 
 
 }

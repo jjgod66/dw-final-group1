@@ -149,6 +149,12 @@
 			)
 	</sql>
 	
+	<sql id="searchPastEvent">
+		AND (
+			event_title LIKE '%' || #{keyword} || '%'
+			)
+	</sql>
+	
 	<select id="selectSearchTheaterList" resultType="theater">
 		SELECT t.*, a.admin_id, a.admin_pwd
 		  FROM theater t, admin a
@@ -650,7 +656,7 @@
 	<select id="selectEventList" resultType="event">
 		SELECT *
 		  FROM event
-		 WHERE enddate <![CDATA[>]]> SYSDATE
+		 WHERE enddate <![CDATA[>=]]> SYSDATE
 		 <include refid="searchEvent"/>
 		 ORDER BY startdate DESC
 	</select>
@@ -658,7 +664,7 @@
 	<select id="selectSearchEventListCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM event
-		 WHERE enddate <![CDATA[>]]> SYSDATE
+		 WHERE enddate <![CDATA[>=]]> SYSDATE
 		 <include refid="searchEvent"/>
 	</select>
 	
@@ -746,7 +752,57 @@
 		      ,event_title = #{event_title}
 		      ,event_content = #{event_content}
 		      ,event_pic_path = #{event_pic_path}
+		      <if test="event_thum_path != null">
 		      ,event_thum_path = #{event_thum_path}
+		      </if>
 		 WHERE event_no = #{event_no}
 	</update>
+	
+	<delete id="deleteEvent">
+		DELETE 
+		  FROM event
+		 WHERE event_no = #{event_no}
+	</delete>
+	
+	<select id="selectEventListforPast" resultType="event">
+		SELECT *
+		  FROM event e, winner_board w
+		 WHERE enddate <![CDATA[<]]> SYSDATE
+		   AND e.event_no = w.event_no(+)
+		 <include refid="searchPastEvent"/>
+	</select>
+	
+	<select id="selectEventListforPastCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM event
+		 WHERE enddate <![CDATA[<]]> SYSDATE
+		 <include refid="searchPastEvent"/>
+	</select>
+	
+	<insert id="insertWinnerBoard">
+		INSERT INTO winner_board
+		 	 VALUES (
+		 	 		 #{event_no}
+		 	 		,#{winner_content}
+		 	 		,SYSDATE
+		 	 		)
+	</insert>
+	
+	<select id="selectWbByEvent_no" resultType="wb">
+		SELECT *
+		  FROM winner_board
+		 WHERE event_no = #{event_no}
+	</select>
+	
+	<update id="updateWinnerBoard">
+		UPDATE winner_board
+		   SET winner_content = #{winner_content}
+		 WHERE event_no = #{event_no}
+	</update>
+	
+	<delete id="deleteWinnerBoard">
+		DELETE
+		  FROM winner_board
+		 WHERE event_no = #{event_no}
+	</delete>
 </mapper>

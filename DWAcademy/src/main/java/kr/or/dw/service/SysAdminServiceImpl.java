@@ -25,6 +25,7 @@ import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.TheaterVO;
+import kr.or.dw.vo.WinnerBoardVO;
 
 public class SysAdminServiceImpl implements SysAdminService {
 
@@ -455,6 +456,54 @@ public class SysAdminServiceImpl implements SysAdminService {
 	public void modifyEvent(EventVO event) throws SQLException {
 		sysAdminDAO.updateEvent(event);
 		
+	}
+
+	@Override
+	public void deleteEvent(int event_no) throws SQLException {
+		sysAdminDAO.deleteEvent(event_no);
+		
+	}
+
+	@Override
+	public Map<String, Object> selectEventListforPast(SearchCriteria cri) throws SQLException {
+		
+		List<EventVO> eventList = null;
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum(); 
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		eventList = sysAdminDAO.selectEventListforPast(cri, rowBounds);
+		
+		int totalCount = sysAdminDAO.selectEventListforPastCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("eventList", eventList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		return dataMap;
+	}
+
+	@Override
+	public void registWinnerBoard(WinnerBoardVO wb) throws SQLException {
+		sysAdminDAO.insertWinnerBoard(wb);
+	}
+
+	@Override
+	public WinnerBoardVO selectWbByEvent_no(int event_no) throws SQLException {
+		return sysAdminDAO.selectWbByEvent_no(event_no);
+	}
+
+	@Override
+	public void modifyWinnerBoard(WinnerBoardVO wb) throws SQLException {
+		sysAdminDAO.updateWinnerBoard(wb);
+	}
+
+	@Override
+	public void deleteWinnerBoard(WinnerBoardVO wb) throws SQLException {
+		sysAdminDAO.deleteWinnerBoard(wb);
 	}
 
 }

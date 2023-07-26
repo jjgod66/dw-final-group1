@@ -313,6 +313,7 @@ thead, tfoot {
 #boxOffice, #futureOffice {
 	padding : 0.3rem;
 }
+
 </style>
 
 <div id="wrapper">

@@ -18,7 +18,9 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +52,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import kr.or.dw.command.EventModifyCommand;
 import kr.or.dw.command.EventRegistCommand;
 import kr.or.dw.command.MovieModifyCommand;
 import kr.or.dw.command.MovieRegistCommand;
@@ -67,6 +70,7 @@ import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.TheaterVO;
+import kr.or.dw.vo.WinnerBoardVO;
 
 @Controller
 @RequestMapping("/sysAdmin")
@@ -794,7 +798,7 @@ public class SysAdminController {
 		}
 		
 		// 이벤트 이미지 로컬에 저장
-		if (registReq.getEvent_pic_path() != null) {
+		if (registReq.getEvent_pic_path() != null && registReq.getEvent_pic_path() != "") {
 			String fileName = event.getEvent_pic_path();
 			File oldFile = new File(eventPicUploadPath + File.separator + "temp", registReq.getOldFileName());
 			File newFilePath = new File(eventPicUploadPath + File.separator + event.getEvent_no() + File.separator + "img");
@@ -815,26 +819,37 @@ public class SysAdminController {
 	}
 	
 	@RequestMapping("/eventAdminModify")
-	public void eventAdminModify (EventRegistCommand registReq, HttpServletRequest req, HttpServletResponse res) throws SQLException, IllegalStateException, IOException {
+	public void eventAdminModify (EventModifyCommand modifyReq, HttpServletRequest req, HttpServletResponse res) throws SQLException, IllegalStateException, IOException {
+		
 		String eventPicUploadPath = this.eventPicUploadPath;
-		EventVO event = registReq.toEventVO();
-		System.out.println(registReq);
+		System.out.println(modifyReq);
+		
+		EventVO event = modifyReq.toEventVO();
+		
+		if (!modifyReq.getRemoveFileName().equals("")) {
+			event.setEvent_thum_path(modifyReq.getEvent_thum_path().getOriginalFilename());
+		}
+		
 		sysAdminService.modifyEvent(event);
+		
 		int event_no = event.getEvent_no();
-		String newContent = registReq.getEvent_content().replace("/sysAdmin/getTempImg.do?fileName="+registReq.getOldFileName() 
-																	,"/sysAdmin/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
-
 		Map<String, Object> modifyEventContentMap = new HashMap<>();
-		modifyEventContentMap.put("event_no", event.getEvent_no());
-		modifyEventContentMap.put("newContent", newContent);
-		sysAdminService.modifyEventContent(modifyEventContentMap);
+		if (modifyReq.getEvent_content().contains("/sysAdmin/getTempImg.do?fileName=")) {
+			String newContent = modifyReq.getEvent_content().replace("/sysAdmin/getTempImg.do?fileName="+modifyReq.getOldFileName() 
+																	,"/sysAdmin/getPicture.do?name="+modifyReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+			modifyEventContentMap.put("event_no", event.getEvent_no());
+			modifyEventContentMap.put("newContent", newContent);
+			sysAdminService.modifyEventContent(modifyEventContentMap);
+		}
+
 		
 		// 이벤트 썸네일 로컬에 저장
-		MultipartFile thumb = registReq.getEvent_thum_path();
-		if (thumb != null) {
+		if (!modifyReq.getRemoveFileName().equals("")) {
+			MultipartFile thumb = modifyReq.getEvent_thum_path();
+			System.out.println("test!!!!");
 			String fileName = thumb.getOriginalFilename();
-			File newFilePath = new File(eventPicUploadPath + File.separator + event_no + File.separator + "thumb");
-			File[] fileList = newFilePath.listFiles();
+			File filePath = new File(eventPicUploadPath + File.separator + event_no + File.separator + "thumb");
+			File[] fileList = filePath.listFiles();
 			for (File file : fileList) {
 				file.delete();
 			}
@@ -847,9 +862,8 @@ public class SysAdminController {
 		}
 		
 		// 이벤트 이미지 로컬에 저장
-		if (registReq.getEvent_pic_path() != null) {
+		if (!modifyReq.getEvent_pic_path().equals("")) {
 			String fileName = event.getEvent_pic_path();
-			File oldFile = new File(eventPicUploadPath + File.separator + "temp", registReq.getOldFileName());
 			File newFilePath = new File(eventPicUploadPath + File.separator + event_no + File.separator + "img");
 			File[] fileList = newFilePath.listFiles();
 			for (File file : fileList) {
@@ -858,6 +872,7 @@ public class SysAdminController {
 			if (!newFilePath.exists()) {
 				newFilePath.mkdirs();
 			}
+			File oldFile = new File(eventPicUploadPath + File.separator + "temp", modifyReq.getOldFileName());
 			boolean renameTo = oldFile.renameTo(new File(newFilePath, fileName));
 		}
 		
@@ -869,23 +884,106 @@ public class SysAdminController {
 		out.println("</script>");
 		out.flush();
 		out.close();
-	}	
+	}
 	
-	@GetMapping("/eventAdminPast")
-	public String eventAdminPast() {
-		String url="/sysAdmin/eventAdminPast";
-		return url;
+	@RequestMapping("/eventAdminDelete")
+	public void eventAdminDelete (EventModifyCommand modifyReq, HttpServletResponse res) throws SQLException, IOException {
+		String eventPicUploadPath = this.eventPicUploadPath;
+		
+		int event_no = modifyReq.getEvent_no();
+		sysAdminService.deleteEvent(event_no);
+		
+		File directory = new File(eventPicUploadPath + File.separator + event_no);
+		FileUtils.deleteDirectory(directory);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('이벤트 게시물 삭제가 완료되었습니다.')");
+		out.println("location.href='eventAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminPastMain")
+	public ModelAndView eventAdminPastMain(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url="/sysAdmin/eventAdminPastMain";
+		
+		Map<String, Object> dataMap = sysAdminService.selectEventListforPast(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "지난 이벤트", url+".do");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/eventAdminWinnerRegistForm")
+	public ModelAndView eventAdminWinnerRegistForm (ModelAndView mnv, String event_no, String type) throws NumberFormatException, SQLException {
+		String url="/sysAdmin/eventAdminRegist";
+		EventVO event = sysAdminService.selectEventByEvent_no(Integer.parseInt(event_no));
+		mnv.addObject("event", event);
+		if (type.equals("create")) {
+			Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "당첨자 발표 작성", url+".do?event_no=" + event_no + "&type=" + type);
+			mnv.addAllObjects(subjectMap);
+		} else if (type.equals("read")) {
+			Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "당첨자 발표 조회", url+".do?event_no=" + event_no + "&type=" + type);
+			mnv.addAllObjects(subjectMap);
+			WinnerBoardVO wb = sysAdminService.selectWbByEvent_no(Integer.parseInt(event_no));
+			mnv.addObject("wb", wb);
+		}
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/eventAdminWinnerRegist")
+	public void eventAdminWinnerRegist(WinnerBoardVO wb, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.registWinnerBoard(wb);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('당첨자 게시물  등록이 완료되었습니다.')");
+		out.println("location.href='eventAdminPastMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminWinnerModify")
+	public void eventAdminWinnerModify(WinnerBoardVO wb, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.modifyWinnerBoard(wb);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('당첨자 게시물  수정이 완료되었습니다.')");
+		out.println("location.href='eventAdminPastMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminWinnerDelete")
+	public void eventAdminWinnerDelete(WinnerBoardVO wb, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.deleteWinnerBoard(wb);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('당첨자 게시물 삭제가 완료되었습니다.')");
+		out.println("location.href='eventAdminPastMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
 	}
 	
 	@GetMapping("/eventAdminWinner")
 	public String eventAdminWinner() {
 		String url="/sysAdmin/eventAdminWinner";
-		return url;
-	}
-	
-	@GetMapping("/eventRegist")
-	public String eventRegist() {
-		String url="/sysAdmin/eventRegist";
 		return url;
 	}
 	

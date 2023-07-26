@@ -1,16 +1,25 @@
 package kr.or.dw.util;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import kr.or.dw.service.CouponService;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.service.PointService;
+import kr.or.dw.service.SysAdminService;
 
 public class Scheduler {
 
+	@Resource(name ="eventPicUploadPath")
+	private String eventPicUploadPath;
+	
 	@Autowired
 	PointService pointService;
 	
@@ -43,4 +52,10 @@ public class Scheduler {
 //	public void memSleep() throws SQLException {
 //		memberService.sleepMem();
 //	}
+	
+	@Scheduled(cron = "0 0 17 ? * *")
+	public void removeTempImg() throws IOException {
+		File directory = new File(eventPicUploadPath + "temp");
+		FileUtils.cleanDirectory(directory);
+	}
 }

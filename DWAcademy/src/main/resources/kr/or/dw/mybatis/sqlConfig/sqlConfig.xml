@@ -31,6 +31,7 @@
 		<typeAlias type="kr.or.dw.vo.QnaVO" alias="qna"/>
 		<typeAlias type="kr.or.dw.vo.AnswerVO" alias="ans"/>
 		<typeAlias type="kr.or.dw.vo.EventVO" alias="event"/>
+		<typeAlias type="kr.or.dw.vo.WinnerBoardVO" alias="wb"/>
 
 	</typeAliases>
 
