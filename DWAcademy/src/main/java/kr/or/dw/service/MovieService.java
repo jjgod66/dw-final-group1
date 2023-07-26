@@ -185,7 +185,8 @@ public interface MovieService {
 	 * @return
 	 */
 	List<Map<String, Object>> searchReview(String keyword, HttpSession session) throws SQLException;
-	 * 해당 영화 무비포스트 4개 가져오는 메서드
+	 
+	/** 해당 영화 무비포스트 4개 가져오는 메서드
 	 * @param movie_cd 
 	 * @return
 	 */

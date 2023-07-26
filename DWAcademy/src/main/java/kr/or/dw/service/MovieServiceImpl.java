@@ -382,6 +382,9 @@ public class MovieServiceImpl implements MovieService{
 			System.out.println(review);
 		
 		}
+		return reviewList;
+	}
+	@Override
 	public List<Map<String, Object>> getMoviePost4(String movie_cd) throws SQLException {
 		List<Map<String, Object>> allMoviePostList = null;
 		allMoviePostList = movieDAO.selectMoviePostMap(movie_cd);
@@ -423,9 +426,5 @@ public class MovieServiceImpl implements MovieService{
 		dataMap.put("pageMaker", pageMaker);
 		
 		return dataMap;
-	}
-
-
-		return reviewList;
 	}
 }

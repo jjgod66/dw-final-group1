@@ -363,9 +363,11 @@ public class MovieController {
 		String url = "movie/review";
 		
 		System.out.println(keyword);
-		List<Map<String, Object>> review = movieService.searchReview(keyword, session);
-		System.out.println(review.get(0));
-		mnv.addObject("reviewList", review);
+		if(keyword != null) {
+			List<Map<String, Object>> review = movieService.searchReview(keyword, session);
+			System.out.println(review);
+			mnv.addObject("reviewList", review);
+		}
 		mnv.setViewName(url);
 			
 		return mnv;
