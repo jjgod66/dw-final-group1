@@ -418,4 +418,25 @@
 		AND mp.gb_del = 'N'
 		AND movie_name like '%' || #{keyword} || '%'
 	</select>
+	
+	<select id="getSearchReviewListCount" resultType="int">
+		SELECT count(*)
+		  FROM review
+		 WHERE gb_del = 'N'
+	</select>
+	
+	<select id="selectMovieCode" resultType="movie">
+		SELECT m.movie_cd, movie_name
+		  FROM (
+				SELECT movie_cd
+				FROM reservation r, screen s
+				WHERE r.screen_cd = s.screen_cd
+				AND mem_cd = #{mem_cd}
+				AND gb_cancel = 'N'
+				AND startdate <![CDATA[<]]> sysdate
+				GROUP BY movie_cd
+		  		) mcd, movie m
+		  WHERE mcd.movie_cd = m.movie_cd
+	</select>
+
 </mapper>

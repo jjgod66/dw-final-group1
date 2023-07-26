@@ -240,9 +240,11 @@ public interface MovieDAO {
 	
 	/**
 	 * 모든 영화의 리뷰를 가져오는 메서드
+	 * @param rowBounds 
+	 * @param cri 
 	 * @return
 	 */
-	List<Map<String, Object>> getAllMovieReview() throws SQLException;
+	List<Map<String, Object>> getAllMovieReview(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
 
 	/**
 	 * 영화 평균 평점 가져오는 메서드
@@ -279,5 +281,19 @@ public interface MovieDAO {
 	 * @throws SQLException
 	 */
 	int selectSearchMoviePostcnt(SearchCriteria cri) throws SQLException;
+
+	/**
+	 * 리뷰의 갯수
+	 * @param cri
+	 * @return
+	 */
+	int getSearchReviewListCount(SearchCriteria cri) throws SQLException;
+
+	/**
+	 * 영화 코드를 가져오는 메서드
+	 * @param mem_cd 
+	 * @return
+	 */
+	List<MovieVO> selectMovieCode(String mem_cd) throws SQLException;
 
 }
