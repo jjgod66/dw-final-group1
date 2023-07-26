@@ -208,13 +208,11 @@
 											<p>신고</p>
 										</a>
 									</c:if>
-								
 									<c:if test="${review.MEM_CD == mem_cd }">
 										<a href="javascript:void(0);" style="color: black; text-align: center;" class="col-6" id="reviewUpdateBtn" data-review_no="${review.REVIEW_NO }">
 											<p>수정</p>
 										</a>
 									</c:if>
-									
 								</div>
 							</div>
 						</div>

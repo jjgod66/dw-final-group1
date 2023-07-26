@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
@@ -250,6 +252,11 @@ public interface MovieDAO {
 	double selectMovieRateAvg(String movie_cd) throws SQLException;
 
 	/**
+	 * 리뷰를 검색하는 메서드
+	 * @param searchReview
+	 * @return
+	 */
+	List<Map<String, Object>> searchReview(String keyword) throws SQLException;
 	 * 해당 영화의 무비포스트 맵으로 가져오는 메서드
 	 * @param movie_cd
 	 * @return

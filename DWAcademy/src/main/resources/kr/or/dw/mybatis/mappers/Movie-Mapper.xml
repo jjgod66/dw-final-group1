@@ -299,10 +299,15 @@
 	</select>
 	
 	<select id="getAllMovieReview" resultType="Map">
-		SELECT m.MOVIE_NAME , r.*, mem.MEM_ID 
+		SELECT m.MOVIE_NAME , r.*, mem.MEM_ID, (
+		  		SELECT count(*)
+		  		  FROM review_like
+		  		 WHERE REVIEW_NO = r.REVIEW_NO
+		  		) reviewlike
 		  FROM movie m, review r, MEMBER mem
 		 WHERE m.MOVIE_CD = r.MOVIE_CD
  		   AND mem.MEM_CD = r.MEM_CD
+ 		   AND r.gb_del = 'N'
 	</select>
 	
 	<insert id="insertReviewLike">
@@ -348,6 +353,18 @@
 		SELECT nvl(ROUND(avg(review_rating), 3),0)
 		FROM review
 		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="searchReview" resultType="Map">
+		SELECT r.*, m.movie_name, mem.mem_id, (
+				SELECT count(*)
+		  		  FROM review_like
+		  		 WHERE REVIEW_NO = r.REVIEW_NO
+		  		) reviewlike
+		  FROM review r, movie m, member mem
+		 WHERE movie_name like '%' || #{keyword} ||'%'
+ 		   AND m.MOVIE_CD = r.MOVIE_CD
+   		   AND mem.MEM_CD = r.MEM_CD
 	</select>
 	
 	<select id="selectMoviePostMap" resultType="Map">

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.SystemPropertyUtils;
 
 import kr.or.dw.command.MovieViewerCommand;
 import kr.or.dw.command.PageMaker;
@@ -314,8 +315,29 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	@Override
-	public List<Map<String, Object>> getAllMovieReview() throws SQLException {
-		return movieDAO.getAllMovieReview();
+	public List<Map<String, Object>> getAllMovieReview(HttpSession session) throws SQLException {
+		List<Map<String, Object>> reviewList = null;
+		reviewList = movieDAO.getAllMovieReview();
+
+		for(Map<String, Object> review : reviewList) {
+			String reviewLikeActive = "N";
+			if(session.getAttribute("loginUser") != null) {
+				int count = 0;
+				Map<String, Object> param = new HashMap<>();
+				param.put("review_no", review.get("REVIEW_NO"));
+				param.put("mem_cd", ((MemberVO)session.getAttribute("loginUser")).getMem_cd());
+				count = movieDAO.selectReviewLikeYN(param);
+				if(count > 0) {
+					reviewLikeActive = "Y";
+				}
+			}
+			review.put("reviewLikeActive", reviewLikeActive);
+			System.out.println(review);
+
+		}
+		
+		return reviewList;
+		
 	}
 
 	public List<MoviePreviewVO> getMoviePreview(String movie_cd) throws SQLException {
@@ -340,6 +362,26 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	@Override
+	public List<Map<String, Object>> searchReview(String keyword, HttpSession session) throws SQLException {
+		List<Map<String, Object>> reviewList = null;
+		reviewList = movieDAO.searchReview(keyword);
+		
+		for(Map<String, Object> review : reviewList) {
+			String reviewLikeActive = "N";
+			if(session.getAttribute("loginUser") != null) {
+				int count = 0;
+				Map<String, Object> param = new HashMap<>();
+				param.put("review_no", review.get("REVIEW_NO"));
+				param.put("mem_cd", ((MemberVO)session.getAttribute("loginUser")).getMem_cd());
+				count = movieDAO.selectReviewLikeYN(param);
+				if(count > 0) {
+					reviewLikeActive = "Y";
+				}
+			}
+			review.put("reviewLikeActive", reviewLikeActive);
+			System.out.println(review);
+		
+		}
 	public List<Map<String, Object>> getMoviePost4(String movie_cd) throws SQLException {
 		List<Map<String, Object>> allMoviePostList = null;
 		allMoviePostList = movieDAO.selectMoviePostMap(movie_cd);
@@ -384,4 +426,6 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 
+		return reviewList;
+	}
 }

@@ -15,4 +15,5 @@ public class ReviewVO {
 	private Date regdate;
 	private String gb_del;
 	private Date updatedate;
+	private String movie_name;
 }
