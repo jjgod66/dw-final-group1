@@ -76,7 +76,7 @@
 							</a>
 						</td>
 						<td style="width: 10%;">
-							<button type="button" class="btn_medium registWinner" data-no="${event.event_no }" data-type="${empty event.winnerdate ? 'create' : 'read' }">당첨자 발표  ${empty event.winnerdate ? '작성' : '조회' }</button>
+							<button type="button" class="btn_medium registWinner" style="background-color: ${empty event.winnerdate ? '#4aa8d8' : 'black' }; border: none;" data-no="${event.event_no }" data-type="${empty event.winnerdate ? 'create' : 'read' }">당첨자 발표  ${empty event.winnerdate ? '작성' : '조회' }</button>
 						</td>
 					</tr>
 				</c:forEach>

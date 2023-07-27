@@ -186,5 +186,29 @@ public interface SysAdminService {
 	// 메인용 상영영화 목록 가져오기
 	List<MovieVO> selectCurrentMovieForMain() throws SQLException;
 
+	// 가입된 회원 목록 가져오기
+	Map<String, Object> selectMemberList(SearchCriteria cri) throws SQLException;
+
+	// 회원 상세페이지를 위한 회원 정보 가져오기
+	Map<String, Object> selectMemberByMem_cd(String mem_cd) throws SQLException;
+
+	// 회원이 지금까지 본 영화 정보 조회하기
+	List<Map<String, Object>> selectWatchedMovieListByMem_cd(String mem_cd) throws SQLException;
+
+	// 회원이 지금까지 본 영화 정보 조회하기 5개만
+	List<Map<String, Object>> selectWatchedMoviePreviewListByMem_cd(String mem_cd) throws SQLException;
+
+	// 회원이 지금까지 작성한 리뷰글 5개만
+	List<Map<String, Object>> selectReviewPreviewListByMem_cd(String mem_cd) throws SQLException;
+
+	// 회원이 지금까지 작성한 리뷰 조회
+	List<Map<String, Object>> selectReviewListByMem_cd(String mem_cd) throws SQLException;
+
+	// 회원이 지금까지 작성한 무비포스트 5개만
+	List<Map<String, Object>> selectMpPreviewListByMem_cd(String mem_cd) throws SQLException;
+
+	// 회원이 지금까지 작성한 무비포스트 댓글 5개만
+	List<Map<String, Object>> selectMpReplyPreviewListByMem_cd(String mem_cd) throws SQLException;
+
 
 }
