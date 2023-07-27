@@ -26,6 +26,7 @@ import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ReplyVO;
 import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
@@ -368,6 +369,85 @@ public class MovieController {
 		
 		return entity;
 	}
+	
+	@RequestMapping("/moviePostRegist")
+	public void moviePostRegist(MoviePostVO moviePost, HttpServletResponse res, HttpSession session) throws Exception {
+		
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		
+		moviePost.setMem_cd(mem_cd);;
+		
+		movieService.registMoviePost(moviePost);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('등록되었습니다.')");
+		out.println("location.href='moviePost.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/moviePostView")
+	public ResponseEntity<Map<String, Object>> moviePostView(int mpost_no, HttpSession session){
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		Map<String, Object> mpostMap = null;
+		
+		String mem_cd = "";
+		if(session.getAttribute("loginUser") != null) {
+			mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		}
+		
+		try {
+			mpostMap = movieService.getMoivePostView(mpost_no, mem_cd);
+			System.out.println("mpostMap : " + mpostMap);
+			entity = new ResponseEntity<Map<String,Object>>(mpostMap, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/moviePostReplyRegist")
+	public ResponseEntity<Map<String, Object>> replyRegist(ReplyVO reply, HttpSession session){
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		reply.setMem_cd(mem_cd);
+		Map<String, Object> replyMap = null;
+		try {
+			replyMap = movieService.registReply(reply);
+			entity = new ResponseEntity<Map<String,Object>>(replyMap, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+		
+	}
+	
+	@RequestMapping("/mpLike")
+	public ResponseEntity<String> mpLike(int mpost_no, HttpSession session){
+		ResponseEntity<String> entity = null;
+	
+		
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		try {
+			movieService.clickMoviePostLike(mpost_no, mem_cd);
+			entity = new ResponseEntity<String>("S", HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
 	
 	@RequestMapping("/review")
 	public ModelAndView movieReview(SearchCriteria cri, ModelAndView mnv, HttpSession session, HttpServletResponse res, HttpServletRequest req) throws SQLException, IOException {

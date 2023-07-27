@@ -14,6 +14,7 @@ import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ReplyVO;
 import kr.or.dw.vo.ReviewVO;
 
 @Mapper
@@ -302,5 +303,60 @@ public interface MovieDAO {
 	 * @return
 	 */
 	List<Map<String, Object>> selectMovieInfo(String mem_cd) throws SQLException;
+
+	/**
+	 * 무비포스트 작성 메서드
+	 * @param moviePost
+	 * @throws SQLException
+	 */
+	void insertMoviePost(MoviePostVO moviePost) throws SQLException;
+
+	/**
+	 * 무비포스트 조회
+	 * @param mpost_no
+	 * @return
+	 */
+	Map<String, Object> selectMoviePostView(int mpost_no) throws SQLException;
+
+	/**
+	 * 무비포스트 댓글 리스트 가져오는 메서드
+	 * @param mpost_no
+	 * @return
+	 */
+	List<Map<String, Object>> selectMoviePostReply(int mpost_no) throws SQLException;
+
+	/**
+	 * 로그인한 회원이 해당 무비포스트 좋아요를 눌렀는지 안눌렀는지 확인하는 메서드
+	 * @param param
+	 * @return
+	 * @throws SQLException
+	 */
+	int selectMemMpostLikeYN(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 댓글 작성
+	 * @param reply
+	 */
+	void insertReply(ReplyVO reply) throws SQLException;
+
+	/**
+	 * 댓글 작성 후 작성한 댓글 정보 가져오는 메서드
+	 * @param reply_no
+	 * @return
+	 */
+	Map<String, Object> selectRegReply(int reply_no) throws SQLException;
+
+	/**
+	 * 무비포스트 좋아요
+	 * @param param
+	 */
+	void insertMoviePostLike(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 무비포스트 좋아요 취소
+	 * @param param
+	 */
+	void deleteMoviePostLike(Map<String, Object> param) throws SQLException;
+
 
 }

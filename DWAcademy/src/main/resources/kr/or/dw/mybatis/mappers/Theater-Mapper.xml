@@ -5,6 +5,7 @@
 		SELECT thr_name
 		FROM theater
 		WHERE thr_loc = #{thr_loc}
+		AND gb_del = 'N'
 	</select>
 	
 	<select id="selectTheaterInfo" resultType="theater">

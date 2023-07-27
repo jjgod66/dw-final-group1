@@ -18,11 +18,13 @@
 				GROUP BY thr_name
 			) h1, theater t
 		WHERE h1.thr_name = t.thr_name
+		AND gb_del = 'N'
 	</select>
 	
 	<select id="selectAllTheater" resultType="Map">
 		SELECT thr_loc, thr_name
 		FROM theater
+		WHERE gb_del = 'N'
 	</select>
 	
 	<select id="selectScreenSchedual" resultType="Map">
@@ -183,9 +185,11 @@
 	</select>
 	
 	<select id="selectMemLikeThr" resultType="str">
-		SELECT thr_name
-		FROM mem_like_theater
-		WHERE mem_cd = #{mem_cd}
+		SELECT mlt.thr_name
+		FROM mem_like_theater mlt, theater t
+		WHERE mlt.thr_name = t.thr_name
+		AND gb_del = 'N'
+		AND mem_cd = #{mem_cd}
 	</select>
 	
 	<select id="selectResSMSInfo" resultType="Map">

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import kr.or.dw.command.MovieViewerCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ReplyVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MoviePostVO;
@@ -206,5 +207,36 @@ public interface MovieService {
 	 * @return
 	 */
 	List<Map<String, Object>> selectMovieInfo(String mem_cd) throws SQLException;
+
+	/**
+	 * 무비포스트 작성 메서드
+	 * @param moviePost
+	 */
+	void registMoviePost(MoviePostVO moviePost) throws SQLException;
+
+	/**
+	 * 무비포스트 조회
+	 * @param mpost_no
+	 * @param mem_cd 
+	 * @return
+	 * @throws SQLException
+	 */
+	Map<String, Object> getMoivePostView(int mpost_no, String mem_cd) throws SQLException;
+
+	/**
+	 * 댓글 작성
+	 * @param reply_content
+	 * @param mpost_no
+	 * @param mem_cd
+	 * @return
+	 */
+	Map<String, Object> registReply(ReplyVO reply) throws SQLException;
+
+	/**
+	 * 무비포스트 좋아요
+	 * @param mpost_no
+	 * @param mem_cd
+	 */
+	void clickMoviePostLike(int mpost_no, String mem_cd) throws SQLException;
 
 }
