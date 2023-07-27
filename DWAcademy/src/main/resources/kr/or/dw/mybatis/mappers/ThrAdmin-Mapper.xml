@@ -9,16 +9,56 @@
 		WHERE enddate > sysdate
 	</select>
 	
+	<select id="getTotalReCount1" resultType="int">
+		SELECT count(*)
+		FROM movie m, (
+			SELECT m.movie_cd, count(*) reserve
+			FROM movie m, screen s, reservation r
+			WHERE 1=1
+			AND m.movie_cd = s.movie_cd(+)
+			AND s.screen_cd = r.screen_cd(+)
+			AND TO_CHAR(resdate, 'YYYYMMDD') = TO_CHAR(sysdate-1,'YYYYMMDD')
+			GROUP BY m.movie_cd
+			) r
+		WHERE m.movie_cd = r.movie_cd(+)
+	</select>
+	
+		<select id="getAllMovieList" resultType="Map">
+		SELECT *
+		FROM movie
+		WHERE enddate > sysdate
+		</select>
+	
+	<select id="selectAllScreens1" resultType="movie">
+		SELECT *
+		FROM movie
+		WHERE enddate > sysdate
+	</select>
+	
+	 <select id="getTotalReCount" resultType="int">
+       SELECT COUNT(*) FROM movie WHERE enddate > sysdate
+    </select>
+	
+	
 	<select id="selectAllStart" resultType="screen">
 		SELEct *
 		from screen
 	</select>
 	
+	 <select id="selectList" parameterType="Map" resultType="movie">
+        SELECT *
+        FROM (
+            SELECT m.*, ROW_NUMBER() OVER (ORDER BY OPENDATE DESC) AS rnum
+            FROM movie m
+        )
+        WHERE rnum BETWEEN #{start} AND #{end}
+    </select>
+	
 	<select id="selectAllRe" resultType="Map">
 		SELECT t.THR_NAME, s.house_no, s.movie_cd, m.MOVIE_LENGTH, TO_CHAR(s.STARTDATE,'HH24:MI')as startTime, TO_CHAR( s.STARTDATE + (m.MOVIE_LENGTH)/(24*60),'HH24:MI' )AS EndTime,
 		   TO_CHAR(LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE), 'yyyy-MM-dd HH24:MI:SS') AS before_movieEndTime,
 		  TO_CHAR(round( NVL(  (s.STARTDATE - LAG(s.STARTDATE + (m.MOVIE_LENGTH)/(24*60)) OVER (ORDER BY s.house_no, s.STARTDATE)) * 24 * 60 ,0) )) AS re ,
-		   s.screen_cd , m.MOVIE_NAME ,COUNT(t.THR_NAME) OVER () AS tcount
+		   s.screen_cd , m.MOVIE_NAME ,COUNT(t.THR_NAME) OVER () AS TCOUNT
 		FROM screen s, movie m, theater t, house h
 		WHERE 1=1
 		    AND s.movie_cd = m.movie_cd
@@ -44,6 +84,76 @@
 		ORDER BY s.house_no
 	</select>
 	
+	<select id="selectSearchMovieList" resultType="Map">
+		SELECT m.*, nvl(reserve,0)
+		FROM movie m, (
+			SELECT m.movie_cd, count(*) reserve
+			FROM movie m, screen s, reservation r
+			WHERE 1=1
+			AND m.movie_cd = s.movie_cd(+)
+			AND s.screen_cd = r.screen_cd(+)
+			AND TO_CHAR(resdate, 'YYYYMMDD') = TO_CHAR(sysdate-1,'YYYYMMDD')
+			GROUP BY m.movie_cd
+			) r
+		WHERE m.movie_cd = r.movie_cd(+)
+		 <include refid="searchKeywordMov" />
+		 <include refid="searchTypeMov" />
+	</select>
 	
+	<select id="selectReservRatio" resultType="double">
+		SELECT round((SELECT COUNT(*) 
+  		  			   				 FROM movie m1, reservation r1, screen s1 
+ 					 				WHERE s1.movie_cd = #{movie_cd}
+ 					 				  AND m1.movie_cd = s1.movie_cd
+ 		   							  AND s1.screen_cd = r1.screen_cd 
+		  							  AND TO_CHAR(r1.resdate, 'YYYYMMDD')  = TO_CHAR(sysdate-1,'YYYYMMDD'))
+			       				 / 
+			       				(SELECT DECODE((SELECT count(*) FROM RESERVATION r WHERE TO_CHAR(resdate, 'YYYYMMDD')  = TO_CHAR(sysdate-1,'YYYYMMDD')), 0, 1, (SELECT count(*) FROM RESERVATION r WHERE TO_CHAR(resdate, 'YYYYMMDD')  = TO_CHAR(sysdate-1,'YYYYMMDD'))) FROM DUAL)
+		       				, 2) * 100 reserveRatio
+ 					   FROM dual
+	</select>
 	
+	<select id="selectSearchMovieListCount" resultType="int">
+		SELECT count(*)
+		FROM movie m, (
+			SELECT m.movie_cd, count(*) reserve
+			FROM movie m, screen s, reservation r
+			WHERE 1=1
+			AND m.movie_cd = s.movie_cd(+)
+			AND s.screen_cd = r.screen_cd(+)
+			AND TO_CHAR(resdate, 'YYYYMMDD') = TO_CHAR(sysdate-1,'YYYYMMDD')
+			GROUP BY m.movie_cd
+			) r
+		WHERE m.movie_cd = r.movie_cd(+)
+		 <include refid="searchKeywordMov" />
+		 <include refid="searchTypeMov" />
+	</select>
+	
+	<sql id="searchKeywordMov">
+ 		<if test="keyword == 'f'.toString()"> 
+	 		 <![CDATA[
+				AND m.opendate > SYSDATE 
+ 			 ]]>  
+ 		</if>
+		<if test="keyword == ''.toString()">
+			<![CDATA[
+				AND m.ENDDATE > SYSDATE 
+ 			 ]]> 
+		</if>  
+	</sql>
+	
+	<sql id="searchTypeMov">
+		<if test="searchType == ''.toString()">
+			ORDER BY r.reserve DESC NULLS last
+		</if>
+		<if test="searchType == 'r'.toString()">
+			ORDER BY r.reserve DESC NULLS last
+		</if>
+		<if test="searchType == 'n'.toString()">
+			ORDER BY m.movie_name ASC
+		</if>
+		<if test="searchType == 'd'.toString()">
+			ORDER BY m.opendate ASC
+		</if>
+	</sql>
 </mapper>

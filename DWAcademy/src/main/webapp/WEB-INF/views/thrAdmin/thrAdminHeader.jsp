@@ -279,7 +279,7 @@ nav ul {
 				<ul>
 					<li>DW시네마 v1.0.1</li>
 					<li><a href="#">관리자정보</a></li>
-					<li><a href="#">관리자홈</a></li>
+					<li><a href="<%=request.getContextPath() %>/thrAdmin/main.do>">관리자홈</a></li>
 					<li><a href="<%=request.getContextPath() %>/sysAdmin/adminCinemaMain.do">DW시네마 바로가기 </a></li>
 					<li id="tnb_logout"><a
 						href="">로그아웃</a></li>

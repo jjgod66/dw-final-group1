@@ -1,24 +1,37 @@
 package kr.or.dw.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonArray;
 
+import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.ThrAdminService;
 import kr.or.dw.vo.ClickMovieInfoVO;
@@ -35,14 +48,14 @@ public class ThrAdminController {
 	@Autowired
 	private ThrAdminService thrAdminService;
 	
-	@RequestMapping("/main")
-	public ModelAndView thrAdminIndex(ModelAndView mnv) {
-		
-		String url = "/thrAdmin/main";
-		
-		mnv.setViewName(url);
-		return mnv;
-	}
+	@Resource(name ="moviePicUploadPath")
+	private String moviePicUploadPath;
+	
+	@Resource(name ="storePicUploadPath")
+	private String storePicUploadPath;
+
+	
+	
 
 	@RequestMapping("/theaterAdminMain")
 	public ModelAndView placeAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException {
@@ -75,18 +88,16 @@ public class ThrAdminController {
 		return mnv;
 	}
 	
-	
 	@GetMapping("/movieAdminMain")
-	public ModelAndView movieAdmin(ModelAndView mnv, String movie_cd) throws SQLException {
+	public ModelAndView movieAdmin(ModelAndView mnv,SearchCriteria cri) throws SQLException {
 		String url = "/thrAdmin/movieAdminMain";
-		if(movie_cd == null) {
-			movie_cd = "";
-		}
-		List<MovieVO> allScreenList = null;
-		allScreenList = thrAdminService.getAllScreens();
 		
-		List<ScreenVO> allStart = null;
-		allStart = thrAdminService.getallStart();
+	    cri.setPerPageNum("5");
+//	    List<MovieVO> allScreenList = thrAdminService.getAllScreens1();
+	    Map<String, Object> response = thrAdminService.getAllScreens(cri);
+	    List<Map<String, Object>> allScreens = (List<Map<String, Object>>) response.get("allScreens");
+	    response.put("allScreens", allScreens);
+		mnv.addAllObjects(response);
 		
 		List<Map<String, Object>> allRe = null;
 		allRe = thrAdminService.getAllRe();
@@ -100,15 +111,125 @@ public class ThrAdminController {
 		    }	
 		    newAllRe.add(json);
 		}
+		
 		System.out.println(newAllRe);
 		mnv.addObject("allRe", newAllRe);
-		mnv.addObject("allStart",allStart);
-		mnv.addObject("allScreenList", allScreenList);
+//		mnv.addObject("allScreenList", allScreenList);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@GetMapping("/loadMovies")
+	public ResponseEntity<Map<String, Object>> loadMovies(@RequestParam("pageNo") int pageNo,SearchCriteria cri) throws SQLException {
+	    
+		cri.setPerPageNum("5");
+		System.out.println(cri);
+		System.out.println(pageNo);
+		
+		Map<String, Object> response = thrAdminService.getAllScreens(cri);
+		List<Map<String, Object>> allScreens = (List<Map<String, Object>>) response.get("allScreens");
+		response.put("allScreens", allScreens);
+	    System.out.println(pageNo);
+	    return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	
+//	@RequestMapping("/movieAdminMain")
+//	public ModelAndView movieAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+//		String url = "/thrAdmin/movieAdminMain";
+//		cri.setPerPageNum("2");
+//		System.out.println(cri);
+//		
+//		Map<String, Object> dataMap = thrAdminService.selectMovieList(cri);
+//		List<Map<String, Object>> movieList = (List<Map<String, Object>>)dataMap.get("movieList");
+//		
+//		dataMap.put("movieList", movieList);
+//		
+//		List<MovieVO> allScreenList = null;
+//		allScreenList = thrAdminService.getAllScreens();
+//		
+//		List<Map<String, Object>> allRe = null;
+//		allRe = thrAdminService.getAllRe();
+//		
+//		List<JSONObject> newAllRe = new ArrayList<>();
+//		for( Map<String,Object> map : allRe){
+//		    JSONObject json = new JSONObject();
+//		    for( Map.Entry<String,Object> entry : map.entrySet() ){
+//		        String key = entry.getKey();
+//		        Object value = entry.getValue();
+//		        json.put(key, value);	
+//		    }	
+//		    newAllRe.add(json);
+//		}
+//		System.out.println(newAllRe);
+//		mnv.addAllObjects(dataMap);
+//		mnv.addObject("allRe", newAllRe);
+//		mnv.addObject("allScreenList", allScreenList);
+//		mnv.setViewName(url);
+//		return mnv;
+//	}
+	
+
+
+	
+	@GetMapping("/main")
+	public ModelAndView main(ModelAndView mnv, String movie_cd) throws SQLException {
+		String url = "/thrAdmin/main";
+		if(movie_cd == null) {
+			movie_cd = "";
+		}
+//		List<MovieVO> allScreenList = null;
+//		allScreenList = thrAdminService.getAllScreens();
+		
+		List<Map<String, Object>> allRe = null;
+		allRe = thrAdminService.getAllRe();
+		
+		List<JSONObject> newAllRe = new ArrayList<>();
+		for( Map<String,Object> map : allRe){
+		    JSONObject json = new JSONObject();
+		    for( Map.Entry<String,Object> entry : map.entrySet() ){
+		        String key = entry.getKey();
+		        Object value = entry.getValue();
+		        json.put(key, value);	
+		    }	
+		    newAllRe.add(json);
+		}
+		System.out.println(newAllRe);
+		mnv.addObject("allRe", newAllRe);
+//		mnv.addObject("allScreenList", allScreenList);
 		mnv.addObject("movie_cd", movie_cd);
 		mnv.setViewName(url);
 		return mnv;
 	}
 	
+	@RequestMapping("/getPicture")
+	public ResponseEntity<byte[]> getPicture(String name, String item_cd, String type) throws IOException  {
+		
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+		String imgPath = "";
+		if (type != "" && type != null) {
+			if (type.equals("moviePoster")) {
+				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "mainPoster";
+			} else if (type.equals("movieImg")) {
+				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "pictures";
+			} else if (type.equals("productImg")) {
+				imgPath = this.storePicUploadPath + File.separator + item_cd;
+			}
+		}
+		
+		try {
+			in = new FileInputStream(new File(imgPath, name));
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} finally {
+			in.close();
+		}
+		
+		return entity;
+	}
 	@GetMapping("/api/getMovieInfo")
 	public ClickMovieInfoVO getMovieInfo (@RequestParam("screenCd") String screenCd) throws SQLException {
 		return thrAdminService.getMovieInfoByScreenCd(screenCd);
@@ -118,6 +239,13 @@ public class ThrAdminController {
 	public String customerAdmin() {
 		
 		String url = "/thrAdmin/supportAdminMain";
+		
+		return url;
+	}
+	@GetMapping("/movieA")
+	public String movieA() {
+		
+		String url = "/thrAdmin/movieA";
 		
 		return url;
 	}

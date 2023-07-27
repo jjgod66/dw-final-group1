@@ -54,7 +54,7 @@ request.setAttribute("GetTitle", "DWCinema");
             <ul class="nav me-auto">
                 <li class="nav-item"><a href="#" class="nav-link link-dark px-2">전체메뉴</a></li>
                 <li class="nav-item"><a href="<%=request.getContextPath()%>/member/membership.do" class="nav-link link-dark px-2">혜택</a></li>
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">고객센터</a></li>
+                <li class="nav-item"><a href="<%=request.getContextPath() %>/support/main.do" class="nav-link link-dark px-2">고객센터</a></li>
             </ul>
             <ul class="nav">
             <c:choose>

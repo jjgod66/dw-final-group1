@@ -49,4 +49,6 @@ public class SearchCriteria {
 			this.perPageNum = Integer.parseInt(perPageNum);
 		}
 	}
+
+
 }
