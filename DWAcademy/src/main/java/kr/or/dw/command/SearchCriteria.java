@@ -9,6 +9,7 @@ public class SearchCriteria {
 	private int perPageNum = 10;	// 한 페이지당 리스트 갯수
 	private String searchType = "";	// 검색구분
 	private String searchType2 = "";	// 검색구분2
+	private String orderType = "";	// 검색구분2
 	private String keyword = "";	// 검색어
 	
 	public SearchCriteria() {};
@@ -21,14 +22,14 @@ public class SearchCriteria {
 		this.keyword = keyword;
 	}
 	
-	public SearchCriteria(int page, int perPageNum, String searchType, String searchType2, String keyword) {
-		super();
-		this.page = page;
-		this.perPageNum = perPageNum;
-		this.searchType = searchType;
-		this.searchType2 = searchType2;
-		this.keyword = keyword;
-	}
+//	public SearchCriteria(int page, int perPageNum, String searchType, String searchType2, String keyword) {
+//		super();
+//		this.page = page;
+//		this.perPageNum = perPageNum;
+//		this.searchType = searchType;
+//		this.searchType2 = searchType2;
+//		this.keyword = keyword;
+//	}
 	
 	public SearchCriteria(String page, String perPageNum, String searchType, String keyword) {
 		
@@ -40,16 +41,16 @@ public class SearchCriteria {
 		
 	}
 	
-	public SearchCriteria(String page, String perPageNum, String searchType, String searchType2, String keyword) {
-		
-		super();
-		if (page != null && !page.isEmpty()) this.page = Integer.parseInt(page);
-		if (perPageNum != null && !perPageNum.isEmpty()) this.perPageNum = Integer.parseInt(perPageNum);
-		if (searchType != null) this.searchType = searchType;
-		if (searchType2 != null) this.searchType2 = searchType2;
-		if (keyword != null) this.keyword = keyword;
-		
-	}
+//	public SearchCriteria(String page, String perPageNum, String searchType, String searchType2, String keyword) {
+//		
+//		super();
+//		if (page != null && !page.isEmpty()) this.page = Integer.parseInt(page);
+//		if (perPageNum != null && !perPageNum.isEmpty()) this.perPageNum = Integer.parseInt(perPageNum);
+//		if (searchType != null) this.searchType = searchType;
+//		if (searchType2 != null) this.searchType2 = searchType2;
+//		if (keyword != null) this.keyword = keyword;
+//		
+//	}
 	
 	public int getPageStartRowNum() {
 		return (this.page - 1) * perPageNum;

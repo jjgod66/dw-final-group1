@@ -53,7 +53,7 @@
 	--swiper-theme-color: #4aa8d8;
 }
 #content > .row {
-	margin: 4rem 2rem;
+/* 	margin: 4rem 2rem; */
 	
 }
 .moreBtn {
@@ -62,58 +62,37 @@
 </style>
 <div id="wrapper">
 	<div id="content">
-		<div class="row">
+		<div class="row" style="margin: 3rem; 0">
 			<div class="col-md-12" style="text-align: -webkit-center;">
-				<div style="width: 80%; height: 22rem;">
-					<div class="d-flex justify-content-between">
-						<h4>박스오피스</h4>
+				<div style="width: 80%;">
+					<div class="d-flex justify-content-between mb-2">
+						<h4><b>박스오피스</b></h4>
 						<div class="moreBtn" onclick="javascript:location.href='movieAdminMain.do';">더보기></div>
 					</div>
 					<!-- Swiper -->
-			  		<div class="swiper mySwiper1 swiper-container" style="border: 1px solid black; border-radius: 0.5rem; padding: 0.5rem;">
+					<div style="position:relative;">
+			  		<div class="swiper mySwiper1 swiper-container" style="position: static;">
 			    		<div class="swiper-wrapper">
 			    			<c:forEach items="${currentMovieList }" var="movie">
-			      				<div class="swiper-slide">
+			      				<div class="swiper-slide" >
 			      					<a href="movieRegistForm.do?movie_cd=${movie.movie_cd }">
-				      					<img src="getPicture.do?name=${movie.movie_mainpic_path}&item_cd=${movie.movie_cd}&type=moviePoster">
+				      					<img src="getPicture.do?name=${movie.movie_mainpic_path}&item_cd=${movie.movie_cd}&type=moviePoster" style="border-radius: 0.5rem; height:332px;">
 			      					</a>
 			      				</div>
 			   				</c:forEach>
 			   			</div>
-					    <div class="swiper-button-next sbn1"></div>
-		    			<div class="swiper-button-prev sbp1"></div>
-					    <div class="swiper-pagination sp1"></div>
 			  		</div>
+					    <div class="swiper-button-next sbn1" style="position: absolute; right: -50px;"></div>
+		    			<div class="swiper-button-prev sbp1" style="position: absolute; left: -50px;"></div>
+					    <div class="swiper-pagination sp1" style="position: absolute; bottom: -30px;"></div>
+	    			</div>
 				</div>
 			</div>
 		</div>
-<!-- 		<div class="row"> -->
-<!-- 			<div class="col-md-12" style="text-align: -webkit-center;"> -->
-<!-- 				<div style="width: 80%; height: 22rem;"> -->
-<!-- 					Swiper -->
-<!-- 			  		<div class="swiper mySwiper2"> -->
-<!-- 						<div class="d-flex justify-content-between"> -->
-<!-- 							<h4>상영예정작</h4> -->
-<!-- 							<div class="moreBtn" onclick="javascript:location.href='movieAdminMain.do';">더보기></div> -->
-<!-- 						</div> -->
-<!-- 			    		<div class="swiper-wrapper"> -->
-<%-- 			    			<c:forEach items="${currentMovieList }" var="movie"> --%>
-<!-- 			      				<div class="swiper-slide"> -->
-<%-- 			      					<img src="getPicture.do?name=${movie.movie_mainpic_path}&item_cd=${movie.movie_cd}&type=moviePoster"> --%>
-<!-- 			      				</div> -->
-<%-- 			   				</c:forEach> --%>
-<!-- 			   			</div> -->
-<!-- 					    <div class="swiper-button-next sbn2"></div> -->
-<!-- 		    			<div class="swiper-button-prev sbp2"></div> -->
-<!-- 					    <div class="swiper-pagination sp2"></div> -->
-<!-- 			  		</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-		<div class="row">
-			<div class="col-md-6 gx-4 gy-2">
-				<div class="d-flex justify-content-between">
-					<h4>공지사항</h4>
+		<div class="row mx-3">
+			<div class="col-md-6 gx-4 gy-4">
+				<div class="d-flex justify-content-between mb-2">
+					<h4><b>공지사항</b></h4>
 					<div class="moreBtn" onclick="javascript:location.href='noticeAdminMain.do';">더보기></div>
 				</div>
 				<div>
@@ -127,9 +106,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6 gx-4 gy-2">
-				<div class="d-flex justify-content-between">
-					<h4>1:1문의</h4>
+			<div class="col-md-6 gx-4 gy-4">
+				<div class="d-flex justify-content-between mb-2">
+					<h4><b>1:1문의</b></h4>
 					<div class="moreBtn" onclick="javascript:location.href='qnaAdminMain.do';">더보기></div>
 				</div>
 				<div>
@@ -144,9 +123,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-md-12 gy-5">
-				<div class="d-flex justify-content-between">
-					<h4>이벤트</h4>
+		</div>
+		<div class="row mx-3 mt-5">
+			<div class="col-md-12">
+				<div class="d-flex justify-content-between mb-2">
+					<h4><b>이벤트</b></h4>
 					<div class="moreBtn" onclick="javascript:location.href='eventAdminMain.do';">더보기></div>
 				</div>
 				<div class="row">
@@ -171,8 +152,9 @@
 
 <script>
 	var swiper = new Swiper(".mySwiper1", {
-	    slidesPerView: 4,
+	    slidesPerView: 3,
 	    loop : true,
+		loopAdditionalSlides: 1,
 	    centeredSlides: true,
 	    spaceBetween: 30,
 	    grabCursor: true,
@@ -183,22 +165,9 @@
 	    navigation: {
 	        prevEl: '.sbp1',
 	        nextEl: '.sbn1',
-	    }
-	  });
-	var swiper2 = new Swiper(".mySwiper2", {
-	    slidesPerView: 4,
-	    centeredSlides: true,
-	    spaceBetween: 30,
-	    grabCursor: true,
-	    pagination: {
-	      el: ".sp2",
-	      clickable: true,
 	    },
-	    loop : true,
-	    navigation: {
-	        prevEl: '.sbp2',
-	        nextEl: '.sbn2',
-	    }
+	    observer: true,
+	    observeParents: true,
 	  });
 </script>
 <%@ include file="sysAdminFooter.jsp" %>

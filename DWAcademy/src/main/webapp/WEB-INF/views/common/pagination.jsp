@@ -39,6 +39,7 @@
 	<input type="hidden" name="perPageNum">
 	<input type="hidden" name="searchType">
 	<input type="hidden" name="searchType2">
+	<input type="hidden" name="orderType">
 	<input type="hidden" name="keyword">
 </form>
 <script>
@@ -57,6 +58,7 @@
 		searchForm.find('[name="perPageNum"]').val(perPageNum);
 		searchForm.find('[name="searchType"]').val($('select[name="searchType"]').val());
 		searchForm.find('[name="searchType2"]').val($('select[name="searchType2"]').val());
+		searchForm.find('[name="orderType"]').val($('select[name="orderType"]').val());
 		searchForm.find('[name="keyword"]').val($('input[name="keyword"]').val());
 		searchForm.attr("method", "post");
 		if (url) {

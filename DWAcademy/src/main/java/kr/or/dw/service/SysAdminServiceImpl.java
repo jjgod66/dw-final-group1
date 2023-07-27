@@ -20,6 +20,7 @@ import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
+import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
@@ -524,6 +525,64 @@ public class SysAdminServiceImpl implements SysAdminService {
 	@Override
 	public List<MovieVO> selectCurrentMovieForMain() throws SQLException {
 		return sysAdminDAO.selectCurrentMovieForMain();
+	}
+
+	@Override
+	public Map<String, Object> selectMemberList(SearchCriteria cri) throws SQLException {
+		
+		List<MemberVO> memberList = null;
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum(); 
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		memberList = sysAdminDAO.selectMemberList(cri, rowBounds);
+		
+		int totalCount = sysAdminDAO.selectMemberListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("memberList", memberList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		return dataMap;
+		
+	}
+
+	@Override
+	public Map<String, Object> selectMemberByMem_cd(String mem_cd) throws SQLException {
+		return sysAdminDAO.selectMemberByMem_cd(mem_cd);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectWatchedMovieListByMem_cd(String mem_cd) throws SQLException {
+		return sysAdminDAO.selectWatchedMovieListByMem_cd(mem_cd);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectWatchedMoviePreviewListByMem_cd(String mem_cd) throws SQLException {
+		return sysAdminDAO.selectWatchedMoviePreviewListByMem_cd(mem_cd);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectReviewPreviewListByMem_cd(String mem_cd) throws SQLException {
+		return sysAdminDAO.selectReviewPreviewListByMem_cd(mem_cd);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectReviewListByMem_cd(String mem_cd) throws SQLException {
+		return sysAdminDAO.selectReviewListByMem_cd(mem_cd);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMpPreviewListByMem_cd(String mem_cd) throws SQLException {
+		return sysAdminDAO.selectMpPreviewListByMem_cd(mem_cd);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMpReplyPreviewListByMem_cd(String mem_cd) throws SQLException {
+		return sysAdminDAO.selectMpReplyPreviewListByMem_cd(mem_cd);
 	}
 
 }

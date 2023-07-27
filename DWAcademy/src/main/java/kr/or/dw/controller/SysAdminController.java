@@ -93,6 +93,9 @@ public class SysAdminController {
 	@Resource(name ="eventPicUploadPath")
 	private String eventPicUploadPath;
 	
+	@Resource(name ="memberPicUploadPath")
+	private String memberPicUploadPath;
+	
 	@RequestMapping("/main")
 	public ModelAndView sysAdminIndex(ModelAndView mnv) throws SQLException {
 		String url = "/sysAdmin/main";
@@ -991,20 +994,87 @@ public class SysAdminController {
 		out.close();
 	}
 	
-	@GetMapping("/eventAdminWinner")
-	public String eventAdminWinner() {
-		String url="/sysAdmin/eventAdminWinner";
-		return url;
+	@RequestMapping("/memberAdminMain")
+	public ModelAndView memberAdminMain (ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		
+		String url="/sysAdmin/memberAdminMain";
+		
+		Map<String, Object> dataMap = sysAdminService.selectMemberList(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "회원 목록", url+".do");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+		
 	}
 	
-	// admin_contentHeader에 넣을 정보들
-	private Map<String, Object> addSubject(String subject, String item1, String item2) {
-		Map<String, Object> subjectMap = new HashMap<String, Object>();
-		subjectMap.put("subject", subject);
-		subjectMap.put("item1", item1);
-		subjectMap.put("item2", item2);
-		return subjectMap;
+	@RequestMapping("/memeberAdminDetail")
+	public ModelAndView memeberAdminDetail (ModelAndView mnv, String mem_cd) throws SQLException {
+		String url = "/sysAdmin/memberAdminDetail";
+		
+		Map<String, Object> member = sysAdminService.selectMemberByMem_cd(mem_cd);
+		mnv.addAllObjects(member);
+		
+		List<Map<String, Object>> watchedMovieList = sysAdminService.selectWatchedMoviePreviewListByMem_cd(mem_cd);
+		mnv.addObject("watchedMovieList", watchedMovieList);
+		
+		List<Map<String, Object>> reviewList = sysAdminService.selectReviewPreviewListByMem_cd(mem_cd);
+		mnv.addObject("reviewList", reviewList);
+		
+		List<Map<String, Object>> mpList = sysAdminService.selectMpPreviewListByMem_cd(mem_cd);
+		mnv.addObject("mpList", mpList);
+		
+		List<Map<String, Object>> mpReplyList = sysAdminService.selectMpReplyPreviewListByMem_cd(mem_cd);
+		mnv.addObject("mpReplyList", mpReplyList);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "회원 상세", url+".do?mem_cd="+mem_cd);
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	} 
+	
+	@RequestMapping("/memberAdminWatchedMovieList")
+	public ModelAndView memberAdminWatchedMovieList (ModelAndView mnv, String mem_cd) throws SQLException {
+		String url = "/sysAdmin/memberAdminWatchedMovieList";
+		
+		List<Map<String, Object>> watchedMovieList = sysAdminService.selectWatchedMovieListByMem_cd(mem_cd);
+		mnv.addObject("watchedMovieList", watchedMovieList);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "관람내역 상세", url+".do?mem_cd="+mem_cd);
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
 	}
+	
+	@RequestMapping("/memberAdminReviewList")
+	public ModelAndView memberAdminReviewList (ModelAndView mnv, String mem_cd) throws SQLException {
+		String url = "/sysAdmin/memberAdminReviewList";
+		
+		List<Map<String, Object>> reviewList = sysAdminService.selectReviewListByMem_cd(mem_cd);
+		mnv.addObject("reviewList", reviewList);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "리뷰내역 상세", url+".do?mem_cd="+mem_cd);
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+//	// admin_contentHeader에 넣을 정보들
+//	private Map<String, Object> addSubject(String subject, String item1, String item2) {
+//		Map<String, Object> subjectMap = new HashMap<String, Object>();
+//		subjectMap.put("subject", subject);
+//		subjectMap.put("item1", item1);
+//		subjectMap.put("item2", item2);
+//		return subjectMap;
+//	}
 	
 	private Map<String, Object> addSubject(String subject, String item1, String item2, String url) {
 		Map<String, Object> subjectMap = new HashMap<String, Object>();
@@ -1068,6 +1138,8 @@ public class SysAdminController {
 				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "thumb";
 			} else if (type.equals("eventImg")) {
 				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "img";
+			} else if (type.equals("memberPic")) {
+				imgPath = this.memberPicUploadPath + File.separator + item_cd;
 			}
 		}
 		
