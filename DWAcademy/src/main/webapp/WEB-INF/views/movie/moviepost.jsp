@@ -60,8 +60,14 @@ select {
 	color : #4aa8d8;
 	background-color: #fff;
 }
+
+#mpCard:hover{
+	cursor: pointer;
+}
 </style>
 <%@ include file="moviepost_modal.jsp" %>
+<%@ include file="moviepost_view_modal.jsp" %>
+<%@ include file="login_service_modal.jsp" %>
 <%
 	String mem_cd = "";
 	if(session.getAttribute("loginUser") != null){
@@ -109,7 +115,7 @@ select {
 				<div class="row">
 					<c:forEach items="${moviePostList }" var="mp">
 		        		<div class="col-3 post" style="height: 400px;">
-		        			<div class="card" style="margin: 20px; height: 90%;">
+		        			<div id="mpCard" class="card" style="margin: 20px; height: 90%;" data-mpost_no="${mp.MPOST_NO }">
 		        				<div class="card-body" style="height: 45%; background-image: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${mp.MOVIE_PIC_PATH}&item_cd=${mp.MOVIE_CD}&type=movieImg');  background-repeat : no-repeat; background-size : cover;"></div>
 		        				<div class="card-body" style="height: 55%;">
 		        					<div>
@@ -144,6 +150,24 @@ select {
 let searchFormUrl = "moviePost.do";
 let mem_cd = "<%=mem_cd%>";
 $(function(){
+	
+	$('.moviepost_container').on('click', '#mpCard', function(){
+		let mpost_no = $(this).data("mpost_no");
+		
+		$.ajax({
+			url : '<%=request.getContextPath()%>/movie/moviePostView.do',
+			method : 'post',
+			data : {'mpost_no' : mpost_no},
+			success : function(res){
+				console.log(res);
+				showPost(res);
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
+	
 	let mplist = '${moviePostList}';
 	if(mplist == '[]'){
 		$('.paginationdiv').css('display', 'none');
@@ -155,7 +179,7 @@ $(function(){
 	
 	$('#moviepostModalBtn').on('click', function(){
 		if(mem_cd == null || mem_cd == ""){
-			alert("로그인이 필요합니다.");
+			$('#login_service_modal').modal("show");
 			return;
 		}
 		$('#moviepost-modal').modal("show");
@@ -182,6 +206,90 @@ $(function(){
 // 		})
 	
 })
+
+function showPost(res){
+	if(res.mpost.MEM_CD == mem_cd){
+		$('#mpReportBtn').css('display', 'none');
+		$('#mpUpdateBtn').css('display', 'inline');
+		$('#mpDeleteBtn').css('display', 'inline');
+	}else{
+		$('#mpReportBtn').css('display', '');
+		$('#mpDeleteBtn').css('display', 'none');
+		$('#mpUpdateBtn').css('display', 'none');
+		
+	}
+	$('#mpMoiveName').text(res.mpost.MOVIE_NAME);
+	$('#mpWriterId').text(res.mpost.MEM_ID.substring(0,3) + '**');
+	let date = new Date(res.mpost.REGDATE);
+	let yyyy = date.getFullYear();
+	let mm = date.getMonth()+1;
+	mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+	let dd = date.getDate();
+	dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+	let regdate =  yyyy+'-'+mm+'-'+dd;	
+	$('#mpWritedate').text(regdate);
+	$('#mpContent').text(res.mpost.MPOST_CONTENT);
+	$('#mpReportBtn').data('mpost_no', res.mpost.MPOST_NO);
+	$('#mpUpdateBtn').data('mpost_no', res.mpost.MPOST_NO);
+<%-- 	$('#mpWriteMemPic').prop('src', '<%=request%>'); --%>
+	let mpbackImg = "<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=" + res.mpost.MOVIE_PIC_PATH + "&item_cd=" + res.mpost.MOVIE_CD + "&type=movieImg";
+	$('#thismpPic').css('background-image', 'url(' + mpbackImg + ')');
+	$('#moviepost-view-modal').modal("show");
+	$('#mpLikeCnt').text(res.mpost.LIKECNT);
+	$('#thismpreplycnt').text(res.mpost.REPLYCNT);
+	
+	if(res.likeYN == 'Y'){
+		$('#mpLikeBtn').removeClass('fa-regular');
+		$('#mpLikeBtn').addClass('fa-solid');
+		$('#mpLikeBtn').prop('id', 'mpLikeCanBtn');
+	}else{
+		$('#mpLikeCanBtn').removeClass('fa-solid');
+		$('#mpLikeCanBtn').addClass('fa-regular');
+		$('#mpLikeCanBtn').prop('id', 'mpLikeBtn');
+		
+	}
+	let replyShow = '';
+	for(let i = 0; i < res.mpostReplyList.length; i++){
+		replyShow += '<div style="display: flex; border-bottom: solid 1px #ced4da;" class="oneReply">';
+		replyShow += '<div style="margin: 10px;">';
+		replyShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+		replyShow += '</div>';
+		replyShow += '<div style="width: 85%;">';
+		replyShow += '<div class="h50" style="display: flex; align-items: flex-end; margin-bottom: 5px;">';
+		replyShow += '<div class="w50" style="text-align: left;" id="replyWriterId">';
+		replyShow += res.mpostReplyList[i].MEM_ID.substring(0,3) + '**';
+		replyShow += '</div>';
+		replyShow += '<div class="w50" style="text-align: right; color: gray;" id="replyWritedate">';
+		let redate = new Date(res.mpostReplyList[i].REGDATE);
+		let ryyyy = redate.getFullYear();
+		let rmm = redate.getMonth()+1;
+		rmm = rmm >= 10 ? rmm : '0'+rmm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+		let rdd = redate.getDate();
+		rdd = rdd >= 10 ? rdd : '0'+rdd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+		let reregdate =  ryyyy+'-'+rmm+'-'+rdd;	
+		
+		replyShow += reregdate;
+		replyShow += '</div>';
+		replyShow += '</div>';
+		replyShow += '<div class="h50" style="display: flex;">';
+		replyShow += '<div class="w80" style="text-align: left;" id="thisReplyContent">' + res.mpostReplyList[i].REPLY_CONTENT + '</div>';
+		if(mem_cd == res.mpostReplyList[i].MEM_CD){
+			replyShow += '<div class="w20 reUD" style="text-align: right;">'
+			replyShow += '<div id="replyUpdateBtn" data-reply_no="' + res.mpostReplyList[i].REPLY_NO + '" style="display: inline; margin-right: 10px;">수정</div>';
+			replyShow += '<div id="replyDeleteBtn" data-reply_no="' + res.mpostReplyList[i].REPLY_NO + '" style="display: inline; margin-right: 10px;">삭제</div>';
+			replyShow += '</div>'
+		}else{
+			replyShow += '<div class="w20" style="text-align: right;" id="replyReportBtn" data-reply_no="' + res.mpostReplyList[i].REPLY_NO + '">신고</div>';
+		}
+		replyShow += '</div>';
+		replyShow += '</div>';
+		replyShow += '</div>';
+		
+			
+			
+	}
+	$('.reply-div').html(replyShow);
+}
 
 </script>
 <%@ include file="../include/footer.jsp" %>

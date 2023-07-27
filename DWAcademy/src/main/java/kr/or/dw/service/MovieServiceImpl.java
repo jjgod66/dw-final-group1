@@ -1,5 +1,6 @@
 package kr.or.dw.service;
 
+import java.net.StandardSocketOptions;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,6 +22,7 @@ import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ReplyVO;
 import kr.or.dw.vo.ReviewVO;
 
 public class MovieServiceImpl implements MovieService{
@@ -454,4 +456,73 @@ public class MovieServiceImpl implements MovieService{
 	public List<Map<String, Object>> selectMovieInfo(String mem_cd) throws SQLException {
 		return movieDAO.selectMovieInfo(mem_cd);
 	}
+
+	@Override
+	public void registMoviePost(MoviePostVO moviePost) throws SQLException {
+		movieDAO.insertMoviePost(moviePost);
+		
+		
+	}
+
+	@Override
+	public Map<String, Object> getMoivePostView(int mpost_no, String mem_cd) throws SQLException {
+		Map<String, Object> mpostMap = new HashMap<>();
+		Map<String, Object> mpost = null;
+		mpost = movieDAO.selectMoviePostView(mpost_no);
+		
+		System.out.println(mpost);
+		
+		mpostMap.put("mpost", mpost);
+		
+		List<Map<String, Object>> mpostReplyList = null;
+		mpostReplyList = movieDAO.selectMoviePostReply(mpost_no);
+		
+		
+		mpostMap.put("mpostReplyList", mpostReplyList);
+		
+
+		String likeYN = "N";
+		int likeYnCnt = 0;
+		
+		if(!mem_cd.equals("")) {
+			Map<String, Object> param = new HashMap<>();
+			param.put("mem_cd", mem_cd);
+			param.put("mpost_no", mpost_no);
+			likeYnCnt = movieDAO.selectMemMpostLikeYN(param);
+			if(likeYnCnt > 0) {
+				likeYN = "Y";
+			}
+		}
+		mpostMap.put("likeYN", likeYN);
+		return mpostMap;
+	}
+
+	@Override
+	public Map<String, Object> registReply(ReplyVO reply) throws SQLException {
+		Map<String, Object> replyMap = null;
+		
+		movieDAO.insertReply(reply);
+		int reply_no = reply.getReply_no();
+		
+		replyMap = movieDAO.selectRegReply(reply_no);
+		return replyMap;
+	}
+
+	@Override
+	public void clickMoviePostLike(int mpost_no, String mem_cd) throws SQLException {
+		Map<String, Object> param = new HashMap<>();
+		param.put("mpost_no", mpost_no);
+		param.put("mem_cd", mem_cd);
+		int cnt = 0;
+		cnt = movieDAO.selectMemMpostLikeYN(param);
+		if(cnt == 0) {
+			movieDAO.insertMoviePostLike(param);
+		}else {
+			movieDAO.deleteMoviePostLike(param);
+		}
+		
+		
+	}
+
+
 }
