@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.CouponDAO">
+
+	<select id="selectBirthMem" resultType="str">
+		SELECT mem_cd
+		FROM member
+		WHERE TO_CHAR(mem_bir, 'MMdd') = TO_CHAR(sysdate, 'MMdd')
+	</select>
+	
+	<insert id="insertBirthCoupon">
+		INSERT INTO mem_coupon (mem_coupon_no, mem_cd, coupon_cd, enddate, gb_use) 
+								VALUES(cou_seq.nextval
+								    , #{mem_cd}
+								    , 'C00000000BIR'
+								    , sysdate + (SELECT coupon_period FROM coupon WHERE coupon_cd = 'C00000000BIR')
+								    , 'N'
+								    )
+	</insert>
+
+</mapper>

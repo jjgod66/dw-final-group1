@@ -13,6 +13,10 @@
 	background-color: #F2F2F2;
 }
 
+#pointApplyBtn:hover{
+	background-color: #F2F2F2;
+}
+
 #couponCanBtn:hover{
  cursor: pointer;
 }
@@ -45,7 +49,7 @@ if(session.getAttribute("loginUser") != null){
 		<div class="row">
 			<div class="col-md-3">
 				<div class="movie_infor">
-					<span class="thm"><img src="../../resources/img/poster/${mapData.MOVIE_MAINPIC_PATH }" alt="${mapData.MOVIE_NAME }"></span>
+					<span class="thm"><img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${mapData.MOVIE_MAINPIC_PATH}&item_cd=${mapData.MOVIE_CD}&type=moviePoster" alt="${mapData.MOVIE_NAME }"></span>
 					<strong class="tit"><span class="ic_grade gr_all"></span>&nbsp;${mapData.MOVIE_NAME }
 						<c:if test="${mapData.MOVIE_TYPE_DES eq '없음/2D' }">(2D)</c:if>
 						<c:if test="${mapData.MOVIE_TYPE_DES ne '없음/2D' }">(${mapData.MOVIE_TYPE_DES })</c:if>
@@ -91,17 +95,20 @@ if(session.getAttribute("loginUser") != null){
 					</div>
 				</div>
 				<div class="group_discount">
-					<h3 class="tit_payment">할인/포인트</h3>
+					<h3 class="tit_payment">포인트<span style="font-size: small; color: gray;">&nbsp;&nbsp;1000원부터 사용 가능합니다.</span></h3>
 					<div class="tab_wrap">
 						<div class="inner_con2">
 							<dt><label class="noneInput">보유 포인트</label></dt>
-							<dd class="amtValue"><span class="hasPoint">0</span>원</dd>
+							<dd class="amtValue"><span class="hasPoint">${point }</span>원</dd>
 							
 							<dt class="secondTit"><label for="cjOnePointipt">사용할 포인트</label></dt>
-							<dd><input class="textBox2" type="text" id="cjOnePointipt" value="0" style="width: 100px;">원</dd>
-				
-							<dt class="secondTit"><input type="checkbox" class="form-check-input"  id="cjOnePointchk"></dt>
-							<dd><label for="cjOnePointchk">모두사용</label></dd>
+							<dd>
+								<input class="textBox2" type="text" id="cjOnePointipt" style="width: 100px;" placeholder="0">원
+								<input type="button" id="pointApplyBtn" value="적용" class="btn" style="padding: 2px 5px; margin-left: 5px; border: solid 1px gray;">
+								<input type="button" id="pointApplyCancelBtn" value="취소" class="btn" style="padding: 2px 5px; margin-left: 5px; border: solid 1px gray;">
+							</dd>
+<!-- 							<dt class="secondTit"><input type="checkbox" class="form-check-input"  id="cjOnePointchk"></dt> -->
+<!-- 							<dd><label for="cjOnePointchk">모두사용</label></dd> -->
 						</div>
 					</div>
 				</div>
@@ -181,10 +188,10 @@ function requestPay() {
 	let buyer_tel = '<%=member.getMem_phone()%>';
 	let buyer_email = '<%=member.getMem_email()%>';
 	let price = ($('#totalpp').text()).replace(',', '');
-	
+	let discount = $('#disprice').text().replace(',', '');
+	$('input[name="discount"]').val(discount);
 	let merchant_uid = new Date().getTime();
 	if(price <= 0){
-		alert("결제금액이 0원으로 결제과정이 생략됩니다.");
 		$('#payForm').prop('action', '<%=request.getContextPath()%>/reservation/pay0ResultRedirect.do');
 		$('#payForm').append('<input type="hidden" name="merchant_uid" value="' + merchant_uid + '">');
 		$('#payForm').submit();
@@ -228,12 +235,47 @@ $(function(){
 	$('#couponCanBtn').on('click', function(){
 		$('#couponInfo').css('display', 'none');
 		$('.couponbtn').css('display', '');
-		$('#disprice').text($('#disprice').text().replace(',', '') - $('#coupondis').text());
+		$('#disprice').text(($('#disprice').text().replace(',', '') - $('#coupondis').text()).toLocaleString());
 		$('#totalpp').text((parseInt($('#totalpp').text().replace(',', '')) + parseInt($('#coupondis').text())).toLocaleString());
 		$('#payForm input[name="mem_coupon_no"]').val(0);
 		$('#payForm input[name="discount"]').val(parseInt($('#payForm input[name="discount"]').val()) - parseInt($('#coupondis').text()));
 		
 	})
+	
+	$('#pointApplyBtn').on('click', function(){
+		if($('#cjOnePointipt').val() < 1000){
+			alert('포인트는 1000원부터 사용 가능합니다.');
+			return;
+		}
+		
+		let dePoint = $('input[name="use_point"]').val();
+		let deDisPri = $('#disprice').text().replace(',', '');
+		let deTotalPri = $('#totalpp').text().replace(',', '');
+		
+		if($('#cjOnePointipt').val() > deTotalPri){
+			alert('포인트는 결제할 금액을 초과할 수 없습니다.');
+			return;
+		}
+		
+		$('#disprice').text((deDisPri - dePoint + parseInt($('#cjOnePointipt').val())).toLocaleString());
+		$('#totalpp').text((parseInt(deTotalPri) + parseInt(dePoint) - $('#cjOnePointipt').val()).toLocaleString());
+		$('input[name="use_point"]').val($('#cjOnePointipt').val());
+		
+	})
+	
+	$('#pointApplyCancelBtn').on('click', function(){
+		let dePoint = $('input[name="use_point"]').val();
+		let deDisPri = $('#disprice').text().replace(',', '');
+		let deTotalPri = $('#totalpp').text().replace(',', '');
+		
+		$('#disprice').text((deDisPri - dePoint).toLocaleString());
+		$('#totalpp').text((parseInt(deTotalPri) + parseInt(dePoint)).toLocaleString());
+		$('input[name="use_point"]').val(0);
+		$('#cjOnePointipt').val('');
+		
+	})
+	
+	
 })
 
 //hasPoint 클래스에서 점수를 가져오는 함수

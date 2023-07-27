@@ -11,6 +11,7 @@ import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.PayDetailVO;
+import kr.or.dw.vo.PointVO;
 import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
 
@@ -121,5 +122,32 @@ public interface ReservationDAO {
 	 * @throws SQLException
 	 */
 	void insertPay0Res(ReservationVO res) throws SQLException;
+
+	/**
+	 * 회원 포인트 적립, 사용 내역 리스트 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<PointVO> selectMemPointList(String mem_cd) throws SQLException;
+
+	/**
+	 * 영화예매시 포인트 사용하는 메서드
+	 * @param point
+	 */
+	void useMemPoint(PointVO point) throws SQLException;
+
+	/**
+	 * 회원 선호극장 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<String> selectMemLikeThr(String mem_cd) throws SQLException;
+
+	/**
+	 * 예매 후 보낼 문자에 필요한 정보 가져오는 메서드
+	 * @param merchant_uid
+	 * @return
+	 */
+	List<Map<String, Object>> selectResSMSInfo(String merchant_uid) throws SQLException;
 
 }

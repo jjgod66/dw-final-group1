@@ -107,8 +107,10 @@
 		<div class="box-top">
 			<strong>마케팅 활용을 위한 개인정보 수집 이용 안내</strong>
 			<div class="righten">
-				<input type="radio" name="personInfoUtilAgreeAt" id="chk1" value="N"><label for="chk1">미동의</label>
-				<input type="radio" name="personInfoUtilAgreeAt" id="chk2" value="Y" checked=""><label for="chk2">동의</label>
+				<label for="chk1"><input type="radio" name="personInfoUtilAgreeAt" id="chk1" value="N">미동의</label>
+				
+				<label for="chk2"><input type="radio" name="personInfoUtilAgreeAt" id="chk2" value="Y">동의</label>
+				
 			</div>
 		</div>
 		<div class="box-bot">
@@ -139,21 +141,19 @@
 				<i class="iconset ico-exclamation-gblue"></i> 수신동의 여부를 선택해 주세요.
 			</div>
 			<div class="chk-box">
-				<strong class="label w80px">이메일</strong>
-				<input type="radio" name="marketEmailRcvAgreeAt" id="chk3" value="Y" checked="">
+				<strong class="label w80px email">이메일</strong>
+				<input type="radio" name="marketEmailRcvAgreeAt" id="chk3" value="Y">
 				<label for="chk3" class="w80px">수신동의</label>
 				<input type="radio" name="marketEmailRcvAgreeAt" id="chk4" value="N">
 				<label for="chk4" class="w80px">수신거부</label>
-					<span>(동의일시 : 2023-01-16 12:04)</span><br>
 			</div>
 			<div class="chk-box mt05">
-				<strong class="label w80px">SMS</strong>
-				<input type="radio" name="marketSmsRcvAgreeAt" id="chk5" value="Y" checked="">
+				<strong class="label w80px sms">SMS</strong>
+				<input type="radio" name="marketSmsRcvAgreeAt" id="chk5" value="Y">
 				<label for="chk5" class="w80px">수신동의</label>
 
 				<input type="radio" name="marketSmsRcvAgreeAt" id="chk6" value="N">
 				<label for="chk6" class="w80px">수신거부</label>
-					<span>(동의일시 : 2023-01-16 12:04)</span><br>
 			</div>
 		</div>
 	</div>
@@ -163,4 +163,65 @@
 		<button class="button purple large" id="updateBtn">수정</button>
 	</div>
 </div>
+
+<script>
+$('#chk1').on('click', function(){
+	$('input[name=marketSmsRcvAgreeAt]').attr("disabled", true);
+	$('input[name=marketEmailRcvAgreeAt]').attr("disabled", true);
+	$('#chk4').attr('checked', true);
+	$('#chk6').attr('checked', true);
+})
+$('#chk2').on('click', function(){
+	$('input[name=marketSmsRcvAgreeAt]').attr("disabled", false);
+	$('input[name=marketEmailRcvAgreeAt]').attr("disabled", false);
+	
+})
+
+// console.log($('#chk3').val())
+// console.log($('#chk4').val())
+// console.log($('#chk5').val())
+// console.log($('#chk6').val())
+
+
+if($('#chk3').val() == "${member.gb_email_alert}"){
+	$('#chk3').attr("checked", true);
+}
+if($('#chk4').val() == "${member.gb_email_alert}"){
+	$('#chk4').attr("checked", true);
+}
+if($('#chk5').val() == "${member.gb_sms_alert}"){
+	$('#chk5').attr("checked", true);
+}
+if($('#chk6').val() == "${member.gb_sms_alert}"){
+	$('#chk6').attr("checked", true);
+}
+if($('#chk3').is(':checked') || $('#chk5').is(':checked')){
+	$('#chk2').attr('checked', true);
+}
+else if($('#chk4').is(':checked') || $('#chk6').is(':checked')){
+	$('#chk1').attr('checked', true);
+	$('input[name=marketSmsRcvAgreeAt]').attr("disabled", true);
+	$('input[name=marketEmailRcvAgreeAt]').attr("disabled", true);
+}
+
+$('#updateBtn').on('click', function(){
+console.log($('input:radio[name=marketSmsRcvAgreeAt]:checked').val())
+console.log($('input:radio[name=marketEmailRcvAgreeAt]:checked').val())
+let sms = $('input:radio[name=marketSmsRcvAgreeAt]:checked').val();
+let email = $('input:radio[name=marketEmailRcvAgreeAt]:checked').val();
+	$.ajax({
+		url : "<%=request.getContextPath()%>/member/addition.do",
+		method : "post",
+		data : {gb_sms_alert : sms,
+				gb_email_alert : email},
+		success : function(res){
+			console.log(res);
+		},
+		error : function(err){
+			console.log(err);
+		}
+	})
+})
+
+</script>
 <%@ include file="../include/member_footer.jsp" %>

@@ -16,7 +16,7 @@
 	
 	
 	<insert id="insert">
-		INSERT INTO member(mem_cd, mem_id, mem_pwd, mem_name, mem_email, mem_bir, mem_phone, regdate, mem_addr, mem_addr_detail, mem_zipcode)
+		INSERT INTO member(mem_cd, mem_id, mem_pwd, mem_name, mem_email, mem_bir, mem_phone, regdate, mem_addr, mem_addr_detail, mem_zipcode, gb_email_alert, gb_sms_alert)
 					VALUES('M' || TO_char(#{mem_bir}, 'YYYYMMDD') || lpad(mem_seq.nextVal,4,0)
 						  ,#{mem_id}
 						  ,#{mem_pwd}
@@ -28,6 +28,8 @@
 						  ,#{mem_addr}
 						  ,#{mem_addr_detail}
 						  ,#{mem_zipcode}
+						  ,#{gb_email_alert}
+						  ,#{gb_sms_alert}
 							)
 	</insert>
 	
@@ -48,4 +50,39 @@
 		  FROM member
 		 WHERE mem_email = #{email}
 	</select>
+	
+	<update id="additionUpdate">
+		UPDATE member SET gb_email_alert = #{gb_email_alert},
+						  gb_sms_alert = #{gb_sms_alert}
+		WHERE mem_id = #{mem_id}
+	</update>
+	
+	<select id="selectMemMonthResCnt" resultType="Map">
+		SELECT m.mem_cd, nvl(rescnt, 0) rescnt
+		FROM (
+			SELECT COUNT(*) rescnt, mem_cd
+			FROM reservation
+			WHERE to_char(resdate, 'yyyyMM') = to_char(ADD_MONTHS(sysdate, -1), 'yyyyMM')
+			GROUP BY mem_cd
+			) c, MEMBER m
+		WHERE c.mem_cd(+) = m.mem_cd
+	</select>
+	
+	<update id="updateMemGradeVIP">
+		UPDATE member SET mem_grade = 'V' where mem_cd = #{mem_cd}
+	</update>
+	
+	<update id="updateMemGradeNormal">
+		UPDATE member SET mem_grade = 'N' where mem_cd = #{mem_cd}
+	</update>
+	
+	<select id="selectNotLoginYearMem" resultType="str">
+		SELECT mem_cd
+		FROM MEMBER
+		WHERE to_char(lastlogindate, 'yyyyMMdd') <![CDATA[<]]> to_char(add_months(sysdate,-12),'yyyyMMdd')
+	</select>
+	
+	<update id="updateMemSleep">
+		UPDATE member SET gb_sleep = 'Y' WHERE mem_cd = #{mem_cd}
+	</update>
 </mapper>

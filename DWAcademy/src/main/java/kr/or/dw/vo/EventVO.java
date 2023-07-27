@@ -9,8 +9,8 @@ import lombok.Data;
 @Data
 public class EventVO {
 	
-	private String event_no;
-	private String movie_cd;
+	private int event_no;
+	private String relate_cd;
 	private String event_div;
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date startdate;
@@ -20,4 +20,6 @@ public class EventVO {
 	private String event_pic_path;
 	private Date regdate;
 	private String event_thum_path;
+	private String winner_content;
+	private String winnerdate;
 }

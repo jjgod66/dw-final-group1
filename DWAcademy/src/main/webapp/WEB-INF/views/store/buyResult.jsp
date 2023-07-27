@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="../include/header.jsp" %>
-<!DOCTYPE html>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/seatbooking.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/resResult.css">
 <!-- <div class="sub_visual"> -->
@@ -19,7 +18,7 @@
 
 				<div class="store-payment-finish" style="width: 90%; margin: 0 auto;">
 					<div class="list">
-                    <div class="img"><img src="../../resources/img/store/${mapData.PRODUCT_PIC_PATH }" alt="" onerror="noImg(this);"></div>
+                    <div class="img"><img src="<%=request.getContextPath()%>/sysAdmin/getPicture.do?name=${mapData.PRODUCT_PIC_PATH }&item_cd=${mapData.PRODUCT_CD }&type=productImg" alt="" onerror="noImg(this);"></div>
                     <p class="tit">${mapData.PRODUCT_NAME }</p>
                     <p class="bundle">${mapData.PRODUCT_CONTENT }</p>
 
@@ -41,7 +40,7 @@
 		<!--// reserve-finish -->
 		<div style="width: 100%; display: flex; justify-content: center;">
 			<div class="btn-group pt30">
-				<a href="${mapData.RECEIPT_URL }" class="button large" id="btn_bill_print" title="영수증출력">영수증출력 <!-- 영수증출력 --></a>
+				<a href="#" class="button large" id="btn_bill_print">결제정보</a>
 				<a href="#" class="button large" title="구매내역 페이지로 이동">구매내역 <!-- 예매내역 --></a>
 			</div>
 		</div>

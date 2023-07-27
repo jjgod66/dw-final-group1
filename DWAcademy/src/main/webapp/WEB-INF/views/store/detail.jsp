@@ -1,3 +1,4 @@
+<%@page import="kr.or.dw.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -6,6 +7,12 @@
 String CategoryIdx = request.getParameter("CategoryIdx");
 if (CategoryIdx == null) {
     CategoryIdx = "";
+}
+
+String mem_cd = "";
+if(session.getAttribute("loginUser") != null){
+	MemberVO member = (MemberVO) session.getAttribute("loginUser");
+	mem_cd = member.getMem_cd();
 }
 %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/store.css">
@@ -25,7 +32,7 @@ if (CategoryIdx == null) {
         <div class="content_wrap">
             <div class="pd_img">
                 <div class="main_img">
-                    <img class="" src="/resources/img/store/${product.product_pic_path }">
+                    <img class="" src="<%=request.getContextPath()%>/sysAdmin/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd}&type=productImg">
                 </div>
                 <div>
                 	<div style="font-weight: bold; border-bottom: 1px solid #dee2e6">상품이용안내</div>
@@ -113,6 +120,11 @@ if (CategoryIdx == null) {
 		});
 		
 		$('#buy').on('click', function(){
+			if('<%=mem_cd%>' == "" || '<%=mem_cd%>' == null){
+				alert("로그인이 필요합니다.");
+				return;
+			}
+			
 			$('#payForm').prop('action', 'buyForm.do');
 			$('input[name="totalprice"]').val(totalprice.toLocaleString());
 			$('input[name="amount"]').val(amount);
@@ -120,6 +132,11 @@ if (CategoryIdx == null) {
 		})
 		
 		$('#gift').on('click', function(){
+			if('<%=mem_cd%>' == "" || '<%=mem_cd%>' == null){
+				alert("로그인이 필요합니다.");
+				return;
+			}
+			
 			$('#payForm').prop('action', 'giftForm.do');
 			$('input[name="amount"]').val(amount);
 			$('#payForm').submit();

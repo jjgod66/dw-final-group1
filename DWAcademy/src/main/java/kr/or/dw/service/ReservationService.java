@@ -88,4 +88,25 @@ public interface ReservationService {
 	 */
 	String pay0InsertRes(List<ReservationVO> resList) throws SQLException;
 
+	/**
+	 * 회원 현재 포인트 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	int getPoint(String mem_cd) throws SQLException;
+
+	/**
+	 * 회원 선호극장 목록 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<String> getMemLikeThr(String mem_cd) throws SQLException;
+
+	/**
+	 * 예매 후 보낼 문자에 들어갈 정보 가져오는 메서드
+	 * @param merchant_uid
+	 * @return
+	 */
+	Map<String, String> getResSMSInfo(String merchant_uid) throws SQLException;
+
 }

@@ -189,6 +189,7 @@ table th {
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
 			<jsp:param value="${item2 }" name="item2" />
+			<jsp:param value="${url }" name="url" />
 		</jsp:include>
 		<div class="s_wrap">
 			<form enctype="multipart/form-data" role="form" name="registForm">
@@ -264,7 +265,7 @@ table th {
 								<tr>
 									<th scope="row">개봉일</th>
 									<td colspan="3"><input type="date" name="opendate"
-										id="opendate" class="frm_input" value="<fmt:formatDate value='${OPENDATE }' pattern='yyyy-MM-dd'/>" ${MOVIE_CD eq '' ? '' : 'disabled'} required></td>
+										id="opendate" class="frm_input" value="<fmt:formatDate value='${OPENDATE }' pattern='yyyy-MM-dd'/>" ${empty MOVIE_CD ? '' : 'disabled'} required></td>
 								</tr>
 								<tr>
 									<th scope="row">상영종료일</th>

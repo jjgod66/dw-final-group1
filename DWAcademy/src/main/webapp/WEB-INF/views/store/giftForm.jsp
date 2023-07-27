@@ -13,13 +13,12 @@
 		<div class="row">
 			<div class="col-md-3">
 				<div class="movie_infor">
-					<span class="thm"><img src="../../resources/img/store/${product.product_pic_path }" alt="${product.product_name }"></span>
+					<span class="thm"><img src="<%=request.getContextPath()%>/sysAdmin/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd}&type=productImg" alt="${product.product_name }"></span>
 					<strong class="tit"><span class="ic_grade gr_all"></span>&nbsp;${product.product_name }</strong>
 					<dl class="dlist_infor">
 						<dt>상품</dt>
 						<dd><strong>${product.product_content }</strong></dd>
-<!-- 						<dt>영화관</dt> -->
-<!-- 						<dd>가산디지털 5관 - 2D</dd> -->
+
 						<dt>수량</dt>
 						<dd>
 							${amount }
@@ -52,13 +51,17 @@
 					<div class="tab_wrap">
 						<div class="inner_con2">
 							<dt><label class="noneInput">보유 포인트</label></dt>
-							<dd class="amtValue"><span class="hasPoint">0</span>원</dd>
+							<dd class="amtValue"><span class="hasPoint">${point }</span>원</dd>
 							
 							<dt class="secondTit"><label for="cjOnePointipt">사용할 포인트</label></dt>
-							<dd><input class="textBox2" type="text" id="cjOnePointipt" value="0">원</dd>
+							<dd>
+								<input class="textBox2" type="text" id="cjOnePointipt" style="width: 100px;" placeholder="0">원
+								<input type="button" id="pointApplyBtn" value="적용" class="btn" style="padding: 2px 5px; margin-left: 5px; border: solid 1px gray;">
+								<input type="button" id="pointApplyCancelBtn" value="취소" class="btn" style="padding: 2px 5px; margin-left: 5px; border: solid 1px gray;">
+							</dd>
 				
-							<dt class="secondTit"><input type="checkbox" class="form-check-input"  id="cjOnePointchk"></dt>
-							<dd><label for="cjOnePointchk">모두사용</label></dd>
+<!-- 							<dt class="secondTit"><input type="checkbox" class="form-check-input"  id="cjOnePointchk"></dt> -->
+<!-- 							<dd><label for="cjOnePointchk">모두사용</label></dd> -->
 						</div>
 					</div>
 				</div>
@@ -87,11 +90,11 @@
 					</div>
 					<span>할인 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow">0</h2> <span>원</span>
+						<h2 class="mb-0 yellow" id="disprice">0</h2> <span>원</span>
 					</div>
 					<span>결제 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
-						<h2 class="mb-0 yellow"><fmt:formatNumber value="${product.product_price*amount }" pattern="#,##0" /></h2> <span>원</span>
+						<h2 class="mb-0 yellow" id="totalpp"><fmt:formatNumber value="${product.product_price*amount }" pattern="#,##0" /></h2> <span>원</span>
 					</div>
 					<button class="btn btn-success px-3" id="credit" onclick="requestPay();">결제하기</button>
 				</div>
@@ -106,6 +109,8 @@
 	<input type="hidden" name="json">
 	<input type="hidden" name="toname">
 	<input type="hidden" name="tophone">
+	<input type="hidden" name="use_point" value="0">
+	<input type="hidden" name="discount" value="0">
 </form>
 <script>
 const IMP = window.IMP;
@@ -114,6 +119,15 @@ IMP.init("imp04352208");
 
 //결제화면 띄우는 메서드
 function requestPay() { 
+	if($('#toinsertname').val() == '' || $('#toinsertphone').val() == ''){
+		alert("받을 사람의 이름과 휴대폰번호를 입력해주세요.");
+		return;
+	}
+	
+	let discount = $('#disprice').text().replace(',', '');
+	let amount = $('#totalpp').text().replace(',', '');
+	$('input[name="discount"]').val(discount);
+	
 	let method = $('input[name="payMethod"]:checked').prop('id');
 	let toname = $('#toinsertname').val();
 	console.log(toname);
@@ -121,13 +135,13 @@ function requestPay() {
 	console.log(tophone);
 	$('input[name="toname"]').val(toname);
 	$('input[name="tophone"]').val(tophone);
+	
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
         merchant_uid: new Date().getTime(),
         name: '${product.product_name }',
-//         amount: '${product.product_price*amount }',
-        amount: 100,
+        amount: amount,
         buyer_email: '${member.mem_email}',
         buyer_name: '${member.mem_name}',
         buyer_tel: '${member.mem_phone}',
@@ -135,8 +149,8 @@ function requestPay() {
         if (rsp.success) {
         	$('input[name="json"]').val(JSON.stringify(rsp));
             console.log(rsp);
-			alert("결제되었습니다.");
-            giftForm.submit();
+			
+            buyForm.submit();
 			
         } else {
             console.log(rsp);
@@ -148,7 +162,30 @@ function requestPay() {
 }
 
 $(function(){
-	$('#credit').on('click', function(){
+	$('#pointApplyBtn').on('click', function(){
+		if($('#cjOnePointipt').val() < 1000){
+			alert('포인트는 1000원부터 사용 가능합니다.');
+			return;
+		}
+		let dePoint = $('input[name="use_point"]').val();
+		let deDisPri = $('#disprice').text().replace(',', '');
+		let deTotalPri = $('#totalpp').text().replace(',', '');
+		
+		$('#disprice').text((deDisPri - dePoint + parseInt($('#cjOnePointipt').val())).toLocaleString());
+		$('#totalpp').text((parseInt(deTotalPri) + parseInt(dePoint) - $('#cjOnePointipt').val()).toLocaleString());
+		$('input[name="use_point"]').val($('#cjOnePointipt').val());
+		
+	})
+	
+	$('#pointApplyCancelBtn').on('click', function(){
+		let dePoint = $('input[name="use_point"]').val();
+		let deDisPri = $('#disprice').text().replace(',', '');
+		let deTotalPri = $('#totalpp').text().replace(',', '');
+		
+		$('#disprice').text((deDisPri - dePoint).toLocaleString());
+		$('#totalpp').text((parseInt(deTotalPri) + parseInt(dePoint)).toLocaleString());
+		$('input[name="use_point"]').val(0);
+		$('#cjOnePointipt').val('');
 		
 	})
 })

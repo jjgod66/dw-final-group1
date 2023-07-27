@@ -50,6 +50,7 @@
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
 			<jsp:param value="${item2 }" name="item2" />
+			<jsp:param value="${url }" name="url" />
 		</jsp:include>
 	<div class="container-fluid">
 		<section id="anc_sitfrm_ini">
@@ -119,14 +120,16 @@ function imgChange_go() {
 	preViewPicture(inputImage, $('div#pictureView'));
 }
 // 등록이 아니라 수정시 기존 이미지 프리뷰
-let imageURL = 'getPicture.do?name=${product.product_pic_path}&item_cd=${product.product_cd}&type=productImg';	// 이미지명 가지고 와서 셋팅
-$('div#pictureView').css({
-						'background-image' : 'url("' + imageURL + '")',
-						'background-position' : 'center',
-						'background-size' : 'cover',
-						'background-repeat' : 'no-repeat'
-					});
-$('#inputFileName').val('${product.product_pic_path}');
+if ('${product.product_pic_path}' != null && '${product.product_pic_path}' != '') {
+	let imageURL = 'getPicture.do?name=${product.product_pic_path}&item_cd=${product.product_cd}&type=productImg';	// 이미지명 가지고 와서 셋팅
+	$('div#pictureView').css({
+							'background-image' : 'url("' + imageURL + '")',
+							'background-position' : 'center',
+							'background-size' : 'cover',
+							'background-repeat' : 'no-repeat'
+						});
+	$('#inputFileName').val('${product.product_pic_path}');
+}
 
 // 작성폼 확인
 function checkForm(){

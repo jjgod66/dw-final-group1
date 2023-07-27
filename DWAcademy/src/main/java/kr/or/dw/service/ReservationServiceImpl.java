@@ -18,6 +18,7 @@ import kr.or.dw.dao.ReservationDAO;
 import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.PayDetailVO;
+import kr.or.dw.vo.PointVO;
 import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
 
@@ -130,6 +131,15 @@ public class ReservationServiceImpl implements ReservationService{
 			reservationDAO.useMemCoupon(mem_coupon_no);
 		}
 		
+		if(resList.get(0).getUse_point() > 0) {
+			PointVO point = new PointVO();
+			point.setMem_cd(resList.get(0).getMem_cd());
+			point.setMerchant_uid(resList.get(0).getMerchant_uid());
+			point.setPoint(resList.get(0).getUse_point());
+			
+			reservationDAO.useMemPoint(point);
+		}
+		
 		mapData.put("merchant_uid", resList.get(0).getMerchant_uid());
 		return mapData;
 	}
@@ -146,6 +156,16 @@ public class ReservationServiceImpl implements ReservationService{
 		}
 		
 		String merchant_uid = resList.get(0).getMerchant_uid();
+		
+		if(resList.get(0).getUse_point() > 0) {
+			PointVO point = new PointVO();
+			point.setMem_cd(resList.get(0).getMem_cd());
+			point.setMerchant_uid(merchant_uid);
+			point.setPoint(resList.get(0).getUse_point());
+			
+			reservationDAO.useMemPoint(point);
+		}
+		
 		return merchant_uid;
 	}
 	
@@ -163,9 +183,7 @@ public class ReservationServiceImpl implements ReservationService{
 			}
 		}
 		
-		System.out.println("resultSer1");
 		PayDetailVO payDetail = reservationDAO.selectPayDetailByMUID(merchant_uid);
-		System.out.println("resultSer2");
 		
 		
 		int pay_amount = 0;
@@ -175,12 +193,46 @@ public class ReservationServiceImpl implements ReservationService{
 			pay_amount = payDetail.getPaid_amount();
 			receipt_url = payDetail.getReceipt_url();
 		}
-		System.out.println("resultSer3");
 		
+		int adult = 0;
+		int teen = 0;
+		int prefer = 0;
+		for(int i = 0; i < resList.size(); i ++) {
+			if(resList.get(i).getMem_cat().equals("성인")) {
+				adult += 1;
+			}else if(resList.get(i).getMem_cat().equals("청소년")) {
+				teen += 1;
+			}else {
+				prefer += 1;
+			}
+		}
+		String mem_cat = "";
+		if(adult > 0) {
+			mem_cat += "성인 " + adult + "명";
+			if(teen > 0) {
+				mem_cat += ", 청소년 " + teen + "명";
+				if(prefer > 0) {
+					mem_cat += ", 우대 " + prefer + "명";
+				}
+			}else{
+				mem_cat += ", 우대 " + prefer + "명";
+			}
+			
+		}else if(teen > 0) {
+			mem_cat += "청소년 " + teen + "명";
+			if(prefer > 0) {
+				mem_cat += ", 우대 " + prefer + "명";
+			}
+		}else{
+			mem_cat += "우대 " + prefer + "명";
+		}
+		
+		mapData.put("reservation", resList.get(0));
+		mapData.put("payDetail", payDetail);
 		mapData.put("paid_amount", pay_amount);
 		mapData.put("receipt_url", receipt_url);
 		mapData.put("res_seats", res_seats);
-		mapData.put("mem_cat", resList.get(0).getMem_cat());
+		mapData.put("mem_cat", mem_cat);
 		return mapData;
 	}
 
@@ -189,6 +241,53 @@ public class ReservationServiceImpl implements ReservationService{
 		List<CouponVO> couponList = null;
 		couponList = reservationDAO.selectCouponList(mem_cd);
 		return couponList;
+	}
+
+	@Override
+	public int getPoint(String mem_cd) throws SQLException {
+		int point = 0;
+		List<PointVO> pointList = null;
+		pointList = reservationDAO.selectMemPointList(mem_cd);
+		
+		for(PointVO pointVO : pointList) {
+			if(pointVO.getPoint_cd().subSequence(0, 1).equals("A")) {
+				point += pointVO.getPoint();
+			}else {
+				point -= pointVO.getPoint();
+			}
+		}
+		
+		return point;
+	}
+
+	@Override
+	public List<String> getMemLikeThr(String mem_cd) throws SQLException {
+		List<String> memLikeThrList = null;
+		memLikeThrList = reservationDAO.selectMemLikeThr(mem_cd);
+		
+		return memLikeThrList;
+	}
+
+	@Override
+	public Map<String, String> getResSMSInfo(String merchant_uid) throws SQLException {
+		List<Map<String, Object>> SMSInfoAll = null;
+		SMSInfoAll = reservationDAO.selectResSMSInfo(merchant_uid);
+		String stMemPhone = (String) SMSInfoAll.get(0).get("MEM_PHONE");
+		String movie_name = (String) SMSInfoAll.get(0).get("MOVIE_NAME");
+		Date Dstartdate = (Date) SMSInfoAll.get(0).get("STARTDATE");
+		
+		Map<String, String> SMSInfo = new HashMap<>();
+		
+		String mem_phone = stMemPhone.replace("-", "");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String startdate = format.format(Dstartdate);
+		
+		SMSInfo.put("mem_phone", mem_phone);
+		SMSInfo.put("movie_name", movie_name);
+		SMSInfo.put("startdate", startdate);
+		SMSInfo.put("merchant_uid", merchant_uid);
+		
+		return SMSInfo;
 	}
 
 

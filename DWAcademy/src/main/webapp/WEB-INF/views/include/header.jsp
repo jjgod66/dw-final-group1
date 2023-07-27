@@ -45,9 +45,6 @@ request.setAttribute("GetTitle", "DWCinema");
 <!-- Preloader -->
 
 <!-- End Preloader -->
-<%@ include file="../include/login_modal.jsp" %>
-<%@ include file="../include/join_modal.jsp" %>
-<%@ include file="../include/authentication_modal.jsp"%>
 <header class="header poi">
     <nav class="gnb">
         <div class="container d-flex flex-wrap">
@@ -59,11 +56,13 @@ request.setAttribute("GetTitle", "DWCinema");
             <ul class="nav">
             <c:choose>
                 <c:when test="${loginUser.mem_id == null || loginUser.mem_id == ''}">
-                <li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="nav-link link-dark px-2">로그인</a></li></c:when>
+                	<li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="nav-link link-dark px-2">로그인</a></li>
+	                <li class="nav-item"><a href="#" id="kakaoJoin" data-bs-toggle="modal" data-bs-target="#authentication-modal" class="nav-link link-dark px-2">회원가입</a></li>
+                </c:when>
                 <c:otherwise>
-                <li class="nav-item"><a href="<%=request.getContextPath() %>/common/logout.do" class="nav-link link-dark px-2">로그아웃</a></li></c:otherwise>
-            </c:choose>
-                <li class="nav-item"><a href="#" id="kakaoJoin" data-bs-toggle="modal" data-bs-target="#authentication-modal" class="nav-link link-dark px-2">회원가입</a></li>
+                	<li class="nav-item"><a href="<%=request.getContextPath() %>/common/logout.do" class="nav-link link-dark px-2">로그아웃</a></li>
+                </c:otherwise>
+            	</c:choose>
             </ul>
         </div>
     </nav>
@@ -74,10 +73,10 @@ request.setAttribute("GetTitle", "DWCinema");
                 <strong>영화</strong>
                 <ul style="opacity: 0; height: 0px;">
                     <li><a href="<%=request.getContextPath()%>/movie/allMovie.do">전체영화</a></li>
-                    <li><a href="#">현재상영작</a></li>
-                    <li><a href="#">상영예정작</a></li>
+                    <li><a href="<%=request.getContextPath()%>/movie/screenMovie.do">현재상영작</a></li>
+                    <li><a href="<%=request.getContextPath()%>/movie/comingMovie.do">상영예정작</a></li>
                     <li><a href="<%=request.getContextPath()%>/movie/review.do">영화리뷰</a></li>
-                    <li><a href="#">무비포스트</a></li>
+                    <li><a href="<%=request.getContextPath()%>/movie/moviePost.do">무비포스트</a></li>
                 </ul>
             </li>
             <li role="menuitem">
@@ -114,4 +113,45 @@ request.setAttribute("GetTitle", "DWCinema");
         </ul>
     </div>
 </header>
+<%@ include file="../include/login_modal.jsp" %>
+<%@ include file="../include/join_modal.jsp" %>
+<%@ include file="../include/authentication_modal.jsp"%>
+<%@ include file="../include/personInfoUtilAgreeAt.jsp"%>
+<form id="joinForm" action="<%=request.getContextPath()%>/member/join.do" method="post">
+	<input type="hidden" name="mem_id">
+	<input type="hidden" name="mem_name">
+	<input type="hidden" name="mem_pwd">
+	<input type="hidden" name="mem_bir">
+	<input type="hidden" name="mem_email">
+	<input type="hidden" name="mem_phone">
+	<input type="hidden" name="mem_zipcode">
+	<input type="hidden" name="mem_addr">
+	<input type="hidden" name="mem_addr_detail">
+	<input type="hidden" name="gb_email_alert">
+	<input type="hidden" name="gb_sms_alert">
+</form>
+<script>
+function join_go(){
+let joinForm = $('#joinForm');
+let memberInfo = $('.memberInfo')
+	joinForm.find('[name="mem_id"]').val(memberInfo.find('[name=mem_id]').val());
+	joinForm.find('[name="mem_name"]').val(memberInfo.find('[name=mem_name]').val());
+	joinForm.find('[name="mem_pwd"]').val(memberInfo.find('[name=mem_pwd]').val());
+	joinForm.find('[name="mem_bir"]').val(memberInfo.find('[name=mem_bir]').val());
+	joinForm.find('[name="mem_email"]').val(memberInfo.find('[name=mem_email]').val());
+	joinForm.find('[name="mem_phone"]').val(memberInfo.find('[name=mem_phone]').val());
+	joinForm.find('[name="mem_zipcode"]').val(memberInfo.find('[name=mem_zipcode]').val());
+	joinForm.find('[name="mem_addr"]').val(memberInfo.find('[name=mem_addr]').val());
+	joinForm.find('[name="mem_addr_detail"]').val(memberInfo.find('[name=mem_addr_detail]').val());
+	joinForm.find('[name="gb_email_alert"]').val(memberInfo.find('[name=marketEmailRcvAgreeAt1]:checked').val());
+	joinForm.find('[name="gb_sms_alert"]').val(memberInfo.find('[name=marketSmsRcvAgreeAt1]:checked').val());
+
+
+	joinForm.submit();
+}
+
+$('#login-modal').on('hidden.bs.modal', function(){
+	$(this).find('form')[0].reset();
+})
+</script>
 <div class="background" style="height: 150px; display: none; opacity: 0;"></div>

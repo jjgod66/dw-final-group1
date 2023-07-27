@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="../include/header.jsp" %>
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/theater_main.css">
@@ -174,46 +175,61 @@
 		<div class="tit-util">
 			<h3 class="tit">극장 이벤트</h3>
 			<div class="float-end">
-				<a href="/event/theater.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/event/main.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div class="event-box" style="margin-top: 20px;">
+			<c:if test="${empty eventList }">
+				<div style="text-align: center; margin: 50px 0;">이벤트가 없습니다.</div>
+			</c:if>
+			<c:if test="${!empty eventList }">
 			<ul>
-				<li>
-					<a href="#" data-no="13527" data-netfunnel="N" class="eventBtn" title="[금정AK플라자] 오픈 1주년 기념 이벤트 상세보기">
-						<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/22/lYvh9Hm1azfGygwBm4ew3sAwY6y04FEP.jpg" alt="[금정AK플라자] 오픈 1주년 기념 이벤트" onerror="noImg(this);"></p>
-						<p class="tit">
-							[금정AK플라자] 오픈 1주년 기념 이벤트
-						</p>
-						<p class="date">
-							2023.07.13 ~ 2023.07.13
-						</p>
-					</a>
-				</li>
+				<c:forEach items="${eventList }" var="event">
+					<li>
+						<a href="#" data-netfunnel="N" class="eventBtn">
+							<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" onerror="noImg(this);"></p>
+							<p class="tit">
+								${event.event_title }
+							</p>
+							<p class="date">
+							<fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ 
+							<fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/>
+							</p>
+						</a>
+					</li>
+				</c:forEach>
 
 			</ul>
+			</c:if>
 		</div>
 		<div class="tit-util">
 			<h3 class="tit">극장 공지사항</h3>
 			<div class="float-end">
-				<a href="/support/notice.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/support/notice.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div class="accordion-list">
+			<c:if test="${empty noticeList }">
+				<div style="text-align: center; margin: 50px 0;">공지사항이 없습니다.</div>
+			</c:if>
+			<c:if test="${!empty noticeList }">
 				<ul>
-					<li>
-						<div class="title ">
-							<a href="" title="[강남] 8/9 영화관 상영재개 및 극장방문시 진입로 안내">
-								<p class="cont-thr">[강남]</p>
-								<div class="cont-tit">[강남] 8/9 영화관 상영재개 및 극장방문시 진입로 안내</div>
-								<p class="cont-admin">서울</p>
-								<p class="cont-date">2022.08.09</p>
-							</a>
-						</div>
-					</li>
+					<c:forEach items="${noticeList }" var="notice">
+						<li>
+							<div class="title">
+								<a href="" title="${notice.NOTICE_TITLE }">
+									<p class="cont-thr">[${notice.NOTICE_THR }]</p>
+									<div class="cont-tit">${notice.NOTICE_TITLE }</div>
+									<p class="cont-admin">${notice.THR_LOC }</p>
+									<p class="cont-date"><fmt:formatDate value="${notice.REGDATE }" pattern="yyyy-MM-dd"/></p>
+								</a>
+							</div>
+						</li>
+					</c:forEach>
 					
 				</ul>
-			</div>
+			</c:if>
+		</div>
 
 	</div>
 </div>

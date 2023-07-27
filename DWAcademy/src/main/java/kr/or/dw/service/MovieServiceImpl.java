@@ -1,21 +1,28 @@
 package kr.or.dw.service;
 
+import java.net.StandardSocketOptions;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.SystemPropertyUtils;
 
 import kr.or.dw.command.MovieViewerCommand;
+import kr.or.dw.command.PageMaker;
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.MovieDAO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ReplyVO;
 import kr.or.dw.vo.ReviewVO;
 
 public class MovieServiceImpl implements MovieService{
@@ -68,7 +75,11 @@ public class MovieServiceImpl implements MovieService{
 		int yes_all_reserver = movieDAO.selectYesAllReserver();
 		for(Map<String, Object> movie : movieList) {
 			movie.put("all_reserver", yes_all_reserver);
-			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
+			double resRate = 0.0;
+			if(yes_all_reserver > 0) {
+				resRate = (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100;
+			}
+			movie.put("resRate", resRate);
 		}
 		
 		return movieList;
@@ -85,9 +96,12 @@ public class MovieServiceImpl implements MovieService{
 		int yes_all_reserver = movieDAO.selectYesAllReserver();
 		for(Map<String, Object> movie : movieList) {
 			movie.put("all_reserver", yes_all_reserver);
-			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
+			double resRate = 0.0;
+			if(yes_all_reserver > 0) {
+				resRate = (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100;
+			}
+			movie.put("resRate", resRate);
 		}
-		
 		return movieList;
 	}
 
@@ -102,7 +116,11 @@ public class MovieServiceImpl implements MovieService{
 		int yes_all_reserver = movieDAO.selectYesAllReserver();
 		for(Map<String, Object> movie : movieList) {
 			movie.put("all_reserver", yes_all_reserver);
-			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
+			double resRate = 0.0;
+			if(yes_all_reserver > 0) {
+				resRate = (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100;
+			}
+			movie.put("resRate", resRate);
 		}
 		
 		return movieList;
@@ -125,7 +143,11 @@ public class MovieServiceImpl implements MovieService{
 		int yes_all_reserver = movieDAO.selectYesAllReserver();
 		for(Map<String, Object> movie : movieList) {
 			movie.put("all_reserver", yes_all_reserver);
-			movie.put("resRate", (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100);
+			double resRate = 0.0;
+			if(yes_all_reserver > 0) {
+				resRate = (double)Integer.parseInt(String.valueOf(movie.get("RESERVE"))) / yes_all_reserver * 100;
+			}
+			movie.put("resRate", resRate);
 		}
 		
 		return movieList;
@@ -292,6 +314,214 @@ public class MovieServiceImpl implements MovieService{
 		memLikeGenreList = movieDAO.selectMemLikeGenre(mem_cd);
 		
 		return memLikeGenreList;
+	}
+
+	@Override
+	public Map<String, Object> getAllMovieReview(HttpSession session, SearchCriteria cri) throws SQLException {
+		List<Map<String, Object>> reviewList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		reviewList = movieDAO.getAllMovieReview(cri, rowBounds);
+		
+		int totalCount = movieDAO.getSearchReviewListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("reviewList", reviewList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		
+		for(Map<String, Object> review : reviewList) {
+			String reviewLikeActive = "N";
+			if(session.getAttribute("loginUser") != null) {
+				int count = 0;
+				Map<String, Object> param = new HashMap<>();
+				param.put("review_no", review.get("REVIEW_NO"));
+				param.put("mem_cd", ((MemberVO)session.getAttribute("loginUser")).getMem_cd());
+				count = movieDAO.selectReviewLikeYN(param);
+				if(count > 0) {
+					reviewLikeActive = "Y";
+				}
+			}
+			review.put("reviewLikeActive", reviewLikeActive);
+			System.out.println(review);
+
+		}
+		
+		return dataMap;
+		
+	}
+
+	public List<MoviePreviewVO> getMoviePreview(String movie_cd) throws SQLException {
+		List<MoviePreviewVO> moviePreList = null;
+		moviePreList = movieDAO.selectMoviePreview(movie_cd);
+		return moviePreList;
+	}
+
+	@Override
+	public List<MoviePictureVO> getMoviePicture(String movie_cd) throws SQLException {
+		List<MoviePictureVO> moviePicList = null;
+		moviePicList = movieDAO.selectMoviePicture(movie_cd);
+		return moviePicList;
+	}
+
+	@Override
+	public double getMovieRateAvg(String movie_cd) throws SQLException {
+		double movie_rate_avg = 0.0;
+		movie_rate_avg = movieDAO.selectMovieRateAvg(movie_cd);
+		
+		return movie_rate_avg;
+	}
+
+	@Override
+	public List<Map<String, Object>> searchReview(String keyword, HttpSession session) throws SQLException {
+		List<Map<String, Object>> reviewList = null;
+		reviewList = movieDAO.searchReview(keyword);
+		
+		for(Map<String, Object> review : reviewList) {
+			String reviewLikeActive = "N";
+			if(session.getAttribute("loginUser") != null) {
+				int count = 0;
+				Map<String, Object> param = new HashMap<>();
+				param.put("review_no", review.get("REVIEW_NO"));
+				param.put("mem_cd", ((MemberVO)session.getAttribute("loginUser")).getMem_cd());
+				count = movieDAO.selectReviewLikeYN(param);
+				if(count > 0) {
+					reviewLikeActive = "Y";
+				}
+			}
+			review.put("reviewLikeActive", reviewLikeActive);
+			System.out.println(review);
+		
+		}
+		return reviewList;
+	}
+	@Override
+	public List<Map<String, Object>> getMoviePost4(String movie_cd) throws SQLException {
+		List<Map<String, Object>> allMoviePostList = null;
+		allMoviePostList = movieDAO.selectMoviePostMap(movie_cd);
+		
+		int cnt = 4;
+		if(allMoviePostList.size() < 4) {
+			cnt = allMoviePostList.size();
+		}
+		
+		List<Map<String, Object>> moviePostList = new ArrayList<Map<String, Object>>();
+		if(cnt > 0) {
+			for(int i = 0; i < cnt; i++) {
+				moviePostList.add(allMoviePostList.get(i));
+			}
+		}
+		
+		return moviePostList;
+	}
+
+	@Override
+	public Map<String, Object> getMoviePost(SearchCriteria cri, HttpSession session) throws SQLException {
+		
+		List<Map<String, Object>> moviePostList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		moviePostList = movieDAO.selectSearchMoviePostList(cri, rowBounds);
+		
+		int totalCount = movieDAO.selectSearchMoviePostcnt(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("moviePostList", moviePostList);
+		dataMap.put("pageMaker", pageMaker);
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		
+		if(member != null) {
+			String mem_cd = member.getMem_cd();
+			List<MovieVO> watchMovie = null;
+			watchMovie = movieDAO.selectMovieCode(mem_cd);
+			dataMap.put("watchMovie", watchMovie);
+		}
+		
+		return dataMap;
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMovieInfo(String mem_cd) throws SQLException {
+		return movieDAO.selectMovieInfo(mem_cd);
+	}
+
+	@Override
+	public void registMoviePost(MoviePostVO moviePost) throws SQLException {
+		movieDAO.insertMoviePost(moviePost);
+		
+		
+	}
+
+	@Override
+	public Map<String, Object> getMoivePostView(int mpost_no, String mem_cd) throws SQLException {
+		Map<String, Object> mpostMap = new HashMap<>();
+		Map<String, Object> mpost = null;
+		mpost = movieDAO.selectMoviePostView(mpost_no);
+		
+		System.out.println(mpost);
+		
+		mpostMap.put("mpost", mpost);
+		
+		List<Map<String, Object>> mpostReplyList = null;
+		mpostReplyList = movieDAO.selectMoviePostReply(mpost_no);
+		
+		
+		mpostMap.put("mpostReplyList", mpostReplyList);
+		
+
+		String likeYN = "N";
+		int likeYnCnt = 0;
+		
+		if(!mem_cd.equals("")) {
+			Map<String, Object> param = new HashMap<>();
+			param.put("mem_cd", mem_cd);
+			param.put("mpost_no", mpost_no);
+			likeYnCnt = movieDAO.selectMemMpostLikeYN(param);
+			if(likeYnCnt > 0) {
+				likeYN = "Y";
+			}
+		}
+		mpostMap.put("likeYN", likeYN);
+		return mpostMap;
+	}
+
+	@Override
+	public Map<String, Object> registReply(ReplyVO reply) throws SQLException {
+		Map<String, Object> replyMap = null;
+		
+		movieDAO.insertReply(reply);
+		int reply_no = reply.getReply_no();
+		
+		replyMap = movieDAO.selectRegReply(reply_no);
+		return replyMap;
+	}
+
+	@Override
+	public void clickMoviePostLike(int mpost_no, String mem_cd) throws SQLException {
+		Map<String, Object> param = new HashMap<>();
+		param.put("mpost_no", mpost_no);
+		param.put("mem_cd", mem_cd);
+		int cnt = 0;
+		cnt = movieDAO.selectMemMpostLikeYN(param);
+		if(cnt == 0) {
+			movieDAO.insertMoviePostLike(param);
+		}else {
+			movieDAO.deleteMoviePostLike(param);
+		}
+		
+		
 	}
 
 

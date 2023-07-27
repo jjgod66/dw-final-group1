@@ -4,12 +4,17 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Mapper;
+import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
+
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ReplyVO;
 import kr.or.dw.vo.ReviewVO;
 
 @Mapper
@@ -233,5 +238,125 @@ public interface MovieDAO {
 	 * @return
 	 */
 	List<Map<String, Object>> selectLikeGenreMovie(Map<String, String> param) throws SQLException;
+	
+	/**
+	 * 모든 영화의 리뷰를 가져오는 메서드
+	 * @param rowBounds 
+	 * @param cri 
+	 * @return
+	 */
+	List<Map<String, Object>> getAllMovieReview(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
+
+	/**
+	 * 영화 평균 평점 가져오는 메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	double selectMovieRateAvg(String movie_cd) throws SQLException;
+
+	/**
+	 * 리뷰를 검색하는 메서드
+	 * @param searchReview
+	 * @return
+	 */
+	List<Map<String, Object>> searchReview(String keyword) throws SQLException;
+	
+	/** 해당 영화의 무비포스트 맵으로 가져오는 메서드
+	 * @param movie_cd
+	 * @return
+	 */
+	List<Map<String, Object>> selectMoviePostMap(String movie_cd) throws SQLException;
+
+	/**
+	 * 무비포스트 가져오는 메서드
+	 * @param cri
+	 * @param rowBounds
+	 * @return
+	 */
+	List<Map<String, Object>> selectSearchMoviePostList(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
+
+	/**
+	 * 무비포스트 갯수 
+	 * @param cri
+	 * @return
+	 * @throws SQLException
+	 */
+	int selectSearchMoviePostcnt(SearchCriteria cri) throws SQLException;
+
+	/**
+	 * 리뷰의 갯수
+	 * @param cri
+	 * @return
+	 */
+	int getSearchReviewListCount(SearchCriteria cri) throws SQLException;
+
+	/**
+	 * 영화 코드를 가져오는 메서드
+	 * @param mem_cd 
+	 * @return
+	 */
+	List<MovieVO> selectMovieCode(String mem_cd) throws SQLException;
+
+	/**
+	 * 마이페이지 예매 정보를 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> selectMovieInfo(String mem_cd) throws SQLException;
+
+	/**
+	 * 무비포스트 작성 메서드
+	 * @param moviePost
+	 * @throws SQLException
+	 */
+	void insertMoviePost(MoviePostVO moviePost) throws SQLException;
+
+	/**
+	 * 무비포스트 조회
+	 * @param mpost_no
+	 * @return
+	 */
+	Map<String, Object> selectMoviePostView(int mpost_no) throws SQLException;
+
+	/**
+	 * 무비포스트 댓글 리스트 가져오는 메서드
+	 * @param mpost_no
+	 * @return
+	 */
+	List<Map<String, Object>> selectMoviePostReply(int mpost_no) throws SQLException;
+
+	/**
+	 * 로그인한 회원이 해당 무비포스트 좋아요를 눌렀는지 안눌렀는지 확인하는 메서드
+	 * @param param
+	 * @return
+	 * @throws SQLException
+	 */
+	int selectMemMpostLikeYN(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 댓글 작성
+	 * @param reply
+	 */
+	void insertReply(ReplyVO reply) throws SQLException;
+
+	/**
+	 * 댓글 작성 후 작성한 댓글 정보 가져오는 메서드
+	 * @param reply_no
+	 * @return
+	 */
+	Map<String, Object> selectRegReply(int reply_no) throws SQLException;
+
+	/**
+	 * 무비포스트 좋아요
+	 * @param param
+	 */
+	void insertMoviePostLike(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 무비포스트 좋아요 취소
+	 * @param param
+	 */
+	void deleteMoviePostLike(Map<String, Object> param) throws SQLException;
+
 
 }

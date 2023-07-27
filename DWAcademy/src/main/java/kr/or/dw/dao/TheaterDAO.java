@@ -1,10 +1,13 @@
 package kr.or.dw.dao;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import kr.or.dw.vo.EventVO;
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.TheaterVO;
 
 @Mapper
@@ -51,5 +54,46 @@ public interface TheaterDAO {
 	 * @throws SQLException
 	 */
 	void insertLikeThr(Map<String, String> param) throws SQLException;
+
+	/**
+	 * 해당 날짜의 해당 극장에서 상영하는 영화 리스트 가져오는 메서드
+	 * @param param
+	 * @return
+	 */
+	List<String> selectDayMovieList(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 해당날짜의 해당 극장에서 해당 영화를 상영하는 관 리스트 가져오는 메서드
+	 * @param param
+	 * @return
+	 */
+	List<String> selectDayHouseList(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 해당 날짜, 해당 극장, 해당 영화, 해당 상영관에서 상영하는 상영영화 리스트 가져오는 메서드
+	 * @param param3
+	 * @return
+	 */
+	List<Map<String, Object>> selectHouseScreenList(Map<String, Object> param3) throws SQLException;
+
+	/**
+	 * 극장 공지 가져오는 메서드
+	 * @return
+	 */
+	List<Map<String, Object>> selectThrNotice() throws SQLException;
+
+	/**
+	 * 해당 극장의 공지 가져오는 메서드
+	 * @param thr_name
+	 * @return
+	 */
+	List<NoticeVO> selectThisThrNotice(String thr_name) throws SQLException;
+
+	/**
+	 * 극장 이벤트 가져오는 메서드
+	 * @return
+	 * @throws SQLException
+	 */
+	List<EventVO> selectThrEvent() throws SQLException;
 
 }

@@ -167,7 +167,7 @@ select {
 				<div class="movie col-3" style="padding: 30px 20px 30px 20px;">	
 				 <div class="item_poster">
 				        <div class="thumb_item">
-				            <div class="poster_movie" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&movie_cd=${movie.MOVIE_CD}&type=p') no-repeat center /cover">
+				            <div class="poster_movie" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster') no-repeat center /cover">
 					                                        <span class="rank_num">${movie.movie_grade}</span>
 					                                        <span class="txt_tag">${movie.movie_grade}</span>
 				                <div class="movieChart_btn_wrap">
@@ -182,7 +182,7 @@ select {
 					                                        <c:if test="${movie.MOVIE_GRADE eq '12세 관람가'}"><img src="../../resources/img/moviegrade/12.png" style="width: 8%; height: 8%;"></c:if>
 					                                        <c:if test="${movie.MOVIE_GRADE eq '15세 관람가'}"><img src="../../resources/img/moviegrade/15.png" style="width: 8%; height: 8%;"></c:if>
 					                                        <c:if test="${movie.MOVIE_GRADE eq '청소년 관람불가'}"><img src="../../resources/img/moviegrade/18.png" style="width: 8%; height: 8%;"></c:if>
-					                                        <a href="movie-view.jsp?movieCd=${movie.MOVIE_CD}#view" class="link_txt" data-tiara-layer="moviename"> ${movie.MOVIE_NAME}</a>
+					                                        <a href="<%=request.getContextPath()%>/movie/viewer.do?movie_cd=${movie.MOVIE_CD}" class="link_txt" data-tiara-layer="moviename"> ${movie.MOVIE_NAME}</a>
 				            </strong>
 				            <span class="txt_append">
 				                <span class="info_txt">상영시간<span class="txt_grade">${movie.MOVIE_LENGTH}</span>분</span>

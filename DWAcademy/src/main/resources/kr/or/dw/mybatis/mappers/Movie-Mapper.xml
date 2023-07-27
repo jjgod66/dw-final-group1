@@ -298,6 +298,18 @@
 		AND rownum <![CDATA[<=]]> 3
 	</select>
 	
+	<select id="getAllMovieReview" resultType="Map">
+		SELECT m.MOVIE_NAME , r.*, mem.MEM_ID, (
+		  		SELECT count(*)
+		  		  FROM review_like
+		  		 WHERE REVIEW_NO = r.REVIEW_NO
+		  		) reviewlike
+		  FROM movie m, review r, MEMBER mem
+		 WHERE m.MOVIE_CD = r.MOVIE_CD
+ 		   AND mem.MEM_CD = r.MEM_CD
+ 		   AND r.gb_del = 'N'
+	</select>
+	
 	<insert id="insertReviewLike">
 		INSERT INTO review_like (review_no, mem_cd) VALUES(#{review_no}, #{mem_cd})
 	</insert>
@@ -336,4 +348,187 @@
 		FROM mem_like_genre
 		where mem_cd = #{mem_cd}
 	</select>
+	
+	<select id="selectMovieRateAvg" resultType="double">
+		SELECT nvl(ROUND(avg(review_rating), 3),0)
+		FROM review
+		WHERE movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="searchReview" resultType="Map">
+		SELECT r.*, m.movie_name, mem.mem_id, (
+				SELECT count(*)
+		  		  FROM review_like
+		  		 WHERE REVIEW_NO = r.REVIEW_NO
+		  		) reviewlike
+		  FROM review r, movie m, member mem
+		 WHERE movie_name like '%' || #{keyword} ||'%'
+ 		   AND m.MOVIE_CD = r.MOVIE_CD
+   		   AND mem.MEM_CD = r.MEM_CD
+	</select>
+	
+	<select id="selectMoviePostMap" resultType="Map">
+		SELECT mp.movie_cd, mp.movie_pic_no, movie_pic_path, mpost_content, mp.regdate, movie_name, mpost_no, mem_id 
+		FROM moviepost mp, movie m, movie_picture p, MEMBER mb
+		WHERE mp.movie_cd = m.movie_cd
+		AND mp.mem_cd = mb.mem_cd
+		AND p.movie_pic_no = mp.movie_pic_no
+		AND mp.gb_del = 'N'
+		AND mp.movie_cd = #{movie_cd}
+	</select>
+	
+	<select id="selectSearchMoviePostList" resultType="Map">
+		SELECT mp.movie_cd, mp.movie_pic_no, movie_pic_path, mpost_content, mp.regdate, movie_name, mp.mpost_no, mem_id, mp.mem_cd, nvl(likecnt, 0) likecnt, nvl(replycnt, 0) replycnt
+		FROM moviepost mp, movie m, movie_picture p, MEMBER mb
+			,(SELECT COUNT(*) likecnt, mpost_no
+			FROM mp_like
+			GROUP BY mpost_no) ml,
+			(SELECT COUNT(*) replycnt, mpost_no
+			FROM reply
+			GROUP BY mpost_no) mr
+		WHERE mp.movie_cd = m.movie_cd
+		AND mp.mem_cd = mb.mem_cd
+		AND p.movie_pic_no = mp.movie_pic_no
+		AND mp.mpost_no = ml.mpost_no(+)
+		AND mp.mpost_no = mr.mpost_no(+)
+		AND mp.gb_del = 'N'
+		AND movie_name like '%' || #{keyword} || '%'
+		<if test="searchType == 'like'.toString()">
+			ORDER BY likecnt DESC NULLS last, mp.regdate DESC
+		</if>
+		<if test="searchType == 'regdate'.toString()">
+			ORDER BY mp.regdate DESC
+		</if>
+	</select>
+	
+	<select id="selectSearchMoviePostcnt" resultType="int">
+		SELECT COUNT(*)
+		FROM moviepost mp, movie m, movie_picture p, MEMBER mb
+			,(SELECT COUNT(*) likecnt, mpost_no
+			FROM mp_like
+			GROUP BY mpost_no) ml,
+			(SELECT COUNT(*) replycnt, mpost_no
+			FROM reply
+			GROUP BY mpost_no) mr
+		WHERE mp.movie_cd = m.movie_cd
+		AND mp.mem_cd = mb.mem_cd
+		AND p.movie_pic_no = mp.movie_pic_no
+		AND mp.mpost_no = ml.mpost_no(+)
+		AND mp.mpost_no = mr.mpost_no(+)
+		AND mp.gb_del = 'N'
+		AND movie_name like '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="getSearchReviewListCount" resultType="int">
+		SELECT count(*)
+		  FROM review
+		 WHERE gb_del = 'N'
+	</select>
+	
+	<select id="selectMovieCode" resultType="movie">
+		SELECT m.movie_cd, movie_name
+		  FROM (
+				SELECT movie_cd
+				FROM reservation r, screen s
+				WHERE r.screen_cd = s.screen_cd
+				AND mem_cd = #{mem_cd}
+				AND gb_cancel = 'N'
+				AND startdate <![CDATA[<]]> sysdate
+				GROUP BY movie_cd
+		  		) mcd, movie m
+		  WHERE mcd.movie_cd = m.movie_cd
+	</select>
+	
+	<select id="selectMovieInfo" resultType="Map">
+		SELECT r.MERCHANT_UID
+		  ,LISTAGG(r.MEM_CAT , ', ') WITHIN GROUP(ORDER BY r.mem_cat) mem_cat
+		  ,LISTAGG(r.RES_SEAT , ', ') WITHIN GROUP(ORDER BY RES_SEAT)  res_seat
+		  ,MAX(startdate) startdate
+		  ,MAX(RESDATE) RESDATE
+		  ,MAX(h.house_name) house_name
+		  ,MAX(h.thr_name) thr_name
+		  ,MAX(REFUNDDATE) REFUNDDATE
+		  ,MAX(m.movie_name) movie_name
+		  ,MAX(m.movie_cd) movie_cd
+		  ,MAX(m.movie_mainpic_path) movie_mainpic_path
+	  FROM RESERVATION r
+	  	  ,screen s
+	  	  ,movie m
+	  	  ,house h
+	  	  ,PAY_DETAIL p
+	 WHERE r.mem_cd = #{mem_cd}
+	   AND s.screen_cd = r.screen_cd 
+	   AND s.movie_cd = m.movie_cd
+	   AND h.house_no = s.house_no
+	   AND p.merchant_uid = r.merchant_uid
+	 GROUP BY r.merchant_uid
+	</select>
+
+	<insert id="insertMoviePost">
+		INSERT INTO moviepost (mpost_no, mem_cd, movie_cd, movie_pic_no, mpost_content, gb_del, regdate)
+					VALUES (mpost_seq.nextval, #{mem_cd}, #{movie_cd}, #{movie_pic_no}, #{mpost_content}, 'N', sysdate)
+	</insert>
+	
+	<select id="selectMoviePostView" resultType="Map">
+		SELECT mp.mpost_no
+			 , MAX(mp.mem_cd) mem_cd
+			 , MAX(mp.movie_cd) movie_cd
+			 , MAX(mp.mpost_content) mpost_content
+			 , MAX(mp.movie_pic_no) movie_pic_no
+			 , MAX(mp.regdate) regdate
+			 , MAX(movie_name) movie_name
+			 , MAX(mem_id) mem_id
+			 , MAX(mem_pic_path) mem_pic_path
+			 , MAX(movie_pic_path) movie_pic_path
+			 , count(ml.mpost_no) likecnt
+			 , max(r.replycnt) replycnt
+		FROM moviepost mp, movie m, MEMBER mb, movie_picture mpic, mp_like ml, (SELECT COUNT(*) replycnt, mpost_no
+																				FROM reply
+																				GROUP BY mpost_no) r
+		WHERE mp.mem_cd = mb.mem_cd
+		AND mp.movie_cd = m.movie_cd
+		AND mp.movie_pic_no = mpic.movie_pic_no
+		AND ml.mpost_no(+) = mp.mpost_no
+		AND r.mpost_no(+) = mp.mpost_no
+		AND mp.mpost_no = #{mpost_no}
+		GROUP BY mp.mpost_no
+	</select>
+	
+	<select id="selectMoviePostReply" resultType="Map">
+		SELECT r.*, mem_id, mem_pic_path
+		FROM reply r, MEMBER m
+		WHERE r.mem_cd = m.mem_cd 
+		AND mpost_no = #{mpost_no}
+		ORDER BY r.regdate DESC
+	</select>
+	
+	<select id="selectMemMpostLikeYN" resultType="int">
+		SELECT COUNT(*)
+		FROM mp_like
+		WHERE mpost_no = #{mpost_no}
+		AND mem_cd = #{mem_cd}
+	</select>
+	
+	<insert id="insertReply">
+		INSERT INTO reply (reply_no, mem_cd, reply_content, mpost_no, regdate, gb_del)
+						VALUES(reply_seq.nextval, #{mem_cd}, #{reply_content}, #{mpost_no}, sysdate, 'N')
+		<selectKey resultType="int" keyProperty="reply_no" order="AFTER">
+			SELECT reply_seq.currval reply_no FROM dual
+		</selectKey>
+	</insert>
+	
+	<select id="selectRegReply" resultType="Map">
+		SELECT reply_no, reply_content, r.mem_cd, mem_id, mem_pic_path, r.regdate
+		FROM reply r, MEMBER m
+		WHERE r.mem_cd = m.mem_cd
+		AND reply_no = #{reply_no}
+	</select>
+	
+	<insert id="insertMoviePostLike">
+		INSERT INTO mp_like (mem_cd, mpost_no) VALUES(#{mem_cd}, #{mpost_no})
+	</insert>
+	
+	<delete id="deleteMoviePostLike">
+		DELETE mp_like WHERE mem_cd = #{mem_cd} AND mpost_no = #{mpost_no}
+	</delete>
 </mapper>

@@ -16,12 +16,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.MovieViewerCommand;
+import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ReplyVO;
+import kr.or.dw.vo.MoviePictureVO;
+import kr.or.dw.vo.MoviePostVO;
+import kr.or.dw.vo.MoviePreviewVO;
 import kr.or.dw.vo.ReviewVO;
 import oracle.net.aso.s;
 
@@ -34,6 +42,9 @@ public class MovieController {
 	
 	@Autowired
 	private MovieService movieService;
+	
+	@Autowired
+	private MemberService memberService;
 
 	@RequestMapping("/viewer")
 	public ModelAndView detail(ModelAndView mnv, String movie_cd, HttpSession session) throws SQLException{
@@ -59,6 +70,22 @@ public class MovieController {
 		List<Map<String, Object>> review3List = null;
 		review3List = movieService.getMovieReview3(movie_cd, session);
 		
+		List<MoviePreviewVO> moviePreviewList = null;
+		moviePreviewList = movieService.getMoviePreview(movie_cd);
+		
+		List<MoviePictureVO> moviePicList = null;
+		moviePicList = movieService.getMoviePicture(movie_cd);
+		
+		double movie_rate_avg = 0.0;
+		movie_rate_avg = movieService.getMovieRateAvg(movie_cd);
+		
+		List<Map<String, Object>> moviePostList = null;
+		moviePostList = movieService.getMoviePost4(movie_cd);
+		
+		mnv.addObject("moviePostList", moviePostList);
+		mnv.addObject("movie_rate_avg", movie_rate_avg);
+		mnv.addObject("previewList", moviePreviewList);
+		mnv.addObject("pictureList", moviePicList);
 		mnv.addObject("mem_cd", mem_cd);
 		mnv.addObject("reviewList", review3List);
 		mnv.addObject("reserMap", reserMap);
@@ -280,14 +307,18 @@ public class MovieController {
 	@RequestMapping("/reviewReport")
 	public void reviewReport(int review_no, String movie_cd, HttpSession session, HttpServletRequest req, HttpServletResponse res) throws Exception {
 		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
-		
+		System.out.println(movie_cd);
 		String result = movieService.reviewReport(review_no, mem_cd);
 		if(result.equals("S")) {
 			res.setContentType("text/html; charset=utf-8");
 			PrintWriter out = res.getWriter();
 			out.println("<script>");
 			out.println("alert('신고가 접수되었습니다.');");
-			out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + movie_cd  + "';");
+			if(movie_cd == null || movie_cd == "") {
+				out.println("location.href='" + req.getContextPath() + "/movie/review.do';");
+			}else {
+				out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + movie_cd  + "';");
+			}
 			out.println("</script>");
 			out.flush();
 			out.close();
@@ -296,11 +327,155 @@ public class MovieController {
 			PrintWriter out = res.getWriter();
 			out.println("<script>");
 			out.println("alert('이미 신고한 리뷰입니다.');");
-			out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + movie_cd  + "';");
+			if(movie_cd == null || movie_cd == "") {
+				out.println("location.href='" + req.getContextPath() + "/movie/review.do';");
+			}else {
+				out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + movie_cd  + "';");
+			}
 			out.println("</script>");
 			out.flush();
 			out.close();
 		}
 	}
 	
+	@RequestMapping("/moviePost")
+	public ModelAndView moviePost(ModelAndView mnv, SearchCriteria cri, HttpSession session) throws SQLException {
+		String url = "/movie/moviepost";
+		
+		
+		cri.setPerPageNum("12");
+		if("".equals(cri.getSearchType())) {
+			cri.setSearchType("regdate");
+		}
+		Map<String, Object> dataMap = movieService.getMoviePost(cri, session);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/moviePic")
+	public ResponseEntity<List<MoviePictureVO>> getMoviePic(String movie_cd){
+		ResponseEntity<List<MoviePictureVO>> entity = null;
+		
+		List<MoviePictureVO> moviePicList = null;
+		try {
+			moviePicList = movieService.getMoviePicture(movie_cd);
+			entity = new ResponseEntity<List<MoviePictureVO>>(moviePicList, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<MoviePictureVO>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/moviePostRegist")
+	public void moviePostRegist(MoviePostVO moviePost, HttpServletResponse res, HttpSession session) throws Exception {
+		
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		
+		moviePost.setMem_cd(mem_cd);;
+		
+		movieService.registMoviePost(moviePost);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('등록되었습니다.')");
+		out.println("location.href='moviePost.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/moviePostView")
+	public ResponseEntity<Map<String, Object>> moviePostView(int mpost_no, HttpSession session){
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		Map<String, Object> mpostMap = null;
+		
+		String mem_cd = "";
+		if(session.getAttribute("loginUser") != null) {
+			mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		}
+		
+		try {
+			mpostMap = movieService.getMoivePostView(mpost_no, mem_cd);
+			System.out.println("mpostMap : " + mpostMap);
+			entity = new ResponseEntity<Map<String,Object>>(mpostMap, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/moviePostReplyRegist")
+	public ResponseEntity<Map<String, Object>> replyRegist(ReplyVO reply, HttpSession session){
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		reply.setMem_cd(mem_cd);
+		Map<String, Object> replyMap = null;
+		try {
+			replyMap = movieService.registReply(reply);
+			entity = new ResponseEntity<Map<String,Object>>(replyMap, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+		
+	}
+	
+	@RequestMapping("/mpLike")
+	public ResponseEntity<String> mpLike(int mpost_no, HttpSession session){
+		ResponseEntity<String> entity = null;
+	
+		
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		try {
+			movieService.clickMoviePostLike(mpost_no, mem_cd);
+			entity = new ResponseEntity<String>("S", HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	
+	@RequestMapping("/review")
+	public ModelAndView movieReview(SearchCriteria cri, ModelAndView mnv, HttpSession session, HttpServletResponse res, HttpServletRequest req) throws SQLException, IOException {
+		String url = "/movie/review";
+		
+		Map<String, Object> dataMap = movieService.getAllMovieReview(session, cri);
+		System.out.println(dataMap);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/searchReview")
+	public ModelAndView searchReview(ModelAndView mnv,String keyword, HttpSession session) throws SQLException{
+		String url = "movie/review";
+		
+		System.out.println(keyword);
+		if(keyword != null) {
+			List<Map<String, Object>> review = movieService.searchReview(keyword, session);
+			System.out.println(review);
+			mnv.addObject("reviewList", review);
+		}
+		mnv.setViewName(url);
+			
+		return mnv;
+		
+		
+	}
 }

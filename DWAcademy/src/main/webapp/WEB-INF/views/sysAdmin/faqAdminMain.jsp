@@ -93,6 +93,7 @@ textarea:focus {
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
 			<jsp:param value="${item2 }" name="item2" />
+			<jsp:param value="${url }" name="url" />
 		</jsp:include>
 	    <div class="search row mb-3">
 	    	<div class="col-md-2"></div>
@@ -195,6 +196,7 @@ textarea:focus {
 			 $('input[name="faq_no"]').val(faqNo);
 			 $('#modalTitle').text('FAQ 수정');
 			 $('#registBtn').remove();
+			 
 		 });
 		
 		// 모달 안의 수정버튼 클릭시

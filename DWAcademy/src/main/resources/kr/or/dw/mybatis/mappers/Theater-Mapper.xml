@@ -5,6 +5,7 @@
 		SELECT thr_name
 		FROM theater
 		WHERE thr_loc = #{thr_loc}
+		AND gb_del = 'N'
 	</select>
 	
 	<select id="selectTheaterInfo" resultType="theater">
@@ -33,4 +34,69 @@
 	<insert id="insertLikeThr">
 		INSERT INTO mem_like_theater (mem_cd, thr_name) VALUES (#{mem_cd}, #{thr_name})
 	</insert>
+	
+	<select id="selectDayMovieList" resultType="str">
+		SELECT movie_cd
+		FROM theater t, house h, screen s
+		WHERE t.thr_name = h.thr_name
+		AND h.house_no = s.house_no
+		AND to_char(startdate, 'yyyyMMdd') = to_char(#{date}, 'yyyyMMdd')
+		AND h.thr_name = #{thr_name}
+		GROUP BY movie_cd
+	</select>
+	
+	<select id="selectDayHouseList" resultType="str">
+		SELECT s.house_no
+		FROM theater t, house h, screen s
+		WHERE t.thr_name = h.thr_name
+		AND h.house_no = s.house_no
+		AND t.thr_name = #{thr_name}
+		AND movie_cd = #{movie_cd}
+		AND to_char(startdate, 'yyyyMMdd') = to_char(#{date}, 'yyyyMMdd')
+		GROUP BY s.house_no
+		ORDER BY house_no
+	</select>
+	
+	<select id="selectHouseScreenList" resultType="Map">
+		SELECT s.house_no, s.screen_cd, s.movie_cd, startdate, movie_length, movie_grade, movie_type_des, house_row, house_column, nvl(reserver, 0) reserver, movie_name, house_name
+		FROM theater t, house h, screen s, movie m, movie_type mt,
+				(
+					SELECT count(*) reserver, screen_cd 
+					FROM reservation
+					WHERE gb_cancel = 'N'
+					GROUP BY screen_cd
+				) r
+		WHERE t.thr_name = h.thr_name
+		AND h.house_no = s.house_no
+		AND s.movie_cd = m.movie_cd
+		AND mt.movie_type_cd = s.movie_type_cd
+		AND r.screen_cd(+) = s.screen_cd
+		AND t.thr_name = #{thr_name}
+		AND s.movie_cd = #{movie_cd}
+		AND s.house_no = #{house_no}
+		AND to_char(startdate, 'yyyyMMdd') = to_char(#{date}, 'yyyyMMdd')
+		ORDER BY startdate
+	</select>
+	
+	<select id="selectThrNotice" resultType="Map">
+		SELECT *
+		FROM notice n, theater t
+		WHERE n.notice_thr = t.thr_name
+		AND notice_thr != 'DW시네마'
+		ORDER BY n.regdate DESC
+	</select>
+	
+	<select id="selectThisThrNotice" resultType="notice">
+		SELECT *
+		FROM notice n
+		WHERE notice_thr = #{thr_name}
+		ORDER BY n.regdate DESC
+	</select>
+	
+	<select id="selectThrEvent" resultType="event">
+		SELECT *
+		FROM event
+		WHERE event_div = '극장'
+		ORDER BY regdate DESC
+	</select>
 </mapper>

@@ -313,6 +313,7 @@ thead, tfoot {
 #boxOffice, #futureOffice {
 	padding : 0.3rem;
 }
+
 </style>
 
 <div id="wrapper">
@@ -321,6 +322,7 @@ thead, tfoot {
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
 			<jsp:param value="${item2 }" name="item2" />
+			<jsp:param value="${url }" name="url" />
 		</jsp:include>
 		<div class="card">
 			<div class="card-header" style="padding-bottom: 0;">

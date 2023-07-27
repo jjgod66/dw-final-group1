@@ -18,7 +18,9 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,14 +42,18 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
+import kr.or.dw.command.EventModifyCommand;
+import kr.or.dw.command.EventRegistCommand;
 import kr.or.dw.command.MovieModifyCommand;
 import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.ProductModifyCommand;
@@ -55,12 +61,16 @@ import kr.or.dw.command.ProductRegistCommand;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.StoreService;
 import kr.or.dw.service.SysAdminService;
+import kr.or.dw.vo.AnswerVO;
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
+import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.TheaterVO;
+import kr.or.dw.vo.WinnerBoardVO;
 
 @Controller
 @RequestMapping("/sysAdmin")
@@ -80,9 +90,25 @@ public class SysAdminController {
 	@Resource(name ="storePicUploadPath")
 	private String storePicUploadPath;
 	
+	@Resource(name ="eventPicUploadPath")
+	private String eventPicUploadPath;
+	
+	@Resource(name ="memberPicUploadPath")
+	private String memberPicUploadPath;
+	
 	@RequestMapping("/main")
-	public ModelAndView sysAdminIndex(ModelAndView mnv) {
+	public ModelAndView sysAdminIndex(ModelAndView mnv) throws SQLException {
 		String url = "/sysAdmin/main";
+		
+		List<MovieVO> currentMovieList = sysAdminService.selectCurrentMovieForMain();
+		mnv.addObject("currentMovieList", currentMovieList);
+		
+		List<NoticeVO> noticeList = sysAdminService.selectNoticeForMain();
+		mnv.addObject("noticeList", noticeList);
+		List<QnaVO> qnaList = sysAdminService.selectQnaForMain();
+		mnv.addObject("qnaList", qnaList);
+		List<EventVO> eventList = sysAdminService.selectEventForMain();
+		mnv.addObject("eventList", eventList);
 		
 		mnv.setViewName(url);
 		return mnv;
@@ -95,25 +121,24 @@ public class SysAdminController {
 		
 		Map<String, Object> dataMap = sysAdminService.selectTheaterList(cri);
 		mnv.addAllObjects(dataMap);
-		Map<String, Object> subjectMap = addSubject("HOME", "지점 관리", "지점 리스트");
+		Map<String, Object> subjectMap = addSubject("HOME", "지점 관리", "지점 리스트", url+".do");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
 	}
 
 	@RequestMapping("/theaterRegistForm")
-//	@PostMapping("/theaterRegistForm")
 	public ModelAndView theaterRegistForm(ModelAndView mnv, String thr_name) throws SQLException {
 		
-		String url = "sysAdmin/theaterRegist";
+		String url = "/sysAdmin/theaterRegist";
 		Map<String, Object> subjectMap = new HashMap<String, Object>(); 
 		 
 		if (thr_name != null) {	// 수정일 때
 			TheaterVO thr = sysAdminService.selectTheaterByName(thr_name);
 			mnv.addObject("thr", thr);
-			subjectMap = addSubject("HOME", "지점 관리", "지점 수정");
+			subjectMap = addSubject("HOME", "지점 관리", "지점 수정", url+"Form.do?thr_name="+thr_name);
 		} else {				// 등록일 때
-			subjectMap = addSubject("HOME", "지점 관리", "지점 등록");
+			subjectMap = addSubject("HOME", "지점 관리", "지점 등록", url+"Form.do");
 		}
 		
 		List<String> locList = sysAdminService.selectLocList();
@@ -181,7 +206,7 @@ public class SysAdminController {
 		mnv.addAllObjects(dataMap);
 		
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "영화 리스트");
+		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "영화 리스트", url+".do");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		
@@ -196,13 +221,13 @@ public class SysAdminController {
 		
 		
 		if (movie_cd != null) {	// 수정일 때
-			subjectMap = addSubject("HOME", "영화 관리", "영화 상세정보 수정");
+			subjectMap = addSubject("HOME", "영화 관리", "영화 상세정보 수정", url+"Form.do?movie_cd="+movie_cd);
 			Map<String, Object> movie = sysAdminService.selectMovieByMovie_cd(movie_cd);
 			List<Map<String, Object>> movieVideoList = sysAdminService.selectMoiveVideoByMovie_cd(movie_cd);
 			movie.put("movieVideoList", movieVideoList);
 			mnv.addAllObjects(movie);
 		} else {				// 등록일 때
-			subjectMap = addSubject("HOME", "영화 관리", "영화 등록");
+			subjectMap = addSubject("HOME", "영화 관리", "영화 등록", url+"Form.do");
 		}
 		
 		List<GenreVO> genreList = sysAdminService.selectGenreList();
@@ -432,10 +457,10 @@ public class SysAdminController {
 		String item2 = "";
 		if (CategoryIdx.equals("1")) {
 			item2 = "기프트카드 목록";
-			subjectMap = addSubject("HOME", "스토어 관리", item2);
+			subjectMap = addSubject("HOME", "스토어 관리", item2, url+".do?CategoryIdx=1");
 		} else if (CategoryIdx.equals("2")) {
 			item2 = "팝콘/음료/굿즈 목록";
-			subjectMap = addSubject("HOME", "스토어 관리", item2);
+			subjectMap = addSubject("HOME", "스토어 관리", item2, url+".do?CategoryIdx=2");
 		}
 		mnv.addAllObjects(subjectMap);
 		mnv.addObject("productList", productList);
@@ -453,7 +478,7 @@ public class SysAdminController {
 		
 		mnv.addObject("product", product);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "스토어 관리", "상품 상세");
+		Map<String, Object> subjectMap = addSubject("HOME", "스토어 관리", "상품 상세", url+".do?product_cd="+product_cd);
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -464,13 +489,13 @@ public class SysAdminController {
 		String url = "/sysAdmin/storeAdminProductRegist";
 		Map<String, Object> subjectMap = null;
 		if (product_cd != null) {
-			subjectMap = addSubject("HOME", "스토어 관리", "상품 수정");
+			subjectMap = addSubject("HOME", "스토어 관리", "상품 수정", url+"Form.do?product_cd="+product_cd);
 			ProductVO product = null;
 			product = storeService.selectProDetail(product_cd);
 			
 			mnv.addObject("product", product);
 		} else {
-			subjectMap = addSubject("HOME", "스토어 관리", "상품 등록");
+			subjectMap = addSubject("HOME", "스토어 관리", "상품 등록", url+".do");
 		}
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
@@ -538,7 +563,7 @@ public class SysAdminController {
 		Map<String, Object> dataMap = sysAdminService.selectNoticeList(cri);
 		mnv.addAllObjects(dataMap);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 메인");
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 메인", url+".do");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -553,7 +578,7 @@ public class SysAdminController {
 		}
 		mnv.addObject("type", type);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 게시글");
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "공지사항 게시글", url+".do?"+(notice_no == null ? "" : "notice_no="+notice_no+"&")+"type="+type);
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -608,8 +633,7 @@ public class SysAdminController {
 		Map<String, Object> dataMap = sysAdminService.selectFaqList(cri);
 		mnv.addAllObjects(dataMap);
 		
-		System.out.println(dataMap.get("pageMaker"));
-		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "FAQ 메인");
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "FAQ 메인", url+".do");
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -656,37 +680,408 @@ public class SysAdminController {
 		out.flush();
 		out.close();
 	}
+
+	@RequestMapping("qnaAdminMain")
+	public ModelAndView qnaAdminMain (ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/sysAdmin/qnaAdminMain";
+		Map<String,Object> dataMap = sysAdminService.selectQnaList(cri);
+		mnv.addAllObjects(dataMap);
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "1:1문의 메인", url+".do");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
 	
-	@GetMapping("/eventAdminMain")
-	public String eventAdmin() {
+	@RequestMapping("qnaAdminDetail")
+	public ModelAndView qnaAdminDetail (ModelAndView mnv, String que_no) throws NumberFormatException, SQLException {
+		String url = "/sysAdmin/qnaAdminDetail";
+		
+		QnaVO qna = sysAdminService.selectQnaByQue_no(Integer.parseInt(que_no));
+		mnv.addObject("qna", qna);
+		
+		AnswerVO ans = sysAdminService.selectAnsByQue_no(Integer.parseInt(que_no));
+		mnv.addObject("ans", ans);
+		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "1:1문의 게시글", url+".do?que_no="+que_no);
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("answerRegist")
+	public void answerRegist(AnswerVO ans, HttpServletResponse res) throws IOException, SQLException {
+		
+		sysAdminService.registAns(ans);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('답변 등록이 완료되었습니다.')");
+		out.println("location.href='qnaAdminDetail.do?que_no=" + ans.getQue_no() + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("answerModify")
+	public void answerModify(AnswerVO ans, HttpServletResponse res) throws IOException, SQLException {
+		
+		sysAdminService.modifyAns(ans);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('답변 수정이 완료되었습니다.')");
+		out.println("location.href='qnaAdminDetail.do?que_no=" + ans.getQue_no() + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminMain")
+	public ModelAndView eventAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException {
 		String url = "/sysAdmin/eventAdminMain";
-		return url;
+		Map<String, Object> dataMap = sysAdminService.selectEventListForMain();
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "진행중인 이벤트", url+".do");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
 	}
 	
-	@GetMapping("/eventAdminPast")
-	public String eventAdminPast() {
-		String url="/sysAdmin/eventAdminPast";
-		return url;
+	@RequestMapping("/eventAdminTypeMain")
+	public ModelAndView eventAdminTypeMain(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/sysAdmin/eventAdminTypeMain";
+		System.out.println(cri);
+		Map<String, Object> dataMap = sysAdminService.selectEventList(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "진행중인 이벤트", "/sysAdmin/eventAdminMain.do");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
 	}
 	
-	@GetMapping("/eventAdminWinner")
-	public String eventAdminWinner() {
-		String url="/sysAdmin/eventAdminWinner";
-		return url;
+	@RequestMapping("/eventAdminDetail")
+	public ModelAndView eventAdminDetail (ModelAndView mnv, String event_no, String type) throws NumberFormatException, SQLException {
+		String url = "/sysAdmin/eventAdminDetail";
+		
+		if (event_no != null) {
+			EventVO event = sysAdminService.selectEventByEvent_no(Integer.parseInt(event_no));
+			mnv.addObject("event", event);
+		}
+		mnv.addObject("type", type);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "진행중인 이벤트", url+".do?"+(event_no == null ? "" : "event_no="+event_no+"&")+"type="+type);
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
 	}
 	
-	@GetMapping("/eventRegist")
-	public String eventRegist() {
-		String url="/sysAdmin/eventRegist";
-		return url;
+	@RequestMapping("/eventAdminRegist")
+	public void eventAdminRegist (EventRegistCommand registReq, HttpServletRequest req, HttpServletResponse res) throws SQLException, IllegalStateException, IOException {
+		String eventPicUploadPath = this.eventPicUploadPath;
+		EventVO event = registReq.toEventVO();
+		
+		// 이벤트 테이블에 등록
+		sysAdminService.registEvent(event);
+		int event_no = event.getEvent_no();
+		String newContent = registReq.getEvent_content().replace("/sysAdmin/getTempImg.do?fileName="+registReq.getOldFileName() 
+																 ,"/sysAdmin/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+		
+		Map<String, Object> modifyEventContentMap = new HashMap<>();
+		modifyEventContentMap.put("event_no", event_no);
+		modifyEventContentMap.put("newContent", newContent);
+		sysAdminService.modifyEventContent(modifyEventContentMap);
+		
+		// 이벤트 썸네일 로컬에 저장
+		MultipartFile thumb = registReq.getEvent_thum_path();
+		if (thumb != null) {
+			String fileName = thumb.getOriginalFilename();
+			File target = new File(eventPicUploadPath + File.separator + event.getEvent_no() + File.separator + "thumb", fileName);
+			
+			if (!target.exists()) {
+				target.mkdirs();
+			}
+			
+			thumb.transferTo(target);
+		}
+		
+		// 이벤트 이미지 로컬에 저장
+		if (registReq.getEvent_pic_path() != null && registReq.getEvent_pic_path() != "") {
+			String fileName = event.getEvent_pic_path();
+			File oldFile = new File(eventPicUploadPath + File.separator + "temp", registReq.getOldFileName());
+			File newFilePath = new File(eventPicUploadPath + File.separator + event.getEvent_no() + File.separator + "img");
+			if (!newFilePath.exists()) {
+				newFilePath.mkdirs();
+			}
+			boolean renameTo = oldFile.renameTo(new File(newFilePath, fileName));
+		}
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('이벤트 등록이 완료되었습니다.')");
+		out.println("location.href='eventAdminDetail.do?type=read&event_no=" + event_no + "'");
+		out.println("</script>");
+		out.flush();
+		out.close();
 	}
 	
-	// admin_contentHeader에 넣을 정보들
-	private Map<String, Object> addSubject(String subject, String item1, String item2) {
+	@RequestMapping("/eventAdminModify")
+	public void eventAdminModify (EventModifyCommand modifyReq, HttpServletRequest req, HttpServletResponse res) throws SQLException, IllegalStateException, IOException {
+		
+		String eventPicUploadPath = this.eventPicUploadPath;
+		System.out.println(modifyReq);
+		
+		EventVO event = modifyReq.toEventVO();
+		
+		if (!modifyReq.getRemoveFileName().equals("")) {
+			event.setEvent_thum_path(modifyReq.getEvent_thum_path().getOriginalFilename());
+		}
+		
+		sysAdminService.modifyEvent(event);
+		
+		int event_no = event.getEvent_no();
+		Map<String, Object> modifyEventContentMap = new HashMap<>();
+		if (modifyReq.getEvent_content().contains("/sysAdmin/getTempImg.do?fileName=")) {
+			String newContent = modifyReq.getEvent_content().replace("/sysAdmin/getTempImg.do?fileName="+modifyReq.getOldFileName() 
+																	,"/sysAdmin/getPicture.do?name="+modifyReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+			modifyEventContentMap.put("event_no", event.getEvent_no());
+			modifyEventContentMap.put("newContent", newContent);
+			sysAdminService.modifyEventContent(modifyEventContentMap);
+		}
+
+		
+		// 이벤트 썸네일 로컬에 저장
+		if (!modifyReq.getRemoveFileName().equals("")) {
+			MultipartFile thumb = modifyReq.getEvent_thum_path();
+			System.out.println("test!!!!");
+			String fileName = thumb.getOriginalFilename();
+			File filePath = new File(eventPicUploadPath + File.separator + event_no + File.separator + "thumb");
+			File[] fileList = filePath.listFiles();
+			for (File file : fileList) {
+				file.delete();
+			}
+			File target = new File(eventPicUploadPath + File.separator + event_no + File.separator + "thumb", fileName);
+			if (!target.exists()) {
+				target.mkdirs();
+			}
+			
+			thumb.transferTo(target);
+		}
+		
+		// 이벤트 이미지 로컬에 저장
+		if (!modifyReq.getEvent_pic_path().equals("")) {
+			String fileName = event.getEvent_pic_path();
+			File newFilePath = new File(eventPicUploadPath + File.separator + event_no + File.separator + "img");
+			File[] fileList = newFilePath.listFiles();
+			for (File file : fileList) {
+				file.delete();
+			}
+			if (!newFilePath.exists()) {
+				newFilePath.mkdirs();
+			}
+			File oldFile = new File(eventPicUploadPath + File.separator + "temp", modifyReq.getOldFileName());
+			boolean renameTo = oldFile.renameTo(new File(newFilePath, fileName));
+		}
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('이벤트 수정이 완료되었습니다.')");
+		out.println("location.href='eventAdminDetail.do?type=read&event_no=" + event_no + "'");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminDelete")
+	public void eventAdminDelete (EventModifyCommand modifyReq, HttpServletResponse res) throws SQLException, IOException {
+		String eventPicUploadPath = this.eventPicUploadPath;
+		
+		int event_no = modifyReq.getEvent_no();
+		sysAdminService.deleteEvent(event_no);
+		
+		File directory = new File(eventPicUploadPath + File.separator + event_no);
+		FileUtils.deleteDirectory(directory);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('이벤트 게시물 삭제가 완료되었습니다.')");
+		out.println("location.href='eventAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminPastMain")
+	public ModelAndView eventAdminPastMain(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url="/sysAdmin/eventAdminPastMain";
+		
+		Map<String, Object> dataMap = sysAdminService.selectEventListforPast(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "지난 이벤트", url+".do");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/eventAdminWinnerRegistForm")
+	public ModelAndView eventAdminWinnerRegistForm (ModelAndView mnv, String event_no, String type) throws NumberFormatException, SQLException {
+		String url="/sysAdmin/eventAdminRegist";
+		EventVO event = sysAdminService.selectEventByEvent_no(Integer.parseInt(event_no));
+		mnv.addObject("event", event);
+		if (type.equals("create")) {
+			Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "당첨자 발표 작성", url+".do?event_no=" + event_no + "&type=" + type);
+			mnv.addAllObjects(subjectMap);
+		} else if (type.equals("read")) {
+			Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "당첨자 발표 조회", url+".do?event_no=" + event_no + "&type=" + type);
+			mnv.addAllObjects(subjectMap);
+			WinnerBoardVO wb = sysAdminService.selectWbByEvent_no(Integer.parseInt(event_no));
+			mnv.addObject("wb", wb);
+		}
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/eventAdminWinnerRegist")
+	public void eventAdminWinnerRegist(WinnerBoardVO wb, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.registWinnerBoard(wb);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('당첨자 게시물  등록이 완료되었습니다.')");
+		out.println("location.href='eventAdminPastMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminWinnerModify")
+	public void eventAdminWinnerModify(WinnerBoardVO wb, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.modifyWinnerBoard(wb);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('당첨자 게시물  수정이 완료되었습니다.')");
+		out.println("location.href='eventAdminPastMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminWinnerDelete")
+	public void eventAdminWinnerDelete(WinnerBoardVO wb, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.deleteWinnerBoard(wb);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('당첨자 게시물 삭제가 완료되었습니다.')");
+		out.println("location.href='eventAdminPastMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/memberAdminMain")
+	public ModelAndView memberAdminMain (ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		
+		String url="/sysAdmin/memberAdminMain";
+		
+		Map<String, Object> dataMap = sysAdminService.selectMemberList(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "회원 목록", url+".do");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+		
+	}
+	
+	@RequestMapping("/memeberAdminDetail")
+	public ModelAndView memeberAdminDetail (ModelAndView mnv, String mem_cd) throws SQLException {
+		String url = "/sysAdmin/memberAdminDetail";
+		
+		Map<String, Object> member = sysAdminService.selectMemberByMem_cd(mem_cd);
+		mnv.addAllObjects(member);
+		
+		List<Map<String, Object>> watchedMovieList = sysAdminService.selectWatchedMoviePreviewListByMem_cd(mem_cd);
+		mnv.addObject("watchedMovieList", watchedMovieList);
+		
+		List<Map<String, Object>> reviewList = sysAdminService.selectReviewPreviewListByMem_cd(mem_cd);
+		mnv.addObject("reviewList", reviewList);
+		
+		List<Map<String, Object>> mpList = sysAdminService.selectMpPreviewListByMem_cd(mem_cd);
+		mnv.addObject("mpList", mpList);
+		
+		List<Map<String, Object>> mpReplyList = sysAdminService.selectMpReplyPreviewListByMem_cd(mem_cd);
+		mnv.addObject("mpReplyList", mpReplyList);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "회원 상세", url+".do?mem_cd="+mem_cd);
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	} 
+	
+	@RequestMapping("/memberAdminWatchedMovieList")
+	public ModelAndView memberAdminWatchedMovieList (ModelAndView mnv, String mem_cd) throws SQLException {
+		String url = "/sysAdmin/memberAdminWatchedMovieList";
+		
+		List<Map<String, Object>> watchedMovieList = sysAdminService.selectWatchedMovieListByMem_cd(mem_cd);
+		mnv.addObject("watchedMovieList", watchedMovieList);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "관람내역 상세", url+".do?mem_cd="+mem_cd);
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/memberAdminReviewList")
+	public ModelAndView memberAdminReviewList (ModelAndView mnv, String mem_cd) throws SQLException {
+		String url = "/sysAdmin/memberAdminReviewList";
+		
+		List<Map<String, Object>> reviewList = sysAdminService.selectReviewListByMem_cd(mem_cd);
+		mnv.addObject("reviewList", reviewList);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "리뷰내역 상세", url+".do?mem_cd="+mem_cd);
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+//	// admin_contentHeader에 넣을 정보들
+//	private Map<String, Object> addSubject(String subject, String item1, String item2) {
+//		Map<String, Object> subjectMap = new HashMap<String, Object>();
+//		subjectMap.put("subject", subject);
+//		subjectMap.put("item1", item1);
+//		subjectMap.put("item2", item2);
+//		return subjectMap;
+//	}
+	
+	private Map<String, Object> addSubject(String subject, String item1, String item2, String url) {
 		Map<String, Object> subjectMap = new HashMap<String, Object>();
 		subjectMap.put("subject", subject);
 		subjectMap.put("item1", item1);
 		subjectMap.put("item2", item2);
+		subjectMap.put("url", url);
 		return subjectMap;
 	}
 	
@@ -739,6 +1134,12 @@ public class SysAdminController {
 				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "pictures";
 			} else if (type.equals("productImg")) {
 				imgPath = this.storePicUploadPath + File.separator + item_cd;
+			} else if (type.equals("eventThumb")) {
+				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "thumb";
+			} else if (type.equals("eventImg")) {
+				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "img";
+			} else if (type.equals("memberPic")) {
+				imgPath = this.memberPicUploadPath + File.separator + item_cd;
 			}
 		}
 		
@@ -755,7 +1156,7 @@ public class SysAdminController {
 		return entity;
 	}
 	
-	 @GetMapping(value = "getVideo")
+	 @RequestMapping(value = "getVideo")
 	    public ResponseEntity<ResourceRegion> getVideo(@RequestHeader HttpHeaders headers, String movie_cd, String movie_pre_path) throws IOException {
 	        logger.info("VideoController.getVideo");
 	        UrlResource video = new UrlResource("file:"+ this.moviePicUploadPath + File.separator + movie_cd + File.separator + "videos" + File.separator + movie_pre_path);
@@ -781,6 +1182,77 @@ public class SysAdminController {
 	                .contentType(MediaTypeFactory.getMediaType(video).orElse(MediaType.APPLICATION_OCTET_STREAM))
 	                .body(resourceRegion);
 	    }
+	 
+	 @RequestMapping("/uploadTempImg")
+		public ResponseEntity<String> uploadTempImg(MultipartFile file, HttpServletRequest req) {
+			ResponseEntity<String> result = null;
+			
+			int fileSize = 5 * 1024 * 1024;
+			
+			if (file.getSize() > fileSize) {
+				return new ResponseEntity<String>("용량 초과입니다.", HttpStatus.BAD_REQUEST);
+			}
+			
+			String savePath = eventPicUploadPath + File.separator + "temp";
+			String fileName = UUID.randomUUID().toString().replace("-", "")+"$$"+file.getOriginalFilename();
+			
+			File saveFile = new File(savePath, fileName);
+			
+			if(!saveFile.exists()) {
+				saveFile.mkdirs();
+			}
+			
+			try {
+				file.transferTo(saveFile);
+				result = new ResponseEntity<String>(req.getContextPath() + "/sysAdmin/getTempImg.do?fileName=" + fileName, HttpStatus.OK);
+			} catch (Exception e) {
+				result = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			return result;
+		}
+	 
+		@RequestMapping("/getTempImg")
+		public ResponseEntity<byte[]> getTempImg(String fileName, HttpServletRequest req) throws IOException {
+			ResponseEntity<byte[]> entity = null;
+			
+			// 저장경로
+			String savePath = eventPicUploadPath + File.separator + "temp";
+			File sendFile = new File(savePath, fileName);
+			
+			InputStream in = null;
+			
+			try {
+				in = new FileInputStream(sendFile);
+				entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
+			} catch (Exception e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+			} finally {
+				in.close();
+			}
+			
+			return entity;
+		}
+		
+		@RequestMapping("/deleteTempImg")
+		public ResponseEntity<String> deleteTempImg(@RequestBody Map<String, String> data) {
+			ResponseEntity<String> result = null;
+			String savePath = eventPicUploadPath + File.separator + "temp";
+			File target = new File(savePath, data.get("fileName"));
+			
+			if (!target.exists()) {
+				result = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			} else {
+				try {
+					target.delete();
+					result = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+				} catch (Exception e) {
+					result = new ResponseEntity<String>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+			}
+			return result;
+		}
 }
 
 

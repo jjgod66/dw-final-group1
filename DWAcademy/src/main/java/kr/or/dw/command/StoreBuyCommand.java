@@ -10,4 +10,6 @@ public class StoreBuyCommand {
 	private String json;
 	private String toname;
 	private int tophone;
+	private int use_point;
+	private int discount;
 }

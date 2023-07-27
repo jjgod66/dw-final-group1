@@ -17,6 +17,7 @@ public class MovieVO {
 	private String movie_mainpic_path;
 	private Date opendate;
 	private Date enddate;
+	private int ryCnt;	// reservation yesterday count
 	
 	public MovieVO() {}
 	

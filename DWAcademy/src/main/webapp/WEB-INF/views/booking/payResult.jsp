@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="../include/header.jsp" %>
-<!DOCTYPE html>
+<%@include file="creditInfo_modal.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/seatbooking.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/resResult.css">
 <!-- <div class="sub_visual"> -->
@@ -28,7 +28,7 @@
 								티켓 예매번호 <!-- 티켓 예매번호 -->
 								<span class="roboto">${merchant_uid }</span>
 							</p>
-							<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${mapData.MOVIE_MAINPIC_PATH}&movie_cd=${mapData.MOVIE_CD}&type=p" onerror="noImg(this)">
+							<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${mapData.MOVIE_MAINPIC_PATH}&item_cd=${mapData.MOVIE_CD}&type=moviePoster" onerror="noImg(this)">
 						</div>
 
 						<!-- movie-infomation-area -->
@@ -60,9 +60,7 @@
 							</div>
 
 								<div class="btn-group pt30">
-									<c:if test="${mapData.receipt_url ne '' }">
-										<a href="${mapData.receipt_url }" class="button large" id="btn_bill_print" title="영수증출력">영수증출력 <!-- 영수증출력 --></a>
-									</c:if>
+									<a href="#" class="button large" id="btn_credit_info">결제정보</a>
 									<a href="#" class="button large" title="예매내역 페이지로 이동">예매내역 <!-- 예매내역 --></a>
 								</div>
 						</div>
@@ -85,6 +83,8 @@
 											<li>쾌적한 관람 환경을 위해 상영시간 이전에 입장 부탁드립니다.</li>
 										
 											<li>상영시간 20분전까지 취소 가능하며, 캡쳐화면으로는 입장하실 수 없습니다.</li>
+											
+											<li>포인트는 상영 다음날 일괄 적립됩니다.</li>
 										
 									</ul>
 								</li>
@@ -98,4 +98,11 @@
 		<!--// inner-wrap -->
 	</div>
 	
+<script>
+$(function(){
+	$('#btn_credit_info').on('click', function(){
+		$('#creditInfo-modal').modal('show');
+	})
+})
+</script>
 <%@include file="../include/footer.jsp" %>

@@ -1,8 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="../include/header.jsp" %>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" type="text/css" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
+<script src="https://fengyuanchen.github.io/cropper/js/cropper.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>  
 <%@ include file="photo_modal2.jsp" %>
 <style>
 .photocontainer {
@@ -15,6 +18,17 @@
     height: 600px;
 }
 
+.ico-kakaopay {
+    background-image: url(../../resources/img/payment_icon_yellow_small.png);
+    background-size: 70px;
+    background-repeat: no-repeat;
+    margin: 0 auto;
+	margin-bottom: 5px;
+    display: block;
+    width: 70px;
+    height: 29px;
+}
+
 	
 </style>
 <div class="sub_visual">
@@ -25,17 +39,22 @@
 	<div style="background-color: #f1f2f7; padding: 15px 0;">
 		<div class="photocontainer row">
 			<div class="col-9">
-				<div style="width: 100%; text-align: center;"><h3 style="padding-top: 40px; font-weight: 700;">포토티켓 이미지 편집</h3></div>
+				<div style="width: 100%; text-align: center;">
+					<h3 style="padding-top: 40px; font-weight: 700;">포토티켓 이미지 편집</h3>
+				</div>
 				<div class="" style="margin: 40px 0; padding: 0 170px;">
 					<div style="float: left; display: inline;">
 						<div class="card" style="width: 275px; height: 425px; float: left;">
-							<div class="card-body" style="text-align: center; line-height: 400px;"><a href="javascript:inputfileclick();" style="font-size: 20px; color: gray; text-decoration: underline;">이미지업로드</a></div>
-							<input type="file" accept="image/jpeg,image/png,image/jpg" id="inputfile">
+							<div class="card-body" id="result" style="text-align: center; line-height: 400px; padding: 0px; background-repeat : no-repeat; background-size : cover;">
+								<a href="javascript:inputfileclick();" style="font-size: 20px; color: gray; text-decoration: underline; padding: 0px;" id="imgupbtn">이미지업로드</a>
+<!-- 								<img style="width: 100%; height: 100%;" src="" id="result"> -->
+							</div>
+							<input type="file" accept="image/jpeg,image/png,image/jpg" id="inputfile" onchange="setThumbnail(event);" style="display:none;">
 						</div>
 						<div style="text-align: center;">앞면</div>
 					</div>
 					<div style="float: right; display: inline;">
-						<div class="card" style="width: 275px; height: 425px; float: right; padding: 10px;">
+						<div class="card" style="width: 275px; height: 425px; float: right; padding: 10px;" id="back">
 							<div class="card-body">
 								<div class="" style="text-align: center; margin: 10px;"><img src="/resources/img/logo.png" style="width: 90%;"></div>
 								<hr style="width: 100%; color: gray; margin: 30px auto;">
@@ -53,11 +72,10 @@
 						</div>
 						<div style="text-align: center;">뒷면</div>
 					</div>
-					
 				</div>
 			</div>
 			<div class="col-3">
-				<div class="card card-payment p-3 mb-3" style="border-color: #fff; margin-top: 350px;">
+				<div class="card card-payment p-3 mb-3" style="border-color: #fff; margin-top: 200px;">
 					<span>상품 금액</span>
 					<div class="d-flex flex-row align-items-end mb-3">
 						<h2 class="mb-0 yellow">1,000</h2> <span>원</span>
@@ -66,98 +84,134 @@
 					<div class="d-flex flex-row align-items-end mb-3">
 						<h2 class="mb-0 yellow">1,000</h2> <span>원</span>
 					</div>
-					<button class="btn btn-success px-3" id="credit" onclick="requestPay();">결제하기</button>
+					<button class="btn btn-primary px-3" id="credit" onclick="requestPay('kakaopay');">
+					  	<i class="ico-kakaopay"></i>
+					  	<span class="paycard-title">카카오페이 결제</span>
+					 </button>
+					<button class="btn btn-primary px-3" id="credit" onclick="requestPay('html5_inicis');" style="margin-top: 10px;"">카드 결제</button>
+					<button class="btn btn-success px-3" id="reset" style="float: right; margin-top: 20px;">초기화</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 </div>
-
+<form id="photoForm">
+	<input type="hidden" name="screen_cd">
+	<input type="hidden" name="frontPic">
+	<input type="hidden" name="backPic">
+	<input type="hidden" name="json">
+</form>
 <script>
-var cropper;
-	$(function(){
-		$('#inputfile').on('change', function(){
-			$('.them_img').empty().append('<img id="image" src="">');
-			 var image = $('#image');
-			 var imgFile = $('#inputfile').val();
-			 var fileForm = /(.*?)\.(jpg|jpeg|png)$/;
-				
-			 // 이미지가 확장자 확인 후 노출
-			 	var reader = new FileReader(); 
-			 	reader.onload = function(event) { 
-			 		image.attr("src", event.target.result);
-// 			     cropper = image.cropper( {
-// 	        			dragMode: 'move',
-// 	        			viewMode:1,
-// 	        			aspectRatio: 1,
-// 	        			autoCropArea:0.9,
-// 	        			minCropBoxWidth:200,
-// 	       				restore: false,
-// 	                    guides: false,
-// 	                    center: false,
-// 	                    highlight: false,
-// 	                    cropBoxMovable: false,
-// 	                    cropBoxResizable: false,
-// 	                    toggleDragModeOnDblclick: false
-// 	                    });
-			     }; 
-			 	reader.readAsDataURL(event.target.files[0]);
-			 	$('#photo-modal').modal('show');
-			 	
-		})
-		
-		
-		$('#photo-modal').on('show-bd-modal', function(){
-			var image = document.querySelector('#image');
-		      var minAspectRatio = 0.5;
-		      var maxAspectRatio = 1.5;
-		      var cropper = new Cropper(image, {
-		        ready: function () {
-		          var cropper = this.cropper;
-		          var containerData = cropper.getContainerData();
-		          var cropBoxData = cropper.getCropBoxData();
-		          var aspectRatio = cropBoxData.width / cropBoxData.height;
-		          var newCropBoxWidth;
+const IMP = window.IMP;
+IMP.init("imp04352208");
 
-		          if (aspectRatio < minAspectRatio || aspectRatio > maxAspectRatio) {
-		            newCropBoxWidth = cropBoxData.height * ((minAspectRatio + maxAspectRatio) / 2);
 
-		            cropper.setCropBoxData({
-		              left: (containerData.width - newCropBoxWidth) / 2,
-		              width: newCropBoxWidth
-		            });
-		          }
-		        },
+//결제화면 띄우는 메서드
 
-		        cropmove: function () {
-		          var cropper = this.cropper;
-		          var cropBoxData = cropper.getCropBoxData();
-		          var aspectRatio = cropBoxData.width / cropBoxData.height;
-
-		          if (aspectRatio < minAspectRatio) {
-		            cropper.setCropBoxData({
-		              width: cropBoxData.height * minAspectRatio
-		            });
-		          } else if (aspectRatio > maxAspectRatio) {
-		            cropper.setCropBoxData({
-		              width: cropBoxData.height * maxAspectRatio
-		            });
-		          }
-		        },
-		      });
-		})
-	})
-	
-	
-function inputfileclick(){
-		$('#inputfile').click();
-		
+function requestPay(method) { 
+	if($('input[name="frontPic"]').val() == null || $('input[name="frontPic"]').val() == ''){
+		alert('사진을 선택해주세요');
+		return;
 	}
-function photomodal(){
-	$('#photo-modal').modal('show');
-		
-		
+	
+	let merchant_uid = new Date().getTime();
+	
+    IMP.request_pay({
+        pg: method,
+        pay_method: 'card',
+        merchant_uid: merchant_uid,
+        name: '포토티켓',
+        amount: 1000,
+        buyer_email: buyer_email,
+        buyer_name: buyer_name,
+        buyer_tel: buyer_tel,
+    }, function (rsp) { // callback
+        if (rsp.success) {
+            console.log(rsp);
+			$('input[name="json"]').val(JSON.stringify(rsp));
+			alert("결제완료");
+			$('#payForm').submit();	
+			
+        } else {
+            console.log(rsp);
+            alert('결제가 실패 되었습니다.');
+
+        }
+    });
 }
+
+function inputfileclick(){
+	$('#inputfile').click();
+}
+
+function photomodal(){
+$('#photo-modal').modal('show');
+}
+
+var cropper;
+
+function setThumbnail(event){
+	var reader = new FileReader();
+
+    reader.onload = function(event) {
+      var img = $('<img>');
+      img.prop("src", event.target.result);
+      img.css('object-fit', 'cover');
+      img.css('margin', '0 auto');
+      img.prop('id', 'image');
+      $(".them_img").html(img);
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+    $('#photo-modal').modal('show');
+};
+
+function sreenShot(target) {
+	if (target != null && target.length > 0) {
+		var t = target[0];
+		html2canvas(t).then(function(canvas) {
+			var myImg = canvas.toDataURL("image/png");
+			myImg = myImg.replace("data:image/png;base64,", "");
+			
+			canvas.toBlob(function (blob) {
+	    		var formData = new FormData();
+				
+	    		formData.append('croppedImage', blob);
+	    		$.ajax({
+	    			url : '<%=request.getContextPath()%>/photoTicket/back.do',
+	           		method: 'POST',
+	                data: formData,
+	                processData: false,
+	                contentType: false,
+	                success: function (res) {
+	                	console.log(res);
+	                },
+	                error: function (err) {
+	                	alert(err.status);
+	                },
+	    		});
+	    	})
+	    	
+		});
+	}
+}
+$(function(){
+	
+	$("#test").on("click", function() {
+		sreenShot($("#back"));
+	});
+
+	
+	
+	$('#reset').on('click', function(){
+		$('#result').css('background-image', '');
+		$('#imgupbtn').css('display', '');
+		$('input[name="frontPic"]').val('');
+	})
+
+})
+	
+	
 </script>
 <%@include file="../include/footer.jsp" %>

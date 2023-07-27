@@ -41,25 +41,43 @@ public class ViewController {
 		
 		return mnv;
 	}
-	@GetMapping("/member/additionalinfo")
-	public String memberAdditionalinfo() {
-		String url = "/member/additionalinfo";
+	@GetMapping("/member/discount-coupon")
+	public String memberDiscountcoupon() {
+		String url = "/member/discount-coupon";
 		return url;
 	}
+	@GetMapping("/member/moviestory")
+	public String memberMoviestory() {
+		String url = "/member/moviestory";
+		return url;
+	}
+	@GetMapping("/member/myinquiry")
+	public String memberMyinquiry() {
+		String url = "/member/myinquiry";
+		return url;
+	}
+	@GetMapping("/member/point-list")
+	public String memberPointlist() {
+		String url = "/member/point-list";
+		return url;
+	}
+	@GetMapping("/member/additionalinfo")
+	public ModelAndView memberAdditionalinfo(ModelAndView mnv, HttpSession session) {
+		String url = "/member/additionalinfo";
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		
+		mnv.addObject("member", member);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
 	@GetMapping("/member/membership")
 	public String memberShip() {
 		String url = "/member/membership";
 		return url;
 	}
 	
-	/*
-	 * 영화 뷰어 컨트롤러 
-	 */
-	@GetMapping("/movie/review")
-	public String movieReview() {
-		String url = "/movie/review";
-		return url;
-	}
 
 	/*
 	 * 극장 뷰어 컨트롤러 

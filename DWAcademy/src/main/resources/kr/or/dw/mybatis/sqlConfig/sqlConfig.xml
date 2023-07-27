@@ -25,9 +25,13 @@
 		<typeAlias type="kr.or.dw.vo.GenreVO" alias="genre"/>
 		<typeAlias type="kr.or.dw.vo.SnsVO" alias="sns"/>
 		<typeAlias type="kr.or.dw.vo.CouponVO" alias="coupon"/>
+		<typeAlias type="kr.or.dw.vo.PointVO" alias="point"/>
 		<typeAlias type="kr.or.dw.vo.NoticeVO" alias="notice"/>
 		<typeAlias type="kr.or.dw.vo.FaqVO" alias="faq"/>
-
+		<typeAlias type="kr.or.dw.vo.QnaVO" alias="qna"/>
+		<typeAlias type="kr.or.dw.vo.AnswerVO" alias="ans"/>
+		<typeAlias type="kr.or.dw.vo.EventVO" alias="event"/>
+		<typeAlias type="kr.or.dw.vo.WinnerBoardVO" alias="wb"/>
 
 	</typeAliases>
 
