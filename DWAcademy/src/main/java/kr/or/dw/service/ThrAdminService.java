@@ -4,15 +4,19 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.ClickMovieInfoVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.ScreenVO;
 
 public interface ThrAdminService {
 	
-	//상영영화 불러오
-	List<MovieVO> getAllScreens()throws SQLException;
 	
+	//상영영화 불러오
+	List<MovieVO> getAllScreens(int pageNo, int pageSize) throws SQLException;
+	
+	List<MovieVO> getAllScreens1() throws SQLException;
 	//상영영화 정보 불러오기
 	List<ScreenVO> getallStart() throws SQLException;
 
@@ -21,5 +25,17 @@ public interface ThrAdminService {
 	
 	//클릭한 상영영화의 모든 정보 그냥 다 가져오기 
 	ClickMovieInfoVO getMovieInfoByScreenCd(String screenCd) throws SQLException;
+	
+	//d영화 리스트 불러오기 
+	Map<String, Object> selectMovieList(SearchCriteria cri) throws SQLException;
+	
+	//dud영화 갯수 
+	int getTotalReCount() throws SQLException;
+	
+	//vp페이징 
+	List<MovieVO> getAllScreensPaged(int offset, int perPage) throws SQLException;
+
+	Map<String, Object> getAllScreens(SearchCriteria cri) throws SQLException;
+
 
 }

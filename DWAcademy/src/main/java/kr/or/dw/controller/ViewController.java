@@ -164,14 +164,43 @@ public class ViewController {
 	/*
 	 * 고객센터 뷰어 컨트롤러 
 	 */
+	@GetMapping("/support/test")
+	public String supportTest() {
+		return "/support/test"; 
+	}
+	
+	@GetMapping("/support/test2")
+	public String supportTest2() {
+		return "/support/test2"; 
+	}
+	@GetMapping("/support/test3")
+	public String supportTest3() {
+		return "/support/test3"; 
+	}
+	@GetMapping("/support/main")
+	public String supportMain() {
+		return "/support/main"; 
+	}
+	
 	@GetMapping("/support/notice")
 	public String supportNotice() {
 		String url = "/support/notice";
 		return url;
 	}
+	
+	@GetMapping("/support/noticeDetail")
+	public String supportNoticeDetail() {
+		String url = "/support/noticeDetail";
+		return url;
+	}
 	@GetMapping("/support/faq")
 	public String supportFaq() {
 		String url = "/support/faq";
+		return url;
+	}
+	@GetMapping("/support/inquiry")
+	public String supportin() {
+		String url = "/support/inquiry";
 		return url;
 	}
 
