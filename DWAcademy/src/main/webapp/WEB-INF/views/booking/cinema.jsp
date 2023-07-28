@@ -14,6 +14,7 @@ if(session.getAttribute("loginUser") != null){
 	mem_cd = member.getMem_cd();
 }
 %>
+<%@ include file="login_service_modal.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/schedule.css">
 <div class="sub_visual">
     <h3>예매하기</h3>
@@ -284,7 +285,7 @@ $(function(){
 
 	$('.mvTimeLine .row').on('click', '.btnTime', function(){
 		if('<%=mem_cd%>' == "" || '<%=mem_cd%>' == null){
-			alert("로그인이 필요합니다.");
+			$('#login-service-modal').modal("show");
 			return;
 		}
 		let screen_cd = $(this).data("screen_cd");

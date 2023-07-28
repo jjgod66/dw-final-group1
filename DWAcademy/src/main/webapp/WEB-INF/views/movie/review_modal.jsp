@@ -216,12 +216,14 @@ $(function() {
 	
 	$('#reiveUpdateBtn').on('click', function(){
 		if($('input[name="rating"]:checked').length == 0){
-    		alert("별점을 선택해주세요.");
-    		return;
+			$('#alertContent').text("별점을 선택해주세요.");
+			$('#alert-modal').modal('show');
+			return;
     	}
     	if($('#reviewtext').val().length < 1){
-    		alert("내용을 작성해주세요.");
-    		return;
+    		$('#alertContent').text("내용을 작성해주세요.");
+			$('#alert-modal').modal('show');
+			return;
     	}
     	$('input[name="review_rating"]').val($('input[name="rating"]:checked').val());
 		
@@ -246,12 +248,14 @@ $(function() {
     
     $('#reiveRegistBtn').on('click', function(){
     	if($('input[name="rating"]:checked').length == 0){
-    		alert("별점을 선택해주세요.");
-    		return;
+    		$('#alertContent').text("별점을 선택해주세요.");
+			$('#alert-modal').modal('show');
+			return;
     	}
     	if($('#reviewtext').val().length < 1){
-    		alert("내용을 작성해주세요.");
-    		return;
+    		$('#alertContent').text("내용을 작성해주세요.");
+			$('#alert-modal').modal('show');
+			return;
     	}
     	$('input[name="review_rating"]').val($('input[name="rating"]:checked').val());
     	$('#reviewRegistForm').prop('action', '<%=request.getContextPath()%>/movie/reviewRegist.do');

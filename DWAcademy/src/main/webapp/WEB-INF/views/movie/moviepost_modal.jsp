@@ -167,9 +167,6 @@
 		                <div style="width: 50%; margin: 0 auto;" id="regDiv">
 		                    <button class="btn btn-regist" type="button" data-target="#" style="float: right;" id="postRegistBtn">등록</button>
 		                </div>
-		                <div style="width: 50%; margin: 0 auto; display: none" id="updDiv">
-		                    <button class="btn btn-regist" type="button" data-target="#" style="float: right;" id="postUpdateBtn">수정</button>
-		                </div>
 		                <div style="width: 50%; margin: 0 auto;">
 		                    <button class="btn btn-cancel" type="button" data-target="#" style="float: left;" id="postCancelBtn">취소</button>
 		                </div>
@@ -182,18 +179,57 @@
 <script>
 
 $(function(){
-	
-	$('#postRegistBtn').on('click', function(){
+	$('#postUpdateBtn').on('click', function(){
 		if($('#movie_select').val() == "none"){
-			alert("영화를 선택해주세요.");
+			$('#alertContent').text("영화를 선택해주세요.")
+			$('#alert-modal').modal('show');
 			return;
 		}
 		if($('input[name="movie_pic_no"]').val() == ""){
-			alert("사진을 선택해주세요.");
+			$('#alertContent').text("사진을 선택해주세요.")
+			$('#alert-modal').modal('show');
 			return;
 		}
 		if($('#posttext').val() == "" || $('#posttext').val() == null){
-			alert("글을 작성해주세요.");
+			$('#alertContent').text("내용을 작성해주세요.")
+			$('#alert-modal').modal('show');
+			return;
+		}
+		$('#moviePostForm').submit();
+	})
+	
+	$('#moviepost-modal').on('show.bs.modal', function(e){
+		if($('#movie_select').val() != "none"){
+			let movie_cd = $('#movie_select').val();
+			$.ajax({
+				url : '<%=request.getContextPath()%>/movie/moviePic.do',
+				data : {"movie_cd" : movie_cd},
+				method : 'post',
+				success : function(res){
+					console.log(res);
+					moviePicShow(res);
+				},
+				error : function(err){
+					alert(err.status);
+				}
+			})
+		}
+	})
+	
+	$('#postRegistBtn').on('click', function(){
+		if($('#movie_select').val() == "none"){
+			$('#alertContent').text("영화를 선택해주세요.")
+			$('#alert-modal').modal('show');
+			return;
+		}
+		if($('input[name="movie_pic_no"]').val() == ""){
+			$('#alertContent').text("사진을 선택해주세요.")
+			$('#alert-modal').modal('show');
+			return;
+		}
+		if($('#posttext').val() == "" || $('#posttext').val() == null){
+			$('#alertContent').text("내용을 작성해주세요.")
+			$('#alert-modal').modal('show');
 			return;
 		}
 		$('#moviePostForm').submit();
@@ -217,10 +253,16 @@ $(function(){
 		$('#moviePicGroup').html(show2);
 		 $('#writecount').html("0");
 		 $('input[name="movie_pic_no"]').val("");
+		 location.reload();
 	});
 	
 	$('#movie_select').on('change', function(){
 		let movie_cd = $(this).val();
+		if(movie_cd == 'none'){
+			let noMo = '<div style="text-align: center; margin-top: 200px;" id="noMovie">영화를 선택하세요</div>';
+			$('#moviePicGroup').html(noMo);
+			return;
+		}
 		let show = '<div id="noPic" style="text-align: center; margin-top: 150px;">사진을 선택하세요.</div>';
 		$('#selPic').html(show);
 		$('input[name="movie_pic_no"]').val("");

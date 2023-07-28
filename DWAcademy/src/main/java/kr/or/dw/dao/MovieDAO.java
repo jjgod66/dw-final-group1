@@ -358,5 +358,77 @@ public interface MovieDAO {
 	 */
 	void deleteMoviePostLike(Map<String, Object> param) throws SQLException;
 
+	/**
+	 * 댓글 수정
+	 * @param param
+	 */
+	void updateReply(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 댓글 삭제
+	 * @param reply_no
+	 * @throws SQLException
+	 */
+	void deleteReply(int reply_no) throws SQLException;
+
+	/**
+	 * 회원이 해당 댓글을 신고했는지 안했는지 확인하는 메서드
+	 * @param param
+	 * @return
+	 */
+	int getMemReplyReportYN(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 댓글 신고
+	 * @param param
+	 */
+	void replyReport(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 회원이 해당 무비포스트를 신고했는지 안했는지 확인
+	 * @param param
+	 * @return
+	 */
+	int getMemMpostReportYN(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 무비포스트 신고
+	 * @param param
+	 */
+	void mpostReport(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 무비포스트 삭제
+	 * @param mpost_no
+	 */
+	void deleteMpost(int mpost_no) throws SQLException;
+
+	/**
+	 * 무비포스트 수정할 때 필요한 정보 가져오는 메서드
+	 * @param mpost_no
+	 * @return
+	 * @throws SQLException
+	 */
+	Map<String, Object> selectMoviePostUpdateInfo(int mpost_no) throws SQLException;
+
+	/**
+	 * 무비포스트 수정
+	 * @param moviePost
+	 */
+	void updateMoviePost(MoviePostVO moviePost) throws SQLException;
+
+	/**
+	 * 무비포스트 작성한 영화 제목과 코드 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<MovieVO> selectMpostWriteMovie(String mem_cd) throws SQLException;
+
+	/**
+	 * 무비포스트 작성 탑5 영화 가져오는 메서드
+	 * @return
+	 */
+	List<Map<String, Object>> selectMpostTop5() throws SQLException;
+
 
 }

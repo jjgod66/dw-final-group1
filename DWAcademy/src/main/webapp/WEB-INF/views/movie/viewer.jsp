@@ -10,8 +10,10 @@
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="../../resources/css/boxoffice.css">
 <%@ include file="picture_modal.jsp" %>
+<%@ include file="login_service_modal.jsp" %>
 <%@ include file="review_modal.jsp" %>
 <%@ include file="review_report_modal.jsp" %>
+<%@ include file="alert_modal.jsp" %>
 <%-- <%@ include file="../common/boxoffice_detail.jsp" %> --%>
 <%
 	String mem_cd = "";
@@ -229,7 +231,7 @@
 				</div>
 				<div class="col-8">
 				</div>
-				<div class="col-2"><a href="#" style="float: right; color: #fff;">무비포스트 전체보기 ></a></div>
+				<div class="col-2"><a href="<%=request.getContextPath() %>/movie/moviePost.do?keyword=${movieView.movie.movie_name }" style="float: right; color: #fff;">무비포스트 전체보기 ></a></div>
 			</div>
 		</div>
         <div class="container" style="padding-bottom: 10px;">
@@ -415,7 +417,7 @@ $(function() {
 	
 	$('.reviews-members-body').on('click', '#reviewReportBtn', function(){
 		if(mem_cd == null || mem_cd == ""){
-			alert("로그인이 필요합니다.");
+			$('#login-service-modal').modal("show");
 			return;
 		}
 		$('#reviewReportModalInputRN').val($(this).data('review_no'));
@@ -425,7 +427,7 @@ $(function() {
 	
 	$('#reviewModalBtn').on('click', function(){
 		if(mem_cd == null || mem_cd == ""){
-			alert("로그인이 필요합니다.");
+			$('#login-service-modal').modal("show");
 			return;
 		}
 		
@@ -436,10 +438,12 @@ $(function() {
 			success : function(res){
 				console.log(res);
 				if(res == "non"){
-					alert("리뷰는 관람 후 작성 가능합니다.");
+					$('#alertContent').text("영화 관람 후 작성 가능합니다.");
+					$('#alert-modal').modal('show');
 					return;
 				}else if(res == "write"){
-					alert("리뷰는 영화 당 한 개만 작성 가능합니다.");
+					$('#alertContent').text("영화 당 한 개만 작성 가능합니다.");
+					$('#alert-modal').modal('show');
 					return;
 				}
 				$('#review-modal').modal("show");
@@ -453,7 +457,7 @@ $(function() {
 	
 	$('.reviews-members-body').on('click', '#likeBtn', function(){
 		if(mem_cd == null || mem_cd == ""){
-			alert("로그인이 필요합니다.");
+			$('#login-service-modal').modal("show");
 			return;
 		}
 		let review_no = $(this).data('review_no');
@@ -481,7 +485,7 @@ $(function() {
 
 function reviewHeart(review_no){
 	if(mem_cd == null || mem_cd == ""){
-		alert("로그인이 필요합니다.");
+		$('#login-service-modal').modal("show");
 		return;
 	}
 	
@@ -533,7 +537,7 @@ console.log(mem_cd);
 let movie_cd = '${movieView.movie.movie_cd }';
 function movieHeart(){
 	if(mem_cd == null || mem_cd == ""){
-		alert("로그인이 필요합니다.");
+		$('#login-service-modal').modal("show");
 		return;
 	}
 

@@ -160,6 +160,11 @@ select {
 	</div>
 	<div class="movie_container" style="width: 1300px; margin: 0 auto; display: flex;">
 		<div class="row" style="width: 90%; margin: 0 auto;">
+			<c:if test="${empty movieList }">
+				<div style="text-align: center; margin: 20px 0;">
+					상영예정 영화가 없습니다.
+				</div>
+			</c:if>
 			<c:forEach items="${movieList }" var="movie">
 				<div class="movie col-3" style="padding: 30px 20px 30px 20px;">	
 				 <div class="item_poster">

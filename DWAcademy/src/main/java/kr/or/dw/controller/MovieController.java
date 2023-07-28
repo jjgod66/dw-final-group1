@@ -349,6 +349,10 @@ public class MovieController {
 		}
 		Map<String, Object> dataMap = movieService.getMoviePost(cri, session);
 		
+		List<Map<String, Object>> mpostTop5MoiveList = null;
+		mpostTop5MoiveList = movieService.getMpostTop5Movie();
+		dataMap.put("top5Moive", mpostTop5MoiveList);
+		
 		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
 		return mnv;
@@ -448,6 +452,119 @@ public class MovieController {
 		return entity;
 	}
 	
+	@RequestMapping("/replyUpdate")
+	public ResponseEntity<String> replyUpdate(String reply_content, int reply_no){
+		ResponseEntity<String> entity = null;
+		
+		try {
+			movieService.updateReply(reply_content, reply_no);
+			entity = new ResponseEntity<String>("S", HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+		
+	}
+	
+	@RequestMapping("/replyDelete")
+	public ResponseEntity<String> replyDelete(int reply_no){
+		ResponseEntity<String> entity = null;
+		
+		try {
+			movieService.deleteReply(reply_no);
+			entity = new ResponseEntity<String>("S", HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/replyReport")
+	public ResponseEntity<String> replyReport(int reply_no, HttpSession session){
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		ResponseEntity<String> entity = null;
+		String result = "S";
+		try {
+			result = movieService.replyReport(reply_no, mem_cd);
+			entity = new ResponseEntity<>(result, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return entity;
+	}
+	
+	@RequestMapping("/mpostReport")
+	public ResponseEntity<String> mpostReport(int mpost_no, HttpSession session){
+		ResponseEntity<String> entity = null;
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		
+		String result = "S";
+		try {
+			result = movieService.mpostReport(mpost_no, mem_cd);
+			entity = new ResponseEntity<String>(result, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/mpostDelete")
+	public ResponseEntity<String> mpostDelete(int mpost_no){
+		ResponseEntity<String> entity = null;
+		
+		try {
+			movieService.deleteMpost(mpost_no);
+			entity = new ResponseEntity<String>("S", HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/mpostUpdateInfo")
+	public ResponseEntity<Map<String, Object>> mpostUpdateInfo(int mpost_no){
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		Map<String, Object> moviePost = null;
+		try {
+			moviePost = movieService.getMoivePostUpdateInfo(mpost_no);
+			entity = new ResponseEntity<Map<String,Object>>(moviePost, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
+		return entity;
+	}
+	
+	@RequestMapping("/moviePostUpdate")
+	public void moviePostUpdate(MoviePostVO moviePost, HttpServletResponse res, HttpSession session) throws Exception {
+		
+		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		
+		moviePost.setMem_cd(mem_cd);;
+		
+		movieService.updateMoviePost(moviePost);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('수정되었습니다.')");
+		out.println("location.href='moviePost.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
 	
 	@RequestMapping("/review")
 	public ModelAndView movieReview(SearchCriteria cri, ModelAndView mnv, HttpSession session, HttpServletResponse res, HttpServletRequest req) throws SQLException, IOException {

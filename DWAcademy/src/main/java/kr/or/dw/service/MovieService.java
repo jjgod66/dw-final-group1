@@ -239,4 +239,59 @@ public interface MovieService {
 	 */
 	void clickMoviePostLike(int mpost_no, String mem_cd) throws SQLException;
 
+	/**
+	 * 댓글 수정
+	 * @param reply_content
+	 * @param reply_no
+	 */
+	void updateReply(String reply_content, int reply_no) throws SQLException;
+
+	/**
+	 * 댓글 삭제
+	 * @param reply_no
+	 */
+	void deleteReply(int reply_no) throws SQLException;
+
+	/**
+	 * 댓글 신고
+	 * @param reply_no
+	 * @param mem_cd
+	 * @return 
+	 */
+	String replyReport(int reply_no, String mem_cd) throws SQLException;
+
+	/**
+	 * 무비포스트 신고
+	 * @param mpost_no
+	 * @param mem_cd
+	 * @return
+	 */
+	String mpostReport(int mpost_no, String mem_cd) throws SQLException;
+
+	/**
+	 * 무비포스트 삭제
+	 * @param mpost_no
+	 */
+	void deleteMpost(int mpost_no) throws SQLException;
+
+	/**
+	 * 무비포스트 수정하기 위한 정보 가져오는 메서드
+	 * @param mpost_no
+	 * @return
+	 */
+	Map<String, Object> getMoivePostUpdateInfo(int mpost_no) throws SQLException;
+
+	/**
+	 * 무비포스트 수정
+	 * @param moviePost
+	 * @throws SQLException
+	 */
+	void updateMoviePost(MoviePostVO moviePost) throws SQLException;
+
+	/**
+	 * 무비포스트 작성 탑5 영화 가져오는 메서드
+	 * @return
+	 */
+	List<Map<String, Object>> getMpostTop5Movie() throws SQLException;
+
 }

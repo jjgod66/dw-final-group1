@@ -4,6 +4,7 @@ import java.net.StandardSocketOptions;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -446,6 +447,19 @@ public class MovieServiceImpl implements MovieService{
 			String mem_cd = member.getMem_cd();
 			List<MovieVO> watchMovie = null;
 			watchMovie = movieDAO.selectMovieCode(mem_cd);
+			List<MovieVO> alreadyWriMovie = null;
+			Iterator<MovieVO> it = watchMovie.iterator();
+			alreadyWriMovie = movieDAO.selectMpostWriteMovie(mem_cd);
+			while(it.hasNext()) {
+				MovieVO movieit = (MovieVO) it.next();
+				for(MovieVO alMovie : alreadyWriMovie) {
+					if(alMovie.getMovie_cd().equals(movieit.getMovie_cd())) {
+						it.remove();
+					}
+				}
+			}
+			
+			System.out.println(watchMovie);
 			dataMap.put("watchMovie", watchMovie);
 		}
 		
@@ -522,6 +536,85 @@ public class MovieServiceImpl implements MovieService{
 		}
 		
 		
+	}
+
+	@Override
+	public void updateReply(String reply_content, int reply_no) throws SQLException {
+		Map<String, Object> param = new HashMap<>();
+		param.put("reply_content", reply_content);
+		param.put("reply_no", reply_no);
+		
+		movieDAO.updateReply(param);
+		
+	}
+
+	@Override
+	public void deleteReply(int reply_no) throws SQLException {
+		movieDAO.deleteReply(reply_no);
+		
+	}
+
+	@Override
+	public String replyReport(int reply_no, String mem_cd) throws SQLException {
+		Map<String, Object> param = new HashMap<>();
+		param.put("reply_no", reply_no);
+		param.put("mem_cd", mem_cd);
+		
+		int count = 0;
+		count = movieDAO.getMemReplyReportYN(param);
+		String result = "S";
+		if(count > 0) {
+			result = "F";
+		}else {
+			movieDAO.replyReport(param);
+		}
+		return result;
+	}
+
+	@Override
+	public String mpostReport(int mpost_no, String mem_cd) throws SQLException {
+		String result = "S";
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("mpost_no", mpost_no);
+		param.put("mem_cd", mem_cd);
+		
+		int cnt = 0;
+		cnt = movieDAO.getMemMpostReportYN(param);
+		
+		if(cnt > 0) {
+			result = "F";
+		}else {
+			movieDAO.mpostReport(param);
+		}
+		return result;
+	}
+
+	@Override
+	public void deleteMpost(int mpost_no) throws SQLException {
+		movieDAO.deleteMpost(mpost_no);
+		
+	}
+
+	@Override
+	public Map<String, Object> getMoivePostUpdateInfo(int mpost_no) throws SQLException {
+
+		Map<String, Object> moviePost = null;
+		moviePost = movieDAO.selectMoviePostUpdateInfo(mpost_no);
+		return moviePost;
+	}
+
+	@Override
+	public void updateMoviePost(MoviePostVO moviePost) throws SQLException {
+		movieDAO.updateMoviePost(moviePost);
+		
+	}
+
+	@Override
+	public List<Map<String, Object>> getMpostTop5Movie() throws SQLException {
+		List<Map<String, Object>> mpTopMovie = null;
+		mpTopMovie = movieDAO.selectMpostTop5();
+		return mpTopMovie;
 	}
 
 

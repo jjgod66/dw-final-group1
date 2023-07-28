@@ -41,6 +41,9 @@ if (CategoryIdx == null) {
 	                </div>
             	</c:forEach>
             </div>
+<!--             <div class="paginationdiv" style="margin-right: 150px; margin-top: 50px;"> -->
+<%-- 			<%@ include file="../common/pagination.jsp" %> --%>
+<!-- 			</div> -->
         </div>
     </div>
 </div>

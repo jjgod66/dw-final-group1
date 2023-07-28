@@ -385,6 +385,7 @@
 			GROUP BY mpost_no) ml,
 			(SELECT COUNT(*) replycnt, mpost_no
 			FROM reply
+			WHERE gb_del = 'N'
 			GROUP BY mpost_no) mr
 		WHERE mp.movie_cd = m.movie_cd
 		AND mp.mem_cd = mb.mem_cd
@@ -409,6 +410,7 @@
 			GROUP BY mpost_no) ml,
 			(SELECT COUNT(*) replycnt, mpost_no
 			FROM reply
+			WHERE gb_del = 'N'
 			GROUP BY mpost_no) mr
 		WHERE mp.movie_cd = m.movie_cd
 		AND mp.mem_cd = mb.mem_cd
@@ -437,6 +439,15 @@
 				GROUP BY movie_cd
 		  		) mcd, movie m
 		  WHERE mcd.movie_cd = m.movie_cd
+	</select>
+	
+	<select id="selectMpostWriteMovie" resultType="movie">
+		SELECT mp.movie_cd, max(movie_name) movie_name
+		FROM moviepost mp, movie m
+		WHERE mp.movie_cd = m.movie_cd
+		AND mem_cd = #{mem_cd}
+		AND mp.gb_del = 'N'
+		GROUP BY mp.movie_cd
 	</select>
 	
 	<select id="selectMovieInfo" resultType="Map">
@@ -484,6 +495,7 @@
 			 , max(r.replycnt) replycnt
 		FROM moviepost mp, movie m, MEMBER mb, movie_picture mpic, mp_like ml, (SELECT COUNT(*) replycnt, mpost_no
 																				FROM reply
+																				WHERE gb_del = 'N'
 																				GROUP BY mpost_no) r
 		WHERE mp.mem_cd = mb.mem_cd
 		AND mp.movie_cd = m.movie_cd
@@ -499,6 +511,7 @@
 		FROM reply r, MEMBER m
 		WHERE r.mem_cd = m.mem_cd 
 		AND mpost_no = #{mpost_no}
+		AND r.gb_del = 'N'
 		ORDER BY r.regdate DESC
 	</select>
 	
@@ -531,4 +544,68 @@
 	<delete id="deleteMoviePostLike">
 		DELETE mp_like WHERE mem_cd = #{mem_cd} AND mpost_no = #{mpost_no}
 	</delete>
+	
+	<update id="updateReply">
+		UPDATE reply SET reply_content = #{reply_content}, updatedate = sysdate
+		WHERE reply_no = #{reply_no}
+	</update>
+	
+	<update id="deleteReply">
+		UPDATE reply SET gb_del = 'Y' WHERE reply_no = #{reply_no}
+	</update>
+	
+	<select id="getMemReplyReportYN" resultType="int">
+		SELECT COUNT(*)
+		FROM reply_report
+		WHERE mem_cd = #{mem_cd}
+		AND reply_no = #{reply_no}
+	</select>
+	
+	<insert id="replyReport">
+		INSERT INTO reply_report (mem_cd, reply_no) VALUES (#{mem_cd}, #{reply_no})
+	</insert>
+	
+	<select id="getMemMpostReportYN" resultType="int">
+		SELECT COUNT(*)
+		FROM mp_report
+		WHERE mem_cd = #{mem_cd}
+		AND mpost_no = #{mpost_no}
+	</select>
+	
+	<insert id="mpostReport">
+		INSERT INTO mp_report (mem_cd, mpost_no) VALUES(#{mem_cd}, #{mpost_no})
+	</insert>
+	
+	<update id="deleteMpost">
+		UPDATE moviepost SET gb_del = 'Y' WHERE mpost_no = #{mpost_no}
+	</update>
+	
+	<select id="selectMoviePostUpdateInfo" resultType="Map">
+		SELECT mp.movie_cd, mp.movie_pic_no, movie_pic_path, mpost_content, movie_name
+		FROM moviepost mp, movie_picture m_p, movie m
+		WHERE mp.movie_pic_no = m_p.movie_pic_no
+		AND m.movie_cd = mp.movie_cd
+		AND mpost_no = #{mpost_no}
+	</select>
+	
+	<update id="updateMoviePost">
+		UPDATE moviepost SET mpost_content = #{mpost_content}, movie_cd = #{movie_cd}, movie_pic_no = #{movie_pic_no}, updatedate = sysdate
+		WHERE mpost_no = #{mpost_no} 
+	</update>
+	
+	<select id="selectMpostTop5" resultType="Map">
+		SELECT *
+		FROM (
+			SELECT temp.*, rownum rnum
+			FROM (
+			SELECT nvl(writeCnt,0) writeCnt, m.movie_cd, movie_name, movie_mainpic_path
+			FROM movie m, (
+							SELECT count(*) writeCnt, movie_cd
+							FROM moviepost
+							WHERE gb_del = 'N'
+							GROUP BY movie_cd) wc
+			WHERE m.movie_cd = wc.movie_cd(+)
+			ORDER BY writeCnt DESC) temp)
+		WHERE rownum <![CDATA[<=]]> 5
+	</select>
 </mapper>
