@@ -226,14 +226,97 @@
 <script>
 $(function(){
 	
+	$('#mpUpdateBtn').on('click', function(){
+		let mpost_no = $(this).data('mpost_no');
+		$('#moviepost-view-modal').modal("hide");
+		$.ajax({
+			url : '<%=request.getContextPath()%>/movie/mpostUpdateInfo.do',
+			method : 'post',
+			data : {'mpost_no' : mpost_no},
+			success : function(res){
+				console.log(res);
+				$('#mpostUpdateModalMN').val(mpost_no);
+				$('#updateposttext').text(res.MPOST_CONTENT);
+				$('#updatewritecount').text(res.MPOST_CONTENT.length);
+				$('#update_movie_name').val(res.MOVIE_NAME);
+				$('#update_mpost_movie_cd').val(res.MOVIE_CD);
+				let show = '<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + res.MOVIE_PIC_PATH + '&item_cd=' + res.MOVIE_CD + '&type=movieImg" style="max-height: 300px; max-width: 464px;">';
+				$('#updateselPic').html(show);
+				$('#updateMoviePicNo').val(res.MOVIE_PIC_NO);
+				$('#moviepost-update-modal').modal("show");
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
+	
+	$('#mpDeleteBtn').on('click', function(){
+		let mpost_no = $(this).data('mpost_no');
+		$('#mpostDelMpostNo').val(mpost_no);
+		$('#mpost-delete-modal').modal('show');
+	})
+	
+	$('#mpReportBtn').on('click', function(){
+		if(mem_cd == '' || mem_cd == null){
+			$('#login-service-modal').modal("show");
+			return;
+		}	
+		let mpost_no = $(this).data('mpost_no');
+		$('#mpostReportModalInputMN').val(mpost_no);
+		$('#mpost-report-modal').modal('show');
+	})
+	
+	$('.reply-div').on('click', '#replyReportBtn', function(){
+		if(mem_cd == '' || mem_cd == null){
+			$('#login-service-modal').modal("show");
+			return;
+		}	
+		let reply_no = $(this).data('reply_no');
+		$('#replyReportModalInputRN').val(reply_no);
+		$('#reply-report-modal').modal('show');
+		
+	})
+	
+	$('.reply-div').on('click', '#replyDeleteBtn', function(){
+		let reply_no = $(this).data('reply_no');
+		$("#replyDelReplyNo").val(reply_no);
+		$('#reply-delete-modal').modal('show');
+		
+	})
+	
+	$('.reply-div').on('click', '#replyUpdateDoBtn', function(){
+		let reply_content = $('#replyUpdatetext').val();
+		let reply_no = $(this).data('reply_no');
+		$(this).parents('.oneReply').find('#thisReplyContent').css('display', '');
+		$(this).parents('.oneReply').find('#thisReplyContent').text(reply_content);
+		$(this).parents('.oneReply').find('#thisReplyUpdateContent').remove();
+		$(this).parents('.oneReply').find('#updatereplycountp').remove();
+		$(this).parents('.oneReply').find('#replyUpdateDoBtn').prop('id', 'replyUpdateBtn');
+		$(this).parents('.oneReply').find('#replyUpdateCanBtn').text('삭제');
+		$(this).parents('.oneReply').find('#replyUpdateCanBtn').prop('id', 'replyDeleteBtn');
+		$.ajax({
+			url : '<%=request.getContextPath()%>/movie/replyUpdate.do',
+			method : 'post',
+			data : {'reply_no' : reply_no, 'reply_content' : reply_content},
+			success : function(res){
+				
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+		
+	})
+	
 	$('.reply-div').on('click', '#replyUpdateCanBtn', function(){
 		let reply_no = $(this).data('reply_no');
 		$(this).parents('.oneReply').find('#thisReplyContent').css('display', '');
 		$(this).parents('.oneReply').find('#thisReplyUpdateContent').remove();
-		let reudshow = '';
-		reudshow += '<div id="replyUpdateBtn" data-reply_no="' + reply_no + '" style="display: inline; margin-right: 10px;">수정</div>';
-		reudshow += '<div id="replyDeleteBtn" data-reply_no="' + reply_no + '" style="display: inline; margin-right: 10px;">삭제</div>'
-		$(this).parents('.oneReply').find('.reUD').html(reudshow);
+		$(this).parents('.oneReply').find('#updatereplycountp').remove();
+		$(this).parents('.oneReply').find('#replyUpdateDoBtn').prop('id', 'replyUpdateBtn');
+		$(this).parents('.oneReply').find('#replyUpdateCanBtn').text('삭제');
+		$(this).parents('.oneReply').find('#replyUpdateCanBtn').prop('id', 'replyDeleteBtn');
 	})
 	
 	$('.reply-div').on('click', '#replyUpdateBtn', function(){
@@ -245,18 +328,19 @@ $(function(){
 		$(this).parents('.oneReply').find('#thisReplyContent').css('display', 'none');
 		$(this).parents('.oneReply').find('#thisReplyContent').parents('.h50').prepend(contentTextarat);
 		let redoshow = '';
-		redoshow += '<p style="width: 33%; float: left;">';
+		redoshow += '<p style="width: 33%; float: left;" id="updatereplycountp">';
 		redoshow += '<span id="updatereplycount">' + $(this).parents('.oneReply').find('#thisReplyContent').text().length + '</span>';
 		redoshow += '<span>/50</span>';
-		redoshow += '</p>';
-		redoshow += '<div id="replyUpdateDoBtn" data-reply_no="' + reply_no + '" style="display: inline; margin-right: 10px;">수정</div>';
-		redoshow += '<div id="replyUpdateCanBtn" data-reply_no="' + reply_no + '" style="display: inline; margin-right: 10px;">취소</div>';
-		$(this).parents('.oneReply').find('.reUD').html(redoshow)
+		redoshow += '</p>';	
+		$(this).parents('.oneReply').find('.reUD').prepend(redoshow)
+		$(this).parents('.oneReply').find('#replyUpdateBtn').prop('id', 'replyUpdateDoBtn');
+		$(this).parents('.oneReply').find('#replyDeleteBtn').prop('id', 'replyUpdateCanBtn');
+		$(this).parents('.oneReply').find('#replyUpdateCanBtn').text('취소');
 	})
 	
 	$('#lrud').on('click', '#mpLikeBtn', function(){
 		if(mem_cd == '' || mem_cd == null){
-			alert('로그인이 필요한 서비스 입니다.');
+			$('#login-service-modal').modal("show");
 			return;
 		}	
 		let mpost_no = $('#mpReportBtn').data('mpost_no');
@@ -294,11 +378,12 @@ $(function(){
 	
 	$('#replyRegistBtn').on('click', function(){
 		if(mem_cd == null || mem_cd == ""){
-			alert("로그인이 필요한 서비스입니다.");
+			$('#login-service-modal').modal("show");
 			return;
 		}
 		if($('#replytext').val() == "" || $('#replytext').val() == null){
-			alert("내용을 작성해주세요.");
+			$('#alertContent').text("내용을 작성해주세요.");
+			$('#alert-modal').modal('show');
 			return;
 		}
 		
@@ -347,7 +432,7 @@ $(function(){
 	$('#moviepost-view-modal').on('hidden.bs.modal', function (e) {
 		$('#replytext').val('');
 		$('#writereplycount').html("0");
-		location.reload();
+// 		location.reload();
 	});
 })
 

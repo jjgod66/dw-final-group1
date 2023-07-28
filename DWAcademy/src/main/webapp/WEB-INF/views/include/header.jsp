@@ -83,11 +83,11 @@ request.setAttribute("GetTitle", "DWCinema");
                 <strong><a href="<%=request.getContextPath()%>/theater/main.do">극장</a></strong>
             </li>
             <li role="menuitem">
-                <strong>예매하기</strong>
-                <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/reservation/cinema.do">상영시간표</a></li>
-                    <li><a href="#">할인안내</a></li>
-                </ul>
+                <strong><a href="<%=request.getContextPath()%>/reservation/cinema.do">예매</a></strong>
+<!--                 <ul style="opacity: 0; height: 0px;"> -->
+<%--                     <li><a href="<%=request.getContextPath()%>/reservation/cinema.do">상영시간표</a></li> --%>
+<!--                     <li><a href="#">할인안내</a></li> -->
+<!--                 </ul> -->
             </li>
             <li role="menuitem" style="width: 280px;">
             </li>

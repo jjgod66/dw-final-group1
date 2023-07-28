@@ -15,6 +15,7 @@ if(session.getAttribute("loginUser") != null){
 	mem_cd = member.getMem_cd();
 }
 %>
+<%@ include file="login_service_modal.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/store.css">
 <div class="sub_visual">
     <h3>스토어</h3>
@@ -121,7 +122,7 @@ if(session.getAttribute("loginUser") != null){
 		
 		$('#buy').on('click', function(){
 			if('<%=mem_cd%>' == "" || '<%=mem_cd%>' == null){
-				alert("로그인이 필요합니다.");
+				$('#login-service-modal').modal("show");
 				return;
 			}
 			
@@ -133,7 +134,7 @@ if(session.getAttribute("loginUser") != null){
 		
 		$('#gift').on('click', function(){
 			if('<%=mem_cd%>' == "" || '<%=mem_cd%>' == null){
-				alert("로그인이 필요합니다.");
+				$('#login-service-modal').modal("show");
 				return;
 			}
 			

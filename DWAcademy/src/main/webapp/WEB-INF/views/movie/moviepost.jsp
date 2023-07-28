@@ -64,10 +64,224 @@ select {
 #mpCard:hover{
 	cursor: pointer;
 }
+/* .post-lank-box { */
+/* 	width: 100%; */
+/* 	height: 331px; */
+/* 	padding: 29px 0 0 0; */
+/* 	background: */
+/* 		url(https://img.megabox.co.kr/static/pc/images/movie/bg-movie-post-top.png) */
+/* 		no-repeat center 0 */
+/* } */
+
+.post-lank-box p {
+	margin: 0;
+	padding: 0
+}
+
+.post-lank-box .inner-wrap {
+	position: relative
+}
+
+.post-lank-box .post-lank {
+	float: left;
+	height: 194px;
+	margin: 0 0 0 -58px
+}
+
+.post-lank-box .post-lank li {
+	position: relative;
+	float: left;
+	margin-left: 58px
+}
+
+.post-lank-box .post-lank li a {
+	display: block;
+	width: 135px;
+	height: 194px
+}
+
+.post-lank-box .post-lank li a .img img {
+	width: 135px !important;
+	height: 194px !important
+}
+
+.post-lank-box .post-lank li a .lank {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 3;
+	font-size: 1.6em;
+	line-height: 1em;
+	color: #fff;
+	font-family: Roboto;
+	font-weight: 300;
+	font-style: italic
+}
+
+.post-lank-box .post-lank li a .post-count {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	width: 135px;
+	height: 194px;
+	padding-top: 73px;
+	background-color: rgba(0, 0, 0, .6);
+	text-align: center
+}
+
+.post-lank-box .post-lank li a .post-count .tit {
+	font-size: .8667em;
+	line-height: 1.1;
+	color: #fff
+}
+
+.post-lank-box .post-lank li a .post-count .count {
+	font-size: 2.1333em;
+	font-family: Roboto;
+	color: #fff;
+	font-weight: 300
+}
+
+.post-lank-box .post-lank li a:hover .lank {
+	left: -10000px
+}
+
+.post-lank-box .post-lank li a:hover .post-count {
+	left: -10000px
+}
+
+.post-lank-box .mypost-box {
+	position: relative;
+	float: left;
+	width: 135px;
+	height: 194px;
+	margin: 0 0 0 58px
+}
+
+.post-lank-box .mypost-box .lank {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+	z-index: 3;
+	font-size: 1.6em;
+	line-height: 1em;
+	color: #fed143;
+	font-family: Roboto;
+	font-weight: 300;
+	font-style: italic
+}
+
+.post-lank-box .mypost-box .post-count {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 2;
+	width: 135px;
+	height: 194px;
+	padding-top: 73px;
+	background-color: rgba(0, 0, 0, .6);
+	text-align: center
+}
+
+.post-lank-box .mypost-box .post-count .tit {
+	font-size: .8667em;
+	line-height: 1.1;
+	color: #fff
+}
+
+.post-lank-box .mypost-box .post-count .count {
+	font-size: 2.1333em;
+	color: #fff
+}
+
+.post-lank-box .mypost-box .post-count a.txt-login {
+	display: inline-block;
+	padding: 10px 0 0 0;
+	color: #fff;
+	border-bottom: 1px solid #fff;
+	text-decoration: none
+}
+
+.post-lank-box .mypost-box .before {
+	width: 100%;
+	height: 100%;
+	background:
+		url(https://img.megabox.co.kr/static/pc/images/movie/bg-movie-post-no-login.png)
+		no-repeat 0 0
+}
+
+.post-lank-box .mypost-box .after {
+	width: 100%;
+	height: 100%;
+	background:
+		url(https://img.megabox.co.kr/static/pc/images/movie/bg-movie-post-no-login.png)
+		no-repeat 0 0
+}
+
+.post-lank-box .mypost-box .after a {
+	display: block;
+	width: 135px;
+	height: 100%
+}
+
+.post-lank-box .mypost-box .after a .img img {
+	width: 135px !important;
+	height: 194px !important
+}
+
+.post-lank-box .mypost-box .after .txt-info {
+	position: absolute;
+	left: -10000px;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	padding: 80px 0 0 0;
+	text-align: center;
+	color: #fff;
+	background-color: rgba(0, 0, 0, .6)
+}
+
+.post-lank-box .mypost-box .after:hover .lank {
+	left: -10000px
+}
+
+.post-lank-box .mypost-box .after:hover .post-count {
+	left: -10000px
+}
+
+.post-lank-box .mypost-box .after:hover .txt-info {
+	left: 0
+}
+
+.post-lank-box .add-post {
+	position: absolute;
+	right: 0;
+	top: 0
+}
+
+.post-lank-box .add-post .button {
+	width: 123px;
+	padding: 0
+}
+
+.postLankMoive:hover .lankcount{
+	display: none;
+}
+.postLankMoive:hover{
+	cursor: pointer;
+}
+
 </style>
 <%@ include file="moviepost_modal.jsp" %>
 <%@ include file="moviepost_view_modal.jsp" %>
 <%@ include file="login_service_modal.jsp" %>
+<%@ include file="moviepost_update_modal.jsp" %>
+<%@ include file="mpost_report_modal.jsp" %>
+<%@ include file="mpost_delete_modal.jsp" %>
+<%@ include file="reply_report_modal.jsp" %>
+<%@ include file="reply_delete_modal.jsp" %>
+<%@ include file="alert_modal.jsp" %>
 <%
 	String mem_cd = "";
 	if(session.getAttribute("loginUser") != null){
@@ -80,7 +294,27 @@ select {
     <h3>무비포스트</h3>
     <h6>Movie Post</h6>
 </div>
-
+<div class="sub_visual" style="background-color: white; padding-top: 50px; height: 300px; padding-left: 100px;">
+    <div class="row" style="width: 1300px; margin: 0 auto;">
+    	<c:forEach items="${top5Moive }" var="movie">
+	    	<div class="col-2 postLankMoive" style="position: relative; margin-right: 20px;" data-movie_name="${movie.MOVIE_NAME }">
+	    		<div style="width: 180px; height: 250px; position: absolute;" >
+	    			<img
+								src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster"
+								onerror="noImg(this)" alt="${movie.MOVIE_NAME }" style="width: 100%; height: 100%;">
+	    		</div>
+	    		<div style="width: 180px; height: 250px; position: absolute; background-color:rgba(0, 0, 0, 0.5); color : white;" class="lankcount">
+	    			<p class="lank" style="text-align: left; font-size: 30px;">&nbsp;${movie.RNUM }</p>
+	
+						<div class="post-count">
+							<p class="tit" style="font-size: 20px;">POST</p>
+							<p class="count" style="font-size: 30px;">${movie.WRITECNT }</p>
+						</div>
+	    		</div>
+	    	</div>
+    	</c:forEach>
+    </div>
+</div>
 <div style="width: 100%;">
 	<div style="padding: 30px;">
 		<div style="width: 1300px; margin: 0 auto;">
@@ -108,13 +342,15 @@ select {
 			</div>
 		</div>
 		<div class="moviepost_container" style="width: 1300px; margin: 0 auto; display: flex;">
-			<div class="container" style="padding-bottom: 10px;">
 			<c:if test="${empty moviePostList}">
-				<div style="text-align: center;">등록된 무비포스트가 없습니다.</div>
+				<div class="" style="padding-bottom: 10px; margin: auto;">
+					<div style="text-align: center;">등록된 무비포스트가 없습니다.</div>
+				</div>
 			</c:if>
+			<div class="" style="padding-bottom: 10px;">
 				<div class="row">
 					<c:forEach items="${moviePostList }" var="mp">
-		        		<div class="col-3 post" style="height: 400px;">
+		        		<div class="col-3 post" style="height: 400px; width: 325px;">
 		        			<div id="mpCard" class="card" style="margin: 20px; height: 90%;" data-mpost_no="${mp.MPOST_NO }">
 		        				<div class="card-body" style="height: 45%; background-image: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${mp.MOVIE_PIC_PATH}&item_cd=${mp.MOVIE_CD}&type=movieImg');  background-repeat : no-repeat; background-size : cover;"></div>
 		        				<div class="card-body" style="height: 55%;">
@@ -151,6 +387,12 @@ let searchFormUrl = "moviePost.do";
 let mem_cd = "<%=mem_cd%>";
 $(function(){
 	
+	$('.postLankMoive').on('click', function(){
+		let movie_name = $(this).data('movie_name');
+		$('input[name="keyword"]').val(movie_name);
+		searchList_go(1);
+	})
+	
 	$('.moviepost_container').on('click', '#mpCard', function(){
 		let mpost_no = $(this).data("mpost_no");
 		
@@ -179,7 +421,7 @@ $(function(){
 	
 	$('#moviepostModalBtn').on('click', function(){
 		if(mem_cd == null || mem_cd == ""){
-			$('#login_service_modal').modal("show");
+			$('#login-service-modal').modal("show");
 			return;
 		}
 		$('#moviepost-modal').modal("show");
@@ -231,7 +473,10 @@ function showPost(res){
 	$('#mpContent').text(res.mpost.MPOST_CONTENT);
 	$('#mpReportBtn').data('mpost_no', res.mpost.MPOST_NO);
 	$('#mpUpdateBtn').data('mpost_no', res.mpost.MPOST_NO);
-<%-- 	$('#mpWriteMemPic').prop('src', '<%=request%>'); --%>
+	$('#mpDeleteBtn').data('mpost_no', res.mpost.MPOST_NO);
+	if(res.mpost.MEM_PIC_PATH != null && res.mpost.MEM_PIC_PATH != ''){
+<%-- 		$('#mpWriteMemPic').prop('src', '<%=request%>'); --%>
+	}
 	let mpbackImg = "<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=" + res.mpost.MOVIE_PIC_PATH + "&item_cd=" + res.mpost.MOVIE_CD + "&type=movieImg";
 	$('#thismpPic').css('background-image', 'url(' + mpbackImg + ')');
 	$('#moviepost-view-modal').modal("show");

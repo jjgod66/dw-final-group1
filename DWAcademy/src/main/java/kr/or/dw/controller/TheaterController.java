@@ -169,4 +169,13 @@ private static final Logger logger = LoggerFactory.getLogger(TheaterController.c
 		return entity;
 	}
 
+	@RequestMapping("/price")
+	public ModelAndView price(ModelAndView mnv, String thr_name) throws SQLException {
+		String url = "/theater/price";
+		TheaterVO theater = null;
+		theater = theaterService.getTheaterInfo(thr_name);
+		mnv.addObject("theater", theater);
+		mnv.setViewName(url);
+		return mnv;
+	}
 }

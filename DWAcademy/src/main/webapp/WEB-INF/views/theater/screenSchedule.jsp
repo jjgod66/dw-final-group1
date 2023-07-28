@@ -580,7 +580,8 @@ a {
 		mem_cd = member.getMem_cd();
 	}
 %>
-
+<%@ include file="login_service_modal.jsp" %>
+<%@ include file="alert_modal.jsp" %>
 <div id="contents" class="no-padding">
 	<div class="sub_visual theater-detail-page">
 	    <h3>${theater.thr_name }</h3>
@@ -599,7 +600,7 @@ a {
 			<ul>
 				<li><a href="<%=request.getContextPath()%>/theater/theater.do?thr_name=${theater.thr_name}" title="극장정보 탭으로 이동">극장정보</a></li>
 				<li class="on"><a href="<%=request.getContextPath()%>/theater/screenSchedule.do?thr_name=${theater.thr_name}" title="상영시간표 탭으로 이동">상영시간표</a></li>
-				<li><a href="#tab03" title="관람료 탭으로 이동">관람료</a></li>
+				<li><a href="<%=request.getContextPath()%>/theater/price.do?thr_name=${theater.thr_name}" title="관람료 탭으로 이동">관람료</a></li>
 			</ul>
 		</div>
 
@@ -725,7 +726,7 @@ $(function(){
 	
 	$('.btn-like').on('click', function(){
 		if(mem_cd == ''){
-			alert('로그인이 필요한 서비스입니다.');
+			$('#login-service-modal').modal("show");
 			return;
 		}
 		
@@ -736,7 +737,8 @@ $(function(){
 			success : function(res){
 				console.log(res);
 				if(res == 'over'){
-					alert("선호 극장은 5개까지만 선택 가능합니다.");
+					$('#alertContent').text("5개까지 선택 가능합니다.");
+					$('#alert-modal').modal('show');
 				}else if(res == 'like'){
 					$('.noneThLikeIcon').css('display', 'none');
 					$('.ThLikeIcon').css('display', '');
@@ -849,7 +851,7 @@ $('#movieShow').html(app);
 
 function screenDetail(screen_cd){
 	if(mem_cd == ''){
-		alert("로그인이 필요합니다.");
+		$('#login-service-modal').modal("show");
 		return;
 	}
 	location.href="<%=request.getContextPath()%>/reservation/detail.do?screen_cd=" + screen_cd;
