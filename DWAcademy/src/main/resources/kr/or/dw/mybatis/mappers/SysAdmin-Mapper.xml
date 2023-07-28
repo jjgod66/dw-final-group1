@@ -944,18 +944,6 @@
   		  FROM MEMBER m2
  		 WHERE m2.MEM_CD = #{mem_cd}
 	</select>
-	<select id="selectWatchedMovieListByMem_cd" resultType="map">
-		SELECT s.MOVIE_CD, r2.*, m.MOVIE_NAME, s.STARTDATE, p.PAID_AMOUNT
- 		  FROM SCREEN s, movie m, pay_detail p, (SELECT DISTINCT MAX(screen_cd) screen_cd, merchant_uid mu
-  																, LISTAGG(mem_cat || '-' || count(*), ',') WITHIN GROUP (ORDER BY mem_cat) OVER (PARTITION BY merchant_uid) MEMLIST
-  							 			   		   FROM RESERVATION r
- 										  		  WHERE mem_cd = #{mem_cd}
- 						 				  		  GROUP BY MERCHANT_UID , MEM_CAT 
- 						 				  		  ORDER BY MERCHANT_UID DESC) r2   
- 		 WHERE s.SCREEN_CD = r2.SCREEN_CD
-   		   AND r2.MU = p.MERCHANT_UID
-   		   AND s.MOVIE_CD = m.MOVIE_CD
-	</select>
 	
 	<select id="selectWatchedMoviePreviewListByMem_cd" resultType="map">
 		SELECT *
@@ -977,31 +965,35 @@
 	<select id="selectReviewPreviewListByMem_cd" resultType="map">
 		SELECT *
 		  FROM (
-		  		SELECT r.*, m.MOVIE_NAME  
-		  		  FROM REVIEW r, MOVIE m
-		  		 WHERE r.MOVIE_CD = m.MOVIE_CD
-		  		  AND r.mem_cd = #{mem_cd}
-		  		 ORDER BY r.REGDATE DESC
+  		  		SELECT r.REVIEW_NO , MAX(r.MOVIE_CD) movie_cd, MAX(r.MEM_CD) mem_cd
+  			  		 , MAX(REVIEW_RATING) review_rating, MAX(r.REVIEW_CONTENT) review_content
+  			 		 , MAX(r.REGDATE) regdate, MAX(r.GB_DEL) gb_del, MAX(r.UPDATEDATE) updatedate
+  			 		 , MAX(m.MOVIE_NAME) movie_name, COUNT(rr.REVIEW_NO) reportCnt, COUNT(rl.REVIEW_NO) likeCnt  
+  		  		  FROM REVIEW r, MOVIE m, REVIEW_REPORT rr, REVIEW_LIKE rl
+  		 		 WHERE r.MOVIE_CD = m.MOVIE_CD
+  		  		   AND r.REVIEW_NO = rr.REVIEW_NO(+) 
+  		  		   AND r.REVIEW_NO = rl.REVIEW_NO(+) 
+  		   		   AND r.mem_cd = #{mem_cd}
+  				 GROUP BY r.REVIEW_NO
+  				 ORDER BY regdate DESC
 		  		)
 		 WHERE ROWNUM <![CDATA[<=]]> 5	
-	</select>
-	
-	<select id="selectReviewListByMem_cd" resultType="map">
-		SELECT r.*, m.MOVIE_NAME  
-  		  FROM REVIEW r, MOVIE m
-  		 WHERE r.MOVIE_CD = m.MOVIE_CD
-  		   AND r.mem_cd = #{mem_cd}
-  		 ORDER BY r.REGDATE DESC
 	</select>
 	
 	<select id="selectMpPreviewListByMem_cd" resultType="map">
 		SELECT *
 		  FROM (
-		  		SELECT mp.*, m.MOVIE_NAME
-		  		  FROM moviepost mp, movie m
+		  		SELECT MAX(mp.MPOST_NO) mpost_no, MAX(mp.MEM_CD) MEM_CD, MAX(mp.MOVIE_CD) movie_cd
+  			 	, MAX(mp.MPOST_CONTENT) mpost_content, MAX(mp.MOVIE_PIC_NO) MOVIE_PIC_NO
+  			 	, MAX(mp.GB_DEL) GB_DEL, MAX(mp.REGDATE) regdate, MAX(mp.UPDATEDATE) updatedate
+  			 	, MAX(m.MOVIE_NAME) movie_name, COUNT(mr.MPOST_NO) reportcnt, COUNT(ml.MPOST_NO) likeCnt  
+		  		  FROM moviepost mp, movie m, MP_REPORT mr, MP_LIKE ml
 		  		 WHERE mp.movie_cd = m.movie_cd
+		  		   AND mp.MPOST_NO = mr.MPOST_NO(+) 
+		  		   AND mp.MPOST_NO = ml.MPOST_NO(+) 
 		  		   AND mp.mem_cd = #{mem_cd}
-		  		 ORDER BY mp.REGDATE DESC
+		  		 GROUP BY mp.MPOST_NO 
+		  		 ORDER BY REGDATE DESC
 		  		)
 		 WHERE ROWNUM <![CDATA[<=]]> 5	
 	</select>
@@ -1009,12 +1001,86 @@
 	<select id="selectMpReplyPreviewListByMem_cd" resultType="map">
 		SELECT *
 		  FROM (
-		  		SELECT r1.*, m2.MOVIE_NAME, m2.MOVIE_CD
-				  FROM REPLY r1, MOVIEPOST m , MOVIE m2
+		  		SELECT MAX(r1.REPLY_NO) REPLY_NO, MAX(r1.MEM_CD) MEM_CD, MAX(r1.MPOST_NO) MPOST_NO, MAX(r1.REPLY_CONTENT) reply_content
+			 		 , MAX(r1.REGDATE) REGDATE, MAX(r1.UPDATEDATE) UPDATEDATE, MAX(r1.GB_DEL) GB_DEL
+			 		 , MAX(m2.MOVIE_NAME) movie_name, MAX(m2.MOVIE_CD) movie_cd, COUNT(rr.REPLY_NO) reportcnt  
+				  FROM REPLY r1, MOVIEPOST m , MOVIE m2, REPLY_REPORT rr 
 				 WHERE r1.MPOST_NO = m.MPOST_NO 
 				   AND m.MOVIE_CD = m2.MOVIE_CD
+				   AND r1.REPLY_NO = rr.REPLY_NO(+) 
 				   AND r1.MEM_CD = #{mem_cd}
+				 GROUP BY r1.REPLY_NO
+				 ORDER BY regdate
 		  		)
 		 WHERE ROWNUM <![CDATA[<=]]> 5	
 	</select>
+	
+	<select id="selectWatchedMovieListByMem_cd" resultType="map">
+		SELECT s.MOVIE_CD, r2.*, m.MOVIE_NAME, s.STARTDATE, p.PAID_AMOUNT
+ 		  FROM SCREEN s, movie m, pay_detail p, (SELECT DISTINCT MAX(screen_cd) screen_cd, merchant_uid mu
+  																, LISTAGG(mem_cat || '-' || count(*), ',') WITHIN GROUP (ORDER BY mem_cat) OVER (PARTITION BY merchant_uid) MEMLIST
+  							 			   		   FROM RESERVATION r
+ 										  		  WHERE mem_cd = #{mem_cd}
+ 						 				  		  GROUP BY MERCHANT_UID , MEM_CAT 
+ 						 				  		  ORDER BY MERCHANT_UID DESC) r2   
+ 		 WHERE s.SCREEN_CD = r2.SCREEN_CD
+   		   AND r2.MU = p.MERCHANT_UID
+   		   AND s.MOVIE_CD = m.MOVIE_CD
+	</select>
+	
+	<select id="selectReviewListByMem_cd" resultType="map">
+  		SELECT r.REVIEW_NO , MAX(r.MOVIE_CD) movie_cd, MAX(r.MEM_CD) mem_cd
+  			  , MAX(REVIEW_RATING) review_rating, MAX(r.REVIEW_CONTENT) review_content
+  			  , MAX(r.REGDATE) regdate, MAX(r.GB_DEL) gb_del, MAX(r.UPDATEDATE) updatedate
+  			  , MAX(m.MOVIE_NAME) movie_name, COUNT(rr.REVIEW_NO) reportCnt, COUNT(rl.REVIEW_NO) likeCnt  
+  		  FROM REVIEW r, MOVIE m, REVIEW_REPORT rr, REVIEW_LIKE rl
+  		 WHERE r.MOVIE_CD = m.MOVIE_CD
+  		   AND r.REVIEW_NO = rr.REVIEW_NO(+) 
+  		   AND r.REVIEW_NO = rl.REVIEW_NO(+) 
+  		   AND r.mem_cd = #{mem_cd}
+  		 GROUP BY r.REVIEW_NO
+  		 ORDER BY regdate DESC
+	</select>
+	
+	
+	<select id="selectMpListByMem_cd" resultType="map">
+		SELECT MAX(mp.MPOST_NO) mpost_no, MAX(mp.MEM_CD) MEM_CD, MAX(mp.MOVIE_CD) movie_cd
+  			 , MAX(mp.MPOST_CONTENT) mpost_content, MAX(mp.MOVIE_PIC_NO) MOVIE_PIC_NO
+  			 , MAX(mp.GB_DEL) GB_DEL, MAX(mp.REGDATE) regdate, MAX(mp.UPDATEDATE) updatedate
+  			 , MAX(m.MOVIE_NAME) movie_name, COUNT(mr.MPOST_NO) reportcnt, COUNT(ml.MPOST_NO) likeCnt
+		  		  FROM moviepost mp, movie m, MP_REPORT mr, MP_LIKE ml
+		  		 WHERE mp.movie_cd = m.movie_cd
+		  		   AND mp.MPOST_NO = mr.MPOST_NO(+) 
+		  		   AND mp.MPOST_NO = ml.MPOST_NO(+) 
+		  		   AND mp.mem_cd = #{mem_cd}
+		  		 GROUP BY mp.MPOST_NO 
+		  		 ORDER BY REGDATE DESC
+	</select>
+	
+	<select id="selectMpReplyListByMem_cd" resultType="map">
+		SELECT MAX(r1.REPLY_NO) REPLY_NO, MAX(r1.MEM_CD) MEM_CD, MAX(r1.MPOST_NO) MPOST_NO, MAX(r1.REPLY_CONTENT) reply_content
+			 , MAX(r1.REGDATE) REGDATE, MAX(r1.UPDATEDATE) UPDATEDATE, MAX(r1.GB_DEL) GB_DEL
+			 , MAX(m2.MOVIE_NAME) movie_name, MAX(m2.MOVIE_CD) movie_cd, COUNT(rr.REPLY_NO) reportcnt  
+				  FROM REPLY r1, MOVIEPOST m , MOVIE m2, REPLY_REPORT rr 
+				 WHERE r1.MPOST_NO = m.MPOST_NO 
+				   AND m.MOVIE_CD = m2.MOVIE_CD
+				   AND r1.REPLY_NO = rr.REPLY_NO(+) 
+				   AND r1.MEM_CD = #{mem_cd}
+				 GROUP BY r1.REPLY_NO
+				 ORDER BY regdate
+	</select>
+	
+	<update id="banMember">
+		UPDATE member
+		  SET  gb_ban = 'Y'
+		      ,stopdate = SYSDATE
+		 WHERE mem_cd = #{mem_cd}
+	</update>
+	
+	<update id="cancelBanMember">
+		UPDATE member
+		   SET gb_ban = 'N'
+		      ,stopdate = NULL
+		 WHERE mem_cd = #{mem_cd}
+	</update>
 </mapper>

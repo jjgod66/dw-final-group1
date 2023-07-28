@@ -22,7 +22,7 @@ public class TheaterVO {
 	private Date regdate;
 	private String gb_del;
 	
-	TheaterVO () {}
+	public TheaterVO () {}
 
 	public TheaterVO(String thr_name, String thr_loc, String thr_y, String thr_x, String thr_addr,
 			String thr_addr_detail, String thr_addr_post, String thr_info, String admin_id, String admin_pwd,

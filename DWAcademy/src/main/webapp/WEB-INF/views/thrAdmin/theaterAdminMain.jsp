@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <%@ include file="thrAdminHeader.jsp"%>
 
 
@@ -361,22 +364,50 @@ textarea {
 .fr {
     float: right;
 }
+#content {
+	max-width: 80rem;
+	margin : 2rem auto 2rem auto;
+    padding-bottom: 100px;
+    border: 1px solid #ccc;
+}
 </style>
-
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">상영관 추가</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row gy-2">
+        	<div class="col-md-4" style="height: 38px; line-height: 38px;">상영관명 :</div>
+        	<div class="col-md-8"><input id="house_name" name="house_name" type="text" class="form-control"></div>
+        	<div class="col-md-2" style="height: 38px; line-height: 38px;">행 :</div>
+        	<div class="col-md-4"><input type="text" id="house_row" name="house_row" class="form-control" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"></div>
+        	<div class="col-md-2" style="height: 38px; line-height: 38px;">열 :</div>
+        	<div class="col-md-4"><input type="text" id="house_column" name="house_column" class="form-control" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn" id="registHouseBtn" style="background-color: #ef4836; color: white;">등록</button>
+        <button type="button" class="btn" id="modifyHouseBtn" style="background-color: #ef4836; color: white;">수정</button>
+      </div>
+    </div>
+  </div>
+</div>
 <div id="wrapper">
 	<div id="content">
-		
-<section class="content-header">
-	<div class="breadcrumb">
-		<span>HOME</span> <i class="bi bi-chevron-compact-right" style="padding-top: 0.1rem; align-self: center;"></i> 지점 관리 &gt 상영관 목록  
-	</div>
-</section>
-	<h1><span style="margin-left: 2rem;"> <strong>대전 중앙점 </strong></span></h1>
-
+		<jsp:include page="admin_contentHeader.jsp">
+			<jsp:param value="${subject }" name="subject" />
+			<jsp:param value="${item1 }" name="item1" />
+			<jsp:param value="${item2 }" name="item2" />
+			<jsp:param value="${url }" name="url" />
+		</jsp:include>
 		<div class="s_wrap">
 			<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/jquery-ui.min.js"></script>
 			<h2>지점정보 </h2>
-			<form name="fsearch" id="fsearch" method="get">
 				<input type="hidden" name="code" value="list">
 				<div class="tbl_frm02" style="margin-left:auto;margin-right:auto;">
 					<table class="hh" style="margin-left:auto;margin-right:auto;">
@@ -386,48 +417,54 @@ textarea {
 						</colgroup>
 						<tbody>
 							<tr>
-								<td id="tblth">영화관명 </td>
-								<td>대전 중앙로  </td>
+								<td id="tblth">영화관명</td>
+								<td>${THR_NAME }  </td>
 							</tr>
 							<tr>
 								<td id="tblth">지역구분 </td>
-								<td>대전/충청</td>
+								<td>${THR_LOC }</td>
 							</tr>
 							<tr>
 								<td id="tblth">주소 </td>
-								<td>대전광역시 중구 중앙로 126,(대흥동)4층 </td>
+								<td>[${THR_ADDR_POST }] ${THR_ADDR } ${THR_ADDR_DETAIL } </td>
 							</tr>
 							<tr>
-								<td id="tblth">소개 </td>
-								<td><textarea name="" class="frm_textbox"></textarea></td>
+								<td id="tblth">전화번호 </td>
+								<td>${THR_TEL } </td>
+							</tr>
+							<tr>
+								<td id="tblth">등록일자 </td>
+								<td><fmt:formatDate value="${REGDATE }" pattern="yyyy-MM-dd"/></td>
+							</tr>
+							<tr>
+								<td id="tblth">영화관 소개 </td>
+								<td>
+									<textarea name="thr_info" id="thr_info" class="frm_textbox" style="resize:none;">${THR_INFO }</textarea>
+								</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 				
 				<div class="btn_confirm">
-					 <input type="button" value="수정" id="frmRest" class="btn_medium grey">
+					 <input type="button" value="수정" id="modifyInfoBtn" class="btn_medium" style="background-color: #4aa8d8; border: none;">
 				</div>
 				
-			</form>
 				<div class="local_ov mart30">
-					전체 : <b class="fc_red">5</b> 건 조회
+					전체 : <b class="fc_red">${fn:length(houseList)}</b> 건 조회
 				</div>
 				
 				<div class="local_frm01" style="margin-left:auto;margin-right:auto;">
-				<a href="" class="fr btn_lsmall red">+ 상영관추가</a></div>
-				
+				<a class="fr btn_lsmall red" id="registModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">+ 상영관추가</a></div>
 				<div class="tbl_head01" style="margin-left:auto;margin-right:auto;">
 					<table style="margin-left:auto;margin-right:auto;">
 						<colgroup>
 							<col class="w100">
 							<col class="w100">
 							<col class="w100">
-							<col class="w100">
 						</colgroup>
 						<thead>
 							<tr>
-								<th scope="col">번호 </th>
 								<th scope="col">상영관명 </th>
 								<th scope="col">행 </th>
 								<th scope="col">열 </th>
@@ -435,92 +472,116 @@ textarea {
 						</thead>
 						<tbody class="list">
 							
-							<c:forEach items="${theaterList }" var="thr">
+							<c:forEach items="${houseList }" var="house">
 								<tr class="list0">
-									<td>${thr.thr_loc }1</td>
-									<td><a href="theaterRegistForm.do?thr_name=${thr.thr_name }">1관 </a></td>
-									<td>${thr.thr_addr }3 </td>
-									<td>${thr.admin_id }10</td>
+									<td><a class="house_name" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">${house.HOUSE_NAME }</a></td>
+									<td class="house_row">${house.HOUSE_ROW }</td>
+									<td class="house_column">${house.HOUSE_COLUMN }</td>
 								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
 				</div>
-				
-				
-				
-				
-				
-<div class="mt-5">
-<nav aria-label="member list Nabigation">
-	<ul class="pagination justify-content-center m-0" style="background-color : white;">
-		<li class="page-item">
-			<a class="page-link" href="javascript:searchList_go(1);">
-				<i class="bi bi-chevron-double-left"></i>
-			</a>
-		</li>
-		<li class="page-item">
-			<a class="page-link" href="javascript:searchList_go(-1);">
-				<i class="bi bi-chevron-left"></i>
-			</a>
-		</li>
-		
-			<li class="page-item active">
-				<a class="page-link" href="javascript:searchList_go(1);">1</a>
-			</li>
-		
-		<li class="page-item">
-			<a class="page-link" href="javascript:searchList_go(-1);">
-				<i class="bi bi-chevron-right"></i>
-			</a>
-		</li>
-		<li class="page-item">
-			<a class="page-link" href="javascript:searchList_go(1);">
-				<i class="bi bi-chevron-double-right"></i>
-			</a>
-		</li>
-	</ul>
-</nav>
-
-
-
-<form id="searchForm">
-	<input type="hidden" name="page">
-	<input type="hidden" name="perPageNum">
-	<input type="hidden" name="searchType">
-	<input type="hidden" name="keyword">
-</form>
+			</div>
+	</div>
+</div>
 <script>
-	function searchList_go(page, url) {
-		if (page < 1) {
+	$('#modifyInfoBtn').on('click', function(){
+		let modifiedInfo = $('#thr_info').val();
+		let admin_cd = '${ADMIN_CD}';
+		let data = {
+					"thr_info" : modifiedInfo,
+					"admin_cd" : admin_cd
+		};
+		$.ajax({
+			url : "<%=request.getContextPath()%>/thrAdmin/theaterAdminModifyInfo",
+			type: "post",
+			data : JSON.stringify(data),
+			contentType : "application/json",
+			success : function(data) {
+				alert('소개글이 수정되었습니다.')
+				console.log(data);
+				
+			},
+			error : function(err) {
+				console.log(err);
+			}
+		});
+	});
+	
+	$('input').on('keyup', function(){
+		if ($(this).hasClass('is-invalid')) {
+			$(this).removeClass('is-invalid');
+		}
+	});
+	
+
+	
+	$('#registHouseBtn').on('click', function(){
+		let house_name = $('#house_name').val();
+		let house_row = $('#house_row').val();
+		let house_column = $('#house_column').val();
+		let thr_name = '${THR_NAME}';
+		
+		if (house_name == "") {
+			$('#house_name').addClass('is-invalid');
+		}
+		if (house_row == "") {
+			$('#house_row').addClass('is-invalid');
+		}
+		if (house_column == "") {
+			$('#house_column').addClass('is-invalid');
+		}
+		if ($('.is-invalid').length > 0) {
+			alert('작성 양식을 확인하세요.');
 			return;
 		}
 		
-		let perPageNum = 10;
-		if ($('select[name="perPageNum"]').val()) {
-			perPageNum = $('select[name="perPageNum"]').val();
-		}
+		let data = {
+				"thr_name" : thr_name,
+				"house_name" : house_name,
+				"house_row" : house_row,
+				"house_column" : house_column
+		};
 		
-		let searchForm = $('#searchForm');
-		searchForm.find('[name="page"]').val(page);
-		searchForm.find('[name="perPageNum"]').val(perPageNum);
-		searchForm.find('[name="searchType"]').val($('select[name="searchType"]').val());
-		searchForm.find('[name="keyword"]').val($('input[name="keyword"]').val());
-		searchForm.attr("method", "post");
-		
-		if (url) {
-			searchForm.attr("action", url);
-		} else {
-			searchForm.attr("action", searchFormUrl);
-		}
-		searchForm.submit();
+		$.ajax({
+			url : "<%=request.getContextPath()%>/thrAdmin/theaterAdminRegistHouse",
+			type : "post",
+			data : JSON.stringify(data),
+			contentType : "application/json",
+			success : function(data){
+				console.log(data);
+				addHouseRow(data.house_name, data.house_row, data.house_column);
+				alert("상영관이 추가되었습니다.");
+			},
+			error : function(err){
+				console.log(err);
+			}
+		});
+	});
+	
+	function addHouseRow(hn, hr, hc){
+		$('tbody.list').append('<tr><td>'+hn+'</td><td>'+hr+'</td><td>'+hc+'</td></tr>')
 	}
+	
+	$('#registModalBtn').on('click', function(){
+		$('input.is-invalid').removeClass('is-invalid');
+		$('#registHouseBtn').show();
+		$('#modifyHouseBtn').hide();
+	})
+	
+	$('.house_name').on('click',function(){
+		let house_name = $(this).text();
+		let house_row = $(this).closest('.list0').find('.house_row').text();
+		let house_column = $(this).closest('.list0').find('.house_column').text();
+		
+		$('#house_name').val(house_name);
+		$('#house_row').val(house_row);
+		$('#house_column').val(house_column);
+		$('#registHouseBtn').hide();
+		$('#modifyHouseBtn').show();
+	});
+	
 </script>
-				</div>
-		</div>
-
-	</div>
-</div>
-
 
 <%@ include file="thrAdminFooter.jsp"%>

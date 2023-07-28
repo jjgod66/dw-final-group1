@@ -21,6 +21,9 @@ public class HouseVO {
 		this.house_column = house_column;
 		this.gb_del = gb_del;
 	}
+
+	public HouseVO() {
+	}
 	
 	
 }

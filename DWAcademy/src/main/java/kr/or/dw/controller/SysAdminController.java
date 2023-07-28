@@ -1043,7 +1043,7 @@ public class SysAdminController {
 		List<Map<String, Object>> watchedMovieList = sysAdminService.selectWatchedMovieListByMem_cd(mem_cd);
 		mnv.addObject("watchedMovieList", watchedMovieList);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "관람내역 상세", url+".do?mem_cd="+mem_cd);
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "관람내역 목록", url+".do?mem_cd="+mem_cd);
 		mnv.addAllObjects(subjectMap);
 		
 		mnv.setViewName(url);
@@ -1057,11 +1057,67 @@ public class SysAdminController {
 		List<Map<String, Object>> reviewList = sysAdminService.selectReviewListByMem_cd(mem_cd);
 		mnv.addObject("reviewList", reviewList);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "리뷰내역 상세", url+".do?mem_cd="+mem_cd);
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "리뷰내역 목록", url+".do?mem_cd="+mem_cd);
 		mnv.addAllObjects(subjectMap);
 		
 		mnv.setViewName(url);
 		return mnv;
+	}
+	
+	@RequestMapping("/memberAdminMoviepostList")
+	public ModelAndView memberAdminMoviepostList (ModelAndView mnv, String mem_cd) throws SQLException {
+		String url = "/sysAdmin/memberAdminMoviepostList";
+		
+		List<Map<String,Object>> mpList = sysAdminService.selectMpListByMem_cd(mem_cd);
+		mnv.addObject("mpList", mpList);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "무비포스트 목록", url+".do?mem_cd="+mem_cd);
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/memberAdminMoviepostReplyList")
+	public ModelAndView memberAdminMoviepostReplyList (ModelAndView mnv, String mem_cd) throws SQLException {
+		String url = "/sysAdmin/memberAdminMoviepostReplyList";
+		
+		List<Map<String,Object>> mpReplyList = sysAdminService.selectMpReplyListByMem_cd(mem_cd);
+		mnv.addObject("mpReplyList", mpReplyList);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "고객관리", "무비포스트 댓글 목록", url+".do?mem_cd="+mem_cd);
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/memberAdminBan")
+	public void memberAdminBan (String mem_cd, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.banMember(mem_cd);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('해당 회원이 정지되었습니다.')");
+		out.println("location.href='memeberAdminDetail.do?mem_cd=" + mem_cd + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/memberAdminCancelBan")
+	public void memberAdminCancelBan (String mem_cd, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.cancelBanMember(mem_cd);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('해당 회원의 정지가 해제되었습니다.')");
+		out.println("location.href='memeberAdminDetail.do?mem_cd=" + mem_cd + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

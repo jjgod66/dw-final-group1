@@ -387,8 +387,12 @@ thead, tfoot {
 .moreBtn {
 	cursor: pointer;
 }
+.memberTable th {
+	background-color: #808080;
+	color: white;
+	
+} 
 </style>
-
 <div id="wrapper">
 	<div id="content">
 		<jsp:include page="admin_contentHeader.jsp">
@@ -401,7 +405,7 @@ thead, tfoot {
 		<div class="s_wrap">
 				<h2>회원 정보</h2>
 				<div class="tbl_frm01">
-					<table class="tablef">
+					<table class="tablef memberTable">
 						<colgroup>
 							<col class="w150">
 							<col>
@@ -501,8 +505,8 @@ thead, tfoot {
 						<h3></h3>
 						<table class="tablef table table-striped mt-2">
 							<colgroup>
-								<col class="w150">
 								<col>
+								<col class="w150">
 								<col class="w100">
 								<col class="w130">
 							</colgroup>
@@ -533,16 +537,18 @@ thead, tfoot {
 						<h3></h3>
 						<table class="tablef table table-striped mt-2">
 							<colgroup>
-								<col class="w150">
 								<col>
-								<col class="w100">
+								<col class="w50">
+								<col class="w80">
+								<col class="w80">
 								<col class="w130">
 							</colgroup>
 								<thead class="table-dark">
 									<tr>
 										<th>영화제목</th>
-										<th>내용</th>
 										<th>평점</th>
+										<th>공감수</th>
+										<th>신고수</th>
 										<th>작성일자</th>
 									</tr>
 								</thead>								
@@ -553,8 +559,9 @@ thead, tfoot {
 								<c:forEach items="${reviewList}" var="review">
 									<tr>
 										<th scope="row">${review.MOVIE_NAME }</th>
-										<td><div style="width: 150px; margin: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${review.REVIEW_CONTENT }</div></td>
-										<td><span class="badge text-bg-danger">${review.REVIEW_RATING }</span></td>
+										<td><span class="badge" style="background-color : #4aa8d8;">${review.REVIEW_RATING }</span></td>
+										<td><b>${review.LIKECNT }</b></td>
+										<td><b style="color : red;">${review.REPORTCNT }</b></td>
 										<td><fmt:formatDate value="${review.REGDATE }" pattern="yyyy-MM-dd"/></td>
 									</tr>
 								</c:forEach>
@@ -577,14 +584,16 @@ thead, tfoot {
 						<h3></h3>
 						<table class="tablef table table-striped mt-2">
 							<colgroup>
-								<col class="w150">
 								<col>
+								<col class="w80">
+								<col class="w80">
 								<col class="w130">
 							</colgroup>
 							<thead class="table-dark">
 									<tr>
 										<th>영화제목</th>
-										<th>내용</th>
+										<th>공감수</th>
+										<th>신고수</th>
 										<th>작성일자</th>
 									</tr>			
 							</thead>					
@@ -595,7 +604,8 @@ thead, tfoot {
 								<c:forEach items="${mpList}" var="mp">
 									<tr>
 										<th scope="row">${mp.MOVIE_NAME }</th>
-										<td><div style="width: 150px; margin: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${mp.MPOST_CONTENT }</div></td>
+										<td><b>${mp.LIKECNT }</b></td>
+										<td><b style="color : red;">${mp.REPORTCNT }</b></td>
 										<td><fmt:formatDate value="${mp.REGDATE }" pattern="yyyy-MM-dd"/></td>
 									</tr>
 								</c:forEach>
@@ -606,14 +616,14 @@ thead, tfoot {
 						<h3></h3>
 						<table class="tablef table table-striped mt-2">
 							<colgroup>
-								<col class="w150">
 								<col>
+								<col class="w80">
 								<col class="w130">
 							</colgroup>
 							<thead class="table-dark">
 									<tr>
 										<th>영화제목</th>
-										<th>내용</th>
+										<th>신고수</th>
 										<th>작성일자</th>
 									</tr>				
 							</thead>				
@@ -624,7 +634,7 @@ thead, tfoot {
 								<c:forEach items="${mpReplyList}" var="reply">
 									<tr>
 										<th scope="row">${reply.MOVIE_NAME }</th>
-										<td><div style="width: 150px; margin: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${reply.REPLY_CONTENT }</div></td>
+										<td><b style="color : red;">${reply.REPORTCNT }</b></td>
 										<td><fmt:formatDate value="${reply.REGDATE }" pattern="yyyy-MM-dd"/></td>
 									</tr>
 								</c:forEach>
@@ -633,7 +643,14 @@ thead, tfoot {
 					</div>
 				</div>
 				<div class="btn_confirm">
-					<button type="button" id="banBtn" class="btn_large" style="border: 1px solid red; background-color: red;">정지</button>
+					<c:choose>
+						<c:when test="${GB_BAN eq 'Y'}">
+							<button type="button" id="cancelBanBtn" class="btn_large" style="border: 1px solid red; background-color: red;">정지해제</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" id="banBtn" class="btn_large" style="border: 1px solid red; background-color: red;">정지</button>
+						</c:otherwise>
+					</c:choose>
 					<button type="button" id="cancelBtn" class="btn_large">뒤로가기</button>
 				</div>
 				<input type="hidden" value="" id="thr_y" name="thr_y">
@@ -645,17 +662,17 @@ thead, tfoot {
 <script>
 	$('#moreWatchedMovieBtn').on('click', function(){
 		let url = 'memberAdminWatchedMovieList.do?mem_cd=${MEM_CD}';
-		OpenWindow(url, '회원 관람내역 리스트', 800, 700);
+		OpenWindow(url, '회원 관람내역 리스트', 1200, 700);
 	});
 	
 	$('#moreReviewBtn').on('click', function(){
 		let url = 'memberAdminReviewList.do?mem_cd=${MEM_CD}';
-		OpenWindow(url, '회원 관람평 리스트', 800, 700);
+		OpenWindow(url, '회원 관람평 리스트', 1200, 700);
 	});
 	
 	$('#moreMpBtn').on('click', function(){
 		let url = 'memberAdminMoviepostList.do?mem_cd=${MEM_CD}';
-		OpenWindow(url, '회원  무비포스트 리스트', 800, 700);
+		OpenWindow(url, '회원  무비포스트 리스트', 1000, 700);
 	});
 	
 	$('#moreMpReplyBtn').on('click', function(){
@@ -663,6 +680,21 @@ thead, tfoot {
 		OpenWindow(url, '회원 무비포스트 댓글 리스트', 800, 700);
 	});
 	
+	$('#banBtn').on('click', function(){
+		if(confirm('정말 해당 회원을 정지하시겠습니까?')) {
+			location.href='memberAdminBan.do?mem_cd=${MEM_CD}';
+		}
+	});
+	
+	$('#cancelBanBtn').on('click', function(){
+		if(confirm('정말 해당 회원의 정지상태를 해제하시겠습니까?')) {
+			location.href='memberAdminCancelBan.do?mem_cd=${MEM_CD}';
+		}
+	});
+	
+	$('#cancelBtn').on('click', function(){
+		location.href='memberAdminMain.do';
+	});
 </script>
 
 

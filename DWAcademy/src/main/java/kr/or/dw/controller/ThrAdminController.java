@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONArray;
@@ -22,7 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +39,7 @@ import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.ThrAdminService;
 import kr.or.dw.vo.ClickMovieInfoVO;
+import kr.or.dw.vo.HouseVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.ScreenVO;
 import kr.or.dw.vo.TheaterVO;
@@ -53,17 +58,61 @@ public class ThrAdminController {
 	
 	@Resource(name ="storePicUploadPath")
 	private String storePicUploadPath;
-
-	
 	
 
 	@RequestMapping("/theaterAdminMain")
-	public ModelAndView placeAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+	public ModelAndView placeAdmin(ModelAndView mnv, HttpServletRequest req) throws SQLException {
 		
 		String url = "/thrAdmin/theaterAdminMain";
 		
+		HttpSession session = req.getSession();
+		session.setAttribute("admin_cd", "T202307090001");
+		String admin_cd = (String) session.getAttribute("admin_cd");
+		
+		Map<String, Object> thr = thrAdminService.selectThrByAdmin_cd(admin_cd);
+		mnv.addAllObjects(thr);
+		
+		List<Map<String, Object>> houseList = thrAdminService.selectHouseListByAdmin_cd(admin_cd);
+		mnv.addObject("houseList", houseList);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "지점관리", "지점 정보", url);
+		mnv.addAllObjects(subjectMap);
+		
 		mnv.setViewName(url);
 		return mnv;
+	}
+	
+	@RequestMapping("/theaterAdminModifyInfo")
+	public ResponseEntity<String> theaterAdminModifyInfo(@RequestBody TheaterVO thr) throws SQLException {
+		
+		ResponseEntity<String> entity = null;
+		
+		thrAdminService.modifyThrInfo(thr);
+		
+		try {
+			
+			entity = new ResponseEntity<String>("OK", HttpStatus.OK);
+		} catch (Exception e) {
+			entity = new ResponseEntity<String>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return entity;
+	}
+	
+	@RequestMapping("/theaterAdminRegistHouse")
+	public ResponseEntity<HouseVO> theaterAdminRegistHouse(@RequestBody HouseVO house) throws SQLException {
+		
+		ResponseEntity<HouseVO> entity = null;
+		
+		thrAdminService.registHouse(house);
+		HouseVO newHouse = thrAdminService.selectHouseByHouse_no(house.getHouse_no());
+		
+		try {
+			entity = new ResponseEntity<>(newHouse, HttpStatus.OK);
+		} catch (Exception e) {
+			entity = new ResponseEntity<>(newHouse, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
 	}
 	
 	@RequestMapping("/theaterRegistForm")
@@ -283,11 +332,12 @@ public class ThrAdminController {
 	}
 	
 	// admin_contentHeader에 넣을 정보들
-	private Map<String, Object> addSubject(String subject, String item1, String item2) {
+	private Map<String, Object> addSubject(String subject, String item1, String item2, String url) {
 		Map<String, Object> subjectMap = new HashMap<String, Object>();
 		subjectMap.put("subject", subject);
 		subjectMap.put("item1", item1);
 		subjectMap.put("item2", item2);
+		subjectMap.put("url", url);
 		return subjectMap;
 	}
 }

@@ -420,8 +420,8 @@ thead, tfoot {
 							<col class="w100">
 							<col>
 							<col class="w150">
-							<col class="w100">
-							<col class="w100">
+							<col class="w130">
+							<col class="w130">
 						</colgroup>
 						<tbody>
 								<tr>

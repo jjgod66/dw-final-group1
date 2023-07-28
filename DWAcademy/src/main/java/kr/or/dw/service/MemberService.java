@@ -30,7 +30,9 @@ public interface MemberService {
 	void updateMemgrade() throws SQLException;
 
 	//회원 휴면 전환
-	void sleepMem() throws SQLException;	
+	void sleepMem() throws SQLException;
 
+	//회원 정지 전환
+	void unbanMember() throws SQLException;
 	
 }
