@@ -7,8 +7,10 @@ import java.util.Map;
 
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.ClickMovieInfoVO;
+import kr.or.dw.vo.HouseVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.ScreenVO;
+import kr.or.dw.vo.TheaterVO;
 
 public interface ThrAdminService {
 	
@@ -37,5 +39,24 @@ public interface ThrAdminService {
 
 	Map<String, Object> getAllScreens(SearchCriteria cri) throws SQLException;
 
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// admin_cd에 해당하는 영화관 정보를 불러온다.
+	Map<String, Object> selectThrByAdmin_cd(String admin_cd) throws SQLException;
+
+	// 영화관 INFO 수정
+	void modifyThrInfo(TheaterVO thr) throws SQLException;
+
+	// admin_cd에 해당하는 영화관의 상영관 목록을 불러온다.
+	List<Map<String, Object>> selectHouseListByAdmin_cd(String admin_cd) throws SQLException;
+
+	// 상영관을 등록한다.
+	void registHouse(HouseVO house) throws SQLException;
+
+	// 해당하는 상영관의 정보를 가져온다.
+	HouseVO selectHouseByHouse_no(int house_no) throws SQLException;
 
 }

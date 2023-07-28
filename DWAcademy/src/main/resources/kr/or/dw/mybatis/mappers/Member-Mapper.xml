@@ -85,4 +85,11 @@
 	<update id="updateMemSleep">
 		UPDATE member SET gb_sleep = 'Y' WHERE mem_cd = #{mem_cd}
 	</update>
+	
+	<update id="updateMemUnban">
+		UPDATE member
+		  SET gb_ban = 'N'
+		 WHERE stopdate + 180 <![CDATA[<]]> SYSDATE
+	</update>
+	
 </mapper>

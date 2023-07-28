@@ -419,8 +419,6 @@ thead, tfoot {
 						<colgroup>
 							<col>
 							<col class="w150">
-							<col class="w50">
-							<col class="w80">
 							<col class="w80">
 							<col class="w130">
 						</colgroup>
@@ -428,22 +426,18 @@ thead, tfoot {
 								<tr>
 									<th>영화제목</th>
 									<th>내용</th>
-									<th>평점</th>
-									<th>공감수</th>
 									<th>신고수</th>
 									<th>작성일자</th>
 								</tr>
-								<c:if test="${empty reviewList }">
+								<c:if test="${empty mpReplyList }">
 									<tr><th scope="row" colspan="3">작성 글이 없습니다.</th></tr>
 								</c:if>								
-								<c:forEach items="${reviewList}" var="review">
+								<c:forEach items="${mpReplyList}" var="reply">
 								<tr>
-									<th scope="row">${review.MOVIE_NAME }</th>
-									<td><div style="width: 400px; margin: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${review.REVIEW_CONTENT }</div></td>
-									<td><span class="badge" style="background-color : #4aa8d8;">${review.REVIEW_RATING }</span></td>
-									<td><b>${review.LIKECNT }</b></td>
-									<td><b style="color : red;">${review.REPORTCNT }</b></td>
-									<td><fmt:formatDate value="${review.REGDATE }" pattern="yyyy-MM-dd"/></td>
+									<th scope="row">${reply.MOVIE_NAME }</th>
+									<td><div style="width: 400px; margin: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${reply.REPLY_CONTENT }</div></td>
+									<td><b style="color : red;">${reply.REPORTCNT }</b></td>
+									<td><fmt:formatDate value="${reply.REGDATE }" pattern="yyyy-MM-dd"/></td>
 								</tr>
 							</c:forEach>
 						</tbody>

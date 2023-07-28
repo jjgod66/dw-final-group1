@@ -156,4 +156,52 @@
 			ORDER BY m.opendate ASC
 		</if>
 	</sql>
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="selectThrByAdmin_cd" resultType="map">
+		SELECT *
+		  FROM theater
+		 WHERE admin_cd = #{admin_cd}
+	</select>
+	
+	<update id="modifyThrInfo">
+		UPDATE theater
+		   SET thr_info = #{thr_info}
+		 WHERE admin_cd = #{admin_cd}
+	</update>
+	
+	<select id="selectHouseListByAdmin_cd" resultType="map">
+		SELECT h.* 
+  		  FROM THEATER t , HOUSE h 
+ 		 WHERE t.THR_NAME = h.THR_NAME 
+  		   AND t.ADMIN_CD = #{admin_cd}
+  		 ORDER BY house_no ASC
+	</select>
+	
+	<insert id="insertHouse">
+		INSERT INTO house
+		 VALUES (
+		 		house_seq.nextval
+		 	   ,#{thr_name}
+		 	   ,#{house_name}
+		 	   ,#{house_row}
+		 	   ,#{house_column}
+		 	   ,'N'
+		 		)
+		 <selectKey resultType="int" keyProperty="house_no" order="AFTER">
+			SELECT house_seq.currval FROM dual
+		</selectKey>
+	</insert>
+	
+	<select id="selectHouseByHouse_no" resultType="house">
+		SELECT *
+		  FROM house
+		 WHERE house_no = #{house_no}
+	</select>
 </mapper>

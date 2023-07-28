@@ -53,9 +53,14 @@ public class Scheduler {
 //		memberService.sleepMem();
 //	}
 	
-	@Scheduled(cron = "0 0 17 ? * *")
-	public void removeTempImg() throws IOException {
-		File directory = new File(eventPicUploadPath + "temp");
-		FileUtils.cleanDirectory(directory);
-	}
+//	@Scheduled(cron = "0 0 4 ? * *")
+//	public void removeTempImg() throws IOException {
+//		File directory = new File(eventPicUploadPath + File.separator + "temp");
+//		FileUtils.cleanDirectory(directory);
+//	}
+
+//	@Scheduled(cron = "0 0 4 ? * *")
+//	public void unbanMember() throws SQLException {
+//		memberService.unbanMember();
+//	}
 }

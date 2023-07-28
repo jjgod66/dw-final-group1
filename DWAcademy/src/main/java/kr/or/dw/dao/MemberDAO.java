@@ -49,4 +49,7 @@ public interface MemberDAO {
 	//회원 휴면계정으로 업데이트
 	void updateMemSleep(String mem) throws SQLException;
 
+	//회원 정지계정 해제 전환 
+	void updateMemUnban() throws SQLException;
+
 }

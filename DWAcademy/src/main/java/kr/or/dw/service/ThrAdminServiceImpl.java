@@ -14,8 +14,10 @@ import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.ThrAdminDAO;
 import kr.or.dw.vo.ClickMovieInfoVO;
+import kr.or.dw.vo.HouseVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.ScreenVO;
+import kr.or.dw.vo.TheaterVO;
 
 @Service
 public class ThrAdminServiceImpl implements ThrAdminService {
@@ -121,6 +123,32 @@ public class ThrAdminServiceImpl implements ThrAdminService {
 		resultMap.put("allMovieList", allMovieList);
 		resultMap.put("pageMaker", pageMaker);
 		return resultMap;
+	}
+
+	@Override
+	public Map<String, Object> selectThrByAdmin_cd(String admin_cd) throws SQLException {
+		
+		return thrAdminDAO.selectThrByAdmin_cd(admin_cd);
+	}
+
+	@Override
+	public void modifyThrInfo(TheaterVO thr) throws SQLException {
+		thrAdminDAO.modifyThrInfo(thr);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectHouseListByAdmin_cd(String admin_cd) throws SQLException {
+		return thrAdminDAO.selectHouseListByAdmin_cd(admin_cd);
+	}
+
+	@Override
+	public void registHouse(HouseVO house) throws SQLException {
+		thrAdminDAO.insertHouse(house);
+	}
+
+	@Override
+	public HouseVO selectHouseByHouse_no(int house_no) throws SQLException {
+		return thrAdminDAO.selectHouseByHouse_no(house_no);
 	}
 
 

@@ -74,4 +74,9 @@ public class MemberServiceImpl implements MemberService{
 		}
 	}
 
+	@Override
+	public void unbanMember() throws SQLException {
+		memberDAO.updateMemUnban();
+	}
+
 }

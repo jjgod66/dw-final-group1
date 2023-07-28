@@ -4,14 +4,8 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<title>DWCinema [관리자]</title>
-<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/scrollbar.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
+<title>Insert title here</title>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">
 <link href="<%=request.getContextPath()%>/resources/img/logo_ico.png" rel="shortcut icon" type="image/x-icon">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">
@@ -19,18 +13,48 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/swiper.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
- <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/scrollbar.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
+<script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <!-- jquery CDN -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- fullcalendar CDN -->
+  <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.css' rel='stylesheet' />
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/main.min.js'></script>
+  <!-- fullcalendar 언어 CDN -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.8.0/locales-all.min.js'></script>
 </head>
 <body>
 
 <style>
+#wrapper {
+	background-color: #fff;
+	z-index: 5;
+	min-width: 300px;
+	zoom: 1;
+}
+#content {
+	max-width: 80rem;
+	margin : 0rem auto 2rem auto;
+    padding-bottom: 100px;
+}
+
+.breadcrumb {
+    padding: 0 0 0 25px;
+    color: #000;
+    line-height: 34px;
+    border-bottom: 1px solid #e9e9e9;
+    text-align: left;
+    font-size: 12px;
+}
+
 .gnb1 > li:hober{
 	ul{display:block;}
 }
+
 #hd {
     min-width: 1210px;
     background: #aaaaaa;
@@ -40,6 +64,7 @@
     position: relative;
     margin: 0 auto;
 }
+
 #tnb {
     z-index: 2;
     position: absolute;
@@ -62,7 +87,6 @@
 #tnb ul a {
     display: inline-block;
     text-decoration: none;
-    color: black;
 }
 #tnb ul #tnb_logout {
     border-right: 0;
@@ -90,6 +114,7 @@
 #gnb ul, #gnb li {
     overflow: visible !important;
 }
+
 #gnb_1dul {
     position: relative;
     margin: 0 16px;
@@ -107,8 +132,8 @@
     display: table-cell;
     margin: 0 0 0 -1px;
     border: 1px solid #2d3032;
-/*     border-top: 0; */
-/*     border-bottom: 0; */
+    border-top: 0;
+    border-bottom: 0;
     justify-content: center;
 }
 a.gnb_1da {
@@ -116,18 +141,19 @@ a.gnb_1da {
     /* height: 34px; */
     padding: 0 10px;
     color: #fff;
-    font-size: 17px;
+    font-size: 13px;
     font-weight: 400;
     text-align: center;
     text-decoration: none;
-    line-height: 2.0em;
+    line-height: 1.5em;
 }
 #tnb ul a:focus, #tnb a:hover {
-    color: #4aa8d8;
+    color: #EBFBFF;
 }
+
 #tnb ul a {
     display: inline-block;
-    color: black;
+    color: #dcdcdc;
     text-decoration: none;
 }
 #snb {
@@ -152,6 +178,7 @@ a.gnb_1da {
     color: #888;
     display: block;
 }
+
 .fa-truck:before {
     content: "\f0d1";
 }
@@ -187,105 +214,108 @@ a.gnb_1da {
     clear: both;
     content: "";
 }
+
+
+
 nav ul {
 	width: 100%;
-	background-color: rgba(44, 42, 39 ,0.993);
+	background-color: 	#d0ebff;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 }
+
  nav ul li {
 	display: inline-block;
 } 
-.dropdown {
+
+ .dropdown {
 	position: relative;
-} 
+}  
 .dropdown-menu {
+
 	color: black;
-	font-size: 16px;
+	/* padding: 10px; */
+	font-size: 13px;
 	cursor: pointer;
-	background-color: #f5f5f5;
+	background-color: 	#D3D3D3;
 	text-align: center;
-	--bs-dropdown-border-radius: 0;
  } 
  .dropdown-content{
+ 
  	position: absolute;
- 	top: 2.5rem;
- 	border-radius : 0;
- 	background-color:#dcdcdc;
+ 	background-color:#d0ebff;
  	min-width: 160px;
- 	box-shadow: 0px 8px 16px 0px rgba(0 ,0 ,0 ,0.2);
- } 
+ 	/* box-shadow: 0px 8px 16px 0px rgba(0 ,0 ,0 ,0.2); */
+ }  
  .dropdown-content a {
+ 
  	color: black;
- 	padding: 12px 16px;
- 	text-decoration: none;
- 	display: block;
+ 	padding: 12px 12px;
+ 	 text-decoration: none;
+ 	display: block; 
  }
   .dropdown-content{
  	display: none;
- } 
+ }  
  .dropdown:hover .dropdown-content{
+ 	
  	display: block;
  }
  .dropdown-content a:hover {
-	background-color: #aaaaaa
+	background-color: #87CEFA		
 }
 .dropdown-menu:hover:not(.hone){
 	background-color: #3c3c3c;
 	color: white;
 }
-.pagination li a{
-	color : black;
-	background-color : #fafafa;
-}
-.pagination li.active a {
-	background-color : black;
-	border : none;
-}
 </style>
 	<header id="hd">
-		<div id="hd_wrap" style="background-color : #fafafa;">
-			<div style="padding : 0.5rem;" class="text-center">
-				<a href="<%=request.getContextPath() %>/thrAdmin/main.do"><img src="<%=request.getContextPath()%>/resources/img/logo.png"></a>
+		<div id="hd_wrap">
+			<div >
+				<img src="<%=request.getContextPath()%>/resources/img/logo.png">
 			</div>
 			<div id="tnb">
 				<ul>
-					<li><a href="<%=request.getContextPath() %>/thrAdmin/main.do">ADMIN HOME</a></li>
-					<li><a href="<%=request.getContextPath() %>/main.do">DWCinema HOME</a></li>
+					<li>DW시네마 v1.0.1</li>
+					<li><a href="#">관리자정보</a></li>
+					<li><a href="<%=request.getContextPath() %>/thrAdmin/main.do>">관리자홈</a></li>
+					<li><a href="<%=request.getContextPath() %>/sysAdmin/adminCinemaMain.do">DW시네마 바로가기 </a></li>
 					<li id="tnb_logout"><a
-						href="">LOGOUT</a></li>
+						href="">로그아웃</a></li>
 				</ul>
 			</div>
 
 			<nav id="gnb">
-				<ul style="text-align: -webkit-center;">
+				<ul>
 					<li class="gnb_1dli dropdown dropdown-menu">지점관리 
 						<div class="dropdown-content">
-							<a href="<%= request.getContextPath() %>/thrAdmin/theaterAdminMain.do" class="gnb_1da">지점 정보 </a>
+							<a href="<%= request.getContextPath() %>/thrAdmin/theaterAdminMain.do" class="gnb_1da">상영관 목록 </a>
+							<a href="<%= request.getContextPath() %>/thrAdmin/theaterRegistForm.do" class="gnb_1da">상영관 등록 </a>
 						</div>
 					</li>
-					<li class="gnb_1dli dropdown dropdown-menu" >영화관리 
+					<li class="gnb_1dli dropdown dropdown-menu" >상영영화관리 
 						<div class="dropdown-content">
-							<a href="<%= request.getContextPath() %>/thrAdmin/movieAdminMain.do" class="gnb_1da">영화리스트</a>
-							<a href="<%= request.getContextPath() %>/thrAdmin/movieRegistForm.do" class="gnb_1da">영화등록</a>
+							<a href="<%= request.getContextPath() %>/thrAdmin/movieAdminMain.do" class="gnb_1da">지점영화관리 </a>
 						</div>
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">고객관리 
 					<div class="dropdown-content">
-						<a href="<%= request.getContextPath() %>/thrAdmin/noticeAdminMain.do" class="gnb_1da">공지사항</a>
-						<a href="<%= request.getContextPath() %>/thrAdmin/faqAdminMain.do" class="gnb_1da">FAQ</a>
-						<a href="<%= request.getContextPath() %>/thrAdmin/qnaAdminMain.do" class="gnb_1da">1:1문의</a>
-						<a href="<%= request.getContextPath() %>/thrAdmin/memberAdminMain.do" class="gnb_1da">회원목록 </a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">공지사항</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">FAQ</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">1:1문의</a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/supportAdminMain.do" class="gnb_1da">회원목록 </a>
 						</div>
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">이벤트관리 
 					<div class="dropdown-content">
-						<a href="<%= request.getContextPath() %>/thrAdmin/eventAdminMain.do" class="gnb_1da">진행중인 이벤트 </a>
-						<a href="<%= request.getContextPath() %>/thrAdmin/eventAdminPastMain.do" class="gnb_1da">지난 이벤트 </a>
-						<a href="<%= request.getContextPath() %>/thrAdmin/eventAdminDetail.do?type=create" class="gnb_1da">이벤트 등록  </a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminMain.do" class="gnb_1da">진행중인 이벤트 </a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminPast.do" class="gnb_1da">지난 이벤트 </a>
+						<a href="<%= request.getContextPath() %>/sysAdmin/eventAdminWinner.do" class="gnb_1da">당첨자 발표 </a>
+						<a href="<%= request.getContextPath() %>/thrAdmin/eventRegist.do" class="gnb_1da">이벤트 등록  </a>
 						</div>
 					</li>
+					
 				</ul>
 			</nav> 
 			

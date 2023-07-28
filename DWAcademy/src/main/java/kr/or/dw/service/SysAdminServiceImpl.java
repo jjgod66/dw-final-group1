@@ -555,10 +555,6 @@ public class SysAdminServiceImpl implements SysAdminService {
 		return sysAdminDAO.selectMemberByMem_cd(mem_cd);
 	}
 
-	@Override
-	public List<Map<String, Object>> selectWatchedMovieListByMem_cd(String mem_cd) throws SQLException {
-		return sysAdminDAO.selectWatchedMovieListByMem_cd(mem_cd);
-	}
 
 	@Override
 	public List<Map<String, Object>> selectWatchedMoviePreviewListByMem_cd(String mem_cd) throws SQLException {
@@ -571,11 +567,6 @@ public class SysAdminServiceImpl implements SysAdminService {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectReviewListByMem_cd(String mem_cd) throws SQLException {
-		return sysAdminDAO.selectReviewListByMem_cd(mem_cd);
-	}
-
-	@Override
 	public List<Map<String, Object>> selectMpPreviewListByMem_cd(String mem_cd) throws SQLException {
 		return sysAdminDAO.selectMpPreviewListByMem_cd(mem_cd);
 	}
@@ -583,6 +574,37 @@ public class SysAdminServiceImpl implements SysAdminService {
 	@Override
 	public List<Map<String, Object>> selectMpReplyPreviewListByMem_cd(String mem_cd) throws SQLException {
 		return sysAdminDAO.selectMpReplyPreviewListByMem_cd(mem_cd);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectWatchedMovieListByMem_cd(String mem_cd) throws SQLException {
+		return sysAdminDAO.selectWatchedMovieListByMem_cd(mem_cd);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectReviewListByMem_cd(String mem_cd) throws SQLException {
+		return sysAdminDAO.selectReviewListByMem_cd(mem_cd);
+	}
+	
+	@Override
+	public List<Map<String, Object>> selectMpListByMem_cd(String mem_cd) throws SQLException {
+		return sysAdminDAO.selectMpListByMem_cd(mem_cd);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMpReplyListByMem_cd(String mem_cd) throws SQLException {
+		return sysAdminDAO.selectMpReplyListByMem_cd(mem_cd);
+	}
+
+	@Override
+	public void banMember(String mem_cd) throws SQLException {
+		sysAdminDAO.banMember(mem_cd);
+		
+	}
+
+	@Override
+	public void cancelBanMember(String mem_cd) throws SQLException {
+		sysAdminDAO.cancelBanMember(mem_cd);
 	}
 
 }
