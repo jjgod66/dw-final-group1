@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../include/member_header.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style>
 h2.tit {
     padding: 0 0 26px 0;
@@ -280,17 +281,42 @@ h3.tit {
 		</tbody>
 	</table>
 </div>
-<div>총 1건</div>
+<div>총 ${fn:length(movieInfo)}건</div>
 <c:if test="">
 	<div id="bokdList"><div class="no-history-reservation mt20">예매 내역이 없습니다.</div></div>
 </c:if>
 	<c:forEach items="${movieInfo}" var="movieInfo">
 	<div class="container">
-		<div class="card-body row" style="padding-rigth: 0;">
+		<div class="card-body row" style="padding-rigth: 0; border: 1px solid #503396">
 			<div class="col-3" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat center /cover"></div>
-			<div class="col-9">${movieInfo.MOVIE_CD}</div>
+			<div class="col-5">
+				<span><strong>예매번호 </strong>${movieInfo.MERCHANT_UID}</span>
+				<br><br>
+				<span><strong>영화명 </strong>${movieInfo.MOVIE_NAME}</span>
+				<br><br>
+				<span><strong>극장/상영관 </strong>${movieInfo.THR_NAME} / ${movieInfo.HOUSE_NAME}</span>
+				<br><br>
+				<span><strong>관람일시 </strong>${movieInfo.STARTDATE}</span>
+				<br><br>
+				<span><strong>결제일시 </strong>${movieInfo.RESDATE}</span>
+			</div>
+			<div class="col-4 ">
+				<br><br>
+				<br><br>
+				<span><strong>관람인원 </strong>${movieInfo.MEM_CAT}</span>
+				<br><br>
+				<span><strong>관람좌석 </strong>${movieInfo.RES_SEAT}</span>
+				<br><br>
+				<c:if test="${movieInfo.REFUNDDATE eq null}">
+					<span><strong>취소일시 </strong> - </span>
+				</c:if>
+				<c:if test="${movieInfo.REFUNDDATE ne null}">
+					<span><strong>취소일시 </strong>${movieInfo.REFUNDDATE}</span>
+				</c:if>
+			</div>
 		</div>
 	</div>
+	<br>
 	</c:forEach>
 
 </section>
@@ -329,6 +355,30 @@ $(document).ready(function () {
 		$(".content-section").hide();
 		$(hash).show();
 	}
+	$('#radBokd02').on('click', function(){
+		$('select[name=selYM]').attr("disabled" ,false);
+	});
+	$('#radBokd01').on('click', function(){
+		$('select[name=selYM]').attr("disabled" ,true);
+		
+	})
+// 	$('button[name=search]').on('click', function(){
+// 		if($('select[name=selYM]').disabled(true))){
+// 			let val = $('select[name=selYM]').val();
+// 			$.ajax({
+<%-- 				url : "<%=request.getContextPath()%>/member/searchResDate.do", --%>
+// 				method : "post",
+// 				data : val,
+// 				success : function(res){
+// 					alert(res);
+// 				},
+// 				error : function(err){
+// 					alert(err.status);
+// 				}
+// 			}
+// 		})	
+// 	});
+	
 });
 </script>
 <%@ include file="../include/member_footer.jsp" %>
