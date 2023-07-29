@@ -440,12 +440,6 @@ public class SysAdminController {
 			
 	}
 	
-	@GetMapping("/supportAdminMain")
-	public String customerAdmin() {
-		String url = "/sysAdmin/supportAdminMain";
-		return url;
-	}
-	
 	@RequestMapping("/storeAdminMain")
 	public ModelAndView storeAdmin(ModelAndView mnv, String CategoryIdx) throws SQLException {
 		String url = "/sysAdmin/storeAdminMain";
@@ -754,7 +748,7 @@ public class SysAdminController {
 	@RequestMapping("/eventAdminTypeMain")
 	public ModelAndView eventAdminTypeMain(ModelAndView mnv, SearchCriteria cri) throws SQLException {
 		String url = "/sysAdmin/eventAdminTypeMain";
-		System.out.println(cri);
+	
 		Map<String, Object> dataMap = sysAdminService.selectEventList(cri);
 		mnv.addAllObjects(dataMap);
 		

@@ -39,10 +39,15 @@
 	<input type="hidden" name="perPageNum">
 	<input type="hidden" name="searchType">
 	<input type="hidden" name="searchType2">
+	<input type="hidden" name="adminType">
 	<input type="hidden" name="orderType">
 	<input type="hidden" name="keyword">
 </form>
 <script>
+	if (${not empty sessionScope.admin_cd}) {
+		$('#searchForm').find('[name="adminType"]').val('${sessionScope.admin_cd}');
+	}
+	
 	function searchList_go(page, url) {
 		if (page < 1) {
 			return;

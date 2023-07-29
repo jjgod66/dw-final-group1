@@ -3,6 +3,49 @@
 	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.or.dw.dao.ThrAdminDAO">
+
+	<sql id="searchNotice">
+		AND notice_title LIKE '%' || #{keyword} || '%'
+	</sql>
+	
+	<sql id="searchQna">
+		<if test="searchType == 'a'.toString()">
+		</if>
+		<if test="searchType == 'b'.toString()">
+			AND que_type = '일반문의'
+		</if>
+		<if test="searchType == 'c'.toString()">
+			AND que_type = '제안'
+		</if>
+		<if test="searchType == 'd'.toString()">
+			AND que_type = '칭찬'
+		</if>
+		<if test="searchType == 'e'.toString()">
+			AND que_type = '불만'
+		</if>
+		<if test="searchType2 == 'b'.toString()">
+			AND a.ans_content IS NULL
+		</if>
+		<if test="searchType2 == 'c'.toString()">
+			AND a.ans_content IS NOT NULL
+		</if>
+		AND (
+			que_title LIKE '%' || #{keyword} || '%'
+			OR
+			que_content LIKE '%' || #{keyword} || '%'
+			OR
+			writer_name LIKE '%' || #{keyword} || '%'
+			)
+	</sql>
+	
+	<sql id="searchEvent">
+		AND (
+			 event_title LIKE '%' || #{keyword} || '%'
+			 OR
+			 event_content LIKE '%' || #{keyword} || '%'
+			)
+	</sql>
+	
 	<select id="selectAllScreens" resultType="movie">
 		SELECT *
 		FROM movie
@@ -203,5 +246,99 @@
 		SELECT *
 		  FROM house
 		 WHERE house_no = #{house_no}
+	</select>
+	
+	<select id="updateHouse">
+		UPDATE house
+		   SET house_name = #{house_name}
+		      ,house_row = #{house_row}
+		      ,house_column = #{house_column}
+		 WHERE house_no = #{house_no}
+	</select>
+
+	<select id="selectNoticeList" resultType="notice">
+		SELECT *
+		  FROM notice
+		 WHERE gb_del = 'N'
+		   AND admin_cd = #{adminType}
+		  <include refid="searchNotice"/>
+		 ORDER BY notice_no DESC
+	</select>
+	
+	<select id="selectSearchNoticeListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM notice
+		 WHERE gb_del = 'N'
+		   AND admin_cd = #{adminType}
+		<include refid="searchNotice"/>
+	</select>
+	
+	<insert id="insertNotice">
+		INSERT INTO notice
+					(
+					 notice_no
+					,admin_cd
+					,notice_title
+					,notice_content
+					,notice_thr
+					,regdate
+					,gb_del
+					)
+			 VALUES (
+			 		 notice_seq.nextval
+			 		,#{admin_cd}
+			 		,#{notice_title}
+			 		,#{notice_content}
+			 		,#{notice_thr}
+			 		,SYSDATE
+			 		,'N'
+			 		)		
+	</insert>
+	
+	<select id="selectQnaList" resultType="qna">
+		SELECT q.*, a.*, t.ADMIN_CD 
+		  FROM question q, answer a, THEATER t
+		 WHERE q.que_sel = 'T'
+		   AND q.que_no = a.que_no(+)
+		   AND q.THR_NAME = t.THR_NAME (+)
+		   AND t.admin_cd = #{adminType}
+		 <include refid="searchQna"/>
+		 ORDER BY q.que_no DESC
+	</select>
+	
+	<select id="selectSearchQnaListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM question q, answer a, THEATER t
+		 WHERE q.que_sel = 'T'
+		   AND q.que_no = a.que_no(+)
+		   AND q.THR_NAME = t.THR_NAME (+)
+		   AND t.admin_cd = #{adminType}
+		 <include refid="searchQna"/>
+	</select>
+	
+	<insert id="insertAns">
+		INSERT INTO answer
+		     VALUES (#{que_no}, #{admin_cd}, #{ans_content}, SYSDATE)   
+	</insert>
+	
+	<select id="selectEventList" resultType="event">
+		SELECT e.* 
+ 	  	  FROM event e, THEATER t 
+ 		 WHERE e.RELATE_CD = t.THR_NAME
+		   AND enddate <![CDATA[>=]]> SYSDATE
+		   AND t.admin_cd = #{adminType}
+		   AND e.event_div = '극장'
+		 <include refid="searchEvent"/>
+		 ORDER BY startdate DESC
+	</select>
+	
+	<select id="selectSearchEventListCount" resultType="int">
+		SELECT COUNT(*)
+ 	  	  FROM event e, THEATER t 
+ 		 WHERE e.RELATE_CD = t.THR_NAME
+		   AND enddate <![CDATA[>=]]> SYSDATE
+		   AND t.admin_cd = #{adminType}
+		   AND e.event_div = '극장'
+		 <include refid="searchEvent"/>
 	</select>
 </mapper>

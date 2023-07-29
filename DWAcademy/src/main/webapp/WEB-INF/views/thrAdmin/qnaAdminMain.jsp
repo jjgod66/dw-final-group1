@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ include file="sysAdminHeader.jsp" %>
+<%@ include file="thrAdminHeader.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/notice.css">
 <style>
 #wrapper {
@@ -53,12 +53,10 @@
 					<div class="searchSelect">
 						<select id="searchType" name="searchType">
 							<option value="a" ${cri.searchType eq '' || cri.searchType eq 'a' ? 'selected' : ''}>전체</option>
-							<option value="b" ${cri.searchType eq 'b' ? 'selected' : ''}>영화정보문의</option>
-							<option value="c" ${cri.searchType eq 'c' ? 'selected' : ''}>회원 및 포인트 문의</option>
-							<option value="d" ${cri.searchType eq 'd' ? 'selected' : ''}>예매/결제관련문의</option>
-							<option value="e" ${cri.searchType eq 'e' ? 'selected' : ''}>이벤트문의</option>
-							<option value="f" ${cri.searchType eq 'f' ? 'selected' : ''}>일반문의</option>
-							<option value="g" ${cri.searchType eq 'g' ? 'selected' : ''}>제안/건의</option>
+							<option value="b" ${cri.searchType eq 'b' ? 'selected' : ''}>일반문의</option>
+							<option value="c" ${cri.searchType eq 'c' ? 'selected' : ''}>제안</option>
+							<option value="d" ${cri.searchType eq 'd' ? 'selected' : ''}>칭찬</option>
+							<option value="e" ${cri.searchType eq 'e' ? 'selected' : ''}>불만</option>
 						</select>
 						<select id="searchType2" name="searchType2">
 							<option value="a" ${cri.searchType2 eq '' || cri.searchType2 eq 'a'? 'selected' : ''}>답변상태</option>
@@ -123,4 +121,4 @@
 	
 	
 </script>
-<%@ include file="sysAdminFooter.jsp"%>
+<%@ include file="thrAdminFooter.jsp"%>

@@ -6,9 +6,11 @@ import java.util.Map;
 
 
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.ClickMovieInfoVO;
 import kr.or.dw.vo.HouseVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ScreenVO;
 import kr.or.dw.vo.TheaterVO;
 
@@ -58,5 +60,24 @@ public interface ThrAdminService {
 
 	// 해당하는 상영관의 정보를 가져온다.
 	HouseVO selectHouseByHouse_no(int house_no) throws SQLException;
+
+	// 상영관을 수정한다.
+	void modifyHouse(HouseVO house) throws SQLException;
+
+	// 해당하는 공지글 목록을 불러온다.
+	Map<String, Object> selectNoticeList(SearchCriteria cri) throws SQLException;
+	
+	// 공지사항 작성
+	void registNotice(NoticeVO notice) throws SQLException;
+
+	// 해당하는 1:1문의 게시글 목록을 불러온다.
+	Map<String, Object> selectQnaList(SearchCriteria cri) throws SQLException;
+
+	// 1:1문의 답변 작성
+	void registAns(AnswerVO ans) throws SQLException;
+
+	// 해당 극장에서 진행중인 이벤트 목록 조회
+	Map<String, Object> selectEventList(SearchCriteria cri) throws SQLException;
+
 
 }
