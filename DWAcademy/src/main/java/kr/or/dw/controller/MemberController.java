@@ -176,6 +176,7 @@ public class MemberController {
 			List<Map<String, Object>> movieInfo = movieService.selectMovieInfo(mem_cd);
 		
 			mnv.addObject("movieInfo", movieInfo);
+			System.out.println(movieInfo.size());
 			System.out.println(movieInfo);
 		}
 		
