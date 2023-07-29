@@ -10,9 +10,14 @@ import org.apache.ibatis.session.RowBounds;
 import org.springframework.aop.ThrowsAdvice;
 
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.vo.AdminVO;
+import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.ClickMovieInfoVO;
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.HouseVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.NoticeVO;
+import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.ScreenVO;
 import kr.or.dw.vo.TheaterVO;
 
@@ -68,8 +73,31 @@ public interface ThrAdminDAO {
 	// 해당하는 상영관의 정보를 가져온다.
 	HouseVO selectHouseByHouse_no(int house_no) throws SQLException;
 
-	
-	
-	
+	// 상영관을 수정한다.
+	void updateHouse(HouseVO house) throws SQLException;
+
+	// 해당하는 공지글 목록을 불러온다.
+	List<NoticeVO> selectNoticeList(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
+
+	// 해당하는 공지글 목록의 총 개수를 불러온다.
+	int selectSearchNoticeListCount(SearchCriteria cri) throws SQLException;
+
+	// 공지사항 작성
+	void insertNotice(NoticeVO notice) throws SQLException;
+
+	// 해당하는 1:1문의 게시글 목록을 불러온다.
+	List<QnaVO> selectQnaList(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
+
+	// 해당하는 1:1문의 게시글 목록 총 개수를 불러온다.
+	int selectSearchQnaListCount(SearchCriteria cri) throws SQLException;
+
+	// 1:1문의 답변 작성
+	void insertAns(AnswerVO ans) throws SQLException;
+
+	// 해당 극장에서 진행중인 이벤트 목록 조회
+	List<EventVO> selectEventList(SearchCriteria cri) throws SQLException;
+
+	// 해당 극장에서 진행중인 이벤트 목록 총 개수 조회
+	int selectSearchEventListCount(SearchCriteria cri) throws SQLException;
 
 }

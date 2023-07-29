@@ -274,9 +274,7 @@ nav ul {
 					<li class="gnb_1dli dropdown dropdown-menu">고객관리 
 					<div class="dropdown-content">
 						<a href="<%= request.getContextPath() %>/thrAdmin/noticeAdminMain.do" class="gnb_1da">공지사항</a>
-						<a href="<%= request.getContextPath() %>/thrAdmin/faqAdminMain.do" class="gnb_1da">FAQ</a>
 						<a href="<%= request.getContextPath() %>/thrAdmin/qnaAdminMain.do" class="gnb_1da">1:1문의</a>
-						<a href="<%= request.getContextPath() %>/thrAdmin/memberAdminMain.do" class="gnb_1da">회원목록 </a>
 						</div>
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">이벤트관리 

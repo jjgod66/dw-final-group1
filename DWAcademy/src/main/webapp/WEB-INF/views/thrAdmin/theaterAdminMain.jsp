@@ -380,17 +380,19 @@ textarea {
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="row gy-2">
+        <div class="row gy-2 houseForm">
+        	<input type="hidden" id="house_no" name="house_no" value="">
         	<div class="col-md-4" style="height: 38px; line-height: 38px;">상영관명 :</div>
         	<div class="col-md-8"><input id="house_name" name="house_name" type="text" class="form-control"></div>
         	<div class="col-md-2" style="height: 38px; line-height: 38px;">행 :</div>
         	<div class="col-md-4"><input type="text" id="house_row" name="house_row" class="form-control" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"></div>
         	<div class="col-md-2" style="height: 38px; line-height: 38px;">열 :</div>
         	<div class="col-md-4"><input type="text" id="house_column" name="house_column" class="form-control" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"></div>
+        	<div class="col-md-12 text-end" style="display:none;" id="confirmYourFormDiv"><b class="red">작성 양식을 확인하세요</b></div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" class="btn btn-secondary"  id="cancelModalBtn" data-bs-dismiss="modal">닫기</button>
         <button type="button" class="btn" id="registHouseBtn" style="background-color: #ef4836; color: white;">등록</button>
         <button type="button" class="btn" id="modifyHouseBtn" style="background-color: #ef4836; color: white;">수정</button>
       </div>
@@ -474,7 +476,7 @@ textarea {
 							
 							<c:forEach items="${houseList }" var="house">
 								<tr class="list0">
-									<td><a class="house_name" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">${house.HOUSE_NAME }</a></td>
+									<td><input type="hidden" class="house_no" value="${house.HOUSE_NO }"><a class="house_name" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">${house.HOUSE_NAME }</a></td>
 									<td class="house_row">${house.HOUSE_ROW }</td>
 									<td class="house_column">${house.HOUSE_COLUMN }</td>
 								</tr>
@@ -486,6 +488,8 @@ textarea {
 	</div>
 </div>
 <script>
+
+	// 영화관 소개글 수정버튼 클릭시
 	$('#modifyInfoBtn').on('click', function(){
 		let modifiedInfo = $('#thr_info').val();
 		let admin_cd = '${ADMIN_CD}';
@@ -509,19 +513,19 @@ textarea {
 		});
 	});
 	
+	
+	// 작성폼 재작성시
 	$('input').on('keyup', function(){
 		if ($(this).hasClass('is-invalid')) {
 			$(this).removeClass('is-invalid');
 		}
+		if ($('input.is-invalid').length == 0 ) {
+			$('#confirmYourFormDiv').hide();
+		}
 	});
 	
-
-	
-	$('#registHouseBtn').on('click', function(){
-		let house_name = $('#house_name').val();
-		let house_row = $('#house_row').val();
-		let house_column = $('#house_column').val();
-		let thr_name = '${THR_NAME}';
+	// 상영관 폼 양식 확인
+	function checkForm(house_name, house_row, house_column) {
 		
 		if (house_name == "") {
 			$('#house_name').addClass('is-invalid');
@@ -533,8 +537,19 @@ textarea {
 			$('#house_column').addClass('is-invalid');
 		}
 		if ($('.is-invalid').length > 0) {
-			alert('작성 양식을 확인하세요.');
-			return;
+			$('#confirmYourFormDiv').show();
+			return 1;
+		}
+	}
+	// 상영관 등록시
+	$('#registHouseBtn').on('click', function(){
+		let house_name = $('#house_name').val();
+		let house_row = $('#house_row').val();
+		let house_column = $('#house_column').val();
+		let thr_name = '${THR_NAME}';
+		
+		if (checkForm(house_name, house_row, house_column) == 1) {
+			return;	
 		}
 		
 		let data = {
@@ -551,8 +566,9 @@ textarea {
 			contentType : "application/json",
 			success : function(data){
 				console.log(data);
-				addHouseRow(data.house_name, data.house_row, data.house_column);
+				addHouseRow(data.house_name, data.house_row, data.house_column, data.house_no);
 				alert("상영관이 추가되었습니다.");
+				$('#cancelModalBtn').click();
 			},
 			error : function(err){
 				console.log(err);
@@ -560,26 +576,94 @@ textarea {
 		});
 	});
 	
-	function addHouseRow(hn, hr, hc){
-		$('tbody.list').append('<tr><td>'+hn+'</td><td>'+hr+'</td><td>'+hc+'</td></tr>')
+	// 상영관 수정시
+		$('#modifyHouseBtn').on('click', function(){
+		let house_no = $('#house_no').val();
+		let house_name = $('#house_name').val();
+		let house_row = $('#house_row').val();
+		let house_column = $('#house_column').val();
+		let thr_name = '${THR_NAME}';
+		
+		if (checkForm(house_name, house_row, house_column) == 1) {
+			return;	
+		}
+		
+		let data = {
+				"house_no" : house_no,
+				"thr_name" : thr_name,
+				"house_name" : house_name,
+				"house_row" : house_row,
+				"house_column" : house_column
+		};
+		
+		$.ajax({
+			url : "<%=request.getContextPath()%>/thrAdmin/theaterAdminModifyHouse",
+			type : "post",
+			data : JSON.stringify(data),
+			contentType : "application/json",
+			success : function(data){
+				console.log(data);
+				modifyHouseRow(data.house_name, data.house_row, data.house_column, data.house_no);
+				alert("상영관이 수정되었습니다.");
+				$('#cancelModalBtn').click();
+			},
+			error : function(err){
+				console.log(err);
+			}
+		});
+	});
+	
+	
+	// 상영관등록모달 취소버튼 클릭시
+	$('#cancelModalBtn').on('click', function(){
+		
+		$('input.is-invalid').removeClass('is-invalid');
+		$('.houseForm input').val('');
+		$('#confirmYourFormDiv').hide();
+	});
+	
+	// 추가된 상영관 바로 preview
+	function addHouseRow(hnm, hr, hc, hno){
+		
+		$('tbody.list').append('<tr class="list0"><td><input type="hidden" class="house_no" value="'+hno+'">'
+												  +   '<a class="house_name" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">'+hnm+'</a></td>'
+												  +'<td class="house_row">'+hr+'</td>'
+												  +'<td class="house_column">'+hc+'</td></tr>');
 	}
 	
+	// 수정된 상영관 바로 preview
+	function modifyHouseRow(hnm, hr, hc, hno){
+		
+		let houseTr = $('input[value='+hno+']').closest('.list0');
+		houseTr.find('.house_name').text(hnm);
+		houseTr.find('.house_row').text(hr);
+		houseTr.find('.house_column').text(hc);
+	}
+	
+	// 상영관 등록버튼 클릭시
 	$('#registModalBtn').on('click', function(){
-		$('input.is-invalid').removeClass('is-invalid');
+		
 		$('#registHouseBtn').show();
 		$('#modifyHouseBtn').hide();
-	})
+		
+	});
 	
-	$('.house_name').on('click',function(){
+	// 상영관 수정버튼 클릭시
+	$(document).on('click', '.house_name',function(){
+		
+		let house_no = $(this).closest('.list0').find('.house_no').val();
 		let house_name = $(this).text();
 		let house_row = $(this).closest('.list0').find('.house_row').text();
 		let house_column = $(this).closest('.list0').find('.house_column').text();
 		
+		$('#house_no').val(house_no);
 		$('#house_name').val(house_name);
 		$('#house_row').val(house_row);
 		$('#house_column').val(house_column);
+		
 		$('#registHouseBtn').hide();
 		$('#modifyHouseBtn').show();
+		
 	});
 	
 </script>

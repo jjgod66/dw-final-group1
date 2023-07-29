@@ -13,9 +13,14 @@ import org.springframework.stereotype.Service;
 import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.ThrAdminDAO;
+import kr.or.dw.vo.AdminVO;
+import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.ClickMovieInfoVO;
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.HouseVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.NoticeVO;
+import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.ScreenVO;
 import kr.or.dw.vo.TheaterVO;
 
@@ -149,6 +154,80 @@ public class ThrAdminServiceImpl implements ThrAdminService {
 	@Override
 	public HouseVO selectHouseByHouse_no(int house_no) throws SQLException {
 		return thrAdminDAO.selectHouseByHouse_no(house_no);
+	}
+
+	@Override
+	public void modifyHouse(HouseVO house) throws SQLException {
+		thrAdminDAO.updateHouse(house);
+	}
+
+	@Override
+	public Map<String, Object> selectNoticeList(SearchCriteria cri) throws SQLException {
+		List<NoticeVO> noticeList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum(); 
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		noticeList = thrAdminDAO.selectNoticeList(cri, rowBounds);
+		
+		int totalCount = thrAdminDAO.selectSearchNoticeListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("noticeList", noticeList);
+		dataMap.put("pageMaker", pageMaker);
+		return dataMap;
+	}
+
+	@Override
+	public void registNotice(NoticeVO notice) throws SQLException {
+		Map<String, Object> thr = thrAdminDAO.selectThrByAdmin_cd(notice.getAdmin_cd());
+		String thr_name = (String) thr.get("THR_NAME");
+		notice.setNotice_thr(thr_name);
+		thrAdminDAO.insertNotice(notice);
+	}
+
+	@Override
+	public Map<String, Object> selectQnaList(SearchCriteria cri) throws SQLException {
+		List<QnaVO> qnaList = null;
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum(); 
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		qnaList = thrAdminDAO.selectQnaList(cri, rowBounds);
+		
+		int totalCount = thrAdminDAO.selectSearchQnaListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("qnaList", qnaList);
+		dataMap.put("pageMaker", pageMaker);
+		return dataMap;
+	}
+
+	@Override
+	public void registAns(AnswerVO ans) throws SQLException {
+		thrAdminDAO.insertAns(ans);
+	}
+
+	@Override
+	public Map<String, Object> selectEventList(SearchCriteria cri) throws SQLException {
+		List<EventVO> eventList = null;
+		eventList = thrAdminDAO.selectEventList(cri);
+		
+		int totalCount = thrAdminDAO.selectSearchEventListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("eventList", eventList);
+		dataMap.put("pageMaker", pageMaker);
+		return dataMap;
 	}
 
 
