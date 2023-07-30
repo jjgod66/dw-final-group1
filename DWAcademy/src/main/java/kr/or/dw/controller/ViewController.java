@@ -177,6 +177,13 @@ public class ViewController {
 	public String supportTest3() {
 		return "/support/test3"; 
 	}
+	@GetMapping("/support/test4")
+	public String supportTest4() {
+		return "/support/test4"; 
+	}
+	
+//	여기부터시작 
+	
 	@GetMapping("/support/main")
 	public String supportMain() {
 		return "/support/main"; 
@@ -201,6 +208,26 @@ public class ViewController {
 	@GetMapping("/support/inquiry")
 	public String supportin() {
 		String url = "/support/inquiry";
+		return url;
+	}
+	@GetMapping("/support/inquiry_nonMember")
+	public String supportinNon() {
+		String url = "/support/inquiry_nonMember";
+		return url;
+	}
+	@GetMapping("/support/inquiry_nonMember_list")
+	public String supportinNonList() {
+		String url = "/support/inquiry_nonMember_list";
+		return url;
+	}
+	@GetMapping("/support/inquiry_nonMember_list_login_result")
+	public String supportinNonListResult() {
+		String url = "/support/inquiry_nonMember_list_login_result";
+		return url;
+	}
+	@GetMapping("/support/agreeUse")
+	public String supportAgreeUse() {
+		String url = "/support/agreeUse";
 		return url;
 	}
 

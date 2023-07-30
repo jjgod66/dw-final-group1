@@ -47,6 +47,14 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
             border-radius: 99px;
             cursor: pointer;
         }
+        .btn1 {
+            background-color: #ffc9c9;
+            color: #636363;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 99px;
+            cursor: pointer;
+        }
 
         .btn-primary {
             background-color: #007bff;
@@ -64,6 +72,12 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
 	  width:60%;
 }
 	textarea {background:#f8f9fa; border-color: lightgray; }
+	
+
+    .btn1:hover{
+        background-color: #ffa8a8;
+        color: #757575;
+    }
 </style>
  
  <div class="sub_visual">
@@ -139,13 +153,17 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
         <div class="mb-3">
             <input type="password" class="" id="password" placeholder="비밀번호를 입력하세요">
         </div>
-
-        <button type="submit" class="btn ">등록</button>
+        <button type="" class="btn1 btn-secondary" onclick="goBack();">뒤로가기</button>
+        <button type="" class="btn btn-secondary">등록</button>
         <br><br><br>
     </div>
 </div>
 
-
+<script>
+function goBack() {
+	window.history.back();
+}
+</script>
 
 
 
