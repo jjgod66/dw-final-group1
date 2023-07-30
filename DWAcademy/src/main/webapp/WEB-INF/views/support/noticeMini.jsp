@@ -193,7 +193,11 @@ td a {color: inherit;}
 								<a href="#" class="text-gray-700 px-6 py-3 flex items-center" style="color: inherit;">1주년 기념 행사!!</a>
 							</td>
 							<td class="border-dashed border-t border-gray-200 gender">
-								<a href="#" class="text-gray-700 px-6 py-3 flex items-center" style="color: inherit;">2023년 7월 27일</a>
+								<span class="text-gray-700 px-6 py-3 flex items-center">
+									<input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
+							      	<label for="modal-btn">2023년 7월 27일 </label> 	
+							      	<%@ include file="noticeModal.jsp" %>	
+								</span>
 							</td>
 						</tr>
 						<tr>

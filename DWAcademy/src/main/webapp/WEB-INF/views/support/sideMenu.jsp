@@ -140,7 +140,7 @@ top:100px;
                 </a>
             </li>
             <li class="list2">
-                <a href="#">
+                <a href="<%=request.getContextPath()%>/support/inquiry_nonMember.do">
                     <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
                     <span class="title">비회원 문의내역</span>
                 </a>
@@ -164,7 +164,7 @@ top:100px;
                 </a>
             </li>
             <li class="list2">
-                <a href="#">
+                <a href="<%=request.getContextPath()%>/support/agreeUse.do">
                     <span class="icon"><ion-icon name="help-outline"></ion-icon></span>
                     <span class="title">이용약관</span>
                 </a>
@@ -222,6 +222,10 @@ top:100px;
         	  const faq = 'http://localhost/support/faq.do';
         	  const notice = 'http://localhost/support/notice.do';
         	  const inquiry = 'http://localhost/support/inquiry.do';
+        	  const inquiryNon = 'http://localhost/support/inquiry_nonMember.do';
+        	  const inquiryNon1 = 'http://localhost/support/inquiry_nonMember_list.do';
+        	  const inquiryNon2 = 'http://localhost/support/inquiry_nonMember_list_login_result.do';
+        	  const agreeUse = 'http://localhost/support/agreeUse.do';
         	  if (currentURL === faq) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[2].classList.add('active1'); 
@@ -233,6 +237,22 @@ top:100px;
         	  if (currentURL === inquiry) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[3].classList.add('active1'); 
+        	  }
+        	  if (currentURL === inquiryNon) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[1].classList.add('active1'); 
+        	  }
+        	  if (currentURL === inquiryNon1) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[1].classList.add('active1'); 
+        	  }
+        	  if (currentURL === inquiryNon2) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[1].classList.add('active1'); 
+        	  }
+        	  if (currentURL === agreeUse) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[5].classList.add('active1'); 
         	  }
         	});
     

@@ -139,6 +139,20 @@ margin-right: auto;
     justify-content: center;
     align-items: center;
     width: 43px;}
+    
+    .finder__icon:after {
+    width: 10px;
+    height: 10px;
+    background-color: #292929;
+    border: 3px solid #f6f5f0;
+    top: 50%;
+    position: absolute;
+    transform: translateY(-50%);
+    left: 0px;
+    right: 0;
+    margin: auto;
+    border-radius: 50%;
+}
 </style>
 <div class="sub_visual">
     <h3>자주 묻는 질문</h3>
@@ -162,6 +176,18 @@ margin-right: auto;
 	    <li><a href="#">홈페이지/모바일</a></li>
 	  </ul>
 	</nav>
+	
+	<!-- rja검색기능  -->
+	 <div class="finder" style="margin-right: 70px;">
+      <div class="finder__outer">
+        <div class="finder__inner">
+          <div class="finder__icon" ref="icon"></div>
+          <input class="finder__input" type="text" name="q" />
+        </div>
+      </div>
+    </div>
+	
+	
 	<ul class="faq_list" id="faqAllBox">
 					<li>
 						<div class="q">
