@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../include/member_header.jsp" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
 h2.tit {
     padding: 0 0 26px 0;
@@ -273,7 +274,7 @@ h3.tit {
 							<option value="202208">2022년 8월</option>
 						</select>
 					</div>
-					<button type="button" class="button gray-line small ml05" name="search">
+					<button type="button" id="selYMSearchBtn" class="button gray-line small ml05" name="search">
 						<i class="iconset ico-search-gray"></i> 조회 
 					</button>
 				</td>
@@ -281,6 +282,7 @@ h3.tit {
 		</tbody>
 	</table>
 </div>
+	<div class="container" id="myMovie">
 <div>총 ${fn:length(movieInfo)}건</div>
 <c:if test="">
 	<div id="bokdList"><div class="no-history-reservation mt20">예매 내역이 없습니다.</div></div>
@@ -288,7 +290,7 @@ h3.tit {
 	<c:forEach items="${movieInfo}" var="movieInfo">
 	<div class="container">
 		<div class="card-body row" style="padding-rigth: 0; border: 1px solid #503396">
-			<div class="col-3" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat center /cover"></div>
+			<div class="col-2" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
 			<div class="col-5">
 				<span><strong>예매번호 </strong>${movieInfo.MERCHANT_UID}</span>
 				<br><br>
@@ -318,7 +320,81 @@ h3.tit {
 	</div>
 	<br>
 	</c:forEach>
+</div>
+</section>
 
+<!-- 구매 내역 시작 -->
+<section id="myPurcArea"  class="content-section" style="display: block">
+<div class="board-list-search mt20">
+	<table summary="구매 조회 조건">
+		<colgroup>
+			<col style="width:75px;">
+			<col>
+		</colgroup>
+		<tbody>
+			<tr>
+				<th scope="row">구분 </th>
+				<td>
+					<div class="dropdown bootstrap-select disabled small bs3">
+						<select name="buyYM" class="selectpicker small" tabindex="-98">
+							<option value="202307">2023년 7월</option>
+							<option value="202306">2023년 6월</option>
+							<option value="202305">2023년 5월</option>									
+							<option value="202304">2023년 4월</option>
+							<option value="202303">2023년 3월</option>
+							<option value="202302">2023년 2월</option>
+							<option value="202301">2023년 1월</option>
+							<option value="202212">2022년 12월</option>
+							<option value="202211">2022년 11월</option>
+							<option value="202210">2022년 10월</option>
+							<option value="202209">2022년 9월</option>
+							<option value="202208">2022년 8월</option>
+						</select>
+					</div>
+					<button type="button" id="buyYMSearchBtn" class="button gray-line small ml05" name="search">
+						<i class="iconset ico-search-gray"></i> 조회 
+					</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="container" id="myBuy">
+<div>총 ${fn:length(memBuyInfo)}건</div>
+<c:if test="">
+	<div id="buyList"><div class="no-history-reservation mt20">구매 내역이 없습니다.</div></div>
+</c:if>
+<c:forEach items="${memBuyInfo}" var="buyInfo">
+	<div class="container">
+		<div class="card-body" style="padding-rigth: 0; border-top: 1px solid #503396">
+			<table style="width : 100%;">
+				<tr>
+					<th style="width : 20%; text-align : center;">결제일시</th>
+					<th style="width : 10%; text-align : center;">구분</th>
+					<th style="text-align : center;">상품명</th>
+					<th style="width : 10%; text-align : center;">결제금액</th>
+					<th style="width : 10%; text-align : center;">상태</th>
+				</tr>
+				<tr>
+					<td style="width : 20%; text-align : center;"><fmt:formatDate value="${buyInfo.buydate}"/></td>
+					<td style="width : 10%; text-align : center;">${buyInfo.product_div}</td>
+					<td style="text-align : center;">${buyInfo.product_name}</td>
+					<td style="width : 10%; text-align : center;">${buyInfo.product_price}원</td>
+					<c:if test="${buyInfo.gb_use eq 'N'}">
+						<td style="width : 10%; text-align : center;">사용가능</td>
+					</c:if>
+					<c:if test="${buyInfo.gb_use eq 'Y'}">
+						<td style="width : 10%; text-align : center;">사용완료</td>
+					</c:if>
+					<c:if test="${buyInfo.refunddate ne null}">
+						<td style="width : 10%; text-align : center;">결제취소</td>
+					</c:if>
+				</tr>
+			</table>
+		</div>
+	</div>
+	</c:forEach>
+</div>
 </section>
 <script>
 $(document).ready(function () {
@@ -354,31 +430,83 @@ $(document).ready(function () {
 		var hash = window.location.hash;
 		$(".content-section").hide();
 		$(hash).show();
-	}
+	};
 	$('#radBokd02').on('click', function(){
 		$('select[name=selYM]').attr("disabled" ,false);
 	});
 	$('#radBokd01').on('click', function(){
 		$('select[name=selYM]').attr("disabled" ,true);
-		
-	})
-// 	$('button[name=search]').on('click', function(){
-// 		if($('select[name=selYM]').disabled(true))){
-// 			let val = $('select[name=selYM]').val();
-// 			$.ajax({
-<%-- 				url : "<%=request.getContextPath()%>/member/searchResDate.do", --%>
-// 				method : "post",
-// 				data : val,
-// 				success : function(res){
-// 					alert(res);
-// 				},
-// 				error : function(err){
-// 					alert(err.status);
-// 				}
-// 			}
-// 		})	
-// 	});
+		location.reload();
+	});
+	$('#selYMSearchBtn').on('click', function(){
+		let contextPath = "<%=request.getContextPath()%>";
+		if($('select[name=selYM]').attr("disabled") != "disabled"){
+			let searchVal = $('select[name=selYM]').val();
+			$.ajax({
+				url : "<%=request.getContextPath()%>/member/searchResDate.do",
+				method : "post",
+				data : {searchVal : searchVal},
+				success : function(res){
+					$('#myMovie').html('');
+					$('#myMovie').append('<div>총 '+ res.length + '건</div>');
+					let str = "";
+					for(let i = 0; i < res.length; i++){
+					console.log(res[i].MOVIE_MAINPIC_PATH);
+						str = "";
+						str +=    '<div class="card-body row" style="padding-rigth: 0; border: 1px solid #503396">'
+								+ '<div class="col-2" style="background: url('+ "'"+contextPath+'/sysAdmin/getPicture.do?name=' + res[i].MOVIE_MAINPIC_PATH + '&item_cd=' + res[i].MOVIE_CD + '&type=moviePoster' + "')" + 'no-repeat left /cover"></div>'
+								+ '<div class="col-5">'
+								+	'<span><strong>예매번호 </strong>' + res[i].MERCHANT_UID + '</span>'
+								+	'<br><br>'
+								+	'<span><strong>영화명 </strong>' + res[i].MOVIE_NAME + '</span>'
+								+	'<br><br>'
+								+	'<span><strong>극장/상영관 </strong>' + res[i].THR_NAME + '/' + res[i].HOUSE_NAME + '</span>'
+								+	'<br><br>'
+								+	'<span><strong>관람일시 </strong>' + moment(res[i].STARTDATE).format("YYYY-MM-DD HH:mm:ss") + '</span>'
+								+	'<br><br>'
+								+	'<span><strong>결제일시 </strong>' + moment(res[i].RESDATE).format("YYYY-MM-DD HH:mm:ss") + '</span>'
+								+ '</div>'
+								+ '<div class="col-4 ">'
+								+	'<br><br>'
+								+	'<br><br>'
+								+	'<span><strong>관람인원 </strong>' + res[i].MEM_CAT + '</span>'
+								+	'<br><br>'
+								+	'<span><strong>관람좌석 </strong>' + res[i].RES_SEAT + '</span>'
+								+	'<br><br>'
+								if(res[i].REFUNDDATE == null){
+									str += '<span><strong>취소일시 </strong> - </span>'
+								}
+								if(res[i].REFUNDDATE != null){
+									str += '<span><strong>취소일시 </strong>' +  res[i].REFUNDDATE + '</span>'
+								}
+							+	'</div>'
+						+	'</div>'
+						+ '</div>'
+						+ '<br>';
+						$('#myMovie').append(str);
+					};
+				},
+				error : function(err){
+					console.log(err.status);
+				}
+			})
+		}
+	});
 	
+	$('#buyYMSearchBtn').on('click', function(){
+		let searchVal = $('select[name=buyYM]').val();
+		$.ajax({
+			url : "<%=request.getContextPath()%>/member/searchBuyDate.do",
+			method : "post",
+			data : {searchVal : searchVal},
+			success : function(res){
+				console.log(res);
+			},
+			error : function(err){
+				console.log(err);
+			}
+		})
+	});
 });
 </script>
 <%@ include file="../include/member_footer.jsp" %>

@@ -294,4 +294,12 @@ public interface MovieService {
 	 */
 	List<Map<String, Object>> getMpostTop5Movie() throws SQLException;
 
+	/**
+	 * 예매 내역조회
+	 * @param mem_cd
+	 * @param searchVal
+	 * @return
+	 */
+	List<Map<String, Object>> searchMovieInfo(String mem_cd, String searchVal) throws SQLException;
+
 }

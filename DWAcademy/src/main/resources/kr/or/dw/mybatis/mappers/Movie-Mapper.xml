@@ -474,6 +474,32 @@
 	   AND p.merchant_uid = r.merchant_uid
 	 GROUP BY r.merchant_uid
 	</select>
+	
+	<select id="searchMovieInfo" resultType="Map">
+		SELECT r.MERCHANT_UID
+		  ,LISTAGG(r.MEM_CAT , ', ') WITHIN GROUP(ORDER BY r.mem_cat) mem_cat
+		  ,LISTAGG(r.RES_SEAT , ', ') WITHIN GROUP(ORDER BY RES_SEAT)  res_seat
+		  ,MAX(startdate) startdate
+		  ,MAX(RESDATE) RESDATE
+		  ,MAX(h.house_name) house_name
+		  ,MAX(h.thr_name) thr_name
+		  ,MAX(REFUNDDATE) REFUNDDATE
+		  ,MAX(m.movie_name) movie_name
+		  ,MAX(m.movie_cd) movie_cd
+		  ,MAX(m.movie_mainpic_path) movie_mainpic_path
+	  FROM RESERVATION r
+	  	  ,screen s
+	  	  ,movie m
+	  	  ,house h
+	  	  ,PAY_DETAIL p
+	 WHERE r.mem_cd = #{mem_cd}
+	   AND TO_CHAR(startdate, 'YYYYMM') like #{searchVal}
+	   AND s.screen_cd = r.screen_cd 
+	   AND s.movie_cd = m.movie_cd
+	   AND h.house_no = s.house_no
+	   AND p.merchant_uid = r.merchant_uid
+	 GROUP BY r.merchant_uid
+	</select>
 
 	<insert id="insertMoviePost">
 		INSERT INTO moviepost (mpost_no, mem_cd, movie_cd, movie_pic_no, mpost_content, gb_del, regdate)

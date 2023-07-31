@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import kr.or.dw.command.SearchCriteria;
@@ -429,6 +430,14 @@ public interface MovieDAO {
 	 * @return
 	 */
 	List<Map<String, Object>> selectMpostTop5() throws SQLException;
+
+	/**
+	 * 예매 내역 조회
+	 * @param mem_cd
+	 * @param searchVal
+	 * @return
+	 */
+	List<Map<String, Object>> searchMovieInfo(@Param("mem_cd") String mem_cd, @Param("searchVal")String searchVal) throws SQLException;
 
 
 }

@@ -23,14 +23,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.dao.MovieDAO;
+import kr.or.dw.service.CouponService;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.service.NaverLoginBO;
 import kr.or.dw.service.NaverLoginBO2;
 import kr.or.dw.service.SnsService;
+import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.SnsVO;
 
 @Controller
@@ -46,6 +49,10 @@ public class MemberController {
 	
 	@Autowired
 	private MovieService movieService;
+	
+	@Autowired
+	private CouponService couponService;
+	
 	
 	/* NaverLoginBO */
 	private NaverLoginBO2 naverLoginBO2;
@@ -174,13 +181,83 @@ public class MemberController {
 		if(member != null) {
 		
 			List<Map<String, Object>> movieInfo = movieService.selectMovieInfo(mem_cd);
-		
+			List<ProductVO> memberBuyInfo = memberService.selectBuyInfo(mem_cd);
+			mnv.addObject("memBuyInfo", memberBuyInfo);
 			mnv.addObject("movieInfo", movieInfo);
+			
+			System.out.println(memberBuyInfo);
 			System.out.println(movieInfo.size());
 			System.out.println(movieInfo);
 		}
 		
 		
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/member/searchResDate")
+	public ResponseEntity<List<Map<String, Object>>> searchResDate(String searchVal, HttpSession session) throws SQLException{
+		ResponseEntity<List<Map<String, Object>>> entity = null;
+		
+		System.out.println(searchVal);
+		try {
+		
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		String mem_cd = member.getMem_cd();
+			List<Map<String, Object>> searchMovieInfo = null;
+		if(member != null) {
+		
+			searchMovieInfo = movieService.searchMovieInfo(mem_cd, searchVal);
+		
+			System.out.println(searchMovieInfo.size());
+			System.out.println(searchMovieInfo);
+		
+		}
+			entity = new ResponseEntity<List<Map<String, Object>>>(searchMovieInfo, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<Map<String, Object>>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	@RequestMapping("/member/searchBuyDate")
+	public ResponseEntity<List<Map<String, Object>>> searchBuyDate(String searchVal, HttpSession session) throws SQLException{
+		ResponseEntity<List<Map<String, Object>>> entity = null;
+		
+		System.out.println(searchVal);
+		try {
+			
+			MemberVO member = (MemberVO) session.getAttribute("loginUser");
+			String mem_cd = member.getMem_cd();
+			List<Map<String, Object>> searchBuyInfo = null;
+			if(member != null) {
+				
+				searchBuyInfo = memberService.searchBuyInfo(mem_cd, searchVal);
+				
+				System.out.println(searchBuyInfo.size());
+				System.out.println(searchBuyInfo);
+				
+			}
+			entity = new ResponseEntity<List<Map<String, Object>>>(searchBuyInfo, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<Map<String, Object>>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/member/discount-coupon")
+	public ModelAndView memberDiscountcoupon(ModelAndView mnv, HttpSession session) {
+		String url = "/member/discount-coupon";
+		
+		String mem_cd = (String) session.getAttribute("loginUser");
+		
+		CouponVO coupon = couponService.selectCoupon(mem_cd);
+		
+		mnv.addObject("coupon", coupon);
 		mnv.setViewName(url);
 		
 		return mnv;
