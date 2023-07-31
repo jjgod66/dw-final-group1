@@ -62,6 +62,7 @@ h2.tit {
     color: #01738b;
     text-decoration: underline;
 }.terms-content .pull-left a {
+	
     text-decoration: none;
 }a:link {
     color: #444;
@@ -475,7 +476,7 @@ $(function() {
 		if(value != '') {
 			var obj = {
 		 		url: '/on/oh/ohi/CustCen/agreeList.do',
-		 		data: { clauVer: value, clauDivCd: 'CLU01' },
+		 		data: { clauVer: value, clauDivCd: 'CLU12' },
 		 		success: fn_agreeListComplete
 		 	}
 
@@ -489,58 +490,98 @@ $(function() {
 });
 
 
-
-
+ // 조항 목록 html
 function fn_makeHtmlTermsTitle(flag) {
-   	var htmlTxt = "";
-   	var termTitle ="";
-		var termTitleNm = "";
+	var htmlTxt = "";
+	var termTitle ="";
+	var termTitleNm = "";
 
-		if(flag == 'Main'){
+	if(flag == 'Main'){
 
-			 $('#footer_terms>div>dl>dt').each(function(i,v) {
-				termTitle = $('#footer_terms>div>dl>dt').eq(i).text();
+		 $('#footer_terms>div>dl>dt').each(function(i,v) {
+			termTitle = $('#footer_terms>div>dl>dt').eq(i).text();
+			termTitleNm = termTitle.replace('조.','조.</strong>');
+			termTitleNm = termTitleNm.replace('(','');
+			termTitleNm = termTitleNm.replace(')','');
+
+			htmlTxt += ' <li><a ';
+    		if(i == 0) htmlTxt += 'class="on" ';
+    		htmlTxt += 'href="javascript:void(0);" title="'+ termTitle +' 보기">';
+    		htmlTxt +='<strong>'+ termTitleNm;
+    		htmlTxt +='</a></li>';
+
+    		if(i < 14){
+    		  	$('#titleLeft').html(htmlTxt);
+    		  	if(i == 13) htmlTxt = "";
+    		}else{
+    			$('#titleRight').html(htmlTxt);
+    		}
+
+    	});
+
+	}else{
+
+		$('#footer_terms01>div>dl>dt').each(function(i,v) {
+				termTitle = $('#footer_terms01>div>dl>dt').eq(i).text();
 				termTitleNm = termTitle.replace('조.','조.</strong>');
-				termTitleNm = termTitleNm.replace('(','');
-				termTitleNm = termTitleNm.replace(')','');
 
-				htmlTxt += ' <li><a ';
-	    		if(i == 0) htmlTxt += 'class="on" ';=
+	    		htmlTxt += '<li><a ';
+	    		if(i == 0) htmlTxt += 'class="on" ';
 	    		htmlTxt += 'href="javascript:void(0);" title="'+ termTitle +' 보기">';
 	    		htmlTxt +='<strong>'+ termTitleNm;
 	    		htmlTxt +='</a></li>';
 
-	    		if(i < 14){
-	    		  	$('#titleLeft').html(htmlTxt);
-	    		  	if(i == 13) htmlTxt = "";
+	    		if(i < 15){
+	    		  	$('#prevTitleLeft').html(htmlTxt);
+	    		  	if(i == 14) htmlTxt = "";
 	    		}else{
-	    			$('#titleRight').html(htmlTxt);
+	    			$('#prevTitleRight').html(htmlTxt);
 	    		}
 
 	    	});
 
-		}else{
-
-			$('#footer_terms01>div>dl>dt').each(function(i,v) {
-					termTitle = $('#footer_terms01>div>dl>dt').eq(i).text();
-					termTitleNm = termTitle.replace('조.','조.</strong>');
-
-		    		htmlTxt += '<li><a ';
-		    		if(i == 0) htmlTxt += 'class="on" ';
-		    		htmlTxt += 'href="javascript:void(0);" title="'+ termTitle +' 보기">';
-		    		htmlTxt +='<strong>'+ termTitleNm;
-		    		htmlTxt +='</a></li>';
-
-		    		if(i < 15){
-		    		  	$('#prevTitleLeft').html(htmlTxt);
-		    		  	if(i == 14) htmlTxt = "";
-		    		}else{
-		    			$('#prevTitleRight').html(htmlTxt);
-		    		}
-
-		    	});
-
-		}
 	}
+}
+
+// 이전 이용약관 조회
+function fn_agreeListComplete(data) {
+	var html = '';
+
+	$.each(data.list, function(i, v) {
+		html += v.clauCn;
+	});
+
+	$('#footer_terms01').html(html);
+	$('#footer_terms01').html($.parseHTML($('#footer_terms01').text()));
+	$('.btn-layer-open').click();
+
+	fn_makeHtmlTermsTitle('layer'); //조항 title 그리기
+	fn_bindMouseEvent();
+}
+
+// 레이어 팝업 바로가기
+function fn_bindMouseEvent() {
+	$('.agreeType2 a').off();
+	$('.agreeType2 a').click(function(e) {
+		e.preventDefault();
+
+		$('#footer_terms01').focus();
+		$('.agreeType2 a.on').removeClass('on');
+		$(this).addClass('on');
+
+		var idx = (Number($(this).parents('ul').index()) * 14) + $(this).parent().index();
+
+		if ($('#footer_terms01>dl>dt').length > 0) {
+			var obj = $('#footer_terms01>dl>dt');
+		} else {
+			var obj = $('#footer_terms01>div>dl>dt');
+		}
+
+		var top = $('#footer_terms01').position().top + obj.eq(idx).position().top;
+
+		$('.layer-con').animate({ scrollTop: top + 450 });
+	});
+}
+
 </script>
 <%@ include file="../include/footer.jsp" %>

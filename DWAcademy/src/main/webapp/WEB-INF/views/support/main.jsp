@@ -460,7 +460,7 @@ button {
 	        <h2>1:1 문의</h2>
 	        <p>해결되지 않은 문제가 있나요? 바로 1:1 문의해주세요!</p>
 	      </a>
-	      <a href="#">
+	      <a href="<%=request.getContextPath()%>/support/agreeUse.do">
 	        <img src="/resources/img/dldyd.png" alt="이미지 3">
 	        <h2>이용약관</h2>
 	        <p>DW시네마의 이용약관을 확인 하실수 있습니다.</p>
