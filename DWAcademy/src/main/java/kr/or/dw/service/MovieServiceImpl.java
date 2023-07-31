@@ -617,5 +617,11 @@ public class MovieServiceImpl implements MovieService{
 		return mpTopMovie;
 	}
 
+	@Override
+	public List<Map<String, Object>> searchMovieInfo(String mem_cd, String searchVal) throws SQLException {
+		return movieDAO.searchMovieInfo(mem_cd, searchVal);
+	}
+
+
 
 }

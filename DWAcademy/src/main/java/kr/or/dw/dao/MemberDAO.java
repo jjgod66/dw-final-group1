@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.SnsVO;
 
 @Mapper
@@ -51,5 +52,11 @@ public interface MemberDAO {
 
 	//회원 정지계정 해제 전환 
 	void updateMemUnban() throws SQLException;
+
+	// 회원 구매 내역
+	List<ProductVO> selectBuyInfo(String mem_cd) throws SQLException;
+
+	// 회원 구매 내역 월 단위 조회
+	List<Map<String, Object>> searchBuyInfo(String mem_cd, String searchVal) throws SQLException;
 
 }

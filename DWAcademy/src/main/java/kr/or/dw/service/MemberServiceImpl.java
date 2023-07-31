@@ -4,10 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.or.dw.dao.MemberDAO;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.SnsVO;
 
 public class MemberServiceImpl implements MemberService{
@@ -77,6 +79,16 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void unbanMember() throws SQLException {
 		memberDAO.updateMemUnban();
+	}
+
+	@Override
+	public List<ProductVO> selectBuyInfo(String mem_cd) throws SQLException {
+		return memberDAO.selectBuyInfo(mem_cd);
+	}
+
+	@Override
+	public List<Map<String, Object>> searchBuyInfo(@Param("mem_cd")String mem_cd, @Param("searchVal")String searchVal) throws SQLException {
+		return memberDAO.searchBuyInfo(mem_cd, searchVal);
 	}
 
 }
