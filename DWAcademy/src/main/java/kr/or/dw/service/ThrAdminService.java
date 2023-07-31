@@ -1,6 +1,7 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +79,15 @@ public interface ThrAdminService {
 
 	// 해당 극장에서 진행중인 이벤트 목록 조회
 	Map<String, Object> selectEventList(SearchCriteria cri) throws SQLException;
+	
+	// 지난 이벤트 게시글 목록 불러오기
+	Map<String, Object> selectEventListforPast(SearchCriteria cri) throws SQLException;
+
+	// 상영시간표에 등록가능한 영화목록을 불러온다.
+	List<Map<String, Object>> selectMovieListforMovieMain(Date date) throws SQLException;
+
+	// 상영시간표에 등록된 영화목록을 불러온다.
+	List<Map<String, Object>> selectScreenListforMovieMain(Map<String, Object> data) throws SQLException;
 
 
 }

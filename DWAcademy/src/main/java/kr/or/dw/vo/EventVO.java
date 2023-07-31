@@ -22,4 +22,5 @@ public class EventVO {
 	private String event_thum_path;
 	private String winner_content;
 	private String winnerdate;
+	private String movie_name;
 }

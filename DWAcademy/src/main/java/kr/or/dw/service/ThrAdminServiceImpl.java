@@ -1,6 +1,7 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -228,6 +229,37 @@ public class ThrAdminServiceImpl implements ThrAdminService {
 		dataMap.put("eventList", eventList);
 		dataMap.put("pageMaker", pageMaker);
 		return dataMap;
+	}
+
+	@Override
+	public Map<String, Object> selectEventListforPast(SearchCriteria cri) throws SQLException {
+		List<EventVO> eventList = null;
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum(); 
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		eventList = thrAdminDAO.selectEventListforPast(cri, rowBounds);
+		
+		int totalCount = thrAdminDAO.selectEventListforPastCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		
+		Map<String, Object> dataMap = new HashMap<>();
+		dataMap.put("eventList", eventList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		return dataMap;
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMovieListforMovieMain(Date date) throws SQLException {
+		return thrAdminDAO.selectMovieListforMovieMain(date);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectScreenListforMovieMain(Map data) throws SQLException {
+		return thrAdminDAO.selectScreenListforMovieMain(data);
 	}
 
 

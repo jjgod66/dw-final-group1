@@ -46,6 +46,12 @@
 			)
 	</sql>
 	
+	<sql id="searchPastEvent">
+		AND (
+			event_title LIKE '%' || #{keyword} || '%'
+			)
+	</sql>
+	
 	<select id="selectAllScreens" resultType="movie">
 		SELECT *
 		FROM movie
@@ -324,7 +330,7 @@
 	<select id="selectEventList" resultType="event">
 		SELECT e.* 
  	  	  FROM event e, THEATER t 
- 		 WHERE e.RELATE_CD = t.THR_NAME
+ 		 WHERE e.RELATE_CD = t.ADMIN_CD
 		   AND enddate <![CDATA[>=]]> SYSDATE
 		   AND t.admin_cd = #{adminType}
 		   AND e.event_div = '극장'
@@ -335,10 +341,46 @@
 	<select id="selectSearchEventListCount" resultType="int">
 		SELECT COUNT(*)
  	  	  FROM event e, THEATER t 
- 		 WHERE e.RELATE_CD = t.THR_NAME
+ 		 WHERE e.RELATE_CD = t.ADMIN_CD
 		   AND enddate <![CDATA[>=]]> SYSDATE
 		   AND t.admin_cd = #{adminType}
 		   AND e.event_div = '극장'
 		 <include refid="searchEvent"/>
+	</select>
+	
+	<select id="selectEventListforPast" resultType="event">
+		SELECT *
+		  FROM event e, winner_board w
+		 WHERE enddate <![CDATA[<]]> SYSDATE
+		   AND e.event_no = w.event_no(+)
+		   AND e.relate_cd = #{adminType}
+		 <include refid="searchPastEvent"/>
+	</select>
+	
+	<select id="selectEventListforPastCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM event e, winner_board w
+		 WHERE enddate <![CDATA[<]]> SYSDATE
+		   AND e.event_no = w.event_no(+)
+		   AND e.relate_cd = #{adminType}
+		 <include refid="searchPastEvent"/>
+	</select>
+	
+	<select id="selectMovieListforMovieMain" resultType="map">
+		SELECT *
+		  FROM movie
+		 WHERE opendate <![CDATA[<=]]> #{date}
+		   AND enddate <![CDATA[>=]]> #{date}
+	</select>
+	
+	<select id="selectScreenListforMovieMain" resultType="map">
+		SELECT s.*, m.*
+		  FROM screen s, house h, THEATER t, movie m
+		 WHERE s.HOUSE_NO = h.HOUSE_NO
+		   AND h.THR_NAME = t.THR_NAME
+		   AND s.MOVIE_CD = m.MOVIE_CD 
+		   AND s.STARTDATE <![CDATA[>=]]> TO_DATE(TO_CHAR(sysdate, 'yyyy-MM-dd')) + 8/24
+		   AND s.startdate <![CDATA[<=]]> TO_DATE(TO_CHAR(sysdate, 'yyyy-MM-dd')) + 26/24
+		   AND t.ADMIN_CD = 'T202307090001'
 	</select>
 </mapper>

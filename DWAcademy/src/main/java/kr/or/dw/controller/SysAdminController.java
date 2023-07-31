@@ -769,6 +769,9 @@ public class SysAdminController {
 		}
 		mnv.addObject("type", type);
 		
+		List<Map<String, Object>> movieList = sysAdminService.selectMovieListForEventRegist();
+		mnv.addObject("movieList", movieList);
+		
 		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "진행중인 이벤트", url+".do?"+(event_no == null ? "" : "event_no="+event_no+"&")+"type="+type);
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
@@ -786,6 +789,7 @@ public class SysAdminController {
 		String newContent = registReq.getEvent_content().replace("/sysAdmin/getTempImg.do?fileName="+registReq.getOldFileName() 
 																 ,"/sysAdmin/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
 		
+		// event_content 안에 이미지 경로를 재설정해준다.(temp에서 진짜위치로)
 		Map<String, Object> modifyEventContentMap = new HashMap<>();
 		modifyEventContentMap.put("event_no", event_no);
 		modifyEventContentMap.put("newContent", newContent);
@@ -831,8 +835,15 @@ public class SysAdminController {
 		String eventPicUploadPath = this.eventPicUploadPath;
 		System.out.println(modifyReq);
 		
-		EventVO event = modifyReq.toEventVO();
+		// 새 썸네일 파일이 없다면 event_thum_path 를 null로 설정
+		if (modifyReq.getEvent_thum_path().getSize() == 0) {
+			modifyReq.setEvent_thum_path(null);
+		}
 		
+		EventVO event = modifyReq.toEventVO();
+		System.out.println(event);
+		
+		// 새 썸네일 파일이 있다면
 		if (!modifyReq.getRemoveFileName().equals("")) {
 			event.setEvent_thum_path(modifyReq.getEvent_thum_path().getOriginalFilename());
 		}
@@ -853,7 +864,6 @@ public class SysAdminController {
 		// 이벤트 썸네일 로컬에 저장
 		if (!modifyReq.getRemoveFileName().equals("")) {
 			MultipartFile thumb = modifyReq.getEvent_thum_path();
-			System.out.println("test!!!!");
 			String fileName = thumb.getOriginalFilename();
 			File filePath = new File(eventPicUploadPath + File.separator + event_no + File.separator + "thumb");
 			File[] fileList = filePath.listFiles();
@@ -929,7 +939,7 @@ public class SysAdminController {
 	
 	@RequestMapping("/eventAdminWinnerRegistForm")
 	public ModelAndView eventAdminWinnerRegistForm (ModelAndView mnv, String event_no, String type) throws NumberFormatException, SQLException {
-		String url="/sysAdmin/eventAdminRegist";
+		String url="/sysAdmin/eventAdminRegistWinner";
 		EventVO event = sysAdminService.selectEventByEvent_no(Integer.parseInt(event_no));
 		mnv.addObject("event", event);
 		if (type.equals("create")) {

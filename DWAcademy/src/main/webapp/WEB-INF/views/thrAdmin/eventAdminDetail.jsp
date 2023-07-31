@@ -46,6 +46,10 @@
 textarea:focus {
 	outline: none;
 }
+select[readonly] {
+	background-color: #e9ecef;
+	pointer-events: none;
+}
 </style>
 <div id="wrapper">
 	<div id="content">
@@ -85,9 +89,9 @@ textarea:focus {
 							<div class="col-md-3">
 								<span>이벤트 유형 구분</span>
 								<span>
-									<select name="event_div" class="form-contzrol" disabled>
-										<option value="극장" ${event.event_div eq '극장' ? 'selected' : ''}>극장</option>
+									<select name="event_div" class="form-control" readonly>
 										<option value="영화" ${event.event_div eq '영화' ? 'selected' : ''}>영화</option>
+										<option value="극장" ${event.event_div eq '극장' ? 'selected' : ''}>극장</option>
 										<option value="시사회/무대인사" ${event.event_div eq '시사회/무대인사' ? 'selected' : ''}>시사회/무대인사</option>
 								  	</select>
 								</span>

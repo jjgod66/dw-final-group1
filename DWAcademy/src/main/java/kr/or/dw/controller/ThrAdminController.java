@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -38,6 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonArray;
 
+import kr.or.dw.command.EventModifyCommand;
 import kr.or.dw.command.EventRegistCommand;
 import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
@@ -52,6 +55,7 @@ import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.ScreenVO;
 import kr.or.dw.vo.TheaterVO;
+import kr.or.dw.vo.WinnerBoardVO;
 
 @Controller
 @RequestMapping("/thrAdmin")
@@ -299,7 +303,6 @@ public class ThrAdminController {
 		
 		Map<String, Object> dataMap = thrAdminService.selectEventList(cri);
 		mnv.addAllObjects(dataMap);
-		
 		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "진행중인 이벤트", url+".do");
 		mnv.addAllObjects(subjectMap);
 		
@@ -373,6 +376,200 @@ public class ThrAdminController {
 		out.close();
 	}
 	
+	@RequestMapping("/eventAdminModify")
+	public void eventAdminModify (EventModifyCommand modifyReq, HttpServletRequest req, HttpServletResponse res) throws SQLException, IllegalStateException, IOException {
+		
+		String eventPicUploadPath = this.eventPicUploadPath;
+		
+		// 새 썸네일 파일이 없다면 event_thum_path 를 null로 설정
+		if (modifyReq.getEvent_thum_path().getSize() == 0) {
+			modifyReq.setEvent_thum_path(null);
+		}
+		
+		EventVO event = modifyReq.toEventVO();
+		
+		// 새 썸네일 파일이 있다면
+		if (!modifyReq.getRemoveFileName().equals("")) {
+			event.setEvent_thum_path(modifyReq.getEvent_thum_path().getOriginalFilename());
+		}
+		
+		sysAdminService.modifyEvent(event);
+		
+		int event_no = event.getEvent_no();
+		Map<String, Object> modifyEventContentMap = new HashMap<>();
+		if (modifyReq.getEvent_content().contains("/sysAdmin/getTempImg.do?fileName=")) {
+			String newContent = modifyReq.getEvent_content().replace("/sysAdmin/getTempImg.do?fileName="+modifyReq.getOldFileName() 
+																	,"/sysAdmin/getPicture.do?name="+modifyReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+			modifyEventContentMap.put("event_no", event.getEvent_no());
+			modifyEventContentMap.put("newContent", newContent);
+			sysAdminService.modifyEventContent(modifyEventContentMap);
+		}
+
+		
+		// 이벤트 썸네일 로컬에 저장
+		if (!modifyReq.getRemoveFileName().equals("")) {
+			MultipartFile thumb = modifyReq.getEvent_thum_path();
+			String fileName = thumb.getOriginalFilename();
+			File filePath = new File(eventPicUploadPath + File.separator + event_no + File.separator + "thumb");
+			File[] fileList = filePath.listFiles();
+			for (File file : fileList) {
+				file.delete();
+			}
+			File target = new File(eventPicUploadPath + File.separator + event_no + File.separator + "thumb", fileName);
+			if (!target.exists()) {
+				target.mkdirs();
+			}
+			
+			thumb.transferTo(target);
+		}
+		
+		// 이벤트 이미지 로컬에 저장
+		if (!modifyReq.getEvent_pic_path().equals("")) {
+			String fileName = event.getEvent_pic_path();
+			File newFilePath = new File(eventPicUploadPath + File.separator + event_no + File.separator + "img");
+			File[] fileList = newFilePath.listFiles();
+			for (File file : fileList) {
+				file.delete();
+			}
+			if (!newFilePath.exists()) {
+				newFilePath.mkdirs();
+			}
+			File oldFile = new File(eventPicUploadPath + File.separator + "temp", modifyReq.getOldFileName());
+			boolean renameTo = oldFile.renameTo(new File(newFilePath, fileName));
+		}
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('이벤트 수정이 완료되었습니다.')");
+		out.println("location.href='eventAdminDetail.do?type=read&event_no=" + event_no + "'");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminDelete")
+	public void eventAdminDelete (EventModifyCommand modifyReq, HttpServletResponse res) throws SQLException, IOException {
+		String eventPicUploadPath = this.eventPicUploadPath;
+		
+		int event_no = modifyReq.getEvent_no();
+		sysAdminService.deleteEvent(event_no);
+		
+		File directory = new File(eventPicUploadPath + File.separator + event_no);
+		FileUtils.deleteDirectory(directory);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('이벤트 게시물 삭제가 완료되었습니다.')");
+		out.println("location.href='eventAdminMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminPastMain")
+	public ModelAndView eventAdminPastMain(ModelAndView mnv, HttpServletRequest req, SearchCriteria cri) throws SQLException {
+		String url="/thrAdmin/eventAdminPastMain";
+		
+		HttpSession session = req.getSession();
+		if (cri.getAdminType().equals("")) {
+			cri.setAdminType((String)session.getAttribute("admin_cd"));
+		}
+		
+		Map<String, Object> dataMap = thrAdminService.selectEventListforPast(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "지난 이벤트", url+".do");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/eventAdminWinnerRegistForm")
+	public ModelAndView eventAdminWinnerRegistForm (ModelAndView mnv, String event_no, String type) throws NumberFormatException, SQLException {
+		String url="/thrAdmin/eventAdminRegistWinner";
+		EventVO event = sysAdminService.selectEventByEvent_no(Integer.parseInt(event_no));
+		mnv.addObject("event", event);
+		if (type.equals("create")) {
+			Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "당첨자 발표 작성", url+".do?event_no=" + event_no + "&type=" + type);
+			mnv.addAllObjects(subjectMap);
+		} else if (type.equals("read")) {
+			Map<String, Object> subjectMap = addSubject("HOME", "이벤트 관리", "당첨자 발표 조회", url+".do?event_no=" + event_no + "&type=" + type);
+			mnv.addAllObjects(subjectMap);
+			WinnerBoardVO wb = sysAdminService.selectWbByEvent_no(Integer.parseInt(event_no));
+			mnv.addObject("wb", wb);
+		}
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/eventAdminWinnerRegist")
+	public void eventAdminWinnerRegist(WinnerBoardVO wb, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.registWinnerBoard(wb);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('당첨자 게시물  등록이 완료되었습니다.')");
+		out.println("location.href='eventAdminPastMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminWinnerModify")
+	public void eventAdminWinnerModify(WinnerBoardVO wb, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.modifyWinnerBoard(wb);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('당첨자 게시물  수정이 완료되었습니다.')");
+		out.println("location.href='eventAdminPastMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/eventAdminWinnerDelete")
+	public void eventAdminWinnerDelete(WinnerBoardVO wb, HttpServletResponse res) throws SQLException, IOException {
+		sysAdminService.deleteWinnerBoard(wb);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('당첨자 게시물 삭제가 완료되었습니다.')");
+		out.println("location.href='eventAdminPastMain.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	@RequestMapping("/test")
+	public ModelAndView test (ModelAndView mnv, HttpServletRequest req) throws SQLException {
+		String url = "/thrAdmin/movieAdminMainMain";
+		List<Map<String, Object>> movieList = thrAdminService.selectMovieListforMovieMain(new Date());
+		System.out.println(movieList);
+		mnv.addObject("movieList", movieList);
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		HttpSession session = req.getSession();
+		String admin_cd = (String) session.getAttribute("admin_cd");
+		data.put("date", new Date());
+		data.put("admin_cd", admin_cd);
+		List<Map<String, Object>> screenList = thrAdminService.selectScreenListforMovieMain(data);
+		mnv.addObject("screenList", screenList);
+		List<Map<String, Object>> houseList = thrAdminService.selectHouseListByAdmin_cd(admin_cd);
+		mnv.addObject("houseList", houseList);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "상영 시간표 관리", url+".do");
+		mnv.addAllObjects(subjectMap);
+		
+		mnv.setViewName(url);
+		return mnv;
+	} 
 	
 	@GetMapping("/movieAdminMain")
 	public ModelAndView movieAdmin(ModelAndView mnv,SearchCriteria cri) throws SQLException {
@@ -418,45 +615,6 @@ public class ThrAdminController {
 	    System.out.println(pageNo);
 	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	
-	
-//	@RequestMapping("/movieAdminMain")
-//	public ModelAndView movieAdmin(ModelAndView mnv, SearchCriteria cri) throws SQLException {
-//		String url = "/thrAdmin/movieAdminMain";
-//		cri.setPerPageNum("2");
-//		System.out.println(cri);
-//		
-//		Map<String, Object> dataMap = thrAdminService.selectMovieList(cri);
-//		List<Map<String, Object>> movieList = (List<Map<String, Object>>)dataMap.get("movieList");
-//		
-//		dataMap.put("movieList", movieList);
-//		
-//		List<MovieVO> allScreenList = null;
-//		allScreenList = thrAdminService.getAllScreens();
-//		
-//		List<Map<String, Object>> allRe = null;
-//		allRe = thrAdminService.getAllRe();
-//		
-//		List<JSONObject> newAllRe = new ArrayList<>();
-//		for( Map<String,Object> map : allRe){
-//		    JSONObject json = new JSONObject();
-//		    for( Map.Entry<String,Object> entry : map.entrySet() ){
-//		        String key = entry.getKey();
-//		        Object value = entry.getValue();
-//		        json.put(key, value);	
-//		    }	
-//		    newAllRe.add(json);
-//		}
-//		System.out.println(newAllRe);
-//		mnv.addAllObjects(dataMap);
-//		mnv.addObject("allRe", newAllRe);
-//		mnv.addObject("allScreenList", allScreenList);
-//		mnv.setViewName(url);
-//		return mnv;
-//	}
-	
-
-
 	
 	@GetMapping("/main")
 	public ModelAndView main(ModelAndView mnv, String movie_cd) throws SQLException {
@@ -532,14 +690,6 @@ public class ThrAdminController {
 	public String movieA() {
 		
 		String url = "/thrAdmin/movieA";
-		
-		return url;
-	}
-	
-	@GetMapping("/eventAdminPast")
-	public String eventAdminPast() {
-		
-		String url="/thrAdmin/eventAdminPast";
 		
 		return url;
 	}

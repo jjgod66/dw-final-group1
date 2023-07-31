@@ -53,7 +53,7 @@
 			<jsp:param value="${url }" name="url" />
 		</jsp:include>
 		<div class="d-flex ms-5 me-5" style="justify-content: space-between;">
-			<span>전체  ${pageMaker.totalCount}건</span>
+			<span>전체 <b style="color: red;"> ${pageMaker.totalCount}</b>건</span>
 			<span>
 				<input type="text" placeholder="검색어를 입력해주세요." name="keyword">
 				<button type="button" class="btn_medium" onclick="javascript:searchList_go(1);">검색</button>
@@ -65,7 +65,7 @@
 					<tr style="height: 10rem;">
 						<td style="width:10%;">
 							<div style="width: 6rem; height: 6rem;">
-								<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+								<img src="/sysAdmin/getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
 							</div>
 						</td>
 						<td>

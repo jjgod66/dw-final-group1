@@ -20,7 +20,7 @@ public class EventModifyCommand {
 	private String event_content;
 	private String event_pic_path;
 	private String oldFileName;
-	private String removeFileName;
+	private String removeFileName;	// 예전 썸네일 이미지 이름
 	private MultipartFile event_thum_path;
 	
 	
