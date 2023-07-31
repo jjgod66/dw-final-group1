@@ -1,6 +1,5 @@
 package kr.or.dw.service;
 
-import java.net.StandardSocketOptions;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.SystemPropertyUtils;
 
 import kr.or.dw.command.MovieViewerCommand;
 import kr.or.dw.command.PageMaker;

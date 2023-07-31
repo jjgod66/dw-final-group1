@@ -87,7 +87,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public List<Map<String, Object>> searchBuyInfo(@Param("mem_cd")String mem_cd, @Param("searchVal")String searchVal) throws SQLException {
+	public List<Map<String, Object>> searchBuyInfo(String mem_cd, String searchVal) throws SQLException {
 		return memberDAO.searchBuyInfo(mem_cd, searchVal);
 	}
 

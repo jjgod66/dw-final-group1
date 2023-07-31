@@ -232,14 +232,11 @@ public class MemberController {
 			MemberVO member = (MemberVO) session.getAttribute("loginUser");
 			String mem_cd = member.getMem_cd();
 			List<Map<String, Object>> searchBuyInfo = null;
-			if(member != null) {
 				
-				searchBuyInfo = memberService.searchBuyInfo(mem_cd, searchVal);
-				
-				System.out.println(searchBuyInfo.size());
-				System.out.println(searchBuyInfo);
-				
-			}
+			searchBuyInfo = memberService.searchBuyInfo(mem_cd, searchVal);
+			
+			System.out.println(searchBuyInfo.size());
+			System.out.println(searchBuyInfo);
 			entity = new ResponseEntity<List<Map<String, Object>>>(searchBuyInfo, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
