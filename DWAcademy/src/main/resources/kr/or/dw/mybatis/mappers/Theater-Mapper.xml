@@ -97,6 +97,23 @@
 		SELECT *
 		FROM event
 		WHERE event_div = '극장'
+		AND enddate >= sysdate
 		ORDER BY regdate DESC
+	</select>
+	
+	<select id="selectThisThrEvent4" resultType="event">
+		SELECT *
+		FROM (
+			SELECT e.*, rownum rnum
+			FROM (
+				SELECT e.*, thr_name
+				FROM event e, theater t
+				WHERE e.relate_cd = t.admin_cd
+				AND event_div = '극장'
+				AND enddate >= sysdate
+				AND thr_name = #{thr_name}
+				ORDER BY e.regdate DESC
+				) e)
+		WHERE rnum <![CDATA[<=]]> 4
 	</select>
 </mapper>

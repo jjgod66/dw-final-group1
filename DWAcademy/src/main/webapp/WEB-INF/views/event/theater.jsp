@@ -261,83 +261,42 @@ button, input, optgroup, select, textarea {
 		<h2 class="event-title">진행중인 이벤트 </h2>
 		<div class="tab-list fixed">
 			<ul class="nav nav-tabs">
-				<li class="nav-item active"><a href="<%=request.getContextPath() %>/event/main.do">전체</a></li>
+				<li class="nav-item"><a href="<%=request.getContextPath() %>/event/main.do">전체</a></li>
 				<li class="nav-item"><a href="<%=request.getContextPath() %>/event/movie.do">영화</a></li>
-				<li class="nav-item"><a href="<%=request.getContextPath() %>/event/theater.do">극장</a></li>
+				<li class="nav-item active"><a href="<%=request.getContextPath() %>/event/theater.do">극장</a></li>
 				<li class="nav-item"><a href="<%=request.getContextPath() %>/event/stage.do">시사회/무대인사</a></li>
 			</ul>
 		</div>
 		<div class="tab-content">
-			<div class="tab-pane fade show active" id="main">
-				<div class="tit-util">
-					<h3 class="tit">영화</h3>
-					<div class="float-end">
-						<a href="<%=request.getContextPath() %>/event/movie.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<!-- --------------------------------------- -->
+			<!-- -----------------rm극장  -------------------- -->
+			<!-- --------------------------------------- -->
+			<div>
+				<div id="boardSearch" class="inner-wrap" style="">
+					<div class="board-list-util mt40">
+						<p class="result-count"><strong>전체 <b>${totalCount }</b>건</strong></p>
+							<div class="board-search">
+								<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" name="keyword" value="${pageMaker.cri.keyword }">
+								<button type="button" class="btn-search-input" id="eventSearchBtn">검색</button>
+							</div>
 					</div>
 				</div>
 				  <div class="event-list">
+				  	<c:if test="${empty eventList }">
+						<div style="text-align: center; margin: 50px 0;">이벤트가 없습니다.</div>
+					</c:if>
 					<ul>
-						<c:forEach items="${movieEventList }" var="movieEvent">
+						<c:forEach items="${eventList }" var="event">
 							<li>
-								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${movieEvent.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title="${movieEvent.event_title} 상세보기">
+								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${event.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title=${event.event_title}">
 									<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-									<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieEvent.event_thum_path}&item_cd=${movieEvent.event_no}&type=eventThumb" alt="${movieEvent.event_title}" onerror="noImg(this);"></p>
+									<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" alt="${event.event_title}" onerror="noImg(this);"></p>
 									<p class="tit">
-										${movieEvent.event_title}
+										${event.event_title}
 									</p>
 									<p class="date">
-										<fmt:formatDate value="${movieEvent.startdate}" pattern="yyyy-MM-dd"/> ~ 
-										<fmt:formatDate value="${movieEvent.enddate}" pattern="yyyy-MM-dd"/>
-									</p>
-								</a>
-							</li>
-						</c:forEach>
-					</ul>
-				</div>
-				<div class="tit-util">
-					<h3 class="tit">극장</h3>
-					<div class="float-end">
-						<a href="<%=request.getContextPath() %>/event/theater.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
-					</div>
-				</div>
-				<div class="event-list">
-					<ul>
-						<c:forEach items="${theaterEventList }" var="theaterEvent">
-							<li>
-								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${theaterEvent.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title="${theaterEvent.event_title} 상세보기">
-									<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-									<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${theaterEvent.event_thum_path}&item_cd=${theaterEvent.event_no}&type=eventThumb" alt="${theaterEvent.event_title}" onerror="noImg(this);"></p>
-									<p class="tit">
-										${theaterEvent.event_title}
-									</p>
-									<p class="date">
-										<fmt:formatDate value="${theaterEvent.startdate}" pattern="yyyy-MM-dd"/> ~ 
-										<fmt:formatDate value="${theaterEvent.enddate}" pattern="yyyy-MM-dd"/>
-									</p>
-								</a>
-							</li>
-						</c:forEach>
-					</ul>
-				</div>
-				<div class="tit-util">
-					<h3 class="tit">시사회/무대인사</h3>
-					<div class="float-end">
-						<a href="<%=request.getContextPath() %>/event/stage.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
-					</div>
-				</div>
-				<div class="event-list">
-					<ul>
-						<c:forEach items="${stageEventList }" var="stageEvent">
-							<li>
-								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${stageEvent.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title="${stageEvent.event_title} 상세보기">
-									<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-									<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${stageEvent.event_thum_path}&item_cd=${stageEvent.event_no}&type=eventThumb" alt="${stageEvent.event_title}" onerror="noImg(this);"></p>
-									<p class="tit">
-										${stageEvent.event_title}
-									</p>
-									<p class="date">
-										<fmt:formatDate value="${stageEvent.startdate}" pattern="yyyy-MM-dd"/> ~ 
-										<fmt:formatDate value="${stageEvent.enddate}" pattern="yyyy-MM-dd"/>
+										<fmt:formatDate value="${event.startdate}" pattern="yyyy-MM-dd"/> ~ 
+										<fmt:formatDate value="${event.enddate}" pattern="yyyy-MM-dd"/>
 									</p>
 								</a>
 							</li>
@@ -345,7 +304,25 @@ button, input, optgroup, select, textarea {
 					</ul>
 				</div>
 			</div>
+			<div class="mt-5 mb-5 paginationdiv">
+				<%@ include file="../common/pagination.jsp" %>
+			</div>
 		</div>
 <!-- 	</div> -->
 </div>
+<script>
+	let searchFormUrl = 'theater.do';
+	
+	$(function(){
+		
+		let evlist = '${eventList}';
+		if(evlist == '[]'){
+			$('.paginationdiv').css('display', 'none');
+		}
+		$('#eventSearchBtn').on('click', function(){
+			searchList_go(1);
+		})
+	})
+	
+</script>
 <%@ include file="../include/footer.jsp" %>

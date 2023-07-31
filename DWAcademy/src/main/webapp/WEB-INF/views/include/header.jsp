@@ -107,7 +107,7 @@ request.setAttribute("GetTitle", "DWCinema");
                 <ul style="opacity: 0; height: 0px;">
                     <li><a href="<%=request.getContextPath()%>/event/main.do">진행중 이벤트</a></li>
                     <li><a href="<%=request.getContextPath()%>/event/eventPast.do">지난 이벤트</a></li>
-                    <li><a href="<%=request.getContextPath()%>/event/prizeWinner.do">당첨자발표</a></li>
+<%--                     <li><a href="<%=request.getContextPath()%>/event/prizeWinner.do">당첨자발표</a></li> --%>
                 </ul>
             </li>
             <li role="menuitem" style="width: 65px;">

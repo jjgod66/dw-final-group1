@@ -179,5 +179,14 @@ public class TheaterServiceImpl implements TheaterService{
 		return eventList;
 	}
 
+	@Override
+	public List<EventVO> getThisThrEvent4(String thr_name) throws SQLException {
+		List<EventVO> eventList = null;
+		
+		eventList = theaterDAO.selectThisThrEvent4(thr_name);
+		
+		return eventList;
+	}
+
 	
 }
