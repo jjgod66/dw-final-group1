@@ -47,6 +47,7 @@ public class StoreServiceImpl implements StoreService{
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("mem_cd", memBuy.getMem_cd());
 		param.put("product_cd",memBuy.getProduct_cd());
+		param.put("merchant_uid", memBuy.getMerchant_uid());
 		
 		storeDAO.insertMemPro(param);
 		
@@ -84,6 +85,7 @@ public class StoreServiceImpl implements StoreService{
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("mem_cd", memBuy.getMem_cd());
 		param.put("product_cd",memBuy.getProduct_cd());
+		param.put("merchant_uid", memBuy.getMerchant_uid());
 		
 		storeDAO.insertMemPro(param);
 		
@@ -124,6 +126,7 @@ public class StoreServiceImpl implements StoreService{
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("mem_cd", memBuy.getMem_cd());
 		param.put("product_cd",memBuy.getProduct_cd());
+		param.put("merchant_uid", memBuy.getMerchant_uid());
 		
 		storeDAO.insertMemPro(param);
 		
@@ -149,6 +152,7 @@ public class StoreServiceImpl implements StoreService{
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("mem_cd", memBuy.getMem_cd());
 		param.put("product_cd",memBuy.getProduct_cd());
+		param.put("merchant_uid", memBuy.getMerchant_uid());
 		
 		storeDAO.insertMemPro(param);
 		

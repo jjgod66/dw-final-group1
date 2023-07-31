@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface PointDAO {
 	
 	/**
-	 * 전날 상영한 영화 예매한 사람한테 포인트 적립해주는 메서드
+	 * 전날 상영한 영화 예매한 사람한테 포인트 적립해주는 메서드(일반등급)
 	 * @param pointIn 
 	 */
 	void insertMoviePoint(Map<String, Object> pointIn) throws SQLException;
@@ -20,5 +20,11 @@ public interface PointDAO {
 	 * @return
 	 */
 	List<Map<String, Object>> selectpointInList() throws SQLException;
+
+	/**
+	 * 전날 상영한 영화 예매한 사람한테 포인트 적립해주는 메서드(VIP등급)
+	 * @param pointIn 
+	 */
+	void insertMoviePointVIP(Map<String, Object> pointIn) throws SQLException;
 
 }

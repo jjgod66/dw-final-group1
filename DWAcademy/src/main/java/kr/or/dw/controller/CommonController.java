@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.IndexMovieCommand;
+import kr.or.dw.service.EventService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.service.NaverLoginBO;
+import kr.or.dw.vo.EventVO;
 
 @Controller
 public class CommonController {
@@ -30,6 +32,9 @@ public class CommonController {
 	
 	@Autowired
 	private MovieService movieService;
+	
+	@Autowired
+	private EventService eventService;
 	
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -75,7 +80,10 @@ public class CommonController {
 		mnv.addObject("url", naverAuthUrl);
 		
 		
+		List<EventVO> eventList = null;
+		eventList = eventService.getEvent4();
 		
+		mnv.addObject("eventList", eventList);
 		mnv.addObject("movieList", movieList);
 		mnv.setViewName(url);
 		return mnv;
