@@ -57,6 +57,6 @@ public interface MemberDAO {
 	List<ProductVO> selectBuyInfo(String mem_cd) throws SQLException;
 
 	// 회원 구매 내역 월 단위 조회
-	List<Map<String, Object>> searchBuyInfo(String mem_cd, String searchVal) throws SQLException;
+	List<Map<String, Object>> searchBuyInfo(@Param("mem_cd")String mem_cd, @Param("searchVal")String searchVal) throws SQLException;
 
 }

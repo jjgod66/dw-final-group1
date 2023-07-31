@@ -503,7 +503,7 @@ $(document).ready(function () {
 				console.log(res);
 			},
 			error : function(err){
-				console.log(err);
+				console.log(err.status);
 			}
 		})
 	});
