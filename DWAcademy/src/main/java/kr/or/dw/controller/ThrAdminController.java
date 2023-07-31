@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -548,23 +550,32 @@ public class ThrAdminController {
 		out.close();
 	}
 	@RequestMapping("/test")
-	public ModelAndView test (ModelAndView mnv, HttpServletRequest req) throws SQLException {
+	public ModelAndView test (ModelAndView mnv, HttpServletRequest req, String date) throws SQLException, ParseException {
 		String url = "/thrAdmin/movieAdminMainMain";
 		List<Map<String, Object>> movieList = thrAdminService.selectMovieListforMovieMain(new Date());
 		System.out.println(movieList);
 		mnv.addObject("movieList", movieList);
-		
+		 
 		Map<String, Object> data = new HashMap<String, Object>();
 		HttpSession session = req.getSession();
 		String admin_cd = (String) session.getAttribute("admin_cd");
-		data.put("date", new Date());
+		if (date == null) {
+			data.put("date", new Date());
+		} else {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+			Date today = formatter.parse(date.trim());
+			data.put("date", today);
+			String today_String = formatter.format(today);
+			mnv.addObject("today", today_String);
+		}
 		data.put("admin_cd", admin_cd);
 		List<Map<String, Object>> screenList = thrAdminService.selectScreenListforMovieMain(data);
 		mnv.addObject("screenList", screenList);
+		
 		List<Map<String, Object>> houseList = thrAdminService.selectHouseListByAdmin_cd(admin_cd);
 		mnv.addObject("houseList", houseList);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "상영 시간표 관리", url+".do");
+		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "상영 시간표 관리", "test.do");
 		mnv.addAllObjects(subjectMap);
 		
 		mnv.setViewName(url);
