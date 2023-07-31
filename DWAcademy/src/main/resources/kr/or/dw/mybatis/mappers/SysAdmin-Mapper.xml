@@ -741,6 +741,12 @@
 		  WHERE ROWNUM <![CDATA[<=]]> 4			
 	</select>
 	
+	<select id="selectMovieListForEventRegist" resultType="map">
+		SELECT MOVIE_CD, MOVIE_NAME, MOVIE_MAINPIC_PATH
+		  FROM movie
+		 WHERE enddate > SYSDATE
+	</select>
+	
 	<insert id="insertEvent">
 		INSERT INTO event
 		            (
@@ -773,9 +779,10 @@
 	</insert>
 	
 	<select id="selectEventByEvent_no" resultType="event">
-		SELECT *
-		  FROM event
+		SELECT e.*, m.movie_name
+		  FROM event e, movie m
 		 WHERE event_no = #{event_no}
+		   AND e.relate_cd = m.movie_cd(+)
 	</select>
 	
 	<update id="updateEventContent">
@@ -786,12 +793,13 @@
 	
 	<update id="updateEvent">
 		UPDATE event
-		   SET relate_cd = #{relate_cd}
-		      ,event_div = #{event_div}
+		   SET event_div = #{event_div}
 		      ,enddate = #{enddate}
 		      ,event_title = #{event_title}
 		      ,event_content = #{event_content}
+		      <if test="event_pic_path != ''.toString()">
 		      ,event_pic_path = #{event_pic_path}
+		      </if>
 		      <if test="event_thum_path != null">
 		      ,event_thum_path = #{event_thum_path}
 		      </if>

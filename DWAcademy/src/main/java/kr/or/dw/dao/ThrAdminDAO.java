@@ -1,6 +1,7 @@
 package kr.or.dw.dao;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -99,5 +100,17 @@ public interface ThrAdminDAO {
 
 	// 해당 극장에서 진행중인 이벤트 목록 총 개수 조회
 	int selectSearchEventListCount(SearchCriteria cri) throws SQLException;
+
+	// 지난 이벤트 게시글 목록 불러오기
+	List<EventVO> selectEventListforPast(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
+
+	// 지난 이벤트 게시글 총 개수 불러오기
+	int selectEventListforPastCount(SearchCriteria cri) throws SQLException;
+
+	// 상영시간표에 등록가능한 영화목록을 불러온다.
+	List<Map<String, Object>> selectMovieListforMovieMain(Date date) throws SQLException;
+
+	// 상영시간표에 등록된 영화목록을 불러온다.
+	List<Map<String, Object>> selectScreenListforMovieMain(Map<String, Object> data) throws SQLException;
 
 }

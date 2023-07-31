@@ -607,4 +607,9 @@ public class SysAdminServiceImpl implements SysAdminService {
 		sysAdminDAO.cancelBanMember(mem_cd);
 	}
 
+	@Override
+	public List<Map<String, Object>> selectMovieListForEventRegist() throws SQLException {
+		return sysAdminDAO.selectMovieListForEventRegist();
+	}
+
 }

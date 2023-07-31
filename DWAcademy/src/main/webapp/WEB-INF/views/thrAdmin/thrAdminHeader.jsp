@@ -268,7 +268,7 @@ nav ul {
 					<li class="gnb_1dli dropdown dropdown-menu" >영화관리 
 						<div class="dropdown-content">
 							<a href="<%= request.getContextPath() %>/thrAdmin/movieAdminMain.do" class="gnb_1da">영화리스트</a>
-							<a href="<%= request.getContextPath() %>/thrAdmin/movieRegistForm.do" class="gnb_1da">영화등록</a>
+							<a href="<%= request.getContextPath() %>/thrAdmin/test.do" class="gnb_1da">영화등록</a>
 						</div>
 					</li>
 					<li class="gnb_1dli dropdown dropdown-menu">고객관리 

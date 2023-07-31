@@ -85,7 +85,7 @@
 			                <li class="dep1">
 			                    <div class="leftInfo"><span class="sort">${notice.notice_thr }</span></div>
 			                    <div class="titInfo">
-			                        <p class="tit"><a href="noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read">${notice.notice_title }</a><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new"></p>
+			                        <p class="tit"><a href="noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read">${notice.notice_title }</a></p>
 			                    </div>
 			                    <div class="etc">
 			                        <ul class="clearFix">

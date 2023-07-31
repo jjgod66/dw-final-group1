@@ -46,7 +46,52 @@
 textarea:focus {
 	outline: none;
 }
+.movieCard {
+	margin-top : 1rem;
+	cursor: pointer;
+}
+#searchMovieNameBtn {
+	cursor: pointer;
+}
 </style>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">영화 선택</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+		<div class="row mb-2">
+			<div class="col">
+		        <input type="text" class="form-control" id="searchMovieName">
+			</div>
+			<div style="width:3rem;">
+		        <label for="searchMovieName"><i class="bi bi-search" style="font-size: 1.5rem;" id="searchMovieNameBtn"></i></label> 
+			</div>
+		</div>
+        <div class="movieBox row" style="height: 50rem; overflow: scroll;">
+        	<c:forEach items="${movieList }" var="movie">
+		        <div class="card card-body movieCard" style="height: 6rem; padding: 0.5rem;" >
+		        	<div class="row" style="height: 5rem; align-items: center;">
+			    		<div class="col-md-2  text-center"><img src="getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" style="width:4rem; height:5rem; overflow: hidden;"></div>
+			    		<div class="col-md-4 movieCd">${movie.MOVIE_CD }</div>
+			    		<div class="col-md-6 movieName">${movie.MOVIE_NAME }</div>
+		    		</div>
+		       </div>
+        	</c:forEach>
+        	<div style="height: 3rem;"></div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalBtn">Close</button>
+	      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div id="wrapper">
 	<div id="content">
 		<jsp:include page="admin_contentHeader.jsp">
@@ -60,11 +105,24 @@ textarea:focus {
 			<div class="card-header">
 				<c:choose>
 					<c:when test="${type eq 'read' }">
+						<input type="hidden" value="${event.relate_cd }" name="relate_cd">
 						<input type="hidden" value="${event.event_no }" name="event_no">
-						<span id="event_title_before">${event.event_title }</span>
+						<div id="event_title_before">${event.event_title }</div>
+						
 					</c:when>
 					<c:when test="${type eq 'create' }">
-						<span><input type="text" class="form-control" name="event_title" size="80" placeholder="제목을 입력하세요"></span>
+						<div class="row">
+							<div class="col-md-8">
+								<span><input type="text" class="form-control" name="event_title" size="80" placeholder="제목을 입력하세요"></span>
+							</div>
+							<div class="col-md-3">
+								<input type="text" id="movieName" class="form-control" value="" disabled>
+							</div>
+							<div class="col text-end">
+								<button type="button" class="btn_medium" id="selectMovieModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size:12px;">영화선택</button>
+								<input type="hidden" name="relate_cd" id="relate_cd" value="">
+							</div>
+						</div>
 					</c:when>
 				</c:choose>
 			</div>
@@ -121,7 +179,6 @@ textarea:focus {
 								<span>
 									<select name="event_div" class="form-control">
 										<option value="영화">영화</option>
-										<option value="극장">극장</option>
 										<option value="시사회/무대인사">시사회/무대인사</option>
 								  	</select>
 								</span>
@@ -164,8 +221,15 @@ window.onload = function(){
 	$('#modifyCertifyBtn').on('click', function(){
 		$(this).remove();
 		let titleText = $('#event_title_before').text();
-		let titleInput = $('<input type="text" id="event_title" name="event_title" class="form-control">').val(titleText);
-		$('#event_title_before').html(titleInput);
+// 		let titleInput = $('<input type="text" class="form-control" id="event_title" name="event_title" class="form-control">').val(titleText);
+// 		$('#event_title_before').html(titleInput);
+		let inputRow = $('<div class="row"></div>');
+		let inputTitle = $('<div class="col-md-8"><span><input type="text" class="form-control" name="event_title" size="80" placeholder="제목을 입력하세요" value="'+titleText+'"></span></div>');
+		let inputMovieName = $('<div class="col-md-4"><input type="text" id="movieName" class="form-control" value="${event.movie_name}" disabled></div>')
+		inputRow.append(inputTitle);
+		inputRow.append(inputMovieName);
+		$('#event_title_before').html(inputRow);
+		
 		
 		let content = $('#event_content_before').text();
 		$('#event_content_before').remove();
@@ -268,7 +332,20 @@ window.onload = function(){
 	});
 	
 }
+	//모달에서 검색시
+	$('#searchMovieName').on('keyup', function(){
+		let inputText = $(this).val();
+		$('.movieCard').hide();
+		$('.movieCd:contains("'+inputText+'")').closest('.movieCard').show();
+		$('.movieName:contains("'+inputText+'")').closest('.movieCard').show();
+	});
 	
+	//모달에서 원하는 영화 클릭시
+	$('.movieCard').on('click', function(){
+		$('#relate_cd').val($(this).find('.movieCd').text());
+		$('#movieName').val($(this).find('.movieName').text());
+		$('#closeModalBtn').click();
+	});
 </script>
 <script>
 	summernote();

@@ -90,11 +90,19 @@
 		            	<c:forEach items="${ qnaList}" var="qna">
 		            		<tr>
 		            			<td>${qna.que_type }</td>
-		            			<td><a href="qnaAdminDetail.do?que_no=${qna.que_no }">${qna.que_title }</a></td>
+		            			<td>
+		            				<a href="qnaAdminDetail.do?que_no=${qna.que_no }">${qna.que_title }</a>
+		            				<jsp:useBean id="now" class="java.util.Date"/>
+		            				<fmt:formatDate value="${now }" pattern="yyyyMMdd" var="nowDate" />
+		            				<fmt:formatDate value="${qna.regdate }" pattern="yyyyMMdd" var="regDate" />
+		            				<c:if test="${nowDate - regDate < 3 }">
+		            					<img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new">
+		            				</c:if>
+		            			</td>
 		            			<td>${qna.writer_name }</td>
 		            			<td>${qna.gb_mem eq 'Y' ? '회원' : '비회원' }</td>
 		            			<td><fmt:formatDate value='${qna.regdate}' pattern='yyyy-MM-dd'/></td>
-		            			<td>${empty qna.ans_content ? '답변대기' : '답변완료' }</td>
+		            			<td>${empty qna.ans_content ? '<b>답변대기</b>' : '답변완료' }</td>
 		            		</tr>
 		            	</c:forEach>
 						</tbody>
