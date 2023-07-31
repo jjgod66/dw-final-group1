@@ -49,6 +49,32 @@
 .dayTableTd {
 	cursor: pointer;
 }
+th.selected {
+	background-color: #4aa8d8;
+	color: white;
+}
+.tooltipDiv {
+ 	display: none;
+	position: relative;
+	width: 100%;
+	max-width: 10rem;
+	margin: auto;
+	height: 5rem;
+	top: 0.6rem;
+	background-color : #4aa8d8;
+	color : white;
+}
+.triangle {
+	position: absolute;
+ 	display : none; 
+	width: 0;
+	height: 0;
+	border-top : 0.5rem solid transparent;
+	border-left : 0.5rem solid transparent;
+	border-right : 0.5rem solid transparent;
+	border-bottom : 0.5rem solid #4aa8d8;
+	top : -0.95rem;
+}
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
 <div id="wrapper">
@@ -156,11 +182,11 @@
 						<c:forEach items="${houseList}" var="house">
 							<tr>
 								<th>${house.HOUSE_NAME }</th>
-								<td class="timetableRow" colspan="20"></td>
+								<td class="timetableRow" colspan="20" data-houseNO="${house.HOUSE_NO }" style="position: relative; padding: 0;"></td>
 							</tr>
 						</c:forEach>
 					</table>
-					<div id="test"></div>
+					<button data-bs-toggle="popover" data-bs-title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">button</button>
 				</div>
 			</div>
 		</div>
@@ -169,16 +195,35 @@
 </div>
 <script>
 
+const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+	
 	// 날짜 선택부분
 	let weekPage = 0;
-	
 	for (let i = 0; i < 21; i++) {
 		let today = new Date();
 		let day = new Date(today.setDate(today.getDate() + i));
-		let dateFormat = (day.getMonth()+1) + '월 ' + (day.getDate()) + '일';
-		let dayTableTd = $('<th class="dayTableTd" style="display: none;">').text(dateFormat);
+		let dateFormat = (day.getMonth()+1) + '월 ' + (day.getDate()) + '일';		//M월d일
+		let dateFormat2 = (day.getFullYear().toString())	//yyyyMMdd
+						+ (day.getMonth()+1 < 10 ? '0' + (day.getMonth()+1) : day.getMonth()+1).toString() 
+						+ (day.getDate() < 10 ? '0' + day.getDate() : day.getDate()).toString();
+		
+		let dayTableTd = $('<th class="dayTableTd" style="display: none;" data-date="'+dateFormat2+'">'+dateFormat+'</th>');
 		$('#dayTableRow').append(dayTableTd);
 	}
+	
+	// 현재 날짜 표시
+	if ('${today}' != "") {
+		$('.dayTableTd[data-date="${today}"]').addClass('selected');
+	} else {
+		$('.dayTableTd:eq(0)').addClass('selected');
+	}
+	
+	// 날짜 클릭시
+	$('.dayTableTd').on('click', function(){
+		let data = $(this).attr('data-date');
+		location.href="test.do?date="+data;
+	})
 	
 	showWeek(weekPage);
 	
@@ -211,7 +256,7 @@
 	$('.movieRow').on('click', function(){
 		let movieName = $(this).find('.movieRowName').text();
 		let movieCd = $(this).find('.movieRowCd').text();
-		let movieLength = $(this).find('.movieLength').val();
+		let movieLength = $(this).find('.movieLength').val() + "분";
 		let movieDates = $(this).find('.movieRowDates').val();
 		let moviePic = $(this).find('.movieRowPic').html();
 		
@@ -231,15 +276,44 @@
 		$('.movieRowName:contains("'+inputText+'")').closest('.movieRow').show();
 	});
 	
-	let testSpan = $('<div>')
+	var openTime = new Date();
+	openTime = new Date(openTime.getFullYear(), openTime.getMonth(), openTime.getDate(), 7, 0)
+	openTime = openTime.getTime();
+	
+	let testDiv = '';
 	let divLength = '';
 	let divLengthRatio = '';
+	let divX = '';
+	let toolTipDiv = '';
 	<c:forEach items="${screenList}" var="screen">
-	testSpan.append('a');
+		testDiv = $('<div class="screenBox">');
+		toolTipDiv = $('<div class="tooltipDiv card card-body"><div class="triangle"></div><div>${screen.MOVIE_NAME}</div><div><fmt:formatDate value="${screen.STARTDATE}" pattern="kk:mm"/></div></div>')
+		testDiv.append('${screen.MOVIE_NAME}');
 		divLength = ('${screen.MOVIE_LENGTH}' / (20 * 60)) * 100;
 		divLengthRatio = Math.floor(divLength*10) / 10;
-		testSpan.css({'display' : 'inline-block', 'width' : divLengthRatio+'%', 'margin-right' : '0.5rem', 'background-color' : '#e9ecef', 'overflow' : 'hidden'});
-		$('.timetableRow').append(testSpan);
+		divX = (new Date("${screen.STARTDATE}").getTime() - openTime) / (60 * 1000);
+		divX = (divX / (60 * 20)) * 100; 
+		console.log(divX);
+		testDiv.css({'position' : 'absolute',
+					 'display' : 'inline-block',
+					 'margin' : '0',
+					 'left' : divX+'%',
+					 'width' : divLengthRatio+'%',
+					 'height': '100%',
+					 'line-height' : '35px',
+					 'text-align' : 'center',
+					 'border' : '1px solid #4aa8d8',
+					 'background-color' : '#e9ecef',
+					 'cursor' : 'pointer'
+					 });
+		testDiv.append(toolTipDiv);
+
+		$('.timetableRow[data-houseNo="${screen.HOUSE_NO}"]').append(testDiv);
 	</c:forEach>
+	
+	$('.screenBox').on('mouseover mouseleave', function(){
+		$(this).find('.tooltipDiv').toggle();
+		$(this).find('.triangle').toggle();
+	});
 </script>
 <%@ include file="thrAdminFooter.jsp"%>

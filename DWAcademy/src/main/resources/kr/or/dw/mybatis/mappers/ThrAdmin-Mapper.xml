@@ -379,8 +379,8 @@
 		 WHERE s.HOUSE_NO = h.HOUSE_NO
 		   AND h.THR_NAME = t.THR_NAME
 		   AND s.MOVIE_CD = m.MOVIE_CD 
-		   AND s.STARTDATE <![CDATA[>=]]> TO_DATE(TO_CHAR(sysdate, 'yyyy-MM-dd')) + 8/24
-		   AND s.startdate <![CDATA[<=]]> TO_DATE(TO_CHAR(sysdate, 'yyyy-MM-dd')) + 26/24
-		   AND t.ADMIN_CD = 'T202307090001'
+		   AND s.STARTDATE <![CDATA[>=]]> TO_DATE(TO_CHAR(#{date}, 'yyyy-MM-dd')) + 8/24
+		   AND s.startdate <![CDATA[<=]]> TO_DATE(TO_CHAR(#{date}, 'yyyy-MM-dd')) + 26/24
+		   AND t.ADMIN_CD = #{admin_cd}
 	</select>
 </mapper>
