@@ -96,4 +96,12 @@ public interface TheaterDAO {
 	 */
 	List<EventVO> selectThrEvent() throws SQLException;
 
+	/**
+	 * 해당 지점 이벤트 4개
+	 * @param thr_name
+	 * @return
+	 * @throws SQLException
+	 */
+	List<EventVO> selectThisThrEvent4(String thr_name) throws SQLException;
+
 }

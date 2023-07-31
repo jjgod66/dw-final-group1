@@ -69,4 +69,12 @@ public interface TheaterService {
 	 */
 	List<EventVO> getThrEvent() throws SQLException;
 
+	/**
+	 * 해당 지점의 이벤트 4개 
+	 * @param thr_name
+	 * @return
+	 * @throws SQLException
+	 */
+	List<EventVO> getThisThrEvent4(String thr_name) throws SQLException;
+
 }

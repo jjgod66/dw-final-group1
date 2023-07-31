@@ -80,6 +80,10 @@ private static final Logger logger = LoggerFactory.getLogger(TheaterController.c
 		List<NoticeVO> noticeList = null;
 		noticeList = theaterService.getThisThrNotice(thr_name);
 		
+		List<EventVO> eventList = null;
+		eventList = theaterService.getThisThrEvent4(thr_name);
+		
+		mnv.addObject("eventList", eventList);
 		mnv.addObject("noticeList", noticeList);
 		mnv.addObject("theater", theater);
 		mnv.setViewName(url);

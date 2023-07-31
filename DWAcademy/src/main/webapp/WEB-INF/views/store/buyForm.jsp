@@ -111,12 +111,19 @@ function requestPay() {
 	let discount = $('#disprice').text().replace(',', '');
 	let amount = $('#totalpp').text().replace(',', '');
 	$('input[name="discount"]').val(discount);
+	let merchant_uid = new Date().getTime();
+	
+	if(amount <= 0){
+		$('#buyForm').prop('action', '<%=request.getContextPath()%>/store/buy0ResultRedirect.do');
+		$('#buyForm').append('<input type="hidden" name="merchant_uid" value="' + merchant_uid + '">');
+		$('#buyForm').submit();
+	}
 	
 	let method = $('input[name="payMethod"]:checked').prop('id');
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
-        merchant_uid: new Date().getTime(),
+        merchant_uid: merchant_uid,
         name: '${product.product_name }',
         amount: amount,
         buyer_email: '${member.mem_email}',

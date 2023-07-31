@@ -73,4 +73,18 @@ public interface StoreDAO {
 	 */
 	void useMemPoint(PointVO pointVO) throws SQLException;
 
+	/**
+	 * 구매 결제 금액 0원 일 때 insert하는 메서드
+	 * @param memBuy
+	 * @throws SQLException
+	 */
+	void insertMembuy0(MemBuyVO memBuy) throws SQLException;
+
+	/**
+	 * 선물 결제 금액 0원 일 때 insert하는 메서드
+	 * @param memBuy
+	 * @throws SQLException
+	 */
+	void insertMemgift0(MemBuyVO memBuy) throws SQLException;
+
 }
