@@ -111,4 +111,11 @@ public interface EventDAO {
 	 */
 	EventVO selectEventWinner(int event_no) throws SQLException;
 
+	/**
+	 * 모든 이벤트 중 4개 가져오는 메서드
+	 * @return
+	 * @throws SQLException
+	 */
+	List<EventVO> selectEvent4() throws SQLException;
+
 }

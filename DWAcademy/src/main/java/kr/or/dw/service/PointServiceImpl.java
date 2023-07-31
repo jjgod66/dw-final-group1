@@ -20,7 +20,11 @@ public class PointServiceImpl implements PointService{
 		System.out.println(pointInList);
 		
 		for(Map<String, Object> pointIn : pointInList) {
-			pointDAO.insertMoviePoint(pointIn);
+			if(((String)pointIn.get("MEM_GRADE")).equals("N")) {
+				pointDAO.insertMoviePoint(pointIn);
+			}else {
+				pointDAO.insertMoviePointVIP(pointIn);
+			}
 		}
 	}
 }

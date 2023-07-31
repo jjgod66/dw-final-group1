@@ -5,6 +5,62 @@
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link rel="stylesheet" href="../../resources/css/boxoffice.css">
 <%@ include file="/WEB-INF/views/common/boxoffice.jsp" %>
+<<style>
+.event-list {
+    margin-top: 15px;
+    overflow: hidden;
+}
+.event-list ul {
+    overflow: hidden;
+    margin: 0 0 0 -40px;
+}
+.event-list ul li {
+    position: relative;
+    float: left;
+    width: 22%;
+    margin: 0 0 0 40px;
+    padding: 0;
+}
+.event-list ul li a {
+    overflow: hidden;
+    display: block;
+    border: 1px solid #e4e4e4;
+    border-radius: 10px;
+    min-height: 364px;
+}
+.event-list ul li a .img {
+    width: 100%;
+    height: 100%;
+    font-size: 0;
+    line-height: 0;
+    border-bottom: 1px solid #e4e4e4;
+    background-color: #eee;
+}
+.event-list ul li a .img img {
+    width: 100%!important;
+    height: 290px!important;
+}
+.event-list p {
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+.event-list ul li a .tit {
+    overflow: hidden;
+    height: 60px;
+    margin: 0 0 10px 0;
+    padding: 20px 17px 0 17px;
+    line-height: 1.3;
+    font-weight: 700;
+    color: #222;
+}
+.event-list ul li a .date {
+    padding: 0 17px 20px 17px;
+    font-size: .8667em;
+    line-height: 1.1;
+    color: #666;
+}
+</style>
 <div class="boxoffice">
     <div class="container">
         <div class="movieChartBeScreen_btn_wrap">
@@ -96,54 +152,72 @@ swiper.on('slideChange', function() {
             <div class="tabBtn_wrap">
                 <h3>EVENT</h3>
             </div>
-            <a href="#" class="btn btn-allView">전체보기</a>
+            <a href="<%=request.getContextPath() %>/event/main.do" class="btn btn-allView">전체보기</a>
         </div>
-        <div class="row">
-            <div class="col-12 col-lg-3">
-                <div class="card">
-                    <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg>
-                    <div class="card-body">
-                        <a href="#">
-                            <strong>이밴트 제목</strong>
-                            <span>2023.06.29~2023.12.01</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-lg-3">
-                <div class="card">
-                    <a href="#">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg>
-                        <div class="card-body">
-                                <strong>이밴트 제목</strong>
-                                <span>2023.06.29~2023.12.01</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-12 col-lg-3">
-                <div class="card">
-                    <a href="#">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg>
-                        <div class="card-body">
-                                <strong>이밴트 제목</strong>
-                                <span>2023.06.29~2023.12.01</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="col-12 col-lg-3">
-                <div class="card">
-                    <a href="#">
-                        <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg>
-                        <div class="card-body">
-                                <strong>이밴트 제목</strong>
-                                <span>2023.06.29~2023.12.01</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
+        <div class="event-list">
+			<ul>
+				<c:forEach items="${eventList }" var="event">
+					<li>
+						<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${event.event_no}" data-netfunnel="N" class="eventBtn">
+							<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" onerror="noImg(this);"></p>
+							<p class="tit">
+								${event.event_title }
+							</p>
+							<p class="date">
+							<fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ 
+							<fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/>
+							</p>
+						</a>
+					</li>
+				</c:forEach>
+			</ul>
+		</div>
+<!--         <div class="row"> -->
+<!--             <div class="col-12 col-lg-3"> -->
+<!--                 <div class="card"> -->
+<!--                     <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg> -->
+<!--                     <div class="card-body"> -->
+<!--                         <a href="#"> -->
+<!--                             <strong>이밴트 제목</strong> -->
+<!--                             <span>2023.06.29~2023.12.01</span> -->
+<!--                         </a> -->
+<!--                     </div> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--             <div class="col-12 col-lg-3"> -->
+<!--                 <div class="card"> -->
+<!--                     <a href="#"> -->
+<!--                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg> -->
+<!--                         <div class="card-body"> -->
+<!--                                 <strong>이밴트 제목</strong> -->
+<!--                                 <span>2023.06.29~2023.12.01</span> -->
+<!--                         </div> -->
+<!--                     </a> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--             <div class="col-12 col-lg-3"> -->
+<!--                 <div class="card"> -->
+<!--                     <a href="#"> -->
+<!--                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg> -->
+<!--                         <div class="card-body"> -->
+<!--                                 <strong>이밴트 제목</strong> -->
+<!--                                 <span>2023.06.29~2023.12.01</span> -->
+<!--                         </div> -->
+<!--                     </a> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--             <div class="col-12 col-lg-3"> -->
+<!--                 <div class="card"> -->
+<!--                     <a href="#"> -->
+<!--                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg> -->
+<!--                         <div class="card-body"> -->
+<!--                                 <strong>이밴트 제목</strong> -->
+<!--                                 <span>2023.06.29~2023.12.01</span> -->
+<!--                         </div> -->
+<!--                     </a> -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--         </div> -->
     </div>
 </div>
 <div class="store-wrapper">
@@ -221,7 +295,7 @@ swiper.on('slideChange', function() {
                         <a href="#">FAQ</a>
                         <a href="#">1:1 문의</a>
                         <!--<a href="#">분실물 문의</a>//-->
-                        <a href="#">대관/단체 문의</a>
+<!--                         <a href="#">대관/단체 문의</a> -->
                     </div>
                 </div>
             </div>

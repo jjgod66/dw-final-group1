@@ -6,6 +6,10 @@
 	INSERT INTO point (point_cd, mem_cd, merchant_uid, point, regdate) VALUES ('A' || lpad(point_seq.nextval,4,0), #{MEM_CD}, #{MERCHANT_UID}, #{PAID_AMOUNT}/20, sysdate)
 </insert>
 
+<insert id="insertMoviePointVIP">
+	INSERT INTO point (point_cd, mem_cd, merchant_uid, point, regdate) VALUES ('A' || lpad(point_seq.nextval,4,0), #{MEM_CD}, #{MERCHANT_UID}, #{PAID_AMOUNT}/10, sysdate)
+</insert>
+
 <select id="selectpointInList" resultType="Map">
 	SELECT r.merchant_uid, max(paid_amount) paid_amount, max(r.mem_cd) mem_cd, max(mem_grade) mem_grade
 	FROM (

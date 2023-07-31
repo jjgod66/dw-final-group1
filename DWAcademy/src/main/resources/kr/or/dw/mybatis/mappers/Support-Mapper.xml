@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.SupportDAO">
+
+	<sql id="searchTypeFaQ">
+		<if test="searchType == '영화예매'.toString()">
+			AND faq_div = '영화예매'
+		</if>
+		<if test="searchType == '결제수단'.toString()">
+			AND faq_div = '결제수단'
+		</if>
+		<if test="searchType == '멤버십'.toString()">
+			AND faq_div = '멤버십'
+		</if>
+		<if test="searchType == '스토어'.toString()">
+			AND faq_div = '스토어'
+		</if>
+		<if test="searchType == '기프트카드'.toString()">
+			AND faq_div = '기프트카드'
+		</if>
+		<if test="searchType == '할인혜택'.toString()">
+			AND faq_div = '할인혜택'
+		</if>
+		<if test="searchType == 'VIP'.toString()">
+			AND faq_div = 'VIP'
+		</if>
+		<if test="searchType == '극장'.toString()">
+			AND faq_div = '극장'
+		</if>
+		<if test="searchType == '홈페이지'.toString()">
+			AND faq_div = '홈페이지'
+		</if>
+	</sql>
+
+	<select id="selectFaQList" resultType="faq">
+		SELECT *
+		FROM faq
+		WHERE faq_title like '%' || #{keyword} || '%'
+		<include refid="searchTypeFaQ" />
+		ORDER BY faq_no
+	</select>
+	
+	<select id="selectFaQListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM faq
+		WHERE faq_title like '%' || #{keyword} || '%'
+		<include refid="searchTypeFaQ" />
+	</select>
+</mapper>

@@ -71,4 +71,11 @@ public interface EventService {
 	 */
 	EventVO getEventWinner(int event_no) throws SQLException;
 
+	/**
+	 * 전체 이벤트 중 4개 가져오는 메서드
+	 * @return
+	 * @throws SQLException
+	 */
+	List<EventVO> getEvent4() throws SQLException;
+
 }
