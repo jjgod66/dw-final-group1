@@ -230,5 +230,19 @@ public class ViewController {
 		String url = "/support/agreeUse";
 		return url;
 	}
-
+	@GetMapping("/support/agreeWhere")
+	public String supportAgreeW() {
+		String url = "/support/agreeWhere";
+		return url;
+	}
+	@GetMapping("/support/agreePrivacy")
+	public String supportAgreeP() {
+		String url = "/support/agreePrivacy";
+		return url;
+	}
+	@GetMapping("/support/agreeScreen")
+	public String supportAgreeS() {
+		String url = "/support/agreeScreen";
+		return url;
+	}
 }

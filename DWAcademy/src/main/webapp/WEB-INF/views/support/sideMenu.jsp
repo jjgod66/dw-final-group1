@@ -26,7 +26,7 @@ top:100px;
 
 
 .navigation:hover {
-    width: 300px;
+    width: 270px;
 }
 
 .navigation ul {
@@ -170,19 +170,19 @@ top:100px;
                 </a>
             </li>
             <li class="list2">
-                <a href="#">
+                <a href="<%=request.getContextPath()%>/support/agreeWhere.do">
                     <span class="icon"><ion-icon name="navigate-circle-outline"></ion-icon></span>
                     <span class="title">위치기반서비스이용약관</span>
                 </a>
             </li>
             <li class="list2">
-                <a href="#">
+                <a href="<%=request.getContextPath()%>/support/agreePrivacy.do">
                     <span class="icon"><ion-icon name="clipboard-outline"></ion-icon></span>
                     <span class="title">개인정보처리방침</span>
                 </a>
             </li>
             <li class="list2">
-                <a href="#">
+                <a href="<%=request.getContextPath()%>/support/agreeScreen.do">
                     <span class="icon"><ion-icon name="file-tray-full-outline"></ion-icon></span>
                     <span class="title">스크린배정수에관한기준</span>
                 </a>
@@ -226,6 +226,9 @@ top:100px;
         	  const inquiryNon1 = 'http://localhost/support/inquiry_nonMember_list.do';
         	  const inquiryNon2 = 'http://localhost/support/inquiry_nonMember_list_login_result.do';
         	  const agreeUse = 'http://localhost/support/agreeUse.do';
+        	  const agreeWhere = 'http://localhost/support/agreeWhere.do';
+        	  const agreePrivacy = 'http://localhost/support/agreePrivacy.do';
+        	  const agreeScreen = 'http://localhost/support/agreeScreen.do';
         	  if (currentURL === faq) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[2].classList.add('active1'); 
@@ -253,6 +256,18 @@ top:100px;
         	  if (currentURL === agreeUse) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[5].classList.add('active1'); 
+        	  }
+        	  if (currentURL === agreeWhere) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[6].classList.add('active1'); 
+        	  }
+        	  if (currentURL === agreePrivacy) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[7].classList.add('active1'); 
+        	  }
+        	  if (currentURL === agreeScreen) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[8].classList.add('active1'); 
         	  }
         	});
     
