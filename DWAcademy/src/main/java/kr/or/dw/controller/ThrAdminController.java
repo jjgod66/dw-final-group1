@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonArray;
 
+import kr.or.dw.command.CheckScreenTimeClashCommand;
 import kr.or.dw.command.EventModifyCommand;
 import kr.or.dw.command.EventRegistCommand;
 import kr.or.dw.command.PageMaker;
@@ -551,11 +553,12 @@ public class ThrAdminController {
 	}
 	@RequestMapping("/test")
 	public ModelAndView test (ModelAndView mnv, HttpServletRequest req, String date) throws SQLException, ParseException {
+		
 		String url = "/thrAdmin/movieAdminMainMain";
+		
 		List<Map<String, Object>> movieList = thrAdminService.selectMovieListforMovieMain(new Date());
-		System.out.println(movieList);
 		mnv.addObject("movieList", movieList);
-		 
+		System.out.println(movieList);
 		Map<String, Object> data = new HashMap<String, Object>();
 		HttpSession session = req.getSession();
 		String admin_cd = (String) session.getAttribute("admin_cd");
@@ -569,6 +572,7 @@ public class ThrAdminController {
 			mnv.addObject("today", today_String);
 		}
 		data.put("admin_cd", admin_cd);
+		
 		List<Map<String, Object>> screenList = thrAdminService.selectScreenListforMovieMain(data);
 		mnv.addObject("screenList", screenList);
 		
@@ -581,7 +585,63 @@ public class ThrAdminController {
 		mnv.setViewName(url);
 		return mnv;
 	} 
+	@RequestMapping("/CheckScreenTimeClash")
+	public ResponseEntity<String> checkScreenTimeClash (@RequestBody Map<String, Object> data) throws ParseException, SQLException {
+		ResponseEntity<String> entity = null;
+		
+		int house_no = Integer.parseInt((String)data.get("house_no"));
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		Date markTime = null;
+		String startTime1 = ((String)data.get("startTime")).split("T")[0];
+		String startTime2 = (((String)data.get("startTime")).split("T")[1]).split(".000Z")[0];
+		String startTime3 = startTime1 + " " + startTime2;
+		Date startTime = formatter.parse(startTime3);
+		cal.setTime(startTime);
+		cal.add(Calendar.HOUR, 9);
+		startTime = cal.getTime();
+		if (startTime.getHours() == 0 || startTime.getHours() == 1 ||startTime.getHours() == 2 || startTime.getHours() == 3) {
+			markTime = formatter.parse(startTime3);
+		} else {
+			markTime = startTime;
+		}
+		String endTime1 = ((String)data.get("endTime")).split("T")[0];
+		String endTime2 = (((String)data.get("endTime")).split("T")[1]).split(".000Z")[0];
+		String endTime3 = endTime1 + " " + endTime2;
+		Date endTime = formatter.parse(endTime3);
+		cal.setTime(endTime);
+		cal.add(Calendar.HOUR, 9);
+		endTime = cal.getTime();
+		
+		data.put("house_no", house_no);
+		data.put("startTime", startTime);
+		data.put("endTime", endTime);
+		data.put("markTime", markTime);
+		
+		int clashCnt = thrAdminService.checkScreenTimeClash(data);
+		
+		try {
+			entity = new ResponseEntity<String>("" + clashCnt, HttpStatus.OK);
+		} catch (Exception e) {
+			entity = new ResponseEntity<String>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return entity; 
+	}
 	
+	@RequestMapping("/addNewScreen")
+	public void addNewScreen (ScreenVO screen, HttpServletResponse res) throws IOException {
+		System.out.println(screen);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('새 영화가 상영표에 등록되었습니다.')");
+		out.println("location.href='test.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
 	@GetMapping("/movieAdminMain")
 	public ModelAndView movieAdmin(ModelAndView mnv,SearchCriteria cri) throws SQLException {
 		String url = "/thrAdmin/movieAdminMain";

@@ -89,5 +89,8 @@ public interface ThrAdminService {
 	// 상영시간표에 등록된 영화목록을 불러온다.
 	List<Map<String, Object>> selectScreenListforMovieMain(Map<String, Object> data) throws SQLException;
 
+	// 시간표 충돌이 일어나는 스크린 갯수를 세온다.
+	int checkScreenTimeClash(Map<String, Object> data) throws SQLException;
+
 
 }

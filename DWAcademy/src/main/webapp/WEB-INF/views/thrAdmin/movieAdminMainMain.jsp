@@ -49,20 +49,40 @@
 .dayTableTd {
 	cursor: pointer;
 }
-th.selected {
+th.selectedDate {
 	background-color: #4aa8d8;
 	color: white;
 }
+.screenBox {
+	position : absolute;
+	display : inline-block;
+	margin : 0;
+	height: 100%;
+	line-height : 35px;
+	text-align : center;
+	border : 1px solid #4aa8d8;
+	background-color : #e9ecef;
+	cursor : pointer;
+}
+.nameBox {
+	white-space:nowrap;
+	overflow: hidden;
+}
+.addedBox {
+	background-color : #ffe4b5;
+}
+.selected {
+	background-color : #ffe4b5;
+}
 .tooltipDiv {
  	display: none;
-	position: relative;
-	width: 100%;
-	max-width: 10rem;
+	position: absolute;
 	margin: auto;
 	height: 5rem;
-	top: 0.6rem;
+	top: 2.3rem;
 	background-color : #4aa8d8;
 	color : white;
+	word-break: break-all;
 }
 .triangle {
 	position: absolute;
@@ -74,6 +94,9 @@ th.selected {
 	border-right : 0.5rem solid transparent;
 	border-bottom : 0.5rem solid #4aa8d8;
 	top : -0.95rem;
+}
+.cantBeAdded {
+	background-color: #ef4836;
 }
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
@@ -99,7 +122,7 @@ th.selected {
 				<i class="bi bi-caret-right-square" id="nextWeekBtn"></i>
 			</div>
 		</div>
-		<div class="row mx-3">
+		<div class="row mx-3 my-5">
 			<div class="col-md-6">
 				<div class="mb-2">
 					<h2>상영 가능 영화</h2>
@@ -118,17 +141,18 @@ th.selected {
 								<div class="col-md-6 movieRowName">${movie.MOVIE_NAME }</div>
 								<input type="hidden" class="movieRowDates" value="<fmt:formatDate value='${movie.OPENDATE }' pattern='yyyy-MM-dd'/> ~ <fmt:formatDate value='${movie.ENDDATE }' pattern='yyyy-MM-dd'/>">
 								<input type="hidden" class="movieLength" value="${movie.MOVIE_LENGTH }">
+								<input type="hidden" class="movieType" value="${movie.MOVIE_TYPE_CD }">
 							</div>
 						</div>
 					</c:forEach>
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="mb-5">
+				<div>
 					<h2>영화 상세 정보</h2>
 				</div>
 				<div style="height: 20rem; ">
-					<table class="table table-bordered mt-3 text-center" style="height:90%; vertical-align: middle;">
+					<table class="table table-bordered mt-3 text-center" style="height:75%; vertical-align: middle;">
 						<tr>
 							<td rowspan="4" style="width:30%" id="movieRowPic"> </td>
 							<th style="width:20%;">영화명</th>
@@ -146,10 +170,64 @@ th.selected {
 							<td id="movieLength"> </td>
 						</tr>						
 					</table>
+					<table class="table table-bordered text-center" style="height: 20%; vertical-align: middle;">
+						<tr>
+							<th style="width:20%;">상영관</th>
+							<td style="width:30%;">
+								<select id="startHouse" style="width:5rem;">
+									<c:forEach items="${houseList }" var="house">
+										<option value="${house.HOUSE_NO }">${house.HOUSE_NAME }</option>
+									</c:forEach>
+								</select>
+							</td>
+							<th style="width:20%;">상영타입<br>(자막,3D)</th>
+							<td style="width:30%;">
+								<div class="row" id="movieTypeTd">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>상영시작시간</th>
+							<td>
+								<select id="startHour">
+									<c:forEach var="i" begin="7" end="26">
+											<c:choose>
+											<c:when test="${i < 10 }">
+												<option value="0${i }">
+												0${i }시
+												</option>
+											</c:when>
+											<c:when test="${i > 24 }">
+												<option value="${i }">
+												0${i - 24 }시
+												</option>
+											</c:when>
+											<c:otherwise>
+												<option value="${i }">
+												${i }시
+												</option>
+											</c:otherwise>											
+											</c:choose>
+									
+									</c:forEach>
+								</select>
+								<select id="startMinute">
+									<c:forEach var="i" begin="0" end="5">
+										<option value="${i }0">${i }0분</option>
+									</c:forEach>
+								</select>
+							</td>
+							<th>상영종료시간</th>
+							<td id="endTimeTd"></td>
+						</tr>
+					</table>
+					<div class="text-center">
+						<button type="button" class="btn_medium" id="addNewScreen">등록</button>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="row mx-3 mt-3">
+		<div class="row mx-3 mt-5">
 			<div class="col-md-12">
 				<div>
 					<h2>상영시간표</h2>
@@ -193,6 +271,12 @@ th.selected {
 		
 	</div>
 </div>
+<form role="form" action="addNewScreen" method="post" style="display: none;">
+	<input type="hidden" name="movie_cd">
+	<input type="hidden" name="startdate">
+	<input type="hidden" name="movie-type_cd">
+	<input type="hidden" name="house_no">
+</form>
 <script>
 
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
@@ -214,9 +298,9 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 	
 	// 현재 날짜 표시
 	if ('${today}' != "") {
-		$('.dayTableTd[data-date="${today}"]').addClass('selected');
+		$('.dayTableTd[data-date="${today}"]').addClass('selectedDate');
 	} else {
-		$('.dayTableTd:eq(0)').addClass('selected');
+		$('.dayTableTd:eq(0)').addClass('selectedDate');
 	}
 	
 	// 날짜 클릭시
@@ -254,19 +338,94 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 	
 	// 원하는 영화 클릭시
 	$('.movieRow').on('click', function(){
+		$('.selected').removeClass('selected');
+		$(this).addClass('selected');
+		
 		let movieName = $(this).find('.movieRowName').text();
 		let movieCd = $(this).find('.movieRowCd').text();
-		let movieLength = $(this).find('.movieLength').val() + "분";
+		let movieLength = $(this).find('.movieLength').val();
 		let movieDates = $(this).find('.movieRowDates').val();
 		let moviePic = $(this).find('.movieRowPic').html();
+		let movieType = $(this).find('.movieType').val();
+		let movieTypeList = movieType.split(',');
+		$('#movieTypeTd').html('');
+		console.log(movieTypeList);
+		for (movieType of movieTypeList) {
+			$('#movieTypeTd').append($('<div class="col-md-6"><input type="radio" name="movie_type_cd" id="'+movieType+'" value="'+movieType+'"><label for="'+movieType+'">'+movieType+'</label></div>'));
+		}
 		
 		$('#movieRowName').text(movieName);
 		$('#movieRowCd').text(movieCd);
-		$('#movieLength').text(movieLength);
+		$('#movieLength').text(movieLength+"분");
 		$('#movieRowDates').text(movieDates);
 		$('#movieRowPic').html(moviePic);
 		$('#movieRowPic img').css({'width' : '10rem', 'height' : '14rem'});
+		
+		showAddedBox(movieLength);
 	});
+	
+	$('#startHour, #startMinute, #startHouse').on('change', function(){
+		if ($('div.selected').length > 0 ) {
+			let movieLength = $('div.selected').find('.movieLength').val();
+			showAddedBox(movieLength);
+		} 
+	});
+	
+	// 폼 작성시 상영시간표와 종료시간 프리뷰 
+	function showAddedBox(movieLength) {
+		if($('.addedBox').length > 0) {
+			$('.addedBox').remove();
+		}
+		let today = new Date();
+		let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()));
+		let endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()) + Number(movieLength));
+		
+		$('#endTimeTd').text(((endTime.getHours()<10?'0'+endTime.getHours():endTime.getHours()) + '시 ') + (endTime.getMinutes() + '분'));
+		
+		divLength = ( movieLength / (20 * 60)) * 100;
+		divLengthRatio = Math.floor(divLength*10) / 10;
+		
+		divX = (startTime.getTime() - openTime) / (60 * 1000);
+		divX = (divX / (60 * 20)) * 100;
+		let addedScreenBox = $('<div class="screenBox addedBox">');
+		let nameBox = $('<div class="nameBox">');
+		addedScreenBox.append(nameBox);
+		nameBox.append($('.selected').find('.movieRowName').text());
+		addedScreenBox.css({
+							 'left' : divX+'%',
+							 'width' : divLengthRatio+'%',
+						 });
+		toolTipDiv = $('<div class="tooltipDiv card card-body"><div class="triangle"></div><div>'+$('.selected').find('.movieRowName').text()+'</div></div>');
+		addedScreenBox.append(toolTipDiv);
+		$('.timetableRow[data-houseNo="'+ $('#startHouse').val()+'"]').append(addedScreenBox);
+		
+		checkScreenTimeClash($('#startHouse').val(), startTime, endTime);
+	}
+	
+	// 서버로 가서 추가 가능한 시간인지 체크
+	function checkScreenTimeClash(house_no, startTime, endTime) {
+		let data = {
+				"house_no" : house_no,
+				"startTime" : startTime,
+				"endTime" : endTime
+		}
+		$.ajax({
+			url : "<%=request.getContextPath()%>/thrAdmin/CheckScreenTimeClash",
+			type: "post",
+			data : JSON.stringify(data),
+			contentType : "application/json",
+			success : function(data) {
+				console.log(data);
+				if (data > 0) {
+					$('.addedBox').addClass('cantBeAdded');
+				}
+			},
+			error : function(err) {
+				console.log(err);
+			}
+		});
+	}
+	
 	
 	// 영화 검색시
 	$('#searchMovieName').on('keyup', function(){
@@ -280,40 +439,65 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 	openTime = new Date(openTime.getFullYear(), openTime.getMonth(), openTime.getDate(), 7, 0)
 	openTime = openTime.getTime();
 	
-	let testDiv = '';
+	let screenBox = '';
 	let divLength = '';
 	let divLengthRatio = '';
 	let divX = '';
 	let toolTipDiv = '';
+	let nameBox ='';
 	<c:forEach items="${screenList}" var="screen">
-		testDiv = $('<div class="screenBox">');
-		toolTipDiv = $('<div class="tooltipDiv card card-body"><div class="triangle"></div><div>${screen.MOVIE_NAME}</div><div><fmt:formatDate value="${screen.STARTDATE}" pattern="kk:mm"/></div></div>')
-		testDiv.append('${screen.MOVIE_NAME}');
+		screenBox = $('<div class="screenBox">');
+		nameBox = $('<div class="nameBox">');
+		toolTipDiv = $('<div class="tooltipDiv card card-body"><div class="triangle"></div><div class="tooltipMovieName">${screen.MOVIE_NAME}</div><div><fmt:formatDate value="${screen.STARTDATE}" pattern="kk:mm"/></div></div>')
+		screenBox.append(nameBox);
+		nameBox.append('${screen.MOVIE_NAME}');
 		divLength = ('${screen.MOVIE_LENGTH}' / (20 * 60)) * 100;
 		divLengthRatio = Math.floor(divLength*10) / 10;
 		divX = (new Date("${screen.STARTDATE}").getTime() - openTime) / (60 * 1000);
 		divX = (divX / (60 * 20)) * 100; 
-		console.log(divX);
-		testDiv.css({'position' : 'absolute',
-					 'display' : 'inline-block',
-					 'margin' : '0',
-					 'left' : divX+'%',
-					 'width' : divLengthRatio+'%',
-					 'height': '100%',
-					 'line-height' : '35px',
-					 'text-align' : 'center',
-					 'border' : '1px solid #4aa8d8',
-					 'background-color' : '#e9ecef',
-					 'cursor' : 'pointer'
-					 });
-		testDiv.append(toolTipDiv);
 
-		$('.timetableRow[data-houseNo="${screen.HOUSE_NO}"]').append(testDiv);
+		screenBox.css({
+						 'left' : divX+'%',
+						 'width' : divLengthRatio+'%',
+					 });
+		screenBox.append(toolTipDiv);
+
+		$('.timetableRow[data-houseNo="${screen.HOUSE_NO}"]').append(screenBox);
 	</c:forEach>
 	
-	$('.screenBox').on('mouseover mouseleave', function(){
-		$(this).find('.tooltipDiv').toggle();
-		$(this).find('.triangle').toggle();
+	$(document).on('mouseover', '.screenBox', function(){
+		$(this).find('.tooltipDiv').show();
+		$(this).find('.triangle').show();
+	});
+	$(document).on('mouseleave', '.screenBox', function(){
+		$(this).find('.tooltipDiv').hide();
+		$(this).find('.triangle').hide();
+	});
+	
+	$('#addNewScreen').on('click', function(){
+		
+		if ($('.cantBeAdded').length > 0) {
+			alert('시간표를 확인하세요.');
+			return;
+		}
+		if ($('.addedBox').length == 0) {
+			alert('상영할 영화를 선택하세요.');
+			return;
+		}
+		if ($('input[name="movie_type_cd"]:checked').length < 1) {
+			alert('상영타입을 선택하세요.');
+			return;
+		}
+		if (confirm('해당 영화를 상영시간표에 등록하시겠습니까?')) { 		
+			$('input[name="movie_cd"]').val($('.selected').find('.movieRowCd').text());
+			let today = new Date();
+			let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()));
+			$('input[name="startdate"]').val(startTime);
+			$('input[name="movie-type_cd"]').val($('input[name="movie_type_cd"]').val());
+			$('input[name="house_no"]').val($('#startHouse').val());
+			let form = $('form[role="form"]');
+			form.submit();
+		}
 	});
 </script>
 <%@ include file="thrAdminFooter.jsp"%>
