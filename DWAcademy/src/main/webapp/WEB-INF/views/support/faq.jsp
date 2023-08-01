@@ -131,6 +131,7 @@ margin-right: auto;
 
 .menu-list li a:hover {
   background-color: #f0f0f0;
+  cursor: pointer;
 }
 
 
@@ -205,21 +206,33 @@ margin-right: auto;
 <div id="wrapper">
 	<nav class="menu-navbar">
 	  <ul class="menu-list">
-	    <li><a href="#">전체</a></li>
-	    <li><a href="#">영화예매 </a></li>
-	    <li><a href="#">할인혜택 </a></li>
-	    <li><a href="#">결제수단 </a></li>
-	    <li><a href="#">멤버쉽 </a></li>
+	    <li><a data-faq_div="전체">전체</a></li>
+	    <li><a data-faq_div="영화예매">영화예매</a></li>
+	    <li><a data-faq_div="할인혜택">할인혜택</a></li>
+	    <li><a data-faq_div="결제수단">결제수단</a></li>
+	    <li><a data-faq_div="멤버쉽">멤버쉽</a></li>
 <!-- 	  </ul> -->
 <!-- 	  <ul class="menu-list"> -->
-	    <li><a href="#">VIP </a></li>
-	    <li><a href="#">극장</a></li>
+	    <li><a data-faq_div="VIP">VIP</a></li>
+	    <li><a data-faq_div="극장">극장</a></li>
 <!-- 	    <li><a href="#">특별관 </a></li> -->
-	    <li><a href="#">스토어</a></li>
-	    <li><a href="#">홈페이지</a></li>
+	    <li><a data-faq_div="스토어">스토어</a></li>
+	    <li><a data-faq_div="홈페이지">홈페이지</a></li>
 	  </ul>
 	</nav>
-	
+	<div style="display: none">
+		<select name="searchType">
+			<option value="전체">전체</option>
+			<option value="영화예매">영화예매</option>
+			<option value="할인혜택">할인혜택</option>
+			<option value="결제수단">결제수단</option>
+			<option value="멤버쉽">멤버쉽</option>
+			<option value="VIP">VIP</option>
+			<option value="극장">극장</option>
+			<option value="스토어">스토어</option>
+			<option value="홈페이지">홈페이지</option>
+		</select>
+	</div>
 	<!-- rja검색기능  -->
 <!-- 	 <div class="finder" style="margin-right: 70px;"> -->
 <!--       <div class="finder__outer"> -->
@@ -232,14 +245,19 @@ margin-right: auto;
 	
 	<div style="width: 80%; margin: 0 auto;">
 		<div class="board-search" style="">
-			<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" name="keyword" value="">
+			<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" name="keyword" value="${pageMaker.cri.keyword }">
 			<button type="button" class="btn-search-input" id="eventSearchBtn">검색</button>
 		</div>
 	</div>
 	
 	<ul class="faq_list" id="faqAllBox">
+		<c:if test="${empty faqList }">
+			<div class="" style="padding-bottom: 10px; margin: auto;">
+				<div style="text-align: center; padding: 50px;">조회된 내역이 없습니다.</div>
+			</div>
+		</c:if>
 		<c:forEach items="${faqList }" var="faq">
-			<li>
+			<li data-faq_no="${faq.faq_no }">
 				<div class="q">
 					<img src="/resources/img/faq.png">
 					<span class="sp">[${faq.faq_div }]</span>
@@ -253,13 +271,19 @@ margin-right: auto;
 			</li>
 		</c:forEach>
 	</ul>
+<c:if test="${empty faqList }">
+	<div class="mt-5 mb-5 paginationdiv" style="display: none">
+		<%@ include file="../common/pagination.jsp" %>
+	</div>
+</c:if>
+<c:if test="${!empty faqList }">
+	<div class="mt-5 mb-5 paginationdiv">
+		<%@ include file="../common/pagination.jsp" %>
+	</div>
+</c:if>
 
-<div class="mt-5 mb-5 paginationdiv">
-	<%@ include file="../common/pagination.jsp" %>
 </div>
 
-
-</div>
 <script>
 	$(function() {
 		$(".faq_list .q").on("click",function(){
@@ -267,6 +291,33 @@ margin-right: auto;
 			$(this).parents("li").toggleClass("open");
 			return false;
 		});
+		
+		$("#eventSearchBtn").on('click', function(){
+			searchList_go(1);
+		});
+		
+		$(".menu-list li a").on('click', function(){
+			let faq_div = $(this).text();
+			console.log(faq_div);
+			$('select[name="searchType"]').val(faq_div);
+			searchList_go(1);
+		})
 	});
+let searchFormUrl = 'faq.do';
+
+let searchT = '${pageMaker.cri.searchType}';
+$('select[name="searchType"]').val(searchT);
+$('.menu-list li a[data-faq_div="' + searchT + '"]').css("background-color", "#f0f0f0");
+
+let no = '${faq_no}';
+console.log(no);
+if(no != 0){
+	$('.faq_list li[data-faq_no="' + no + '"]').addClass("open");
+	 var offset = $('.open').offset();
+     $('html, body').animate({scrollTop : offset.top - 200}, 400);
+}
+
 </script>
+
+
 <%@ include file="../include/footer.jsp" %>

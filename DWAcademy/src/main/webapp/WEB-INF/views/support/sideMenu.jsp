@@ -1,6 +1,7 @@
+<%@page import="kr.or.dw.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
   .sub_visual {
   
@@ -129,7 +130,13 @@ top:100px;
     white-space: nowrap;
 }
 </style>
-    
+<%
+	String mem_cd = "";
+	if(session.getAttribute("loginUser") != null){
+		MemberVO member = (MemberVO)session.getAttribute("loginUser");
+		mem_cd = member.getMem_cd();
+	}
+%>    
     
     <div class="navigation">
         <ul>
@@ -207,6 +214,8 @@ top:100px;
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script>
+    let mem_cd = '<%=mem_cd%>';
+    
     const list = document.querySelectorAll('.list2');
     function activeLink() {
         list.forEach((item) =>
@@ -229,7 +238,7 @@ top:100px;
         	  const agreeWhere = 'http://localhost/support/agreeWhere.do';
         	  const agreePrivacy = 'http://localhost/support/agreePrivacy.do';
         	  const agreeScreen = 'http://localhost/support/agreeScreen.do';
-        	  if (currentURL === faq) {
+        	  if (currentURL.includes(faq)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[2].classList.add('active1'); 
         	  }
@@ -269,6 +278,9 @@ top:100px;
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[8].classList.add('active1'); 
         	  }
+        	  if(mem_cd != ''){
+        	    	list[1].style.display = 'none'; 
+        	    }
         	});
     
     

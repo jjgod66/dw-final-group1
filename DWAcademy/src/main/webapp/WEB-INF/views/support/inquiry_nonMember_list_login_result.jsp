@@ -1,16 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp" %>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
- 
+ <%@ include file="que_delete_modal.jsp" %>
 <style>
 body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper { margin-left:auto; margin-right:auto; width: 70%; min-height: 500px; margin-bottom: 100px;}
 
@@ -122,61 +125,72 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
 <div id="wrapper">
 
 	<!-- rja검색  -->
-	<div class="finder" style="margin-right: 30px; margin-top: 30px; margin-bottom: 30px;">
-      <div class="finder__outer">
-        <div class="finder__inner">
-          <div class="finder__icon" ref="icon"></div>
-          <input class="finder__input" type="text" name="q" />
-        </div>
-      </div>
-    </div>
+<!-- 	<div class="finder" style="margin-right: 30px; margin-top: 30px; margin-bottom: 30px;"> -->
+<!--       <div class="finder__outer"> -->
+<!--         <div class="finder__inner"> -->
+<!--           <div class="finder__icon" ref="icon"></div> -->
+<!--           <input class="finder__input" type="text" name="q" /> -->
+<!--         </div> -->
+<!--       </div> -->
+<!--     </div> -->
 	
-	<div class="container">
+	<div class="container" style="margin-top:50px;">
         <div class="modal1" id="same">		
 	      	<div class="modal-wrap">
 			     <div class="post-detail">
 				    <div class="post-info">
-				        <h2 class="post-title">영화 개봉 날짜 문의 </h2>
+				        <h2 class="post-title">${qna.que_title }</h2>
 				    </div>
-				        <span id="b">1 </span>
-				        <span id="b">센터 </span>
-				        <span id="b">영화정보문의 </span>
-				        <span id="b">2023년 7월 28일 </span>
+<!-- 				        <span id="b">1 </span> -->
+				        <span id="b">${qna.thr_name } </span>
+				        <span id="b">${qna.que_type } </span>
+				        <span id="b"><fmt:formatDate value="${qna.regdate }" pattern="yyyy-MM-dd"/> </span>
 				
 				    <div class="post-content" >
 				        <p>
-				            영화 개봉 언제 해요 알료주세요 !!!!!!!!!!!!!!!!!!!!!!
+				            ${qna.que_content }
 				        </p>
 				    </div>
 				</div>
 					      		
 	      	</div>			          		
       	</div>	
-      	<div id="im">
-	        <img src="/resources/img/arrow.png" id="img">
+      	<c:if test="${!empty answer }">
+      	<div id="im" style="margin: 10px 0;">
+      		<i class="fa-solid fa-arrow-down-long" style="font-size: 30px;"></i>
+<!-- 	        <img src="/resources/img/arrow.png" id="img"> -->
         </div>
         <div class="modal1" id="same">		
 	      	<div class="modal-wrap">
 			     <div class="post-detail">
 				        <span id="b">관리자</span>
-				        <span id="b">2023년 7월 29일 </span>
+				        <span id="b"><fmt:formatDate value="${answer.regdate }" pattern="yyyy-MM-dd"/></span>
 				
 				    <div class="post-content" >
 				        <p>
-				            안녕하세요 영화 개봉 일정입니다. 감사합니다.<br>메인 페이지를 참고해주세요.
+				            ${answer.ans_content }
 				        </p>
 				    </div>
 				</div>
 					      		
 	      	</div>			          		
       	</div>	
+      	</c:if>
       	<div class="post-buttons">
-	        <button class="previous-button btn-secondary">삭제</button>
-	        <button class="next-button btn-secondary" onclick="location.href='<%=request.getContextPath()%>/support/inquiry_nonMember_list.do'">목록</button>
+	        <button class="previous-button btn-secondary" id="qdelBtn">삭제</button>
+	        <button class="next-button btn-secondary" onclick="history.go(-1)">뒤로가기</button>
 	    </div>
     </div>
 	
 </div>
 
+<script>
+$(function(){
+	$('#qdelBtn').on('click', function(){
+		$('#que-delete-modal').modal('show');
+	})
+	
+})
+</script>
 
 <%@ include file="../include/footer.jsp" %>

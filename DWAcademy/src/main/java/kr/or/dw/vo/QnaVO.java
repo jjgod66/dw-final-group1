@@ -2,12 +2,14 @@ package kr.or.dw.vo;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
 public class QnaVO {
 
-	private String que_no;
+	private int que_no;
 	private String que_title;
 	private String que_content;
 	private String mem_cd;
@@ -20,6 +22,7 @@ public class QnaVO {
 	private String thr_name;
 	private Date regdate;
 	private String ans_content;
+	private MultipartFile attachment;
 	
 	public QnaVO () {}
 }
