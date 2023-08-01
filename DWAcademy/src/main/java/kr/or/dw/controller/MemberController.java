@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.MovieDAO;
 import kr.or.dw.service.CouponService;
 import kr.or.dw.service.MemberService;
@@ -173,22 +174,17 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/bookinglist")
-	public ModelAndView memberBookinglist(ModelAndView mnv, HttpSession session) throws SQLException {
+	public ModelAndView memberBookinglist(SearchCriteria cri, ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/member/bookinglist";
 		
 		MemberVO member = (MemberVO) session.getAttribute("loginUser");
 		String mem_cd = member.getMem_cd();
-		if(member != null) {
+		cri.setPerPageNum("5");
+		Map<String, Object> dataMap = movieService.selectMovieInfo(cri, mem_cd);
 		
-			List<Map<String, Object>> movieInfo = movieService.selectMovieInfo(mem_cd);
-			List<ProductVO> memberBuyInfo = memberService.selectBuyInfo(mem_cd);
-			mnv.addObject("memBuyInfo", memberBuyInfo);
-			mnv.addObject("movieInfo", movieInfo);
-			
-			System.out.println(memberBuyInfo);
-			System.out.println(movieInfo.size());
-			System.out.println(movieInfo);
-		}
+		
+		mnv.addAllObjects(dataMap);
+		System.out.println(dataMap);
 		
 		
 		mnv.setViewName(url);
@@ -197,53 +193,32 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/searchResDate")
-	public ResponseEntity<List<Map<String, Object>>> searchResDate(String searchVal, HttpSession session) throws SQLException{
-		ResponseEntity<List<Map<String, Object>>> entity = null;
+	public ModelAndView searchResDate(ModelAndView mnv, SearchCriteria cri, HttpSession session) throws SQLException{
+		String url = "/member/bookinglist";
+		System.out.println("cri : " + cri);
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		String mem_cd = member.getMem_cd();
+		cri.setPerPageNum("5");
+		Map<String, Object> dataMap = movieService.searchMovieInfo(cri, mem_cd);
+	
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
 		
-		System.out.println(searchVal);
-		try {
+		return mnv;
+	}
+	@RequestMapping("/member/searchBuyDate")
+	public ModelAndView searchBuyDate(ModelAndView mnv, SearchCriteria cri, HttpSession session) throws SQLException{
+		String url = "/member/bookinglist";
 		
 		MemberVO member = (MemberVO) session.getAttribute("loginUser");
 		String mem_cd = member.getMem_cd();
-			List<Map<String, Object>> searchMovieInfo = null;
-		if(member != null) {
+		cri.setPerPageNum("5");
+		Map<String, Object> dataMap = memberService.searchBuyInfo(mem_cd, cri);
 		
-			searchMovieInfo = movieService.searchMovieInfo(mem_cd, searchVal);
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
 		
-			System.out.println(searchMovieInfo.size());
-			System.out.println(searchMovieInfo);
-		
-		}
-			entity = new ResponseEntity<List<Map<String, Object>>>(searchMovieInfo, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<List<Map<String, Object>>>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		return entity;
-	}
-	@RequestMapping("/member/searchBuyDate")
-	public ResponseEntity<List<Map<String, Object>>> searchBuyDate(String searchVal, HttpSession session) throws SQLException{
-		ResponseEntity<List<Map<String, Object>>> entity = null;
-		
-		System.out.println(searchVal);
-		try {
-			
-			MemberVO member = (MemberVO) session.getAttribute("loginUser");
-			String mem_cd = member.getMem_cd();
-			List<Map<String, Object>> searchBuyInfo = null;
-				
-			searchBuyInfo = memberService.searchBuyInfo(mem_cd, searchVal);
-			
-			System.out.println(searchBuyInfo.size());
-			System.out.println(searchBuyInfo);
-			entity = new ResponseEntity<List<Map<String, Object>>>(searchBuyInfo, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<List<Map<String, Object>>>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		
-		return entity;
+		return mnv;
 	}
 	
 	@RequestMapping("/member/discount-coupon")

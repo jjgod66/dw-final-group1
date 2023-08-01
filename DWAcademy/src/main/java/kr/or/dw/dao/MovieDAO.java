@@ -299,10 +299,12 @@ public interface MovieDAO {
 
 	/**
 	 * 마이페이지 예매 정보를 가져오는 메서드
+	 * @param rowBounds 
+	 * @param cri 
 	 * @param mem_cd
 	 * @return
 	 */
-	List<Map<String, Object>> selectMovieInfo(String mem_cd) throws SQLException;
+	List<Map<String, Object>> selectMovieInfoList(SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd) throws SQLException;
 
 	/**
 	 * 무비포스트 작성 메서드
@@ -436,7 +438,23 @@ public interface MovieDAO {
 	 * @param searchVal
 	 * @return
 	 */
-	List<Map<String, Object>> searchMovieInfo(@Param("mem_cd") String mem_cd, @Param("searchVal")String searchVal) throws SQLException;
+	List<Map<String, Object>> searchMovieInfoList(@Param("cri")SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd") String mem_cd) throws SQLException;
+
+	/**
+	 * 예매 내역의 모든 카운트
+	 * @param cri
+	 * @param mem_cd 
+	 * @return
+	 */
+	int selectSearchMovieInfoListCnt(SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	/**
+	 * 예매 내역의 검색한 카운트
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	int SearchMovieInfoListCnt(@Param("cri")SearchCriteria cri, @Param("mem_cd") String mem_cd) throws SQLException;
 
 
 }

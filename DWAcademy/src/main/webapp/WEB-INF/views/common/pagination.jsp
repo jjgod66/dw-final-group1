@@ -42,6 +42,7 @@
 	<input type="hidden" name="adminType">
 	<input type="hidden" name="orderType">
 	<input type="hidden" name="keyword">
+	<input type="hidden" name="monthKeyword">
 </form>
 <script>
 	if (${not empty sessionScope.admin_cd}) {
@@ -57,7 +58,6 @@
 		if ($('select[name="perPageNum"]').val()) {
 			perPageNum = $('select[name="perPageNum"]').val();
 		}
-		
 		let searchForm = $('#searchForm');
 		searchForm.find('[name="page"]').val(page);
 		searchForm.find('[name="perPageNum"]').val(perPageNum);
@@ -65,6 +65,7 @@
 		searchForm.find('[name="searchType2"]').val($('select[name="searchType2"]').val());
 		searchForm.find('[name="orderType"]').val($('select[name="orderType"]').val());
 		searchForm.find('[name="keyword"]').val($('input[name="keyword"]').val());
+		searchForm.find('[name="monthKeyword"]').val($('select[name="monthKeyword"]').val());
 		searchForm.attr("method", "post");
 		if (url) {
 			searchForm.attr("action", url);

@@ -6,7 +6,9 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.SnsVO;
@@ -54,9 +56,15 @@ public interface MemberDAO {
 	void updateMemUnban() throws SQLException;
 
 	// 회원 구매 내역
-	List<ProductVO> selectBuyInfo(String mem_cd) throws SQLException;
+	List<ProductVO> selectBuyInfoList(SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd) throws SQLException;
 
 	// 회원 구매 내역 월 단위 조회
-	List<Map<String, Object>> searchBuyInfo(@Param("mem_cd")String mem_cd, @Param("searchVal")String searchVal) throws SQLException;
+	List<Map<String, Object>> searchBuyInfo(@Param("cri")SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	// 회원 구매 내역 총 카운트
+	int selectBuyInfoListCnt(@Param("cri")SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	// 회원 구매 내역 검색한 총 카운트
+	int searchBuyInfoListCnt(@Param("cri")SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
 
 }

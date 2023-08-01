@@ -234,12 +234,15 @@ h3.tit {
 .content-section {
     display: block;
 }
+.toggle {
+	display: none;
+}
 </style>
 <h2 class="tit">예매/구매 내역</h2>
 <div class="tab-block tab-layer">
 	<ul>
-		<li data-url="/mypage/bookinglist?tab=01" data-tit="예매내역" title="예매내역 탭으로 이동" class="on"><a href="#myBokdArea" class="btn">예매 </a></li>
-		<li data-url="/mypage/bookinglist?tab=02" data-tit="구매내역" title="구매내역 탭으로 이동" class=""><a href="#myPurcArea" class="btn">구매 </a></li>
+		<li data-url="/mypage/bookinglist?tab=01" data-tit="예매내역" title="예매내역 탭으로 이동" class="${gb eq null ? 'on' : '' }"><a href="#myBokdArea" class="btn">예매 </a></li>
+		<li data-url="/mypage/bookinglist?tab=02" data-tit="구매내역" title="구매내역 탭으로 이동" class="${gb}"><a href="#myPurcArea" class="btn">구매 </a></li>
 	</ul>
 </div>
 <section id="myBokdArea"  class="content-section" style="display: block">
@@ -255,11 +258,20 @@ h3.tit {
 				<td>
 					<input type="radio" id="radBokd01" name="radBokd" value="B" checked="checked">
 					<label for="radBokd01">예매내역 </label>
-					<input type="radio" id="radBokd02" name="radBokd" value="E">
-					<label for="radBokd02">지난내역 </label>
-
+<!-- 					<input type="radio" id="radBokd02" name="radBokd" value="E"> -->
+<!-- 					<label for="radBokd02">지난내역 </label> -->
+					
 					<div class="dropdown bootstrap-select disabled small bs3">
-						<select name="selYM" class="selectpicker small" disabled="disabled" tabindex="-98">
+						<select name="searchType">
+							<option value="">선택</option>
+							<option value="date" ${cri.searchType eq 'date' ? 'selected' : '' }>월별</option>
+							<option value="movie" ${cri.searchType eq 'movie' ? 'selected' : '' }>영화별</option>
+							<option value="theater" ${cri.searchType eq 'theater' ? 'selected' : '' }>극장별</option>
+						</select>
+					</div>
+					<input type="text" class="small bd3 toggle" name="keyword" value="${cri.keyword}">
+					<div class=" bootstrap-select small bs3" id="selYM" style="display:none;">
+						<select name="monthKeyword" class="selectpicker small" tabindex="-98">
 							<option value="202307">2023년 7월</option>
 							<option value="202306">2023년 6월</option>
 							<option value="202305">2023년 5월</option>									
@@ -274,20 +286,25 @@ h3.tit {
 							<option value="202208">2022년 8월</option>
 						</select>
 					</div>
-					<button type="button" id="selYMSearchBtn" class="button gray-line small ml05" name="search">
+					<button type="button" class="button gray-line small ml05" id="reserveSearchBtn" onclick=" searchList_go(1, '/member/searchResDate.do');">
 						<i class="iconset ico-search-gray"></i> 조회 
 					</button>
+					<select style="display:none;" name="perPageNum">
+						<option value="5" selected></option>
+					</select>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 </div>
 	<div class="container" id="myMovie">
-<div>총 ${fn:length(movieInfo)}건</div>
-<c:if test="">
+<c:if test="${empty movieInfoList}">
 	<div id="bokdList"><div class="no-history-reservation mt20">예매 내역이 없습니다.</div></div>
 </c:if>
-	<c:forEach items="${movieInfo}" var="movieInfo">
+<c:if test="${!empty movieInfoList}">
+	<div>총 ${movieTotalCount}건</div>
+</c:if>
+	<c:forEach items="${movieInfoList}" var="movieInfo">
 	<div class="container">
 		<div class="card-body row" style="padding-rigth: 0; border: 1px solid #503396">
 			<div class="col-2" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
@@ -321,10 +338,11 @@ h3.tit {
 	<br>
 	</c:forEach>
 </div>
+<%@ include file ="../common/pagination.jsp"%>
 </section>
 
 <!-- 구매 내역 시작 -->
-<section id="myPurcArea"  class="content-section" style="display: block">
+<section id="myPurcArea" class="content-section" style="display: block">
 <div class="board-list-search mt20">
 	<table summary="구매 조회 조건">
 		<colgroup>
@@ -335,23 +353,23 @@ h3.tit {
 			<tr>
 				<th scope="row">구분 </th>
 				<td>
-					<div class="dropdown bootstrap-select disabled small bs3">
+					<div class="dropdown bootstrap-select small bs3">
 						<select name="buyYM" class="selectpicker small" tabindex="-98">
-							<option value="202307">2023년 7월</option>
-							<option value="202306">2023년 6월</option>
-							<option value="202305">2023년 5월</option>									
-							<option value="202304">2023년 4월</option>
-							<option value="202303">2023년 3월</option>
-							<option value="202302">2023년 2월</option>
-							<option value="202301">2023년 1월</option>
-							<option value="202212">2022년 12월</option>
-							<option value="202211">2022년 11월</option>
-							<option value="202210">2022년 10월</option>
-							<option value="202209">2022년 9월</option>
-							<option value="202208">2022년 8월</option>
+							<option value="202307" ${cri.monthKeyword eq '202307' ? 'selected' : '' }>2023년 7월</option>
+							<option value="202306" ${cri.monthKeyword eq '202306' ? 'selected' : '' }>2023년 6월</option>
+							<option value="202305" ${cri.monthKeyword eq '202305' ? 'selected' : '' }>2023년 5월</option>									
+							<option value="202304" ${cri.monthKeyword eq '202304' ? 'selected' : '' }>2023년 4월</option>
+							<option value="202303" ${cri.monthKeyword eq '202303' ? 'selected' : '' }>2023년 3월</option>
+							<option value="202302" ${cri.monthKeyword eq '202302' ? 'selected' : '' }>2023년 2월</option>
+							<option value="202301" ${cri.monthKeyword eq '202301' ? 'selected' : '' }>2023년 1월</option>
+							<option value="202212" ${cri.monthKeyword eq '202212' ? 'selected' : '' }>2022년 12월</option>
+							<option value="202211" ${cri.monthKeyword eq '202211' ? 'selected' : '' }>2022년 11월</option>
+							<option value="202210" ${cri.monthKeyword eq '202210' ? 'selected' : '' }>2022년 10월</option>
+							<option value="202209" ${cri.monthKeyword eq '202209' ? 'selected' : '' }>2022년 9월</option>
+							<option value="202208" ${cri.monthKeyword eq '202208' ? 'selected' : '' }>2022년 8월</option>
 						</select>
 					</div>
-					<button type="button" id="buyYMSearchBtn" class="button gray-line small ml05" name="search">
+					<button type="button" id="buyYMSearchBtn" class="button gray-line small ml05" name="search" onclick="searchBuyList_go(1 , '/member/searchBuyDate.do');">
 						<i class="iconset ico-search-gray"></i> 조회 
 					</button>
 				</td>
@@ -360,12 +378,12 @@ h3.tit {
 	</table>
 </div>
 <div class="container" id="myBuy">
-<div>총 ${fn:length(memBuyInfo)}건</div>
-<c:if test="">
+<c:if test="${buyTotalCount eq 0}">
 	<div id="buyList"><div class="no-history-reservation mt20">구매 내역이 없습니다.</div></div>
 </c:if>
-<c:forEach items="${memBuyInfo}" var="buyInfo">
 	<div class="container">
+	<c:if test="${!empty buyInfoList}">
+	<div>총 ${buyTotalCount}건</div>
 		<div class="card-body" style="padding-rigth: 0; border-top: 1px solid #503396">
 			<table style="width : 100%;">
 				<tr>
@@ -375,28 +393,93 @@ h3.tit {
 					<th style="width : 10%; text-align : center;">결제금액</th>
 					<th style="width : 10%; text-align : center;">상태</th>
 				</tr>
+<c:forEach items="${buyInfoList}" var="buyInfo">
 				<tr>
-					<td style="width : 20%; text-align : center;"><fmt:formatDate value="${buyInfo.buydate}"/></td>
-					<td style="width : 10%; text-align : center;">${buyInfo.product_div}</td>
-					<td style="text-align : center;">${buyInfo.product_name}</td>
-					<td style="width : 10%; text-align : center;">${buyInfo.product_price}원</td>
-					<c:if test="${buyInfo.gb_use eq 'N'}">
+					<td style="width : 20%; text-align : center;"><fmt:formatDate value="${buyInfo.BUYDATE}"/></td>
+					<td style="width : 10%; text-align : center;">${buyInfo.PRODUCT_DIV}</td>
+					<td style="text-align : center;">${buyInfo.PRODUCT_NAME}</td>
+					<td style="width : 10%; text-align : center;">${buyInfo.PRODUCT_PRICE}원</td>
+					<c:if test="${buyInfo.GB_USE eq 'N'}">
 						<td style="width : 10%; text-align : center;">사용가능</td>
 					</c:if>
-					<c:if test="${buyInfo.gb_use eq 'Y'}">
+					<c:if test="${buyInfo.GB_USE eq 'Y'}">
 						<td style="width : 10%; text-align : center;">사용완료</td>
 					</c:if>
-					<c:if test="${buyInfo.refunddate ne null}">
+					<c:if test="${buyInfo.REFUNDDATE ne null}">
 						<td style="width : 10%; text-align : center;">결제취소</td>
 					</c:if>
 				</tr>
+	</c:forEach>
 			</table>
 		</div>
+	</c:if>
 	</div>
-	</c:forEach>
 </div>
+<nav aria-label="member list Nabigation">
+	<ul class="pagination justify-content-center m-0" style="background-color : white;">
+		<li class="page-item">
+			<a class="page-link" href="javascript:searchList_go(1);">
+				<i class="bi bi-chevron-double-left"></i>
+			</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="javascript:searchList_go(${pageMaker.prev ? pageMaker.cri.getPage() - 1 : -1 });">
+				<i class="bi bi-chevron-left"></i>
+			</a>
+		</li>
+		<c:forEach begin="${pageMaker2.startPage }" end="${pageMaker2.endPage }" var="pageNum">
+			<li class="page-item ${pageMaker2.cri.page == pageNum ? 'active' : '' }">
+				<a class="page-link" href="javascript:searchList_go(${pageNum });">${pageNum }</a>
+			</li>
+		</c:forEach>
+		<li class="page-item">
+			<a class="page-link" href="javascript:searchList_go(${pageMaker2.next ? pageMaker2.cri.getPage() +1 : -1 });">
+				<i class="bi bi-chevron-right"></i>
+			</a>
+		</li>
+		<li class="page-item">
+			<a class="page-link" href="javascript:searchList_go(${pageMaker2.realEndPage });">
+				<i class="bi bi-chevron-double-right"></i>
+			</a>
+		</li>
+	</ul>
+</nav>
+
+<form id="reserveSearchForm">
+	<input type="hidden" name="page">
+	<input type="hidden" name="perPageNum">
+	<input type="hidden" name="monthKeyword">
+</form>
 </section>
 <script>
+let searchUrl = "/member/bookinglist.do"
+if (${not empty sessionScope.admin_cd}) {
+	$('#reserveSearchForm').find('[name="adminType"]').val('${sessionScope.admin_cd}');
+}
+
+function searchBuyList_go(page, url) {
+	if (page < 1) {
+		return;
+	}
+	
+	let perPageNum = 10;
+	if ($('select[name="perPageNum"]').val()) {
+		perPageNum = $('select[name="perPageNum"]').val();
+	}
+	
+	let reserveSearchForm = $('#reserveSearchForm');
+	reserveSearchForm.find('[name="page"]').val(page);
+	reserveSearchForm.find('[name="perPageNum"]').val(perPageNum);
+	reserveSearchForm.find('[name="monthKeyword"]').val($('select[name="buyYM"]').val());
+	reserveSearchForm.attr("method", "post");
+	if (url) {
+		reserveSearchForm.attr("action", url);
+	} else {
+		reserveSearchForm.attr("action", searchUrl);
+	}
+	reserveSearchForm.submit();
+}
+let searchFormUrl = "/member/bookinglist.do";
 $(document).ready(function () {
 	// 페이지가 로드되면 해시태그에 따라 해당 콘텐츠를 보여주거나 감추는 함수 실행
 	handleHashChange();
@@ -431,82 +514,108 @@ $(document).ready(function () {
 		$(".content-section").hide();
 		$(hash).show();
 	};
-	$('#radBokd02').on('click', function(){
-		$('select[name=selYM]').attr("disabled" ,false);
-	});
-	$('#radBokd01').on('click', function(){
-		$('select[name=selYM]').attr("disabled" ,true);
-		location.reload();
-	});
-	$('#selYMSearchBtn').on('click', function(){
-		let contextPath = "<%=request.getContextPath()%>";
-		if($('select[name=selYM]').attr("disabled") != "disabled"){
-			let searchVal = $('select[name=selYM]').val();
-			$.ajax({
-				url : "<%=request.getContextPath()%>/member/searchResDate.do",
-				method : "post",
-				data : {searchVal : searchVal},
-				success : function(res){
-					$('#myMovie').html('');
-					$('#myMovie').append('<div>총 '+ res.length + '건</div>');
-					let str = "";
-					for(let i = 0; i < res.length; i++){
-					console.log(res[i].MOVIE_MAINPIC_PATH);
-						str = "";
-						str +=    '<div class="card-body row" style="padding-rigth: 0; border: 1px solid #503396">'
-								+ '<div class="col-2" style="background: url('+ "'"+contextPath+'/sysAdmin/getPicture.do?name=' + res[i].MOVIE_MAINPIC_PATH + '&item_cd=' + res[i].MOVIE_CD + '&type=moviePoster' + "')" + 'no-repeat left /cover"></div>'
-								+ '<div class="col-5">'
-								+	'<span><strong>예매번호 </strong>' + res[i].MERCHANT_UID + '</span>'
-								+	'<br><br>'
-								+	'<span><strong>영화명 </strong>' + res[i].MOVIE_NAME + '</span>'
-								+	'<br><br>'
-								+	'<span><strong>극장/상영관 </strong>' + res[i].THR_NAME + '/' + res[i].HOUSE_NAME + '</span>'
-								+	'<br><br>'
-								+	'<span><strong>관람일시 </strong>' + moment(res[i].STARTDATE).format("YYYY-MM-DD HH:mm:ss") + '</span>'
-								+	'<br><br>'
-								+	'<span><strong>결제일시 </strong>' + moment(res[i].RESDATE).format("YYYY-MM-DD HH:mm:ss") + '</span>'
-								+ '</div>'
-								+ '<div class="col-4 ">'
-								+	'<br><br>'
-								+	'<br><br>'
-								+	'<span><strong>관람인원 </strong>' + res[i].MEM_CAT + '</span>'
-								+	'<br><br>'
-								+	'<span><strong>관람좌석 </strong>' + res[i].RES_SEAT + '</span>'
-								+	'<br><br>'
-								if(res[i].REFUNDDATE == null){
-									str += '<span><strong>취소일시 </strong> - </span>'
-								}
-								if(res[i].REFUNDDATE != null){
-									str += '<span><strong>취소일시 </strong>' +  res[i].REFUNDDATE + '</span>'
-								}
-							+	'</div>'
-						+	'</div>'
-						+ '</div>'
-						+ '<br>';
-						$('#myMovie').append(str);
-					};
-				},
-				error : function(err){
-					console.log(err.status);
-				}
-			})
+	$('select[name="searchType"]').on('change', function(){
+		console.log(this.value);
+		if(this.value == "date"){
+			$('input[name="keyword"]').hide();
+			$('#selYM').show();
+		}else if(this.value == "movie" || this.value == "theater"){
+			$('#selYM').hide();
+			$('input[name="keyword"]').show();
+		}else{
+			$('#selYM').hide();
+			$('input[name="keyword"]').hide();
 		}
-	});
+	})
 	
-	$('#buyYMSearchBtn').on('click', function(){
-		let searchVal = $('select[name=buyYM]').val();
-		$.ajax({
-			url : "<%=request.getContextPath()%>/member/searchBuyDate.do",
-			method : "post",
-			data : {searchVal : searchVal},
-			success : function(res){
-				console.log(res);
-			},
-			error : function(err){
-				console.log(err.status);
-			}
-		})
+// 	$('#radBokd02').on('click', function(){
+// 		$('#reserveSearchBtn').attr('disabled', false);
+// 		$('select[name="searchType"]').attr('disabled', false);
+// 		$('#selYMSearchBtn').attr('disabled', false);
+// 	});
+	$('#radBokd01').on('click', function(){
+		location.href="<%=request.getContextPath()%>/member/bookinglist.do";
 	});
+// 	let page = 1;
+// 	let searchVal = "";
+// 	$('#selYMSearchBtn').on('click', function(){
+<%-- 		let contextPath = "<%=request.getContextPath()%>"; --%>
+// 		if($('select[name=selYM]').attr("disabled") != "disabled"){
+// 			if($('select[name="searchType"]').val() == ""){
+// 				searchVal = "";
+// 			}else if($('select[name="searchType"]').val() == "date"){
+// 				searchVal = $('select[name=selYM]').val();
+// 			}else{
+// 				searchVal = $('input[name="searchReserve"]').val();
+// 			}
+// 			$.ajax({
+<%-- 				url : "<%=request.getContextPath()%>/member/searchResDate.do", --%>
+// 				method : "post",
+// 				data : {
+// 					searchVal : searchVal,
+// 					page : page		
+// 					},
+// 				success : function(res){
+// 					$('#myMovie').html('');
+// 					$('#myMovie').append('<div>총 '+ res.length + '건</div>');
+// 					let str = "";
+// 					for(let i = 0; i < res.length; i++){
+// 					console.log(res[i].MOVIE_MAINPIC_PATH);
+// 						str = "";
+// 						str +=    '<div class="card-body row" style="padding-rigth: 0; border: 1px solid #503396">'
+// 								+ '<div class="col-2" style="background: url('+ "'"+contextPath+'/sysAdmin/getPicture.do?name=' + res[i].MOVIE_MAINPIC_PATH + '&item_cd=' + res[i].MOVIE_CD + '&type=moviePoster' + "')" + 'no-repeat left /cover"></div>'
+// 								+ '<div class="col-5">'
+// 								+	'<span><strong>예매번호 </strong>' + res[i].MERCHANT_UID + '</span>'
+// 								+	'<br><br>'
+// 								+	'<span><strong>영화명 </strong>' + res[i].MOVIE_NAME + '</span>'
+// 								+	'<br><br>'
+// 								+	'<span><strong>극장/상영관 </strong>' + res[i].THR_NAME + '/' + res[i].HOUSE_NAME + '</span>'
+// 								+	'<br><br>'
+// 								+	'<span><strong>관람일시 </strong>' + moment(res[i].STARTDATE).format("YYYY-MM-DD HH:mm:ss") + '</span>'
+// 								+	'<br><br>'
+// 								+	'<span><strong>결제일시 </strong>' + moment(res[i].RESDATE).format("YYYY-MM-DD HH:mm:ss") + '</span>'
+// 								+ '</div>'
+// 								+ '<div class="col-4 ">'
+// 								+	'<br><br>'
+// 								+	'<br><br>'
+// 								+	'<span><strong>관람인원 </strong>' + res[i].MEM_CAT + '</span>'
+// 								+	'<br><br>'
+// 								+	'<span><strong>관람좌석 </strong>' + res[i].RES_SEAT + '</span>'
+// 								+	'<br><br>'
+// 								if(res[i].REFUNDDATE == null){
+// 									str += '<span><strong>취소일시 </strong> - </span>'
+// 								}
+// 								if(res[i].REFUNDDATE != null){
+// 									str += '<span><strong>취소일시 </strong>' +  res[i].REFUNDDATE + '</span>'
+// 								}
+// 							+	'</div>'
+// 						+	'</div>'
+// 						+ '</div>'
+// 						+ '<br>';
+// 						$('#myMovie').append(str);
+// 					};
+// 				},
+// 				error : function(err){
+// 					console.log(err.status);
+// 				}
+// 			})
+// 		}
+// 	});
+	
+// 	$('#buyYMSearchBtn').on('click', function(){
+// 		let searchVal = $('select[name=buyYM]').val();
+// 		$.ajax({
+<%-- 			url : "<%=request.getContextPath()%>/member/searchBuyDate.do", --%>
+// 			method : "post",
+// 			data : {searchVal : searchVal},
+// 			success : function(res){
+// 				console.log(res);
+// 			},
+// 			error : function(err){
+// 				console.log(err.status);
+// 			}
+// 		})
+// 	});
 });
 </script>
 <%@ include file="../include/member_footer.jsp" %>

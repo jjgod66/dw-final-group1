@@ -203,10 +203,11 @@ public interface MovieService {
 
 	/**
 	 * 마이페이지 예매 정보를 가져오는 메서드
+	 * @param cri 
 	 * @param mem_cd
 	 * @return
 	 */
-	List<Map<String, Object>> selectMovieInfo(String mem_cd) throws SQLException;
+	Map<String, Object> selectMovieInfo(SearchCriteria cri, String mem_cd) throws SQLException;
 
 	/**
 	 * 무비포스트 작성 메서드
@@ -296,10 +297,11 @@ public interface MovieService {
 
 	/**
 	 * 예매 내역조회
+	 * @param cri 
 	 * @param mem_cd
 	 * @param searchVal
 	 * @return
 	 */
-	List<Map<String, Object>> searchMovieInfo(String mem_cd, String searchVal) throws SQLException;
+	Map<String, Object> searchMovieInfo(SearchCriteria cri, String mem_cd) throws SQLException;
 
 }
