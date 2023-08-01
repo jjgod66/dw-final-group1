@@ -262,6 +262,11 @@ public class ThrAdminServiceImpl implements ThrAdminService {
 		return thrAdminDAO.selectScreenListforMovieMain(data);
 	}
 
+	@Override
+	public int checkScreenTimeClash(Map<String, Object> data) throws SQLException {
+		return thrAdminDAO.checkScreenTimeClash(data);
+	}
+
 
 	
 

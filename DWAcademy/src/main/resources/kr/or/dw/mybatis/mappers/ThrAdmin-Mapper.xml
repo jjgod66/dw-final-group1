@@ -367,10 +367,16 @@
 	</select>
 	
 	<select id="selectMovieListforMovieMain" resultType="map">
-		SELECT *
-		  FROM movie
-		 WHERE opendate <![CDATA[<=]]> #{date}
+		SELECT MAX(m.MOVIE_CD) movie_cd, MAX(m.MOVIE_NAME) movie_name, MAX(m.MOVIE_INFO) MOVIE_INFO 
+			 , MAX(m.MOVIE_DIRECTOR) movie_director, MAX(m.MOVIE_ACTOR) movie_actor, MAX(m.MOVIE_GRADE) MOVIE_GRADE 
+			 , MAX(m.MOVIE_LENGTH) MOVIE_LENGTH, MAX(m.MOVIE_MAINPIC_PATH) movie_mainpic_path
+			 , MAX(m.OPENDATE) opendate, MAX(m.ENDDATE) enddate,  LISTAGG(mt.MOVIE_TYPE_DES, ',') WITHIN GROUP(ORDER BY mtc.MOVIE_TYPE_CD) movie_type_cd
+		  FROM movie m, MOVIE_TYPE_C mtc, movie_type mt
+		 WHERE m.MOVIE_CD = mtc.MOVIE_CD
+		   AND mtc.MOVIE_TYPE_CD = mt.MOVIE_TYPE_CD
+		   AND opendate <![CDATA[<=]]> #{date}
 		   AND enddate <![CDATA[>=]]> #{date}
+		 GROUP BY m.MOVIE_CD
 	</select>
 	
 	<select id="selectScreenListforMovieMain" resultType="map">
@@ -382,5 +388,28 @@
 		   AND s.STARTDATE <![CDATA[>=]]> TO_DATE(TO_CHAR(#{date}, 'yyyy-MM-dd')) + 8/24
 		   AND s.startdate <![CDATA[<=]]> TO_DATE(TO_CHAR(#{date}, 'yyyy-MM-dd')) + 26/24
 		   AND t.ADMIN_CD = #{admin_cd}
+	</select>
+	
+	<select id="checkScreenTimeClash" resultType="int">
+		SELECT COUNT(*)
+		  FROM (
+					SELECT s.*, (s.startdate + (m.MOVIE_LENGTH /1440)) prev_enddate
+						 , NVL(LEAD(s.startdate) OVER(ORDER BY s.startdate), TO_TIMESTAMP(TO_CHAR(#{markTime}, 'mm-dd-yyyy') || ' 03:00:00.000', 'mm/dd/yyyy hh24:mi:ss.ff3') + 1) next_startdate
+						 , NVL(LEAD(s.startdate + (m.MOVIE_LENGTH /1440)) OVER(ORDER BY s.startdate), TO_TIMESTAMP(TO_CHAR(#{markTime}, 'mm-dd-yyyy') || ' 03:00:00.000', 'mm/dd/yyyy hh24:mi:ss.ff3') + 1) next_enddate
+					  FROM SCREEN s, MOVIE m 
+					 WHERE s.MOVIE_CD = m.MOVIE_CD
+					   AND s.HOUSE_NO = #{house_no}
+					   AND TO_CHAR(s.startdate, 'yyyy-MM-dd') = TO_CHAR(#{markTime}, 'yyyy-MM-dd') 
+		  		) f
+		 WHERE (
+				f.prev_enddate <![CDATA[>=]]> #{startTime}
+		 		AND 
+		 		f.startdate <![CDATA[<=]]> #{endTime}
+		 		)
+		   OR (
+		   		f.next_startdate <![CDATA[<=]]> #{endTime}
+		   		AND
+		   		f.next_enddate <![CDATA[>=]]> #{startTime}
+		   		)
 	</select>
 </mapper>
