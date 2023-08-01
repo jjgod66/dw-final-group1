@@ -92,5 +92,10 @@ public interface ThrAdminService {
 	// 시간표 충돌이 일어나는 스크린 갯수를 세온다.
 	int checkScreenTimeClash(Map<String, Object> data) throws SQLException;
 
+	// 새 상영영화를 등록한다.
+	void addNewScreen(ScreenVO screen) throws SQLException;
+
+	// 해당하는 상영영화 상세정보를 가져온다.
+	Map<String, Object> selectScreenByScreen_cd(String screen_cd) throws SQLException;
 
 }

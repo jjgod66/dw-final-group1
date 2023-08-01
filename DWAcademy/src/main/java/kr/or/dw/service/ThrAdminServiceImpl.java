@@ -267,6 +267,16 @@ public class ThrAdminServiceImpl implements ThrAdminService {
 		return thrAdminDAO.checkScreenTimeClash(data);
 	}
 
+	@Override
+	public void addNewScreen(ScreenVO screen) throws SQLException {
+		thrAdminDAO.insertScreen(screen);
+	}
+
+	@Override
+	public Map<String, Object> selectScreenByScreen_cd(String screen_cd) throws SQLException {
+		return thrAdminDAO.selectScreenByScreen_cd(screen_cd);
+	}
+
 
 	
 
