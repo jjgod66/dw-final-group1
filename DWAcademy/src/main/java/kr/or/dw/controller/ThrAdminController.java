@@ -630,18 +630,50 @@ public class ThrAdminController {
 	}
 	
 	@RequestMapping("/addNewScreen")
-	public void addNewScreen (ScreenVO screen, HttpServletResponse res) throws IOException {
+	public void addNewScreen (ScreenVO screen, HttpServletResponse res) throws IOException, SQLException {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(screen.getStartdate());
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		int hour = cal.get(Calendar.HOUR);
+		if (7 <= hour && hour < 9) {
+			screen.setGb_jojo("Y");
+		} else {
+			screen.setGb_jojo("N");
+		}
+		String date = "" + year
+						 + (month < 10 ? "0" + month : month) 
+						 + (day < 10 ? "0" + day : day); 
+
 		System.out.println(screen);
+		thrAdminService.addNewScreen(screen);
 		
 		res.setContentType("text/html; charset=utf-8");
 		PrintWriter out = res.getWriter();
 		out.println("<script>");
 		out.println("alert('새 영화가 상영표에 등록되었습니다.')");
-		out.println("location.href='test.do';");
+		out.println("location.href='test.do?date="+date+"';");
 		out.println("</script>");
 		out.flush();
 		out.close();
 	}
+	
+	@RequestMapping("/screenDetail")
+	public ResponseEntity<Map<String, Object>> screenDetail(@RequestBody Object screen_cd) throws SQLException {
+		ResponseEntity<Map<String, Object>> entity = null;
+		System.out.println(screen_cd);
+		Map<String, Object> screen = thrAdminService.selectScreenByScreen_cd((String)screen_cd);
+		
+		try {
+			entity = new ResponseEntity<>(screen, HttpStatus.OK);
+		} catch (Exception e) {
+			entity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		System.out.println(screen);
+		return entity;
+	}
+	
 	@GetMapping("/movieAdminMain")
 	public ModelAndView movieAdmin(ModelAndView mnv,SearchCriteria cri) throws SQLException {
 		String url = "/thrAdmin/movieAdminMain";

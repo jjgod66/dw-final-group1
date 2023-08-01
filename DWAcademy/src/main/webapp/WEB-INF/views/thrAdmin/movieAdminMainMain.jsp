@@ -83,6 +83,7 @@ th.selectedDate {
 	background-color : #4aa8d8;
 	color : white;
 	word-break: break-all;
+	z-index : 100;
 }
 .triangle {
 	position: absolute;
@@ -100,6 +101,7 @@ th.selectedDate {
 }
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
+<%@ include file="movieAdminMain_Modal.jsp" %>
 <div id="wrapper">
 	<div id="content">
 		<jsp:include page="admin_contentHeader.jsp">
@@ -271,233 +273,13 @@ th.selectedDate {
 		
 	</div>
 </div>
+
 <form role="form" action="addNewScreen" method="post" style="display: none;">
 	<input type="hidden" name="movie_cd">
 	<input type="hidden" name="startdate">
-	<input type="hidden" name="movie-type_cd">
+	<input type="hidden" name="movie_type_cd">
 	<input type="hidden" name="house_no">
 </form>
-<script>
 
-const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
-	
-	// 날짜 선택부분
-	let weekPage = 0;
-	for (let i = 0; i < 21; i++) {
-		let today = new Date();
-		let day = new Date(today.setDate(today.getDate() + i));
-		let dateFormat = (day.getMonth()+1) + '월 ' + (day.getDate()) + '일';		//M월d일
-		let dateFormat2 = (day.getFullYear().toString())	//yyyyMMdd
-						+ (day.getMonth()+1 < 10 ? '0' + (day.getMonth()+1) : day.getMonth()+1).toString() 
-						+ (day.getDate() < 10 ? '0' + day.getDate() : day.getDate()).toString();
-		
-		let dayTableTd = $('<th class="dayTableTd" style="display: none;" data-date="'+dateFormat2+'">'+dateFormat+'</th>');
-		$('#dayTableRow').append(dayTableTd);
-	}
-	
-	// 현재 날짜 표시
-	if ('${today}' != "") {
-		$('.dayTableTd[data-date="${today}"]').addClass('selectedDate');
-	} else {
-		$('.dayTableTd:eq(0)').addClass('selectedDate');
-	}
-	
-	// 날짜 클릭시
-	$('.dayTableTd').on('click', function(){
-		let data = $(this).attr('data-date');
-		location.href="test.do?date="+data;
-	})
-	
-	showWeek(weekPage);
-	
-	function showWeek(weekPage) {
-		$('.dayTableTd').hide();
-		for (let i=0; i < 7; i++) {
-			$('#dayTableRow .dayTableTd:eq('+ (weekPage*7+i) +')').show();
-		}
-	}
-	
-	
-	$('#nextWeekBtn').on('click', function(){
-		if (weekPage < 2) {
-			weekPage++
-		} else {
-			return;
-		}
-		showWeek(weekPage);
-	});
-	$('#prevWeekBtn').on('click', function(){
-		if (weekPage > 0) {
-			weekPage--
-		} else {
-			return;
-		}
-		showWeek(weekPage);
-	});
-	
-	// 원하는 영화 클릭시
-	$('.movieRow').on('click', function(){
-		$('.selected').removeClass('selected');
-		$(this).addClass('selected');
-		
-		let movieName = $(this).find('.movieRowName').text();
-		let movieCd = $(this).find('.movieRowCd').text();
-		let movieLength = $(this).find('.movieLength').val();
-		let movieDates = $(this).find('.movieRowDates').val();
-		let moviePic = $(this).find('.movieRowPic').html();
-		let movieType = $(this).find('.movieType').val();
-		let movieTypeList = movieType.split(',');
-		$('#movieTypeTd').html('');
-		console.log(movieTypeList);
-		for (movieType of movieTypeList) {
-			$('#movieTypeTd').append($('<div class="col-md-6"><input type="radio" name="movie_type_cd" id="'+movieType+'" value="'+movieType+'"><label for="'+movieType+'">'+movieType+'</label></div>'));
-		}
-		
-		$('#movieRowName').text(movieName);
-		$('#movieRowCd').text(movieCd);
-		$('#movieLength').text(movieLength+"분");
-		$('#movieRowDates').text(movieDates);
-		$('#movieRowPic').html(moviePic);
-		$('#movieRowPic img').css({'width' : '10rem', 'height' : '14rem'});
-		
-		showAddedBox(movieLength);
-	});
-	
-	$('#startHour, #startMinute, #startHouse').on('change', function(){
-		if ($('div.selected').length > 0 ) {
-			let movieLength = $('div.selected').find('.movieLength').val();
-			showAddedBox(movieLength);
-		} 
-	});
-	
-	// 폼 작성시 상영시간표와 종료시간 프리뷰 
-	function showAddedBox(movieLength) {
-		if($('.addedBox').length > 0) {
-			$('.addedBox').remove();
-		}
-		let today = new Date();
-		let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()));
-		let endTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()) + Number(movieLength));
-		
-		$('#endTimeTd').text(((endTime.getHours()<10?'0'+endTime.getHours():endTime.getHours()) + '시 ') + (endTime.getMinutes() + '분'));
-		
-		divLength = ( movieLength / (20 * 60)) * 100;
-		divLengthRatio = Math.floor(divLength*10) / 10;
-		
-		divX = (startTime.getTime() - openTime) / (60 * 1000);
-		divX = (divX / (60 * 20)) * 100;
-		let addedScreenBox = $('<div class="screenBox addedBox">');
-		let nameBox = $('<div class="nameBox">');
-		addedScreenBox.append(nameBox);
-		nameBox.append($('.selected').find('.movieRowName').text());
-		addedScreenBox.css({
-							 'left' : divX+'%',
-							 'width' : divLengthRatio+'%',
-						 });
-		toolTipDiv = $('<div class="tooltipDiv card card-body"><div class="triangle"></div><div>'+$('.selected').find('.movieRowName').text()+'</div></div>');
-		addedScreenBox.append(toolTipDiv);
-		$('.timetableRow[data-houseNo="'+ $('#startHouse').val()+'"]').append(addedScreenBox);
-		
-		checkScreenTimeClash($('#startHouse').val(), startTime, endTime);
-	}
-	
-	// 서버로 가서 추가 가능한 시간인지 체크
-	function checkScreenTimeClash(house_no, startTime, endTime) {
-		let data = {
-				"house_no" : house_no,
-				"startTime" : startTime,
-				"endTime" : endTime
-		}
-		$.ajax({
-			url : "<%=request.getContextPath()%>/thrAdmin/CheckScreenTimeClash",
-			type: "post",
-			data : JSON.stringify(data),
-			contentType : "application/json",
-			success : function(data) {
-				console.log(data);
-				if (data > 0) {
-					$('.addedBox').addClass('cantBeAdded');
-				}
-			},
-			error : function(err) {
-				console.log(err);
-			}
-		});
-	}
-	
-	
-	// 영화 검색시
-	$('#searchMovieName').on('keyup', function(){
-		let inputText = $(this).val();
-		$('.movieRow').hide();
-		$('.movieRowCd:contains("'+inputText+'")').closest('.movieRow').show();
-		$('.movieRowName:contains("'+inputText+'")').closest('.movieRow').show();
-	});
-	
-	var openTime = new Date();
-	openTime = new Date(openTime.getFullYear(), openTime.getMonth(), openTime.getDate(), 7, 0)
-	openTime = openTime.getTime();
-	
-	let screenBox = '';
-	let divLength = '';
-	let divLengthRatio = '';
-	let divX = '';
-	let toolTipDiv = '';
-	let nameBox ='';
-	<c:forEach items="${screenList}" var="screen">
-		screenBox = $('<div class="screenBox">');
-		nameBox = $('<div class="nameBox">');
-		toolTipDiv = $('<div class="tooltipDiv card card-body"><div class="triangle"></div><div class="tooltipMovieName">${screen.MOVIE_NAME}</div><div><fmt:formatDate value="${screen.STARTDATE}" pattern="kk:mm"/></div></div>')
-		screenBox.append(nameBox);
-		nameBox.append('${screen.MOVIE_NAME}');
-		divLength = ('${screen.MOVIE_LENGTH}' / (20 * 60)) * 100;
-		divLengthRatio = Math.floor(divLength*10) / 10;
-		divX = (new Date("${screen.STARTDATE}").getTime() - openTime) / (60 * 1000);
-		divX = (divX / (60 * 20)) * 100; 
-
-		screenBox.css({
-						 'left' : divX+'%',
-						 'width' : divLengthRatio+'%',
-					 });
-		screenBox.append(toolTipDiv);
-
-		$('.timetableRow[data-houseNo="${screen.HOUSE_NO}"]').append(screenBox);
-	</c:forEach>
-	
-	$(document).on('mouseover', '.screenBox', function(){
-		$(this).find('.tooltipDiv').show();
-		$(this).find('.triangle').show();
-	});
-	$(document).on('mouseleave', '.screenBox', function(){
-		$(this).find('.tooltipDiv').hide();
-		$(this).find('.triangle').hide();
-	});
-	
-	$('#addNewScreen').on('click', function(){
-		
-		if ($('.cantBeAdded').length > 0) {
-			alert('시간표를 확인하세요.');
-			return;
-		}
-		if ($('.addedBox').length == 0) {
-			alert('상영할 영화를 선택하세요.');
-			return;
-		}
-		if ($('input[name="movie_type_cd"]:checked').length < 1) {
-			alert('상영타입을 선택하세요.');
-			return;
-		}
-		if (confirm('해당 영화를 상영시간표에 등록하시겠습니까?')) { 		
-			$('input[name="movie_cd"]').val($('.selected').find('.movieRowCd').text());
-			let today = new Date();
-			let startTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()));
-			$('input[name="startdate"]').val(startTime);
-			$('input[name="movie-type_cd"]').val($('input[name="movie_type_cd"]').val());
-			$('input[name="house_no"]').val($('#startHouse').val());
-			let form = $('form[role="form"]');
-			form.submit();
-		}
-	});
-</script>
+<%@ include file="movieAdminMain_js.jsp"%>
 <%@ include file="thrAdminFooter.jsp"%>
