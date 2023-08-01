@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <nav aria-label="member list Nabigation">
-	<ul class="pagination justify-content-center m-0" style="background-color : white;">
+	<ul class="pagination justify-content-center m-0">
 		<li class="page-item">
 			<a class="page-link" href="javascript:searchList_go(1);">
 				<i class="bi bi-chevron-double-left"></i>
