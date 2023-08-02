@@ -119,11 +119,15 @@ public class SupportController {
 
 		if(session.getAttribute("loginUser") != null) {
 			Map<String, Object> member = (Map) session.getAttribute("loginUser");
+			System.out.println(member);
 			mem_cd = (String) member.get("CD");
 			mem_name = (String) member.get("NAME");
 			mem_email = (String) member.get("EMAIL");
 			mem_phone = (String) member.get("PHONE");
 		}
+		System.out.println(mem_email);
+		System.out.println(mem_phone);
+		System.out.println(mem_cd);
 		
 		mnv.addObject("mem_cd", mem_cd);
 		mnv.addObject("mem_name", mem_name);
