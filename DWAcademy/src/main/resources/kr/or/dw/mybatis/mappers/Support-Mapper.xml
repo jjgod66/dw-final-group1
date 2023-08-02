@@ -188,4 +188,10 @@
 			)
 		WHERE rnum <![CDATA[<=]]> 2
 	</select>
+	
+	<select id="selectNoticeDetail" resultType="notice">
+		SELECT *
+		FROM notice
+		WHERE notice_no = #{notice_no}
+	</select>
 </mapper>

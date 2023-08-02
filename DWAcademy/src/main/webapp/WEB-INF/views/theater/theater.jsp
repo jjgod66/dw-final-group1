@@ -576,7 +576,7 @@ h3.tit.small {
 						<c:forEach items="${noticeList }" var="notice">
 							<li>
 								<div class="title ">
-									<a href="#" title="${notice.notice_title }">
+									<a href="<%=request.getContextPath()%>/support/noticeMini_Detail.do?notice_no=${notice.notice_no }" title="${notice.notice_title }">
 										<div class="cont-tit">${notice.notice_title }</div>
 										<p class="cont-admin">${notice.notice_thr }</p>
 										<p class="cont-date"><fmt:formatDate value="${notice.regdate }" pattern="yyyy-MM-dd"/> </p>

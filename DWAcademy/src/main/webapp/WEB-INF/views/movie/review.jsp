@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/viewer.css">
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
+<%@ include file="review_modal.jsp" %>
 <%@ include file="review_report_modal.jsp" %>
 <style>
 .post-lank-box p {
@@ -257,29 +258,32 @@ select {
 	}
 %>
 <%@ include file="login_service_modal.jsp" %>
+<c:set var="cri" value="${pageMaker.cri }" />
 <div class="sub_visual">
     <h3>영화리뷰</h3>
     <h6>Movie Review</h6>
 </div>
 <div class="sub_visual" style="background-color: white; padding-top: 50px; height: 300px; padding-left: 100px;">
     <div class="row" style="width: 1300px; margin: 0 auto;">
-<%--     	<c:forEach items="${top5Moive }" var="movie"> --%>
-	    	<div class="col-2 postLankMoive" style="position: relative; margin-right: 20px;" data-movie_name="">
+    	<c:forEach items="${top5Moive }" var="movie">
+	    	<div class="col-2 postLankMoive" style="position: relative; margin-right: 20px;" data-movie_name="${movie.MOVIE_NAME }">
 	    		<div style="width: 180px; height: 250px; position: absolute;" >
-<!-- 	    			<img -->
-<%-- 								src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" --%>
-<%-- 								onerror="noImg(this)" alt="${movie.MOVIE_NAME }" style="width: 100%; height: 100%;"> --%>
+	    			<img
+								src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster"
+								onerror="noImg(this)" alt="${movie.MOVIE_NAME }" style="width: 100%; height: 100%;">
 	    		</div>
 	    		<div style="width: 180px; height: 250px; position: absolute; background-color:rgba(0, 0, 0, 0.5); color : white;" class="lankcount">
-	    			<p class="lank" style="text-align: left; font-size: 30px;">&nbsp;</p>
+	    			<p class="lank" style="text-align: left; font-size: 30px;">&nbsp;${movie.RNUM }</p>
 	
 						<div class="post-count">
 							<p class="tit" style="font-size: 20px;">REVIEW</p>
-							<p class="count" style="font-size: 30px;"></p>
+							<p class="count" style="font-size: 30px;">${movie.WRITECNT }</p>
+							<p class="tit" style="font-size: 20px;"></p>
+							<p class="count" style="font-size: 30px;"><span style="font-size: 12px;">평균</span>${movie.RATE }<span style="font-size: 12px;">점</span></p>
 						</div>
 	    		</div>
 	    	</div>
-<%--     	</c:forEach> --%>
+    	</c:forEach>
     </div>
 </div>
 
@@ -343,7 +347,7 @@ select {
 										<h1 id="review_rating" data-review_rating="${review.REVIEW_RATING }" class="col-12">${review.REVIEW_RATING } <span style="font-size: small;">점</span></h1>
 									</div>
 									<div class="col-8" style="padding : 10px 30px; border-right: solid 1px #e5e5e5;">
-										<span class="" style="font-size: small;" >${review.MOVIE_NAME }</span>
+										<span class="" style="font-size: small;" id="movieName">${review.MOVIE_NAME }</span>
 										<p id="review_content" style="margin-top: 10px;">${review.REVIEW_CONTENT}</p>
 										<p style="font-size: small; color: gray;"><fmt:formatDate value="${review.REGDATE }" pattern="yyyy-MM-dd HH:mm"/></p>
 									</div>
@@ -363,6 +367,11 @@ select {
 												<p>신고</p>
 											</a>
 										</c:if>
+										<c:if test="${review.MEM_CD == mem_cd }">
+											<a href="javascript:void(0)" style="color: black; text-align: center;" class="col-6" id="reviewUpdateBtn" data-review_no="${review.REVIEW_NO }">
+												<p>수정</p>
+											</a>
+										</c:if>
 									</div>
 								</div>
 							</div>
@@ -377,6 +386,36 @@ select {
 	</div>
 <!-- </div> -->
 <script>
+
+$(function(){
+	
+	$('.container').on('click', '#reviewUpdateBtn', function(){
+		let review_content = $(this).parents('.card').find('#review_content').text();
+		let review_rating = $(this).parents('.card').find('#review_rating').data("review_rating");
+		let mn = $(this).parents('.card').find('#movieName').text();
+		$('#reviewtext').text(review_content);
+		$('#reviewMovieName').text('영화 "' + mn + '"')
+		$('fieldset#rate').find('input[name="rating"][value=' + review_rating + ']').prop('checked', 'checked');
+		$('#writecount').text(review_content.length);
+		$('#updDiv').css('display', '');
+		$('#regDiv').css('display', 'none');
+		$('#review-modal').find('input[name="review_no"]').val($(this).data('review_no'));
+		console.log($(this).data('review_no'));
+		
+		$('#review-modal').modal("show");
+	})
+	
+	$('.postLankMoive').on('click', function(){
+		let movie_name = $(this).data('movie_name');
+		$('input[name="keyword"]').val(movie_name);
+		searchList_go(1);
+	})
+	
+	$('#searchBtn').on('click', function(){
+		searchList_go(1);
+	})
+})
+
 let mem_cd = "<%=mem_cd%>";
 let searchFormUrl = "/movie/review.do";
 $('.reviews-members-body').on('click', '#likeBtn', function(){

@@ -164,7 +164,7 @@ EDIT ON
             <!-- Modal body -->
             <div class="modal-body">
             	<h3 class="fs-3 text-center my-2"></h3>
-            	<h5>영화 "${movieView.movie.movie_name }"</h5><h5>어떠셨나요?</h5>
+            	<h5 id="reviewMovieName">영화 "${movieView.movie.movie_name }"</h5><h5>어떠셨나요?</h5>
                 <form method="POST" id="reviewRegistForm">
                 <div class="input-group">
 	                <div style="display: flex;">

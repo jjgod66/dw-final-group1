@@ -304,4 +304,11 @@ public interface MovieService {
 	 */
 	Map<String, Object> searchMovieInfo(SearchCriteria cri, String mem_cd) throws SQLException;
 
+	/**
+	 * 리뷰 작성 탑5 영화 가져오는 메서드
+	 * @return
+	 * @throws SQLException
+	 */
+	List<Map<String, Object>> getReviewTop5Movie() throws SQLException;
+
 }

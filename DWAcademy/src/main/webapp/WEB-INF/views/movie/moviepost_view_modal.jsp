@@ -459,7 +459,11 @@ function replyReg(res){
 	
 	regShow += '<div style="display: flex; border-bottom: solid 1px #ced4da;" class="oneReply">';
 	regShow += '<div style="margin: 10px;">';
-	regShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+	if(res.MEM_PIC_PATH != null && res.MEM_PIC_PATH != ''){
+		regShow += '<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + res.MEM_PIC_PATH + '&item_cd=$' + res.MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+	}else{
+		regShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+	}
 	regShow += '</div>';
 	regShow += '<div style="width: 85%;">';
 	regShow += '<div class="h50" style="display: flex; align-items: flex-end; margin-bottom: 5px;">';

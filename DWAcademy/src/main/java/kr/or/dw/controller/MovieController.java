@@ -262,11 +262,17 @@ public class MovieController {
 		review.setMem_cd(mem_cd);
 		movieService.updateReview(review);
 		
+		String referer = (String)req.getHeader("REFERER");
+		
 		res.setContentType("text/html; charset=utf-8");
 	    PrintWriter out = res.getWriter();
 	    out.println("<script>");
 	    out.println("alert('리뷰가 수정되었습니다.');");
-	    out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + review.getMovie_cd() + "';");
+	    if(referer.equals("http://localhost/movie/review.do")) {
+	    	out.println("location.href='" + req.getContextPath() + "/movie/review.do';");
+		}else {
+			out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + review.getMovie_cd() + "';");
+		}
 	    out.println("</script>");
 	    out.flush();
 	    out.close();
@@ -569,10 +575,25 @@ public class MovieController {
 	@RequestMapping("/review")
 	public ModelAndView movieReview(SearchCriteria cri, ModelAndView mnv, HttpSession session, HttpServletResponse res, HttpServletRequest req) throws SQLException, IOException {
 		String url = "/movie/review";
-		
+		if("".equals(cri.getSearchType())) {
+			cri.setSearchType("regdate");
+		}
 		Map<String, Object> dataMap = movieService.getAllMovieReview(session, cri);
 		System.out.println(dataMap);
 		
+		List<Map<String, Object>> reviewTop5MoiveList = null;
+		reviewTop5MoiveList = movieService.getReviewTop5Movie();
+		dataMap.put("top5Moive", reviewTop5MoiveList);
+		
+		
+		String mem_cd = "";
+		if(session.getAttribute("loginUser") != null) {
+			MemberVO member = (MemberVO) session.getAttribute("loginUser");
+			mem_cd = member.getMem_cd();
+
+		}
+		
+		mnv.addObject("mem_cd", mem_cd);
 		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
 		

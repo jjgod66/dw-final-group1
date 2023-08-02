@@ -145,4 +145,12 @@ public interface SupportDAO {
 	 */
 	List<NoticeVO> selectNotice2() throws SQLException;
 
+	/**
+	 * 공지사항 상세보기
+	 * @param notice_no
+	 * @return
+	 * @throws SQLException
+	 */
+	NoticeVO selectNoticeDetail(int notice_no) throws SQLException;
+
 }

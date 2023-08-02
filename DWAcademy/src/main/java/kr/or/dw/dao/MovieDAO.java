@@ -456,5 +456,12 @@ public interface MovieDAO {
 	 */
 	int SearchMovieInfoListCnt(@Param("cri")SearchCriteria cri, @Param("mem_cd") String mem_cd) throws SQLException;
 
+	/**
+	 * 리뷰 작성 탑5
+	 * @return
+	 * @throws SQLException
+	 */
+	List<Map<String, Object>> selectReviewTop5Movie() throws SQLException;
+
 
 }

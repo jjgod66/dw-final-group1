@@ -251,7 +251,7 @@ select {
 <!-- 							</td> -->
 <!-- 						</tr> -->
 						<c:forEach items="${noticeList }" var="notice">
-							<tr class="oneNotice">
+							<tr class="oneNotice" onclick="location.href='<%=request.getContextPath()%>/support/noticeMini_Detail.do?notice_no=${notice.notice_no }'">
 								<td class="border-dashed border-t border-gray-200 userId">
 									<span class="text-gray-700 px-6 py-3 flex items-center" style="color: inherit;">${notice.notice_no }</span>
 								</td>

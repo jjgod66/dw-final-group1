@@ -693,6 +693,14 @@ public class MovieServiceImpl implements MovieService{
 		return dataMap;
 	}
 
+	@Override
+	public List<Map<String, Object>> getReviewTop5Movie() throws SQLException {
+		List<Map<String, Object>> top5Movie = null;
+		
+		top5Movie = movieDAO.selectReviewTop5Movie();
+		return top5Movie;
+	}
+
 
 
 }

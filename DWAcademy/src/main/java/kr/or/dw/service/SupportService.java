@@ -111,4 +111,12 @@ public interface SupportService {
 	 */
 	List<NoticeVO> getNotice2() throws SQLException;
 
+	/**
+	 * 공지사항 상세보기
+	 * @param notice_no
+	 * @return
+	 * @throws SQLException
+	 */
+	NoticeVO getNoticeDetail(int notice_no) throws SQLException;
+
 }
