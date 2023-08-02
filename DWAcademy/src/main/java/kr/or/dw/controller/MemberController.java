@@ -24,18 +24,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.SearchCriteria;
-import kr.or.dw.dao.MovieDAO;
 import kr.or.dw.service.CouponService;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
-import kr.or.dw.service.NaverLoginBO;
 import kr.or.dw.service.NaverLoginBO2;
 import kr.or.dw.service.SnsService;
-import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MemberVO;
-import kr.or.dw.vo.MoviePictureVO;
-import kr.or.dw.vo.MovieVO;
-import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.SnsVO;
 
 @Controller
@@ -119,7 +113,7 @@ public class MemberController {
 		ResponseEntity<String> entity = null;
 		
 		try {
-			MemberVO member = memberService.selectMemberById(id);
+			Map<String, String> member = memberService.selectMemberById(id);
 			entity = new ResponseEntity<String>(member == null ? id : "", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();

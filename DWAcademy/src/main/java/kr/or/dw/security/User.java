@@ -3,6 +3,7 @@ package kr.or.dw.security;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,26 +13,26 @@ import kr.or.dw.vo.MemberVO;
 
 public class User implements UserDetails{
 	
-	private MemberVO member;
-	public User(MemberVO member) {
-		this.member = member;
+	private Map<String, String> member;
+	public User(Map<String, String> member2) {
+		this.member = member2;
 	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-		roles.add(new SimpleGrantedAuthority(member.getMem_cd()));
+		roles.add(new SimpleGrantedAuthority((String) member.get("CD")));
 		return roles;
 	}
 
 	@Override
 	public String getPassword() {
-		return member.getMem_pwd();
+		return (String) member.get("PWD");
 	}
 
 	@Override
 	public String getUsername() {
-		return member.getMem_id();
+		return (String) member.get("ID");
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class User implements UserDetails{
 
 	@Override
 	public boolean isAccountNonLocked() {	// 휴면 계정 여부
-		return member.getGb_sleep() == "Y";
+		return member.get("GB_SLEEP") == "Y";
 	}
 
 	@Override
@@ -51,10 +52,10 @@ public class User implements UserDetails{
 
 	@Override
 	public boolean isEnabled() {	// 사용 제제 여부
-		return member.getGb_ban() == "Y";
+		return member.get("GB_BAN") == "Y";
 	}
 	
-	public MemberVO getMemberVO() {
+	public Map<String, String> getMemberVO() {
 		return this.member;
 	}
 

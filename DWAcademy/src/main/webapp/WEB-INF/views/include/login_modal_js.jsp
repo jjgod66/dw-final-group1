@@ -29,10 +29,10 @@ const URLSearch = new URLSearchParams(location.search);
 					data : {email : res.kakao_account.email},
 					success : function(res){
 						console.log(res);
-						if(res.gb == "non_member"){
+						if(res.GB == "non_member"){
 							$('#authentication-modal').modal('show');
 							$('input[name="mem_email"]').val(res.mem_email);
-						}else if(res.gb == "noConnect"){
+						}else if(res.GB == "noConnect"){
 							alert('연동된 계정이 없습니다! 소셜로그인은 [마이페이지 > 개인정보수정] 에서 연동 후 사용해주세요.');
 						}else {
 							location.reload();

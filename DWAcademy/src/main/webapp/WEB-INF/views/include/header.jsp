@@ -55,11 +55,11 @@ request.setAttribute("GetTitle", "DWCinema");
             <ul class="nav me-auto">
                 <li class="nav-item"><a href="#" class="nav-link link-dark px-2">전체메뉴</a></li>
                 <li class="nav-item"><a href="<%=request.getContextPath()%>/member/membership.do" class="nav-link link-dark px-2">혜택</a></li>
-                <li class="nav-item"><a href="<%=request.getContextPath() %>/support/main.do" class="nav-link link-dark px-2">고객센터</a></li>
+                <li class="nav-item"><a href="<%=request.getContextPath() %>/support/main.do" class="nav-link link-dark px-2">고객센터</a></li>${loginUser}
             </ul>
             <ul class="nav">
             <c:choose>
-                <c:when test="${loginUser.mem_id == null || loginUser.mem_id == ''}">
+                <c:when test="${loginUser == null || loginUser == ''}">
                 	<li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="nav-link link-dark px-2">로그인</a></li>
 	                <li class="nav-item"><a href="#" id="kakaoJoin" data-bs-toggle="modal" data-bs-target="#authentication-modal" class="nav-link link-dark px-2">회원가입</a></li>
                 </c:when>
