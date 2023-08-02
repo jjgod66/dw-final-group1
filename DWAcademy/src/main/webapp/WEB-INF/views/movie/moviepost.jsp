@@ -287,7 +287,7 @@ select {
 	String mem_cd = "";
 	if(session.getAttribute("loginUser") != null){
 		Map member = (Map) session.getAttribute("loginUser");
-		mem_cd = (String)member.get("MEM_CD");
+		mem_cd = (String)member.get("CD");
 	}
 %>
 <c:set var="cri" value="${pageMaker.cri }" />

@@ -254,7 +254,9 @@ public class MovieServiceImpl implements MovieService{
 				int count = 0;
 				Map<String, Object> param = new HashMap<>();
 				param.put("review_no", review.get("REVIEW_NO"));
-				param.put("mem_cd", ((MemberVO)session.getAttribute("loginUser")).getMem_cd());
+				Map<String, Object> member = (Map) session.getAttribute("loginUser");
+				String mem_cd = (String) member.get("CD");
+				param.put("mem_cd", mem_cd);
 				count = movieDAO.selectReviewLikeYN(param);
 				if(count > 0) {
 					reviewLikeActive = "Y";
@@ -345,7 +347,9 @@ public class MovieServiceImpl implements MovieService{
 				int count = 0;
 				Map<String, Object> param = new HashMap<>();
 				param.put("review_no", review.get("REVIEW_NO"));
-				param.put("mem_cd", ((MemberVO)session.getAttribute("loginUser")).getMem_cd());
+				Map<String, Object> member = (Map) session.getAttribute("loginUser");
+				String mem_cd = (String) member.get("CD");
+				param.put("mem_cd", mem_cd);
 				count = movieDAO.selectReviewLikeYN(param);
 				if(count > 0) {
 					reviewLikeActive = "Y";
@@ -392,7 +396,9 @@ public class MovieServiceImpl implements MovieService{
 				int count = 0;
 				Map<String, Object> param = new HashMap<>();
 				param.put("review_no", review.get("REVIEW_NO"));
-				param.put("mem_cd", ((MemberVO)session.getAttribute("loginUser")).getMem_cd());
+				Map<String, Object> member = (Map) session.getAttribute("loginUser");
+				String mem_cd = (String) member.get("CD");
+				param.put("mem_cd", mem_cd);
 				count = movieDAO.selectReviewLikeYN(param);
 				if(count > 0) {
 					reviewLikeActive = "Y";
@@ -444,10 +450,10 @@ public class MovieServiceImpl implements MovieService{
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		dataMap.put("moviePostList", moviePostList);
 		dataMap.put("pageMaker", pageMaker);
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
 		
 		if(member != null) {
-			String mem_cd = member.getMem_cd();
+			String mem_cd = (String) member.get("CD");
 			List<MovieVO> watchMovie = null;
 			watchMovie = movieDAO.selectMovieCode(mem_cd);
 			List<MovieVO> alreadyWriMovie = null;

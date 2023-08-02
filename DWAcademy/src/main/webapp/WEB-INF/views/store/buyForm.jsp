@@ -126,9 +126,9 @@ function requestPay() {
         merchant_uid: merchant_uid,
         name: '${product.product_name }',
         amount: amount,
-        buyer_email: '${member.mem_email}',
-        buyer_name: '${member.mem_name}',
-        buyer_tel: '${member.mem_phone}',
+        buyer_email: '${member.EMAIL}',
+        buyer_name: '${member.NAME}',
+        buyer_tel: '${member.PHONE}',
     }, function (rsp) { // callback
         if (rsp.success) {
         	$('input[name="json"]').val(JSON.stringify(rsp));

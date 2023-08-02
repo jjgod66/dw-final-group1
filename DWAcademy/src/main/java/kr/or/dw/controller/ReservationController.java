@@ -73,13 +73,14 @@ public class ReservationController {
 		Map<String, Object> mapData = null;
 		mapData = reservationService.getPaymentScreenInfo(mpc.getScreen_cd());
 
-		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		List<CouponVO> couponList = null;
-		couponList = reservationService.getCouponList(loginUser.getMem_cd());
+		couponList = reservationService.getCouponList(mem_cd);
 		
 		int point = 0;
-		point = reservationService.getPoint(loginUser.getMem_cd());
+		point = reservationService.getPoint(mem_cd);
 		
 		mnv.addObject("point", point);
 		mnv.addObject("couponList", couponList);
@@ -106,8 +107,8 @@ public class ReservationController {
 		List<String> likeThrList = null;
 		
 		if(session.getAttribute("loginUser") != null) {
-			String mem_cd = ((MemberVO)session.getAttribute("loginUser")).getMem_cd();
-			
+			Map<String, Object> member = (Map) session.getAttribute("loginUser");
+			String mem_cd = (String) member.get("CD");
 			likeThrList = reservationService.getMemLikeThr(mem_cd);
 		}
 		
@@ -181,7 +182,8 @@ public class ReservationController {
 	}
 	
 	public String pay0result(MoviePaymentCommand mpc, HttpSession session) throws Exception {
-		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		List<ReservationVO> resList = new ArrayList<>();
 		
 		String[] seatList = mpc.getRes_seats().replace(",", "").split(" ");
@@ -200,7 +202,7 @@ public class ReservationController {
 			ReservationVO reservation = new ReservationVO();
 			reservation.setScreen_cd(mpc.getScreen_cd());
 			reservation.setMerchant_uid("M" + mpc.getMerchant_uid());
-			reservation.setMem_cd(loginUser.getMem_cd());
+			reservation.setMem_cd(mem_cd);
 			reservation.setRes_seat(seatList[i]);
 			reservation.setMem_cat(catList.get(i));
 			reservation.setRes_no(mpc.getMerchant_uid());
@@ -247,7 +249,8 @@ public class ReservationController {
 		
 		Gson gson = new Gson();
 		PayDetailVO payDetail = gson.fromJson(mpc.getJson(), PayDetailVO.class);
-		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		List<ReservationVO> resList = new ArrayList<>();
 		
@@ -270,7 +273,7 @@ public class ReservationController {
 			ReservationVO reservation = new ReservationVO();
 			reservation.setScreen_cd(mpc.getScreen_cd());
 			reservation.setMerchant_uid("M" + payDetail.getMerchant_uid());
-			reservation.setMem_cd(loginUser.getMem_cd());
+			reservation.setMem_cd(mem_cd);
 			reservation.setRes_seat(seatList[i]);
 			reservation.setMem_cat(catList.get(i));
 			reservation.setRes_no(payDetail.getMerchant_uid());

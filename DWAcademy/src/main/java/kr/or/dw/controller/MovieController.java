@@ -57,8 +57,8 @@ public class MovieController {
 		String mem_cd = "";
 		String active = "";
 		if(session.getAttribute("loginUser") != null) {
-			MemberVO member = (MemberVO) session.getAttribute("loginUser");
-			mem_cd = member.getMem_cd();
+			Map<String, Object> member = (Map) session.getAttribute("loginUser");
+			mem_cd = (String) member.get("CD");
 			int exist = movieService.memLikeMovieExist(mem_cd, movie_cd);
 			if(exist == 1) {
 				active = "active";
@@ -174,8 +174,8 @@ public class MovieController {
 		List<Map<String, Object>> movieList = null;
 		
 		if(session.getAttribute("loginUser") != null) {
-			
-			String mem_cd = ((MemberVO)session.getAttribute("loginUser")).getMem_cd();
+			Map<String, Object> member = (Map) session.getAttribute("loginUser");
+			String mem_cd = (String) member.get("CD");
 			List<String> memLikeGenreList = null;
 			memLikeGenreList = movieService.getMemLikeGenre(mem_cd);
 			
@@ -198,8 +198,8 @@ public class MovieController {
 	@RequestMapping("/likeMovie")
 	public ResponseEntity<String> movieLike(String movie_cd, HttpSession session){
 		ResponseEntity<String> entity = null;
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
-		String mem_cd = member.getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		String result = null;
 		try {
@@ -217,8 +217,8 @@ public class MovieController {
 	public ResponseEntity<String> movieWatchYN(HttpSession session, String movie_cd){
 		ResponseEntity<String> entity = null;
 		
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
-		String mem_cd = member.getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		String result = null;
 		try {
@@ -237,8 +237,8 @@ public class MovieController {
 	@RequestMapping("/reviewRegist")
 	public void reviewRegist(ReviewVO review, HttpSession session, HttpServletRequest req, HttpServletResponse res) throws Exception {
 		
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
-		String mem_cd = member.getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		review.setMem_cd(mem_cd);
 		movieService.registReview(review);
@@ -256,8 +256,8 @@ public class MovieController {
 	@RequestMapping("/reviewUpdate")
 	public void reviewUpdate(ReviewVO review, HttpSession session, HttpServletRequest req, HttpServletResponse res) throws Exception {
 		
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
-		String mem_cd = member.getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		review.setMem_cd(mem_cd);
 		movieService.updateReview(review);
@@ -281,7 +281,8 @@ public class MovieController {
 	@RequestMapping("/reviewLike")
 	public ResponseEntity<String> reviewLike(String review_no, HttpSession session){
 		ResponseEntity<String> entity = null;
-		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		try {
 			movieService.reviewLike(review_no, mem_cd);
@@ -297,7 +298,8 @@ public class MovieController {
 	@RequestMapping("/reviewLikeDel")
 	public ResponseEntity<String> reviewLikeDel(String review_no, HttpSession session){
 		ResponseEntity<String> entity = null;
-		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		try {
 			movieService.reviewLikeDel(review_no, mem_cd);
@@ -312,7 +314,8 @@ public class MovieController {
 	
 	@RequestMapping("/reviewReport")
 	public void reviewReport(int review_no, String movie_cd, HttpSession session, HttpServletRequest req, HttpServletResponse res) throws Exception {
-		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		System.out.println(movie_cd);
 		String result = movieService.reviewReport(review_no, mem_cd);
 		if(result.equals("S")) {
@@ -383,7 +386,8 @@ public class MovieController {
 	@RequestMapping("/moviePostRegist")
 	public void moviePostRegist(MoviePostVO moviePost, HttpServletResponse res, HttpSession session) throws Exception {
 		
-		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		moviePost.setMem_cd(mem_cd);;
 		
@@ -407,7 +411,8 @@ public class MovieController {
 		
 		String mem_cd = "";
 		if(session.getAttribute("loginUser") != null) {
-			mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+			Map<String, Object> member = (Map) session.getAttribute("loginUser");
+			mem_cd = (String) member.get("CD");
 		}
 		
 		try {
@@ -426,7 +431,8 @@ public class MovieController {
 	public ResponseEntity<Map<String, Object>> replyRegist(ReplyVO reply, HttpSession session){
 		ResponseEntity<Map<String, Object>> entity = null;
 		
-		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		reply.setMem_cd(mem_cd);
 		Map<String, Object> replyMap = null;
 		try {
@@ -446,7 +452,8 @@ public class MovieController {
 		ResponseEntity<String> entity = null;
 	
 		
-		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		try {
 			movieService.clickMoviePostLike(mpost_no, mem_cd);
 			entity = new ResponseEntity<String>("S", HttpStatus.OK);
@@ -491,7 +498,8 @@ public class MovieController {
 	
 	@RequestMapping("/replyReport")
 	public ResponseEntity<String> replyReport(int reply_no, HttpSession session){
-		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		ResponseEntity<String> entity = null;
 		String result = "S";
 		try {
@@ -507,7 +515,8 @@ public class MovieController {
 	@RequestMapping("/mpostReport")
 	public ResponseEntity<String> mpostReport(int mpost_no, HttpSession session){
 		ResponseEntity<String> entity = null;
-		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		String result = "S";
 		try {
@@ -556,7 +565,8 @@ public class MovieController {
 	@RequestMapping("/moviePostUpdate")
 	public void moviePostUpdate(MoviePostVO moviePost, HttpServletResponse res, HttpSession session) throws Exception {
 		
-		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		moviePost.setMem_cd(mem_cd);;
 		
@@ -588,8 +598,8 @@ public class MovieController {
 		
 		String mem_cd = "";
 		if(session.getAttribute("loginUser") != null) {
-			MemberVO member = (MemberVO) session.getAttribute("loginUser");
-			mem_cd = member.getMem_cd();
+			Map<String, Object> member = (Map) session.getAttribute("loginUser");
+			mem_cd = (String) member.get("CD");
 
 		}
 		

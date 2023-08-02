@@ -70,13 +70,14 @@ public class StoreController {
 		ProductVO product = null;
 		product = storeService.selectProDetail(product_cd);
 		
-		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		int point = 0;
-		point = storeService.getPoint(loginUser.getMem_cd());
+		point = storeService.getPoint(mem_cd);
 		
 		mnv.addObject("point", point);
-		mnv.addObject("member", (MemberVO) session.getAttribute("loginUser"));
+		mnv.addObject("member", member);
 		mnv.addObject("product", product);
 		mnv.addObject("amount", amount);
 		mnv.setViewName(url);
@@ -88,12 +89,13 @@ public class StoreController {
 		String url = "/store/giftForm";
 		ProductVO product = null;
 		product = storeService.selectProDetail(product_cd);
-		MemberVO loginUser = (MemberVO) session.getAttribute("loginUser");
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		int point = 0;
-		point = storeService.getPoint(loginUser.getMem_cd());
+		point = storeService.getPoint(mem_cd);
 		
 		mnv.addObject("point", point);
-		mnv.addObject("member", (MemberVO) session.getAttribute("loginUser"));
+		mnv.addObject("member", member);
 		mnv.addObject("product", product);
 		mnv.addObject("amount", amount);
 		mnv.setViewName(url);
@@ -115,20 +117,21 @@ public class StoreController {
 	
 	@RequestMapping("/buyResultRedirect")
 	public String buyResultRedirect(StoreBuyCommand sbc, HttpSession session) throws SQLException {
-		
-		String merchant_uid = buyResult(sbc, (MemberVO) session.getAttribute("loginUser"));
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		String merchant_uid = buyResult(sbc, mem_cd);
 
 		return "redirect:/store/buySuccess.do?merchant_uid=" + merchant_uid;
 	
 	}
 	
-	public String buyResult(StoreBuyCommand sbc, MemberVO member) throws SQLException {
+	public String buyResult(StoreBuyCommand sbc, String mem_cd) throws SQLException {
 		Gson gson = new Gson();
 		PayDetailVO payDetail = gson.fromJson(sbc.getJson(), PayDetailVO.class);
 		
 		MemBuyVO memBuy = new MemBuyVO();
 		memBuy.setAmount(sbc.getAmount());
-		memBuy.setMem_cd(member.getMem_cd());
+		memBuy.setMem_cd(mem_cd);
 		memBuy.setPricesum(sbc.getPricesum());
 		memBuy.setMerchant_uid(payDetail.getMerchant_uid());
 		memBuy.setProduct_cd(sbc.getProduct_cd());
@@ -143,17 +146,18 @@ public class StoreController {
 	
 	@RequestMapping("/buy0ResultRedirect")
 	public String buy0ResultRedirect(StoreBuyCommand sbc, HttpSession session) throws SQLException{
-		
-		String merchant_uid = buy0Result(sbc, (MemberVO) session.getAttribute("loginUser"));
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		String merchant_uid = buy0Result(sbc, mem_cd);
 		
 		return "redirect:/store/buySuccess.do?merchant_uid=" + merchant_uid;
 	}
 	
-	public String buy0Result(StoreBuyCommand sbc, MemberVO member) throws SQLException{
+	public String buy0Result(StoreBuyCommand sbc, String mem_cd) throws SQLException{
 		
 		MemBuyVO memBuy = new MemBuyVO();
 		memBuy.setAmount(sbc.getAmount());
-		memBuy.setMem_cd(member.getMem_cd());
+		memBuy.setMem_cd(mem_cd);
 		memBuy.setPricesum(sbc.getPricesum());
 		memBuy.setMerchant_uid(sbc.getMerchant_uid());
 		memBuy.setProduct_cd(sbc.getProduct_cd());
@@ -170,7 +174,9 @@ public class StoreController {
 	public ModelAndView gift0ResultRedirect(ModelAndView mnv, StoreBuyCommand sbc, HttpSession session) throws SQLException{
 		String url = "/store/giftSMS";
 		Map<String, Object> dataMap = null;
-		dataMap = gift0Result(sbc, (MemberVO) session.getAttribute("loginUser"));
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		dataMap = gift0Result(sbc, mem_cd);
 		
 		GiftSMSCommand gsc = new GiftSMSCommand();
 		gsc.setMem_name(((MemberVO) session.getAttribute("loginUser")).getMem_name());
@@ -185,11 +191,11 @@ public class StoreController {
 		return mnv;
 	}
 	
-	public Map<String, Object> gift0Result(StoreBuyCommand sbc, MemberVO member) throws SQLException{
+	public Map<String, Object> gift0Result(StoreBuyCommand sbc, String mem_cd) throws SQLException{
 		
 		MemBuyVO memBuy = new MemBuyVO();
 		memBuy.setAmount(sbc.getAmount());
-		memBuy.setMem_cd(member.getMem_cd());
+		memBuy.setMem_cd(mem_cd);
 		memBuy.setPricesum(sbc.getPricesum());
 		memBuy.setMerchant_uid(sbc.getMerchant_uid());
 		memBuy.setProduct_cd(sbc.getProduct_cd());
@@ -209,7 +215,9 @@ public class StoreController {
 		System.out.println("con1");
 		String url = "/store/giftSMS";
 		Map<String, Object> dataMap = null;
-		dataMap = giftResultMap(sbc, (MemberVO) session.getAttribute("loginUser"));
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		dataMap = giftResultMap(sbc, mem_cd);
 		System.out.println("con2");
 
 		GiftSMSCommand gsc = new GiftSMSCommand();
@@ -226,13 +234,13 @@ public class StoreController {
 	
 	}
 	
-	public Map<String, Object> giftResultMap(StoreBuyCommand sbc, MemberVO member) throws SQLException {
+	public Map<String, Object> giftResultMap(StoreBuyCommand sbc, String mem_cd) throws SQLException {
 		Gson gson = new Gson();
 		PayDetailVO payDetail = gson.fromJson(sbc.getJson(), PayDetailVO.class);
 		
 		MemBuyVO memBuy = new MemBuyVO();
 		memBuy.setAmount(sbc.getAmount());
-		memBuy.setMem_cd(member.getMem_cd());
+		memBuy.setMem_cd(mem_cd);
 		memBuy.setPricesum(sbc.getPricesum());
 		memBuy.setMerchant_uid(payDetail.getMerchant_uid());
 		memBuy.setProduct_cd(sbc.getProduct_cd());
