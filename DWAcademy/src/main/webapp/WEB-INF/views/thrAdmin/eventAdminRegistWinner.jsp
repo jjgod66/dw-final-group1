@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="thrAdminHeader.jsp" %>
@@ -98,6 +97,7 @@ textarea:focus {
 </div>
 
 <script>
+window.onload = function(){
 	$('#registWinnerBtn').on('click', function(){
 		let registForm = $('form[role="form"]');
 		registForm.attr('action', 'eventAdminWinnerRegist.do');
@@ -123,11 +123,12 @@ textarea:focus {
 			deleteForm.submit();
 		}
 	});
-	
+}	
 </script>
 
 <script>
-summernote();
+window.onload = function(){
+	summernote();
 
 	function summernote () {
 		$('.summernote').summernote({
@@ -156,5 +157,6 @@ summernote();
 			}
 		});
 	}
+}	
 </script>
 <%@ include file="thrAdminFooter.jsp" %>

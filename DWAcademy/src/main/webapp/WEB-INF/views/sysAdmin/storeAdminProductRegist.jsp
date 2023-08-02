@@ -3,18 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="sysAdminHeader.jsp" %>
 <style>
-#wrapper {
-    background-color: #fff;
-    z-index: 5;
-    min-width: 1210px;
-    zoom: 1;
-}
-#content {
-	max-width: 80rem;
-	margin : 2rem auto 2rem auto;
-    padding-bottom: 100px;
-    border: 1px solid #ccc;
-}
 #content h1 {
     margin: 0 0 20px;
     padding-bottom: 15px;
@@ -22,23 +10,6 @@
     font-size: 20px;
     line-height: 1em;
     letter-spacing: -1px;
-}
-.btn_ssmall, .btn_small, .btn_lsmall, .btn_medium, .btn_large {
-    background: #333;
-    border: 1px solid #333;
-    color: #fff !important;
-}
-.btn_small {
-    padding: 2px 8px;
-    font-size: 11px;
-    line-height: 1.555;
-    font-weight: normal !important;
-}
-.btn_medium {
-    padding: 8px 15px;
-    font-size: 13px;
-    line-height: 1.444;
-    font-weight: 600;
 }
 .inputList > div {
 	margin-bottom: 1rem;

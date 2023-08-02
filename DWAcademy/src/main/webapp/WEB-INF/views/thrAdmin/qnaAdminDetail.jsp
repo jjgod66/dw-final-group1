@@ -6,42 +6,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <% pageContext.setAttribute("replaceChar", "\n"); %>
 <%@ include file="thrAdminHeader.jsp" %>
-<style>
-#wrapper {
-    background-color: #fff;
-    z-index: 5;
-    min-width: 1210px;
-    zoom: 1;
-}
-#content {
-	max-width: 80rem;
-	margin : 2rem auto 2rem auto;
-    padding-bottom: 100px;
-    border: 1px solid #ccc;
-}
-#content h1 {
-    margin: 0 0 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #888;
-    font-size: 20px;
-    line-height: 1em;
-    letter-spacing: -1px;
-}
-.btn_ssmall, .btn_small, .btn_lsmall, .btn_medium, .btn_large {
-    background: #333;
-    border: 1px solid #333;
-    color: #fff !important;
-}
-.btn_medium {
-    padding: 8px 15px;
-    font-size: 13px;
-    line-height: 1.444;
-    font-weight: 600;
-}
-textarea:focus {
-	outline: none;
-}
-</style>
+
 <div id="wrapper">
 	<div id="content">
 		<jsp:include page="admin_contentHeader.jsp">
@@ -128,9 +93,5 @@ window.onload = function(){
 	});
 	
 }
-	
-</script>
-<script>
-
 </script>
 <%@ include file="thrAdminFooter.jsp" %>

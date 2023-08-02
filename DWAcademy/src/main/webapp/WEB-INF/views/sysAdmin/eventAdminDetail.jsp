@@ -5,47 +5,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="sysAdminHeader.jsp" %>
 <style>
-#wrapper {
-    background-color: #fff;
-    z-index: 5;
-    min-width: 1210px;
-    zoom: 1;
-}
-#content {
-	max-width: 80rem;
-	margin : 2rem auto 2rem auto;
-    padding-bottom: 100px;
-    border: 1px solid #ccc;
-}
-#content h1 {
-    margin: 0 0 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #888;
-    font-size: 20px;
-    line-height: 1em;
-    letter-spacing: -1px;
-}
-.btn_ssmall, .btn_small, .btn_lsmall, .btn_medium, .btn_large {
-    background: #333;
-    border: 1px solid #333;
-    color: #fff !important;
-}
-.btn_medium {
-    padding: 8px 15px;
-    font-size: 13px;
-    line-height: 1.444;
-    font-weight: 600;
-}
-.btn_small {
-    padding: 2px 8px;
-    font-size: 11px;
-    line-height: 1.555;
-    font-weight: normal !important;
-    border-radius : 0.3rem;
-}
-textarea:focus {
-	outline: none;
-}
 .movieCard {
 	margin-top : 1rem;
 	cursor: pointer;
@@ -214,8 +173,8 @@ textarea:focus {
 	</div>
 </div>
 <script>
-let template1 = $('');
 window.onload = function(){
+	let template1 = $('');
 	let modifyBoard = $('<div id="displaynone" style="display: none;"><textarea name="event_content" id="event_content" class="summernote">${event.event_content }</textarea></div>');
 	// 수정버튼 클릭시
 	$('#modifyCertifyBtn').on('click', function(){
@@ -331,7 +290,6 @@ window.onload = function(){
 		}
 	});
 	
-}
 	//모달에서 검색시
 	$('#searchMovieName').on('keyup', function(){
 		let inputText = $(this).val();
@@ -346,8 +304,8 @@ window.onload = function(){
 		$('#movieName').val($(this).find('.movieName').text());
 		$('#closeModalBtn').click();
 	});
-</script>
-<script>
+	
+	// 썸머노트
 	summernote();
 	
 	function summernote () {
@@ -468,5 +426,6 @@ window.onload = function(){
 			}
 		});
 	} 
+}
 </script>
 <%@ include file="sysAdminFooter.jsp" %>

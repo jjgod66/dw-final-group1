@@ -4,50 +4,16 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="thrAdminHeader.jsp" %>
 <style>
-#wrapper {
-    background-color: #fff;
-    z-index: 5;
-    min-width: 1210px;
-    zoom: 1;
-}
-#content {
-	max-width: 80rem;
-	margin : 2rem auto 2rem auto;
-    padding-bottom: 100px;
-    border: 1px solid #ccc;
-}
-#content h1 {
-    margin: 0 0 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #888;
-    font-size: 20px;
-    line-height: 1em;
-    letter-spacing: -1px;
-}
-.btn_ssmall, .btn_small, .btn_lsmall, .btn_medium, .btn_large {
-    background: #333;
-    border: 1px solid #333;
-    color: #fff !important;
-}
-.btn_medium {
-    padding: 8px 15px;
-    font-size: 13px;
-    line-height: 1.444;
-    font-weight: 600;
-}
-.eventTypeHeader .typeName {
-	font-size : 1.5rem;
-	font-weight : bold;
-}
-.moreBtn {
-	cursor: pointer;
-}
 .movieRow {
 	margin : 0.5rem 1rem 0.5rem 1rem;
 	cursor: pointer;
 }
 .dayTableTd {
 	cursor: pointer;
+}
+.dayTableTd:hover {
+	background-color: #e9ecef;
+	color: black;
 }
 th.selectedDate {
 	background-color: #4aa8d8;
@@ -77,28 +43,6 @@ th.selectedDate {
 .selected {
 	background-color : #ffe4b5;
 }
-.tooltipDiv {
- 	display: none;
-	position: absolute;
-	margin: auto;
-	height: 5rem;
-	top: 2.3rem;
-	background-color : #4aa8d8;
-	color : white;
-	word-break: break-all;
-	z-index : 100;
-}
-.triangle {
-	position: absolute;
- 	display : none; 
-	width: 0;
-	height: 0;
-	border-top : 0.5rem solid transparent;
-	border-left : 0.5rem solid transparent;
-	border-right : 0.5rem solid transparent;
-	border-bottom : 0.5rem solid #4aa8d8;
-	top : -0.95rem;
-}
 .cantBeAdded {
 	background-color: #ef4836;
 }
@@ -110,10 +54,6 @@ th.selectedDate {
 }
 .bi:hover {
 	color: #4aa8d8;
-}
-.dayTableTd:hover {
-	background-color: #e9ecef;
-	color: black;
 }
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />

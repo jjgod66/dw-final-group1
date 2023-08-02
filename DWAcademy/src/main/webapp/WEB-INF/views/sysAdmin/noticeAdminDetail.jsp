@@ -58,7 +58,7 @@ textarea:focus {
 						<span style="float: right;">작성일 : <fmt:formatDate value='${notice.regdate }' pattern='yyyy-MM-dd'/></span>
 					</c:when>
 					<c:when test="${type eq 'create' }">
-						<span><input type="text" name="notice_title" size="80" placeholder="제목을 입력하세요"></span>
+						<span><input type="text" name="notice_title" size="80" placeholder="제목을 입력하세요" style="border: none;"></span>
 					</c:when>
 				</c:choose>
 			</div>

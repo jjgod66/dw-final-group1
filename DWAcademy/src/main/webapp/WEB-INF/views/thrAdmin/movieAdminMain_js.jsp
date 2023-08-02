@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script>
+window.onload = function(){
+
 	//////////////////////////////////////////////////////////////////////////////
 	
 	// 해당날짜 개장시간
@@ -499,11 +501,10 @@
 			}
 			let startTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()));
 			$('input[name="startdate"]').val(startTime);
-// 			$('#movieTypeCd').val($('input[name="movie_type_cd"]:checked').val());
-// 			$('input[name="house_no"]').val($('#startHouse').val());
 			let form = $('form[role="form"]');
 			form.attr('action', 'screenDelete');
 			form.submit();
 		}
 	});
+}
 </script>

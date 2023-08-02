@@ -8,37 +8,6 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/notice.css">
 <c:set var="cri" value="${pageMaker.cri }" />
 <style>
-#wrapper {
-    background-color: #fff;
-    z-index: 5;
-    min-width: 1210px;
-    zoom: 1;
-}
-#content {
-	max-width: 80rem;
-	margin : 2rem auto 2rem auto;
-    padding-bottom: 100px;
-    border: 1px solid #ccc;
-}
-#content h1 {
-    margin: 0 0 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #888;
-    font-size: 20px;
-    line-height: 1em;
-    letter-spacing: -1px;
-}
-.btn_ssmall, .btn_small, .btn_lsmall, .btn_medium, .btn_large {
-    background: #333;
-    border: 1px solid #333;
-    color: #fff !important;
-}
-.btn_medium {
-    padding: 8px 15px;
-    font-size: 13px;
-    line-height: 1.444;
-    font-weight: 600;
-}
 .td_div > td {
 	cursor: pointer;
 }
@@ -50,6 +19,11 @@
 }
 textarea:focus {
 	outline: none;
+}
+#content h2 {
+	position: static;
+	margin : 0;
+	padding : 0;
 }
 </style>
 
@@ -170,62 +144,59 @@ textarea:focus {
 </div>
 <script>
 	let searchFormUrl = "faqAdminMain.do";
-	$(function(){
-		// 탭 선택시
-		$('.td_div > td').on('click', function(){
-			let searchType = $(this).text();
-			$('option#'+searchType).prop('selected', true);
-			$('input[name="keyword"]').val('');
-			searchList_go(1);
-		});
-		
-		// 검색시
-		$('#searchBtn').on('click', function(){
-			searchList_go(1);
-		});
-		
-		// 수정버튼 클릭시
-		 $('.modifyModalBtn').on('click', function(){
-			 let faqDiv = $(this).closest('.accordion').find('.faq_div').text().substring(1, $(this).closest('.accordion').find('.faq_div').text().length-1);
-			 let faqTitle = $(this).closest('.accordion').find('.faq_title').text().substring(3);
-			 let faqContent = $(this).closest('.accordion').find('.faq_content').text().substring(3);
-			 let faqNo = $(this).closest('.accordion').find('.faq_no').val();
-			 $('select[name="faq_div"] option[value="'+faqDiv+'"]').prop('selected', true);
-			 $('#modalFaqTitle').val(faqTitle);
-			 $('#modalFaqContent').text(faqContent);
-			 $('input[name="faq_no"]').val(faqNo);
-			 $('#modalTitle').text('FAQ 수정');
-			 $('#registBtn').remove();
-			 
-		 });
-		
-		// 모달 안의 수정버튼 클릭시
-		$('#modifyBtn').on('click', function(){
-			let modifyForm = $('form[role="form"]');
-			modifyForm.attr('action', 'faqAdminModify.do');
-			modifyForm.submit();
-		});
-		// 모달 안의 삭제버튼 클릭시
-		$('#deleteBtn').on('click', function(){
-			let deleteForm = $('form[role="form"]');
-			deleteForm.attr('action', 'faqAdminDelete.do');
-			deleteForm.submit();
-		});
-		
-		// 등록버튼 클릭시
-		$('#registModalBtn').on('click', function(){
-			$('#modalTitle').text('FAQ 등록');
-			$('#modifyBtn').remove();
-			$('#deleteBtn').remove();
-		});
-		
-		// 모달 안의 등록버튼 클릭시
-		$('#registBtn').on('click', function(){
-			let registForm = $('form[role="form"]');
-			registForm.attr('action', 'faqAdminRegist.do');
-			registForm.submit();
-		});
+	// 탭 선택시
+	$('.td_div > td').on('click', function(){
+		let searchType = $(this).text();
+		$('option#'+searchType).prop('selected', true);
+		$('input[name="keyword"]').val('');
+		searchList_go(1);
 	});
 	
+	// 검색시
+	$('#searchBtn').on('click', function(){
+		searchList_go(1);
+	});
+	
+	// 수정버튼 클릭시
+	 $('.modifyModalBtn').on('click', function(){
+		 let faqDiv = $(this).closest('.accordion').find('.faq_div').text().substring(1, $(this).closest('.accordion').find('.faq_div').text().length-1);
+		 let faqTitle = $(this).closest('.accordion').find('.faq_title').text().substring(3);
+		 let faqContent = $(this).closest('.accordion').find('.faq_content').text().substring(3);
+		 let faqNo = $(this).closest('.accordion').find('.faq_no').val();
+		 $('select[name="faq_div"] option[value="'+faqDiv+'"]').prop('selected', true);
+		 $('#modalFaqTitle').val(faqTitle);
+		 $('#modalFaqContent').text(faqContent);
+		 $('input[name="faq_no"]').val(faqNo);
+		 $('#modalTitle').text('FAQ 수정');
+		 $('#registBtn').remove();
+		 
+	 });
+	
+	// 모달 안의 수정버튼 클릭시
+	$('#modifyBtn').on('click', function(){
+		let modifyForm = $('form[role="form"]');
+		modifyForm.attr('action', 'faqAdminModify.do');
+		modifyForm.submit();
+	});
+	// 모달 안의 삭제버튼 클릭시
+	$('#deleteBtn').on('click', function(){
+		let deleteForm = $('form[role="form"]');
+		deleteForm.attr('action', 'faqAdminDelete.do');
+		deleteForm.submit();
+	});
+	
+	// 등록버튼 클릭시
+	$('#registModalBtn').on('click', function(){
+		$('#modalTitle').text('FAQ 등록');
+		$('#modifyBtn').remove();
+		$('#deleteBtn').remove();
+	});
+	
+	// 모달 안의 등록버튼 클릭시
+	$('#registBtn').on('click', function(){
+		let registForm = $('form[role="form"]');
+		registForm.attr('action', 'faqAdminRegist.do');
+		registForm.submit();
+	});
 </script>
 <%@ include file="sysAdminFooter.jsp"%>

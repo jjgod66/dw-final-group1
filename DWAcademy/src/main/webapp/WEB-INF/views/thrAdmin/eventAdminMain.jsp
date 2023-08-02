@@ -94,10 +94,12 @@
 	</div>
 </div>
 <script>
+window.onload = function(){
 	let searchFormUrl = "eventAdminMain.do";
 
 	$('#registBtn').on('click', function(){
 		location.href='eventAdminDetail.do?type=create';
 	});
+}	
 </script>    
 <%@ include file="thrAdminFooter.jsp"%>

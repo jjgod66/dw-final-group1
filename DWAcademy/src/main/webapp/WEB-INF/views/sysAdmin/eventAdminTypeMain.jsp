@@ -5,41 +5,6 @@
 <%@ include file="sysAdminHeader.jsp" %>
 <c:set var="cri" value="${pageMaker.cri }" />
 <style>
-#wrapper {
-    background-color: #fff;
-    z-index: 5;
-    min-width: 1210px;
-    zoom: 1;
-}
-#content {
-	max-width: 80rem;
-	margin : 2rem auto 2rem auto;
-    padding-bottom: 100px;
-    border: 1px solid #ccc;
-}
-#content h1 {
-    margin: 0 0 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #888;
-    font-size: 20px;
-    line-height: 1em;
-    letter-spacing: -1px;
-}
-.btn_ssmall, .btn_small, .btn_lsmall, .btn_medium, .btn_large {
-    background: #333;
-    border: 1px solid #333;
-    color: #fff !important;
-}
-.btn_medium {
-    padding: 8px 15px;
-    font-size: 13px;
-    line-height: 1.444;
-    font-weight: 600;
-}
-.eventTypeHeader .typeName {
-	font-size : 1.5rem;
-	font-weight : bold;
-}
 .card img {
 	width : 100%;
 	height: 15rem;
@@ -109,6 +74,7 @@
 </div>
     
 <script>
+window.onload = function(){
 	let searchFormUrl = "eventAdminTypeMain.do";
 	
 	$('.searchTypeList a').on('click', function(){
@@ -116,5 +82,6 @@
 		$('select[name="searchType"] option[value="'+ searchType +'"]').prop('selected', true);
 		$('input[name="keyword"]').val('');
 	});
+}	
 </script>   
 <%@ include file="sysAdminFooter.jsp"%>
