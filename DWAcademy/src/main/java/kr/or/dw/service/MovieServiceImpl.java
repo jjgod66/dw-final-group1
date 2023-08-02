@@ -707,6 +707,11 @@ public class MovieServiceImpl implements MovieService{
 		return top5Movie;
 	}
 
+	@Override
+	public List<Map<String, Object>> getMy2ResInfo(String mem_cd) throws SQLException {
+		return movieDAO.getMy2ResInfo(mem_cd);
+	}
+
 
 
 }

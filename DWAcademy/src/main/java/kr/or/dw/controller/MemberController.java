@@ -58,6 +58,24 @@ public class MemberController {
 		this.naverLoginBO2 = naverLoginBO2;
 	}
 	
+	@RequestMapping("/member/main")
+	public ModelAndView memberMain(ModelAndView mnv, HttpSession session) throws SQLException {
+		String url = "/member/main";
+		
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		
+		String mem_cd = (String) member.get("CD");
+		List<Map<String, Object>> movieInfoList = movieService.getMy2ResInfo(mem_cd);
+		List<Map<String, Object>> buyInfoList = memberService.select3BuyInfo(mem_cd);
+		
+		mnv.addObject("buyInfoList", buyInfoList);
+		mnv.addObject("movieInfoList", movieInfoList);
+		mnv.addObject("member", member);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
 	@RequestMapping("/member/PrivacyInfo")
 	public ModelAndView PrivacyInfo(ModelAndView mnv, HttpServletRequest req, HttpSession session) throws SQLException {
 		String url = "/member/PrivacyInfo";
@@ -150,8 +168,10 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/dormantAccount")
-	public void dormantAccount(String phone, HttpServletResponse res, HttpServletRequest req) throws IOException {
+	public void dormantAccount(String phone, HttpServletResponse res, HttpServletRequest req) throws IOException, SQLException {
 		System.out.println(phone);
+		
+		memberService.accountRecovery(phone);
 		
 		res.setContentType("text/html; charset=utf-8");
 	    PrintWriter out = res.getWriter();
@@ -183,14 +203,13 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/bookinglist")
-	public ModelAndView memberBookinglist(SearchCriteria cri, ModelAndView mnv, HttpSession session) throws SQLException {
+	public ModelAndView memberBookinglist(SearchCriteria cri, ModelAndView mnv, HttpSession session, String on) throws SQLException {
 		String url = "/member/bookinglist";
-		
+		System.out.println("on : " + on);
 		Map<String, Object> member = (Map) session.getAttribute("loginUser");
 		String mem_cd = (String)member.get("CD");
 		cri.setPerPageNum("5");
 		Map<String, Object> dataMap = movieService.selectMovieInfo(cri, mem_cd);
-		
 		
 		mnv.addAllObjects(dataMap);
 		System.out.println(dataMap);
@@ -240,6 +259,17 @@ public class MemberController {
 		
 		mnv.addObject("coupon", coupon);
 		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/member/moviestory")
+	public ModelAndView memberMoviestory(ModelAndView mnv, HttpSession session) {
+		String url = "/member/moviestory";
+		
+		
+		
+		
 		
 		return mnv;
 	}

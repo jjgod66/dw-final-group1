@@ -1,6 +1,7 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import kr.or.dw.command.SearchCriteria;
@@ -41,5 +42,11 @@ public interface MemberService {
 
 	// 회원 구매 내역 월 단위 조회
 	Map<String, Object> searchBuyInfo(String mem_cd, SearchCriteria cri) throws SQLException;
+
+	// 휴면 계정 해제
+	void accountRecovery(String phone) throws SQLException;
+
+	// 회원 구매 내역 3개 가져오기
+	List<Map<String, Object>> select3BuyInfo(String mem_cd) throws SQLException;
 	
 }

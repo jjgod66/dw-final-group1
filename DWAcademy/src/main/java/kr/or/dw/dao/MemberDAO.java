@@ -52,6 +52,9 @@ public interface MemberDAO {
 	//회원 휴면계정으로 업데이트
 	void updateMemSleep(String mem) throws SQLException;
 
+	// 회원 휴면계정 해제
+	void updateMemUnSleep(String phone) throws SQLException;
+
 	//회원 정지계정 해제 전환 
 	void updateMemUnban() throws SQLException;
 
@@ -66,5 +69,9 @@ public interface MemberDAO {
 
 	// 회원 구매 내역 검색한 총 카운트
 	int searchBuyInfoListCnt(@Param("cri")SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	// 회원 구매 내역 3개 가져오기
+	List<Map<String, Object>> select3BuyInfo(String mem_cd) throws SQLException;
+
 
 }

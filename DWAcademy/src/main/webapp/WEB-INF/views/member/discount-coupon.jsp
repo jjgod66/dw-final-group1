@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../include/member_header.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style>
 h2.tit {
     padding: 0 0 26px 0;
@@ -133,39 +135,40 @@ h2.tit {
 </div>
 <div class="board-list-util por">
 	<p class="result-count">
- 		총 <b class="font-gblue">2</b>매
+ 		총 <b class="font-gblue">${fn:length(coupon)}</b>매
 	</p>
 </div>
 <div class="table-wrap mt10">
 	<table class="board-list" summary="취소일시, 영화명, 극장, 상영일시, 취소금액 항목을 가진 취소내역 목록 표">
 		<caption>취소일시, 영화명, 극장, 상영일시, 취소금액 항목을 가진 취소내역 목록 표</caption>
 		<colgroup>
-			<col style="width:120px;">
+			<col style="width:15%;">
 			<col>
-			<col style="width:200px;">
-			<col style="width:120px;">
-			<col style="width:110px;">
+			<col style="width:30%;">
+			<col style="width:15%;">
 		</colgroup>
 		<thead>
 		<tr>
-			<th scope="col">구분</th>
-			<th scope="col">쿠폰명</th>
-			<th scope="col">유효기간</th>
-			<th scope="col">사용상태</th>
-			<th scope="col"></th>
+			<th style="text-align: center;" scope="col">구분</th>
+			<th style="text-align: center;" scope="col">쿠폰명</th>
+			<th style="text-align: center;" scope="col">유효기간</th>
+			<th style="text-align: center;" scope="col">사용상태</th>
 		</tr>
 		</thead>
+	<c:forEach items="${coupon}" var="coupon">
+		<c:set var="i" value="${i+1 }" />
 		<tbody>
-		
-		<tr><td colspan="5" class="a-c">취소내역이 없습니다.</td></tr>
-		<tr>
-			<th scope="col"></th>
-			<th scope="col"></th>
-			<th scope="col"></th>
-			<th scope="col"></th>
-			<th scope="col"></th>
-		</tr>
+			<c:if test="${empty coupon}">
+				<tr><td colspan="5" class="a-c">취소내역이 없습니다.</td></tr>
+			</c:if>
+			<tr>
+				<td>${i }</td>
+				<td>${coupon.coupon_name}</td>
+				<td><fmt:formatDate value="${coupon.enddate}" type="both" />까지</td>
+				<td>${coupon.gb_use eq 'N' ? '사용완료' : '사용가능'}</td>
+			</tr>
 		</tbody>
+	</c:forEach>
 	</table>
 </div>
 <div class="cont">
