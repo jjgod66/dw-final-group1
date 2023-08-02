@@ -15,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import kr.or.dw.dao.MemberDAO;
-import kr.or.dw.vo.MemberVO;
 
 public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
 
@@ -35,7 +34,6 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		try {
 			memberDAO.updateLastLoginDt(id);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
