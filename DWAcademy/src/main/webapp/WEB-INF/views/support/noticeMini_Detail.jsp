@@ -81,7 +81,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;}#wrapper {
 				    </div>
 				
 				    <div class="post-buttons">
-				        <button class="previous-button" onclick="goBack();">목록</button>
+				        <button class="previous-button" onclick="goBack();">뒤로가기</button>
 				    </div>
 				</div>
 					      		
