@@ -36,6 +36,10 @@
     line-height: 1.444;
     font-weight: 600;
 }
+table a {
+	color: black;
+	font-weight: bold;
+}
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
 <div id="wrapper">
@@ -49,7 +53,7 @@
 		<div class="row">
 			<div class="col-md-1"></div>
 			<div class="col-md-10">
-		        <div class="board-header" style="justify-content: space-between;">
+		        <div class="board-header pb-2" style="justify-content: space-between;">
 					<div class="searchSelect">
 						<select id="searchType" name="searchType">
 							<option value="a" ${cri.searchType eq '' || cri.searchType eq 'a' ? 'selected' : ''}>전체</option>
@@ -102,7 +106,7 @@
 		            			<td>${qna.writer_name }</td>
 		            			<td>${qna.gb_mem eq 'Y' ? '회원' : '비회원' }</td>
 		            			<td><fmt:formatDate value='${qna.regdate}' pattern='yyyy-MM-dd'/></td>
-		            			<td>${empty qna.ans_content ? '<b>답변대기</b>' : '답변완료' }</td>
+		            			<td>${empty qna.ans_content ? '<b style="color:#4aa8d8;">답변대기</b>' : '<b>답변완료</b>' }</td>
 		            		</tr>
 		            	</c:forEach>
 						</tbody>

@@ -1,29 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<script src="http://demofran.com/admin/js/admin.js?ver=20230707221805"></script>
-<script src="http://demofran.com/js/wrest.js"></script>
 
-<style>
-#ft {
-    clear: both;
-    width: 100%;
-    min-width: 1210px;
-    font-family: "Century Gothic", sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 20px 0;
-    color: #999;
-    border-top: 1px solid #ccc;
-}
-</style>
-
-<div id="ft">
-	<p>adminDw © dwCinema. 2023 final project.</p>
-</div>
-
-
-<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
-
-</body>
-<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+		<div id="ft">
+			<p>adminDw © dwCinema. 2023 final project.</p>
+		</div>
+		
+		<!-- jquery 3.7.0  -->
+		<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
+		<!-- bootstrap 5.2.3 -->
+		<script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+		<!-- common.js -->
+		<script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
+		<!-- summernote-lite -->
+		<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-ko-KR.js"></script>
+		<!-- swiper -->
+		<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+	</body>
 </html>

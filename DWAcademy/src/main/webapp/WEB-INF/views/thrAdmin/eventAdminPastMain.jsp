@@ -35,10 +35,6 @@
     line-height: 1.444;
     font-weight: 600;
 }
-.eventTypeHeader .typeName {
-	font-size : 1.5rem;
-	font-weight : bold;
-}
 .moreBtn {
 	cursor: pointer;
 }
@@ -88,12 +84,13 @@
 	</div>
 </div>
 <script>
+window.onload = function(){
 	let searchFormUrl = "eventAdminPastMain.do";
 	$('.registWinner').on('click', function(){
 		let event_no = $(this).attr('data-no');
 		let type = $(this).attr('data-type');
 		location.href="eventAdminWinnerRegistForm.do?event_no="+event_no+"&type="+type;
 	});
-	
+}
 </script>
 <%@ include file="thrAdminFooter.jsp"%>

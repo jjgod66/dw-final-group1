@@ -4,60 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="sysAdminHeader.jsp" %>
 <style>
-#wrapper {
-    background-color: #fff;
-    z-index: 5;
-    min-width: 1210px;
-    zoom: 1;
-}
-#content {
-	max-width: 80rem;
-	margin : 2rem auto 2rem auto;
-    padding-bottom: 100px;
-    border: 1px solid #ccc;
-}
-#content h1 {
-    margin: 0 0 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #888;
-    font-size: 20px;
-    line-height: 1em;
-    letter-spacing: -1px;
-}
 .card img {
 	width : 100%;
 	height: 15rem;
 }
-
-.swiper {
-      width: 100%;
-      height: 100%;
-}
-
-.swiper-slide {
-  text-align: center;
-  font-size: 18px;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 :root {
 	--swiper-theme-color: #4aa8d8;
-}
-#content > .row {
-/* 	margin: 4rem 2rem; */
-	
-}
-.moreBtn {
-	cursor: pointer;
 }
 </style>
 <div id="wrapper">
@@ -151,6 +103,7 @@
 </div>
 
 <script>
+window.onload = function () {
 	var swiper = new Swiper(".mySwiper1", {
 	    slidesPerView: 3,
 	    loop : true,
@@ -169,5 +122,6 @@
 	    observer: true,
 	    observeParents: true,
 	  });
+}	
 </script>
 <%@ include file="sysAdminFooter.jsp" %>

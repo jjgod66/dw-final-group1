@@ -67,7 +67,7 @@
 		<if test="searchType == 'thr'.toString()">
 			AND notice_thr != 'DW시네마'
 		</if>
-		<if test="searchType == 'thr'.toString()">
+		<if test="searchType == 'dwc'.toString()">
 			AND notice_thr = 'DW시네마'
 		</if>
 		AND notice_title LIKE '%' || #{keyword} || '%'

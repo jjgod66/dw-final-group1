@@ -276,6 +276,7 @@ window.onload = function(){
 	
 </script>
 <script>
+window.onload = function(){
 	summernote();
 	
 	function summernote () {
@@ -396,5 +397,6 @@ window.onload = function(){
 			}
 		});
 	} 
+}	
 </script>
 <%@ include file="thrAdminFooter.jsp" %>

@@ -1,22 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+	<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="sysAdminHeader.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/notice.css">
 <style>
-#wrapper {
-    background-color: #fff;
-    z-index: 5;
-    min-width: 1210px;
-    zoom: 1;
-}
-#content {
-	max-width: 80rem;
-	margin : 2rem auto 2rem auto;
-    padding-bottom: 100px;
-    border: 1px solid #ccc;
-}
 #content h1 {
     margin: 0 0 20px;
     padding-bottom: 15px;
@@ -25,16 +13,9 @@
     line-height: 1em;
     letter-spacing: -1px;
 }
-.btn_ssmall, .btn_small, .btn_lsmall, .btn_medium, .btn_large {
-    background: #333;
-    border: 1px solid #333;
-    color: #fff !important;
-}
-.btn_medium {
-    padding: 8px 15px;
-    font-size: 13px;
-    line-height: 1.444;
-    font-weight: 600;
+.tit {
+	color: black;
+	font-weight: bold;
 }
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
@@ -52,9 +33,9 @@
 		        <div class="board-header">
 		            <div class="board-nav">
 		                <ul>
-		                    <li><a href="#" class="${cri.searchType eq 'all' || cri.searchType eq '' ? 'active' : '' }" id="all">전체</a></li>
-		                    <li><a href="#" id="dwc" class="${cri.searchType eq 'dwc' ? 'active' : '' }">DW시네마 공지</a></li>
-		                    <li><a href="#" id="thr" class="${cri.searchType eq 'thr' ? 'active' : '' }">지점공지</a></li>
+		                    <li><a href="#" class="${cri.searchType eq 'all' || cri.searchType eq '' ? 'active' : '' }" id="all" style="color: black;">전체</a></li>
+		                    <li><a href="#" id="dwc" class="${cri.searchType eq 'dwc' ? 'active' : '' }" style="color: black;">DW시네마 공지</a></li>
+		                    <li><a href="#" id="thr" class="${cri.searchType eq 'thr' ? 'active' : '' }" style="color: black;">지점공지</a></li>
 		                </ul>
 		                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
 		                <select style="display: none;" id="searchType" name="searchType">
@@ -83,9 +64,9 @@
 						</c:if>
 		            	<c:forEach items="${ noticeList}" var="notice">
 			                <li class="dep1">
-			                    <div class="leftInfo"><span class="sort">${notice.notice_thr }</span></div>
+			                    <div class="leftInfo"><span class="sort" style="color: #4aa8d8;">${notice.notice_thr }</span></div>
 			                    <div class="titInfo">
-			                        <p class="tit"><a href="noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read">${notice.notice_title }</a></p>
+			                        <p class="tit"><a href="noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read" style="color: black;">${notice.notice_title }</a></p>
 			                    </div>
 			                    <div class="etc">
 			                        <ul class="clearFix">
@@ -102,9 +83,9 @@
 	        </div>
 	        <div class="col-md-1"></div>
         </div>
-	</div>
-	<div class="mt-5 mb-5">
-		<%@ include file="../common/pagination.jsp" %>
+		<div class="mt-5">
+			<%@ include file="../common/pagination.jsp" %>
+		</div>
 	</div>
 </div>
 <script>

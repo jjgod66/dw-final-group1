@@ -132,7 +132,9 @@ table th {
 body, div, table, th, td, pre, blockquote {
 	font-size: 12px;
 }
-
+.tbl_frm02 {
+	width: 100%;
+}
 .tbl_frm02 table {
 	width: 100%;
 }
@@ -225,14 +227,14 @@ table th {
 										<input type="hidden" name="oldPicture" value="${MOVIE_MAINPIC_PATH }">
 										<div id="pictureView" style="border: 1px solid green; height: 30rem; width: 100%; margin: 0 auto; margin-bottom: 5px;"></div>
 										<div>
-											<input type="button" id="posterBtn" value="포스터 등록" style="width: 30%; height: 3rem;"> 
+											<input type="button" id="posterBtn" value="포스터 등록" class="btn_medium" style="width: 30%; height: 3rem;"> 
 											<input id="inputPosterName" type="text" name="inputPosterName" style="width: 68%; height: 3rem;" value="${MOVIE_MAINPIC_PATH }" disabled>
 											<input type="file" name="movie_mainPic_path" id="movie_mainPic_path" accept=".jpeg, .png, .jpg, .gif" style="display: none;" onchange="posterChange_go();" required> 
 										</div>
 									</td>
 									<th scope="row">영화소개</th>
 									<td colspan="3">
-										<textarea name="movie_info"	class="required frm_input form-control" rows="30" cols="150" style="background-position: right top; background-repeat: no-repeat; resize: none;" required>${MOVIE_INFO }</textarea>
+										<textarea name="movie_info"	class="required frm_input form-control" rows="30" cols="150" style="height: -webkit-fill-available; background-position: right top; background-repeat: no-repeat; resize: none;" required>${MOVIE_INFO }</textarea>
 									</td>
 								</tr>
 								<tr>

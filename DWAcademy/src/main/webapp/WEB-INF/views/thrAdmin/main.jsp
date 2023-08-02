@@ -151,6 +151,7 @@
 </div>
 
 <script>
+window.onload = function(){
 	var swiper = new Swiper(".mySwiper1", {
 	    slidesPerView: 3,
 	    loop : true,
@@ -169,5 +170,6 @@
 	    observer: true,
 	    observeParents: true,
 	  });
+}
 </script>
 <%@ include file="thrAdminFooter.jsp" %>

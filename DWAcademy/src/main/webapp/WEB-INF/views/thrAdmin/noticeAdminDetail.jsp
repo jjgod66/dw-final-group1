@@ -4,42 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="thrAdminHeader.jsp" %>
-<style>
-#wrapper {
-    background-color: #fff;
-    z-index: 5;
-    min-width: 1210px;
-    zoom: 1;
-}
-#content {
-	max-width: 80rem;
-	margin : 2rem auto 2rem auto;
-    padding-bottom: 100px;
-    border: 1px solid #ccc;
-}
-#content h1 {
-    margin: 0 0 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #888;
-    font-size: 20px;
-    line-height: 1em;
-    letter-spacing: -1px;
-}
-.btn_ssmall, .btn_small, .btn_lsmall, .btn_medium, .btn_large {
-    background: #333;
-    border: 1px solid #333;
-    color: #fff !important;
-}
-.btn_medium {
-    padding: 8px 15px;
-    font-size: 13px;
-    line-height: 1.444;
-    font-weight: 600;
-}
-textarea:focus {
-	outline: none;
-}
-</style>
+
 <div id="wrapper">
 	<div id="content">
 		<jsp:include page="admin_contentHeader.jsp">
@@ -135,37 +100,36 @@ window.onload = function(){
 		location.href='noticeAdminMain.do';
 	});
 	
-}
 	
-</script>
-<script>
-// summernote
-summernote();
-function summernote () {
-	$('.summernote').summernote({
-		lang: 'ko-KR',
-		height: 300,
-		fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
-		toolbar: [
-	// 		[groupName, [list of button]]
-			['fontname', ['fontname']],
-			['fontsize', ['fontsize']],
-			['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-			['color', ['forecolor','color']],
-			['table', ['table']],
-			['para', ['ul', 'ol', 'paragraph']],
-			['height', ['height']],
-			],
-		callbacks : {
-			onImageUpload : function(files, editor, welEditable){
-				if ($('.note-editable img').length >= 0) {
-					alert('이미지 첨부는 불가능합니다.');
-					return;
+	// 썸머노트
+	summernote();
+	
+	function summernote () {
+		$('.summernote').summernote({
+			lang: 'ko-KR',
+			height: 300,
+			fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+			fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+			toolbar: [
+		// 		[groupName, [list of button]]
+				['fontname', ['fontname']],
+				['fontsize', ['fontsize']],
+				['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+				['color', ['forecolor','color']],
+				['table', ['table']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']],
+				],
+			callbacks : {
+				onImageUpload : function(files, editor, welEditable){
+					if ($('.note-editable img').length >= 0) {
+						alert('이미지 첨부는 불가능합니다.');
+						return;
+					}
 				}
 			}
-		}
-	});
+		});
+	}
 }
 </script>
 <%@ include file="thrAdminFooter.jsp" %>
