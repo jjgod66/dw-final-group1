@@ -1,9 +1,67 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <script>
+	//////////////////////////////////////////////////////////////////////////////
+	
+	// 해당날짜 개장시간
+	var openTime = '';
+	if ('${today}' != '') {
+		openTime = new Date('${today}'.substring(0, 4), '${today}'.substring(4, 6) - 1, '${today}'.substring(6));
+	} else {
+		openTime = new Date();
+	}
+	
+	openTime = new Date(openTime.getFullYear(), openTime.getMonth(), openTime.getDate(), 7, 0)
+	openTime = openTime.getTime();
+	
+	// 오늘날짜 개장시간
+	var nowTime = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate(), 7, 0)
+	nowTime = nowTime.getTime();
+	
+	// 해당날짜 - 오늘날짜
+	var timeGap = openTime - nowTime;
+	
+	// 이미 등록된 상영영화 
+	let screenBox = '';
+	let divLength = '';
+	let divLengthRatio = '';
+	let divX = '';
+	let nameBox ='';
+	let addedScreenBox = '';
+	<c:forEach items="${screenList}" var="screen">
+		screenBox = $('<div class="screenBox alreadyScreenBox" data-screenCd="${screen.SCREEN_CD}">');
+		nameBox = $('<div class="nameBox">');
+		screenBox.append(nameBox);
+		nameBox.append('${screen.MOVIE_NAME}');
+		divLength = ('${screen.MOVIE_LENGTH}' / (20 * 60)) * 100;
+		divLengthRatio = Math.floor(divLength*10) / 10;
+		divX = (new Date("${screen.STARTDATE}").getTime() - openTime) / (60 * 1000);
+		divX = (divX / (60 * 20)) * 100; 
 
-const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+		screenBox.css({
+						 'left' : divX+'%',
+						 'width' : divLengthRatio+'%',
+					 });
+		
+		$('.timetableRow[data-houseNo="${screen.HOUSE_NO}"]').append(screenBox);
+	</c:forEach>
+	
+	
+	// 현재날짜와 일주일 이상 차이난다면 수정가능
+	if (timeGap >= 604800000) {
+		$('div.alreadyScreenBox').addClass('possibleModify');
+	}
+	
+	if (!$('.alreadyScreenBox').hasClass('possibleModify')) {
+		$('.alreadyScreenBox').attr({
+										'data-bs-toggle' : 'modal',
+										'data-bs-target' : '#exampleModal'
+									});
+	}
+	
+	
+	//////////////////////////////////////////////////////////////////////
+	
 	
 	// 날짜 선택부분
 	let weekPage = 0;
@@ -19,6 +77,22 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 		$('#dayTableRow').append(dayTableTd);
 	}
 	
+	// 해당 날짜목록 보여주기
+	if (604800000 <= timeGap && timeGap < 1209600000) {
+		weekPage = 1;
+	} else if (timeGap >= 1209600000) {
+		weekPage = 2;
+	}
+	
+	showWeek(weekPage);
+	
+	function showWeek(weekPage) {
+		$('.dayTableTd').hide();
+		for (let i=0; i < 7; i++) {
+			$('#dayTableRow .dayTableTd:eq('+ (weekPage*7+i) +')').show();
+		}
+	}
+	
 	// 현재 날짜 표시
 	if ('${today}' != "") {
 		$('.dayTableTd[data-date="${today}"]').addClass('selectedDate');
@@ -30,18 +104,9 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 	$('.dayTableTd').on('click', function(){
 		let data = $(this).attr('data-date');
 		location.href="test.do?date="+data;
-	})
+	});
 	
-	showWeek(weekPage);
-	
-	function showWeek(weekPage) {
-		$('.dayTableTd').hide();
-		for (let i=0; i < 7; i++) {
-			$('#dayTableRow .dayTableTd:eq('+ (weekPage*7+i) +')').show();
-		}
-	}
-	
-	
+	// 다음버튼 클릭시	
 	$('#nextWeekBtn').on('click', function(){
 		if (weekPage < 2) {
 			weekPage++
@@ -50,6 +115,8 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 		}
 		showWeek(weekPage);
 	});
+	
+	// 이전버튼 클릭시
 	$('#prevWeekBtn').on('click', function(){
 		if (weekPage > 0) {
 			weekPage--
@@ -64,26 +131,26 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 		$('.selected').removeClass('selected');
 		$(this).addClass('selected');
 		
+		$('.modifyBox').remove();
+		$('.hided').removeClass('hided');
+		$('#addNewScreenBtn').show();
+		$('#modifyScreenBtn').hide();
+		$('#deleteScreenBtn').hide();
+		
 		let movieName = $(this).find('.movieRowName').text();
 		let movieCd = $(this).find('.movieRowCd').text();
 		let movieLength = $(this).find('.movieLength').val();
 		let movieDates = $(this).find('.movieRowDates').val();
 		let moviePic = $(this).find('.movieRowPic').html();
 		let movieType = $(this).find('.movieType').val();
-		let movieTypeList = movieType.split(',');
-		$('#movieTypeTd').html('');
-		console.log(movieTypeList);
-		let movieTypeValue= '';
-		for (movieType of movieTypeList) {
-			if (movieType.includes('더빙/')) {
-				movieTypeValue = movieType.replace('더빙/', 'DU');
-			} else if (movieType.includes('자막/')) {
-				movieTypeValue = movieType.replace('자막/', 'DE');
-			} else if (movieType.includes('없음/')) {
-				movieTypeValue = movieType.replace('없음/', 'NO');
-			}
-			$('#movieTypeTd').append($('<div class="col-md-6"><input type="radio" name="movie_type_cd" id="'+movieTypeValue+'" value="'+movieTypeValue+'"><label for="'+movieTypeValue+'">'+movieType+'</label></div>'));
-		}
+		
+		showDetailBox(movieName, movieCd, movieLength, movieDates, moviePic, movieType);
+		
+		showAddedBox(movieLength);
+	});
+	
+	// 영화클릭, 또는 기존상영영화 클릭시
+	function showDetailBox(movieName, movieCd, movieLength, movieDates, moviePic, movieType, movie_type_des, house_no, startHour, startMinute) {
 		
 		$('#movieRowName').text(movieName);
 		$('#movieRowCd').text(movieCd);
@@ -92,14 +159,58 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 		$('#movieRowPic').html(moviePic);
 		$('#movieRowPic img').css({'width' : '10rem', 'height' : '14rem'});
 		
-		showAddedBox(movieLength);
-	});
+		let movieTypeList = movieType.split(',');
+		$('#movieTypeTd').html('');
+
+		let movieTypeValue= '';
+		for (movieType of movieTypeList) {
+			if (movieType.includes('더빙/')) {
+				movieTypeValue = movieType.replace('더빙/', 'DU');
+			} else if (movieType.includes('자막/')) {
+				movieTypeValue = movieType.replace('자막/', 'DE');
+			} else if (movieType.includes('없음/')) {
+				movieTypeValue = movieType.replace('없음/', 'NO');
+			} else {
+				movieTypeValue = movieType;
+			}
+			
+			if (movieType.includes('DU')) {
+				movieType = movieType.replace('DU', '더빙/');
+			} else if (movieType.includes('DE')) {
+				movieType = movieType.replace('DE', '자막/');
+			} else if (movieType.includes('NO')) {
+				movieType = movieType.replace('NO', '없음/');
+			}
+			
+			$('#movieTypeTd').append($('<div class="col-md-6"><input type="radio" name="movie_type_cd" id="'+movieTypeValue+'" value="'+movieTypeValue+'"><label for="'+movieTypeValue+'">'+movieType+'</label></div>'));
+		}
+		
+		if (house_no != null) {
+			$('select#startHouse option[value="'+house_no+'"]').prop('selected', true);
+		}
+		
+		if (startHour != null) {
+			$('select#startHour option[value="'+startHour+'"]').prop('selected', true);
+		}
+		
+		if (startMinute != null) {
+			$('select#startMinute option[value="'+startMinute+'"]').prop('selected', true);
+		}
+		
+		if (movie_type_des != null) {
+			$('label:contains('+movie_type_des+')').click();
+		}
+	}
+	
 	
 	$('#startHour, #startMinute, #startHouse').on('change', function(){
 		if ($('div.selected').length > 0 ) {
 			let movieLength = $('div.selected').find('.movieLength').val();
 			showAddedBox(movieLength);
-		} 
+		} else {
+			let movieLength = $('#movieLength').text().split('분')[0];
+			showModifyBox(movieLength);
+		}
 	});
 	
 	// 폼 작성시 상영시간표와 종료시간 프리뷰 
@@ -115,7 +226,41 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 		}
 		let startTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()));
 		let endTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()) + Number(movieLength));
-		console.log(startTime);
+		$('#endTimeTd').text(((endTime.getHours()<10?'0'+endTime.getHours():endTime.getHours()) + '시 ') + (endTime.getMinutes() + '분'));
+		
+		divLength = ( movieLength / (20 * 60)) * 100;
+		divLengthRatio = Math.floor(divLength*10) / 10;
+		divX = (startTime.getTime() - openTime) / (60 * 1000);
+		divX = (divX / (60 * 20)) * 100;
+		addedScreenBox = $('<div class="screenBox addedBox">');
+		nameBox = $('<div class="nameBox">');
+		addedScreenBox.append(nameBox);
+		nameBox.append($('.selected').find('.movieRowName').text());
+		addedScreenBox.css({
+							 'left' : divX+'%',
+							 'width' : divLengthRatio+'%',
+						 });
+		$('.timetableRow[data-houseNo="'+ $('#startHouse').val()+'"]').append(addedScreenBox);
+		
+		checkScreenTimeClash($('#startHouse').val(), startTime, endTime);
+	}
+	
+	function showModifyBox(movieLength) {
+		if($('.addedBox').length > 0) {
+			$('.addedBox').remove();
+		}
+		if($('.modifyBox').length > 0) {
+			$('.modifyBox').addClass('hided');
+		}
+		let day = '';
+		if ($('.selectedDate').length < 1) {
+			day = new Date();
+		} else {
+			day = new Date($('.selectedDate').attr('data-date').substring(0,4), $('.selectedDate').attr('data-date').substring(4,6) - 1, $('.selectedDate').attr('data-date').substring(6));
+		}
+		
+		let startTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()));
+		let endTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()) + Number(movieLength));
 		$('#endTimeTd').text(((endTime.getHours()<10?'0'+endTime.getHours():endTime.getHours()) + '시 ') + (endTime.getMinutes() + '분'));
 		
 		divLength = ( movieLength / (20 * 60)) * 100;
@@ -123,27 +268,27 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 		
 		divX = (startTime.getTime() - openTime) / (60 * 1000);
 		divX = (divX / (60 * 20)) * 100;
-		let addedScreenBox = $('<div class="screenBox addedBox">');
-		let nameBox = $('<div class="nameBox">');
+		addedScreenBox = $('<div class="screenBox modifyBox">');
+		nameBox = $('<div class="nameBox">');
 		addedScreenBox.append(nameBox);
-		nameBox.append($('.selected').find('.movieRowName').text());
+		nameBox.append($('#movieRowName').text());
 		addedScreenBox.css({
 							 'left' : divX+'%',
 							 'width' : divLengthRatio+'%',
 						 });
-		toolTipDiv = $('<div class="tooltipDiv card card-body"><div class="triangle"></div><div>'+$('.selected').find('.movieRowName').text()+'</div></div>');
-		addedScreenBox.append(toolTipDiv);
 		$('.timetableRow[data-houseNo="'+ $('#startHouse').val()+'"]').append(addedScreenBox);
 		
-		checkScreenTimeClash($('#startHouse').val(), startTime, endTime);
+		checkScreenTimeClash($('#startHouse').val(), startTime, endTime, $('.screen_cd').val());
+		
 	}
 	
 	// 서버로 가서 추가 가능한 시간인지 체크
-	function checkScreenTimeClash(house_no, startTime, endTime) {
+	function checkScreenTimeClash(house_no, startTime, endTime, screen_cd) {
 		let data = {
 				"house_no" : house_no,
 				"startTime" : startTime,
-				"endTime" : endTime
+				"endTime" : endTime,
+				"screen_cd" : screen_cd
 		}
 		$.ajax({
 			url : "<%=request.getContextPath()%>/thrAdmin/CheckScreenTimeClash",
@@ -151,9 +296,13 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 			data : JSON.stringify(data),
 			contentType : "application/json",
 			success : function(data) {
-				console.log(data);
 				if (data > 0) {
-					$('.addedBox').addClass('cantBeAdded');
+					console.log(data);
+					if ($('.addedBox').length > 0) {
+						$('.addedBox').addClass('cantBeAdded');
+					} else if ($('.modifyBox').length > 0) {
+						$('.modifyBox').addClass('cantBeAdded');
+					}
 				}
 			},
 			error : function(err) {
@@ -161,24 +310,72 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 			}
 		});
 	}
-	
+
 	// 이미 등록되어있는 상영영화 상세정보 보기
 	$(document).on('click', '.alreadyScreenBox',function(){
+		
+		
+		let thisBox = $(this);
 		let screen_cd = $(this).attr('data-screenCd');
-		console.log(screen_cd);
 		$.ajax({
 			url : "<%=request.getContextPath()%>/thrAdmin/screenDetail",
 			type : "post",
 			data : JSON.stringify(screen_cd),
 			contentType : "application/json",
 			success : function(data) {
-				screenDetailInfo(data);
+				if (thisBox.hasClass('possibleModify')) {
+					console.log(data);
+					$(this).addClass('hided');
+					$('#addNewScreenBtn').hide();
+					$('#modifyScreenBtn').show();	
+					$('#deleteScreenBtn').show();
+					$('.addedBox').remove();
+					screenModify(data, thisBox);
+				} else {
+					if ($('.modifyBox').length > 0) {
+						$('.modifyBox').remove();
+						$('.hided').removeClass('hided');
+					} 
+					screenDetailInfo(data);
+				}
 			},
 			error : function(err) {
 				console.log(err);
 			}
 		});
 	});
+	
+	function screenModify(map , thisBox) {
+		$('.addedBox').remove();
+		$('.selected').removeClass('selected');
+		if ($('.modifyBox').length > 0) {
+			$('.modifyBox').removeClass('modifyBox');
+		}
+		
+		let movie_opendate = new Date(map.MOVIE_OPENDATE);
+		let movie_opendate_year = movie_opendate.getFullYear().toString();		
+		let movie_opendate_month = (movie_opendate.getMonth()+1).toString() < 10 ? '0'+(movie_opendate.getMonth()+1).toString() : (movie_opendate.getMonth()+1).toString(); 		
+		let movie_opendate_date = movie_opendate.getDate().toString() < 10 ? '0' + movie_opendate.getDate().toString() : movie_opendate.getDate().toString();	
+		movie_opendate = movie_opendate_year + '-' + movie_opendate_month + '-' + movie_opendate_date;
+		
+		let movie_enddate = new Date(map.MOVIE_ENDDATE);
+		let movie_enddate_year = movie_enddate.getFullYear().toString();		
+		let movie_enddate_month = (movie_enddate.getMonth()+1).toString() < 10 ? '0'+(movie_enddate.getMonth()+1).toString() : (movie_enddate.getMonth()+1).toString(); 		
+		let movie_enddate_date = movie_enddate.getDate().toString() < 10 ? '0' + movie_enddate.getDate().toString() : movie_enddate.getDate().toString();	
+		movie_enddate = movie_enddate_year + '-' + movie_enddate_month + '-' + movie_enddate_date;
+		
+		let movieDates = movie_opendate + ' ~ ' + movie_enddate;
+		let moviePic = $('<img src="/sysAdmin/getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster" style="width: 10rem; height: 14rem; overflow: hidden;">');
+		
+		let startdate = new Date(map.STARTDATE);
+		let enddate = new Date(startdate.getFullYear(), startdate.getMonth(), startdate.getDate(), startdate.getHours(), startdate.getMinutes() + map.MOVIE_LENGTH);
+		let startHour = startdate.getHours() < 10 ? '0'+startdate.getHours() : startdate.getHours();
+		let startMinute = startdate.getMinutes() < 10 ? '0'+startdate.getMinutes() : startdate.getMinutes();
+		$('.screen_cd').val(map.SCREEN_CD);
+		
+		showDetailBox(map.MOVIE_NAME, map.MOVIE_CD, map.MOVIE_LENGTH, movieDates, moviePic, map.MOVIE_TYPE_LIST, map.MOVIE_TYPE_DES, map.HOUSE_NO, startHour, startMinute);
+		showModifyBox(map.MOVIE_LENGTH);
+	}
 	
 	function screenDetailInfo(map) {
 		$('#movieCd_modal').text(map.SCREEN_CD);
@@ -187,7 +384,7 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 		$('#screenReservCnt_modal').text(map.RESERVCNT + ' / ' + (map.HOUSE_ROW * map.HOUSE_COLUMN));
 		$('#movieLength_modal').text(map.MOVIE_LENGTH + '분');
 		$('#screenType_modal').text(map.MOVIE_TYPE_DES);
-		$('.modalImgDiv img').attr('src', 'getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster');
+		$('.modalImgDiv img').attr('src', '/sysAdmin/getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster');
 		$('#seatMapDiv').html('');
 		let rowDiv = ''; 
 		let seatDiv = '';
@@ -206,9 +403,16 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 			}
 			$('#seatMapDiv').append(rowDiv);
 		}
-		
-		
 	}
+	
+	// 선택 해제
+	$(document).on('click', '.modifyBox',function(){
+		$(this).remove();
+		$('.hided').removeClass('hided');
+		$('#addNewScreenBtn').show();
+		$('#modifyScreenBtn').hide();
+		$('#deleteScreenBtn').hide();
+	});
 	
 	// 영화 검색시
 	$('#searchMovieName').on('keyup', function(){
@@ -219,8 +423,7 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 	});
 	
 	// 상영 등록시
-	$('#addNewScreen').on('click', function(){
-		
+	$('#addNewScreenBtn').on('click', function(){
 		if ($('.cantBeAdded').length > 0) {
 			alert('시간표를 확인하세요.');
 			return;
@@ -243,58 +446,64 @@ const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstra
 			}
 			let startTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()));
 			$('input[name="startdate"]').val(startTime);
-			$('input[name="movie_type_cd"]').val($('input[name="movie_type_cd"]').val());
+			$('#movieTypeCd').val($('input[name="movie_type_cd"]:checked').val());
 			$('input[name="house_no"]').val($('#startHouse').val());
 			let form = $('form[role="form"]');
+			form.attr('action', 'addNewScreen');
 			form.submit();
 		}
 	});
 	
-	///////////////////////////////////////
-	var openTime = '';
-	console.log('${today}');
-	if ('${today}' != '') {
-		openTime = new Date('${today}'.substring(0, 4), '${today}'.substring(4, 6) - 1, '${today}'.substring(6));
-	} else {
-		openTime = new Date();
-	}
-	openTime = new Date(openTime.getFullYear(), openTime.getMonth(), openTime.getDate(), 7, 0)
-	console.log(openTime);
-	openTime = openTime.getTime();
-	console.log(openTime);
-	
-	let screenBox = '';
-	let divLength = '';
-	let divLengthRatio = '';
-	let divX = '';
-	let toolTipDiv = '';
-	let nameBox ='';
-	<c:forEach items="${screenList}" var="screen">
-		screenBox = $('<div class="screenBox alreadyScreenBox" data-bs-toggle="modal" data-bs-target="#exampleModal" data-screenCd="${screen.SCREEN_CD}">');
-		nameBox = $('<div class="nameBox">');
-		toolTipDiv = $('<div class="tooltipDiv card card-body"><div class="triangle"></div><div class="tooltipMovieName">${screen.MOVIE_NAME}</div><div><fmt:formatDate value="${screen.STARTDATE}" pattern="kk:mm"/></div></div>')
-		screenBox.append(nameBox);
-		nameBox.append('${screen.MOVIE_NAME}');
-		divLength = ('${screen.MOVIE_LENGTH}' / (20 * 60)) * 100;
-		divLengthRatio = Math.floor(divLength*10) / 10;
-		divX = (new Date("${screen.STARTDATE}").getTime() - openTime) / (60 * 1000);
-		divX = (divX / (60 * 20)) * 100; 
-
-		screenBox.css({
-						 'left' : divX+'%',
-						 'width' : divLengthRatio+'%',
-					 });
-		screenBox.append(toolTipDiv);
-
-		$('.timetableRow[data-houseNo="${screen.HOUSE_NO}"]').append(screenBox);
-	</c:forEach>
-	
-	$(document).on('mouseover', '.screenBox', function(){
-		$(this).find('.tooltipDiv').show();
-		$(this).find('.triangle').show();
+	// 상영영화 수정시
+	$('#modifyScreenBtn').on('click', function(){
+		if ($('.cantBeAdded').length > 0) {
+			alert('시간표를 확인하세요.');
+			return;
+		}
+		if ($('.modifyBox').length == 0) {
+			alert('수정할 영화를 선택하세요.');
+			return;
+		}
+		if ($('input[name="movie_type_cd"]:checked').length < 1) {
+			alert('상영타입을 선택하세요.');
+			return;
+		}
+		if (confirm('해당 상영영화를 수정하시겠습니까?')) { 		
+			$('input[name="screen_cd"]').val($('.screen_cd').val());
+			let day = '';
+			if ($('.selectedDate').length < 1) {
+				day = new Date();
+			} else {
+				day = new Date($('.selectedDate').attr('data-date').substring(0,4), $('.selectedDate').attr('data-date').substring(4,6) - 1, $('.selectedDate').attr('data-date').substring(6));
+			}
+			let startTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()));
+			$('input[name="startdate"]').val(startTime);
+			$('#movieTypeCd').val($('input[name="movie_type_cd"]:checked').val());
+			$('input[name="house_no"]').val($('#startHouse').val());
+			let form = $('form[role="form"]');
+			form.attr('action', 'screenModify');
+			form.submit();
+		}
 	});
-	$(document).on('mouseleave', '.screenBox', function(){
-		$(this).find('.tooltipDiv').hide();
-		$(this).find('.triangle').hide();
+	
+	// 상영영화 삭제시
+	$('#deleteScreenBtn').on('click', function(){
+		if (confirm('해당 상영영화를 정말로 삭제하시겠습니까?')) { 		
+			$('input[name="screen_cd"]').val($('.screen_cd').val());
+			
+			let day = '';
+			if ($('.selectedDate').length < 1) {
+				day = new Date();
+			} else {
+				day = new Date($('.selectedDate').attr('data-date').substring(0,4), $('.selectedDate').attr('data-date').substring(4,6) - 1, $('.selectedDate').attr('data-date').substring(6));
+			}
+			let startTime = new Date(day.getFullYear(), day.getMonth(), day.getDate(), Number($('#startHour').val()), Number($('#startMinute').val()));
+			$('input[name="startdate"]').val(startTime);
+// 			$('#movieTypeCd').val($('input[name="movie_type_cd"]:checked').val());
+// 			$('input[name="house_no"]').val($('#startHouse').val());
+			let form = $('form[role="form"]');
+			form.attr('action', 'screenDelete');
+			form.submit();
+		}
 	});
 </script>
