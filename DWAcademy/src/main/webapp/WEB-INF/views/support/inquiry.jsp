@@ -154,22 +154,22 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
             </c:if>
         </div>
 
-<!--         <div class="mb-3"> -->
-<%--         	<c:if test="${mem_phone ne ''}"> --%>
-<%--             	<input type="tel" class="" name="writer_phone" placeholder="휴대전화번호를 입력하세요(숫자만)" value="${mem_phone }" readonly> --%>
-<%--             </c:if> --%>
-<%--             <c:if test="${mem_phone eq ''}"> --%>
-<!--             	<input type="tel" class="" name="writer_phone" placeholder="휴대전화번호를 입력하세요(숫자만)"> -->
-<!-- 	            <button type="button" class="btn btn-secondary" id="phoneSMSBtn">인증</button> -->
-<%--             </c:if> --%>
-<!--         </div> -->
-<!-- 		<div class="mb-3 phoneSMSchkDiv" style="display: none"> -->
-<!-- 	        <div> -->
-<!-- 	            <input type="text" class="" id="phoneSMSNum" placeholder="인증번호를 입력하세요"> -->
-<!-- 	             <button type="button" class="btn btn-secondary" id="phoneSMSNumChkBtn">확인</button> -->
-<!-- 	        </div> -->
-<!-- 	            <p style="display: none; color: red;" id="noneEq">일치하지 않습니다. 다시 입력해주세요.</p> -->
-<!--         </div> -->
+        <div class="mb-3">
+        	<c:if test="${mem_phone ne ''}">
+            	<input type="tel" class="" name="writer_phone" placeholder="휴대전화번호를 입력하세요(숫자만)" value="${mem_phone }" readonly>
+            </c:if>
+            <c:if test="${mem_phone eq ''}">
+            	<input type="tel" class="" name="writer_phone" placeholder="휴대전화번호를 입력하세요(숫자만)">
+	            <button type="button" class="btn btn-secondary" id="phoneSMSBtn">인증</button>
+            </c:if>
+        </div>
+		<div class="mb-3 phoneSMSchkDiv" style="display: none">
+	        <div>
+	            <input type="text" class="" id="phoneSMSNum" placeholder="인증번호를 입력하세요">
+	             <button type="button" class="btn btn-secondary" id="phoneSMSNumChkBtn">확인</button>
+	        </div>
+	            <p style="display: none; color: red;" id="noneEq">일치하지 않습니다. 다시 입력해주세요.</p>
+        </div>
         <div class="mb-3">
             <input type="text" class="" name="que_title" placeholder="제목을 입력하세요" required="required">
         </div>
@@ -230,11 +230,11 @@ $(function(){
 			$('input[name="writer_email"]').focus();
 			return;
 		}
-// 		if(SMSYN == 'N'){
-// 			alert("휴대폰 인증을 완료해주세요.");
-// 			$('input[name="writer_phone"]').focus();
-// 			return;
-// 		}
+		if(mem_cd == '' && SMSYN == 'N'){
+			alert("휴대폰 인증을 완료해주세요.");
+			$('input[name="writer_phone"]').focus();
+			return;
+		}
 		
 		if($('input[name="que_title"]').val() == ''){
 			alert("제목을 입력해주세요.");
@@ -305,7 +305,7 @@ $(function(){
 	
 	$('#phoneSMSBtn').on('click', function(){
 		SMSYN = 'N';
-		let phone = $('#inqForm input[name="writer_phone"]').val();
+		let phone = $('#qnaRegForm input[name="writer_phone"]').val();
 		if(phone != ""){
 			$.ajax({
 				url : '<%=request.getContextPath()%>/SMS/send.do',
@@ -333,7 +333,7 @@ $(function(){
 			alert("인증되었습니다.");
 			$('.phoneSMSchkDiv').css('display', 'none');
 			$("#noneEq").css('display', 'none');
-			$('#inqForm input[name="writer_phone"]').prop('readonly', 'readonly');
+			$('#qnaRegForm input[name="writer_phone"]').prop('readonly', 'readonly');
 			$('#phoneSMSBtn').text('인증완료');
 			$('#phoneSMSBtn').prop('disabled', 'disabled');
 		}else{
