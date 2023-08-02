@@ -157,4 +157,14 @@ public class MemberServiceImpl implements MemberService{
 		return dataMap;
 	}
 
+	@Override
+	public void accountRecovery(String phone) throws SQLException {
+		memberDAO.updateMemUnSleep(phone);
+	}
+
+	@Override
+	public List<Map<String, Object>> select3BuyInfo(String mem_cd) throws SQLException {
+		return memberDAO.select3BuyInfo(mem_cd);
+	}
+
 }

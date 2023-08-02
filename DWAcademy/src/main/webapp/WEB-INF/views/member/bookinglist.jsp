@@ -258,8 +258,6 @@ h3.tit {
 				<td>
 					<input type="radio" id="radBokd01" name="radBokd" value="B" checked="checked">
 					<label for="radBokd01">예매내역 </label>
-<!-- 					<input type="radio" id="radBokd02" name="radBokd" value="E"> -->
-<!-- 					<label for="radBokd02">지난내역 </label> -->
 					
 					<div class="dropdown bootstrap-select disabled small bs3">
 						<select name="searchType">
@@ -486,7 +484,6 @@ let searchFormUrl = "/member/bookinglist.do";
 $(document).ready(function () {
 	// 페이지가 로드되면 해시태그에 따라 해당 콘텐츠를 보여주거나 감추는 함수 실행
 	handleHashChange();
-
 	if($('li[data-tit="구매내역"]').hasClass('on') == true){
 		$('#myPurcArea').show();
 	}else{
@@ -542,94 +539,10 @@ let searchType = "<c:out value='${cri.searchType}'/>";
 		$('input[name="keyword"]').show();
 	}
 
-// 	$('#radBokd02').on('click', function(){
-// 		$('#reserveSearchBtn').attr('disabled', false);
-// 		$('select[name="searchType"]').attr('disabled', false);
-// 		$('#selYMSearchBtn').attr('disabled', false);
-// 	});
 	$('#radBokd01').on('click', function(){
 		location.href="<%=request.getContextPath()%>/member/bookinglist.do";
 	});
-// 	let page = 1;
-// 	let searchVal = "";
-// 	$('#selYMSearchBtn').on('click', function(){
-<%-- 		let contextPath = "<%=request.getContextPath()%>"; --%>
-// 		if($('select[name=selYM]').attr("disabled") != "disabled"){
-// 			if($('select[name="searchType"]').val() == ""){
-// 				searchVal = "";
-// 			}else if($('select[name="searchType"]').val() == "date"){
-// 				searchVal = $('select[name=selYM]').val();
-// 			}else{
-// 				searchVal = $('input[name="searchReserve"]').val();
-// 			}
-// 			$.ajax({
-<%-- 				url : "<%=request.getContextPath()%>/member/searchResDate.do", --%>
-// 				method : "post",
-// 				data : {
-// 					searchVal : searchVal,
-// 					page : page		
-// 					},
-// 				success : function(res){
-// 					$('#myMovie').html('');
-// 					$('#myMovie').append('<div>총 '+ res.length + '건</div>');
-// 					let str = "";
-// 					for(let i = 0; i < res.length; i++){
-// 					console.log(res[i].MOVIE_MAINPIC_PATH);
-// 						str = "";
-// 						str +=    '<div class="card-body row" style="padding-rigth: 0; border: 1px solid #503396">'
-// 								+ '<div class="col-2" style="background: url('+ "'"+contextPath+'/sysAdmin/getPicture.do?name=' + res[i].MOVIE_MAINPIC_PATH + '&item_cd=' + res[i].MOVIE_CD + '&type=moviePoster' + "')" + 'no-repeat left /cover"></div>'
-// 								+ '<div class="col-5">'
-// 								+	'<span><strong>예매번호 </strong>' + res[i].MERCHANT_UID + '</span>'
-// 								+	'<br><br>'
-// 								+	'<span><strong>영화명 </strong>' + res[i].MOVIE_NAME + '</span>'
-// 								+	'<br><br>'
-// 								+	'<span><strong>극장/상영관 </strong>' + res[i].THR_NAME + '/' + res[i].HOUSE_NAME + '</span>'
-// 								+	'<br><br>'
-// 								+	'<span><strong>관람일시 </strong>' + moment(res[i].STARTDATE).format("YYYY-MM-DD HH:mm:ss") + '</span>'
-// 								+	'<br><br>'
-// 								+	'<span><strong>결제일시 </strong>' + moment(res[i].RESDATE).format("YYYY-MM-DD HH:mm:ss") + '</span>'
-// 								+ '</div>'
-// 								+ '<div class="col-4 ">'
-// 								+	'<br><br>'
-// 								+	'<br><br>'
-// 								+	'<span><strong>관람인원 </strong>' + res[i].MEM_CAT + '</span>'
-// 								+	'<br><br>'
-// 								+	'<span><strong>관람좌석 </strong>' + res[i].RES_SEAT + '</span>'
-// 								+	'<br><br>'
-// 								if(res[i].REFUNDDATE == null){
-// 									str += '<span><strong>취소일시 </strong> - </span>'
-// 								}
-// 								if(res[i].REFUNDDATE != null){
-// 									str += '<span><strong>취소일시 </strong>' +  res[i].REFUNDDATE + '</span>'
-// 								}
-// 							+	'</div>'
-// 						+	'</div>'
-// 						+ '</div>'
-// 						+ '<br>';
-// 						$('#myMovie').append(str);
-// 					};
-// 				},
-// 				error : function(err){
-// 					console.log(err.status);
-// 				}
-// 			})
-// 		}
-// 	});
-	
-// 	$('#buyYMSearchBtn').on('click', function(){
-// 		let searchVal = $('select[name=buyYM]').val();
-// 		$.ajax({
-<%-- 			url : "<%=request.getContextPath()%>/member/searchBuyDate.do", --%>
-// 			method : "post",
-// 			data : {searchVal : searchVal},
-// 			success : function(res){
-// 				console.log(res);
-// 			},
-// 			error : function(err){
-// 				console.log(err.status);
-// 			}
-// 		})
-// 	});
+
 });
 </script>
 <%@ include file="../include/member_footer.jsp" %>

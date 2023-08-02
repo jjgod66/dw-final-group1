@@ -31,22 +31,7 @@ public class ViewController {
 	/*
 	 * 맴버 뷰어 컨트롤러 
 	 */
-	@RequestMapping("/member/main")
-	public ModelAndView memberMain(ModelAndView mnv, HttpSession session) {
-		String url = "/member/main";
-		
-		Map<String, Object> member = (Map) session.getAttribute("loginUser");
-		
-		mnv.addObject("member", member);
-		mnv.setViewName(url);
-		
-		return mnv;
-	}
-	@GetMapping("/member/moviestory")
-	public String memberMoviestory() {
-		String url = "/member/moviestory";
-		return url;
-	}
+
 	@GetMapping("/member/myinquiry")
 	public String memberMyinquiry() {
 		String url = "/member/myinquiry";

@@ -90,6 +90,10 @@
 		UPDATE member SET gb_sleep = 'Y' WHERE mem_cd = #{mem_cd}
 	</update>
 	
+	<update id="updateMemUnSleep">
+		UPDATE member SET gb_sleep = 'N' WHERE mem_phone = #{phone}
+	</update>
+	
 	<update id="updateMemUnban">
 		UPDATE member
 		  SET gb_ban = 'N'
@@ -103,6 +107,23 @@
 		   AND p.product_cd = mp.product_cd
 	       AND mb.merchant_uid = mp.merchant_uid
 		   AND mb.merchant_uid = pd.merchant_uid
+		   ORDER BY buydate desc
+	</select>
+	
+	<select id="select3BuyInfo" resultType="Map">
+		SELECT *
+		  FROM (
+					SELECT mb.buydate, p.product_div, p.product_name, p.product_price, mp.gb_use, pd.refunddate
+					  FROM mem_buy mb, product p ,mem_product mp, pay_detail pd
+					 WHERE mb.mem_cd = #{mem_cd}
+					   AND p.product_cd = mp.product_cd
+				       AND mb.merchant_uid = mp.merchant_uid
+					   AND mb.merchant_uid = pd.merchant_uid
+					   ORDER BY buydate desc
+				)
+		 WHERE rownum <![CDATA[<=]]> 3
+			
+			
 	</select>
 	
 	<select id="searchBuyInfo" resultType="Map">
@@ -113,6 +134,7 @@
 	       AND mb.merchant_uid = mp.merchant_uid
 		   AND mb.merchant_uid = pd.merchant_uid
 		   AND TO_CHAR(buydate, 'YYYYMM') like #{cri.monthKeyword}
+		   ORDER BY buydate desc
 	</select>
 	
 	<select id="selectBuyInfoListCnt" resultType="int">

@@ -463,5 +463,12 @@ public interface MovieDAO {
 	 */
 	List<Map<String, Object>> selectReviewTop5Movie() throws SQLException;
 
+	/**
+	 * 나의 예매정보 2개 가져오기
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> getMy2ResInfo(String mem_cd) throws SQLException;
+
 
 }

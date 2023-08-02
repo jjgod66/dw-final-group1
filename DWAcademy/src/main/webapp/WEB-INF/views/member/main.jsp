@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../include/member_header.jsp" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
 .main-wrapper {
     margin: 30px 0;
@@ -138,14 +139,44 @@
 		<div class="tit-util">
 			<h3 class="tit">나의 예매내역</h3>
 			<div class="float-end">
-				<a href="" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/member/bookinglist.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div class="my-reserve-history">
 			<ul>
 				<li class="no-result">
-					<div class="no-history-reservation">
+					<div class="row" style="padding-rigth: 0; border: 1px solid #503396">
+					<c:if test="${empty movieInfoList}">
 						예매 내역이 없습니다.
+					</c:if>
+						<c:forEach items="${movieInfoList}" var="movieInfo">
+									<div class="col-2" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
+									<div class="col-5">
+										<span><strong>예매번호 </strong>${movieInfo.MERCHANT_UID}</span>
+										<br><br>
+										<span><strong>영화명 </strong>${movieInfo.MOVIE_NAME}</span>
+										<br><br>
+										<span><strong>극장/상영관 </strong>${movieInfo.THR_NAME} / ${movieInfo.HOUSE_NAME}</span>
+										<br><br>
+										<span><strong>관람일시 </strong>${movieInfo.STARTDATE}</span>
+										<br><br>
+										<span><strong>결제일시 </strong>${movieInfo.RESDATE}</span>
+									</div>
+									<div class="col-4">
+										<br><br>
+										<br><br>
+										<span><strong>관람인원 </strong>${movieInfo.MEM_CAT}</span>
+										<br><br>
+										<span><strong>관람좌석 </strong>${movieInfo.RES_SEAT}</span>
+										<br><br>
+										<c:if test="${movieInfo.REFUNDDATE eq null}">
+											<span><strong>취소일시 </strong> - </span>
+										</c:if>
+										<c:if test="${movieInfo.REFUNDDATE ne null}">
+											<span><strong>취소일시 </strong>${movieInfo.REFUNDDATE}</span>
+										</c:if>
+									</div>
+							</c:forEach>
 					</div>
 				</li>
 			</ul>
@@ -153,14 +184,42 @@
 		<div class="tit-util">
 			<h3 class="tit">나의 구매내역</h3>
 			<div class="float-end">
-				<a href="" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/member/bookinglist.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div class="my-reserve-history">
 			<ul>
 				<li class="no-result">
-					<div class="no-history-reservation">
+					<div class="row">
+					<c:if test="${empty buyInfoList}">
 						구매 내역이 없습니다.
+					</c:if>
+			<table style="width : 100%;">
+				<tr>
+					<th style="width : 20%; text-align : center;">결제일시</th>
+					<th style="width : 10%; text-align : center;">구분</th>
+					<th style="text-align : center;">상품명</th>
+					<th style="width : 10%; text-align : center;">결제금액</th>
+					<th style="width : 10%; text-align : center;">상태</th>
+				</tr>
+		<c:forEach items="${buyInfoList}" var="buyInfo">
+				<tr>
+					<td style="width : 20%; text-align : center;"><fmt:formatDate value="${buyInfo.BUYDATE}"/></td>
+					<td style="width : 10%; text-align : center;">${buyInfo.PRODUCT_DIV}</td>
+					<td style="text-align : center;">${buyInfo.PRODUCT_NAME}</td>
+					<td style="width : 10%; text-align : center;">${buyInfo.PRODUCT_PRICE}원</td>
+					<c:if test="${buyInfo.GB_USE eq 'N'}">
+						<td style="width : 10%; text-align : center;">사용가능</td>
+					</c:if>
+					<c:if test="${buyInfo.GB_USE eq 'Y'}">
+						<td style="width : 10%; text-align : center;">사용완료</td>
+					</c:if>
+					<c:if test="${buyInfo.REFUNDDATE ne null}">
+						<td style="width : 10%; text-align : center;">결제취소</td>
+					</c:if>
+				</tr>
+		</c:forEach>
+			</table>
 					</div>
 				</li>
 			</ul>
