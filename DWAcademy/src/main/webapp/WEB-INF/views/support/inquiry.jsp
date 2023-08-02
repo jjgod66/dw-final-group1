@@ -41,15 +41,15 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
         }
 
         .btn {
-            background-color: #ced4da;
-            color: #636363;
+            background-color: #4ba8d8;
+            color: #2e3440;
             padding: 10px 15px;
             border: none;
             border-radius: 99px;
             cursor: pointer;
         }
         .btn1 {
-            background-color: #ffc9c9;
+           background-color: #ced4da;
             color: #636363;
             padding: 10px 15px;
             border: none;
@@ -76,8 +76,12 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
 	
 
     .btn1:hover{
-        background-color: #ffa8a8;
-        color: #757575;
+         background-color: #868e96;
+        color: #eceff4;
+    }
+    .btn:hover{
+       background-color: #0c8599;
+        color: #ced4da;
     }
 </style>
  
@@ -179,6 +183,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
                 <input type="file" class="" name="attachment" style="border: none;">
             </div>
         </div>
+
  		<c:if test="${mem_cd eq ''}">
 	      	 <div class="mb-3">
 	        	 <input type="password" class="" name="writer_pwd" placeholder="비밀번호를 입력하세요" required="required">

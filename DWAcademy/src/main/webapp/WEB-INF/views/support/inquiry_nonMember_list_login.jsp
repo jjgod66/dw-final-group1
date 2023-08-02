@@ -190,8 +190,8 @@
     }
     
         .previous-button{
-    	background-color: #ffc9c9;
-            color: #636363;
+    	background-color: #4ba8d8;
+            color: #2e3440;
         padding: 10px 10px;
         font-size: 14px;
         border: none;
@@ -204,8 +204,8 @@
         color: #eceff4;
     }
     .previous-button:hover{
-        background-color: #ffa8a8;
-        color: #757575;
+        background-color: #0c8599;
+        color: #ced4da;
     }
     #b{border-right: 1px solid #ddd; padding: 5px;}
     #password{background:#e5e9f0;border:0px;border-bottom:1px solid #8A8A8A;}
@@ -226,8 +226,8 @@
 			            <input type="password" class="" id="password" placeholder="*비밀번호를 입력하세요" id="mm">
 			        </div>
 				    <div class="post-buttons">
-				        <button class="previous-button btn-secondary" onclick="goBack();">취소</button>
-				        <button class="next-button btn-secondary" onclick="location.href='<%=request.getContextPath()%>/support/inquiry_nonMember_list_login_result.do'">확인</button>
+				        <button class="previous-button btn-secondary"  onclick="location.href='<%=request.getContextPath()%>/support/inquiry_nonMember_list_login_result.do'">확인</button>
+				        <button class="next-button btn-secondary"  onclick="goBack();" >취소</button>
 				    </div>
 				</div>
 					      		
