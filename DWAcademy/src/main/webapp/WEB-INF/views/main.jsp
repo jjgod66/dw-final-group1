@@ -272,7 +272,7 @@ swiper.on('slideChange', function() {
                     <ul>
                     	<c:forEach items="${noticeList }" var="notice">
 	                        <li>
-	                            <a href="#">
+	                            <a href="<%=request.getContextPath()%>/support/noticeMini_Detail.do?notice_no=${notice.notice_no }">
 	                                <dl>
 	                                    <dt>[${notice.notice_thr }] ${notice.notice_title }</dt>
 	                                    <dd><fmt:formatDate value="${notice.regdate }" pattern="yyyy-MM-dd"/></dd>
