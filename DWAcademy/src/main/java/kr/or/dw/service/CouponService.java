@@ -1,8 +1,11 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import kr.or.dw.vo.CouponVO;
+import kr.or.dw.vo.MemberVO;
 
 public interface CouponService {
 
@@ -16,6 +19,6 @@ public interface CouponService {
 	 * @param mem_cd
 	 * @return
 	 */
-	CouponVO selectCoupon(String mem_cd);
+	List<Map<String, Object>> selectAllCoupon(MemberVO mem_cd) throws SQLException;
 
 }

@@ -688,7 +688,7 @@ public class MovieServiceImpl implements MovieService{
 		
 		dataMap.put("pageMaker", pageMaker);
 		dataMap.put("pageMaker2", pageMaker2);
-		
+		dataMap.put("cri", cri);
 		
 		return dataMap;
 	}
