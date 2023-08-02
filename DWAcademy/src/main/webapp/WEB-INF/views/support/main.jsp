@@ -497,7 +497,7 @@ button {
 			      </h2>
 		      <ul>
 		      <c:forEach items="${noticeList }" var="notice">
-		        <li><a href="<%=request.getContextPath()%>/support/notice.do?notice_no=${notice.notice_no}" style="color:#444444; font-size: 15px;">${notice.notice_title }</a></li>
+		        <li><a href="<%=request.getContextPath()%>/support/noticeMini_Detail.do?notice_no=${notice.notice_no }" style="color:#444444; font-size: 15px;">${notice.notice_title }</a></li>
 		      </c:forEach>
 		        <div class="btn-holder">
 				  <button class="btn btn-4 hover-border-10">

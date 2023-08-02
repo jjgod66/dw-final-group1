@@ -5,7 +5,7 @@
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <link rel="stylesheet" href="../../resources/css/boxoffice.css">
 <%@ include file="/WEB-INF/views/common/boxoffice.jsp" %>
-<<style>
+<style>
 .event-list {
     margin-top: 15px;
     overflow: hidden;

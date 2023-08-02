@@ -308,6 +308,13 @@
 		 WHERE m.MOVIE_CD = r.MOVIE_CD
  		   AND mem.MEM_CD = r.MEM_CD
  		   AND r.gb_del = 'N'
+ 		   AND movie_name like '%' || #{keyword} ||'%'
+ 		      <if test="searchType == 'like'.toString()">
+				ORDER BY reviewlike DESC NULLS last, r.regdate DESC
+			</if>
+			<if test="searchType == 'regdate'.toString()">
+				ORDER BY r.regdate DESC
+			</if>
 	</select>
 	
 	<insert id="insertReviewLike">
@@ -422,9 +429,12 @@
 	</select>
 	
 	<select id="getSearchReviewListCount" resultType="int">
-		SELECT count(*)
-		  FROM review
-		 WHERE gb_del = 'N'
+		SELECT COUNT(*)
+		  FROM movie m, review r, MEMBER mem
+		 WHERE m.MOVIE_CD = r.MOVIE_CD
+ 		   AND mem.MEM_CD = r.MEM_CD
+ 		   AND r.gb_del = 'N'
+ 		   AND movie_name like '%' || #{keyword} ||'%'
 	</select>
 	
 	<select id="selectMovieCode" resultType="movie">
@@ -641,6 +651,22 @@
 			WHERE m.movie_cd = wc.movie_cd(+)
 			ORDER BY writeCnt DESC) temp)
 		WHERE rownum <![CDATA[<=]]> 5
+	</select>
+	
+	<select id="selectReviewTop5Movie" resultType="Map">
+		SELECT *
+		FROM (
+			SELECT temp.*, rownum rnum
+			FROM (
+			SELECT nvl(writeCnt,0) writeCnt, m.movie_cd, movie_name, movie_mainpic_path, nvl(ROUND(rate, 3),0) rate
+			FROM movie m, (
+							SELECT count(*) writeCnt, movie_cd, sum(review_rating)/count(review_rating) rate
+							FROM review
+							WHERE gb_del = 'N'
+							GROUP BY movie_cd) wc
+			WHERE m.movie_cd = wc.movie_cd(+)
+			ORDER BY writeCnt DESC) temp)
+		WHERE rnum <![CDATA[<=]]> 5
 	</select>
 	
 	<select id="selectSearchMovieInfoListCnt" resultType="int">

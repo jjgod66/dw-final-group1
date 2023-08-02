@@ -475,7 +475,9 @@ function showPost(res){
 	$('#mpUpdateBtn').data('mpost_no', res.mpost.MPOST_NO);
 	$('#mpDeleteBtn').data('mpost_no', res.mpost.MPOST_NO);
 	if(res.mpost.MEM_PIC_PATH != null && res.mpost.MEM_PIC_PATH != ''){
-<%-- 		$('#mpWriteMemPic').prop('src', '<%=request%>'); --%>
+		$('#mpWriteMemPic').prop('src', '<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + res.mpost.MEM_PIC_PATH + '&item_cd=$' + res.mpost.MEM_CD + '&type=memberPic');
+	}else{
+		$('#mpWriteMemPic').prop('src', '../../resources/img/defaultprofile.png');
 	}
 	let mpbackImg = "<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=" + res.mpost.MOVIE_PIC_PATH + "&item_cd=" + res.mpost.MOVIE_CD + "&type=movieImg";
 	$('#thismpPic').css('background-image', 'url(' + mpbackImg + ')');
@@ -497,7 +499,11 @@ function showPost(res){
 	for(let i = 0; i < res.mpostReplyList.length; i++){
 		replyShow += '<div style="display: flex; border-bottom: solid 1px #ced4da;" class="oneReply">';
 		replyShow += '<div style="margin: 10px;">';
-		replyShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+		if(res.mpostReplyList[i].MEM_PIC_PATH != null && res.mpostReplyList[i].MEM_PIC_PATH != ''){
+			replyShow += '<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + res.mpostReplyList[i].MEM_PIC_PATH + '&item_cd=$' + res.mpostReplyList[i].MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+		}else{
+			replyShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+		}
 		replyShow += '</div>';
 		replyShow += '<div style="width: 85%;">';
 		replyShow += '<div class="h50" style="display: flex; align-items: flex-end; margin-bottom: 5px;">';

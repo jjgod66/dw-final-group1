@@ -2,9 +2,9 @@
 <footer id="footer">
 <script src="<%=request.getContextPath()%>/resources/js/finder.js"></script>
     <ul class="nav justify-content-center pt-3">
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">영화관 소개</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">이용약관</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">개인정보처리방침</a></li>
+<!--         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">영화관 소개</a></li> -->
+        <li class="nav-item"><a href="<%=request.getContextPath() %>/support/agreeUse.do" class="nav-link px-2 text-muted">이용약관</a></li>
+        <li class="nav-item"><a href="<%=request.getContextPath() %>/support/agreePrivacy.do" class="nav-link px-2 text-muted">개인정보처리방침</a></li>
     </ul>
     <div class="footer-info">
         <div>

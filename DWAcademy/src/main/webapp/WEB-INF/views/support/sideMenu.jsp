@@ -232,10 +232,12 @@ margin-top:0px;
         	  const currentURL = window.location.href;
         	  const faq = 'http://localhost/support/faq.do';
         	  const notice = 'http://localhost/support/notice.do';
+        	  const notice2 = 'http://localhost/support/noticeMini_Detail.do';
         	  const inquiry = 'http://localhost/support/inquiry.do';
         	  const inquiryNon = 'http://localhost/support/inquiry_nonMember.do';
         	  const inquiryNon1 = 'http://localhost/support/inquiry_nonMember_list.do';
         	  const inquiryNon2 = 'http://localhost/support/inquiry_nonMember_list_login_result.do';
+        	  const inquiryNon3 = 'http://localhost/support/inquiry_nonMember_board.do';
         	  const agreeUse = 'http://localhost/support/agreeUse.do';
         	  const agreeWhere = 'http://localhost/support/agreeWhere.do';
         	  const agreePrivacy = 'http://localhost/support/agreePrivacy.do';
@@ -245,6 +247,10 @@ margin-top:0px;
         	      list[2].classList.add('active1'); 
         	  }
         	  if (currentURL.includes(notice)) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[4].classList.add('active1'); 
+        	  }
+        	  if (currentURL.includes(notice2)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[4].classList.add('active1'); 
         	  }
@@ -261,6 +267,10 @@ margin-top:0px;
         	      list[1].classList.add('active1'); 
         	  }
         	  if (currentURL.includes(inquiryNon2)) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[1].classList.add('active1'); 
+        	  }
+        	  if (currentURL.includes(inquiryNon3)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[1].classList.add('active1'); 
         	  }

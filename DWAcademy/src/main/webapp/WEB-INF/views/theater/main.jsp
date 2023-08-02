@@ -217,7 +217,7 @@
 					<c:forEach items="${noticeList }" var="notice">
 						<li>
 							<div class="title">
-								<a href="" title="${notice.NOTICE_TITLE }">
+								<a href="<%=request.getContextPath()%>/support/noticeMini_Detail.do?notice_no=${notice.NOTICE_NO }" title="${notice.NOTICE_TITLE }">
 									<p class="cont-thr">[${notice.NOTICE_THR }]</p>
 									<div class="cont-tit">${notice.NOTICE_TITLE }</div>
 									<p class="cont-admin">${notice.THR_LOC }</p>

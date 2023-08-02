@@ -185,11 +185,6 @@ public class ViewController {
 	
 
 	
-	@GetMapping("/support/noticeMini_Detail")
-	public String supportNoticeDetail() {
-		String url = "/support/noticeMini_Detail";
-		return url;
-	}
 	
 //	@GetMapping("/support/main")
 //	public String supportMain() {

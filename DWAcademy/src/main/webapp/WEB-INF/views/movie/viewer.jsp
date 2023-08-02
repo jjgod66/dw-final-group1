@@ -406,7 +406,7 @@ $(function() {
 		$('#picture-modal').modal('show');
 	})
 	
-	$('#reviewUpdateBtn').on('click', function(){
+	$('.container').on('click', '#reviewUpdateBtn', function(){
 		let review_content = $(this).parents('.card').find('#review_content').text();
 		let review_rating = $(this).parents('.card').find('#review_rating').data("review_rating");
 		$('#reviewtext').text(review_content);

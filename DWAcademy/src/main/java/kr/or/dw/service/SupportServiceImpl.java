@@ -176,4 +176,12 @@ public class SupportServiceImpl implements SupportService{
 		
 		return noticeList;
 	}
+
+	@Override
+	public NoticeVO getNoticeDetail(int notice_no) throws SQLException {
+		NoticeVO notice = null;
+		
+		notice = supportDAO.selectNoticeDetail(notice_no);
+		return notice;
+	}
 }

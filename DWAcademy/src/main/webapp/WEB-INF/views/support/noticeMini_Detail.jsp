@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp" %>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -67,19 +69,15 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;}#wrapper {
 	      	<div class="modal-wrap">
 			     <div class="post-detail">
 				    <div class="post-info">
-				        <h2 class="post-title">현금 없는 극장 만들기 </h2>
+				        <h2 class="post-title">${notice.notice_title }</h2>
 				    </div>
-				        <span id="b">서울강남점 </span>
-				        <span id="b">공지 </span>
-				        <span id="b">2023년 7월 27일 </span>
+				        <span id="b">${notice.notice_thr } </span>
+				        <span id="b"><fmt:formatDate value="${notice.regdate }" pattern="yyyy-MM-dd"/> </span>
 				
 				    <div class="post-content">
-				        <p>
-				            안녕하세요.<br>
-				            서울강남점 지점장입니다. <br>
-				            2023년 7월 27일부터 현금 없는 극장만들기 시범 운영에 들어가요.
-				            되도록이면 카드이용 부탁드리며 최선을 다하도록 하겠습니다. 감사합니다.
-				        </p>
+				    <p>
+				       ${notice.notice_content }
+				    </p>
 				    </div>
 				
 				    <div class="post-buttons">
