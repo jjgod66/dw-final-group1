@@ -205,7 +205,7 @@
 		<div class="tit-util">
 			<h3 class="tit">극장 공지사항</h3>
 			<div class="float-end">
-				<a href="<%=request.getContextPath()%>/support/notice.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/support/notice.do?searchType=지점" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div class="accordion-list">

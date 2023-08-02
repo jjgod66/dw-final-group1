@@ -561,7 +561,7 @@ h3.tit.small {
 		<div class="tit-util">
 			<h2 class="tit small">공지사항</h3>
 			<div class="float-end">
-				<a href="/support/notice.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="/support/notice.do?searchType=지점&keyword=${theater.thr_name  }" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div id="brchNoti" style="margin-bottom : 20px;">

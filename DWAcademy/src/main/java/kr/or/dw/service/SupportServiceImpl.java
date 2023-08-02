@@ -13,6 +13,7 @@ import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.SupportDAO;
 import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.FaqVO;
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.QnaAttachVO;
 import kr.or.dw.vo.QnaVO;
 
@@ -135,5 +136,44 @@ public class SupportServiceImpl implements SupportService{
 		}
 		
 		
+	}
+
+	@Override
+	public List<NoticeVO> getNotice5() throws SQLException {
+		List<NoticeVO> noticeList = null;
+		
+		noticeList = supportDAO.selectNotice5();
+		
+		return noticeList;
+	}
+
+	@Override
+	public Map<String, Object> getNoticeList(SearchCriteria cri) throws SQLException {
+		List<NoticeVO> noticeList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		noticeList = supportDAO.selectNoticeList(cri, rowBounds);
+		int totalCount = supportDAO.selectNoticeCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("totalCount", totalCount);
+		dataMap.put("noticeList", noticeList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		return dataMap;
+	}
+
+	@Override
+	public List<NoticeVO> getNotice2() throws SQLException {
+		List<NoticeVO> noticeList = null;
+		noticeList = supportDAO.selectNotice2();
+		
+		return noticeList;
 	}
 }

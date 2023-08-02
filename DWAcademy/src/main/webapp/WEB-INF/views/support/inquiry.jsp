@@ -92,7 +92,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
         <div class="mb-3">
             <label for="que_sel" class="form-label">문의 선택 항목</label>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="que_sel" id="customerInquiry" value="S">
+                <input class="form-check-input" type="radio" name="que_sel" id="customerInquiry" value="S" checked>
                 <label class="form-check-label" for="customerInquiry">고객센터 문의</label>
             </div>
             <div class="form-check form-check-inline">
@@ -113,15 +113,22 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
                 <option value="부산/대구/경상">부산/대구/경상</option>
                 <option value="제주">제주</option>
             </select>
-            <select class="custom-select" id="theaterSelect" disabled="disabled" name="thr_name">
+            <select class="custom-select" id="theaterSelect" name="thr_name">
                 <option selected disabled>극장 선택</option>
+                <option value="DW시네마" selected>DW시네마</option>
             </select>
         </div>
 
         <div class="mb-3">
             <label for="inquiryTypeSelect" class="form-label">문의 유형</label>
-            <select class="custom-select" id="inquiryTypeSelect" disabled="disabled" name="que_type">
-                <option selected disabled>문의 선택 항목을 선택해주세요</option>
+            <select class="custom-select" id="inquiryTypeSelect" name="que_type">
+                <option selected disabled>선택하세요.</option>
+                  <option value="영화정보문의">영화정보문의</option>
+                <option value="예매/결제관련문의">예매/결제관련문의</option>
+                <option value="이벤트문의">이벤트문의</option>
+                <option value="일반문의">일반문의</option>
+                <option value="제안/건의">제안/건의</option>
+                <option value="회원 및 포인트문의">회원 및 포인트문의</option>
             </select>
         </div>
 		<input type="hidden" name="mem_cd" value="${mem_cd }">
@@ -130,7 +137,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
             	<input type="text" class="" name="writer_name" placeholder="이름을 입력하세요" required="required">
             </c:if>
             <c:if test="${mem_name ne ''}">
-            	<input type="text" class="" name="writer_name" placeholder="이름을 입력하세요" value="${mem_name }" disabled>
+            	<input type="text" class="" name="writer_name" placeholder="이름을 입력하세요" value="${mem_name }" readonly>
             </c:if>
         </div>
 
@@ -139,13 +146,13 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
 	            <input type="email" class="" name="writer_email" placeholder="이메일을 입력하세요" required="required">
             </c:if>
              <c:if test="${mem_email ne ''}">
-            	<input type="email" class="" name="writer_email" placeholder="이메일을 입력하세요" value="${mem_email }" disabled>
+            	<input type="email" class="" name="writer_email" placeholder="이메일을 입력하세요" value="${mem_email }" readonly>
             </c:if>
         </div>
 
 <!--         <div class="mb-3"> -->
 <%--         	<c:if test="${mem_phone ne ''}"> --%>
-<%--             	<input type="tel" class="" name="writer_phone" placeholder="휴대전화번호를 입력하세요(숫자만)" value="${mem_phone }" disabled> --%>
+<%--             	<input type="tel" class="" name="writer_phone" placeholder="휴대전화번호를 입력하세요(숫자만)" value="${mem_phone }" readonly> --%>
 <%--             </c:if> --%>
 <%--             <c:if test="${mem_phone eq ''}"> --%>
 <!--             	<input type="tel" class="" name="writer_phone" placeholder="휴대전화번호를 입력하세요(숫자만)"> -->
@@ -277,12 +284,17 @@ $(function(){
 		})
 		if(que_sel == 'T'){
 			$('#thrSel').css('display', '');
+			let target = $('#theaterSelect');
+			let show = '<option selected disabled>극장 선택</option>';
+			target.html(show);
+			$('#theaterSelect').prop('disabled', 'disabled');
 		}else{
 			$('#thrSel').css('display', 'none');
 			let target = $('#theaterSelect');
 			let show = '<option selected value="DW시네마">DW시네마</option>';
 			target.html(show);
 			$('#theaterSelect').val('DW시네마');
+			$('#theaterSelect').prop('disabled', '');
 		}
 	})
 	
@@ -316,7 +328,7 @@ $(function(){
 			alert("인증되었습니다.");
 			$('.phoneSMSchkDiv').css('display', 'none');
 			$("#noneEq").css('display', 'none');
-			$('#inqForm input[name="writer_phone"]').prop('disabled', 'disabled');
+			$('#inqForm input[name="writer_phone"]').prop('readonly', 'readonly');
 			$('#phoneSMSBtn').text('인증완료');
 			$('#phoneSMSBtn').prop('disabled', 'disabled');
 		}else{

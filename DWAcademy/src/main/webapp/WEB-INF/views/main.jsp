@@ -65,7 +65,7 @@
     <div class="container">
         <div class="movieChartBeScreen_btn_wrap">
             <div class="tabBtn_wrap">
-                <h3><a href="#none" class="active" id="btnMovie">박스오피스</a></h3>
+                <h3><a class="active" id="btnMovie">박스오피스</a></h3>
 <!--                 <h3><a href="#none" id="btnReserMovie">상영예정작</a></h3> -->
             </div>
             <a href="<%=request.getContextPath() %>/movie/allMovie.do" class="btn btn-allView">전체보기</a>
@@ -224,28 +224,36 @@ swiper.on('slideChange', function() {
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-6 col-xl-3">
-                <div class="icon">
-                    <img src="/resources/img/community-icon.png">
-                </div>
-                <a href="#">커뮤니티</a>
+                <a href="<%=request.getContextPath()%>/movie/moviePost.do">
+	                <div class="icon">
+	                    <img src="/resources/img/community-icon.png">
+	                </div>
+               		 무비포스트
+                </a>
             </div>
             <div class="col-12 col-lg-6 col-xl-3">
-                <div class="icon">
-                    <img src="/resources/img/giftbox-icon.png">
-                </div>
-                <a href="#">혜택</a>
+                <a href="<%=request.getContextPath()%>/member/membership.do">
+	                <div class="icon">
+	                    <img src="/resources/img/giftbox-icon.png">
+	                </div>
+              		  혜택
+                </a>
             </div>
             <div class="col-12 col-lg-6 col-xl-3">
-                <div class="icon">
-                    <img src="/resources/img/popcorn-icon.png">
-                </div>
-                <a href="#">스토어</a>
+                <a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=1">
+	                <div class="icon">
+	                    <img src="/resources/img/popcorn-icon.png">
+	                </div>
+                	스토어
+                </a>
             </div>
             <div class="col-12 col-lg-6 col-xl-3">
-                <div class="icon">
-                    <img src="/resources/img/chat-support-icon.png">
-                </div>
-                <a href="#">고객센터</a>
+                <a href="<%=request.getContextPath()%>/support/main.do">
+	                <div class="icon">
+	                    <img src="/resources/img/chat-support-icon.png">
+	                </div>
+               		 고객센터
+                </a>
             </div>
         </div>
     </div>
@@ -258,26 +266,20 @@ swiper.on('slideChange', function() {
                     <div class="tabBtn_wrap">
                         <h3>공지사항</h3>
                     </div>
-                    <a href="#" class="btn btn-allView">더보기</a>
+                    <a href="<%=request.getContextPath() %>/support/notice.do" class="btn btn-allView">더보기</a>
                 </div>
                 <div class="notice">
                     <ul>
-                        <li>
-                            <a href="#">
-                                <dl>
-                                    <dt>[극장] 디더블유시네마 오픈 되었습니다.</dt>
-                                    <dd>2023.06.26</dd>
-                                </dl>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <dl>
-                                    <dt>[극장] 디더블유시네마 오픈 되었습니다.</dt>
-                                    <dd>2023.06.26</dd>
-                                </dl>
-                            </a>
-                        </li>
+                    	<c:forEach items="${noticeList }" var="notice">
+	                        <li>
+	                            <a href="#">
+	                                <dl>
+	                                    <dt>[${notice.notice_thr }] ${notice.notice_title }</dt>
+	                                    <dd><fmt:formatDate value="${notice.regdate }" pattern="yyyy-MM-dd"/></dd>
+	                                </dl>
+	                            </a>
+	                        </li>
+                    	</c:forEach>
                     </ul>
                 </div>
             </div>
@@ -292,8 +294,8 @@ swiper.on('slideChange', function() {
                         </span></dd>
                     </dl>
                     <div class="client-btn-wrap">
-                        <a href="#">FAQ</a>
-                        <a href="#">1:1 문의</a>
+                        <a href="<%=request.getContextPath()%>/support/faq.do">FAQ</a>
+                        <a href="<%=request.getContextPath()%>/support/inquiry.do">1:1 문의</a>
                         <!--<a href="#">분실물 문의</a>//-->
 <!--                         <a href="#">대관/단체 문의</a> -->
                     </div>

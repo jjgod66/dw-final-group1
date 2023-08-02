@@ -10,6 +10,7 @@ import org.apache.ibatis.session.RowBounds;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.FaqVO;
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.QnaAttachVO;
 import kr.or.dw.vo.QnaVO;
 
@@ -112,5 +113,36 @@ public interface SupportDAO {
 	 * @throws SQLException
 	 */
 	void registQnaNonMem(QnaVO qna) throws SQLException;
+
+	/**
+	 * 공지사항 5개 가져오는 메서드
+	 * @return
+	 * @throws SQLException
+	 */
+	List<NoticeVO> selectNotice5() throws SQLException;
+
+	/**
+	 * 공지사항 리스트
+	 * @param cri
+	 * @param rowBounds
+	 * @return
+	 * @throws SQLException
+	 */
+	List<NoticeVO> selectNoticeList(SearchCriteria cri, RowBounds rowBounds) throws SQLException;
+
+	/**
+	 * 공지사항 갯수
+	 * @param cri
+	 * @return
+	 * @throws SQLException
+	 */
+	int selectNoticeCount(SearchCriteria cri) throws SQLException;
+
+	/**
+	 * 공지사항 2개
+	 * @return
+	 * @throws SQLException
+	 */
+	List<NoticeVO> selectNotice2() throws SQLException;
 
 }

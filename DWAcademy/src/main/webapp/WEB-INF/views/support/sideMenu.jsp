@@ -242,23 +242,23 @@ top:100px;
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[2].classList.add('active1'); 
         	  }
-        	  if (currentURL === notice) {
+        	  if (currentURL.includes(notice)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[4].classList.add('active1'); 
         	  }
-        	  if (currentURL === inquiry) {
+        	  if (currentURL.includes(inquiry)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[3].classList.add('active1'); 
         	  }
-        	  if (currentURL === inquiryNon) {
+        	  if (currentURL.includes(inquiryNon)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[1].classList.add('active1'); 
         	  }
-        	  if (currentURL === inquiryNon1) {
+        	  if (currentURL.includes(inquiryNon1)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[1].classList.add('active1'); 
         	  }
-        	  if (currentURL === inquiryNon2) {
+        	  if (currentURL.includes(inquiryNon2)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[1].classList.add('active1'); 
         	  }
