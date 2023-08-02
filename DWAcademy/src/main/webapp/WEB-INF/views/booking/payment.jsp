@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@page import="kr.or.dw.vo.MemberVO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -34,9 +35,9 @@ location.href="<%=request.getContextPath()%>/main.do"
 %>
 
 <%
-MemberVO member = null;
+Map member = null;
 if(session.getAttribute("loginUser") != null){
-	member = (MemberVO) session.getAttribute("loginUser");
+	member = (Map) session.getAttribute("loginUser");
 }
 %> 
 
@@ -184,9 +185,9 @@ function requestPay() {
 	let totalPrice = $('.totalPrice').text();
 	let method = $('input[name="payMethod"]:checked').prop('id');
 	let movie_name = '${mapData.MOVIE_NAME}';
-	let buyer_name = '<%=member.getMem_name()%>';
-	let buyer_tel = '<%=member.getMem_phone()%>';
-	let buyer_email = '<%=member.getMem_email()%>';
+	let buyer_name = '<%=member.get("MEM_NAME")%>';
+	let buyer_tel = '<%=member.get("MEM_PHONE")%>';
+	let buyer_email = '<%=member.get("MEM_EMAIL")%>';
 	let price = ($('#totalpp').text()).replace(',', '');
 	let discount = $('#disprice').text().replace(',', '');
 	$('input[name="discount"]').val(discount);
