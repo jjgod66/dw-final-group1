@@ -30,6 +30,6 @@ public interface CouponDAO {
 	 * @param mem_cd
 	 * @return
 	 */
-	List<Map<String, Object>> selectAllCoupon(MemberVO mem_cd) throws SQLException;
+	List<Map<String, Object>> selectAllCoupon(String mem_cd) throws SQLException;
 
 }

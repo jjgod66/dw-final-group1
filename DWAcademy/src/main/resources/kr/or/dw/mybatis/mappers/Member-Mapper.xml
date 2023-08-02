@@ -38,19 +38,19 @@
 	</insert>
 	
 	<select id="selectMemberCode" resultType="Map">
-		SELECT mem_cd, mem_id, mem_email
+		SELECT mem_cd cd, mem_id id, mem_email email, mem_name name, mem_phone phone
 		  FROM member
 		 WHERE mem_cd = #{mem_cd}
 	</select>
 	
-	<select id="CheckMember" resultType="member">
-		SELECT mem_phone
+	<select id="CheckMember" resultType="Map">
+		SELECT mem_phone phone
 		  FROM member
 		 WHERE mem_phone = #{mem_phone}
 	</select>
 	
 	<select id="CheckMemberEmail" resultType="Map">
-		SELECT mem_email
+		SELECT mem_email email
 		  FROM member
 		 WHERE mem_email = #{email}
 	</select>

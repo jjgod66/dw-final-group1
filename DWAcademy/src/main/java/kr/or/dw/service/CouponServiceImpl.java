@@ -27,7 +27,7 @@ public class CouponServiceImpl implements CouponService{
 	}
 
 	@Override
-	public List<Map<String, Object>> selectAllCoupon(MemberVO mem_cd) throws SQLException {
+	public List<Map<String, Object>> selectAllCoupon(String mem_cd) throws SQLException {
 		return couponDAO.selectAllCoupon(mem_cd);
 	}
 }

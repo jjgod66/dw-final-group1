@@ -1,18 +1,16 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
 
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.MemberVO;
-import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.SnsVO;
 
 public interface MemberService {
 
 	// 회원의 정보를 가져온다.
-	Map<String, String> selectMemberById(String id) throws SQLException;
+	Map<String, Object> selectMemberById(String id) throws SQLException;
 
 	// 회원가입
 	void join(MemberVO memVO) throws SQLException;
@@ -21,7 +19,7 @@ public interface MemberService {
 	Map<String, Object> selectMemberCode(SnsVO sns) throws SQLException;
 
 	// 회원인지 체크하기(번호)
-	MemberVO CheckMember(String mem_phone) throws SQLException;
+	Map<String, Object> CheckMember(String mem_phone) throws SQLException;
 
 	// 회원인지 체크하기(이메일)
 	Map<String, Object> CheckMemberEmail(String email) throws SQLException;

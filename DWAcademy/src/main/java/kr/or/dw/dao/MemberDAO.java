@@ -17,7 +17,7 @@ import kr.or.dw.vo.SnsVO;
 public interface MemberDAO {
 
 	// 회원의 정보를 가져온다.
-	Map<String, String> selectMemberById(String id) throws SQLException;
+	Map<String, Object> selectMemberById(String id) throws SQLException;
 
 	// 회원가입
 	void insert(MemberVO memVO) throws SQLException;
@@ -29,7 +29,7 @@ public interface MemberDAO {
 	Map<String, Object> selectMemberCode(SnsVO sns) throws SQLException;
 
 	// 회원 체크하기 (번호)
-	MemberVO CheckMember(String mem_phone) throws SQLException;
+	Map<String, Object> CheckMember(String mem_phone) throws SQLException;
 
 	// 회원 체크하기 (이메일)
 	Map<String, Object> CheckMemberEmail(String email) throws SQLException;
