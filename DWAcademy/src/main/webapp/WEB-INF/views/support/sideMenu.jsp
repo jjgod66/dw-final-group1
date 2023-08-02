@@ -13,7 +13,8 @@
 
 .navigation {
 border-radius:20px;
-top:100px;
+top:0px;
+margin-top:0px;
     position: absolute;
     height: 100%;
     width: 70px;
@@ -22,6 +23,7 @@ top:100px;
     border-left: 4px solid #2b343b;
     overflow-x: hidden;
     transition: width 0.5s;
+    z-index: 10;
 }
 
 
@@ -272,13 +274,13 @@ top:100px;
         	});
     
     
-	    var floatPosition = parseInt($(".navigation").css('top'))
+	     var floatPosition = parseInt($(".navigation").css('top'))
 	    $(window).scroll(function() {
 	        var currentTop = $(window).scrollTop();
 	        var bannerTop = currentTop + floatPosition + "px";
 	        $(".navigation").stop().animate({
-	          "top" : bannerTop
+	          "top" : bannerTop,
+	          "margin-top": currentTop > 0 ? "0" : "275"
 	        }, 600);
-	
-	    }).scroll();
+	    }).scroll();  
     </script>

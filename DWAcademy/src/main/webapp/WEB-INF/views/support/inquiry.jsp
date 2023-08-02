@@ -40,15 +40,15 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
         }
 
         .btn {
-            background-color: #ced4da;
-            color: #636363;
+            background-color: #4ba8d8;
+            color: #2e3440;
             padding: 10px 15px;
             border: none;
             border-radius: 99px;
             cursor: pointer;
         }
         .btn1 {
-            background-color: #ffc9c9;
+           background-color: #ced4da;
             color: #636363;
             padding: 10px 15px;
             border: none;
@@ -75,8 +75,12 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
 	
 
     .btn1:hover{
-        background-color: #ffa8a8;
-        color: #757575;
+         background-color: #868e96;
+        color: #eceff4;
+    }
+    .btn:hover{
+       background-color: #0c8599;
+        color: #ced4da;
     }
 </style>
  
@@ -153,8 +157,8 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
         <div class="mb-3">
             <input type="password" class="" id="password" placeholder="비밀번호를 입력하세요">
         </div>
+        <button type="" class="btn ">등록</button>
         <button type="" class="btn1 btn-secondary" onclick="goBack();">뒤로가기</button>
-        <button type="" class="btn btn-secondary">등록</button>
         <br><br><br>
     </div>
 </div>

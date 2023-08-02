@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.net.URL" %>
 <%@ page import="java.io.InputStream" %>
@@ -53,12 +53,13 @@ body{font-family: 'IBM Plex Sans KR', sans-serif;}
 .ro {
     font-size: 8rem;
     text-align: center;
-    color: #1c7ed6;
+    color: #1c7ed6; 
     background: #eceff4;
     font-family: 'Niconne', cursive;
     font-weight: 700;
-    text-shadow: 2px 4px 0px #eb452b, 5px 9px 0px #efa032, 8px 14px 0px #46b59b, 13px 20px 0px #017e7f, 19px 25px 0px #052939, 24px 30px 0px #c11a2b, 29px 35px 0px #adb5bd, 37px 40px 0px #d8dee9, 45px 45px 0px #ced4da;
+    text-shadow: 2px 4px 0px #d9480f, 5px 7px 0px #483D8B, 7px 8px 0px #017e7f, 9px 14px 0px #052939, 13px 19px 0px #868e96, 14px 25px 0px #495057, 16px 28px 0px #ced4da;
     height: 200px;
+    opacity:2;
 }
     .navbar {
       width:90%;
@@ -109,9 +110,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif;}
 	    </div>
 	  </div>
 
-
-
-	<div class="ro">DWcinema</div>
+	<div class="ro">DW cinema</div>
 	
 	
 	<section class="home">

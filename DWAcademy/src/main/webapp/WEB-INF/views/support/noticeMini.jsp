@@ -144,59 +144,21 @@ td a {color: inherit;}
 					<template x-for="user in users" :key="user.userId">
 						<tr>
 							<td class="border-dashed border-t border-gray-200 userId">
-								<span class="text-gray-700 px-6 py-3 flex items-center">
-									<input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
-							      	<label for="modal-btn">1 </label> 		
-							      	<%@ include file="noticeModal.jsp" %>
-								</span>
+								<a href="<%=request.getContextPath() %>/support/noticeMini_Detail.do" class="text-gray-700 px-6 py-3 flex items-center" style="color: inherit;">2</a>
 							</td>
 							<td class="border-dashed border-t border-gray-200 firstName">
-								<span class="text-gray-700 px-6 py-3 flex items-center">
-									<input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
-							      	<label for="modal-btn">서울강남 </label> 	
-							      	<%@ include file="noticeModal.jsp" %>
-								</span>
+								<a href="<%=request.getContextPath() %>/support/noticeMini_Detail.do" class="text-gray-700 px-6 py-3 flex items-center" style="color: inherit;">서울신사</a>
 							</td>
 							<td class="border-dashed border-t border-gray-200 lastName">
-								<span class="text-gray-700 px-6 py-3 flex items-center">
-									<input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
-							      	<label for="modal-btn">공지 </label> 	
-							      	<%@ include file="noticeModal.jsp" %>
-								</span>
+								<a href="<%=request.getContextPath() %>/support/noticeMini_Detail.do" class="text-gray-700 px-6 py-3 flex items-center" style="color: inherit;">이벤트</a>
 							</td>
 							<td class="border-dashed border-t border-gray-200 emailAddress">
-								<span class="text-gray-700 px-6 py-3 flex items-center">
-									<input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
-							      	<label for="modal-btn">현금없는 극장 안내 </label> 	
-							      	<%@ include file="noticeModal.jsp" %>	
-								</span>
+								<a href="<%=request.getContextPath() %>/support/noticeMini_Detail.do" class="text-gray-700 px-6 py-3 flex items-center" style="color: inherit;">1주년 기념 행사!!</a>
 							</td>
 							<td class="border-dashed border-t border-gray-200 gender">
 								<span class="text-gray-700 px-6 py-3 flex items-center">
 									<input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
 							      	<label for="modal-btn">2023년 7월 27일 </label> 	
-							      	<%@ include file="noticeModal.jsp" %>	
-								</span>
-							</td>
-						</tr>
-						<tr>
-							<td class="border-dashed border-t border-gray-200 userId">
-								<a href="#" class="text-gray-700 px-6 py-3 flex items-center" style="color: inherit;">2</a>
-							</td>
-							<td class="border-dashed border-t border-gray-200 firstName">
-								<a href="#" class="text-gray-700 px-6 py-3 flex items-center" style="color: inherit;">서울신사</a>
-							</td>
-							<td class="border-dashed border-t border-gray-200 lastName">
-								<a href="#" class="text-gray-700 px-6 py-3 flex items-center" style="color: inherit;">이벤트</a>
-							</td>
-							<td class="border-dashed border-t border-gray-200 emailAddress">
-								<a href="#" class="text-gray-700 px-6 py-3 flex items-center" style="color: inherit;">1주년 기념 행사!!</a>
-							</td>
-							<td class="border-dashed border-t border-gray-200 gender">
-								<span class="text-gray-700 px-6 py-3 flex items-center">
-									<input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
-							      	<label for="modal-btn">2023년 7월 27일 </label> 	
-							      	<%@ include file="noticeModal.jsp" %>	
 								</span>
 							</td>
 						</tr>

@@ -181,6 +181,10 @@ public class ViewController {
 	public String supportTest4() {
 		return "/support/test4"; 
 	}
+	@GetMapping("/support/test5")
+	public String supportTest5() {
+		return "/support/test5"; 
+	}
 	
 //	여기부터시작 
 	
@@ -195,9 +199,9 @@ public class ViewController {
 		return url;
 	}
 	
-	@GetMapping("/support/noticeDetail")
+	@GetMapping("/support/noticeMini_Detail")
 	public String supportNoticeDetail() {
-		String url = "/support/noticeDetail";
+		String url = "/support/noticeMini_Detail";
 		return url;
 	}
 	@GetMapping("/support/faq")
