@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService{
 	private MovieDAO movieDAO;
 	
 	@Override
-	public Map<String, String> selectMemberById(String id) throws SQLException {
+	public Map<String, Object> selectMemberById(String id) throws SQLException {
 		return memberDAO.selectMemberById(id);
 	}
 
@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public MemberVO CheckMember(String mem_phone) throws SQLException {
+	public Map<String, Object> CheckMember(String mem_phone) throws SQLException {
 		return memberDAO.CheckMember(mem_phone);
 	}
 

@@ -21,7 +21,7 @@ public class SessionDestroyListener implements ApplicationListener<SessionDestro
 				if(auth != null && auth.getDetails() != null) {
 					User user = (User) auth.getDetails();
 					
-					Map<String, String> member = user.getMemberVO();
+					Map<String, Object> member = user.getMemberVO();
 					
 					System.out.println("user invalid session : " + member);
 				}

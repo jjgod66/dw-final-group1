@@ -64,15 +64,16 @@ public class MemberController {
 		
 		
 		System.out.println(session.getAttribute("loginUser"));
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		String member =  (String) session.getAttribute("loginUser");
+		System.out.println(member);
 		SnsVO kakao = new SnsVO();
 		SnsVO naver = new SnsVO();
 		
-		kakao = snsService.selectKakaoInfo(member);
+//		kakao = snsService.selectKakaoInfo(member);
 		System.out.println(kakao);
 		req.setAttribute("kakao", kakao);
 
-		naver = snsService.selectNaverInfo(member);
+//		naver = snsService.selectNaverInfo(member);
 		System.out.println(naver);
 		req.setAttribute("naver", naver);
 		
@@ -113,7 +114,7 @@ public class MemberController {
 		ResponseEntity<String> entity = null;
 		
 		try {
-			Map<String, String> member = memberService.selectMemberById(id);
+			Map<String, Object> member = memberService.selectMemberById(id);
 			entity = new ResponseEntity<String>(member == null ? id : "", HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -131,18 +132,18 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/CheckMember")
-	public ResponseEntity<MemberVO> CheckMember(String mem_phone) throws SQLException {
-		ResponseEntity<MemberVO> entity = null;
+	public ResponseEntity<Map<String, Object>> CheckMember(String mem_phone) throws SQLException {
+		ResponseEntity<Map<String, Object>> entity = null;
 		System.out.println(mem_phone);
 		
-		MemberVO member = memberService.CheckMember(mem_phone);
+		Map<String, Object> member = memberService.CheckMember(mem_phone);
 		System.out.println(member);
 		
 		try {
-			entity = new ResponseEntity<MemberVO>(member, HttpStatus.OK);
+			entity = new ResponseEntity<Map<String, Object>>(member, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
+			entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		return entity;
@@ -165,10 +166,10 @@ public class MemberController {
 	public ResponseEntity<String> additionUpdate(String gb_sms_alert, String gb_email_alert, HttpSession session) throws SQLException{
 		ResponseEntity<String> entity = null;
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-		MemberVO id = (MemberVO) session.getAttribute("loginUser");
+		Map<String, Object> id = (Map) session.getAttribute("loginUser");
 		dataMap.put("gb_sms_alert", gb_sms_alert);
 		dataMap.put("gb_email_alert", gb_email_alert);
-		dataMap.put("mem_id", id.getMem_id());
+		dataMap.put("mem_id", id.get("ID"));
 		memberService.additionUpdate(dataMap);
 		try {
 			
@@ -185,8 +186,8 @@ public class MemberController {
 	public ModelAndView memberBookinglist(SearchCriteria cri, ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/member/bookinglist";
 		
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
-		String mem_cd = member.getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String)member.get("CD");
 		cri.setPerPageNum("5");
 		Map<String, Object> dataMap = movieService.selectMovieInfo(cri, mem_cd);
 		
@@ -204,8 +205,8 @@ public class MemberController {
 	public ModelAndView searchResDate(ModelAndView mnv, SearchCriteria cri, HttpSession session) throws SQLException{
 		String url = "/member/bookinglist";
 		System.out.println("cri : " + cri);
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
-		String mem_cd = member.getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		cri.setPerPageNum("5");
 		Map<String, Object> dataMap = movieService.searchMovieInfo(cri, mem_cd);
 	
@@ -218,8 +219,8 @@ public class MemberController {
 	public ModelAndView searchBuyDate(ModelAndView mnv, SearchCriteria cri, HttpSession session) throws SQLException{
 		String url = "/member/bookinglist";
 		
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
-		String mem_cd = member.getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		cri.setPerPageNum("5");
 		Map<String, Object> dataMap = memberService.searchBuyInfo(mem_cd, cri);
 		
@@ -233,8 +234,8 @@ public class MemberController {
 	public ModelAndView memberDiscountcoupon(ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/member/discount-coupon";
 		
-		MemberVO mem_cd = (MemberVO) session.getAttribute("loginUser");
-		
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		List<Map<String, Object>> coupon = couponService.selectAllCoupon(mem_cd);
 		
 		mnv.addObject("coupon", coupon);

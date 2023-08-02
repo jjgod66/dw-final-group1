@@ -2,7 +2,6 @@ package kr.or.dw.security;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -28,7 +27,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		
 		User user = (User) authentication.getDetails();
 		
-		Map<String, String> member = user.getMemberVO();
+		Map<String, Object> member = user.getMemberVO();
 		String id = (String) member.get("ID");
 		System.out.println(member);
 		try {

@@ -13,8 +13,8 @@ import kr.or.dw.vo.MemberVO;
 
 public class User implements UserDetails{
 	
-	private Map<String, String> member;
-	public User(Map<String, String> member2) {
+	private Map<String, Object> member;
+	public User(Map<String, Object> member2) {
 		this.member = member2;
 	}
 	
@@ -55,7 +55,7 @@ public class User implements UserDetails{
 		return member.get("GB_BAN") == "Y";
 	}
 	
-	public Map<String, String> getMemberVO() {
+	public Map<String, Object> getMemberVO() {
 		return this.member;
 	}
 

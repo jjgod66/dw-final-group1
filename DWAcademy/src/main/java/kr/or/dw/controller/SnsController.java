@@ -115,7 +115,7 @@ public class SnsController {
 			res.setContentType("text/html; charset=utf-8");
 			PrintWriter out = res.getWriter();
 			
-			if(memberChk.get("MEM_EMAIL") == null) {
+			if(memberChk.get("EMAIL") == null) {
 				sns_email.setGb("non_member");
 				System.out.println('1');
 				
@@ -380,7 +380,7 @@ public class SnsController {
 			System.out.println(sns_email);
 			
 			
-			if(memberChk.get("MEM_EMAIL") == null) {
+			if(memberChk.get("EMAIL") == null) {
 				sns_email.put("GB","non_member");
 				System.out.println('1');
 				try {

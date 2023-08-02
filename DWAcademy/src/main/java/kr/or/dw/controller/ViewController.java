@@ -1,6 +1,7 @@
 package kr.or.dw.controller;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,7 +35,7 @@ public class ViewController {
 	public ModelAndView memberMain(ModelAndView mnv, HttpSession session) {
 		String url = "/member/main";
 		
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
 		
 		mnv.addObject("member", member);
 		mnv.setViewName(url);

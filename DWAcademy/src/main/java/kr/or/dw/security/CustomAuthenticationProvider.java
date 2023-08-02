@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
 import kr.or.dw.dao.MemberDAO;
-import kr.or.dw.vo.MemberVO;
 
 public class CustomAuthenticationProvider implements AuthenticationProvider{
 	
@@ -29,7 +27,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		System.out.println(login_id);
 		System.out.println(login_pwd);
 		
-		Map<String, String> member = null;
+		Map<String, Object> member = null;
 		
 		try {
 			member = memberDAO.selectMemberById(login_id);
@@ -54,6 +52,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 			UsernamePasswordAuthenticationToken result =
 					new UsernamePasswordAuthenticationToken(authUser.getUsername(), authUser.getPassword(), authUser.getAuthorities());
 			// 전달할 내용을 설정한 후
+			System.out.println("result : " + result.getAuthorities());
 			result.setDetails(authUser);
 			// 리턴. default-target-url 로 전송된다.
 			return result;

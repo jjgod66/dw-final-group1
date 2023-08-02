@@ -138,9 +138,7 @@ request.setAttribute("GetTitle", "DWCinema");
 </form>
 <script>
 $('#myPageMain').on('click', function(){
-let mem_id = ${loginUser}
-console.log(mem_id);
-	if(mem_id == null || mem_id == ""){
+	if(${loginUser} == null || ${loginUser} == ""){
 		$('#login-service-modal').modal("show");
 	}
 })
