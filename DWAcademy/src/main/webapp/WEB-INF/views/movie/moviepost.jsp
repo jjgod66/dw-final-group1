@@ -1,3 +1,4 @@
+<%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="kr.or.dw.vo.MemberVO"%>
@@ -285,8 +286,8 @@ select {
 <%
 	String mem_cd = "";
 	if(session.getAttribute("loginUser") != null){
-		MemberVO member = (MemberVO)session.getAttribute("loginUser");
-		mem_cd = member.getMem_cd();
+		Map member = (Map) session.getAttribute("loginUser");
+		mem_cd = (String)member.get("MEM_CD");
 	}
 %>
 <c:set var="cri" value="${pageMaker.cri }" />
