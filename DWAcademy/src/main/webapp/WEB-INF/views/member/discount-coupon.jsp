@@ -155,7 +155,17 @@ h2.tit {
 			<th scope="col"></th>
 		</tr>
 		</thead>
-		<tbody><tr><td colspan="5" class="a-c">취소내역이 없습니다.</td></tr></tbody>
+		<tbody>
+		
+		<tr><td colspan="5" class="a-c">취소내역이 없습니다.</td></tr>
+		<tr>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+			<th scope="col"></th>
+		</tr>
+		</tbody>
 	</table>
 </div>
 <div class="cont">

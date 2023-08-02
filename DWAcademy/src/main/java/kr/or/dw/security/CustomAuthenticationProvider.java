@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -37,10 +38,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		}
 		
 		if(member != null && login_pwd.equals(member.getMem_pwd())) {	// 로그인 성공
+			User authUser = new User(member);
+
 			if(member.getGb_ban() == "Y") {
 				throw new DisabledException("정지된 계정입니다. \\n관리자에게 문의하세요.");
 			}
-			User authUser = new User(member);
+			if(member.getGb_sleep() == "Y") {
+				throw new LockedException("휴면 계정입니다.");
+			}
+			System.out.println(authUser.isAccountNonLocked());
 			
 			// 스프링 시큐리티 내부 클래스로 인증 토큰 생성한다.
 			UsernamePasswordAuthenticationToken result =

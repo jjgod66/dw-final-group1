@@ -269,21 +269,21 @@ h3.tit {
 							<option value="theater" ${cri.searchType eq 'theater' ? 'selected' : '' }>극장별</option>
 						</select>
 					</div>
-					<input type="text" class="small bd3 toggle" name="keyword" value="${cri.keyword}">
+						<input type="text" class="small bd3 toggle" name="keyword" value="${cri.keyword}">
 					<div class=" bootstrap-select small bs3" id="selYM" style="display:none;">
 						<select name="monthKeyword" class="selectpicker small" tabindex="-98">
-							<option value="202307">2023년 7월</option>
-							<option value="202306">2023년 6월</option>
-							<option value="202305">2023년 5월</option>									
-							<option value="202304">2023년 4월</option>
-							<option value="202303">2023년 3월</option>
-							<option value="202302">2023년 2월</option>
-							<option value="202301">2023년 1월</option>
-							<option value="202212">2022년 12월</option>
-							<option value="202211">2022년 11월</option>
-							<option value="202210">2022년 10월</option>
-							<option value="202209">2022년 9월</option>
-							<option value="202208">2022년 8월</option>
+							<option value="202307" ${cri.monthKeyword eq '202307' ? 'selected' : '' }>2023년 7월</option>
+							<option value="202306" ${cri.monthKeyword eq '202306' ? 'selected' : '' }>2023년 6월</option>
+							<option value="202305" ${cri.monthKeyword eq '202305' ? 'selected' : '' }>2023년 5월</option>									
+							<option value="202304" ${cri.monthKeyword eq '202304' ? 'selected' : '' }>2023년 4월</option>
+							<option value="202303" ${cri.monthKeyword eq '202303' ? 'selected' : '' }>2023년 3월</option>
+							<option value="202302" ${cri.monthKeyword eq '202302' ? 'selected' : '' }>2023년 2월</option>
+							<option value="202301" ${cri.monthKeyword eq '202301' ? 'selected' : '' }>2023년 1월</option>
+							<option value="202212" ${cri.monthKeyword eq '202212' ? 'selected' : '' }>2022년 12월</option>
+							<option value="202211" ${cri.monthKeyword eq '202211' ? 'selected' : '' }>2022년 11월</option>
+							<option value="202210" ${cri.monthKeyword eq '202210' ? 'selected' : '' }>2022년 10월</option>
+							<option value="202209" ${cri.monthKeyword eq '202209' ? 'selected' : '' }>2022년 9월</option>
+							<option value="202208" ${cri.monthKeyword eq '202208' ? 'selected' : '' }>2022년 8월</option>
 						</select>
 					</div>
 					<button type="button" class="button gray-line small ml05" id="reserveSearchBtn" onclick=" searchList_go(1, '/member/searchResDate.do');">
@@ -319,7 +319,7 @@ h3.tit {
 				<br><br>
 				<span><strong>결제일시 </strong>${movieInfo.RESDATE}</span>
 			</div>
-			<div class="col-4 ">
+			<div class="col-4">
 				<br><br>
 				<br><br>
 				<span><strong>관람인원 </strong>${movieInfo.MEM_CAT}</span>
@@ -456,7 +456,6 @@ let searchUrl = "/member/bookinglist.do"
 if (${not empty sessionScope.admin_cd}) {
 	$('#reserveSearchForm').find('[name="adminType"]').val('${sessionScope.admin_cd}');
 }
-
 function searchBuyList_go(page, url) {
 	if (page < 1) {
 		return;
@@ -484,7 +483,11 @@ $(document).ready(function () {
 	// 페이지가 로드되면 해시태그에 따라 해당 콘텐츠를 보여주거나 감추는 함수 실행
 	handleHashChange();
 
-	$('#myBokdArea').show();
+	if($('li[data-tit="구매내역"]').hasClass('on') == true){
+		$('#myPurcArea').show();
+	}else{
+		$('#myBokdArea').show();
+	}
 	// 예매, 구매 탭을 클릭할 때 해시태그 변경 및 콘텐츠 표시/감추기
 	$(".tab-block li").on("click", function (event) {
 		event.preventDefault();
@@ -527,7 +530,14 @@ $(document).ready(function () {
 			$('input[name="keyword"]').hide();
 		}
 	})
-	
+let searchType = "<c:out value='${cri.searchType}'/>";
+
+	if(searchType == 'date'){
+		$('#selYM').show();
+	}else if(searchType == 'movie' || searchType == 'theater'){
+		$('input[name="keyword"]').show();
+	}
+
 // 	$('#radBokd02').on('click', function(){
 // 		$('#reserveSearchBtn').attr('disabled', false);
 // 		$('select[name="searchType"]').attr('disabled', false);

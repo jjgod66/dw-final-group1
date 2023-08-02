@@ -1,5 +1,6 @@
 package kr.or.dw.controller;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -153,6 +154,19 @@ public class MemberController {
 		return entity;
 	}
 	
+	@RequestMapping("/member/dormantAccount")
+	public void dormantAccount(String phone, HttpServletResponse res, HttpServletRequest req) throws IOException {
+		System.out.println(phone);
+		
+		res.setContentType("text/html; charset=utf-8");
+	    PrintWriter out = res.getWriter();
+	    out.println("<script>");
+	    out.println("alert('휴면이 해제 되었습니다.');");
+	    out.println("location.href='" + req.getContextPath() + "/';");
+	    out.println("</script>");
+		
+	}
+	
 	@RequestMapping("/member/addition")
 	public ResponseEntity<String> additionUpdate(String gb_sms_alert, String gb_email_alert, HttpSession session) throws SQLException{
 		ResponseEntity<String> entity = null;
@@ -222,12 +236,12 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/discount-coupon")
-	public ModelAndView memberDiscountcoupon(ModelAndView mnv, HttpSession session) {
+	public ModelAndView memberDiscountcoupon(ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/member/discount-coupon";
 		
-		String mem_cd = (String) session.getAttribute("loginUser");
+		MemberVO mem_cd = (MemberVO) session.getAttribute("loginUser");
 		
-		CouponVO coupon = couponService.selectCoupon(mem_cd);
+		List<Map<String, Object>> coupon = couponService.selectAllCoupon(mem_cd);
 		
 		mnv.addObject("coupon", coupon);
 		mnv.setViewName(url);

@@ -1,11 +1,14 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import kr.or.dw.dao.CouponDAO;
 import kr.or.dw.vo.CouponVO;
+import kr.or.dw.vo.MemberVO;
 
 public class CouponServiceImpl implements CouponService{
 	
@@ -24,7 +27,7 @@ public class CouponServiceImpl implements CouponService{
 	}
 
 	@Override
-	public CouponVO selectCoupon(String mem_cd) {
-		return null;
+	public List<Map<String, Object>> selectAllCoupon(MemberVO mem_cd) throws SQLException {
+		return couponDAO.selectAllCoupon(mem_cd);
 	}
 }

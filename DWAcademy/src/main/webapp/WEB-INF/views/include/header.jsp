@@ -112,7 +112,7 @@ request.setAttribute("GetTitle", "DWCinema");
             </li>
             <li role="menuitem" style="width: 65px;">
                 <a href="<%=request.getContextPath()%>/support/main.do" style="position: absolute; top: 20px; right: 40px; color: #333; font-size: 1.8rem;"><img src="<%=request.getContextPath()%>/resources/img/chat-support-icon.png" style="height: 29px; vertical-align: text-top; margin-top: 7px;"></a>
-                <a href="<%=request.getContextPath()%>/member/main.do" style="position: absolute; top: 20px; right: 0; color: #333; font-size: 1.8rem;"><i class="bi bi-person"></i></a>
+                <a href="<%=request.getContextPath()%>/member/main.do" id="myPageMain" style="position: absolute; top: 20px; right: 0; color: #333; font-size: 1.8rem;"><i class="bi bi-person"></i></a>
             </li>
         </ul>
     </div>
@@ -120,7 +120,9 @@ request.setAttribute("GetTitle", "DWCinema");
 <%@ include file="../include/login_modal.jsp" %>
 <%@ include file="../include/join_modal.jsp" %>
 <%@ include file="../include/authentication_modal.jsp"%>
+<%@ include file="../include/dormantAccount_modal.jsp"%>
 <%@ include file="../include/personInfoUtilAgreeAt.jsp"%>
+<%@ include file="../booking/login_service_modal.jsp" %>
 <form id="joinForm" action="<%=request.getContextPath()%>/member/join.do" method="post">
 	<input type="hidden" name="mem_id">
 	<input type="hidden" name="mem_name">
@@ -135,6 +137,14 @@ request.setAttribute("GetTitle", "DWCinema");
 	<input type="hidden" name="gb_sms_alert">
 </form>
 <script>
+$('#myPageMain').on('click', function(){
+let mem_id = ${loginUser}
+console.log(mem_id);
+	if(mem_id == null || mem_id == ""){
+		$('#login-service-modal').modal("show");
+	}
+})
+
 function join_go(){
 let joinForm = $('#joinForm');
 let memberInfo = $('.memberInfo')

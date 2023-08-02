@@ -103,6 +103,14 @@ public class CommonController {
 		out.close();
 	}
 	
+	@RequestMapping("/common/login")
+	public String login(HttpServletRequest req, HttpServletResponse res) {
+		String url = "/common/login";
+		
+		return url;
+		
+	}
+	
 
 	
 	

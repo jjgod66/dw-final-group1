@@ -152,6 +152,7 @@ public class MemberServiceImpl implements MemberService{
 		dataMap.put("pageMaker2", pageMaker2);
 		
 		dataMap.put("gb", "on");
+		dataMap.put("cri", cri);
 		
 		return dataMap;
 	}

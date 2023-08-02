@@ -155,6 +155,7 @@
                 </div>
                 <p class="extra new">회원이 아니신가요 ? <a href="#" data-bs-toggle="modal" data-bs-target="#authentication-modal"><u>회원가입</u></a></p>
                 <p class="extra">로그인 정보가 기억나지 않나요 ? <a href="#"><u>회원정보 찾기</u></a></p>
+                <p class="extra new">휴면을 해제하고 싶어요 <a href="#" data-bs-toggle="modal" data-bs-target="#dormantAccount_modal"><u>휴면 해제하기</u></a></p>
                 </form>
             </div>
         </div>
