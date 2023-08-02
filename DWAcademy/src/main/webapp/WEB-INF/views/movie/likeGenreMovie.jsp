@@ -103,7 +103,7 @@ select {
 	String mem_cd = "";
 	if(session.getAttribute("loginUser") != null){
 		Map member = (Map) session.getAttribute("loginUser");
-		mem_cd = (String)member.get("MEM_CD");
+		mem_cd = (String)member.get("CD");
 	}
 %>
 <script src="https://www.gstatic.com/charts/loader.js"></script>

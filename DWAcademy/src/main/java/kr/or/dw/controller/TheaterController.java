@@ -134,7 +134,8 @@ private static final Logger logger = LoggerFactory.getLogger(TheaterController.c
 	
 	@RequestMapping("/likeThr")
 	public ResponseEntity<String> clickLikeThr(String thr_name, HttpSession session){
-		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		ResponseEntity<String> entity = null;
 		
@@ -154,7 +155,8 @@ private static final Logger logger = LoggerFactory.getLogger(TheaterController.c
 	@RequestMapping("/likeThrYN")
 	public ResponseEntity<String> likeThrYN(String thr_name, HttpSession session){
 		ResponseEntity<String> entity = null;
-		String mem_cd = ((MemberVO) session.getAttribute("loginUser")).getMem_cd();
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		String result = "N";
 		
 		int cnt = 0;

@@ -255,7 +255,7 @@ select {
 	String mem_cd = "";
 	if(session.getAttribute("loginUser") != null){
 		Map member = (Map) session.getAttribute("loginUser");
-		mem_cd = (String)member.get("MEM_CD");
+		mem_cd = (String)member.get("CD");
 	}
 %>
 <%@ include file="login_service_modal.jsp" %>

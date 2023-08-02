@@ -185,9 +185,9 @@ function requestPay() {
 	let totalPrice = $('.totalPrice').text();
 	let method = $('input[name="payMethod"]:checked').prop('id');
 	let movie_name = '${mapData.MOVIE_NAME}';
-	let buyer_name = '<%=member.get("MEM_NAME")%>';
-	let buyer_tel = '<%=member.get("MEM_PHONE")%>';
-	let buyer_email = '<%=member.get("MEM_EMAIL")%>';
+	let buyer_name = '<%=member.get("NAME")%>';
+	let buyer_tel = '<%=member.get("PHONE")%>';
+	let buyer_email = '<%=member.get("EMAIL")%>';
 	let price = ($('#totalpp').text()).replace(',', '');
 	let discount = $('#disprice').text().replace(',', '');
 	$('input[name="discount"]').val(discount);

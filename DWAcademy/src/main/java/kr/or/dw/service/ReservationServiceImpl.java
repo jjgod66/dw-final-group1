@@ -214,7 +214,7 @@ public class ReservationServiceImpl implements ReservationService{
 				if(prefer > 0) {
 					mem_cat += ", 우대 " + prefer + "명";
 				}
-			}else{
+			}else if(prefer > 0){
 				mem_cat += ", 우대 " + prefer + "명";
 			}
 			
@@ -223,7 +223,7 @@ public class ReservationServiceImpl implements ReservationService{
 			if(prefer > 0) {
 				mem_cat += ", 우대 " + prefer + "명";
 			}
-		}else{
+		}else if(prefer > 0){
 			mem_cat += "우대 " + prefer + "명";
 		}
 		
