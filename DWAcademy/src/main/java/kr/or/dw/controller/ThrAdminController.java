@@ -33,6 +33,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -81,7 +83,32 @@ public class ThrAdminController {
 	
 	@Resource(name ="eventPicUploadPath")
 	private String eventPicUploadPath;
-
+	
+	@RequestMapping("/main")
+	public ModelAndView main(ModelAndView mnv, HttpServletRequest req) throws SQLException {
+		
+		String url = "/thrAdmin/main";
+		
+		HttpSession session = req.getSession();
+		String admin_cd = (String) session.getAttribute("admin_cd");
+		
+		List<MovieVO> currentMovieList = sysAdminService.selectCurrentMovieForMain();
+		mnv.addObject("currentMovieList", currentMovieList);
+		
+		List<NoticeVO> noticeList = thrAdminService.selectNoticeForMain(admin_cd);
+		mnv.addObject("noticeList", noticeList);
+		
+		List<QnaVO> qnaList = thrAdminService.selectQnaForMain(admin_cd);
+		mnv.addObject("qnaList", qnaList);
+		
+		List<EventVO> eventList = thrAdminService.selectEventForMain(admin_cd);
+		mnv.addObject("eventList", eventList);
+		
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
 	@RequestMapping("/theaterAdminMain")
 	public ModelAndView placeAdmin(ModelAndView mnv, HttpServletRequest req) throws SQLException {
 		
@@ -551,10 +578,10 @@ public class ThrAdminController {
 		out.flush();
 		out.close();
 	}
-	@RequestMapping("/test")
-	public ModelAndView test (ModelAndView mnv, HttpServletRequest req, String date) throws SQLException, ParseException {
+	@RequestMapping("/movieAdminMain")
+	public ModelAndView movieAdminMain (ModelAndView mnv, HttpServletRequest req, String date) throws SQLException, ParseException {
 		
-		String url = "/thrAdmin/movieAdminMainMain";
+		String url = "/thrAdmin/movieAdminMain";
 		
 		List<Map<String, Object>> movieList = thrAdminService.selectMovieListforMovieMain(new Date());
 		mnv.addObject("movieList", movieList);
@@ -579,7 +606,7 @@ public class ThrAdminController {
 		List<Map<String, Object>> houseList = thrAdminService.selectHouseListByAdmin_cd(admin_cd);
 		mnv.addObject("houseList", houseList);
 		
-		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "상영 시간표 관리", "test.do");
+		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "상영 시간표 관리", url+".do");
 		mnv.addAllObjects(subjectMap);
 		
 		mnv.setViewName(url);
@@ -653,7 +680,7 @@ public class ThrAdminController {
 		PrintWriter out = res.getWriter();
 		out.println("<script>");
 		out.println("alert('새 영화가 상영표에 등록되었습니다.')");
-		out.println("location.href='test.do?date="+date+"';");
+		out.println("location.href='movieAdminMain.do?date="+date+"';");
 		out.println("</script>");
 		out.flush();
 		out.close();
@@ -674,143 +701,60 @@ public class ThrAdminController {
 		return entity;
 	}
 	
-	@GetMapping("/movieAdminMain")
-	public ModelAndView movieAdmin(ModelAndView mnv,SearchCriteria cri) throws SQLException {
-		String url = "/thrAdmin/movieAdminMain";
-		
-	    cri.setPerPageNum("5");
-//	    List<MovieVO> allScreenList = thrAdminService.getAllScreens1();
-	    Map<String, Object> response = thrAdminService.getAllScreens(cri);
-	    List<Map<String, Object>> allScreens = (List<Map<String, Object>>) response.get("allScreens");
-	    response.put("allScreens", allScreens);
-		mnv.addAllObjects(response);
-		
-		List<Map<String, Object>> allRe = null;
-		allRe = thrAdminService.getAllRe();
-		List<JSONObject> newAllRe = new ArrayList<>();
-		for( Map<String,Object> map : allRe){
-		    JSONObject json = new JSONObject();
-		    for( Map.Entry<String,Object> entry : map.entrySet() ){
-		        String key = entry.getKey();
-		        Object value = entry.getValue();
-		        json.put(key, value);	
-		    }	
-		    newAllRe.add(json);
+	@RequestMapping("/screenModify")
+	public void screenModify (ScreenVO screen, HttpServletResponse res) throws IOException, SQLException {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(screen.getStartdate());
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		int hour = cal.get(Calendar.HOUR);
+		if (7 <= hour && hour < 9) {
+			screen.setGb_jojo("Y");
+		} else {
+			screen.setGb_jojo("N");
 		}
+		String date = "" + year
+						 + (month < 10 ? "0" + month : month) 
+						 + (day < 10 ? "0" + day : day); 
+
+		System.out.println(screen);
+		thrAdminService.modifyScreen(screen);
 		
-		System.out.println(newAllRe);
-		mnv.addObject("allRe", newAllRe);
-//		mnv.addObject("allScreenList", allScreenList);
-		mnv.setViewName(url);
-		return mnv;
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('상영영화 수정이 완료되었습니다.')");
+		out.println("location.href='movieAdminMain.do?date="+date+"';");
+		out.println("</script>");
+		out.flush();
+		out.close();
 	}
 	
-	@GetMapping("/loadMovies")
-	public ResponseEntity<Map<String, Object>> loadMovies(@RequestParam("pageNo") int pageNo,SearchCriteria cri) throws SQLException {
-	    
-		cri.setPerPageNum("5");
-		System.out.println(cri);
-		System.out.println(pageNo);
+	@RequestMapping("/screenDelete")
+	public void screenDelete (ScreenVO screen, HttpServletResponse res) throws IOException, SQLException {
+		System.out.println("controller");
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(screen.getStartdate());
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH)+1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
 		
-		Map<String, Object> response = thrAdminService.getAllScreens(cri);
-		List<Map<String, Object>> allScreens = (List<Map<String, Object>>) response.get("allScreens");
-		response.put("allScreens", allScreens);
-	    System.out.println(pageNo);
-	    return new ResponseEntity<>(response, HttpStatus.OK);
-	}
-	
-	@GetMapping("/main")
-	public ModelAndView main(ModelAndView mnv, String movie_cd) throws SQLException {
-		String url = "/thrAdmin/main";
-		if(movie_cd == null) {
-			movie_cd = "";
-		}
-//		List<MovieVO> allScreenList = null;
-//		allScreenList = thrAdminService.getAllScreens();
+		String date = "" + year
+						 + (month < 10 ? "0" + month : month) 
+						 + (day < 10 ? "0" + day : day); 
+
+		System.out.println(screen);
+		thrAdminService.deleteScreen(screen);
 		
-		List<Map<String, Object>> allRe = null;
-		allRe = thrAdminService.getAllRe();
-		
-		List<JSONObject> newAllRe = new ArrayList<>();
-		for( Map<String,Object> map : allRe){
-		    JSONObject json = new JSONObject();
-		    for( Map.Entry<String,Object> entry : map.entrySet() ){
-		        String key = entry.getKey();
-		        Object value = entry.getValue();
-		        json.put(key, value);	
-		    }	
-		    newAllRe.add(json);
-		}
-		System.out.println(newAllRe);
-		mnv.addObject("allRe", newAllRe);
-//		mnv.addObject("allScreenList", allScreenList);
-		mnv.addObject("movie_cd", movie_cd);
-		mnv.setViewName(url);
-		return mnv;
-	}
-	
-	@RequestMapping("/getPicture")
-	public ResponseEntity<byte[]> getPicture(String name, String item_cd, String type) throws IOException  {
-		
-		InputStream in = null;
-		ResponseEntity<byte[]> entity = null;
-		String imgPath = "";
-		if (type != "" && type != null) {
-			if (type.equals("moviePoster")) {
-				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "mainPoster";
-			} else if (type.equals("movieImg")) {
-				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "pictures";
-			} else if (type.equals("productImg")) {
-				imgPath = this.storePicUploadPath + File.separator + item_cd;
-			}
-		}
-		
-		try {
-			in = new FileInputStream(new File(imgPath, name));
-			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
-		} finally {
-			in.close();
-		}
-		
-		return entity;
-	}
-	@GetMapping("/api/getMovieInfo")
-	public ClickMovieInfoVO getMovieInfo (@RequestParam("screenCd") String screenCd) throws SQLException {
-		return thrAdminService.getMovieInfoByScreenCd(screenCd);
-	}
-	
-	@GetMapping("/supportAdminMain")
-	public String customerAdmin() {
-		
-		String url = "/thrAdmin/supportAdminMain";
-		
-		return url;
-	}
-	@GetMapping("/movieA")
-	public String movieA() {
-		
-		String url = "/thrAdmin/movieA";
-		
-		return url;
-	}
-	
-	@GetMapping("/eventAdminWinner")
-	public String eventAdminWinner() {
-		
-		String url="/thrAdmin/eventAdminWinner";
-		
-		return url;
-	}
-	
-	@GetMapping("/eventRegist")
-	public String eventRegist() {
-		
-		String url="/thrAdmin/eventRegist";
-		
-		return url;
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('상영영화 삭제가 완료되었습니다.')");
+		out.println("location.href='movieAdminMain.do?date="+date+"';");
+		out.println("</script>");
+		out.flush();
+		out.close();
 	}
 	
 	// admin_contentHeader에 넣을 정보들

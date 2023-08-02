@@ -9,9 +9,11 @@ import java.util.Map;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.ClickMovieInfoVO;
+import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.HouseVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
+import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.ScreenVO;
 import kr.or.dw.vo.TheaterVO;
 
@@ -97,5 +99,20 @@ public interface ThrAdminService {
 
 	// 해당하는 상영영화 상세정보를 가져온다.
 	Map<String, Object> selectScreenByScreen_cd(String screen_cd) throws SQLException;
+
+	// 기존 상영영화를 수정한다.
+	void modifyScreen(ScreenVO screen) throws SQLException;
+
+	// 기존 상영영화를 삭제한다.
+	void deleteScreen(ScreenVO screen) throws SQLException;
+
+	// 메인페이지에 보여줄 공지사항 리스트 목록 가져오기
+	List<NoticeVO> selectNoticeForMain(String admin_cd) throws SQLException;
+
+	// 메인페이지에 보여줄 1:1문의 리스트 목록 가져오기
+	List<QnaVO> selectQnaForMain(String admin_cd) throws SQLException;
+
+	// 메인페이지에 보여줄 이벤트 목록 가져오기
+	List<EventVO> selectEventForMain(String admin_cd) throws SQLException;
 
 }

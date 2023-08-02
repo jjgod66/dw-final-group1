@@ -277,6 +277,32 @@ public class ThrAdminServiceImpl implements ThrAdminService {
 		return thrAdminDAO.selectScreenByScreen_cd(screen_cd);
 	}
 
+	@Override
+	public void modifyScreen(ScreenVO screen) throws SQLException {
+		thrAdminDAO.updateScreen(screen);
+		
+	}
+
+	@Override
+	public void deleteScreen(ScreenVO screen) throws SQLException {
+		thrAdminDAO.deleteScreen(screen);
+	}
+
+	@Override
+	public List<NoticeVO> selectNoticeForMain(String admin_cd) throws SQLException {
+		return thrAdminDAO.selectNoticeForMain(admin_cd);
+	}
+
+	@Override
+	public List<QnaVO> selectQnaForMain(String admin_cd) throws SQLException {
+		return thrAdminDAO.selectQnaForMain(admin_cd);
+	}
+
+	@Override
+	public List<EventVO> selectEventForMain(String admin_cd) throws SQLException {
+		return thrAdminDAO.selectEventForMain(admin_cd);
+	}
+
 
 	
 

@@ -400,17 +400,22 @@
 					 WHERE s.MOVIE_CD = m.MOVIE_CD
 					   AND s.HOUSE_NO = #{house_no}
 					   AND TO_CHAR(s.startdate, 'yyyy-MM-dd') = TO_CHAR(#{markTime}, 'yyyy-MM-dd') 
+					   <if test="screen_cd != null">
+		   			   AND	S.SCREEN_CD != #{screen_cd}
+		   			   </if>
 		  		) f
-		 WHERE (
+		 WHERE 
+		 		(
 				f.prev_enddate <![CDATA[>=]]> #{startTime}
 		 		AND 
 		 		f.startdate <![CDATA[<=]]> #{endTime}
 		 		)
-		   OR (
+		    OR  (
 		   		f.next_startdate <![CDATA[<=]]> #{endTime}
 		   		AND
 		   		f.next_enddate <![CDATA[>=]]> #{startTime}
 		   		)
+		   	
 	</select>
 	
 	<insert id="insertScreen">
@@ -437,14 +442,69 @@
 		SELECT s.SCREEN_CD, MAX(m.MOVIE_CD) MOVIE_CD, MAX(m.MOVIE_NAME) MOVIE_NAME, MAX(h.HOUSE_NAME) HOUSE_NAME
 			 , MAX(m.MOVIE_LENGTH) MOVIE_LENGTH, MAX(s.STARTDATE) STARTDATE, MAX((s.STARTDATE + m.MOVIE_LENGTH / 1440)) enddate
 			 , MAX(m.MOVIE_MAINPIC_PATH) MOVIE_MAINPIC_PATH, MAX(s.MOVIE_TYPE_CD) MOVIE_TYPE_CD, MAX(mt.MOVIE_TYPE_DES) MOVIE_TYPE_DES
-			 , COUNT(r.res_no) reservcnt, MAX(h.HOUSE_ROW) house_row, MAX(h.HOUSE_COLUMN) house_column 
+			 , COUNT(r.res_no) reservcnt, MAX(h.HOUSE_ROW) house_row, MAX(h.HOUSE_COLUMN) house_column
 			 , NVL(LISTAGG(r.RES_SEAT, '/') WITHIN GROUP (ORDER BY r.RES_SEAT), ' ')  seat_list
-		  FROM SCREEN s, MOVIE m, HOUSE h, MOVIE_TYPE mt, RESERVATION r
+			 , LISTAGG(mtc.MOVIE_TYPE_CD, ',') WITHIN GROUP (ORDER BY mtc.MOVIE_TYPE_CD)  movie_type_list
+			 , MAX(m.OPENDATE) MOVIE_OPENDATE, MAX(m.ENDDATE) MOVIE_ENDDATE, MAX(h.HOUSE_NO) HOUSE_NO
+		  FROM SCREEN s, MOVIE m, HOUSE h, MOVIE_TYPE mt, RESERVATION r, MOVIE_TYPE_C mtc
 		 WHERE s.MOVIE_CD = m.MOVIE_CD 
 		   AND s.HOUSE_NO = h.HOUSE_NO 
 		   AND s.MOVIE_TYPE_CD = mt.MOVIE_TYPE_CD
 		   AND s.SCREEN_CD = r.SCREEN_CD (+)
+		   AND mtc.MOVIE_CD = m.MOVIE_CD
 		   AND s.screen_cd = #{screen_cd}
 		  GROUP BY s.SCREEN_CD
+	</select>
+	
+	<update id="updateScreen">
+		UPDATE screen
+		   SET house_no = #{house_no}
+		      ,startdate = #{startdate}
+		      ,gb_jojo = #{gb_jojo}
+		      ,movie_type_cd = #{movie_type_cd}
+		 WHERE screen_cd = #{screen_cd}
+	</update>
+	
+	<delete id="deleteScreen">
+		DELETE FROM screen WHERE screen_cd = #{screen_cd}
+	</delete>
+	
+	<select id="selectNoticeForMain" resultType="notice">
+		SELECT *
+		  FROM (
+		  		SELECT *
+		  		  FROM notice
+		  		 WHERE admin_cd = #{admin_cd}
+		  		   AND gb_del = 'N'
+		  		 ORDER BY notice_no DESC
+		  		)
+		 WHERE ROWNUM <![CDATA[<=]]> 5 		
+	</select>
+	
+	<select id="selectQnaForMain" resultType="qna">
+		SELECT *
+		  FROM (
+		  		SELECT q.*, a.ans_content
+		  		  FROM question q, theater t, answer a
+		  		 WHERE q.thr_name = t.thr_name 
+		  		   AND q.que_no = a.que_no(+)
+		  		   AND q.que_sel = 'T'
+		  		   AND t.admin_cd = #{admin_cd}
+		  		 ORDER BY q.que_no DESC
+		  		)
+		 WHERE ROWNUM <![CDATA[<=]]> 5
+	</select>
+	
+	<select id="selectEventForMain" resultType="event">
+		SELECT *
+		  FROM (
+		  		SELECT *
+		  		  FROM event
+		  		 WHERE relate_cd = #{admin_cd}
+		  		   AND enddate <![CDATA[>=]]> SYSDATE
+		   		   AND event_div = '극장'
+		  		 ORDER BY regdate DESC
+		  	    )
+		 WHERE ROWNUM <![CDATA[<=]]> 4
 	</select>
 </mapper>

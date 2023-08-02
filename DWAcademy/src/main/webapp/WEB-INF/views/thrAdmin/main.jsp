@@ -75,8 +75,8 @@
 			    		<div class="swiper-wrapper">
 			    			<c:forEach items="${currentMovieList }" var="movie">
 			      				<div class="swiper-slide" >
-			      					<a href="movieRegistForm.do?movie_cd=${movie.movie_cd }">
-				      					<img src="getPicture.do?name=${movie.movie_mainpic_path}&item_cd=${movie.movie_cd}&type=moviePoster" style="border-radius: 0.5rem; height:332px;">
+			      					<a href="movieAdminMain.do">
+				      					<img src="/sysAdmin/getPicture.do?name=${movie.movie_mainpic_path}&item_cd=${movie.movie_cd}&type=moviePoster" style="border-radius: 0.5rem; height:332px;">
 			      					</a>
 			      				</div>
 			   				</c:forEach>
@@ -133,9 +133,9 @@
 				<div class="row">
 					<c:forEach items="${eventList }" var="event">
 						<div class="col-md-3" style="text-align : -webkit-center;">
-							<div class="card text-center" style="width: 18rem;">
+							<div class="card text-center h-100" style="width: 18rem;">
 								<a href="eventAdminDetail?type=read&event_no=${event.event_no }">
-									<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+									<img src="/sysAdmin/getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
 								</a>
 								<div class="card-body">
 									<h5 class="card-title">${event.event_title }</h5>
