@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.EventDAO">
+
+	<select id="selectEvent4" resultType="event">
+		SELECT *
+		FROM (
+				SELECT rownum rnum, e.*
+				FROM (
+						SELECT *
+						FROM event
+						WHERE enddate <![CDATA[>=]]> sysdate
+						ORDER BY regdate DESC
+						) e
+						)
+		WHERE rnum <![CDATA[<=]]> 4
+	</select>
+
+	<select id="selectMoiveEvent4" resultType="event">
+		SELECT *
+		FROM (
+				SELECT rownum rnum, e.*
+				FROM (
+						SELECT *
+						FROM event
+						WHERE enddate <![CDATA[>=]]> sysdate
+						AND event_div = '영화'
+						ORDER BY regdate DESC
+						) e
+						)
+		WHERE rnum <![CDATA[<=]]> 4
+	</select>
+	
+	<select id="selectTheaterEvent4" resultType="event">
+		SELECT *
+		FROM (
+				SELECT rownum rnum, e.*
+				FROM (
+						SELECT *
+						FROM event
+						WHERE enddate <![CDATA[>=]]> sysdate
+						AND event_div = '극장'
+						ORDER BY regdate DESC
+						) e
+						)
+		WHERE rnum <![CDATA[<=]]> 4
+	</select>
+	
+	<select id="selectStageEvent4" resultType="event">
+		SELECT *
+		FROM (
+				SELECT rownum rnum, e.*
+				FROM (
+						SELECT *
+						FROM event
+						WHERE enddate <![CDATA[>=]]> sysdate
+						AND event_div = '시사회/무대인사'
+						ORDER BY regdate DESC
+						) e
+						)
+		WHERE rnum <![CDATA[<=]]> 4
+	</select>
+	
+	<select id="selectEventDetail" resultType="event">
+		SELECT *
+		FROM event
+		WHERE event_no = #{event_no}
+		ORDER BY regdate DESC
+	</select>
+	
+	<select id="selectMovieEventList" resultType="event">
+		SELECT e.*, movie_name
+		FROM event e, movie m
+		WHERE e.relate_cd = m.movie_cd
+		AND e.enddate >= sysdate
+		AND event_div = '영화'
+		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
+		ORDER BY e.regdate DESC
+	</select>
+	
+	<select id="selectMovieEventListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM event e, movie m
+		WHERE e.relate_cd = m.movie_cd
+		AND e.enddate >= sysdate
+		AND event_div = '영화'
+		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
+		AND event_div = '영화'
+	</select>
+	
+	<select id="selectTheaterEventList" resultType="event">
+		SELECT e.*, thr_name
+		FROM event e, theater t
+		WHERE e.relate_cd = t.admin_cd
+		AND e.enddate >= sysdate
+		AND event_div = '극장'
+		AND (thr_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
+		ORDER BY e.regdate DESC
+	</select>
+	
+	<select id="selectTheaterEventListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM event e, theater t
+		WHERE e.relate_cd = t.admin_cd
+		AND e.enddate >= sysdate
+		AND event_div = '극장'
+		AND (thr_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
+	</select>
+	
+	<select id="selectStageEventList" resultType="event">
+		SELECT e.*, movie_name
+		FROM event e, movie m
+		WHERE e.relate_cd = m.movie_cd
+		AND e.enddate >= sysdate
+		AND event_div = '시사회/무대인사'
+		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
+		ORDER BY e.regdate DESC
+	</select>
+	
+	<select id="selectStageEventListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM event e, movie m
+		WHERE e.relate_cd = m.movie_cd
+		AND e.enddate >= sysdate
+		AND event_div = '시사회/무대인사'
+		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
+	</select>
+	
+	<select id="selectPastEventList" resultType="event">
+		SELECT e.*, winnerdate
+		FROM event e, winner_board w, movie m, theater t
+		WHERE e.event_no = w.event_no(+)
+		AND e.relate_cd = t.admin_cd(+)
+		AND e.relate_cd = m.movie_cd(+)
+		AND e.enddate <![CDATA[<]]> sysdate
+		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%' OR thr_name LIKE '%' || #{keyword} || '%')
+		ORDER BY e.enddate DESC
+	</select>
+	
+	<select id="selectPastEventListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM event e, winner_board w, movie m, theater t
+		WHERE e.event_no = w.event_no(+)
+		AND e.relate_cd = t.admin_cd(+)
+		AND e.relate_cd = m.movie_cd(+)
+		AND e.enddate <![CDATA[<]]> sysdate
+		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%' OR thr_name LIKE '%' || #{keyword} || '%')
+	</select>
+	
+	<select id="selectEventWinner" resultType="event">
+		SELECT e.*, winner_content, winnerdate
+		FROM event e, winner_board wb
+		WHERE e.event_no = wb.event_no
+		AND e.event_no = #{event_no}
+	</select>
+	
+</mapper>

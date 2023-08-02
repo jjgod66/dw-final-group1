@@ -86,7 +86,7 @@
 					<div class="eventCards row gx-3 gy-3">
 						<c:forEach items="${eventList}" var="event">
 							<div class="col-md-3" style="text-align: -webkit-center;">
-								<div class="card text-center" style="width: 18rem;">
+								<div class="card text-center h-100" style="width: 18rem;">
 									<a href="/sysAdmin/eventAdminDetail?type=read&event_no=${event.event_no }">
 										<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
 									</a>

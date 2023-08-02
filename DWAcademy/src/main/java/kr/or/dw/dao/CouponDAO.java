@@ -1,8 +1,13 @@
 package kr.or.dw.dao;
 
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import kr.or.dw.vo.CouponVO;
+import kr.or.dw.vo.MemberVO;
 
 @Mapper
 public interface CouponDAO {
@@ -19,5 +24,12 @@ public interface CouponDAO {
 	 * @throws SQLException
 	 */
 	void insertBirthCoupon(String mem) throws SQLException;
+
+	/**
+	 * 회원의 보유 쿠폰 조회
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> selectAllCoupon(MemberVO mem_cd) throws SQLException;
 
 }

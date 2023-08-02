@@ -46,5 +46,21 @@ public interface StoreService {
 	 * @return
 	 */
 	int getPoint(String mem_cd) throws SQLException;
+	
+	/**
+	 * 구매 결제 금액이 0원일 때 memBuy에 넣는 메서드
+	 * @param memBuy
+	 * @return
+	 * @throws SQLException
+	 */
+	String insertMemBuy0GetMUID(MemBuyVO memBuy) throws SQLException;
+
+	/**
+	 * 선물 결제 금액이 0원일 때 memBuy에 넣는 메서드
+	 * @param memBuy
+	 * @return
+	 * @throws SQLException
+	 */
+	Map<String, Object> insertMemgift0GetMUID(MemBuyVO memBuy) throws SQLException;
 
 }

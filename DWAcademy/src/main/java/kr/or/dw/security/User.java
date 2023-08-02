@@ -41,7 +41,7 @@ public class User implements UserDetails{
 
 	@Override
 	public boolean isAccountNonLocked() {	// 휴면 계정 여부
-		return member.getGb_ban() == "Y";
+		return member.getGb_sleep() == "Y";
 	}
 
 	@Override

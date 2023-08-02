@@ -12,4 +12,5 @@ public class StoreBuyCommand {
 	private int tophone;
 	private int use_point;
 	private int discount;
+	private String merchant_uid;
 }

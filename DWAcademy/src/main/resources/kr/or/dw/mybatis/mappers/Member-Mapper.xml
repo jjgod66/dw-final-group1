@@ -16,7 +16,7 @@
 	
 	
 	<insert id="insert">
-		INSERT INTO member(mem_cd, mem_id, mem_pwd, mem_name, mem_email, mem_bir, mem_phone, regdate, mem_addr, mem_addr_detail, mem_zipcode, gb_email_alert, gb_sms_alert)
+		INSERT INTO member(mem_cd, mem_id, mem_pwd, mem_name, mem_email, mem_bir, mem_phone, regdate, mem_addr, mem_addr_detail, mem_zipcode, gb_email_alert, gb_sms_alert, mem_grade, gb_del, gb_ban, gb_sleep)
 					VALUES('M' || TO_char(#{mem_bir}, 'YYYYMMDD') || lpad(mem_seq.nextVal,4,0)
 						  ,#{mem_id}
 						  ,#{mem_pwd}
@@ -30,6 +30,10 @@
 						  ,#{mem_zipcode}
 						  ,#{gb_email_alert}
 						  ,#{gb_sms_alert}
+						  ,'N'
+						  ,'N'
+						  ,'N'
+						  ,'N'
 							)
 	</insert>
 	
@@ -92,4 +96,41 @@
 		 WHERE stopdate + 180 <![CDATA[<]]> SYSDATE
 	</update>
 	
+	<select id="selectBuyInfoList" resultType="Map">
+		SELECT mb.buydate, p.product_div, p.product_name, p.product_price, mp.gb_use, pd.refunddate
+		  FROM mem_buy mb, product p ,mem_product mp, pay_detail pd
+		 WHERE mb.mem_cd = #{mem_cd}
+		   AND p.product_cd = mp.product_cd
+	       AND mb.merchant_uid = mp.merchant_uid
+		   AND mb.merchant_uid = pd.merchant_uid
+	</select>
+	
+	<select id="searchBuyInfo" resultType="Map">
+		SELECT mb.buydate, p.product_div, p.product_name, p.product_price, mp.gb_use, pd.refunddate
+		  FROM mem_buy mb, product p ,mem_product mp, pay_detail pd
+		 WHERE mb.mem_cd = #{mem_cd}
+		   AND p.product_cd = mp.product_cd
+	       AND mb.merchant_uid = mp.merchant_uid
+		   AND mb.merchant_uid = pd.merchant_uid
+		   AND TO_CHAR(buydate, 'YYYYMM') like #{cri.monthKeyword}
+	</select>
+	
+	<select id="selectBuyInfoListCnt" resultType="int">
+		SELECT count(*)
+		  FROM mem_buy mb, product p ,mem_product mp, pay_detail pd
+		 WHERE mb.mem_cd = #{mem_cd}
+		   AND p.product_cd = mb.product_cd
+		   AND mb.merchant_uid = mp.merchant_uid
+		   AND mb.merchant_uid = pd.merchant_uid
+	</select>
+	
+	<select id="searchBuyInfoListCnt" resultType="int">
+		SELECT count(*)
+		  FROM mem_buy mb, product p ,mem_product mp, pay_detail pd
+		 WHERE mb.mem_cd = #{mem_cd}
+		   AND p.product_cd = mb.product_cd
+		   AND mb.merchant_uid = mp.merchant_uid
+		   AND mb.merchant_uid = pd.merchant_uid
+		   AND TO_CHAR(buydate, 'YYYYMM') like #{cri.monthKeyword}
+	</select>
 </mapper>

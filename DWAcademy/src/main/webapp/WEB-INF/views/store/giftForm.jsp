@@ -136,6 +136,12 @@ function requestPay() {
 	$('input[name="toname"]').val(toname);
 	$('input[name="tophone"]').val(tophone);
 	
+	if(amount <= 0){
+		$('#giftForm').prop('action', '<%=request.getContextPath()%>/store/gift0ResultRedirect.do');
+		$('#giftForm').append('<input type="hidden" name="merchant_uid" value="' + merchant_uid + '">');
+		$('#giftForm').submit();
+	}
+	
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
@@ -150,7 +156,7 @@ function requestPay() {
         	$('input[name="json"]').val(JSON.stringify(rsp));
             console.log(rsp);
 			
-            buyForm.submit();
+            $('#giftForm').submit();
 			
         } else {
             console.log(rsp);

@@ -41,11 +41,6 @@ public class ViewController {
 		
 		return mnv;
 	}
-	@GetMapping("/member/discount-coupon")
-	public String memberDiscountcoupon() {
-		String url = "/member/discount-coupon";
-		return url;
-	}
 	@GetMapping("/member/moviestory")
 	public String memberMoviestory() {
 		String url = "/member/moviestory";
@@ -188,65 +183,73 @@ public class ViewController {
 	
 //	여기부터시작 
 	
-	@GetMapping("/support/main")
-	public String supportMain() {
-		return "/support/main"; 
-	}
-	
-	@GetMapping("/support/notice")
-	public String supportNotice() {
-		String url = "/support/notice";
-		return url;
-	}
+
 	
 	@GetMapping("/support/noticeMini_Detail")
 	public String supportNoticeDetail() {
 		String url = "/support/noticeMini_Detail";
 		return url;
 	}
-	@GetMapping("/support/faq")
-	public String supportFaq() {
-		String url = "/support/faq";
-		return url;
-	}
-	@GetMapping("/support/inquiry")
-	public String supportin() {
-		String url = "/support/inquiry";
-		return url;
-	}
-	@GetMapping("/support/inquiry_nonMember")
-	public String supportinNon() {
-		String url = "/support/inquiry_nonMember";
-		return url;
-	}
-	@GetMapping("/support/inquiry_nonMember_list")
-	public String supportinNonList() {
-		String url = "/support/inquiry_nonMember_list";
-		return url;
-	}
-	@GetMapping("/support/inquiry_nonMember_list_login_result")
-	public String supportinNonListResult() {
-		String url = "/support/inquiry_nonMember_list_login_result";
-		return url;
-	}
-	@GetMapping("/support/agreeUse")
-	public String supportAgreeUse() {
-		String url = "/support/agreeUse";
-		return url;
-	}
-	@GetMapping("/support/agreeWhere")
-	public String supportAgreeW() {
-		String url = "/support/agreeWhere";
-		return url;
-	}
-	@GetMapping("/support/agreePrivacy")
-	public String supportAgreeP() {
-		String url = "/support/agreePrivacy";
-		return url;
-	}
-	@GetMapping("/support/agreeScreen")
-	public String supportAgreeS() {
-		String url = "/support/agreeScreen";
-		return url;
-	}
+	
+//	@GetMapping("/support/main")
+//	public String supportMain() {
+//		return "/support/main"; 
+//	}
+//	
+//	@GetMapping("/support/notice")
+//	public String supportNotice() {
+//		String url = "/support/notice";
+//		return url;
+//	}
+//	
+//	@GetMapping("/support/noticeDetail")
+//	public String supportNoticeDetail() {
+//		String url = "/support/noticeDetail";
+//		return url;
+//	}
+//	@GetMapping("/support/faq")
+//	public String supportFaq() {
+//		String url = "/support/faq";
+//		return url;
+//	}
+//	@GetMapping("/support/inquiry")
+//	public String supportin() {
+//		String url = "/support/inquiry";
+//		return url;
+//	}
+//	@GetMapping("/support/inquiry_nonMember")
+//	public String supportinNon() {
+//		String url = "/support/inquiry_nonMember";
+//		return url;
+//	}
+//	@GetMapping("/support/inquiry_nonMember_list")
+//	public String supportinNonList() {
+//		String url = "/support/inquiry_nonMember_list";
+//		return url;
+//	}
+//	@GetMapping("/support/inquiry_nonMember_list_login_result")
+//	public String supportinNonListResult() {
+//		String url = "/support/inquiry_nonMember_list_login_result";
+//		return url;
+//	}
+//	@GetMapping("/support/agreeUse")
+//	public String supportAgreeUse() {
+//		String url = "/support/agreeUse";
+//		return url;
+//	}
+//	@GetMapping("/support/agreeWhere")
+//	public String supportAgreeW() {
+//		String url = "/support/agreeWhere";
+//		return url;
+//	}
+//	@GetMapping("/support/agreePrivacy")
+//	public String supportAgreeP() {
+//		String url = "/support/agreePrivacy";
+//		return url;
+//	}
+//	@GetMapping("/support/agreeScreen")
+//	public String supportAgreeS() {
+//		String url = "/support/agreeScreen";
+//		return url;
+//	}
 }

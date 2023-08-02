@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.SupportDAO">
+
+	<sql id="searchTypeFaQ">
+		<if test="searchType == '영화예매'.toString()">
+			AND faq_div = '영화예매'
+		</if>
+		<if test="searchType == '결제수단'.toString()">
+			AND faq_div = '결제수단'
+		</if>
+		<if test="searchType == '멤버쉽'.toString()">
+			AND faq_div = '멤버십'
+		</if>
+		<if test="searchType == '스토어'.toString()">
+			AND faq_div = '스토어'
+		</if>
+		<if test="searchType == '기프트카드'.toString()">
+			AND faq_div = '기프트카드'
+		</if>
+		<if test="searchType == '할인혜택'.toString()">
+			AND faq_div = '할인혜택'
+		</if>
+		<if test="searchType == 'VIP'.toString()">
+			AND faq_div = 'VIP'
+		</if>
+		<if test="searchType == '극장'.toString()">
+			AND faq_div = '극장'
+		</if>
+		<if test="searchType == '홈페이지'.toString()">
+			AND faq_div = '홈페이지'
+		</if>
+	</sql>
+
+	<select id="selectFaQList" resultType="faq">
+		SELECT *
+		FROM faq
+		WHERE faq_title like '%' || #{keyword} || '%'
+		AND gb_del = 'N'
+		<include refid="searchTypeFaQ" />
+		ORDER BY faq_no
+	</select>
+	
+	<select id="selectFaQListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM faq
+		WHERE faq_title like '%' || #{keyword} || '%'
+		AND gb_del = 'N'
+		<include refid="searchTypeFaQ" />
+	</select>
+	
+	<select id="selectFaQ5" resultType="faq">
+		SELECT *
+		FROM (
+			SELECT rownum rnum, f.*
+			FROM (
+				SELECT *
+				FROM faq
+				WHERE gb_del = 'N'
+				) f )
+		WHERE rnum <![CDATA[<=]]> 5
+	</select>
+	
+	<select id="selectNonMemInqCount" resultType="int">
+		SELECT COUNT(*)
+		FROM question
+		WHERE mem_cd IS null
+		AND gb_del = 'N'
+		AND writer_name = #{writer_name}
+		AND writer_email = #{writer_email}
+		AND writer_pwd = #{writer_pwd}
+	</select>
+	
+	<select id="selectNonMemQnaList" resultType="qna">
+		SELECT q.*, ans_content
+		FROM question q, answer a
+		WHERE q.que_no = a.que_no(+) 
+		AND mem_cd IS null
+		AND gb_del = 'N'
+		AND writer_name = #{writer_name}
+		AND writer_email = #{writer_email}
+		AND writer_pwd = #{writer_pwd}
+		AND que_title like '%' || #{keyword} || '%'
+	</select>
+	
+	<select id="selectQnaByQueNo" resultType="qna">
+		SELECT *
+		FROM question
+		WHERE que_no = #{que_no}
+	</select>
+	
+	<select id="selectAnswerByQueNo" resultType="ans">
+		SELECT *
+		FROM answer
+		WHERE que_no = #{que_no}
+	</select>
+	
+	<update id="deleteQna">
+		UPDATE question SET gb_del = 'Y' WHERE que_no = #{que_no}
+	</update>
+	
+	<select id="selectQueTypeList" resultType="str">
+		SELECT que_type
+		FROM question_type
+		WHERE que_sel = #{que_sel}
+	</select>
+	
+	<select id="selectThrList" resultType="str">
+		SELECT thr_name
+		FROM theater
+		WHERE thr_loc = #{thr_loc}
+		AND gb_del = 'N'
+	</select>
+	
+	<insert id="registQnaMem">
+		INSERT INTO question (que_no, que_title, que_content, mem_cd, writer_name, writer_email, que_sel, que_type, gb_mem, writer_pwd, thr_name, regdate, gb_del)
+		VALUES(qna_seq.nextval, #{que_title}, #{que_content}, #{mem_cd}, #{writer_name}, #{writer_email}, #{que_sel}, #{que_type}, 'Y', #{writer_pwd}, #{thr_name}, sysdate, 'N')
+		
+		<selectKey resultType="int" order="AFTER" keyProperty="que_no">
+			SELECT qna_seq.currval que_no FROM dual
+		</selectKey>
+	</insert>
+	<insert id="registQnaNonMem">
+		INSERT INTO question (que_no, que_title, que_content, mem_cd, writer_name, writer_email, que_sel, que_type, gb_mem, writer_pwd, thr_name, regdate, gb_del)
+		VALUES(qna_seq.nextval, #{que_title}, #{que_content}, #{mem_cd}, #{writer_name}, #{writer_email}, #{que_sel}, #{que_type}, 'N', #{writer_pwd}, #{thr_name}, sysdate, 'N')
+		
+		<selectKey resultType="int" order="AFTER" keyProperty="que_no">
+			SELECT qna_seq.currval que_no FROM dual
+		</selectKey>
+	</insert>
+	
+	<insert id="registQnaAttach">
+		INSERT INTO question_attach (attach_no, attach_path, attach_type, que_no)
+		VALUES(att_seq.nextval, #{attach_path}, #{attach_type}, #{que_no})
+	</insert>
+	
+	<select id="selectNotice5" resultType="notice">
+		SELECT *
+		FROM (
+			SELECT rownum rnum, n.*
+			FROM (
+				SELECT *
+				FROM notice
+				WHERE gb_del = 'N'
+				ORDER BY regdate DESC
+				) n
+			)
+		WHERE rnum <![CDATA[<=]]> 5
+	</select>
+	
+	<select id="selectNoticeList" resultType="notice">
+		SELECT *
+		FROM notice
+		WHERE gb_del = 'N'
+		AND (notice_thr like '%' || #{keyword} || '%' OR notice_title like '%' || #{keyword} || '%')
+		<if test="searchType == 'DW시네마'.toString()">
+			AND notice_thr = 'DW시네마'
+		</if>
+		<if test="searchType == '지점'.toString()">
+			AND notice_thr != 'DW시네마'
+		</if>
+		ORDER BY regdate DESC
+	</select>
+	
+	<select id="selectNoticeCount" resultType="int">
+		SELECT COUNT(*)
+		FROM notice
+		WHERE gb_del = 'N'
+		AND (notice_thr like '%' || #{keyword} || '%' OR notice_title like '%' || #{keyword} || '%')
+		<if test="searchType == 'DW시네마'.toString()">
+			AND notice_thr = 'DW시네마'
+		</if>
+		<if test="searchType == '지점'.toString()">
+			AND notice_thr != 'DW시네마'
+		</if>
+	</select>
+	
+	<select id="selectNotice2" resultType="notice">
+		SELECT *
+		FROM (
+			SELECT rownum rnum, n.*
+			FROM (
+				SELECT *
+				FROM notice
+				WHERE gb_del = 'N'
+				ORDER BY regdate DESC
+				) n
+			)
+		WHERE rnum <![CDATA[<=]]> 2
+	</select>
+</mapper>

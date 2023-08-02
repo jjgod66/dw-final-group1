@@ -1,6 +1,5 @@
 package kr.or.dw.service;
 
-import java.net.StandardSocketOptions;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,17 +11,18 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.SystemPropertyUtils;
 
 import kr.or.dw.command.MovieViewerCommand;
 import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.dao.MemberDAO;
 import kr.or.dw.dao.MovieDAO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MoviePreviewVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.ReplyVO;
 import kr.or.dw.vo.ReviewVO;
 
@@ -30,6 +30,9 @@ public class MovieServiceImpl implements MovieService{
 
 	@Autowired
 	private MovieDAO movieDAO;
+	
+	@Autowired
+	private MemberDAO memberDAO;
 	
 	@Override
 	public List<Map<String, Object>> getIndexBoxOfficeMovie10() throws SQLException{
@@ -467,8 +470,42 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	@Override
-	public List<Map<String, Object>> selectMovieInfo(String mem_cd) throws SQLException {
-		return movieDAO.selectMovieInfo(mem_cd);
+	public Map<String, Object> selectMovieInfo(SearchCriteria cri, String mem_cd) throws SQLException {
+		
+		List<Map<String, Object>> movieInfoList = null;
+		List<ProductVO> buyInfoList = null;
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		movieInfoList = movieDAO.selectMovieInfoList(cri, rowBounds, mem_cd);
+		int movieTotalCount = movieDAO.selectSearchMovieInfoListCnt(cri, mem_cd);
+		
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(movieTotalCount);
+
+		buyInfoList = memberDAO.selectBuyInfoList(cri, rowBounds, mem_cd);
+		int buyTotalCount = memberDAO.selectBuyInfoListCnt(cri, mem_cd);
+		
+		PageMaker pageMaker2 = new PageMaker();
+		pageMaker2.setCri(cri);
+		pageMaker2.setTotalCount(buyTotalCount);
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+
+		dataMap.put("movieTotalCount", movieTotalCount);
+		dataMap.put("movieInfoList", movieInfoList);
+
+		dataMap.put("buyTotalCount", buyTotalCount);
+		dataMap.put("buyInfoList", buyInfoList);
+		dataMap.put("pageMaker", pageMaker);
+		dataMap.put("pageMaker2", pageMaker2);
+		
+		
+		
+		return dataMap;
 	}
 
 	@Override
@@ -616,6 +653,46 @@ public class MovieServiceImpl implements MovieService{
 		mpTopMovie = movieDAO.selectMpostTop5();
 		return mpTopMovie;
 	}
+
+	@Override
+	public Map<String, Object> searchMovieInfo(SearchCriteria cri, String mem_cd) throws SQLException {
+		
+		System.out.println("searchType : " + cri.getSearchType());
+		List<Map<String, Object>> movieInfoList = null;
+		List<ProductVO> buyInfoList = null;
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		movieInfoList = movieDAO.searchMovieInfoList(cri, rowBounds, mem_cd);
+		int movieTotalCount = movieDAO.SearchMovieInfoListCnt(cri, mem_cd);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(movieTotalCount);
+		
+		buyInfoList = memberDAO.selectBuyInfoList(cri, rowBounds, mem_cd);
+		int buyTotalCount = memberDAO.selectBuyInfoListCnt(cri, mem_cd);
+		
+		PageMaker pageMaker2 = new PageMaker();
+		pageMaker2.setCri(cri);
+		pageMaker2.setTotalCount(buyTotalCount);
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+
+		dataMap.put("movieTotalCount", movieTotalCount);
+		dataMap.put("movieInfoList", movieInfoList);
+
+		dataMap.put("buyTotalCount", buyTotalCount);
+		dataMap.put("buyInfoList", buyInfoList);
+		
+		dataMap.put("pageMaker", pageMaker);
+		dataMap.put("pageMaker2", pageMaker2);
+		dataMap.put("cri", cri);
+		
+		return dataMap;
+	}
+
 
 
 }

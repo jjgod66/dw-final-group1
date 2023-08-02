@@ -1,5 +1,7 @@
 package kr.or.dw.vo;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -13,4 +15,7 @@ public class ProductVO {
 	private int product_period;
 	private String product_info;
 	private String product_pic_path;
+	private Date buydate;
+	private String gb_use;
+	private Date refunddate;
 }

@@ -69,7 +69,7 @@
 									#{card_name},
 									#{card_number},
 									#{pay_method},
-									'P' || #{merchant_uid} || LPAD(pay_seq.nextval,4,0),
+									'G' || #{merchant_uid} || LPAD(pay_seq.nextval,4,0),
 									#{card_quota},
 									#{status},
 									#{paid_amount},
@@ -89,7 +89,8 @@
 							 amount,
 							 pricesum,
 							 discount,
-							 use_point)
+							 use_point,
+							 gb_cancel)
 					VALUES (
 							 #{merchant_uid},
 							 #{product_cd},
@@ -98,14 +99,15 @@
 							 #{amount},
 							 #{pricesum},
 							 #{discount},
-							 #{use_point}
+							 #{use_point},
+							 'N'
 					)
 					
 	</insert>
 	
 	<insert id="insertMemPro">
-		INSERT INTO mem_product (mem_product_cd, mem_cd, product_cd, gb_use, enddate) VALUES 
-		(#{product_cd} || lpad(mem_pro_seq.nextval,4,0), #{mem_cd}, #{product_cd}, 'N', sysdate + (SELECT product_period FROM product WHERE product_cd = #{product_cd}))
+		INSERT INTO mem_product (mem_product_cd, mem_cd, product_cd, gb_use, enddate, merchant_uid) VALUES 
+		(#{product_cd} || lpad(mem_pro_seq.nextval,4,0), #{mem_cd}, #{product_cd}, 'N', sysdate + (SELECT product_period FROM product WHERE product_cd = #{product_cd}), #{merchant_uid})
 	</insert>
 	
 	<select id="selectBuyResult" resultType="Map">
@@ -131,5 +133,57 @@
 	
 	<insert id="useMemPoint" parameterType="point">
 		INSERT INTO point (point_cd, mem_cd, merchant_uid, point, regdate) VALUES('U' || LPAD(point_seq.nextval,4,0), #{mem_cd}, #{merchant_uid}, #{point}, sysdate)
+	</insert>
+	
+	<insert id="insertMembuy0">
+		INSERT INTO mem_buy (merchant_uid,
+							 product_cd,
+							 mem_cd,
+							 buydate,
+							 amount,
+							 pricesum,
+							 discount,
+							 use_point,
+							 gb_cancel)
+					VALUES (
+							'P' || #{merchant_uid} || LPAD(pay_seq.nextval,4,0),
+							 #{product_cd},
+							 #{mem_cd},
+							 sysdate,
+							 #{amount},
+							 #{pricesum},
+							 #{discount},
+							 #{use_point},
+							 'N'
+					)
+		<selectKey resultType="str" keyProperty="merchant_uid" order="AFTER">
+			SELECT 'P' || #{merchant_uid} || LPAD(pay_seq.currval,4,0) merchant_uid FROM dual
+		</selectKey>
+	</insert>
+	
+	<insert id="insertMemgift0">
+		INSERT INTO mem_buy (merchant_uid,
+							 product_cd,
+							 mem_cd,
+							 buydate,
+							 amount,
+							 pricesum,
+							 discount,
+							 use_point,
+							 gb_cancel)
+					VALUES (
+							'G' || #{merchant_uid} || LPAD(pay_seq.nextval,4,0),
+							 #{product_cd},
+							 #{mem_cd},
+							 sysdate,
+							 #{amount},
+							 #{pricesum},
+							 #{discount},
+							 #{use_point},
+							 'N'
+					)
+		<selectKey resultType="str" keyProperty="merchant_uid" order="AFTER">
+			SELECT 'G' || #{merchant_uid} || LPAD(pay_seq.currval,4,0) merchant_uid FROM dual
+		</selectKey>
 	</insert>
 </mapper>

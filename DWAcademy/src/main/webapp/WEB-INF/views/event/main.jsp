@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp" %>
 <% 
 // https://getbootstrap.kr/docs/5.2/components/card 
@@ -128,7 +130,7 @@
 }
 .event-warpper .event-list ul li a .img {
     width: 100%;
-    height: 244px;
+    height: 100%;
     font-size: 0;
     line-height: 0;
     border-bottom: 1px solid #e4e4e4;
@@ -136,7 +138,7 @@
 }
 .event-warpper .event-list ul li a .img img {
     width: 100%!important;
-    height: 243px!important;
+    height: 290px!important;
 }
 .event-warpper .event-list p {
     display: block;
@@ -252,17 +254,17 @@ button, input, optgroup, select, textarea {
 
 <div class="sub_visual">
     <h3>이벤트</h3>
-    <h6>movie event</h6>
+    <h6>event</h6>
 </div>
-<div class="event-warpper">
-	<div class="container">
+<div class="event-warpper" style="width: 1300px; margin: 0 auto;">
+<!-- 	<div class="container"> -->
 		<h2 class="event-title">진행중인 이벤트 </h2>
 		<div class="tab-list fixed">
 			<ul class="nav nav-tabs">
-				<li class="nav-item active" data-bs-toggle="tab" href="#main"><a href="javascript:;">전체</a></li>
-				<li class="nav-item" data-bs-toggle="tab" href="#movie"><a href="javascript:;">영화</a></li>
-				<li class="nav-item" data-bs-toggle="tab" href="#theater"><a href="javascript:;">극장</a></li>
-				<li class="nav-item" data-bs-toggle="tab" href="#premiere"><a href="javascript:;">시사회/무대인사</a></li>
+				<li class="nav-item active"><a href="<%=request.getContextPath() %>/event/main.do">전체</a></li>
+				<li class="nav-item"><a href="<%=request.getContextPath() %>/event/movie.do">영화</a></li>
+				<li class="nav-item"><a href="<%=request.getContextPath() %>/event/theater.do">극장</a></li>
+				<li class="nav-item"><a href="<%=request.getContextPath() %>/event/stage.do">시사회/무대인사</a></li>
 			</ul>
 		</div>
 		<div class="tab-content">
@@ -270,300 +272,80 @@ button, input, optgroup, select, textarea {
 				<div class="tit-util">
 					<h3 class="tit">영화</h3>
 					<div class="float-end">
-						<a data-bs-toggle="tab" href="#movie" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+						<a href="<%=request.getContextPath() %>/event/movie.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 					</div>
 				</div>
 				  <div class="event-list">
 					<ul>
-						<li>
-							<a href="<%=request.getContextPath()%>/event/eventDetail.do" data-no="13565" data-netfunnel="N" class="eventBtn" title="[여름방학 특집!] 내 생애 첫 미술관 강연 안내 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/27/BMbeiQGzlWVsgHJCqmzvnUAXVS1dKhl5.jpg" alt="[여름방학 특집!] 내 생애 첫 미술관 강연 안내" onerror="noImg(this);"></p>
-								<p class="tit">
-									[여름방학 특집!] 내 생애 첫 미술관 강연 안내
-								</p>
-								<p class="date">
-									2023.07.27 ~ 2023.08.19
-								</p>
-							</a>
-						</li>
-						<li>
-							<a href="#" data-no="13621" data-netfunnel="N" class="eventBtn" title="<비밀의 언덕> 굿즈패키지 상영회 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/05/wImn8PcYkoklSDEhAZplm69ngbSrWKv9.jpg" alt="<비밀의 언덕> 굿즈패키지 상영회" onerror="noImg(this);"></p>
-								<p class="tit">
-									&lt;비밀의 언덕&gt; 굿즈패키지 상영회
-								</p>
-								<p class="date">
-									2023.07.18 ~ 2023.07.18
-								</p>
-							</a>
-						</li>
-						<li>
-							<a href="#" data-no="13489" data-netfunnel="N" class="eventBtn" title="[2023 사건 읽는 영화관] 7월의 사건 : ep06. 마약사건 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/16/GwCeHGK15XqtjH7AlkW9d9GdfdOjztby.jpg" alt="[2023 사건 읽는 영화관] 7월의 사건 : ep06. 마약사건" onerror="noImg(this);"></p>
+						<c:forEach items="${movieEventList }" var="movieEvent">
+							<li>
+								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${movieEvent.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title="${movieEvent.event_title} 상세보기">
+									<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+									<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieEvent.event_thum_path}&item_cd=${movieEvent.event_no}&type=eventThumb" alt="${movieEvent.event_title}" onerror="noImg(this);"></p>
 									<p class="tit">
-									[2023 사건 읽는 영화관] 7월의 사건 : ep06. 마약사건
-								</p>
-								<p class="date">
-									2023.07.16 ~ 2023.07.16
-								</p>
-							</a>
-						</li>
-						<li>
-							<a href="#" data-no="13605" data-netfunnel="N" class="eventBtn" title="<몬스터 패밀리2> 메가박스 X 휘닉스 평창 패키지 프로모션 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/03/nNQsxrvDKLtuAYjyX4Czfj5TQZ0KCiqV.jpg" alt="<몬스터 패밀리2> 메가박스 X 휘닉스 평창 패키지 프로모션" onerror="noImg(this);"></p>
-								<p class="tit">
-									&lt;몬스터 패밀리2&gt; 메가박스 X 휘닉스 평창 패키지 프로모션
-								</p>
-								<p class="date">
-									2023.07.15 ~ 2023.08.06
-								</p>
-							</a>
-						</li>
+										${movieEvent.event_title}
+									</p>
+									<p class="date">
+										<fmt:formatDate value="${movieEvent.startdate}" pattern="yyyy-MM-dd"/> ~ 
+										<fmt:formatDate value="${movieEvent.enddate}" pattern="yyyy-MM-dd"/>
+									</p>
+								</a>
+							</li>
+						</c:forEach>
 					</ul>
 				</div>
 				<div class="tit-util">
 					<h3 class="tit">극장</h3>
 					<div class="float-end">
-						<a href="#" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+						<a href="<%=request.getContextPath() %>/event/theater.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 					</div>
 				</div>
 				<div class="event-list">
 					<ul>
-						<li>
-							<a href="#" data-no="13527" data-netfunnel="N" class="eventBtn" title="[금정AK플라자] 오픈 1주년 기념 이벤트 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/22/lYvh9Hm1azfGygwBm4ew3sAwY6y04FEP.jpg" alt="[금정AK플라자] 오픈 1주년 기념 이벤트" onerror="noImg(this);"></p>
-								<p class="tit">
-									[금정AK플라자] 오픈 1주년 기념 이벤트
-								</p>
-								<p class="date">
-									2023.07.13 ~ 2023.07.13
-								</p>
-							</a>
-						</li>
-						<li>
-							<a href="#" data-no="13594" data-netfunnel="N" class="eventBtn" title="[목동] 리뉴얼 오픈 기념 이벤트 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/30/8Wn3auNq9MoN128Dy5j6074n1dfktnDk.jpg" alt="[목동] 리뉴얼 오픈 기념 이벤트" onerror="noImg(this);"></p>
-								<p class="tit">
-									[목동] 리뉴얼 오픈 기념 이벤트
-								</p>
-								<p class="date">
-									2023.07.01 ~ 2023.07.31
-								</p>
-							</a>
-						</li>
-						<li>
-							<a href="#" data-no="13631" data-netfunnel="N" class="eventBtn" title="[구미강동] 영화보면 팝콘R, 탄산R 증정 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/06/i9uQ59cRIEC4mSucMNpuC6XvmtTiHt94.jpg" alt="[구미강동] 영화보면 팝콘R, 탄산R 증정" onerror="noImg(this);"></p>
-								<p class="tit">
-									[구미강동] 영화보면 팝콘R, 탄산R 증정
-								</p>
-								<p class="date">
-									2023.07.05 ~ 2023.09.27
-								</p>
-							</a>
-						</li>
-						<li>
-							<a href="#" data-no="13543" data-netfunnel="N" class="eventBtn" title="[백석벨라시타] 시원~한 만원 관람 왔썸머!(SUMMER) 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/23/LTLGHvAglnNGUGiyE9ia5Sk51rvmtJTL.jpg" alt="[백석벨라시타] 시원~한 만원 관람 왔썸머!(SUMMER)" onerror="noImg(this);"></p>
-								<p class="tit">
-									[백석벨라시타] 시원~한 만원 관람 왔썸머!(SUMMER)
-								</p>
-								<p class="date">
-									2023.07.03 ~ 2023.08.18
-								</p>
-							</a>
-						</li>
+						<c:forEach items="${theaterEventList }" var="theaterEvent">
+							<li>
+								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${theaterEvent.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title="${theaterEvent.event_title} 상세보기">
+									<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+									<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${theaterEvent.event_thum_path}&item_cd=${theaterEvent.event_no}&type=eventThumb" alt="${theaterEvent.event_title}" onerror="noImg(this);"></p>
+									<p class="tit">
+										${theaterEvent.event_title}
+									</p>
+									<p class="date">
+										<fmt:formatDate value="${theaterEvent.startdate}" pattern="yyyy-MM-dd"/> ~ 
+										<fmt:formatDate value="${theaterEvent.enddate}" pattern="yyyy-MM-dd"/>
+									</p>
+								</a>
+							</li>
+						</c:forEach>
 					</ul>
 				</div>
 				<div class="tit-util">
 					<h3 class="tit">시사회/무대인사</h3>
 					<div class="float-end">
-						<a href="#" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+						<a href="<%=request.getContextPath() %>/event/stage.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 					</div>
 				</div>
 				<div class="event-list">
 					<ul>
-						<li>
-							<a href="#" data-no="13577" data-netfunnel="N" class="eventBtn" title="<해피 메리 엔딩> 무대인사 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/28/3MqLAzGtNUtEYqqdalMMKrirsrqr8jRz.jpg" alt="<해피 메리 엔딩> 무대인사" onerror="noImg(this);"></p>
-								<p class="tit">
-									&lt;해피 메리 엔딩&gt; 무대인사
-								</p>
-								<p class="date">
-									2023.07.14 ~ 2023.07.14
-								</p>
-							</a>
-						</li>
-						<li>
-							<a href="#" data-no="13607" data-netfunnel="N" class="eventBtn" title="<악마들> 개봉주 무대인사 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/03/VVulTlSKPhX0Aa9uwpkjkx5001Fj3tjc.jpg" alt="<악마들> 개봉주 무대인사" onerror="noImg(this);"></p>
-								<p class="tit">
-									&lt;악마들&gt; 개봉주 무대인사
-								</p>
-								<p class="date">
-									2023.07.08 ~ 2023.07.09
-								</p>
-							</a>
-						</li>
-						<li>
-								<a href="#" data-no="13579" data-netfunnel="N" class="eventBtn" title="<몸값> 개봉주 무대인사 &amp; 전우성 감독X이충현 감독 GV 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/28/rDqozT67Q44EDmSsn9bfP04T9OgiSdQA.jpg" alt="<몸값> 개봉주 무대인사 &amp; 전우성 감독X이충현 감독 GV" onerror="noImg(this);"></p>
-								<p class="tit">
-									&lt;몸값&gt; 개봉주 무대인사 &amp; 전우성 감독X이충현 감독 GV
-								</p>
-								<p class="date">
-									2023.07.08 ~ 2023.07.09
-								</p>
-							</a>
-						</li>
-						<li>
-							<a href="#" data-no="13597" data-netfunnel="N" class="eventBtn" title="<빈틈없는 사이> 개봉주 무대인사 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/30/gdPzCANdWJv0nmOIgzi860ZIcDnk7ZvI.jpg" alt="<빈틈없는 사이> 개봉주 무대인사" onerror="noImg(this);"></p>
-								<p class="tit">
-									&lt;빈틈없는 사이&gt; 개봉주 무대인사
-								</p>
-								<p class="date">
-									2023.07.05 ~ 2023.07.09
-								</p>
-							</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<!-- --------------------------------------- -->
-			<!-- -----------------영화 -------------------- -->
-			<!-- --------------------------------------- -->
-			<div class="tab-pane fade" id="movie">
-				<div id="boardSearch" class="inner-wrap" style="">
-					<div class="board-list-util mt40">
-						<p class="result-count"><strong>전체 <b>4</b>건</strong></p>
-							<div class="board-search">
-								<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text">
-								<button type="button" class="btn-search-input">검색</button>
-							</div>
-					</div>
-				</div>
-				  <div class="event-list">
-					<ul>
-						<li>
-							<a href="<%=request.getContextPath()%>/event/eventDetail.do" data-no="13565" data-netfunnel="N" class="eventBtn" title="[여름방학 특집!] 내 생애 첫 미술관 강연 안내 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/27/BMbeiQGzlWVsgHJCqmzvnUAXVS1dKhl5.jpg" alt="[여름방학 특집!] 내 생애 첫 미술관 강연 안내" onerror="noImg(this);"></p>
-								<p class="tit">
-									[여름방학 특집!] 내 생애 첫 미술관 강연 안내
-								</p>
-								<p class="date">
-									2023.07.27 ~ 2023.08.19
-								</p>
-							</a>
-						</li>
-						<li>
-							<a href="#" data-no="13621" data-netfunnel="N" class="eventBtn" title="<비밀의 언덕> 굿즈패키지 상영회 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/05/wImn8PcYkoklSDEhAZplm69ngbSrWKv9.jpg" alt="<비밀의 언덕> 굿즈패키지 상영회" onerror="noImg(this);"></p>
-								<p class="tit">
-									&lt;비밀의 언덕&gt; 굿즈패키지 상영회
-								</p>
-								<p class="date">
-									2023.07.18 ~ 2023.07.18
-								</p>
-							</a>
-						</li>
-						<li>
-							<a href="#" data-no="13489" data-netfunnel="N" class="eventBtn" title="[2023 사건 읽는 영화관] 7월의 사건 : ep06. 마약사건 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/16/GwCeHGK15XqtjH7AlkW9d9GdfdOjztby.jpg" alt="[2023 사건 읽는 영화관] 7월의 사건 : ep06. 마약사건" onerror="noImg(this);"></p>
+						<c:forEach items="${stageEventList }" var="stageEvent">
+							<li>
+								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${stageEvent.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title="${stageEvent.event_title} 상세보기">
+									<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+									<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${stageEvent.event_thum_path}&item_cd=${stageEvent.event_no}&type=eventThumb" alt="${stageEvent.event_title}" onerror="noImg(this);"></p>
 									<p class="tit">
-									[2023 사건 읽는 영화관] 7월의 사건 : ep06. 마약사건
-								</p>
-								<p class="date">
-									2023.07.16 ~ 2023.07.16
-								</p>
-							</a>
-						</li>
-						<li>
-							<a href="#" data-no="13605" data-netfunnel="N" class="eventBtn" title="<몬스터 패밀리2> 메가박스 X 휘닉스 평창 패키지 프로모션 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/03/nNQsxrvDKLtuAYjyX4Czfj5TQZ0KCiqV.jpg" alt="<몬스터 패밀리2> 메가박스 X 휘닉스 평창 패키지 프로모션" onerror="noImg(this);"></p>
-								<p class="tit">
-									&lt;몬스터 패밀리2&gt; 메가박스 X 휘닉스 평창 패키지 프로모션
-								</p>
-								<p class="date">
-									2023.07.15 ~ 2023.08.06
-								</p>
-							</a>
-						</li>
+										${stageEvent.event_title}
+									</p>
+									<p class="date">
+										<fmt:formatDate value="${stageEvent.startdate}" pattern="yyyy-MM-dd"/> ~ 
+										<fmt:formatDate value="${stageEvent.enddate}" pattern="yyyy-MM-dd"/>
+									</p>
+								</a>
+							</li>
+						</c:forEach>
 					</ul>
 				</div>
 			</div>
-				<!-- --------------------------------------- -->
-			<!-- -----------------rm극장  -------------------- -->
-			<!-- --------------------------------------- -->
-			<div class="tab-pane fade" id="theater">
-				<div id="boardSearch" class="inner-wrap" style="">
-					<div class="board-list-util mt40">
-						<p class="result-count"><strong>전체 <b>1</b>건</strong></p>
-							<div class="board-search">
-								<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text">
-								<button type="button" class="btn-search-input">검색</button>
-							</div>
-					</div>
-				</div>
-				  <div class="event-list">
-					<ul>
-						
-						<li>
-							<a href="#" data-no="13527" data-netfunnel="N" class="eventBtn" title="[금정AK플라자] 오픈 1주년 기념 이벤트 상세보기">
-								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-								<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/22/lYvh9Hm1azfGygwBm4ew3sAwY6y04FEP.jpg" alt="[금정AK플라자] 오픈 1주년 기념 이벤트" onerror="noImg(this);"></p>
-								<p class="tit">
-									[금정AK플라자] 오픈 1주년 기념 이벤트
-								</p>
-								<p class="date">
-									2023.07.13 ~ 2023.07.13
-								</p>
-							</a>
-						</li>
-						
-						
-					</ul>
-				</div>
-			</div>	
-				<!-- --------------------------------------- -->
-			<!-- -----------------시사회 무대인사   -------------------- -->
-			<!-- --------------------------------------- -->
-			<div class="tab-pane fade" id="premiere">
-				<div id="boardSearch" class="inner-wrap" style="">
-					<div class="board-list-util mt40">
-						<p class="result-count"><strong>전체 <b>1</b>건</strong></p>
-							<div class="board-search">
-								<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text">
-								<button type="button" class="btn-search-input">검색</button>
-							</div>
-					</div>
-				</div>
-				  <div class="event-list">
-					<ul>
-						<li class="no-list">해당 이벤트가 없습니다.</li>
-					</ul>
-				</div>
-			</div>	
-				
-				
-				
 		</div>
-	</div>
+<!-- 	</div> -->
 </div>
 <%@ include file="../include/footer.jsp" %>

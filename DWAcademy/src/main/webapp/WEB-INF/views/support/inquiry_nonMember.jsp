@@ -58,26 +58,52 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;} #wrapper 
 
 <div id="wrapper"> 
 	<div class="container mt-5">
-
-        <div class="mb-3">
-            <input type="text" class="" id="name" placeholder="*이름을 입력하세요">
-        </div>
-
-        <div class="mb-3">
-            <input type="email" class="" id="email" placeholder="*이메일을 입력하세요">
-        </div>
-
-        <div class="mb-3">
-            <input type="tel" class="" id="phone" placeholder="*휴대전화번호를 입력하세요">
-        </div>
-        <p class="pp">* 비회원 정보 오 입력 시 문의내역 확인이 어려울 수 있으니 다시 한번 확인해 주시기 바랍니다.</p>
-<!--         s나중에 타입을 서브밋으로 바꾸어주세 -->
-        <button type="button" class="btn btn-secondary" onclick="location.href='<%=request.getContextPath()%>/support/inquiry_nonMember_list.do'">비회원 문의내역 확인</button>
-        <br><br><br>
+		<form id="nonMemQLoginForm" action="<%=request.getContextPath()%>/support/inquiry_nonMember_list.do" method="post">
+	        <div class="mb-3">
+	            <input type="text" class="" id="name" name="writer_name" placeholder="*이름을 입력하세요" required>
+	        </div>
+	
+	        <div class="mb-3">
+	            <input type="email" class="" id="email" name="writer_email" placeholder="*이메일을 입력하세요" required>
+	        </div>
+	
+	        <div class="mb-3">
+	            <input type="password" class="" id="pwd" name="writer_pwd" placeholder="*작성시 입력한 비밀번호를 입력하세요" required>
+	        </div>
+	        <p class="pp">* 비회원 정보 오 입력 시 문의내역 확인이 어려울 수 있으니 다시 한번 확인해 주시기 바랍니다.</p>
+	<!--         s나중에 타입을 서브밋으로 바꾸어주세 -->
+	        <button type="button" class="btn btn-secondary" id="nonMemQBtn">비회원 문의내역 확인</button>
+	        <br><br><br>
+		</form>
     </div>
 </div>
 
+<script>
+	$(function(){
+		$('#nonMemQBtn').on('click', function(){
+			let formValues = $("#nonMemQLoginForm").serialize();
+			
+			$.ajax({
+				url : '<%=request.getContextPath()%>/support/nonMemInqChk.do',
+				method : 'post',
+				data : formValues,
+				success : function(res){
+					console.log(res);
+					if(res == 'Y'){
+						$('#nonMemQLoginForm').submit();
+					}else{
+						alert('입력한 정보로 조회되는 문의가 없습니다.');
+						return;
+					}
+				},
+				error : function(err){
+					alert(err.status);
+				}
+			})
+		})
+	})
 
+</script>
 
 
 

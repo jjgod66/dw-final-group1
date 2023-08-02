@@ -1,5 +1,6 @@
 package kr.or.dw.controller;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,15 +23,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.MovieDAO;
+import kr.or.dw.service.CouponService;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.service.NaverLoginBO;
 import kr.or.dw.service.NaverLoginBO2;
 import kr.or.dw.service.SnsService;
+import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MoviePictureVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.SnsVO;
 
 @Controller
@@ -46,6 +51,10 @@ public class MemberController {
 	
 	@Autowired
 	private MovieService movieService;
+	
+	@Autowired
+	private CouponService couponService;
+	
 	
 	/* NaverLoginBO */
 	private NaverLoginBO2 naverLoginBO2;
@@ -145,6 +154,19 @@ public class MemberController {
 		return entity;
 	}
 	
+	@RequestMapping("/member/dormantAccount")
+	public void dormantAccount(String phone, HttpServletResponse res, HttpServletRequest req) throws IOException {
+		System.out.println(phone);
+		
+		res.setContentType("text/html; charset=utf-8");
+	    PrintWriter out = res.getWriter();
+	    out.println("<script>");
+	    out.println("alert('휴면이 해제 되었습니다.');");
+	    out.println("location.href='" + req.getContextPath() + "/';");
+	    out.println("</script>");
+		
+	}
+	
 	@RequestMapping("/member/addition")
 	public ResponseEntity<String> additionUpdate(String gb_sms_alert, String gb_email_alert, HttpSession session) throws SQLException{
 		ResponseEntity<String> entity = null;
@@ -166,21 +188,62 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/bookinglist")
-	public ModelAndView memberBookinglist(ModelAndView mnv, HttpSession session) throws SQLException {
+	public ModelAndView memberBookinglist(SearchCriteria cri, ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/member/bookinglist";
 		
 		MemberVO member = (MemberVO) session.getAttribute("loginUser");
 		String mem_cd = member.getMem_cd();
-		if(member != null) {
-		
-			List<Map<String, Object>> movieInfo = movieService.selectMovieInfo(mem_cd);
-		
-			mnv.addObject("movieInfo", movieInfo);
-			System.out.println(movieInfo.size());
-			System.out.println(movieInfo);
-		}
+		cri.setPerPageNum("5");
+		Map<String, Object> dataMap = movieService.selectMovieInfo(cri, mem_cd);
 		
 		
+		mnv.addAllObjects(dataMap);
+		System.out.println(dataMap);
+		
+		
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/member/searchResDate")
+	public ModelAndView searchResDate(ModelAndView mnv, SearchCriteria cri, HttpSession session) throws SQLException{
+		String url = "/member/bookinglist";
+		System.out.println("cri : " + cri);
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		String mem_cd = member.getMem_cd();
+		cri.setPerPageNum("5");
+		Map<String, Object> dataMap = movieService.searchMovieInfo(cri, mem_cd);
+	
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	@RequestMapping("/member/searchBuyDate")
+	public ModelAndView searchBuyDate(ModelAndView mnv, SearchCriteria cri, HttpSession session) throws SQLException{
+		String url = "/member/bookinglist";
+		
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		String mem_cd = member.getMem_cd();
+		cri.setPerPageNum("5");
+		Map<String, Object> dataMap = memberService.searchBuyInfo(mem_cd, cri);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/member/discount-coupon")
+	public ModelAndView memberDiscountcoupon(ModelAndView mnv, HttpSession session) throws SQLException {
+		String url = "/member/discount-coupon";
+		
+		MemberVO mem_cd = (MemberVO) session.getAttribute("loginUser");
+		
+		List<Map<String, Object>> coupon = couponService.selectAllCoupon(mem_cd);
+		
+		mnv.addObject("coupon", coupon);
 		mnv.setViewName(url);
 		
 		return mnv;

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp" %>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,7 +50,52 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
         }
 
  
+ #quetitle:hover{
+ 	text-decoration: underline;
+ 	cursor: pointer;
+ }
  
+ .board-search {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 230px;
+    height: 36px;
+    margin: 0;
+    padding: 0 31px 0 0;
+    border: 1px solid #d8d9db;
+    border-radius: 3px;
+}
+.board-search .input-text {
+    display: block;
+    width: 100%;
+    height: 34px;
+    border: 0;
+}
+
+.input-text {
+    padding: 0 10px;
+    line-height: 30px;
+    color: #444;
+    vertical-align: middle;
+}
+.board-search .btn-search-input {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+}
+.btn-search-input {
+    overflow: hidden;
+    width: 30px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+    border: 0;
+    text-indent: -9999px;
+    background: #fff url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-search-input.png) no-repeat center;
+}
 </style>
 
 <div class="sub_visual">
@@ -60,15 +107,20 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
 <div id="wrapper">
 
 	<!-- rja검색  -->
-	<div class="finder" style="margin-right: 30px; margin-top: 30px; margin-bottom: 30px;">
-      <div class="finder__outer">
-        <div class="finder__inner">
-          <div class="finder__icon" ref="icon"></div>
-          <input class="finder__input" type="text" name="q" />
-        </div>
-      </div>
-    </div>
-	
+<!-- 	<div class="finder" style="margin-right: 30px; margin-top: 30px; margin-bottom: 30px;"> -->
+<!--       <div class="finder__outer"> -->
+<!--         <div class="finder__inner"> -->
+<!--           <div class="finder__icon" ref="icon"></div> -->
+<!--           <input class="finder__input" type="text" name="q" /> -->
+<!--         </div> -->
+<!--       </div> -->
+<!--     </div> -->
+	<div style="width: 97%; margin: 20px auto; padding-bottom: 30px;">
+		<div class="board-search" style="float: right;">
+			<input type="text" title="제목을 입력해 주세요." placeholder="제목을 입력해 주세요." class="input-text" name="keyword" value="${keyword }">
+			<button type="button" class="btn-search-input" id="eventSearchBtn">검색</button>
+		</div>
+	</div>
 	<div class="container">
         <table>
         		 <colgroup>
@@ -87,40 +139,49 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
                     <th>답변상태</th>
                     <th>등록일</th>
                 </tr>
-                <tr>
-                	<td id="num">1</td>
-                	<td id="num">센터</td>
-                	<td id="num">영화정보문의</td>
-                	<td>
-                		<span class="text-gray-700 px-6 py-3 flex items-center">
-							<input class="modal-btn" type="checkbox" id="modal-btn" name="modal-btn"/>
-					      	<label for="modal-btn">영화 개봉 날짜 문의  </label> 	
-					      	<%@ include file="inquiry_nonMember_list_login.jsp" %>
-						</span>
-					</td>
-                	<td id="num">미답변</td>
-                	<td id="num">2023.07.28</td>
-                </tr>
-                 <tr>
-                	<td id="num">2</td>
-                	<td id="num">센터</td>
-                	<td id="num">영화정보문의</td>
-                	<td>제목이 긴 제목입니다.제목이 긴 제목입니다.제목이 긴 제목입니다.</td>
-                	<td id="num">미답변</td>
-                	<td id="num">2023.07.28</td>
-                </tr>
-                 <tr>
-                	<td id="num">3</td>
-                	<td id="num">센터</td>
-                	<td id="num">영화정보문의</td>
-                	<td>제목</td>
-                	<td id="num">미답변</td>
-                	<td id="num">2023.07.28</td>
-                </tr>
+                <c:forEach items="${qnaList }" var="qna" varStatus="status">
+	                <tr>
+	                	<td id="num"><c:out value="${status.count }"></c:out></td>
+	                	<td id="num">${qna.thr_name }</td>
+	                	<td id="num">${qna.que_type }</td>
+	                	<td id="quetitle" onclick="location.href='<%=request.getContextPath()%>/support/inquiry_nonMember_board.do?que_no=${qna.que_no }'">
+	                		${qna.que_title }
+						</td>
+						<c:if test="${empty qna.ans_content}">
+		                	<td id="num">미답변</td>
+						</c:if>
+						<c:if test="${!empty qna.ans_content}">
+		                	<td id="num">답변완료</td>
+						</c:if>
+	                	<td id="num">
+							<fmt:formatDate value="${qna.regdate }" pattern="yyyy-MM-dd"/>
+	                	</td>
+	                </tr>
+                </c:forEach>
         </table>
+                <c:if test="${empty qnaList }">
+                	<div class="" style="padding-bottom: 10px; margin: auto;">
+						<div style="text-align: center; padding: 50px;">조회된 내역이 없습니다.</div>
+					</div>
+                </c:if>
     </div>
 	
 </div>
-
-
+<form id="qnaSearchForm" method="post" action="<%=request.getContextPath()%>/support/inquiry_nonMember_list.do">
+	<input type="hidden" name="keyword">
+	<input type="hidden" name="writer_name" value="${qnaMem.writer_name }">
+	<input type="hidden" name="writer_email" value="${qnaMem.writer_email }">
+	<input type="hidden" name="writer_pwd" value="${qnaMem.writer_pwd }">
+</form>
+<script>
+	$(function(){
+		$('#eventSearchBtn').on('click', function(){
+			let keyword = $('.board-search input[name="keyword"]').val();
+			$('#qnaSearchForm input[name="keyword"]').val(keyword);
+			
+			
+			$("#qnaSearchForm").submit();
+		})
+	})
+</script>
 <%@ include file="../include/footer.jsp" %>

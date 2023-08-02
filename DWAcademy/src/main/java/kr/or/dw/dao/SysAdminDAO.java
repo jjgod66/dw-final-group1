@@ -274,5 +274,8 @@ public interface SysAdminDAO {
 
 	// 해당 회원 정지 해제
 	void cancelBanMember(String mem_cd) throws SQLException;
+
+	// 이벤트 등록을 위한 영화목록을 가져온다.
+	List<Map<String, Object>> selectMovieListForEventRegist() throws SQLException;
 	
 }

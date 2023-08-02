@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/header.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/faq.css">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -317,7 +318,7 @@ button {
     transition: 0.3s;
 }
 
-::before, ::after {
+.centerList ::before, ::after {
     position: absolute;
     content: "";
 }
@@ -434,6 +435,9 @@ button {
       height: 200px;
   }
 
+.centerList li a:hover{
+	text-decoration: underline;
+}
   </style>
    
   
@@ -450,7 +454,7 @@ button {
 
 	  <div class="main-content">
 	    <div class="image-container">
-	      <a href="#">
+	      <a href="<%=request.getContextPath()%>/member/membership.do">
 	        <img src="/resources/img/member.png" alt="이미지 1">
 	        <h2>멤버쉽</h2>
 	        <p>DW시네마의 자세한 멤버쉽 약관을 확인할 수 있습니다. </p>
@@ -474,11 +478,9 @@ button {
 		        <span>자주 묻는 질문</span>
 		      </h2>
 		      <ul>
-		        <li>dhks완성  되었습니다. </li>
-		        <li>질문 2 - 답변 2</li>
-		        <li>질문 3 - 답변 3</li>
-		        <li>질문 4 - 답변 4</li>
-		        <li>질문 5 - 답변 5</li>
+		      	<c:forEach items="${faqList }" var="faq">
+		       		<li><a href="<%=request.getContextPath()%>/support/faq.do?faq_no=${faq.faq_no}" style="color:#444444; font-size: 15px;">${faq.faq_title}</a></li>
+		      	</c:forEach>
 		        <div class="btn-holder">
 				  <button class="btn btn-4 hover-border-10">
 				   <a href="<%=request.getContextPath()%>/support/faq.do">
@@ -494,11 +496,9 @@ button {
 			        <span>공지사항</span>
 			      </h2>
 		      <ul>
-		        <li>여긴 완성 되었습니다. </li>
-		        <li>공지 2</li>
-		        <li>공지 3</li>
-		        <li>공지 4</li>
-		        <li>공지 5</li>
+		      <c:forEach items="${noticeList }" var="notice">
+		        <li><a href="<%=request.getContextPath()%>/support/notice.do?notice_no=${notice.notice_no}" style="color:#444444; font-size: 15px;">${notice.notice_title }</a></li>
+		      </c:forEach>
 		        <div class="btn-holder">
 				  <button class="btn btn-4 hover-border-10">
 				  	<a href="<%=request.getContextPath()%>/support/notice.do">
@@ -510,20 +510,20 @@ button {
 	    </div>
 	
 	    <!-- 이벤트 이미지 사진 가로로 2개 -->
-	    <div class="notice1">
-	    	<h2>
-	          <span>이벤트</span>
-	        </h2>
-	     </div>
-	    <div class="event">
-	      <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/25/pHWu3B7N4eBD2O1mAxz8lEmOz4GVcum3.jpg" alt="[수원AK플라자] 그랜드 오픈 페스타">
-	      <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/24/Pfe3l661h6014JkhWRSGuT0Yj6N48k22.jpg" alt="메가박스 오리지널 티켓 No.85 <밀수>">
-	    </div>
-   	    <div class="btn-holder">
-		  <button class="btn btn-4 hover-border-10">
-		    <span>더보기</span>
-		  </button>
-		</div>
+<!-- 	    <div class="notice1"> -->
+<!-- 	    	<h2> -->
+<!-- 	          <span>이벤트</span> -->
+<!-- 	        </h2> -->
+<!-- 	     </div> -->
+<!-- 	    <div class="event"> -->
+<!-- 	      <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/25/pHWu3B7N4eBD2O1mAxz8lEmOz4GVcum3.jpg" alt="[수원AK플라자] 그랜드 오픈 페스타"> -->
+<%-- 	      <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/24/Pfe3l661h6014JkhWRSGuT0Yj6N48k22.jpg" alt="메가박스 오리지널 티켓 No.85 <밀수>"> --%>
+<!-- 	    </div> -->
+<!--    	    <div class="btn-holder"> -->
+<!-- 		  <button class="btn btn-4 hover-border-10"> -->
+<!-- 		    <span>더보기</span> -->
+<!-- 		  </button> -->
+<!-- 		</div> -->
 	  </div>
 	  
 	</div>

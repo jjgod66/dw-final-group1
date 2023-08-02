@@ -47,6 +47,7 @@ public class StoreServiceImpl implements StoreService{
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("mem_cd", memBuy.getMem_cd());
 		param.put("product_cd",memBuy.getProduct_cd());
+		param.put("merchant_uid", memBuy.getMerchant_uid());
 		
 		storeDAO.insertMemPro(param);
 		
@@ -84,6 +85,7 @@ public class StoreServiceImpl implements StoreService{
 		Map<String, String> param = new HashMap<String, String>();
 		param.put("mem_cd", memBuy.getMem_cd());
 		param.put("product_cd",memBuy.getProduct_cd());
+		param.put("merchant_uid", memBuy.getMerchant_uid());
 		
 		storeDAO.insertMemPro(param);
 		
@@ -114,6 +116,57 @@ public class StoreServiceImpl implements StoreService{
 		}
 		
 		return point;
+	}
+
+	@Override
+	public String insertMemBuy0GetMUID(MemBuyVO memBuy) throws SQLException {
+		
+		storeDAO.insertMembuy0(memBuy);
+		
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("mem_cd", memBuy.getMem_cd());
+		param.put("product_cd",memBuy.getProduct_cd());
+		param.put("merchant_uid", memBuy.getMerchant_uid());
+		
+		storeDAO.insertMemPro(param);
+		
+		if(memBuy.getUse_point() > 0) {
+			PointVO pointVO = new PointVO();
+			pointVO.setMem_cd(memBuy.getMem_cd());
+			pointVO.setMerchant_uid(memBuy.getMerchant_uid());
+			pointVO.setPoint(memBuy.getUse_point());
+			
+			storeDAO.useMemPoint(pointVO);
+		}
+		
+		return memBuy.getMerchant_uid();
+	}
+
+	@Override
+	public Map<String, Object> insertMemgift0GetMUID(MemBuyVO memBuy) throws SQLException {
+		storeDAO.insertMemgift0(memBuy);
+		
+		Map<String, Object> mapData = null;
+		mapData = storeDAO.selectGiftInfo(memBuy.getMerchant_uid());
+		
+		Map<String, String> param = new HashMap<String, String>();
+		param.put("mem_cd", memBuy.getMem_cd());
+		param.put("product_cd",memBuy.getProduct_cd());
+		param.put("merchant_uid", memBuy.getMerchant_uid());
+		
+		storeDAO.insertMemPro(param);
+		
+		
+		if(memBuy.getUse_point() > 0) {
+			PointVO pointVO = new PointVO();
+			pointVO.setMem_cd(memBuy.getMem_cd());
+			pointVO.setMerchant_uid(memBuy.getMerchant_uid());
+			pointVO.setPoint(memBuy.getUse_point());
+			
+			storeDAO.useMemPoint(pointVO);
+		}
+		
+		return mapData;
 	}
 
 }

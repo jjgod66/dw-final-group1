@@ -19,8 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.IndexMovieCommand;
+import kr.or.dw.service.EventService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.service.NaverLoginBO;
+import kr.or.dw.service.SupportService;
+import kr.or.dw.vo.EventVO;
+import kr.or.dw.vo.NoticeVO;
 
 @Controller
 public class CommonController {
@@ -30,6 +34,12 @@ public class CommonController {
 	
 	@Autowired
 	private MovieService movieService;
+	
+	@Autowired
+	private EventService eventService;
+	
+	@Autowired
+	private SupportService supportService;
 	
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -75,7 +85,14 @@ public class CommonController {
 		mnv.addObject("url", naverAuthUrl);
 		
 		
+		List<EventVO> eventList = null;
+		eventList = eventService.getEvent4();
 		
+		List<NoticeVO> noticeList = null;
+		noticeList = supportService.getNotice2();
+		
+		mnv.addObject("noticeList", noticeList);
+		mnv.addObject("eventList", eventList);
 		mnv.addObject("movieList", movieList);
 		mnv.setViewName(url);
 		return mnv;
@@ -93,6 +110,14 @@ public class CommonController {
 		out.println("location.href='/';");
 		out.println("</script>");
 		out.close();
+	}
+	
+	@RequestMapping("/common/login")
+	public String login(HttpServletRequest req, HttpServletResponse res) {
+		String url = "/common/login";
+		
+		return url;
+		
 	}
 	
 

@@ -1,9 +1,12 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.SnsVO;
 
 public interface MemberService {
@@ -34,5 +37,11 @@ public interface MemberService {
 
 	//회원 정지 전환
 	void unbanMember() throws SQLException;
+
+	// 회원 구매 내역
+	Map<String, Object> selectBuyInfo(SearchCriteria cri, String mem_cd) throws SQLException;
+
+	// 회원 구매 내역 월 단위 조회
+	Map<String, Object> searchBuyInfo(String mem_cd, SearchCriteria cri) throws SQLException;
 	
 }

@@ -528,60 +528,40 @@ h3.tit.small {
 			</div>
 		</div>
 		<!--// location-info -->
-		<h2 class="tit small mt70">이벤트</h2>
-		<div class="event-box">
-			<ul>
-				<li>
-					<a href="#" data-no="13527" data-netfunnel="N" class="eventBtn" title="[금정AK플라자] 오픈 1주년 기념 이벤트 상세보기">
-						<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/22/lYvh9Hm1azfGygwBm4ew3sAwY6y04FEP.jpg" alt="[금정AK플라자] 오픈 1주년 기념 이벤트" onerror="noImg(this);"></p>
-						<p class="tit">
-							[금정AK플라자] 오픈 1주년 기념 이벤트
-						</p>
-						<p class="date">
-							2023.07.13 ~ 2023.07.13
-						</p>
-					</a>
-				</li>
-				<li>
-					<a href="#" data-no="13527" data-netfunnel="N" class="eventBtn" title="[금정AK플라자] 오픈 1주년 기념 이벤트 상세보기">
-						<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/22/lYvh9Hm1azfGygwBm4ew3sAwY6y04FEP.jpg" alt="[금정AK플라자] 오픈 1주년 기념 이벤트" onerror="noImg(this);"></p>
-						<p class="tit">
-							[금정AK플라자] 오픈 1주년 기념 이벤트
-						</p>
-						<p class="date">
-							2023.07.13 ~ 2023.07.13
-						</p>
-					</a>
-				</li>
-				<li>
-					<a href="#" data-no="13527" data-netfunnel="N" class="eventBtn" title="[금정AK플라자] 오픈 1주년 기념 이벤트 상세보기">
-						<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/22/lYvh9Hm1azfGygwBm4ew3sAwY6y04FEP.jpg" alt="[금정AK플라자] 오픈 1주년 기념 이벤트" onerror="noImg(this);"></p>
-						<p class="tit">
-							[금정AK플라자] 오픈 1주년 기념 이벤트
-						</p>
-						<p class="date">
-							2023.07.13 ~ 2023.07.13
-						</p>
-					</a>
-				</li>
-				<li>
-					<a href="#" data-no="13527" data-netfunnel="N" class="eventBtn" title="[금정AK플라자] 오픈 1주년 기념 이벤트 상세보기">
-						<p class="img"> <img src="https://img.megabox.co.kr/SharedImg/event/2023/06/22/lYvh9Hm1azfGygwBm4ew3sAwY6y04FEP.jpg" alt="[금정AK플라자] 오픈 1주년 기념 이벤트" onerror="noImg(this);"></p>
-						<p class="tit">
-							[금정AK플라자] 오픈 1주년 기념 이벤트
-						</p>
-						<p class="date">
-							2023.07.13 ~ 2023.07.13
-						</p>
-					</a>
-				</li>
-
-			</ul>
+		<div class="tit-util" style="border-bottom: solid 1px black; padding-bottom: 10px;">
+			<h2 class="tit small">이벤트</h3>
+			<div class="float-end">
+				<a href="/event/theater.do?keyword=${theater.thr_name }" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+			</div>
+		</div>
+		<div class="event-box" style="margin-top:20px;">
+			<c:if test="${empty eventList }">
+				<div style="text-align: center; margin: 50px 0;">이벤트가 없습니다.</div>
+			</c:if>
+			<c:if test="${!empty eventList }">
+				<ul>
+					<c:forEach items="${eventList }" var="event">
+						<li>
+							<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${event.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title=${event.event_title}">
+								<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+								<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" alt="${event.event_title}" onerror="noImg(this);"></p>
+								<p class="tit">
+									${event.event_title}
+								</p>
+								<p class="date">
+									<fmt:formatDate value="${event.startdate}" pattern="yyyy-MM-dd"/> ~ 
+									<fmt:formatDate value="${event.enddate}" pattern="yyyy-MM-dd"/>
+								</p>
+							</a>
+						</li>
+					</c:forEach>
+				</ul>
+			</c:if>
 		</div>
 		<div class="tit-util">
 			<h2 class="tit small">공지사항</h3>
 			<div class="float-end">
-				<a href="/support/notice.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="/support/notice.do?searchType=지점&keyword=${theater.thr_name  }" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div id="brchNoti" style="margin-bottom : 20px;">
@@ -596,7 +576,7 @@ h3.tit.small {
 						<c:forEach items="${noticeList }" var="notice">
 							<li>
 								<div class="title ">
-									<a href="" title="${notice.notice_title }">
+									<a href="#" title="${notice.notice_title }">
 										<div class="cont-tit">${notice.notice_title }</div>
 										<p class="cont-admin">${notice.notice_thr }</p>
 										<p class="cont-date"><fmt:formatDate value="${notice.regdate }" pattern="yyyy-MM-dd"/> </p>

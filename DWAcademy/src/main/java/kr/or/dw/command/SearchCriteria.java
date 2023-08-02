@@ -12,6 +12,7 @@ public class SearchCriteria {
 	private String adminType = "";
 	private String orderType = "";	// 검색구분2
 	private String keyword = "";	// 검색어
+	private String monthKeyword = "";
 	
 	public SearchCriteria() {};
 	

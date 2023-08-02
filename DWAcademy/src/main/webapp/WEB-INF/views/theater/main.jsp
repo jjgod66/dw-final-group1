@@ -146,8 +146,8 @@
     <h3>전체극장</h3>
     <h6>whole theater</h6>
 </div>
-<div class="theater-wrapper">
-	<div class="container">
+<div class="theater-wrapper" style="width: 1300px; margin: 0 auto;">
+<!-- 	<div class="container"> -->
 		<div class="tit-util">
 			<h3 class="tit">전체 극장</h3>
 		</div>
@@ -175,7 +175,7 @@
 		<div class="tit-util">
 			<h3 class="tit">극장 이벤트</h3>
 			<div class="float-end">
-				<a href="<%=request.getContextPath()%>/event/main.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/event/theater.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div class="event-box" style="margin-top: 20px;">
@@ -186,7 +186,7 @@
 			<ul>
 				<c:forEach items="${eventList }" var="event">
 					<li>
-						<a href="#" data-netfunnel="N" class="eventBtn">
+						<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${event.event_no}" data-netfunnel="N" class="eventBtn">
 							<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" onerror="noImg(this);"></p>
 							<p class="tit">
 								${event.event_title }
@@ -205,7 +205,7 @@
 		<div class="tit-util">
 			<h3 class="tit">극장 공지사항</h3>
 			<div class="float-end">
-				<a href="<%=request.getContextPath()%>/support/notice.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/support/notice.do?searchType=지점" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div class="accordion-list">
@@ -231,7 +231,7 @@
 			</c:if>
 		</div>
 
-	</div>
+<!-- 	</div> -->
 </div>
 
 <script>

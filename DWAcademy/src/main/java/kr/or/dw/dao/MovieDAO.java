@@ -4,9 +4,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import kr.or.dw.command.SearchCriteria;
@@ -299,10 +299,12 @@ public interface MovieDAO {
 
 	/**
 	 * 마이페이지 예매 정보를 가져오는 메서드
+	 * @param rowBounds 
+	 * @param cri 
 	 * @param mem_cd
 	 * @return
 	 */
-	List<Map<String, Object>> selectMovieInfo(String mem_cd) throws SQLException;
+	List<Map<String, Object>> selectMovieInfoList(SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd) throws SQLException;
 
 	/**
 	 * 무비포스트 작성 메서드
@@ -429,6 +431,30 @@ public interface MovieDAO {
 	 * @return
 	 */
 	List<Map<String, Object>> selectMpostTop5() throws SQLException;
+
+	/**
+	 * 예매 내역 조회
+	 * @param mem_cd
+	 * @param searchVal
+	 * @return
+	 */
+	List<Map<String, Object>> searchMovieInfoList(@Param("cri")SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd") String mem_cd) throws SQLException;
+
+	/**
+	 * 예매 내역의 모든 카운트
+	 * @param cri
+	 * @param mem_cd 
+	 * @return
+	 */
+	int selectSearchMovieInfoListCnt(SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	/**
+	 * 예매 내역의 검색한 카운트
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	int SearchMovieInfoListCnt(@Param("cri")SearchCriteria cri, @Param("mem_cd") String mem_cd) throws SQLException;
 
 
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/header.jsp" %>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -130,6 +131,7 @@ margin-right: auto;
 
 .menu-list li a:hover {
   background-color: #f0f0f0;
+  cursor: pointer;
 }
 
 
@@ -153,6 +155,48 @@ margin-right: auto;
     margin: auto;
     border-radius: 50%;
 }
+.board-search {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    width: 230px;
+    height: 36px;
+    margin: 0;
+    padding: 0 31px 0 0;
+    border: 1px solid #d8d9db;
+    border-radius: 3px;
+}
+.board-search .input-text {
+    display: block;
+    width: 100%;
+    height: 34px;
+    border: 0;
+}
+
+.input-text {
+    padding: 0 10px;
+    line-height: 30px;
+    color: #444;
+    vertical-align: middle;
+}
+.board-search .btn-search-input {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+}
+.btn-search-input {
+    overflow: hidden;
+    width: 30px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+    border: 0;
+    text-indent: -9999px;
+    background: #fff url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-search-input.png) no-repeat center;
+}
+
 </style>
 <div class="sub_visual">
     <h3>자주 묻는 질문</h3>
@@ -162,83 +206,84 @@ margin-right: auto;
 <div id="wrapper">
 	<nav class="menu-navbar">
 	  <ul class="menu-list">
-	    <li><a href="#">전체</a></li>
-	    <li><a href="#">영화예매 </a></li>
-	    <li><a href="#">할인혜택 </a></li>
-	    <li><a href="#">결제수단/관람권 </a></li>
-	    <li><a href="#">멤버쉽 </a></li>
-	  </ul>
-	  <ul class="menu-list">
-	    <li><a href="#">VIP </a></li>
-	    <li><a href="#">극장</a></li>
-	    <li><a href="#">특별관 </a></li>
-	    <li><a href="#">스토어</a></li>
-	    <li><a href="#">홈페이지/모바일</a></li>
+	    <li><a data-faq_div="전체">전체</a></li>
+	    <li><a data-faq_div="영화예매">영화예매</a></li>
+	    <li><a data-faq_div="할인혜택">할인혜택</a></li>
+	    <li><a data-faq_div="결제수단">결제수단</a></li>
+	    <li><a data-faq_div="멤버쉽">멤버쉽</a></li>
+<!-- 	  </ul> -->
+<!-- 	  <ul class="menu-list"> -->
+	    <li><a data-faq_div="VIP">VIP</a></li>
+	    <li><a data-faq_div="극장">극장</a></li>
+<!-- 	    <li><a href="#">특별관 </a></li> -->
+	    <li><a data-faq_div="스토어">스토어</a></li>
+	    <li><a data-faq_div="홈페이지">홈페이지</a></li>
 	  </ul>
 	</nav>
-	
+	<div style="display: none">
+		<select name="searchType">
+			<option value="전체">전체</option>
+			<option value="영화예매">영화예매</option>
+			<option value="할인혜택">할인혜택</option>
+			<option value="결제수단">결제수단</option>
+			<option value="멤버쉽">멤버쉽</option>
+			<option value="VIP">VIP</option>
+			<option value="극장">극장</option>
+			<option value="스토어">스토어</option>
+			<option value="홈페이지">홈페이지</option>
+		</select>
+	</div>
 	<!-- rja검색기능  -->
-	 <div class="finder" style="margin-right: 70px;">
-      <div class="finder__outer">
-        <div class="finder__inner">
-          <div class="finder__icon" ref="icon"></div>
-          <input class="finder__input" type="text" name="q" />
-        </div>
-      </div>
-    </div>
+<!-- 	 <div class="finder" style="margin-right: 70px;"> -->
+<!--       <div class="finder__outer"> -->
+<!--         <div class="finder__inner"> -->
+<!--           <div class="finder__icon" ref="icon"></div> -->
+<!--           <input class="finder__input" type="text" name="q" /> -->
+<!--         </div> -->
+<!--       </div> -->
+<!--     </div> -->
 	
+	<div style="width: 80%; margin: 0 auto;">
+		<div class="board-search" style="">
+			<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" name="keyword" value="${pageMaker.cri.keyword }">
+			<button type="button" class="btn-search-input" id="eventSearchBtn">검색</button>
+		</div>
+	</div>
 	
 	<ul class="faq_list" id="faqAllBox">
-					<li>
-						<div class="q">
-							<img src="/resources/img/faq.png">
-							<span class="sp">[극장]</span>
-							<a href="#faq_1">영화를 예매하고 싶어요. 어떻게 하나요 ? </a>
-						</div>
-						<div class="a" id="faq_1">
-								<p>
-									안녕하세요. dw시네마 지점장입니다 .
-								<br>비회원으로도 가능합니다. 
-								</p>
-						</div>
-					</li>
-				
-					<li>
-						<div class="q">
-							<img src="/resources/img/faq.png">
-							<span class="sp">[환불]</span>
-							<a href="#faq_1">인터넷 예매시 환불 가능한가요?</a>
-						</div>
-						
-						<div class="a" id="faq_1">
-								<p>
-									안녕하세요. dw시네마 지점장입니다.
-								<br>환불가능합니다. 날짜를 확인해주세요.
-								</p>
-						</div>
-					</li>
-					<li>
-						<div class="q">
-							<img src="/resources/img/faq.png">
-							<span class="sp">[환불]</span>
-							<a href="#faq_1">길이가 긴 제목의 질문입니다. 길이가 긴 제목의 질문입니다. 길이가 긴 제목의 질문입니다.길이가 긴 제목의 질문입니다.</a>
-						</div>
-						
-						<div class="a" id="faq_1">
-								<p>
-									안녕하세요. dw시네마 지점장입니다.
-								<br>길이가 긴 제목의 질문입니다. 길이가 긴 제목의 질문입니다. 길이가 긴 제목의 질문입니다.길이가 긴 제목의 질문입니다.
-								길이가 긴 제목의 질문입니다. 길이가 긴 제목의 질문입니다. 길이가 긴 제목의 질문입니다.길이가 긴 제목의 질문입니다.
-								길이가 긴 제목의 질문입니다. 길이가 긴 제목의 질문입니다. 길이가 긴 제목의 질문입니다.길이가 긴 제목의 질문입니다.
-								</p>
-						</div>
-					</li>
-			</ul>
-
-
-
+		<c:if test="${empty faqList }">
+			<div class="" style="padding-bottom: 10px; margin: auto;">
+				<div style="text-align: center; padding: 50px;">조회된 내역이 없습니다.</div>
+			</div>
+		</c:if>
+		<c:forEach items="${faqList }" var="faq">
+			<li data-faq_no="${faq.faq_no }">
+				<div class="q">
+					<img src="/resources/img/faq.png">
+					<span class="sp">[${faq.faq_div }]</span>
+					<a href="#faq_1">${faq.faq_title }</a>
+				</div>
+				<div class="a" id="faq_1">
+						<p>
+							${faq.faq_content }
+						</p>
+				</div>
+			</li>
+		</c:forEach>
+	</ul>
+<c:if test="${empty faqList }">
+	<div class="mt-5 mb-5 paginationdiv" style="display: none">
+		<%@ include file="../common/pagination.jsp" %>
+	</div>
+</c:if>
+<c:if test="${!empty faqList }">
+	<div class="mt-5 mb-5 paginationdiv">
+		<%@ include file="../common/pagination.jsp" %>
+	</div>
+</c:if>
 
 </div>
+
 <script>
 	$(function() {
 		$(".faq_list .q").on("click",function(){
@@ -246,6 +291,33 @@ margin-right: auto;
 			$(this).parents("li").toggleClass("open");
 			return false;
 		});
+		
+		$("#eventSearchBtn").on('click', function(){
+			searchList_go(1);
+		});
+		
+		$(".menu-list li a").on('click', function(){
+			let faq_div = $(this).text();
+			console.log(faq_div);
+			$('select[name="searchType"]').val(faq_div);
+			searchList_go(1);
+		})
 	});
+let searchFormUrl = 'faq.do';
+
+let searchT = '${pageMaker.cri.searchType}';
+$('select[name="searchType"]').val(searchT);
+$('.menu-list li a[data-faq_div="' + searchT + '"]').css("background-color", "#f0f0f0");
+
+let no = '${faq_no}';
+console.log(no);
+if(no != 0){
+	$('.faq_list li[data-faq_no="' + no + '"]').addClass("open");
+	 var offset = $('.open').offset();
+     $('html, body').animate({scrollTop : offset.top - 200}, 400);
+}
+
 </script>
+
+
 <%@ include file="../include/footer.jsp" %>

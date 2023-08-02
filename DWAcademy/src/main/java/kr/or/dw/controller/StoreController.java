@@ -40,6 +40,9 @@ public class StoreController {
 		String url = "/store/index";
 		
 		List<ProductVO> productList = null;
+		if(CategoryIdx == null) {
+			CategoryIdx = "1";
+		}
 		productList = storeService.selectProDiv(CategoryIdx);
 		
 		mnv.addObject("productList", productList);
@@ -136,6 +139,69 @@ public class StoreController {
 		return merchant_uid;
 		
 		
+	}
+	
+	@RequestMapping("/buy0ResultRedirect")
+	public String buy0ResultRedirect(StoreBuyCommand sbc, HttpSession session) throws SQLException{
+		
+		String merchant_uid = buy0Result(sbc, (MemberVO) session.getAttribute("loginUser"));
+		
+		return "redirect:/store/buySuccess.do?merchant_uid=" + merchant_uid;
+	}
+	
+	public String buy0Result(StoreBuyCommand sbc, MemberVO member) throws SQLException{
+		
+		MemBuyVO memBuy = new MemBuyVO();
+		memBuy.setAmount(sbc.getAmount());
+		memBuy.setMem_cd(member.getMem_cd());
+		memBuy.setPricesum(sbc.getPricesum());
+		memBuy.setMerchant_uid(sbc.getMerchant_uid());
+		memBuy.setProduct_cd(sbc.getProduct_cd());
+		memBuy.setDiscount(sbc.getDiscount());
+		memBuy.setUse_point(sbc.getUse_point());
+		String merchant_uid = null;
+		
+		merchant_uid = storeService.insertMemBuy0GetMUID(memBuy);
+		
+		return merchant_uid;
+	}
+	
+	@RequestMapping("/gift0ResultRedirect")
+	public ModelAndView gift0ResultRedirect(ModelAndView mnv, StoreBuyCommand sbc, HttpSession session) throws SQLException{
+		String url = "/store/giftSMS";
+		Map<String, Object> dataMap = null;
+		dataMap = gift0Result(sbc, (MemberVO) session.getAttribute("loginUser"));
+		
+		GiftSMSCommand gsc = new GiftSMSCommand();
+		gsc.setMem_name(((MemberVO) session.getAttribute("loginUser")).getMem_name());
+		gsc.setMerchant_uid((String) dataMap.get("MERCHANT_UID"));
+		gsc.setProduct_name((String) dataMap.get("PRODUCT_NAME"));
+		gsc.setProduct_period(Integer.parseInt(String.valueOf(dataMap.get("PRODUCT_PERIOD"))));
+		gsc.setToname(sbc.getToname());
+		gsc.setTophone(sbc.getTophone());
+		
+		mnv.addObject("giftInfo", gsc);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	public Map<String, Object> gift0Result(StoreBuyCommand sbc, MemberVO member) throws SQLException{
+		
+		MemBuyVO memBuy = new MemBuyVO();
+		memBuy.setAmount(sbc.getAmount());
+		memBuy.setMem_cd(member.getMem_cd());
+		memBuy.setPricesum(sbc.getPricesum());
+		memBuy.setMerchant_uid(sbc.getMerchant_uid());
+		memBuy.setProduct_cd(sbc.getProduct_cd());
+		memBuy.setDiscount(sbc.getDiscount());
+		memBuy.setUse_point(sbc.getUse_point());
+		
+		Map<String, Object> dataMap = null;
+		
+		
+		dataMap = storeService.insertMemgift0GetMUID(memBuy);
+		
+		return dataMap;
 	}
 	
 	@RequestMapping("/giftResult")

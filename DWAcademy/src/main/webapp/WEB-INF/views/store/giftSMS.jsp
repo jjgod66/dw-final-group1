@@ -26,7 +26,7 @@
 			},
 			success : function(res){
 				console.log(res);
-				alert("메시지를 전송하였습니다.");
+				alert("선물이 완료되었습니다.");
 				location.href="<%=request.getContextPath()%>/store/giftSuccess.do?merchant_uid=" + merchant_uid;
 			},
 			error : function(err){

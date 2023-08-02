@@ -112,7 +112,7 @@ button {
     float: none;
     width: 100%;
     margin: 0;
-    padding: 20px 120px 20px 0;
+    padding: 20px 0;
     border-bottom: 1px solid #ebebeb;
 }
 li {
@@ -193,6 +193,29 @@ li {
     line-height: 1.1;
     color: #666;
 }
+
+.winnerBtn {
+    height: 36px;
+    margin: 0;
+    padding: 0 15px;
+    text-align: center;
+    line-height: 34px;
+    color: #4aa8d8;
+    font-weight: 400;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid #4aa8d8;
+    vertical-align: middle;
+    background-color: #fff;
+    cursor: pointer;
+    margin-top: 25px;
+}
+
+.winnerBtn:hover{
+	 color: #fff;
+	background-color: #4aa8d8;
+}
+
 /* .btn-more {
     position: relative;
     padding: 40px 0 0 0;
@@ -246,7 +269,7 @@ i {
 
 <div class="sub_visual" >
     <h3>지난 이벤트</h3>
-    <h6>movie event</h6>
+    <h6>end event</h6>
 </div>
 
 <div id="contents" class="">
@@ -255,9 +278,9 @@ i {
 		<h2 class="tit">지난 이벤트</h2>
 		<ul class="dot-list">
 			<!-- 로그인 전 -->
-			<li class="bi bi-chevron-right">응모하신 이벤트의 당첨 여부는 당첨자발표의
-				<a href=""><strong class="font-gblue">나의 응모결과 확인</strong></a> 을 통해 확인하실 수 있습니다.
-			</li>
+<!-- 			<li class="bi bi-chevron-right">응모하신 이벤트의 당첨 여부는 당첨자발표의 -->
+<!-- 				<a href=""><strong class="font-gblue">나의 응모결과 확인</strong></a> 을 통해 확인하실 수 있습니다. -->
+<!-- 			</li> -->
 			<!--// 로그인 전 -->
 		</ul>
 	</div>
@@ -265,13 +288,13 @@ i {
 	<div id="boardSearch" class="inner-wrap" style="">
 		<div class="board-list-util mt0">
 			<p class="result-count">
-				<strong>전체 <b class="font-gblue">20</b>건
+				<strong>전체 <b class="font-gblue">${totalCount }</b>건
 				</strong>
 			</p>
 			<div class="board-search">
 				<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요."
-					class="input-text" value="${cri.keyword }">
-				<button type="button" class="btn-search-input" onclick="searchList_go()">검색</button>
+					class="input-text" value="${pageMaker.cri.keyword }" name="keyword">
+				<button type="button" class="btn-search-input" id="search">검색</button>
 			</div>
 		</div>
 	</div>
@@ -281,167 +304,58 @@ i {
 		<div class="inner-wrap">
 			<div class="event-list finish ">
 				<input type="hidden" id="totCount" name="totCount" value="10138">
+				<c:if test="${empty eventList }">
+					<div style="text-align: center; margin: 50px 0;">이벤트가 없습니다.</div>
+				</c:if>
 				<ul>
-					<li><a href="#" data-no="12857" data-netfunnel="N"
-						class="eventBtn" title="[수도권동부] <스즈메의 문단속> 개봉 기념 컵홀더 증정 상세보기">
-							<p class="cate">극장</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/03/10/ykLrzRBYeDDSTdjahHNUvWNPrOTVv3s4.jpg"
-									alt="[수도권동부] <스즈메의 문단속> 개봉 기념 컵홀더 증정" onerror="noImg(this);">
-							</p>
-							<p class="tit">[수도권동부] &lt;스즈메의 문단속&gt; 개봉 기념 컵홀더 증정</p>
-							<p class="date">2023.03.10 ~ 2024.03.10</p>
-					</a></li>
-					<li><a href="#" data-no="12411" data-netfunnel="N"
-						class="eventBtn" title="[대구이시아] 라운지 이용권 런칭! 상세보기">
-							<p class="cate">극장</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2022/12/27/IwOFR5fvobJmrVwYXm4M8cqjdwQj0LoO.jpg"
-									alt="[대구이시아] 라운지 이용권 런칭!" onerror="noImg(this);">
-							</p>
-							<p class="tit">[대구이시아] 라운지 이용권 런칭!</p>
-							<p class="date">2022.12.15 ~ 2023.12.31</p>
-					</a></li>
-					<li><a href="#" data-no="13193" data-netfunnel="N"
-						class="eventBtn" title="[대전] 꽝 없는 추억의뽑기 도전 상세보기">
-							<p class="cate">극장</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/04/28/NfvExHLEpeZt5CkL6Vebn4kA77m6C0r0.jpg"
-									alt="[대전] 꽝 없는 추억의뽑기 도전" onerror="noImg(this);">
-							</p>
+					<c:forEach items="${eventList }" var="event">
+						<li style="display: flex;">
+							<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${event.event_no}" data-no="12857" data-netfunnel="N"
+								class="eventBtn" title="${event.event_title } 상세보기" style="width: 90%;">
+									<p class="cate">${event.event_div }</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
+									<p class="img">
+										<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb"
+											alt="${event.event_title }" onerror="noImg(this);">
+									</p>
+									<p class="tit">${event.event_title }</p>
+									<p class="date">
+										<fmt:formatDate value="${event.startdate}" pattern="yyyy-MM-dd"/> ~ 
+										<fmt:formatDate value="${event.enddate}" pattern="yyyy-MM-dd"/>
+									</p>
+							</a>
+							<c:if test="${event.winnerdate != null }">
+								<input class="winnerBtn" type="button" value="당첨자확인" onclick="location.href='<%=request.getContextPath()%>/event/winnerResult.do?event_no=${event.event_no }'">
+							</c:if>
+						</li>
+					</c:forEach>
 
-							<p class="tit">[대전] 꽝 없는 추억의뽑기 도전</p>
-
-							<p class="date">2023.04.29 ~ 2023.07.30</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13496" data-netfunnel="N"
-						class="eventBtn" title="<스파이더맨: 어크로스 더 유니버스> 굿즈패키지 출시 상세보기">
-
-							<p class="cate">메가Pick</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/16/Qz45m9eNO0QsxDecSNJy0IuddtujoyFZ.jpg"
-									alt="<스파이더맨: 어크로스 더 유니버스> 굿즈패키지 출시" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">&lt;스파이더맨: 어크로스 더 유니버스&gt; 굿즈패키지 출시</p>
-
-							<p class="date">2023.06.16 ~ 2023.07.15</p>
-					</a></li>
-
-					<li><a href="#" data-no="12907" data-netfunnel="N"
-						class="eventBtn" title="[시네 마인드 런] 강연 안내 상세보기">
-
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/03/16/7AlRSMCK2h3NfxrZ1ldw59wwwU611pIJ.jpg"
-									alt="[시네 마인드 런] 강연 안내" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">[시네 마인드 런] 강연 안내</p>
-
-							<p class="date">2023.06.08 ~ 2023.07.06</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13500" data-netfunnel="N"
-						class="eventBtn" title="[시네 마인드 런] 여섯 번째 강연: 행복으로 가는 길 상세보기">
-
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/16/ycudb5v4EgOjqt6Pn55hKchWYSmSVkOt.jpg"
-									alt="[시네 마인드 런] 여섯 번째 강연: 행복으로 가는 길" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">[시네 마인드 런] 여섯 번째 강연: 행복으로 가는 길</p>
-
-							<p class="date">2023.07.06 ~ 2023.07.06</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13613" data-netfunnel="N"
-						class="eventBtn" title="[악마들] 선착순 빵원티켓 상세보기">
-
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/07/04/zTwekRfpvXXE1Ay8xbjza5VUkcxBrA4W.jpg"
-									alt="[악마들] 선착순 빵원티켓" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">[악마들] 선착순 빵원티켓</p>
-
-							<p class="date">2023.07.05 ~ 2023.07.06</p>
-					</a></li>
-
-
-					
-
-
-					<li><a href="#" data-no="13586" data-netfunnel="N"
-						class="eventBtn" title="[보 이즈 어프레이드] 선착순 빵원티켓 상세보기">
-
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/29/IR5QVPsVS1hYgIrhxhMLCruCcmDdvFUc.jpg"
-									alt="[보 이즈 어프레이드] 선착순 빵원티켓" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">[보 이즈 어프레이드] 선착순 빵원티켓</p>
-
-							<p class="date">2023.07.03 ~ 2023.07.04</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13587" data-netfunnel="N"
-						class="eventBtn" title="[풍재기시] 선착순 빵원티켓 상세보기">
-
-							<p class="cate">영화</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/29/4ZuId8BsomtCCyNg3D2uEMLuGss9wMmw.jpg"
-									alt="[풍재기시] 선착순 빵원티켓" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">[풍재기시] 선착순 빵원티켓</p>
-
-							<p class="date">2023.07.03 ~ 2023.07.04</p>
-					</a></li>
-
-
-					<li><a href="#" data-no="13523" data-netfunnel="N"
-						class="eventBtn" title="<귀공자> 2주차 무대인사 상세보기">
-
-							<p class="cate">시사회/무대인사</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-							<p class="img">
-								<img
-									src="https://img.megabox.co.kr/SharedImg/event/2023/06/21/Cd9O7OTaiQfhcsNMBik0lI4cZMSE0Nw2.jpg"
-									alt="<귀공자> 2주차 무대인사" onerror="noImg(this);">
-							</p>
-
-							<p class="tit">&lt;귀공자&gt; 2주차 무대인사</p>
-
-							<p class="date">2023.06.28 ~ 2023.07.02</p>
-					</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
+	<div class="mt-5 mb-5 paginationdiv">
+		<%@ include file="../common/pagination.jsp" %>
+	</div>
 
-
-	<%@ include file="/WEB-INF/views/event/eventPagination.jsp" %>
+<%-- 	<%@ include file="/WEB-INF/views/event/eventPagination.jsp" %> --%>
 
 	</div>
 </div>
 
 
+<script>
 
+let searchFormUrl = '<%=request.getContextPath()%>/event/eventPast.do';
+
+$(function(){
+	let evlist = '${eventList}';
+	if(evlist == '[]'){
+		$('.paginationdiv').css('display', 'none');
+	}
+	
+	$('#search').on('click', function(){
+		searchList_go(1);
+	})
+})
+</script>
 <%@ include file="../include/footer.jsp"%>

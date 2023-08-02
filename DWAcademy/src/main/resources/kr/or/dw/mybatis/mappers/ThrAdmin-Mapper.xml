@@ -46,6 +46,12 @@
 			)
 	</sql>
 	
+	<sql id="searchPastEvent">
+		AND (
+			event_title LIKE '%' || #{keyword} || '%'
+			)
+	</sql>
+	
 	<select id="selectAllScreens" resultType="movie">
 		SELECT *
 		FROM movie
@@ -324,7 +330,7 @@
 	<select id="selectEventList" resultType="event">
 		SELECT e.* 
  	  	  FROM event e, THEATER t 
- 		 WHERE e.RELATE_CD = t.THR_NAME
+ 		 WHERE e.RELATE_CD = t.ADMIN_CD
 		   AND enddate <![CDATA[>=]]> SYSDATE
 		   AND t.admin_cd = #{adminType}
 		   AND e.event_div = '극장'
@@ -335,10 +341,110 @@
 	<select id="selectSearchEventListCount" resultType="int">
 		SELECT COUNT(*)
  	  	  FROM event e, THEATER t 
- 		 WHERE e.RELATE_CD = t.THR_NAME
+ 		 WHERE e.RELATE_CD = t.ADMIN_CD
 		   AND enddate <![CDATA[>=]]> SYSDATE
 		   AND t.admin_cd = #{adminType}
 		   AND e.event_div = '극장'
 		 <include refid="searchEvent"/>
+	</select>
+	
+	<select id="selectEventListforPast" resultType="event">
+		SELECT *
+		  FROM event e, winner_board w
+		 WHERE enddate <![CDATA[<]]> SYSDATE
+		   AND e.event_no = w.event_no(+)
+		   AND e.relate_cd = #{adminType}
+		 <include refid="searchPastEvent"/>
+	</select>
+	
+	<select id="selectEventListforPastCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM event e, winner_board w
+		 WHERE enddate <![CDATA[<]]> SYSDATE
+		   AND e.event_no = w.event_no(+)
+		   AND e.relate_cd = #{adminType}
+		 <include refid="searchPastEvent"/>
+	</select>
+	
+	<select id="selectMovieListforMovieMain" resultType="map">
+		SELECT MAX(m.MOVIE_CD) movie_cd, MAX(m.MOVIE_NAME) movie_name, MAX(m.MOVIE_INFO) MOVIE_INFO 
+			 , MAX(m.MOVIE_DIRECTOR) movie_director, MAX(m.MOVIE_ACTOR) movie_actor, MAX(m.MOVIE_GRADE) MOVIE_GRADE 
+			 , MAX(m.MOVIE_LENGTH) MOVIE_LENGTH, MAX(m.MOVIE_MAINPIC_PATH) movie_mainpic_path
+			 , MAX(m.OPENDATE) opendate, MAX(m.ENDDATE) enddate,  LISTAGG(mt.MOVIE_TYPE_DES, ',') WITHIN GROUP(ORDER BY mtc.MOVIE_TYPE_CD) movie_type_cd
+		  FROM movie m, MOVIE_TYPE_C mtc, movie_type mt
+		 WHERE m.MOVIE_CD = mtc.MOVIE_CD
+		   AND mtc.MOVIE_TYPE_CD = mt.MOVIE_TYPE_CD
+		   AND opendate <![CDATA[<=]]> #{date}
+		   AND enddate <![CDATA[>=]]> #{date}
+		 GROUP BY m.MOVIE_CD
+	</select>
+	
+	<select id="selectScreenListforMovieMain" resultType="map">
+		SELECT s.*, m.*
+		  FROM screen s, house h, THEATER t, movie m
+		 WHERE s.HOUSE_NO = h.HOUSE_NO
+		   AND h.THR_NAME = t.THR_NAME
+		   AND s.MOVIE_CD = m.MOVIE_CD 
+		   AND s.STARTDATE <![CDATA[>=]]> TO_DATE(TO_CHAR(#{date}, 'yyyy-MM-dd')) + 7/24
+		   AND s.startdate <![CDATA[<=]]> TO_DATE(TO_CHAR(#{date}, 'yyyy-MM-dd')) + 27/24
+		   AND t.ADMIN_CD = #{admin_cd}
+	</select>
+	
+	<select id="checkScreenTimeClash" resultType="int">
+		SELECT COUNT(*)
+		  FROM (
+					SELECT s.*, (s.startdate + (m.MOVIE_LENGTH /1440)) prev_enddate
+						 , NVL(LEAD(s.startdate) OVER(ORDER BY s.startdate), TO_TIMESTAMP(TO_CHAR(#{markTime}, 'mm-dd-yyyy') || ' 03:00:00.000', 'mm/dd/yyyy hh24:mi:ss.ff3') + 1) next_startdate
+						 , NVL(LEAD(s.startdate + (m.MOVIE_LENGTH /1440)) OVER(ORDER BY s.startdate), TO_TIMESTAMP(TO_CHAR(#{markTime}, 'mm-dd-yyyy') || ' 03:00:00.000', 'mm/dd/yyyy hh24:mi:ss.ff3') + 1) next_enddate
+					  FROM SCREEN s, MOVIE m 
+					 WHERE s.MOVIE_CD = m.MOVIE_CD
+					   AND s.HOUSE_NO = #{house_no}
+					   AND TO_CHAR(s.startdate, 'yyyy-MM-dd') = TO_CHAR(#{markTime}, 'yyyy-MM-dd') 
+		  		) f
+		 WHERE (
+				f.prev_enddate <![CDATA[>=]]> #{startTime}
+		 		AND 
+		 		f.startdate <![CDATA[<=]]> #{endTime}
+		 		)
+		   OR (
+		   		f.next_startdate <![CDATA[<=]]> #{endTime}
+		   		AND
+		   		f.next_enddate <![CDATA[>=]]> #{startTime}
+		   		)
+	</select>
+	
+	<insert id="insertScreen">
+		INSERT INTO screen
+		 			(
+		 			 screen_cd
+		 			,house_no
+		 			,movie_cd
+		 			,startdate
+		 			,gb_jojo
+		 			,movie_type_cd
+		 			)
+		 	 VALUES (
+		 	 		 #{movie_cd} || #{movie_type_cd} || TO_CHAR(#{startdate}, 'MMdd') || LPAD(#{house_no},4,0) || LPAD(screen_seq.nextval,4,0)
+		 	 		,#{house_no}
+		 	 		,#{movie_cd}
+		 	 		,#{startdate}
+		 	 		,#{gb_jojo}
+		 	 		,#{movie_type_cd}
+		 	 		)
+	</insert>
+	
+	<select id="selectScreenByScreen_cd" resultType="map">
+		SELECT s.SCREEN_CD, MAX(m.MOVIE_CD) MOVIE_CD, MAX(m.MOVIE_NAME) MOVIE_NAME, MAX(h.HOUSE_NAME) HOUSE_NAME
+			 , MAX(m.MOVIE_LENGTH) MOVIE_LENGTH, MAX(s.STARTDATE) STARTDATE, MAX((s.STARTDATE + m.MOVIE_LENGTH / 1440)) enddate
+			 , MAX(m.MOVIE_MAINPIC_PATH) MOVIE_MAINPIC_PATH, MAX(s.MOVIE_TYPE_CD) MOVIE_TYPE_CD, MAX(mt.MOVIE_TYPE_DES) MOVIE_TYPE_DES
+			 , COUNT(r.res_no) reservcnt, MAX(h.HOUSE_ROW) house_row, MAX(h.HOUSE_COLUMN) house_column 
+			 , NVL(LISTAGG(r.RES_SEAT, '/') WITHIN GROUP (ORDER BY r.RES_SEAT), ' ')  seat_list
+		  FROM SCREEN s, MOVIE m, HOUSE h, MOVIE_TYPE mt, RESERVATION r
+		 WHERE s.MOVIE_CD = m.MOVIE_CD 
+		   AND s.HOUSE_NO = h.HOUSE_NO 
+		   AND s.MOVIE_TYPE_CD = mt.MOVIE_TYPE_CD
+		   AND s.SCREEN_CD = r.SCREEN_CD (+)
+		   AND s.screen_cd = #{screen_cd}
+		  GROUP BY s.SCREEN_CD
 	</select>
 </mapper>

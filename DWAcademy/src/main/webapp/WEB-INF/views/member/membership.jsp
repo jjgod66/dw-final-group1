@@ -16,34 +16,34 @@
         <div class="membershipBenefit">
             <div class="item">
                 <div class="ico"></div>
-				<div class="tit">혜택 이름</div>
-				<div class="txt">혜택 내용</div>
+				<div class="tit">포인트 적립</div>
+				<div class="txt">티켓, 스토어 이용 시 등급에 따라 5 ~ 10% 포인트 적립!</div>
 			</div>
             <div class="item">
                 <div class="ico"></div>
-				<div class="tit">혜택 이름</div>
-				<div class="txt">혜택 내용</div>
+				<div class="tit">포인트 사용</div>
+				<div class="txt">원하는 영화도 보고 팝콘도 구매할 수 있는 포인트!</div>
 			</div>
             <div class="item">
                 <div class="ico"></div>
-				<div class="tit">혜택 이름</div>
-				<div class="txt">혜택 내용</div>
+				<div class="tit">생일 축하 쿠폰</div>
+				<div class="txt">회원이라면 누구나 생일 축하 쿠폰을 드려요</div>
 			</div>
             <div class="item">
                 <div class="ico"></div>
-				<div class="tit">혜택 이름</div>
-				<div class="txt">혜택 내용</div>
+				<div class="tit">각종 쿠폰</div>
+				<div class="txt">특별한 날엔 특별한 쿠폰을!</div>
 			</div>
-            <div class="item">
-                <div class="ico"></div>
-				<div class="tit">혜택 이름</div>
-				<div class="txt">혜택 내용</div>
-			</div>
-            <div class="item">
-                <div class="ico"></div>
-				<div class="tit">혜택 이름</div>
-				<div class="txt">혜택 내용</div>
-			</div>
+<!--             <div class="item"> -->
+<!--                 <div class="ico"></div> -->
+<!-- 				<div class="tit">혜택 이름</div> -->
+<!-- 				<div class="txt">혜택 내용</div> -->
+<!-- 			</div> -->
+<!--             <div class="item"> -->
+<!--                 <div class="ico"></div> -->
+<!-- 				<div class="tit">혜택 이름</div> -->
+<!-- 				<div class="txt">혜택 내용</div> -->
+<!-- 			</div> -->
         </div>
     </div>
 </div>
