@@ -318,7 +318,7 @@ button {
     transition: 0.3s;
 }
 
-::before, ::after {
+.centerList ::before, ::after {
     position: absolute;
     content: "";
 }
@@ -496,11 +496,9 @@ button {
 			        <span>공지사항</span>
 			      </h2>
 		      <ul>
-		        <li>여긴 완성 되었습니다. </li>
-		        <li>공지 2</li>
-		        <li>공지 3</li>
-		        <li>공지 4</li>
-		        <li>공지 5</li>
+		      <c:forEach items="${noticeList }" var="notice">
+		        <li><a href="<%=request.getContextPath()%>/support/notice.do?notice_no=${notice.notice_no}" style="color:#444444; font-size: 15px;">${notice.notice_title }</a></li>
+		      </c:forEach>
 		        <div class="btn-holder">
 				  <button class="btn btn-4 hover-border-10">
 				  	<a href="<%=request.getContextPath()%>/support/notice.do">

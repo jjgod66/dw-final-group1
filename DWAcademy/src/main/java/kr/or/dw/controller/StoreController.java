@@ -40,6 +40,9 @@ public class StoreController {
 		String url = "/store/index";
 		
 		List<ProductVO> productList = null;
+		if(CategoryIdx == null) {
+			CategoryIdx = "1";
+		}
 		productList = storeService.selectProDiv(CategoryIdx);
 		
 		mnv.addObject("productList", productList);

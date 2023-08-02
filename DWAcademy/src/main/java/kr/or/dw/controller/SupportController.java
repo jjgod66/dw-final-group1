@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -26,6 +27,7 @@ import kr.or.dw.service.SupportService;
 import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.QnaAttachVO;
 import kr.or.dw.vo.QnaVO;
 
@@ -46,15 +48,25 @@ public class SupportController {
 		List<FaqVO> faqList = null;
 		faqList = supportService.getFaQ5();
 		
+		List<NoticeVO> noticeList = null;
+		noticeList = supportService.getNotice5();
+		
+		mnv.addObject("noticeList", noticeList);
 		mnv.addObject("faqList", faqList);
 		mnv.setViewName(url);
 		return mnv;
 	}
 	
 	@RequestMapping("/notice")
-	public String supportNotice() {
+	public ModelAndView supportNotice(ModelAndView mnv, SearchCriteria cri) throws SQLException {
 		String url = "/support/notice";
-		return url;
+		
+		Map<String, Object> dataMap = null;
+		dataMap = supportService.getNoticeList(cri);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		return mnv;
 	}
 	
 	@RequestMapping("/noticeDetail")
@@ -251,7 +263,7 @@ public class SupportController {
 		System.out.println("save5");
 		QnaAttachVO attach = new QnaAttachVO();
 		attach.setAttach_path("C:/DWAcademyFiles/qna/" + fileName);
-		attach.setAttach_type("." + fileName.split("$$")[1].split(".")[1]);
+		attach.setAttach_type(fileName.split("\\.")[1]);
 		System.out.println("save6");
 	
 		return attach;

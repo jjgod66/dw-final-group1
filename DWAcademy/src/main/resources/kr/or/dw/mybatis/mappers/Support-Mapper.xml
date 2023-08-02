@@ -109,6 +109,7 @@
 		SELECT thr_name
 		FROM theater
 		WHERE thr_loc = #{thr_loc}
+		AND gb_del = 'N'
 	</select>
 	
 	<insert id="registQnaMem">
@@ -132,4 +133,59 @@
 		INSERT INTO question_attach (attach_no, attach_path, attach_type, que_no)
 		VALUES(att_seq.nextval, #{attach_path}, #{attach_type}, #{que_no})
 	</insert>
+	
+	<select id="selectNotice5" resultType="notice">
+		SELECT *
+		FROM (
+			SELECT rownum rnum, n.*
+			FROM (
+				SELECT *
+				FROM notice
+				WHERE gb_del = 'N'
+				ORDER BY regdate DESC
+				) n
+			)
+		WHERE rnum <![CDATA[<=]]> 5
+	</select>
+	
+	<select id="selectNoticeList" resultType="notice">
+		SELECT *
+		FROM notice
+		WHERE gb_del = 'N'
+		AND (notice_thr like '%' || #{keyword} || '%' OR notice_title like '%' || #{keyword} || '%')
+		<if test="searchType == 'DW시네마'.toString()">
+			AND notice_thr = 'DW시네마'
+		</if>
+		<if test="searchType == '지점'.toString()">
+			AND notice_thr != 'DW시네마'
+		</if>
+		ORDER BY regdate DESC
+	</select>
+	
+	<select id="selectNoticeCount" resultType="int">
+		SELECT COUNT(*)
+		FROM notice
+		WHERE gb_del = 'N'
+		AND (notice_thr like '%' || #{keyword} || '%' OR notice_title like '%' || #{keyword} || '%')
+		<if test="searchType == 'DW시네마'.toString()">
+			AND notice_thr = 'DW시네마'
+		</if>
+		<if test="searchType == '지점'.toString()">
+			AND notice_thr != 'DW시네마'
+		</if>
+	</select>
+	
+	<select id="selectNotice2" resultType="notice">
+		SELECT *
+		FROM (
+			SELECT rownum rnum, n.*
+			FROM (
+				SELECT *
+				FROM notice
+				WHERE gb_del = 'N'
+				ORDER BY regdate DESC
+				) n
+			)
+		WHERE rnum <![CDATA[<=]]> 2
+	</select>
 </mapper>

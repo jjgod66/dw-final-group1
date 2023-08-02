@@ -179,7 +179,12 @@
 				<c:forEach items="${reviewList }" var="review">
 			        <div class="reviews-members row" style="margin: 30px 0px 30px 0px;" >
 						<div class="col-1">
-							<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+							<c:if test="${review.MEM_PIC_PATH != null}">
+								<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${review.MEM_PIC_PATH}&item_cd=${review.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+							</c:if>
+							<c:if test="${review.MEM_PIC_PATH == null}">
+								<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+							</c:if>
 							<p style="text-align: center;">
 							<c:set var="mem_id_code" value="${review.MEM_ID}" />
 							    ${fn:substring(mem_id_code,0,3) }**

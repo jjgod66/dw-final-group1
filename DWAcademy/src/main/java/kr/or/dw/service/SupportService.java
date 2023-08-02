@@ -7,6 +7,7 @@ import java.util.Map;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.FaqVO;
+import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.QnaAttachVO;
 import kr.or.dw.vo.QnaVO;
 
@@ -87,5 +88,27 @@ public interface SupportService {
 	 * @throws SQLException
 	 */
 	void registQna(QnaVO qna, QnaAttachVO attach) throws SQLException;
+
+	/**
+	 * 공지사항 5개 가져오는 메서드
+	 * @return
+	 * @throws SQLException
+	 */
+	List<NoticeVO> getNotice5() throws SQLException;
+
+	/**
+	 * 공지사항 리스트
+	 * @param cri
+	 * @return
+	 * @throws SQLException
+	 */
+	Map<String, Object> getNoticeList(SearchCriteria cri) throws SQLException;
+
+	/**
+	 * 공지사항 2개
+	 * @return
+	 * @throws SQLException
+	 */
+	List<NoticeVO> getNotice2() throws SQLException;
 
 }

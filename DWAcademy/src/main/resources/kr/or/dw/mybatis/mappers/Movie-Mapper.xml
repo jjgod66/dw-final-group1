@@ -299,7 +299,7 @@
 	</select>
 	
 	<select id="getAllMovieReview" resultType="Map">
-		SELECT m.MOVIE_NAME , r.*, mem.MEM_ID, (
+		SELECT m.MOVIE_NAME , r.*, mem.MEM_ID, mem.MEM_PIC_PATH, (
 		  		SELECT count(*)
 		  		  FROM review_like
 		  		 WHERE REVIEW_NO = r.REVIEW_NO

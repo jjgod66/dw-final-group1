@@ -22,7 +22,9 @@ import kr.or.dw.command.IndexMovieCommand;
 import kr.or.dw.service.EventService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.service.NaverLoginBO;
+import kr.or.dw.service.SupportService;
 import kr.or.dw.vo.EventVO;
+import kr.or.dw.vo.NoticeVO;
 
 @Controller
 public class CommonController {
@@ -35,6 +37,9 @@ public class CommonController {
 	
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+	private SupportService supportService;
 	
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -83,6 +88,10 @@ public class CommonController {
 		List<EventVO> eventList = null;
 		eventList = eventService.getEvent4();
 		
+		List<NoticeVO> noticeList = null;
+		noticeList = supportService.getNotice2();
+		
+		mnv.addObject("noticeList", noticeList);
 		mnv.addObject("eventList", eventList);
 		mnv.addObject("movieList", movieList);
 		mnv.setViewName(url);

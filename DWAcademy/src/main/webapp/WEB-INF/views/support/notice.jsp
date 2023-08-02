@@ -30,7 +30,15 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;}
 
 <%@ include file="noticeMini.jsp" %>
 
-
-
+<c:if test="${empty noticeList }">
+	<div class="mb-5 paginationdiv" style="display: none;">
+		<%@ include file="../common/pagination.jsp" %>
+	</div>
+</c:if>
+<c:if test="${!empty noticeList }">
+	<div class="mb-5 paginationdiv">
+		<%@ include file="../common/pagination.jsp" %>
+	</div>
+</c:if>
 </div>
 <%@ include file="../include/footer.jsp" %>
