@@ -318,6 +318,8 @@ h3.tit {
 				<span><strong>관람일시 </strong>${movieInfo.STARTDATE}</span>
 				<br><br>
 				<span><strong>결제일시 </strong>${movieInfo.RESDATE}</span>
+				<button type="button" class="btn-light">결제정보</button>
+				<button type="button" class="btn-light">결제취소</button>
 			</div>
 			<div class="col-4">
 				<br><br>
@@ -339,6 +341,7 @@ h3.tit {
 	</c:forEach>
 </div>
 <%@ include file ="../common/pagination.jsp"%>
+<br>
 </section>
 
 <!-- 구매 내역 시작 -->
@@ -415,6 +418,7 @@ h3.tit {
 	</c:if>
 	</div>
 </div>
+<br>
 <nav aria-label="member list Nabigation">
 	<ul class="pagination justify-content-center m-0" style="background-color : white;">
 		<li class="page-item">
@@ -444,7 +448,7 @@ h3.tit {
 		</li>
 	</ul>
 </nav>
-
+<br>
 <form id="reserveSearchForm">
 	<input type="hidden" name="page">
 	<input type="hidden" name="perPageNum">

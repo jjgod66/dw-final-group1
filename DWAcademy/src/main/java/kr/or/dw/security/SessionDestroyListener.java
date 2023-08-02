@@ -1,13 +1,13 @@
 package kr.or.dw.security;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.session.SessionDestroyedEvent;
 
-import kr.or.dw.vo.MemberVO;
 
 public class SessionDestroyListener implements ApplicationListener<SessionDestroyedEvent>{
 
@@ -21,7 +21,7 @@ public class SessionDestroyListener implements ApplicationListener<SessionDestro
 				if(auth != null && auth.getDetails() != null) {
 					User user = (User) auth.getDetails();
 					
-					MemberVO member = user.getMemberVO();
+					Map<String, String> member = user.getMemberVO();
 					
 					System.out.println("user invalid session : " + member);
 				}

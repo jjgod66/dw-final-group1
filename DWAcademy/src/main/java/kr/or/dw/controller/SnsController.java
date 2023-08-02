@@ -1,10 +1,8 @@
 package kr.or.dw.controller;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -107,7 +105,7 @@ public class SnsController {
 			
 			SnsVO sns = snsService.naverSelectByMemberCode(email);
 			System.out.println(sns);
-			MemberVO memberChk = memberService.CheckMemberEmail(email);
+			Map<String, Object> memberChk = memberService.CheckMemberEmail(email);
 			System.out.println(memberChk);
 			MemberVO sns_email = new MemberVO();
 			
@@ -117,7 +115,7 @@ public class SnsController {
 			res.setContentType("text/html; charset=utf-8");
 			PrintWriter out = res.getWriter();
 			
-			if(memberChk.getMem_email() == null) {
+			if(memberChk.get("MEM_EMAIL") == null) {
 				sns_email.setGb("non_member");
 				System.out.println('1');
 				
@@ -140,7 +138,7 @@ public class SnsController {
 			}else if(memberChk != null && sns != null){
 				System.out.println('3');
 				sns_email.setGb("member");
-				MemberVO member = memberService.selectMemberCode(sns);
+				Map<String, Object> member = memberService.selectMemberCode(sns);
 				System.out.println(member);
 				
 				session.setAttribute("loginUser", member);
@@ -367,54 +365,54 @@ public class SnsController {
 		}
 		
 		@RequestMapping("/common/kakaoLogin")
-		public ResponseEntity<MemberVO>kakaoLogin(String email, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws SQLException {
-			ResponseEntity<MemberVO> entity = null;
+		public ResponseEntity<Map<String, Object>>kakaoLogin(String email, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws SQLException {
+			ResponseEntity<Map<String, Object>> entity = null;
 			
 			SnsVO sns = snsService.kakaoSelectByMemberCode(email);
-			MemberVO memberChk = memberService.CheckMemberEmail(email);
+			Map<String, Object> memberChk = memberService.CheckMemberEmail(email);
 			System.out.println("email : " + email);
 			System.out.println("sns : " + sns);
-			System.out.println("memberChk : " + memberChk.getMem_email());
-			MemberVO sns_email = new MemberVO();
+			System.out.println("memberChk : " + memberChk.get("MEM_EMAIL"));
+			Map<String, Object> sns_email = new HashMap<>();
 			
-			sns_email.setMem_email(email);
+			sns_email.put("SNS_EMAIL", email);
 			
 			System.out.println(sns_email);
 			
 			
-			if(memberChk.getMem_email() == null) {
-				sns_email.setGb("non_member");
+			if(memberChk.get("MEM_EMAIL") == null) {
+				sns_email.put("GB","non_member");
 				System.out.println('1');
 				try {
-					entity = new ResponseEntity<MemberVO>(sns_email, HttpStatus.OK);
+					entity = new ResponseEntity<Map<String, Object>>(sns_email, HttpStatus.OK);
 				} catch (Exception e) {
 					e.printStackTrace();
-					entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
+					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			}else if(sns == null) {
-				sns_email.setGb("noConnect");
+				sns_email.put("GB","noConnect");
 				System.out.println('2');
 				
 				try {
-					entity = new ResponseEntity<MemberVO>(sns_email, HttpStatus.OK);
+					entity = new ResponseEntity<Map<String, Object>>(sns_email, HttpStatus.OK);
 				} catch (Exception e) {
 					e.printStackTrace();
-					entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
+					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 				
 			}else if(memberChk != null && sns != null){
 				System.out.println('3');
-				sns_email.setGb("member");
-				MemberVO member = memberService.selectMemberCode(sns);
+				sns_email.put("GB", "member");
+				Map<String, Object> member = memberService.selectMemberCode(sns);
 				System.out.println(member);
 				
 				session.setAttribute("loginUser", member);
 				
 				try {
-					entity = new ResponseEntity<MemberVO>(member, HttpStatus.OK);
+					entity = new ResponseEntity<Map<String, Object>>(member, HttpStatus.OK);
 				} catch (Exception e) {
 					e.printStackTrace();
-					entity = new ResponseEntity<MemberVO>(HttpStatus.INTERNAL_SERVER_ERROR);
+					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
 				}
 			}
 			return entity;

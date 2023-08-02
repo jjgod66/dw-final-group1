@@ -29,8 +29,9 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		
 		User user = (User) authentication.getDetails();
 		
-		MemberVO member = user.getMemberVO();
-		String id = member.getMem_id();
+		Map<String, String> member = user.getMemberVO();
+		String id = (String) member.get("ID");
+		System.out.println(member);
 		try {
 			memberDAO.updateLastLoginDt(id);
 		} catch (SQLException e) {
@@ -41,8 +42,8 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 		HttpSession session = request.getSession();
 		session.setAttribute("loginUser", member);
 
-		System.out.println(user);
-		System.out.println(member);
+		System.out.println("CD : " + member.get("CD"));
+		System.out.println("ID : " + member.get("ID"));
 		super.onAuthenticationSuccess(request, response, authentication);
 	}
 	
