@@ -46,7 +46,6 @@
                 </div>
               </div>
             </div>
-            <img src="/resources/img/범죄도시3_메인포스터.jpg" alt="" class="card__image">
           </div>
         </div>
         <div class="swiper-slide">
@@ -136,7 +135,6 @@
                 </div>
               </div>
             </div>
-            <img src="/resources/img/범죄도시3_메인포스터.jpg" alt="" class="card__image">
           </div>
         </div>
       </div>
@@ -146,28 +144,5 @@
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.3.1/js/swiper.jquery.min.js'></script>
 <script src="<%=request.getContextPath()%>/resources/js/slider.js"></script>  
-<script>
-window.addEventListener("load", function() {
-	  var nextSlide = document.querySelector(".swiper-slide-next");
-
-	  if (nextSlide) {
-	    // Get the current transform style of the element
-	    var transformValue = window.getComputedStyle(nextSlide).getPropertyValue("transform");
-
-	    // Parse the transform matrix
-	    var transformMatrix = new DOMMatrix(transformValue);
-
-	    // Update the translateX value by adding -1000
-	    transformMatrix.m41 += -1000;
-
-	    // Set the updated transform value back to the element
-	    nextSlide.style.transform = transformMatrix.toString();
-	  }
-	});
-
-
-
-
-</script>
 </body>
 </html>
