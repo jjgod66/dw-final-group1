@@ -104,4 +104,17 @@ public interface TheaterDAO {
 	 */
 	List<EventVO> selectThisThrEvent4(String thr_name) throws SQLException;
 
+	/**
+	 * 모든 극장 리스트를 가져오는 메서드
+	 * @return
+	 */
+	List<TheaterVO> getAllTheaterList() throws SQLException;
+
+	/**
+	 * 지역의 극장을 가져오는 메서드
+	 * @param selectLocData
+	 * @return
+	 */
+	List<TheaterVO> searchTheaterName(String selectLocData) throws SQLException;
+
 }

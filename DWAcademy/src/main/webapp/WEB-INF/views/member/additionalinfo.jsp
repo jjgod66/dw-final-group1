@@ -112,8 +112,6 @@
     height: 45px;
     padding: 3px 10px;
     color: #222;
-    border: 1px solid #eaeaea;
-    border-width: 0 0 1px 0;
     background-color: #f2f4f5;
 }
 .board-list>tbody>tr>td,
@@ -123,6 +121,9 @@
     border: 1px solid #eaeaea;
     border-width: 0 0 1px 0;
     text-align: center;
+}
+.selectMargin{
+	margin-top: 10px;
 }
 </style>
 <div class="additionalinfo-wrapper">
@@ -182,7 +183,7 @@
 		</div>
 	</div>
 <h3 class="tit">부가정보</h3>
-	<div class="container">
+	<div class="container box-radius" style="padding: 0;">
 		<table class="board-list">
 			<caption>선호극장</caption>
 			<colgroup>
@@ -190,71 +191,87 @@
 				<col>
 			</colgroup>
 			<thead>
-				<tr>
+				<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
 					<th scope="row">선호극장</th>
 					<td style="padding-left: 25px; border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
 						<span>선호 영화관은 최대 3개까지 등록 가능합니다.</span>
-						<div>
+						<div class="selectMargin">
 							<span>1순위</span>
 							<div style="display: inline-block;">
-								<select class="form-select" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<select name="selectThrLoc1st" class="form-select selectThrLoc" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 									<option class="bs-title-option">1순위 지역선택</option>
+									<c:forEach items="${theaterList}" var="theaterList">
+										<option class="bs-title-option">${theaterList.thr_loc}</option>
+									</c:forEach>
 								</select>
-								<select class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<select name="selectThrName1st" class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 									<option>극장 선택</option>
 								</select>
 							</div>
 						</div>
-						<div>
+						<div class="selectMargin">
 							<span>2순위</span>
 							<div style="display: inline-block;">
-								<select class="form-select" title="2순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<select name="selectThrLoc2nd" class="form-select selectThrLoc" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 									<option class="bs-title-option">2순위 지역선택</option>
+									<c:forEach items="${theaterList}" var="theaterList">
+										<option class="bs-title-option">${theaterList.thr_loc}</option>
+									</c:forEach>
 								</select>
-								<select class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<select name="selectThrName2nd" class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 									<option>극장 선택</option>
 								</select>
 							</div>
 						</div>
-						<div>
+						<div class="selectMargin">
 							<span>3순위</span>
 							<div style="display: inline-block;">
-								<select class="form-select" title="3순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<select name="selectThrLoc3rd" class="form-select selectThrLoc" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 									<option class="bs-title-option">3순위 지역선택</option>
+									<c:forEach items="${theaterList}" var="theaterList">
+										<option class="bs-title-option">${theaterList.thr_loc}</option>
+									</c:forEach>
 								</select>
-								<select class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<select name="selectThrName3rd" class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 									<option>극장 선택</option>
 								</select>
 							</div>
 						</div>
-						<div>
+						<div class="selectMargin">
 							<span>4순위</span>
-							<div style="display: inline-block;">
-								<select class="form-select" title="4순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+							<div style="display: inline-block;"> 
+								<select name="selectThrLoc4th" class="form-select selectThrLoc" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 									<option class="bs-title-option">4순위 지역선택</option>
+									<c:forEach items="${theaterList}" var="theaterList">
+										<option class="bs-title-option">${theaterList.thr_loc}</option>
+									</c:forEach>
 								</select>
-								<select class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<select name="selectThrName4th" class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 									<option>극장 선택</option>
 								</select>
 							</div>
 						</div>
-						<div>
+						<div class="selectMargin">
 							<span>5순위</span>
 							<div style="display: inline-block;">
-								<select class="form-select" title="5순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<select name="selectThrLoc5th" class="form-select selectThrLoc" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 									<option class="bs-title-option">5순위 지역선택</option>
+									<c:forEach items="${theaterList}" var="theaterList">
+										<option class="bs-title-option">${theaterList.thr_loc}</option>
+									</c:forEach>
 								</select>
-								<select class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<select name="selectThrName5th" class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 									<option>극장 선택</option>
 								</select>
 							</div>
 						</div>
+						<br>
 					</td>
 				</tr>
 				<tr>
 					<th scope="row" >선호 장르(3개 선택)</th>
-					<td style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
-						<div class="row" style="display: inline-block;">
+					<td>
+						<div class="row" style="display: inline-block; margin: 10px 0 10px 0;">
 							<select class="form-select" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 								<option>장르선택</option>
 							</select>
@@ -268,7 +285,6 @@
 					</td>
 				</tr>
 			</thead>
-			<tbody><tr><td colspan="5" class="a-c">조회된 내역이 없습니다</td></tr></tbody>
 		</table>
 	</div>
 	<div>
@@ -337,6 +353,45 @@ let email = $('input:radio[name=marketEmailRcvAgreeAt]:checked').val();
 		}
 	})
 })
-
+let selectLocData = "";
+let createOption = "";
+let select = "";
+$('.selectThrLoc').on('change', function(){
+	selectLocData = $(this).val();
+	select = $(this);
+	console.log(selectLocData);
+// 	$('select[name=selectThrName]').("")
+	$.ajax({
+		url : "<%=request.getContextPath()%>/member/searchTheater.do",
+		method : "get",
+		data : {selectLocData : selectLocData},
+		success : function(res){
+			console.log(res);
+			for(let i = 0; res.length > i; i++){
+				console.log(res[i]);
+				createOption = "<option value='" + res[i].thr_name + "'>" + res[i].thr_name + "</option>";
+				if(select.text() == $('select[name=selectThrLoc1st]').text()){
+					$('select[name=selectThrName1st]').html("<option value=''>극장 선택</option>");
+					$('select[name=selectThrName1st]').append(createOption);
+				}else if(select.text() == $('select[name=selectThrLoc2nd]').text()){
+					$('select[name=selectThrName2nd]').html("<option value=''>극장 선택</option>");
+					$('select[name=selectThrName2nd]').append(createOption);
+				}else if(select.text() == $('select[name=selectThrLoc3rd]').text()){
+					$('select[name=selectThrName3rd]').html("<option value=''>극장 선택</option>");
+					$('select[name=selectThrName3rd]').append(createOption);
+				}else if(select.text() == $('select[name=selectThrLoc4th]').text()){
+					$('select[name=selectThrName4th]').html("<option value=''>극장 선택</option>");
+					$('select[name=selectThrName4th]').append(createOption);
+				}else if(select.text() == $('select[name=selectThrLoc5th]').text()){
+					$('select[name=selectThrName5th]').html("<option value=''>극장 선택</option>");
+					$('select[name=selectThrName5th]').append(createOption);
+				}
+			};
+		},
+		error : function(err){
+			console.log(err);
+		}
+	})
+});
 </script>
 <%@ include file="../include/member_footer.jsp" %>

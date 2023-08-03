@@ -30,8 +30,10 @@ import kr.or.dw.service.MovieService;
 import kr.or.dw.service.NaverLoginBO2;
 import kr.or.dw.service.SnsService;
 import kr.or.dw.service.SupportService;
+import kr.or.dw.service.TheaterService;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.SnsVO;
+import kr.or.dw.vo.TheaterVO;
 
 @Controller
 public class MemberController {
@@ -52,6 +54,9 @@ public class MemberController {
 	
 	@Autowired
 	private SupportService supportService;
+	
+	@Autowired
+	private TheaterService theaterService;
 	
 	
 	/* NaverLoginBO */
@@ -85,8 +90,7 @@ public class MemberController {
 		String url = "/member/PrivacyInfo";
 		
 		
-		System.out.println(session.getAttribute("loginUser"));
-		String member =  (String) session.getAttribute("loginUser");
+		Map<String, Object> member =  (Map<String, Object>) session.getAttribute("loginUser");
 		System.out.println(member);
 		SnsVO kakao = new SnsVO();
 		SnsVO naver = new SnsVO();
@@ -187,14 +191,34 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/additionalinfo")
-	public ModelAndView memberAdditionalinfo(ModelAndView mnv, HttpSession session) {
+	public ModelAndView memberAdditionalinfo(ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/member/additionalinfo";
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		
+		List<TheaterVO> theaterList = theaterService.getAllTheaterList();
+		
+		mnv.addObject("theaterList", theaterList);
 		mnv.addObject("member", member);
 		mnv.setViewName(url);
 		
 		return mnv;
+	}
+	
+	@RequestMapping("/member/searchTheater")
+	public ResponseEntity<List<TheaterVO>> searchTheater(String selectLocData) throws SQLException{
+		ResponseEntity<List<TheaterVO>> entity = null;
+		
+		List<TheaterVO> theaterNameList = theaterService.searchTheaterName(selectLocData);
+		try {
+			entity = new ResponseEntity<List<TheaterVO>>(theaterNameList, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<List<TheaterVO>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
+		
+		return entity;
 	}
 	
 	@RequestMapping("/member/addition")
