@@ -6,39 +6,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-	@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap");
-
-:root {
-  --primary-color: #185ee0;
+.navM {
+	  --primary-color: #185ee0;
   --secondary-color: #e6eef9;
-}
-
-*,
-*:after,
-*:before {
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Inter", sans-serif;
-  background-color: rgba(#e6eef9, 0.5);
-}
-.container1 {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.container2 {
-  position: absolute;
-  left: 0;
-  top: 200px;
-  right: 0;
-  bottom: 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,7 +28,7 @@ input[type="radio"] {
   display: none;
 }
 
-.tab {
+.tabo {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -127,19 +97,19 @@ input[id="radio-5"]:checked ~ .glider {
 </style>
 </head>
 <body>
-<div class="container1">
-	<div class="tabs">
-		<input type="radio" id="radio-1" name="tabs" checked="">
-		<label class="tab" for="radio-1">Upcoming<span class="notification">2</span></label>
-		<input type="radio" id="radio-2" name="tabs">
-		<label class="tab" for="radio-2">Development<span class="notification">9</span></label>
-		<input type="radio" id="radio-3" name="tabs">
-		<label class="tab" for="radio-3">Completed<span class="notification">10</span></label>
-		<input type="radio" id="radio-4" name="tabs">
-		<label class="tab" for="radio-4">전체보기<span class="notification">26</span></label>
-		<input type="radio" id="radio-1" name="tabs" >
-		<span class="glider"></span>
+	<div class="navM">
+		<div class="tabs">
+			<input type="radio" id="radio-1" name="tabs" checked="">
+			<label class="tabo" for="radio-1">Upcoming<span class="notification">2</span></label>
+			<input type="radio" id="radio-2" name="tabs">
+			<label class="tabo" for="radio-2">Development<span class="notification">9</span></label>
+			<input type="radio" id="radio-3" name="tabs">
+			<label class="tabo" for="radio-3">Completed<span class="notification">10</span></label>
+			<input type="radio" id="radio-4" name="tabs">
+			<label class="tabo" for="radio-4">전체보기<span class="notification">26</span></label>
+			<input type="radio" id="radio-1" name="tabs" >
+			<span class="glider"></span>
+		</div>
 	</div>
-</div>
 </body>
 </html>

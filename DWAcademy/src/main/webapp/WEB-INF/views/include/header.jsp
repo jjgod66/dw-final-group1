@@ -167,7 +167,7 @@ canvas{
 			                <a href="#" id="kakaoJoin" data-bs-toggle="modal" data-bs-target="#authentication-modal">회원가입</a>
 		                </c:when>
 		                <c:otherwise>
-		                	<a href="<%=request.getContextPath() %>/common/logout.do" class="nav-link link-dark px-2">로그아웃</a>
+		                	<a href="<%=request.getContextPath() %>/common/logout.do" >로그아웃</a>
 		                </c:otherwise>
 		              </c:choose>
 				    </div>
