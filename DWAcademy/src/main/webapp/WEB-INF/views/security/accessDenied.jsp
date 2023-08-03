@@ -5,6 +5,6 @@
 	if(window.opener){
 		window.close();
 	}else{
-		history.go(-1);
+		location.href="<%=request.getContextPath()%>/main.do";
 	}
 </script>

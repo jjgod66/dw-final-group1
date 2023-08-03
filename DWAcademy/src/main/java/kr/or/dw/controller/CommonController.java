@@ -54,7 +54,7 @@ public class CommonController {
 	
 	@RequestMapping("/security/accessDenied")
 	public String accessDenied(HttpServletResponse res) throws Exception{
-		String url = "security/accessDenied.open";
+		String url = "/security/accessDenied";
 		
 		res.setStatus(302);
 		
@@ -66,18 +66,17 @@ public class CommonController {
 		String url = "";
 		
 		Map<String, Object> loginUser = (Map<String, Object>) session.getAttribute("loginUser");
-		String CD = (String) loginUser.get("CD");
-		String CD_GB = (String)CD.substring(0,1);
-		System.out.println(CD_GB);
+		String AUTH = (String) loginUser.get("AUTH");
+		System.out.println(AUTH);
 		
-		if(CD_GB.equals("S")) {
+		if(AUTH.equals("S")) {
 			System.out.println("1");
 			url = "redirect:/sysAdmin/main.do";
-		}else if(CD_GB.equals("T")) {
+		}else if(AUTH.equals("T")) {
 			System.out.println("2");
 			url = "redirect:/thrAdmin/main.do";
 		}else {
-			url = "/main";
+			url = "redirect:/main";
 		}
 		System.out.println(url);
 		mnv.setViewName(url);
