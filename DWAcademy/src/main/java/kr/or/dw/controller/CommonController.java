@@ -86,6 +86,7 @@ public class CommonController {
 		String url = "";
 		
 		Map<String, Object> loginUser = (Map<String, Object>) session.getAttribute("loginUser");
+		System.out.println(loginUser);
 		String AUTH = (String) loginUser.get("AUTH");
 		System.out.println(AUTH);
 		
