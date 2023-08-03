@@ -5,8 +5,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <style>
   .sub_visual {
-  
-    position: relative;
     width: 100%;
     height: 170px;
     text-align: center;

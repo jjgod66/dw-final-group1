@@ -7,15 +7,6 @@
 
 
 <style>
-.breadcrumb {
-	padding: 0 0 0 25px;
-	color: #000;
-	line-height: 34px;
-	border-bottom: 1px solid #e9e9e9;
-	text-align: left;
-	font-size: 12px;
-}
-
 #content {
 	max-width: 80rem;
 	margin: 2rem auto 2rem auto;
@@ -34,11 +25,6 @@
 	font-size: 20px;
 	line-height: 1em;
 	letter-spacing: -1px;
-}
-
-h1, h2, h3, h4, h5, h6 {
-	font-size: 1em;
-	font-weight: 600;
 }
 
 #content h2 {
@@ -129,9 +115,6 @@ table th {
 	font-weight: 600;
 }
 
-body, div, table, th, td, pre, blockquote {
-	font-size: 12px;
-}
 .tbl_frm02 {
 	width: 100%;
 }
@@ -250,7 +233,9 @@ table th {
 									<th scope="row">장르</th>
 									<td colspan="3">
 										<c:forEach items="${genreList }" var="genre">
-											<input type="checkbox" name="genre_cd" id="${genre.genre_cd }" value="${genre.genre_cd }" ${movieGenreList.contains(genre.genre_cd) ? 'checked' : '' }><label for="${genre.genre_cd }">${genre.genre_name }</label>
+											<div style="display: inline-block; width: 10%;">
+												<input type="checkbox" name="genre_cd" id="${genre.genre_cd }" value="${genre.genre_cd }" ${movieGenreList.contains(genre.genre_cd) ? 'checked' : '' }><label for="${genre.genre_cd }">${genre.genre_name }</label>
+											</div>
 										</c:forEach>
 									</td>
 								</tr>

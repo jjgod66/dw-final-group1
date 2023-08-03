@@ -29,6 +29,7 @@ import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.service.NaverLoginBO2;
 import kr.or.dw.service.SnsService;
+import kr.or.dw.service.SupportService;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.SnsVO;
 
@@ -48,6 +49,9 @@ public class MemberController {
 	
 	@Autowired
 	private CouponService couponService;
+	
+	@Autowired
+	private SupportService supportService;
 	
 	
 	/* NaverLoginBO */
@@ -182,11 +186,22 @@ public class MemberController {
 		
 	}
 	
+	@RequestMapping("/member/additionalinfo")
+	public ModelAndView memberAdditionalinfo(ModelAndView mnv, HttpSession session) {
+		String url = "/member/additionalinfo";
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		
+		mnv.addObject("member", member);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
 	@RequestMapping("/member/addition")
 	public ResponseEntity<String> additionUpdate(String gb_sms_alert, String gb_email_alert, HttpSession session) throws SQLException{
 		ResponseEntity<String> entity = null;
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-		Map<String, Object> id = (Map) session.getAttribute("loginUser");
+		Map<String, Object> id = (Map<String, Object>) session.getAttribute("loginUser");
 		dataMap.put("gb_sms_alert", gb_sms_alert);
 		dataMap.put("gb_email_alert", gb_email_alert);
 		dataMap.put("mem_id", id.get("ID"));
@@ -269,8 +284,37 @@ public class MemberController {
 		
 		
 		
+		return mnv;
+	}
+	
+	@RequestMapping("/member/myinquiry")
+	public ModelAndView memberMyinquiry(ModelAndView mnv, HttpSession session, SearchCriteria cri) throws SQLException {
+		String url = "/member/myinquiry";
 		
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		cri.setPerPageNum("5");
 		
+		Map<String, Object> dataMap = supportService.getAllMyQuestionList(cri, mem_cd);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/member/searchMyQuestion")
+	public ModelAndView searchMyQuestion(ModelAndView mnv, HttpSession session, SearchCriteria cri) throws SQLException {
+		String url = "/member/myinquiry";
+		
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		cri.setPerPageNum("5");
+		
+		Map<String, Object> dataMap = supportService.searchMyQuestionList(cri, mem_cd);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
 		return mnv;
 	}
 	

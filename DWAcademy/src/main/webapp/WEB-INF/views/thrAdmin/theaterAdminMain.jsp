@@ -4,7 +4,15 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %> 
 <%@ include file="thrAdminHeader.jsp"%>
+<style>
+.local_frm01 {
+	width: 100%;
+}
+.tbl_head01 {
+	width: 100%;
+}
 
+</style>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-sm">
@@ -82,7 +90,7 @@
 					</table>
 				</div>
 				
-				<div class="btn_confirm">
+				<div class="btn_confirm mb-3">
 					 <input type="button" value="수정" id="modifyInfoBtn" class="btn_medium" style="background-color: #4aa8d8; border: none;">
 				</div>
 				
@@ -93,7 +101,7 @@
 				<div class="local_frm01" style="margin-left:auto;margin-right:auto;">
 				<a class="fr btn_lsmall red" id="registModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">+ 상영관추가</a></div>
 				<div class="tbl_head01" style="margin-left:auto;margin-right:auto;">
-					<table style="margin-left:auto;margin-right:auto;">
+					<table class="mt-2" style="width: 90%; margin-left:auto;margin-right:auto; border: 1px solid #e4e5e7;">
 						<colgroup>
 							<col class="w100">
 							<col class="w100">

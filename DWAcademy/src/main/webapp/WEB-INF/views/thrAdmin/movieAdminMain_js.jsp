@@ -105,7 +105,7 @@ window.onload = function(){
 	// 날짜 클릭시
 	$('.dayTableTd').on('click', function(){
 		let data = $(this).attr('data-date');
-		location.href="test.do?date="+data;
+		location.href="movieAdminMain.do?date="+data;
 	});
 	
 	// 다음버튼 클릭시	
@@ -129,15 +129,20 @@ window.onload = function(){
 	});
 	
 	// 원하는 영화 클릭시
-	$('.movieRow').on('click', function(){
+	$(document).on('click', '.unselected',function(){
+		$('.selected').addClass('unselected');
 		$('.selected').removeClass('selected');
 		$(this).addClass('selected');
+		$(this).removeClass('unselected');
 		
 		$('.modifyBox').remove();
 		$('.hided').removeClass('hided');
 		$('#addNewScreenBtn').show();
 		$('#modifyScreenBtn').hide();
 		$('#deleteScreenBtn').hide();
+		$('#startHouse').children('option:eq(0)').prop('selected', true);
+		$('#startHour').children('option:eq(0)').prop('selected', true);
+		$('#startMinute').children('option:eq(0)').prop('selected', true);
 		
 		let movieName = $(this).find('.movieRowName').text();
 		let movieCd = $(this).find('.movieRowCd').text();
@@ -149,6 +154,22 @@ window.onload = function(){
 		showDetailBox(movieName, movieCd, movieLength, movieDates, moviePic, movieType);
 		
 		showAddedBox(movieLength);
+	});
+	
+	$(document).on('click', '.selected',function(){
+		$('.addedBox').remove();
+		$(this).removeClass('selected');
+		$(this).addClass('unselected');
+		$('#movieRowName').text('');
+		$('#movieRowCd').text('');
+		$('#movieRowDates').text('');
+		$('#movieLength').text('');
+		$('#movieTypeTd').html('');
+		$('#startHouse').children('option:eq(0)').prop('selected', true);
+		$('#startHour').children('option:eq(0)').prop('selected', true);
+		$('#startMinute').children('option:eq(0)').prop('selected', true);
+		$('#endTimeTd').text('');
+		
 	});
 	
 	// 영화클릭, 또는 기존상영영화 클릭시
@@ -332,6 +353,8 @@ window.onload = function(){
 					$('#modifyScreenBtn').show();	
 					$('#deleteScreenBtn').show();
 					$('.addedBox').remove();
+					$('.selected').addClass('unselected');
+					$('.selected').removeClass('selected');
 					screenModify(data, thisBox);
 				} else {
 					if ($('.modifyBox').length > 0) {
@@ -367,7 +390,7 @@ window.onload = function(){
 		movie_enddate = movie_enddate_year + '-' + movie_enddate_month + '-' + movie_enddate_date;
 		
 		let movieDates = movie_opendate + ' ~ ' + movie_enddate;
-		let moviePic = $('<img src="/sysAdmin/getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster" style="width: 10rem; height: 14rem; overflow: hidden;">');
+		let moviePic = $('<img src="/common/getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster" style="width: 10rem; height: 14rem; overflow: hidden;">');
 		
 		let startdate = new Date(map.STARTDATE);
 		let enddate = new Date(startdate.getFullYear(), startdate.getMonth(), startdate.getDate(), startdate.getHours(), startdate.getMinutes() + map.MOVIE_LENGTH);
@@ -386,7 +409,7 @@ window.onload = function(){
 		$('#screenReservCnt_modal').text(map.RESERVCNT + ' / ' + (map.HOUSE_ROW * map.HOUSE_COLUMN));
 		$('#movieLength_modal').text(map.MOVIE_LENGTH + '분');
 		$('#screenType_modal').text(map.MOVIE_TYPE_DES);
-		$('.modalImgDiv img').attr('src', '/sysAdmin/getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster');
+		$('.modalImgDiv img').attr('src', '/common/getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster');
 		$('#seatMapDiv').html('');
 		let rowDiv = ''; 
 		let seatDiv = '';

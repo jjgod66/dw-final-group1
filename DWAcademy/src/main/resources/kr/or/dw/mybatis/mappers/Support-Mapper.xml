@@ -194,4 +194,70 @@
 		FROM notice
 		WHERE notice_no = #{notice_no}
 	</select>
+	
+	<select id="getAllMyQuestionList" resultType="Map">
+		SELECT rownum, que.*
+  		  FROM (
+				SELECT q.*, a.admin_cd, a.ans_content
+				  FROM question q, answer a
+				 WHERE q.que_no = a.que_no(+)
+				   AND mem_cd = 'M197407020003'
+				   AND gb_del = 'N'
+			   ORDER BY q.regdate DESC
+	   			) que
+	</select>
+	
+	<select id="MyQuestionListCnt" resultType="int">
+		SELECT count(*)
+  		  FROM (
+				SELECT q.*, a.admin_cd, a.ans_content
+				  FROM question q, answer a
+				 WHERE q.que_no = a.que_no(+)
+				   AND mem_cd = #{mem_cd}
+				   AND gb_del = 'N'
+				   ORDER BY q.regdate DESC
+		  		 )
+	</select>
+	
+	<select id="searchMyQuestionList" resultType="Map">
+		SELECT rownum, que.*
+		  FROM (
+				SELECT q.*, a.admin_cd, a.ans_content
+				  FROM question q, answer a
+				 WHERE q.que_no = a.que_no(+)
+				   AND mem_cd = #{mem_cd}
+				   AND gb_del = 'N'
+				<if test="cri.searchType == 'theater'.toString()">
+				   AND thr_name like '%' || #{cri.keyword} || '%'
+				</if>
+				<if test="cri.searchType == 'type'.toString()">
+				   AND que_type like '%' || #{cri.keyword} || '%'
+				</if>
+				<if test="cri.searchType == 'title'.toString()">
+				   AND que_title like '%' || #{cri.keyword} || '%'
+				</if>
+			   ORDER BY q.regdate DESC
+			   ) que
+	</select>
+	
+	<select id="searchMyQuestionListCnt" resultType="int">
+	SELECT count(*)
+	  FROM (
+			SELECT q.*, a.que_no, a.admin_cd, a.ans_content
+			  FROM question q, answer a
+			 WHERE q.que_no = a.que_no(+)
+			   AND mem_cd = #{mem_cd}
+			   AND gb_del = 'N'
+			<if test="cri.searchType == 'theater'.toString()">
+			   AND thr_name like '%' || #{cri.keyword} || '%'
+			</if>
+			<if test="cri.searchType == 'type'.toString()">
+			   AND que_type like '%' || #{cri.keyword} || '%'
+			</if>
+			<if test="cri.searchType == 'title'.toString()">
+			   AND que_title like '%' || #{cri.keyword} || '%'
+			</if>
+			  ORDER BY q.regdate DESC
+			 )
+	</select>
 </mapper>

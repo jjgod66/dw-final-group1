@@ -178,26 +178,29 @@ h2.tit {
 		<!-- <li>문의하시기 전 <a href="/support/faq" class="a-link"><strong>자주묻는질문</strong></a>을 확인하시면 궁금증을 더욱 빠르게 해결하실 수 있습니다</li> -->
 	</ul>
 	<div class="btn-group right">
-		<a href="#" class="button" id="inqBtn" title="1:1 문의하기">1:1 문의하기</a>
+		<a href="<%=request.getContextPath()%>/support/inquiry.do" class="button" id="inqBtn" title="1:1 문의하기">1:1 문의하기</a>
 	</div>
 </div>
+<br>
 <div class="board-list-util mb10">
 	<p class="result-count">
 		<!-- to 개발 : 검색을 안한 경우 -->
-		<strong>전체 (<b id="totalCnt">0</b>건)</strong>
+		<strong>전체 (<b id="totalCnt">${MyQuestionListCnt}</b>건)</strong>
 	</p>
 	<div class="dropdown bootstrap-select bs3">
-		<select id="custInqStatCd" onchange="javascript:$('#searchBtn').click();" class="" tabindex="-98">
-			<option value="">전체</option>
-			<option value="INQST1">미답변</option>
-			<option value="INQST2">답변완료</option>
+		<select name="searchType" id="custInqStatCd" class="" tabindex="-98">
+			<option value="">선택</option>
+			<option value="theater" ${cri.searchType eq 'theater' ? 'selected' : '' }>극장</option>
+			<option value="type" ${cri.searchType eq 'type' ? 'selected' : '' }>유형</option>
+			<option value="title" ${cri.searchType eq 'title' ? 'selected' : '' }>제목</option>
 		</select>
 		<div class="board-search ml07">
-			<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." class="input-text" id="searchTxt" value="">
-			<button type="button" class="btn-search-input" id="searchBtn">검색</button>
+			<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." name="keyword" class="input-text" id="searchTxt" value="${cri.keyword}">
+			<button type="button" class="btn-search-input" id="searchBtn" onclick="searchList_go(1, '/member/searchMyQuestion.do')">검색</button>
 		</div>
 	</div>
 </div>
+<br>
 <div class="table-wrap">
 	<table class="board-list a-c">
 		<caption>번호, 극장, 유형, 제목, 답변상태, 등록일 순서로 보여주는 1:1 문의 내역 표입니다</caption>
@@ -210,17 +213,37 @@ h2.tit {
 			<col style="width:100px;">
 		</colgroup>
 		<thead>
+
 			<tr>
-				<th scope="col">번호</th>
-				<th scope="col">극장</th>
-				<th scope="col">유형</th>
-				<th scope="col">제목</th>
-				<th scope="col">답변상태</th>
-				<th scope="col">등록일</th>
+				<th scope="col" style="text-align: center;">번호</th>
+				<th scope="col" style="text-align: center;">극장</th>
+				<th scope="col" style="text-align: center;">유형</th>
+				<th scope="col" style="text-align: center;">제목</th>
+				<th scope="col" style="text-align: center;">답변상태</th>
+				<th scope="col" style="text-align: center;">등록일</th>
 			</tr>
 		</thead>
-		<tbody><tr><td colspan="6">목록이 없습니다.</td></tr></tbody>
+<c:forEach items="${MyQuestionList}" var="question">
+		<tbody>
+			<tr>
+		<c:if test="${empty MyQuestionList}">
+				<td colspan="6">목록이 없습니다.</td>
+		</c:if>
+				<td>${question.ROWNUM}</td>
+				<td>${question.THR_NAME}</td>
+				<td>${question.QUE_TYPE}</td>
+				<td>${question.QUE_TITLE}</td>
+				<td>${question.ANS_CONTENT eq null or question.ANS_CONTENT eq "" ? "미답변" : "답변완료"}</td>
+				<td>${question.RAGDATE}</td>
+			</tr>
+		</tbody>
+</c:forEach>
 	</table>
+<br>
+<%@ include file="../common/pagination.jsp" %>
+<br>
 </div>
-
+<script>
+let searchFormUrl = "/member/myinquiry.do";
+</script>
 <%@ include file="../include/member_footer.jsp" %>

@@ -129,9 +129,6 @@ h2.tit {
 		<li>보유하신 쿠폰 내역입니다.</li>
 		<li>각 쿠폰 별 사용 방법이 다르니 사용 전 상세 쿠폰정보를 확인바랍니다.</li>
 	</ul>
-	<div class="btn-group right">
-		<a href="#layer_coupon_regi" class="button btn-modal-open" w-data="600" h-data="500" title="할인쿠폰 등록">할인쿠폰 등록</a>
-	</div>
 </div>
 <div class="board-list-util por">
 	<p class="result-count">
