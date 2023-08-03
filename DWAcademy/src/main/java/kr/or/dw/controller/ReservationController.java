@@ -317,11 +317,4 @@ public class ReservationController {
 
 	}
 	
-	@RequestMapping("/photoTicket")
-	public ModelAndView photoTicketMain(ModelAndView mnv) {
-		String url = "/booking/photoTicket";
-		
-		mnv.setViewName(url);
-		return mnv;
-	}
 }

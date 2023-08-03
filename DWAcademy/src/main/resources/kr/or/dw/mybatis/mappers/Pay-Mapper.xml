@@ -19,4 +19,59 @@
 	<update id="refundMemBuy">
 		UPDATE mem_buy SET gb_cancel = 'Y' WHERE merchant_uid = #{merchant_uid}
 	</update>
+	
+	<select id="selectPayDetail" resultType="Map">
+		SELECT paid_amount, refunddate, nvl(card_name, '카카오페이') card_name, card_quota
+		FROM pay_detail
+		WHERE merchant_uid = #{merchant_uid}
+	</select>
+	
+	<select id="selectResInfo" resultType="Map">
+		SELECT nvl(MAX(discount),0) discount, MAX(resdate) paydate, MAX(gb_cancel) gb_cancel, MAX(pricesum) pricesum
+		FROM reservation
+		WHERE merchant_uid = #{merchant_uid}
+		GROUP BY merchant_uid
+	</select>
+	
+	<select id="selectBuyInfo" resultType="Map">
+		SELECT nvl(MAX(discount),0), buydate paydate, gb_cancel, pricesum
+		FROM mem_buy
+		WHERE merchant_uid = #{merchant_uid}
+	</select>
+	
+	<select id="selectResCouPoint" resultType="reservation">
+		SELECT nvl(MAX(coupon_no),0) coupon_no, nvl(MAX(use_point),0) use_point
+		FROM reservation
+		WHERE merchant_uid = #{merchant_uid}
+		GROUP BY merchant_uid
+	</select>
+	
+	<select id="selectBuyPoint" resultType="membuy">
+		SELECT nvl(MAX(use_point),0) use_point
+		FROM mem_buy
+		WHERE merchant_uid = #{merchant_uid}
+	</select>
+	
+	<update id="returnCoupon">
+		UPDATE mem_coupon SET gb_use = 'N' WHERE coupon_no = #{coupon_no}
+	</update>
+	
+	<delete id="returnPoint">
+		DELETE point WHERE merchant_uid = #{merchant_uid} AND point_cd like '%U%'
+	</delete>
+	
+	<select id="selectPTImpUidByMerUid" resultType="str">
+		SELECT imp_uid
+		FROM photo_ticket pt, pay_detail pd
+		WHERE pt.pt_cd = pd.merchant_uid
+		AND pt.merchant_uid = #{merchant_uid}
+	</select>
+	
+	<update id="refundPayDetailImpUid">
+		UPDATE pay_detail SET status = 'refund', refunddate = sysdate WHERE imp_uid = #{imp_uid}
+	</update>
+	
+	<delete id="deletePhotoTicket">
+		DELETE photo_ticket WHERE merchant_uid = #{merchant_uid}
+	</delete>
 </mapper>

@@ -25,6 +25,7 @@
                     <button type="button" class="up" title="성인 좌석 선택 증가" id="adultup">+</button>
                     </div>
                 </div>
+                <c:if test="${screen.movieVO.movie_grade ne '청소년 관람불가'}">
                 <div class="cell">
                     <p class="txt">청소년</p>
                     <div class="count"><button type="button" class="down" title="청소년 좌석 선택 감소" id="teendown">-</button>
@@ -36,6 +37,7 @@
                     <button type="button" class="up" title="청소년 좌석 선택 증가" id="teenup">+</button>
                     </div>
                 </div>
+                </c:if>
                 <div class="cell">
                     <p class="txt">우대</p>
                     <div class="count"><button type="button" class="down" title="우대 좌석 선택 감소" id="preferdown">-</button>

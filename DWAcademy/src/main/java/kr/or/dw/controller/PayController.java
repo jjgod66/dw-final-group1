@@ -1,6 +1,7 @@
 package kr.or.dw.controller;
 
 import java.sql.SQLException;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,41 @@ public class PayController {
 		String result = "F";
 		try {
 			result = payService.refund(merchant_uid);
+			entity = new ResponseEntity<String>(result, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/creInfo")
+	public ResponseEntity<Map<String, Object>> creInfo(String merchant_uid){
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		Map<String, Object> creInfo = null;
+		
+		try {
+			creInfo = payService.getPayInfo(merchant_uid);
+			entity = new ResponseEntity<Map<String,Object>>(creInfo, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		
+		return entity;
+		
+	}
+	
+	@RequestMapping("/ptrefund")
+	public ResponseEntity<String> ptrefund(String merchant_uid){
+ResponseEntity<String> entity = null;
+		
+		String result = "F";
+		try {
+			result = payService.ptRefund(merchant_uid);
 			entity = new ResponseEntity<String>(result, HttpStatus.OK);
 		} catch (SQLException e) {
 			e.printStackTrace();

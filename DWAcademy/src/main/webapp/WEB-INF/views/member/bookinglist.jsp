@@ -246,6 +246,8 @@ h3.tit {
 </style>
 
 <%@include file="creditInfo_modal.jsp" %>
+<%@include file="refund_modal.jsp" %>
+<%@include file="photoTicket_refund_modal.jsp" %>
 <h2 class="tit">예매/구매 내역</h2>
 <div class="tab-block tab-layer">
 	<ul>
@@ -324,19 +326,38 @@ h3.tit {
 				<span><strong>관람일시 </strong>${movieInfo.STARTDATE}</span>
 				<br><br>
 				<span><strong>결제일시 </strong>${movieInfo.RESDATE}</span>
-				<button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}">결제정보</button>
+				<button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="creInfoBtn">결제정보</button>
 <!-- 				<button type="button" class="btn-light">결제취소</button> -->
 			</div>
-			<div class="col-4">
+			<div class="col-4 infodiv2">
 				<br><br>
 				<br><br>
 				<span><strong>관람인원 </strong>${movieInfo.MEM_CAT}</span>
 				<br><br>
 				<span><strong>관람좌석 </strong>${movieInfo.RES_SEAT}</span>
 				<br><br>
-				
+				<c:set var="now" value="<%=new java.util.Date()%>" />
+				<c:set var="sysDate"><fmt:formatDate value="${now}" pattern="yyyyMMddHHmm" /></c:set> 
+				<c:set var="screenDate"><fmt:formatDate value="${movieInfo.STARTDATE}" pattern="yyyyMMddHHmm" /></c:set> 
 				<c:if test="${movieInfo.REFUNDDATE eq null}">
-					<span><strong>취소일시 </strong><button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="resRefundBtn">예매취소</button></span>
+					<c:if test="${screenDate - 30 > sysDate }">
+							<span><strong>취소일시 </strong><button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="resRefundBtn">예매취소</button></span>
+					</c:if>
+					<c:if test="${screenDate < sysDate}">
+						<c:if test="${movieInfo.GB_PRINT eq null }">
+							<span><strong>포토티켓 </strong><button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="photoTicketBtn">포토티켓 만들기</button></span>
+						</c:if>
+						<c:if test="${movieInfo.GB_PRINT ne null }">
+							<span><strong>포토티켓 </strong>
+								<c:if test="${movieInfo.GB_PRINT =='Y'}">
+									(출력완료)
+								</c:if>
+								<c:if test="${movieInfo.GB_PRINT =='N'}">
+									(출력전)<button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="photoTicketRefundBtn">취소</button>
+								</c:if>
+							</span>
+						</c:if>
+					</c:if>
 				</c:if>
 <%-- 				<c:if test="${movieInfo.REFUNDDATE eq null}"> --%>
 <!-- 					<span><strong>취소일시 </strong> - </span> -->
@@ -412,11 +433,13 @@ h3.tit {
 					<td style="width : 10%; text-align : center;">${buyInfo.PRODUCT_DIV}</td>
 					<td style="text-align : center;">${buyInfo.PRODUCT_NAME}</td>
 					<td style="width : 10%; text-align : center;">${buyInfo.PRODUCT_PRICE}원</td>
-					<c:if test="${buyInfo.GB_USE eq 'N'}">
-						<td style="width : 10%; text-align : center;">사용가능</td>
-					</c:if>
-					<c:if test="${buyInfo.GB_USE eq 'Y'}">
-						<td style="width : 10%; text-align : center;">사용완료</td>
+					<c:if test="${buyInfo.REFUNDDATE eq null}">
+						<c:if test="${buyInfo.GB_USE eq 'N'}">
+							<td style="width : 10%; text-align : center;">사용가능</td>
+						</c:if>
+						<c:if test="${buyInfo.GB_USE eq 'Y'}">
+							<td style="width : 10%; text-align : center;">사용완료</td>
+						</c:if>
 					</c:if>
 					<c:if test="${buyInfo.REFUNDDATE ne null}">
 						<td style="width : 10%; text-align : center;">결제취소</td>
@@ -467,9 +490,62 @@ h3.tit {
 </section>
 <script>
 $(function(){
-	$('#myMoive').on('click', '#resRefundBtn', function(){
+	
+	$('#myMovie').on('click', '#photoTicketRefundBtn', function(){
 		let merchant_uid = $(this).data('merchant_uid');
-		resRefund(merchant_uid);
+		$('#ptrefundHiddenMUID').val(merchant_uid);
+		$('#photoTicket-refund-modal').modal('show');
+	})
+	
+	$('.infodiv2').on('click', '#photoTicketBtn', function(){
+		let merchant_uid = $(this).data('merchant_uid');
+		location.href="<%=request.getContextPath()%>/photoTicket/edit.do?merchant_uid=" + merchant_uid;
+		
+	})
+	
+	$('#myMovie').on('click', '#resRefundBtn', function(){
+		let merchant_uid = $(this).data('merchant_uid');
+		$('#refundHiddenMUID').val(merchant_uid);
+		$('#refund-modal').modal('show');
+	})
+	
+	$('#myMovie').on('click', '#creInfoBtn', function(){
+		
+		let merchant_uid = $(this).data('merchant_uid');
+		
+		$.ajax({
+			url : '<%=request.getContextPath()%>/pay/creInfo.do',
+			method : 'post',
+			data : {'merchant_uid' : merchant_uid},
+			success : function(res){
+				console.log(res);
+				payInfoRes(res);
+				$('#creditInfo-modal').modal('show');
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+		
+	})
+	
+	$('#myPurcArea').on('click', '#creInfoBtn', function(){
+		
+		let merchant_uid = $(this).data('merchant_uid');
+		
+		$.ajax({
+			url : '<%=request.getContextPath()%>/pay/creInfo.do',
+			method : 'post',
+			data : {'merchant_uid' : merchant_uid},
+			success : function(res){
+				console.log(res);
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+		
+		$('#creditInfo-modal').modal('show');
 	})
 })
 
@@ -582,6 +658,66 @@ function resRefund(merchant_uid){
 	    	alert(err.status);
 	    }
 	})
+}
+
+function ptRefund(merchant_uid){
+	$.ajax({
+		url : "/pay/ptrefund.do", 
+	    type : "POST",
+	    data : {'merchant_uid' : merchant_uid},
+	    success : function(res){
+	    	console.log(res);
+	    	if(res != 'F'){
+	    		alert("취소가 완료되었습니다.");
+	    		location.reload();
+	    	}
+	    },
+	    error : function(err){
+	    	alert(err.status);
+	    }
+	})
+}
+
+function payInfoRes(res){
+	let paydate = dateFormat(new Date(res.PAYDATE));
+	
+	$('#infoModalPriceSum').text(res.PRICESUM + '원');
+	$('#infoModalDiscount').text(res.DISCOUNT + '원');
+	$('#infoModalPaidAmount').text(res.PAID_AMOUNT + '원');
+	$('#infoModalRefundPaidAmount').text(res.PAID_AMOUNT + '원');
+	$('#infoModalPaydate').text(paydate);
+	let cardShow = '';
+	cardShow += res.CARD_NAME + ' '; 
+	if(res.CARD_QUOTA == 0){
+		cardShow += '(일시불)';
+	}else{
+		cardShow += '(' + res.CARD_QUOTA + '개월)';
+		
+	}
+	$('#infoModalCard').text(cardShow);
+	
+	if(res.REFUNDDATE != null){
+		let refunddate = dateFormat(new Date(res.REFUNDDATE));
+		$('#infoModalRefunddate').text(refunddate);
+		$('.creInfoModalRefundInfo').css('display', '');
+	}else{
+		$('.creInfoModalRefundInfo').css('display', 'none');
+	}
+}
+function dateFormat(date) {
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+    let hour = date.getHours();
+    let minute = date.getMinutes();
+    let second = date.getSeconds();
+
+    month = month >= 10 ? month : '0' + month;
+    day = day >= 10 ? day : '0' + day;
+    hour = hour >= 10 ? hour : '0' + hour;
+    minute = minute >= 10 ? minute : '0' + minute;
+    second = second >= 10 ? second : '0' + second;
+
+    return date.getFullYear() + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
 }
 </script>
 <%@ include file="../include/member_footer.jsp" %>
