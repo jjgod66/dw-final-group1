@@ -74,7 +74,7 @@
 <p style="text-align: center;">ㅇ 푸터ㅇ</p> 
 <p style="text-align: center;">수정전</p> 
 <p style="text-align: center;">수정전</p> 
-<%-- <div class="boxoffice">
+< <div class="boxoffice">
     <div class="container">
         <div class="movieChartBeScreen_btn_wrap">
             <div class="tabBtn_wrap">
@@ -126,7 +126,7 @@
             </div>
         </ol>
     </div>
-</div> --%>
+</div> 
 <script>
 // Swiper 인스턴스 생성
 var swiper = new Swiper('.swiper-container', {
@@ -160,7 +160,7 @@ swiper.on('slideChange', function() {
   }
 });
 </script>
-<%-- <div class="event-wrapper">
+<div class="event-wrapper">
     <div class="container">
         <div class="event_title_wrap">
             <div class="tabBtn_wrap">
@@ -187,8 +187,8 @@ swiper.on('slideChange', function() {
 			</ul>
 		</div>
     </div>
-</div> --%>
-<%-- <div class="store-wrapper">
+</div> 
+<div class="store-wrapper">
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-6 col-xl-3">
@@ -271,5 +271,5 @@ swiper.on('slideChange', function() {
             </div>
         </div>
     </div>
-</div> --%>
+</div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
