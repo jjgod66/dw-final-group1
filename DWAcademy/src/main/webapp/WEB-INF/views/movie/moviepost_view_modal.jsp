@@ -240,7 +240,7 @@ $(function(){
 				$('#updatewritecount').text(res.MPOST_CONTENT.length);
 				$('#update_movie_name').val(res.MOVIE_NAME);
 				$('#update_mpost_movie_cd').val(res.MOVIE_CD);
-				let show = '<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + res.MOVIE_PIC_PATH + '&item_cd=' + res.MOVIE_CD + '&type=movieImg" style="max-height: 300px; max-width: 464px;">';
+				let show = '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.MOVIE_PIC_PATH + '&item_cd=' + res.MOVIE_CD + '&type=movieImg" style="max-height: 300px; max-width: 464px;">';
 				$('#updateselPic').html(show);
 				$('#updateMoviePicNo').val(res.MOVIE_PIC_NO);
 				$('#moviepost-update-modal').modal("show");
@@ -460,7 +460,7 @@ function replyReg(res){
 	regShow += '<div style="display: flex; border-bottom: solid 1px #ced4da;" class="oneReply">';
 	regShow += '<div style="margin: 10px;">';
 	if(res.MEM_PIC_PATH != null && res.MEM_PIC_PATH != ''){
-		regShow += '<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + res.MEM_PIC_PATH + '&item_cd=$' + res.MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+		regShow += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.MEM_PIC_PATH + '&item_cd=$' + res.MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 	}else{
 		regShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 	}

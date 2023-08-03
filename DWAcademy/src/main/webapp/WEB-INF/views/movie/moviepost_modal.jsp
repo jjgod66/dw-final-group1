@@ -288,7 +288,7 @@ $(function(){
 		let movie_cd = $(this).data("movie_cd");
 		let path = $(this).data("path");
 		let movie_pic_no = $(this).data("movie_pic_no");
-		let show = '<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + path + '&item_cd=' + movie_cd + '&type=movieImg" style="max-height: 300px; max-width: 464px;">';
+		let show = '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + path + '&item_cd=' + movie_cd + '&type=movieImg" style="max-height: 300px; max-width: 464px;">';
 		$('#selPic').html(show);
 		$('input[name="movie_pic_no"]').val(movie_pic_no);
 	})
@@ -303,7 +303,7 @@ function moviePicShow(res){
 		let movie_cd = res[i].movie_cd;
 		let movie_pic_no = res[i].movie_pic_no;
 		show += '<div class="col-4" style="margin-bottom: 10px;" id="picture" data-movie_cd="' + movie_cd + '" data-path="' + path + '" data-movie_pic_no="' + movie_pic_no + '">';
-		show += '<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + path + '&item_cd=' + movie_cd + '&type=movieImg" style="width: 100%; height: auto;">'
+		show += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + path + '&item_cd=' + movie_cd + '&type=movieImg" style="width: 100%; height: auto;">'
 		show += '</div>'
 	}
 	$('#moviePicGroup').html(show);

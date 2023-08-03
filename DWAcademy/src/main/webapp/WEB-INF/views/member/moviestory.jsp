@@ -229,22 +229,44 @@ h3.tit {
     padding: 0;
     background-color: #333;
 }
-.content-section {
-    display: block;
+.content-section button {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
 }
+.btn-year {
+    display: block;
+    width: 31px;
+    height: 50px;
+    font-size: 0;
+    line-height: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.btn-year.year-prev {
+    left: 0;
+    border-right: 1px solid #d8d9db;
+    background-image: url(https://img.megabox.co.kr/static/pc/images/mypage/btn-timeline-prev.png);
+}
+
 </style>
 <h2 class="tit">나의 무비스토리</h2>
 <div class="tab-block tab-layer">
 	<ul>
-		<li data-url="/mypage/movieStory?tab=01" data-tit="무비타임라인" title="무비타임라인 탭으로 이동" class="on"><a href="#myMovieTimeLineArea" data-type="01" class="btn">무비타임라인</a></li>
-		<li data-url="/mypage/movieStory?tab=02" data-tit="무비포스트" title="무비포스트 탭으로 이동" class=""><a href="#myMoviepostArea" data-type="02" class="btn">무비포스트</a></li>
+		<li data-url="/mypage/movieStory?tab=01" data-tit="무비타임라인" title="무비타임라인 탭으로 이동" class="on"><a href="#myMovieTimeLineArea" class="btn">무비타임라인</a></li>
+		<li data-url="/mypage/movieStory?tab=02" data-tit="무비포스트" title="무비포스트 탭으로 이동" class=""><a href="#myMoviepostArea" class="btn">무비포스트</a></li>
 		<li data-url="/mypage/movieStory?tab=03" data-tit="리뷰" title="리뷰 탭으로 이동" class=""><a href="#myReviewArea" class="btn">리뷰</a></li>
 		<li data-url="/mypage/movieStory?tab=04" data-tit="좋아요" title="좋아요 탭으로 이동" class=""><a href="#myLikeMovieArea" class="btn">좋아요</a></li>
 	</ul>
 </div>
 <!-- 무비타임라인 시작 -->
 <section id="myMovieTimeLineArea"  class="content-section" style="display: none;">
-	<div>1</div>
+	<div style="dispaly: block;">
+		<button type="button" class="btn-year year-prev" aria-label="Previous slide" aria-disabled="true">이전 년도 선택</button>
+		<button type="button" aria-label="Previous slide" aria-disabled="true"></button>
+		
+	</div>
 </section>
 <!-- 무비타임라인 끝 -->
 <!-- 나의 무비포스트 시작 -->
@@ -296,6 +318,6 @@ $(document).ready(function () {
 		$(".content-section").hide();
 		$(hash).show();
 	};
-}
+})
 </script>
 <%@ include file="../include/member_footer.jsp" %>

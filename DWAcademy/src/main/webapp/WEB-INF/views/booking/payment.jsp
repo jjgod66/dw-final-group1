@@ -50,7 +50,7 @@ if(session.getAttribute("loginUser") != null){
 		<div class="row">
 			<div class="col-md-3">
 				<div class="movie_infor">
-					<span class="thm"><img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${mapData.MOVIE_MAINPIC_PATH}&item_cd=${mapData.MOVIE_CD}&type=moviePoster" alt="${mapData.MOVIE_NAME }"></span>
+					<span class="thm"><img src="<%=request.getContextPath() %>/common/getPicture.do?name=${mapData.MOVIE_MAINPIC_PATH}&item_cd=${mapData.MOVIE_CD}&type=moviePoster" alt="${mapData.MOVIE_NAME }"></span>
 					<strong class="tit"><span class="ic_grade gr_all"></span>&nbsp;${mapData.MOVIE_NAME }
 						<c:if test="${mapData.MOVIE_TYPE_DES eq '없음/2D' }">(2D)</c:if>
 						<c:if test="${mapData.MOVIE_TYPE_DES ne '없음/2D' }">(${mapData.MOVIE_TYPE_DES })</c:if>
