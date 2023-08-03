@@ -119,7 +119,7 @@ if(session.getAttribute("loginUser") != null){
             </li>
             <li role="menuitem" style="width: 65px;">
                 <a href="<%=request.getContextPath()%>/support/main.do" style="position: absolute; top: 20px; right: 40px; color: #333; font-size: 1.8rem;"><img src="<%=request.getContextPath()%>/resources/img/chat-support-icon.png" style="height: 29px; vertical-align: text-top; margin-top: 7px;"></a>
-                <a href="javascript:void(0)" id="myPageMain" style="position: absolute; top: 20px; right: 0; color: #333; font-size: 1.8rem;"><i class="bi bi-person"></i></a>
+                <a href="<%=request.getContextPath()%>/member/main.do" id="myPageMain" style="position: absolute; top: 20px; right: 0; color: #333; font-size: 1.8rem;"><i class="bi bi-person"></i></a>
             </li>
         </ul>
     </div>
@@ -144,14 +144,14 @@ if(session.getAttribute("loginUser") != null){
 	<input type="hidden" name="gb_sms_alert">
 </form>
 <script>
-$('#myPageMain').on('click', function(){
-	if('<%=mem_cd%>' == null || '<%=mem_cd%>' == ""){
-		$('#login-service-modal').modal("show");
-		return;
-	}else{
-		location.href="<%=request.getContextPath()%>/member/main.do";
-	}
+let loginNeed = "${loginNeed}";
+console.log(loginNeed);
+$(document).ready(function(){
+	if(loginNeed != ""){
+		$('#login-modal').modal('show');
+	};
 })
+
 function join_go(){
 let joinForm = $('#joinForm');
 let memberInfo = $('.memberInfo')

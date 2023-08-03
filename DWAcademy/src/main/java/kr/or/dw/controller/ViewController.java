@@ -32,25 +32,11 @@ public class ViewController {
 	 * 맴버 뷰어 컨트롤러 
 	 */
 
-	@GetMapping("/member/myinquiry")
-	public String memberMyinquiry() {
-		String url = "/member/myinquiry";
-		return url;
-	}
+
 	@GetMapping("/member/point-list")
 	public String memberPointlist() {
 		String url = "/member/point-list";
 		return url;
-	}
-	@GetMapping("/member/additionalinfo")
-	public ModelAndView memberAdditionalinfo(ModelAndView mnv, HttpSession session) {
-		String url = "/member/additionalinfo";
-		MemberVO member = (MemberVO) session.getAttribute("loginUser");
-		
-		mnv.addObject("member", member);
-		mnv.setViewName(url);
-		
-		return mnv;
 	}
 	
 	@GetMapping("/member/membership")

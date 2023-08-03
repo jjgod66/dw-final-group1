@@ -221,11 +221,13 @@
     </div>
 </div>
 <script>
-$('#chk1').on('click', function(){
+$('#chk11').on('click', function(){
 	$('input[name=marketSmsRcvAgreeAt1]').attr("disabled", true);
 	$('input[name=marketEmailRcvAgreeAt1]').attr("disabled", true);
+	$('#chk44').attr('checked', true);
+	$('#chk66').attr('checked', true);
 })
-$('#chk2').on('click', function(){
+$('#chk22').on('click', function(){
 	$('input[name=marketSmsRcvAgreeAt1]').attr("disabled", false);
 	$('input[name=marketEmailRcvAgreeAt1]').attr("disabled", false);
 })

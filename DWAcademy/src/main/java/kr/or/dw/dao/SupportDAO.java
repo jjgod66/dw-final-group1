@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import kr.or.dw.command.SearchCriteria;
@@ -152,5 +153,39 @@ public interface SupportDAO {
 	 * @throws SQLException
 	 */
 	NoticeVO selectNoticeDetail(int notice_no) throws SQLException;
+
+	/**
+	 * 나의 문의 내역 조회
+	 * @param cri
+	 * @param rowBounds
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> getAllMyQuestionList(SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	/**
+	 * 나의 문의 내역 총 개수
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	int MyQuestionListCnt(SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	/**
+	 * 나의 문의 내역 검색
+	 * @param cri
+	 * @param rowBounds
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> searchMyQuestionList(@Param("cri")SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	/**
+	 * 나의 문의 내역 검색 총 개수
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	int searchMyQuestionListCnt(@Param("cri")SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
 
 }

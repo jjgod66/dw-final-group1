@@ -106,8 +106,10 @@ public class CommonController {
 	
 	
 	@RequestMapping(value = "/main", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView index(ModelAndView mnv, HttpSession session) throws SQLException {
+	public ModelAndView index(ModelAndView mnv, HttpSession session, String login) throws SQLException {
 		String url = "/main";
+		
+		System.out.println(login);
 		List<Map<String, Object>> movieListMap = null;
 		movieListMap = movieService.getIndexBoxOfficeMovie10();
 		
@@ -135,6 +137,7 @@ public class CommonController {
 		List<NoticeVO> noticeList = null;
 		noticeList = supportService.getNotice2();
 		
+		mnv.addObject("loginNeed", login);
 		mnv.addObject("noticeList", noticeList);
 		mnv.addObject("eventList", eventList);
 		mnv.addObject("movieList", movieList);
@@ -189,6 +192,13 @@ public class CommonController {
 		}
 		
 		return entity;
+	}
+	
+	@RequestMapping("common/login")
+	public String loginFrom() {
+		String url = "/common/login";
+
+		return url;
 	}
 	
 }
