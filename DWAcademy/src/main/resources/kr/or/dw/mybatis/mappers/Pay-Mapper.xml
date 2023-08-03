@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.PayDAO">
+
+	<select id="selectImpUidByMerUid" resultType="str">
+		SELECT imp_uid
+		FROM pay_detail
+		WHERE merchant_uid = #{merchant_uid}
+	</select>
+	
+	<update id="refundPayDetail">
+		UPDATE pay_detail SET status = 'refund', refunddate = sysdate WHERE merchant_uid = #{merchant_uid}
+	</update>
+	
+	<update id="refundReservation">
+		UPDATE reservation SET gb_cancel = 'Y' WHERE merchant_uid = #{merchant_uid}
+	</update>
+	
+	<update id="refundMemBuy">
+		UPDATE mem_buy SET gb_cancel = 'Y' WHERE merchant_uid = #{merchant_uid}
+	</update>
+</mapper>

@@ -237,7 +237,15 @@ h3.tit {
 .toggle {
 	display: none;
 }
+.CreBtn{
+	border: solid 1px gray;
+	border-radius: 5px;
+	padding: 5px;
+	margin-left: 5px;
+}
 </style>
+
+<%@include file="creditInfo_modal.jsp" %>
 <h2 class="tit">예매/구매 내역</h2>
 <div class="tab-block tab-layer">
 	<ul>
@@ -316,8 +324,8 @@ h3.tit {
 				<span><strong>관람일시 </strong>${movieInfo.STARTDATE}</span>
 				<br><br>
 				<span><strong>결제일시 </strong>${movieInfo.RESDATE}</span>
-				<button type="button" class="btn-light">결제정보</button>
-				<button type="button" class="btn-light">결제취소</button>
+				<button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}">결제정보</button>
+<!-- 				<button type="button" class="btn-light">결제취소</button> -->
 			</div>
 			<div class="col-4">
 				<br><br>
@@ -326,9 +334,13 @@ h3.tit {
 				<br><br>
 				<span><strong>관람좌석 </strong>${movieInfo.RES_SEAT}</span>
 				<br><br>
+				
 				<c:if test="${movieInfo.REFUNDDATE eq null}">
-					<span><strong>취소일시 </strong> - </span>
+					<span><strong>취소일시 </strong><button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="resRefundBtn">예매취소</button></span>
 				</c:if>
+<%-- 				<c:if test="${movieInfo.REFUNDDATE eq null}"> --%>
+<!-- 					<span><strong>취소일시 </strong> - </span> -->
+<%-- 				</c:if> --%>
 				<c:if test="${movieInfo.REFUNDDATE ne null}">
 					<span><strong>취소일시 </strong>${movieInfo.REFUNDDATE}</span>
 				</c:if>
@@ -454,6 +466,13 @@ h3.tit {
 </form>
 </section>
 <script>
+$(function(){
+	$('#myMoive').on('click', '#resRefundBtn', function(){
+		let merchant_uid = $(this).data('merchant_uid');
+		resRefund(merchant_uid);
+	})
+})
+
 let searchUrl = "/member/bookinglist.do"
 if (${not empty sessionScope.admin_cd}) {
 	$('#reserveSearchForm').find('[name="adminType"]').val('${sessionScope.admin_cd}');
@@ -544,5 +563,25 @@ let searchType = "<c:out value='${cri.searchType}'/>";
 	});
 
 });
+
+
+
+function resRefund(merchant_uid){
+	$.ajax({
+		url : "/pay/refund.do", 
+	    type : "POST",
+	    data : {'merchant_uid' : merchant_uid},
+	    success : function(res){
+	    	console.log(res);
+	    	if(res != 'F'){
+	    		alert("취소가 완료되었습니다.");
+	    		location.reload();
+	    	}
+	    },
+	    error : function(err){
+	    	alert(err.status);
+	    }
+	})
+}
 </script>
 <%@ include file="../include/member_footer.jsp" %>
