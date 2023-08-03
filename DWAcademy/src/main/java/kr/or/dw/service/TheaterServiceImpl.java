@@ -188,5 +188,15 @@ public class TheaterServiceImpl implements TheaterService{
 		return eventList;
 	}
 
+	@Override
+	public List<TheaterVO> getAllTheaterList() throws SQLException {
+		return theaterDAO.getAllTheaterList();
+	}
+
+	@Override
+	public List<TheaterVO> searchTheaterName(String selectLocData) throws SQLException {
+		return theaterDAO.searchTheaterName(selectLocData);
+	}
+
 	
 }
