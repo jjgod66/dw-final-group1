@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@include file="../include/header.jsp" %>
 <link rel="stylesheet" type="text/css" href="https://fengyuanchen.github.io/cropperjs/css/cropper.css">
 <script src="https://fengyuanchen.github.io/cropper/js/cropper.js"></script>
@@ -31,6 +33,14 @@
 
 	
 </style>
+<%
+Map member = null;
+if(session.getAttribute("loginUser") != null){
+	member = (Map) session.getAttribute("loginUser");
+	mem_cd = (String)member.get("CD");
+}
+
+%>
 <div class="sub_visual">
     <h3>포토티켓</h3>
     <h6>photo ticket</h6>
@@ -58,16 +68,25 @@
 							<div class="card-body">
 								<div class="" style="text-align: center; margin: 10px;"><img src="/resources/img/logo.png" style="width: 90%;"></div>
 								<hr style="width: 100%; color: gray; margin: 30px auto;">
-								<h4 style="font-weight: 600;">영화제목</h4>
+								<h4 style="font-weight: 600;">${dataMap.MOVIE_NAME }</h4>
 								<br>
-								<p>2D / 전체관람가</p>
+								<p>${dataMap.MOVIE_GRADE } (${dataMap.MOVIE_TYPE_DES})</p>
 								<br>
-								<p>대전유성점 1관</p>
+								<p>${dataMap.THR_NAME } &nbsp; ${dataMap.HOUSE_NAME }</p>
 								<br>
-								<p>2023-07-19</p>
-								<p>12:00 ~ 13:00</p>
-								<hr style="width: 100%; color: gray; margin: 30px auto;">
-								<div class="" style="text-align: center; margin: 10px;"><img src="/resources/img/M16897443761090054.png" style="width: 100%;"></div>
+								<p><fmt:formatDate value="${dataMap.STARTDATE }" pattern="yyyy-MM-dd"/></p>
+								<p>${dataMap.starttime } ~ ${dataMap.endtime }</p>
+								<hr style="width: 100%; color: gray; margin: 30px auto 10px auto;">
+								<div class="row">
+								<div class="col-8" style="font-size: 10px; padding-top:20px;">
+									상영관 입장은 별도의 
+									<br>
+									지류티켓으로 가능합니다.
+								</div>
+								<div class="col-4">
+									<img src="/resources/img/M16903369643220061.png" style="width: 100%;">
+								</div>
+								</div>
 							</div>
 						</div>
 						<div style="text-align: center;">뒷면</div>
@@ -88,7 +107,7 @@
 					  	<i class="ico-kakaopay"></i>
 					  	<span class="paycard-title">카카오페이 결제</span>
 					 </button>
-					<button class="btn btn-primary px-3" id="credit" onclick="requestPay('html5_inicis');" style="margin-top: 10px;"">카드 결제</button>
+					<button class="btn btn-primary px-3" id="credit" onclick="requestPay('html5_inicis');" style="margin-top: 10px;">카드 결제</button>
 					<button class="btn btn-success px-3" id="reset" style="float: right; margin-top: 20px;">초기화</button>
 				</div>
 			</div>
@@ -96,10 +115,10 @@
 	</div>
 
 </div>
-<form id="photoForm">
-	<input type="hidden" name="screen_cd">
-	<input type="hidden" name="frontPic">
-	<input type="hidden" name="backPic">
+<form id="photoForm" method="post" action="<%=request.getContextPath()%>/photoTicket/pay.do">
+	<input type="hidden" name="merchant_uid" value="${dataMap.MERCHANT_UID}">
+	<input type="hidden" name="front_path">
+	<input type="hidden" name="back_path">
 	<input type="hidden" name="json">
 </form>
 <script>
@@ -110,28 +129,30 @@ IMP.init("imp04352208");
 //결제화면 띄우는 메서드
 
 function requestPay(method) { 
-	if($('input[name="frontPic"]').val() == null || $('input[name="frontPic"]').val() == ''){
+	if($('input[name="front_path"]').val() == null || $('input[name="front_path"]').val() == ''){
 		alert('사진을 선택해주세요');
 		return;
 	}
 	
 	let merchant_uid = new Date().getTime();
-	
+	sreenShot($("#back"));
+	console.log('back_path : ' + $('input[name="back_path"]').val());
     IMP.request_pay({
         pg: method,
         pay_method: 'card',
         merchant_uid: merchant_uid,
         name: '포토티켓',
         amount: 1000,
-        buyer_email: buyer_email,
-        buyer_name: buyer_name,
-        buyer_tel: buyer_tel,
+        buyer_email: '<%=member.get("EMAIL")%>',
+        buyer_name: '<%=member.get("NAME")%>',
+        buyer_tel: '<%=member.get("PHONE")%>',
     }, function (rsp) { // callback
         if (rsp.success) {
             console.log(rsp);
 			$('input[name="json"]').val(JSON.stringify(rsp));
+			console.log('back_path : ' + $('input[name="back_path"]').val());
 			alert("결제완료");
-			$('#payForm').submit();	
+			$('#photoForm').submit();	
 			
         } else {
             console.log(rsp);
@@ -186,6 +207,7 @@ function sreenShot(target) {
 	                contentType: false,
 	                success: function (res) {
 	                	console.log(res);
+	                	$('input[name="back_path"]').val(res);
 	                },
 	                error: function (err) {
 	                	alert(err.status);
@@ -207,7 +229,7 @@ $(function(){
 	$('#reset').on('click', function(){
 		$('#result').css('background-image', '');
 		$('#imgupbtn').css('display', '');
-		$('input[name="frontPic"]').val('');
+		$('input[name="front_path"]').val('');
 	})
 
 })

@@ -13,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 import com.google.gson.Gson;
 
 import kr.or.dw.dao.PayDAO;
+import kr.or.dw.vo.MemBuyVO;
+import kr.or.dw.vo.ReservationVO;
 
 public class PayServiceImpl implements PayService{
 
@@ -97,9 +99,61 @@ RestTemplate restTemplate = new RestTemplate();
 			payDAO.refundPayDetail(merchant_uid);
 			if(merchant_uid.substring(0, 1).equals("M")) {
 				payDAO.refundReservation(merchant_uid);
+				ReservationVO res = null;
+				res = payDAO.selectResCouPoint(merchant_uid);
+				if(res.getMem_coupon_no() != 0) {
+					int coupon_no = res.getMem_coupon_no();
+					payDAO.returnCoupon(coupon_no);
+				}
+				if(res.getUse_point() != 0) {
+					payDAO.returnPoint(merchant_uid);
+				}
+				
 			}else {
 				payDAO.refundMemBuy(merchant_uid);
+				MemBuyVO memBuy = null;
+				memBuy = payDAO.selectBuyPoint(merchant_uid);
+				if(memBuy.getUse_point() != 0) {
+					payDAO.returnPoint(merchant_uid);
+				}
 			}
+		}
+		
+		
+		
+		return result;
+	}
+
+	@Override
+	public Map<String, Object> getPayInfo(String merchant_uid) throws SQLException {
+		Map<String, Object> creInfo = null;
+		
+		creInfo = payDAO.selectPayDetail(merchant_uid);
+		
+		Map<String, Object> creInfo2 = null;
+		if(merchant_uid.substring(0, 1).equals("M")) {
+			creInfo2 = payDAO.selectResInfo(merchant_uid);
+		}else {
+			creInfo2 = payDAO.selectBuyInfo(merchant_uid);
+		}
+		
+		creInfo.put("DISCOUNT", creInfo2.get("DISCOUNT"));
+		creInfo.put("PAYDATE", creInfo2.get("PAYDATE"));
+		creInfo.put("GB_CANCEL", creInfo2.get("GB_CANCEL"));
+		creInfo.put("PRICESUM", creInfo2.get("PRICESUM"));
+		
+		return creInfo;
+	}
+
+	@Override
+	public String ptRefund(String merchant_uid) throws SQLException {
+		String imp_uid = "";
+		imp_uid = payDAO.selectPTImpUidByMerUid(merchant_uid);
+		String result = "F";
+		result = refundSer(imp_uid);
+		if(!result.equals("F")) {
+			payDAO.refundPayDetailImpUid(imp_uid);
+			payDAO.deletePhotoTicket(merchant_uid);
 		}
 		
 		return result;

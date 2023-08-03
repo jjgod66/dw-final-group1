@@ -1,10 +1,21 @@
 package kr.or.dw.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +23,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+
+import kr.or.dw.command.PhotoTicketPayCommand;
 import kr.or.dw.service.PhotoTicketService;
+import kr.or.dw.vo.PayDetailVO;
+import kr.or.dw.vo.PhotoTicketVO;
 
 @Controller
 @RequestMapping("/photoTicket")
@@ -95,4 +112,60 @@ public class PhotoTicketController {
 			return fileName;
 		}
 	
+		@RequestMapping("/edit")
+		public ModelAndView photoTicketMain(ModelAndView mnv, String merchant_uid) throws SQLException {
+			String url = "/booking/photoTicket";
+			
+			Map<String, Object> dataMap = null;
+			
+			dataMap = photoTicketService.getMovieInfo(merchant_uid);
+			
+			
+			
+			mnv.addObject("dataMap", dataMap);
+			mnv.setViewName(url);
+			return mnv;
+		}
+		
+		@RequestMapping("/getQR")
+		public ResponseEntity<byte[]> getPicture(String merchant_uid) throws IOException  {
+			
+			InputStream in = null;
+			ResponseEntity<byte[]> entity = null;
+			String imgPath = "";
+			imgPath =  "C:/DWAcademyFiles/QR/reservation";
+			
+			try {
+				in = new FileInputStream(new File(imgPath, merchant_uid + ".png"));
+				entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+			} finally {
+				in.close();
+			}
+			return entity;
+		}
+		
+		@RequestMapping("/pay")
+		public void photoTicketPay(HttpSession session, PhotoTicketPayCommand ptc, HttpServletResponse res, HttpServletRequest req) throws Exception {
+			
+			Gson gson = new Gson();
+			PayDetailVO payDetail = gson.fromJson(ptc.getJson(), PayDetailVO.class);
+			
+			PhotoTicketVO photoTicket = new PhotoTicketVO();
+			photoTicket.setBack_path(ptc.getBack_path());
+			photoTicket.setFront_path(ptc.getFront_path());
+			photoTicket.setMerchant_uid(ptc.getMerchant_uid());
+			
+			photoTicketService.payPhotoTicket(payDetail, photoTicket);
+			
+			res.setContentType("text/html; charset=utf-8");
+			PrintWriter out = res.getWriter();
+			out.println("<script>");
+			out.println("location.href='" + req.getContextPath() + "/member/bookinglist.do';");
+			out.println("</script>");
+			out.flush();
+			out.close();
+		}
 }

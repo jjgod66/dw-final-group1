@@ -472,16 +472,19 @@
 		  ,MAX(m.movie_name) movie_name
 		  ,MAX(m.movie_cd) movie_cd
 		  ,MAX(m.movie_mainpic_path) movie_mainpic_path
+		  ,MAX(pt.gb_print) gb_print
 	  FROM RESERVATION r
 	  	  ,screen s
 	  	  ,movie m
 	  	  ,house h
 	  	  ,PAY_DETAIL p
+	  	  ,photo_ticket pt
 	 WHERE r.mem_cd = #{mem_cd}
 	   AND s.screen_cd = r.screen_cd 
 	   AND s.movie_cd = m.movie_cd
 	   AND h.house_no = s.house_no
 	   AND p.merchant_uid = r.merchant_uid
+	   AND p.merchant_uid = pt.merchant_uid(+)
 	 GROUP BY r.merchant_uid
 	</select>
 	
@@ -497,11 +500,13 @@
 		  ,MAX(m.movie_name) movie_name
 		  ,MAX(m.movie_cd) movie_cd
 		  ,MAX(m.movie_mainpic_path) movie_mainpic_path
+		  ,MAX(pt.gb_print) gb_print
 	  FROM RESERVATION r
 	  	  ,screen s
 	  	  ,movie m
 	  	  ,house h
 	  	  ,PAY_DETAIL p
+	  	  ,photo_ticket pt
 	 WHERE r.mem_cd = #{mem_cd}
 	 <if test="cri.searchType == 'date'.toString()">
 	   AND TO_CHAR(startdate, 'YYYYMM') like #{cri.monthKeyword}
@@ -516,6 +521,7 @@
 	   AND s.movie_cd = m.movie_cd
 	   AND h.house_no = s.house_no
 	   AND p.merchant_uid = r.merchant_uid
+	   AND p.merchant_uid = pt.merchant_uid(+)
 	 GROUP BY r.merchant_uid
 	</select>
 
@@ -683,16 +689,19 @@
 		  ,MAX(m.movie_name)
 		  ,MAX(m.movie_cd)
 		  ,MAX(m.MOVIE_MAINPIC_PATH)
+		  ,MAX(pt.gb_print) gb_print
 	  FROM RESERVATION r
 	  	  ,screen s
 	  	  ,movie m
 	  	  ,house h
 	  	  ,PAY_DETAIL p
+	  	  ,photo_ticket pt
 	 WHERE r.mem_cd = #{mem_cd}
 	   AND s.screen_cd = r.screen_cd 
 	   AND s.movie_cd = m.movie_cd
 	   AND h.house_no = s.house_no
 	   AND p.merchant_uid = r.merchant_uid
+	   AND p.merchant_uid = pt.merchant_uid(+)
 	 GROUP BY r.merchant_uid
   	)
 	</select>
@@ -711,11 +720,13 @@
 		  ,MAX(m.movie_name) movie_name
 		  ,MAX(m.movie_cd) movie_cd
 		  ,MAX(m.movie_mainpic_path) movie_mainpic_path
+		  ,MAX(pt.gb_print) gb_print
 	  FROM RESERVATION r
 	  	  ,screen s
 	  	  ,movie m
 	  	  ,house h
 	  	  ,PAY_DETAIL p
+	  	  ,photo_ticket pt
 	 WHERE r.mem_cd = #{mem_cd}
 	 <if test="cri.searchType == 'date'.toString()">
 	   AND TO_CHAR(startdate, 'YYYYMM') like #{cri.monthKeyword}
@@ -730,6 +741,7 @@
 	   AND s.movie_cd = m.movie_cd
 	   AND h.house_no = s.house_no
 	   AND p.merchant_uid = r.merchant_uid
+	   AND p.merchant_uid = pt.merchant_uid(+)
 	 GROUP BY r.merchant_uid
 	  		)
 	</select>
@@ -748,16 +760,19 @@
 				  ,MAX(m.movie_name) movie_name
 				  ,MAX(m.movie_cd) movie_cd
 				  ,MAX(m.movie_mainpic_path) movie_mainpic_path
+				  ,MAX(pt.gb_print) gb_print
 			  FROM reservation r
 			  	  ,screen s
 			  	  ,movie m
 			  	  ,house h
 			  	  ,PAY_DETAIL p
+			  	  ,photo_ticket pt
 			 WHERE r.mem_cd = #{mem_cd}
 			   AND s.screen_cd = r.screen_cd 
 			   AND s.movie_cd = m.movie_cd
 			   AND h.house_no = s.house_no
 			   AND p.merchant_uid = r.merchant_uid
+			   AND p.merchant_uid = pt.merchant_uid(+)
 			 GROUP BY r.merchant_uid
 			 ORDER BY r.merchant_uid
 			 )

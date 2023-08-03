@@ -191,7 +191,7 @@ $(function(){
                 	$('#imgupbtn').css('display', 'none');
                 	$('#crop').css('display', '');
             		$('#success').css('display', 'none');
-            		$('input[name="frontPic"]').val(res);
+            		$('input[name="front_path"]').val(res);
                 },
                 error: function (err) {
                 	alert(err.status);
