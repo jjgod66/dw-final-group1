@@ -270,7 +270,7 @@ select {
 	    	<div class="col-2 postLankMoive" style="position: relative; margin-right: 20px;" data-movie_name="${movie.MOVIE_NAME }">
 	    		<div style="width: 180px; height: 250px; position: absolute;" >
 	    			<img
-								src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster"
+								src="<%=request.getContextPath() %>/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster"
 								onerror="noImg(this)" alt="${movie.MOVIE_NAME }" style="width: 100%; height: 100%;">
 	    		</div>
 	    		<div style="width: 180px; height: 250px; position: absolute; background-color:rgba(0, 0, 0, 0.5); color : white;" class="lankcount">
@@ -331,7 +331,7 @@ select {
 			        <div class="row" style="margin: 30px 0px 30px 0px; border-radius: solid 1px #e5e5e5;" >
 						<div class="col-1">
 							<c:if test="${review.MEM_PIC_PATH != null}">
-								<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${review.MEM_PIC_PATH}&item_cd=${review.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+								<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/common/getPicture.do?name=${review.MEM_PIC_PATH}&item_cd=${review.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
 							</c:if>
 							<c:if test="${review.MEM_PIC_PATH == null}">
 								<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">

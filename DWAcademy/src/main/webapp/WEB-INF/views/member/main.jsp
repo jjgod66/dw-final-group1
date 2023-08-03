@@ -150,7 +150,7 @@
 						예매 내역이 없습니다.
 					</c:if>
 						<c:forEach items="${movieInfoList}" var="movieInfo">
-									<div class="col-2" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
+									<div class="col-2" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
 									<div class="col-5">
 										<span><strong>예매번호 </strong>${movieInfo.MERCHANT_UID}</span>
 										<br><br>

@@ -314,7 +314,7 @@ i {
 								class="eventBtn" title="${event.event_title } 상세보기" style="width: 90%;">
 									<p class="cate">${event.event_div }</p> <!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
 									<p class="img">
-										<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb"
+										<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb"
 											alt="${event.event_title }" onerror="noImg(this);">
 									</p>
 									<p class="tit">${event.event_title }</p>

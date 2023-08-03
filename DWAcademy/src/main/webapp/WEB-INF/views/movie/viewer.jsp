@@ -41,7 +41,7 @@
         <div class="scon_02_detail">
             <div class="lbox">
 <%--                 <img src="../../resources/img/poster/${movieView.movie.movie_mainpic_path}"> --%>
-                <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieView.movie.movie_mainpic_path}&item_cd=${movieView.movie.movie_cd}&type=moviePoster">
+                <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${movieView.movie.movie_mainpic_path}&item_cd=${movieView.movie.movie_cd}&type=moviePoster">
                 <a href="<%=request.getContextPath() %>/reservation/cinema.do?movie_cd=${movieView.movie.movie_cd }" class="btn btn-reservation">예매하기</a>
                 <a href="javascript:movieHeart();" class="btn btn-heart ${active }">♡ <span id="likeCount">${likeCount }</span></a>
             </div>
@@ -181,7 +181,7 @@
 			        <div class="reviews-members row" style="margin: 30px 0px 30px 0px;" >
 						<div class="col-1">
 							<c:if test="${review.MEM_PIC_PATH != null}">
-								<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${review.MEM_PIC_PATH}&item_cd=${review.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+								<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/common/getPicture.do?name=${review.MEM_PIC_PATH}&item_cd=${review.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
 							</c:if>
 							<c:if test="${review.MEM_PIC_PATH == null}">
 								<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
@@ -251,7 +251,7 @@
         		<c:forEach items="${moviePostList }" var="moviePost">
 	        		<div class="col-3 post" style="height: 100%">
 	        			<div class="card" style="margin: 20px; height: 90%;">
-	        				<div class="card-body" style="height: 45%; background-image: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${moviePost.MOVIE_PIC_PATH}&item_cd=${moviePost.MOVIE_CD}&type=movieImg');  background-repeat : no-repeat; background-size : cover;"></div>
+	        				<div class="card-body" style="height: 45%; background-image: url('<%=request.getContextPath() %>/common/getPicture.do?name=${moviePost.MOVIE_PIC_PATH}&item_cd=${moviePost.MOVIE_CD}&type=movieImg');  background-repeat : no-repeat; background-size : cover;"></div>
 	        				<div class="card-body" style="height: 55%;">
 	        					<div><p style="font-size: small;"><c:set var="mem_id_post" value="${moviePost.MEM_ID}" />
 							    ${fn:substring(mem_id_post,0,3) }**</p></div>
@@ -293,7 +293,7 @@
 	        	<div class="row" style="width: 100%; margin: 0px 0px 30px 0px;">
 	        		<c:forEach items="${pictureList }" var="pic">
 		        		<div class="col-2" id="moviePic">
-		        			<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${pic.movie_pic_path}&item_cd=${movieView.movie.movie_cd}&type=movieImg" style="width: 100%; border: solid 1px black;">
+		        			<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${pic.movie_pic_path}&item_cd=${movieView.movie.movie_cd}&type=movieImg" style="width: 100%; border: solid 1px black;">
 		        		</div>
 	        		</c:forEach>
 	

@@ -1241,7 +1241,7 @@ public class SysAdminController {
 	        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
 	                .contentType(MediaTypeFactory.getMediaType(video).orElse(MediaType.APPLICATION_OCTET_STREAM))
 	                .body(resourceRegion);
-	    }
+	   }
 	 
 	 @RequestMapping("/uploadTempImg")
 		public ResponseEntity<String> uploadTempImg(MultipartFile file, HttpServletRequest req) {
