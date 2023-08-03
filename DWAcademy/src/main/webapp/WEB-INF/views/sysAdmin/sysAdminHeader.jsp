@@ -48,7 +48,7 @@
 					<ul>
 						<li><a href="<%=request.getContextPath() %>/sysAdmin/main.do">ADMIN HOME</a></li>
 						<li><a href="<%=request.getContextPath() %>/main.do">DWCinema HOME</a></li>
-						<li id="tnb_logout"><a href="">LOGOUT</a></li>
+						<li id="tnb_logout"><a href="/common/logout.do">LOGOUT</a></li>
 					</ul>
 				</div>
 	
