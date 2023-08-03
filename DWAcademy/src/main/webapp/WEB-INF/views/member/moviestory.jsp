@@ -44,6 +44,7 @@ h3.tit {
     width: 20%;
     border: 1px solid #d8d9db;
     border-left: 0;
+    box-sizing: border-box;
 }
 .tab-block ul li:last-child {
     border-right: 1px solid #d8d9db;
@@ -229,73 +230,90 @@ h3.tit {
     padding: 0;
     background-color: #333;
 }
-.content-section {
+.content-div {
     display: block;
 }
 </style>
 <h2 class="tit">나의 무비스토리</h2>
 <div class="tab-block tab-layer">
 	<ul>
-		<li data-url="/mypage/movieStory?tab=01" data-tit="무비타임라인" title="무비타임라인 탭으로 이동" class="on"><a href="#myMovieTimeLineArea" data-type="01" class="btn">무비타임라인</a></li>
-		<li data-url="/mypage/movieStory?tab=02" data-tit="무비포스트" title="무비포스트 탭으로 이동" class=""><a href="#myMoviepostArea" data-type="02" class="btn">무비포스트</a></li>
-		<li data-url="/mypage/movieStory?tab=03" data-tit="리뷰" title="리뷰 탭으로 이동" class=""><a href="#myReviewArea" class="btn">리뷰</a></li>
-		<li data-url="/mypage/movieStory?tab=04" data-tit="좋아요" title="좋아요 탭으로 이동" class=""><a href="#myLikeMovieArea" class="btn">좋아요</a></li>
+		<li data-url="/mypage/moviestory?tab=mt" data-tit="무비타임라인" title="무비타임라인 탭으로 이동" class="on"><a id="movieTimeLineTab" href="#" data-type="mt" class="btn">무비타임라인</a></li>
+		<li data-url="/mypage/moviestory?tab=mp" data-tit="무비포스트" title="무비포스트 탭으로 이동" class=""><a href="#" data-type="mp" class="btn">무비포스트</a></li>
+		<li data-url="/mypage/moviestory?tab=re" data-tit="리뷰" title="리뷰 탭으로 이동" class=""><a href="#" data-type="re" class="btn">리뷰</a></li>
+		<li data-url="/mypage/moviestory?tab=lk" data-tit="좋아요" title="좋아요 탭으로 이동" class=""><a href="#" data-type="lk" class="btn">좋아요</a></li>
 	</ul>
 </div>
 <!-- 무비타임라인 시작 -->
-<section id="myMovieTimeLineArea"  class="content-section" style="display: none;">
+<div class="my-timeline myTimeline myMovieStory" style="display: block;">
 	<div>1</div>
-</section>
+</div>
 <!-- 무비타임라인 끝 -->
 <!-- 나의 무비포스트 시작 -->
-<section id="myMoviepostArea"  class="content-section" style="display: none;">
+<div class="my-movie-post myMoviePost myMovieStory" style="display: none;">
 	<div>2</div>
-</section>
+</div>
 <!-- 나의 무비포스트 끝 -->
 <!-- 리뷰 시작 -->
-<section id="myReviewArea"  class="content-section" style="display: none;">
+<div class="my-appraisal myOne myMovieStory" style="display: none;">
 	<div>3</div>
-</section>
+</div>
 <!-- 리뷰 끝 -->
 <!-- 좋아요 시작 -->
-<section id="myLikeMovieArea"  class="content-section" style="display: none;">
+<div class="my-movie-list myLikeMovie myMovieStory" style="display: none;">
 	<div>4</div>
-</section>
+</div>
 <!-- 좋아요 끝 -->
 
 <script>
 $(document).ready(function () {
-	// 페이지가 로드되면 해시태그에 따라 해당 콘텐츠를 보여주거나 감추는 함수 실행
-	handlerHashChange();
-	// 예매, 구매 탭을 클릭할 때 해시태그 변경 및 콘텐츠 표시/감추기
-	$(".tab-block li").on("click", function (event) {
-// 		event.preventDefault();
-		var href = $(this).find("a").attr("href");
-		history.pushState({}, "", href);
-		handlerHashChange();
 
-		// 클릭한 탭 버튼에 클래스를 추가하여 활성화 표시
-		$(".tab-block li.on").removeClass("on");
-		$(this).addClass("on");
+	var tab = '';
+
+	$(function() {
+		// 탭 버튼
+		$('.tab-block a').on('click', function(e) {
+			e.preventDefault();
+
+			var type = $(this).data('type');
+
+			$('#currentPage').val('1'); // 페이지 번호 초기화
+			$('.tab-block li.on').removeClass('on');
+			$(this).parent().addClass('on');
+
+			$('.myMovieStory').hide();
+
+			if(type == 'mt') { // 무비타임라인
+				$('.myTimeline').show();
+				alert('1')
+
+			} else if(type == 'mp') { // 무비포스트
+				$('.myMoviePost').show();
+
+			} else if(type == 're') { // 리뷰
+				$('.myOne').show();
+			} else if(type == 'lk') { // 좋아요
+				$('.myLikeMovie').show();
+			}
+
+		});
+
+		// 더보기 버튼
+		$('#btnAddMovie').on('click', function() {
+
+			fn_movieSerach(true);
+		});
+
+
+
+		if(tab == 'mp') $('.tab-block li').eq(1).addClass('on'); // 무비포스트 탭 활성화
+		else if(tab == 're') $('.tab-block li').eq(2).addClass('on'); // 관람평 탭 활성화
+		else if(tab == 'lk') $('.tab-block li').eq(4).addClass('on'); // 좋아요 탭 활성화
+		else $('.tab-block li').eq(0).addClass('on'); // 무비타임라인 탭 활성화
+
+		$('.tab-block li.on a').click(); // 활성화 된 탭 컨텐츠 조회
+
 	});
 
-	// 브라우저 뒤로 가기 버튼 클릭 시에도 해시태그에 따라 콘텐츠를 보여주거나 감춤
-	$(window).on("popstate", function () {
-		handlerHashChange();
-
-		// 뒤로 가기 버튼에 따라 탭 버튼도 변경
-		$(".tab-block li.on").removeClass("on");
-		var hash = window.location.hash;
-		var targetTab = $('a[href="' + hash + '"]').parent();
-		targetTab.addClass("on");
-	});
-
-	// 해시태그에 따라 콘텐츠를 보여주거나 감추는 함수
-	function handlerHashChange() {
-		var hash = window.location.hash;
-		$(".content-section").hide();
-		$(hash).show();
-	};
 }
 </script>
 <%@ include file="../include/member_footer.jsp" %>
