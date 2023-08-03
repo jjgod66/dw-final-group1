@@ -210,8 +210,6 @@ canvas{
 		
 	</div>	
 </div>
-
-
 <%@ include file="../include/login_modal.jsp" %>
 <%@ include file="../include/join_modal.jsp" %>
 <%@ include file="../include/authentication_modal.jsp"%>
@@ -232,14 +230,14 @@ canvas{
 	<input type="hidden" name="gb_sms_alert">
 </form>
 <script>
-$('#myPageMain').on('click', function(){
-	if('<%=mem_cd%>' == null || '<%=mem_cd%>' == ""){
-		$('#login-service-modal').modal("show");
-		return;
-	}else{
-		location.href="<%=request.getContextPath()%>/member/main.do";
-	}
+let loginNeed = "${loginNeed}";
+console.log(loginNeed);
+$(document).ready(function(){
+	if(loginNeed != ""){
+		$('#login-modal').modal('show');
+	};
 })
+
 function join_go(){
 let joinForm = $('#joinForm');
 let memberInfo = $('.memberInfo')
