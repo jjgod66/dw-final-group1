@@ -16,6 +16,7 @@ if(session.getAttribute("loginUser") != null){
 }
 %>
 <%@ include file="login_service_modal.jsp" %>
+<%@ include file="../include/nonMember_reservationModal.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/schedule.css">
 <div class="sub_visual">
     <h3>예매하기</h3>
@@ -285,15 +286,30 @@ $(function(){
 	})
 
 	$('.mvTimeLine .row').on('click', '.btnTime', function(){
+		let screen_cd = $(this).data("screen_cd");
 		if('<%=mem_cd%>' == "" || '<%=mem_cd%>' == null){
-			$('#login-service-modal').modal("show");
+			$('#login-modal').modal('show');
+			$('.NonMemReservationDiv').show();
+			$('#nonMem_Modal_screen_cd').val(screen_cd);
+// 			$('#login-service-modal').modal("show");
 			return;
 		}
-		let screen_cd = $(this).data("screen_cd");
 		location.href="<%=request.getContextPath()%>/reservation/detail.do?screen_cd=" + screen_cd; 
 	})
 	
 })
+
+// 로그인 모달 닫히면 비회원예매하기 버튼 hide
+$('#login-modal').on('hidden.bs.modal', function(){
+	$('.NonMemReservationDiv').hide();
+});
+$('#nonMemReservationBtn').on('click', function(){
+	$('#login-modal').modal('hide');
+	$('#nonMember_reservationModal').modal('show');
+	checkNonMemberNum = '';
+	nonMemberPhone = '';
+	nonMemberPhoneChecked = '';
+});
 
 let likeThrNum = 0;
 

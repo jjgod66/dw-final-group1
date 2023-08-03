@@ -150,6 +150,7 @@ canvas{
 
 <!-- End Preloader -->
 
+
 <!-- 바뀐헤더입니다.  -->
 <div id="container1">
 	<div id="wrapper12">

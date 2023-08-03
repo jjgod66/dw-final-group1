@@ -38,13 +38,17 @@ public class ViewController {
 		String url = "/member/point-list";
 		return url;
 	}
-	
-	@GetMapping("/member/membership")
-	public String memberShip() {
-		String url = "/member/membership";
-		return url;
+	@GetMapping("/member/additionalinfo")
+	public ModelAndView memberAdditionalinfo(ModelAndView mnv, HttpSession session) {
+		String url = "/member/additionalinfo";
+		MemberVO member = (MemberVO) session.getAttribute("loginUser");
+		
+		mnv.addObject("member", member);
+		mnv.setViewName(url);
+		
+		return mnv;
 	}
-	
+
 
 	/*
 	 * 극장 뷰어 컨트롤러 

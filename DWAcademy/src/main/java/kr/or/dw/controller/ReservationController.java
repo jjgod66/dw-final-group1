@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -48,6 +51,7 @@ import kr.or.dw.service.ReservationService;
 import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.Non_MemberVO;
 import kr.or.dw.vo.PayDetailVO;
 import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
@@ -127,8 +131,18 @@ public class ReservationController {
 	}
 	
 	@RequestMapping("/detail")
-	public ModelAndView bookingDetail(ModelAndView mnv, String screen_cd) throws SQLException {
+	public ModelAndView bookingDetail(ModelAndView mnv, String screen_cd, Non_MemberVO non_mem, HttpServletResponse res) throws SQLException {
 		String url = "/booking/detail";
+		System.out.println(non_mem);
+		
+		if(non_mem.getNon_mem_name() != null) {
+			Cookie cookie = new Cookie("non_mem", non_mem.getNon_mem_name()
+												+"/"+ non_mem.getNon_mem_bir()
+												+"/"+ non_mem.getNon_mem_phone()
+												+"/"+ non_mem.getNon_mem_pwd());
+			cookie.setMaxAge(60 * 60);
+			res.addCookie(cookie);
+		} 
 		
 		ReservationDetailCommand screen = null;
 		screen = reservationService.getScreen(screen_cd);

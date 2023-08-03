@@ -4,6 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="thrAdminHeader.jsp" %>
 <style>
+#content h2 {
+	margin: 30px 0 0 0;
+	position: static;
+	letter-spacing: 0;
+	padding: 0;
+}
 .movieRow {
 	margin : 0.5rem 1rem 0.5rem 1rem;
 	cursor: pointer;
