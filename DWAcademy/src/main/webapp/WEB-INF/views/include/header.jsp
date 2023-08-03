@@ -160,7 +160,7 @@ canvas{
 			<div class="col-6">
 				<div id="navbar">
 				    <div class="right-menu">
-				      <a href="<%=request.getContextPath()%>/member/membership.do" >혜택</a>
+				      <a href="<%=request.getContextPath()%>/support/membership.do" >혜택</a>
 				      <a href="<%=request.getContextPath() %>/support/main.do" >고객센터</a>
 				      <c:choose>
 		                <c:when test="${loginUser == null || loginUser == ''}">
