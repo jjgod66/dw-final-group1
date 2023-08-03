@@ -32,11 +32,7 @@ public class ViewController {
 	 * 맴버 뷰어 컨트롤러 
 	 */
 
-	@GetMapping("/member/myinquiry")
-	public String memberMyinquiry() {
-		String url = "/member/myinquiry";
-		return url;
-	}
+
 	@GetMapping("/member/point-list")
 	public String memberPointlist() {
 		String url = "/member/point-list";
@@ -52,6 +48,7 @@ public class ViewController {
 		
 		return mnv;
 	}
+
 
 	/*
 	 * 극장 뷰어 컨트롤러 
@@ -164,7 +161,10 @@ public class ViewController {
 	
 
 	
-	
+	@GetMapping("/include/404")
+	public String sagongsa() {
+		return "/include/404"; 
+	}
 //	@GetMapping("/support/main")
 //	public String supportMain() {
 //		return "/support/main"; 

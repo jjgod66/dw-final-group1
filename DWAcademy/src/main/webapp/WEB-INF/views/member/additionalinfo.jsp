@@ -100,6 +100,30 @@
     padding: 0 30px;
     line-height: 44px;
 }
+.table-wrap {
+    position: relative;
+    border-top: 1px solid #555;
+}
+.board-list {
+	width: 100%;
+    line-height: 1.3;
+}
+.board-list>thead>tr>th {
+    height: 45px;
+    padding: 3px 10px;
+    color: #222;
+    border: 1px solid #eaeaea;
+    border-width: 0 0 1px 0;
+    background-color: #f2f4f5;
+}
+.board-list>tbody>tr>td,
+.board-list>tbody>tr>th {
+    height: 45px;
+    padding: 10px;
+    border: 1px solid #eaeaea;
+    border-width: 0 0 1px 0;
+    text-align: center;
+}
 </style>
 <div class="additionalinfo-wrapper">
 	<h2 class="tit">선택정보 수정</h2>
@@ -157,10 +181,101 @@
 			</div>
 		</div>
 	</div>
-	<h3 class="tit">부가정보</h3>
-	<div class="btn-group py-3">
-		<button class="button large" id="cancelBtn">취소</button>
-		<button class="button purple large" id="updateBtn">수정</button>
+<h3 class="tit">부가정보</h3>
+	<div class="container">
+		<table class="board-list">
+			<caption>선호극장</caption>
+			<colgroup>
+				<col style="width:200px;">
+				<col>
+			</colgroup>
+			<thead>
+				<tr>
+					<th scope="row">선호극장</th>
+					<td style="padding-left: 25px; border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
+						<span>선호 영화관은 최대 3개까지 등록 가능합니다.</span>
+						<div>
+							<span>1순위</span>
+							<div style="display: inline-block;">
+								<select class="form-select" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option class="bs-title-option">1순위 지역선택</option>
+								</select>
+								<select class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option>극장 선택</option>
+								</select>
+							</div>
+						</div>
+						<div>
+							<span>2순위</span>
+							<div style="display: inline-block;">
+								<select class="form-select" title="2순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option class="bs-title-option">2순위 지역선택</option>
+								</select>
+								<select class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option>극장 선택</option>
+								</select>
+							</div>
+						</div>
+						<div>
+							<span>3순위</span>
+							<div style="display: inline-block;">
+								<select class="form-select" title="3순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option class="bs-title-option">3순위 지역선택</option>
+								</select>
+								<select class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option>극장 선택</option>
+								</select>
+							</div>
+						</div>
+						<div>
+							<span>4순위</span>
+							<div style="display: inline-block;">
+								<select class="form-select" title="4순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option class="bs-title-option">4순위 지역선택</option>
+								</select>
+								<select class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option>극장 선택</option>
+								</select>
+							</div>
+						</div>
+						<div>
+							<span>5순위</span>
+							<div style="display: inline-block;">
+								<select class="form-select" title="5순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option class="bs-title-option">5순위 지역선택</option>
+								</select>
+								<select class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option>극장 선택</option>
+								</select>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row" >선호 장르(3개 선택)</th>
+					<td style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
+						<div class="row" style="display: inline-block;">
+							<select class="form-select" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<option>장르선택</option>
+							</select>
+							<select class="form-select" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<option>장르선택</option>
+							</select>
+							<select class="form-select" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+								<option>장르선택</option>
+							</select>
+						</div>
+					</td>
+				</tr>
+			</thead>
+			<tbody><tr><td colspan="5" class="a-c">조회된 내역이 없습니다</td></tr></tbody>
+		</table>
+	</div>
+	<div>
+		<div class="btn-group py-3">
+			<button class="button large" id="cancelBtn">취소</button>
+			<button class="button purple large" id="updateBtn">수정</button>
+		</div>
 	</div>
 </div>
 

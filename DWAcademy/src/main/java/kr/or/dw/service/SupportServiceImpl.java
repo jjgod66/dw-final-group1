@@ -184,4 +184,54 @@ public class SupportServiceImpl implements SupportService{
 		notice = supportDAO.selectNoticeDetail(notice_no);
 		return notice;
 	}
+
+	@Override
+	public Map<String, Object> getAllMyQuestionList(SearchCriteria cri, String mem_cd) throws SQLException {
+		List<Map<String, Object>> MyQuestionList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		MyQuestionList = supportDAO.getAllMyQuestionList(cri, rowBounds, mem_cd);
+		int MyQuestionListCnt = supportDAO.MyQuestionListCnt(cri, mem_cd);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(MyQuestionListCnt);
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		
+		dataMap.put("MyQuestionList", MyQuestionList);
+		dataMap.put("pageMaker", pageMaker);
+		dataMap.put("MyQuestionListCnt", MyQuestionListCnt);
+		
+		
+		return dataMap;
+	}
+
+	@Override
+	public Map<String, Object> searchMyQuestionList(SearchCriteria cri, String mem_cd) throws SQLException {
+		List<Map<String, Object>> MyQuestionList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		MyQuestionList = supportDAO.searchMyQuestionList(cri, rowBounds, mem_cd);
+		int MyQuestionListCnt = supportDAO.searchMyQuestionListCnt(cri, mem_cd);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(MyQuestionListCnt);
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		
+		dataMap.put("MyQuestionList", MyQuestionList);
+		dataMap.put("pageMaker", pageMaker);
+		dataMap.put("MyQuestionListCnt", MyQuestionListCnt);
+		dataMap.put("cri", cri);
+		
+		return dataMap;
+	}
 }

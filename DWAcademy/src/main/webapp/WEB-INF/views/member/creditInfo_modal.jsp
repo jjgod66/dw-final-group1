@@ -116,7 +116,7 @@
     background: #fff;
     color: #4aa8d8;
     font-size: 13px;
-    border-color: #4aa8d8;
+    border: 1px solid #4aa8d8;
 }
 #creditInfo-modal .extra{
       padding-bottom: 4vh;
@@ -175,29 +175,43 @@ tbody th {
             <div class="modal-body">
             	<h3 class="fs-3 text-center my-2"></h3>
             	<h5>결제정보</h5>
-<!--                 <div class="input-group"> -->
-<!-- 	                <div style="display: flex;"> -->
-<!-- 	                    	사용할 쿠폰을 선택해주세요. -->
-<!-- 	                </div> -->
-<!--                 </div> -->
                 <div class="input-group" style="margin-top: 20px; display: ;">
 <!--                     		<div> -->
 	                    	<table style="width: 100%;">
 	                    		<tr style="font-size: 11px;">
 	                    			<th style="width: 20%;">상품금액</th>
-	                    			<td style="width: 80%;"><fmt:formatNumber value="${mapData.reservation.pricesum }" pattern="#,##0"></fmt:formatNumber>원</th>
+	                    			<td style="width: 80%;" id="infoModalPriceSum">원</td>
 	                    		</tr>
 	                    		<tr style="font-size: 11px;">
 	                    			<th style="width: 20%;">할인금액</th>
-	                    			<td style="width: 80%;"><fmt:formatNumber value="${mapData.reservation.discount }" pattern="#,##0"></fmt:formatNumber>원</th>
+	                    			<td style="width: 80%;" id="infoModalDiscount">원</td>
 	                    		</tr>
 	                    		<tr style="font-size: 11px;">
 	                    			<th style="width: 20%;">최종 결제금액</th>
-	                    			<td style="width: 80%;"><fmt:formatNumber value="${mapData.paid_amount }" pattern="#,##0"></fmt:formatNumber>원</th>
+	                    			<td style="width: 80%;" id="infoModalPaidAmount">원</td>
+	                    		</tr>
+	                    		<tr style="font-size: 11px;">
+	                    			<th style="width: 20%;">결제수단</th>
+	                    			<td style="width: 80%;" id="infoModalCard">원</td>
 	                    		</tr>
 	                    		<tr style="font-size: 11px;">
 	                    			<th style="width: 20%;">결제일시</th>
-	                    			<td style="width: 80%;"><fmt:formatDate value="${mapData.reservation.resdate }" pattern="yyyy-MM-dd HH:mm:ss"/> </th>
+	                    			<td style="width: 80%;" id="infoModalPaydate"></td>
+	                    		</tr>
+                    		</table>
+<!--                    		</div> -->
+                </div>
+            	<h5 class="creInfoModalRefundInfo">취소정보</h5>
+                <div class="input-group creInfoModalRefundInfo" style="margin-top: 20px; display: ;">
+<!--                     		<div> -->
+	                    	<table style="width: 100%;">
+	                    		<tr style="font-size: 11px;">
+	                    			<th style="width: 20%;">취소금액</th>
+	                    			<td style="width: 80%;" id="infoModalRefundPaidAmount">원</td>
+	                    		</tr>
+	                    		<tr style="font-size: 11px;">
+	                    			<th style="width: 20%;">취소일</th>
+	                    			<td style="width: 80%;" id="infoModalRefunddate">원</td>
 	                    		</tr>
                     		</table>
 <!--                    		</div> -->

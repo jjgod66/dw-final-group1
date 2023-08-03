@@ -119,4 +119,20 @@ public interface SupportService {
 	 */
 	NoticeVO getNoticeDetail(int notice_no) throws SQLException;
 
+	/**
+	 * 나의 문의 내역 조회
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	Map<String, Object> getAllMyQuestionList(SearchCriteria cri, String mem_cd) throws SQLException;
+
+	/**
+	 * 나의 문의 내역 검색
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	Map<String, Object> searchMyQuestionList(SearchCriteria cri, String mem_cd) throws SQLException;
+
 }

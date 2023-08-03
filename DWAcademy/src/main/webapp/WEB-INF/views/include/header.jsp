@@ -35,6 +35,13 @@ if(session.getAttribute("loginUser") != null){
 <!-- 검색기능 링크입니 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/finder.css">
+<!-- vhs폰트입니다. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
 
 <link href="<%=request.getContextPath()%>/resources/img/logo_ico.png" rel="shortcut icon" type="image/x-icon">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/css/bootstrap.min.css">
@@ -51,79 +58,159 @@ if(session.getAttribute("loginUser") != null){
 <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/moment.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/daterangepicker.js"></script>
+<style type="text/css">
+body{font-family: 'IBM Plex Sans KR', sans-serif; }#wrapper12 {margin-left:auto;margin-right:auto;width: 62%; padding-bottom: 10px; padding-top: 10px; }
+#roo{display: flex;}
+main{
+  position: fixed;
+  display: flex;
+  top: 0;
+}
+
+canvas{
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+#container1{
+	background:#F2F2F2;
+  top: 0;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+    #navbar {
+        padding-left: 50%;
+      font-size:13px;
+      color: #000000;
+      align-items: center;
+      padding-top: 5px;
+    }
+	.right-menu {margin-right: 13px;
+    float: right;}
+    .right-menu a {
+      padding-right:10px;
+      color: #787878;
+      text-decoration: none;
+    }
+    .ro, .ro1 {
+	  align-items: center;
+	  float: left;
+	}
+
+    ul li{
+		list-style: none;
+	}
+	a {
+		text-decoration: none;
+		color:#000000;
+	}
+	#menu {
+		color:black;
+		font-size: 15px;
+		float:right;
+		line-height: 40px;
+		padding-top:13px;
+		text-align: center;
+	}
+	#menu > ul > li:hover{background: #E3E3E3;}
+	#menu > ul > li {
+		--bs-link-hover-color: #000000;
+		float:right;
+		width:100px;
+		position:relative;
+	}
+    #menu > ul > li > ul {
+    	background:#E3E3E3;
+    	padding: 0;
+		width:100px;
+		display:none;
+		position: absolute;
+		font-size:14px;
+	}
+    #menu > ul > li:hover > ul {
+		display:block;
+	}
+    #menu > ul > li > ul > li:hover {
+		opacity:0.7;
+		transition: ease 0.5s;
+		background: #D1D1D1;
+		}
+.sub_visual {
+    position: initial;
+    width: 100%;
+    height: 170px;
+    text-align: center;
+    background: #2b343b;
+}
+</style>
 </head>
 <body>
 <!-- Preloader -->
 
 <!-- End Preloader -->
-<header class="header poi">
-    <nav class="gnb">
-        <div class="container d-flex flex-wrap">
-            <ul class="nav me-auto">
-                <li class="nav-item"><a href="#" class="nav-link link-dark px-2">전체메뉴</a></li>
-                <li class="nav-item"><a href="<%=request.getContextPath()%>/support/membership.do" class="nav-link link-dark px-2">혜택</a></li>
-                <li class="nav-item"><a href="<%=request.getContextPath() %>/support/main.do" class="nav-link link-dark px-2">고객센터</a></li>
-            </ul>
-            <ul class="nav">
-            <c:choose>
-                <c:when test="${loginUser == null || loginUser == ''}">
-                	<li class="nav-item"><a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" class="nav-link link-dark px-2">로그인</a></li>
-	                <li class="nav-item"><a href="#" id="kakaoJoin" data-bs-toggle="modal" data-bs-target="#authentication-modal" class="nav-link link-dark px-2">회원가입</a></li>
-                </c:when>
-                <c:otherwise>
-                	<li class="nav-item"><a href="<%=request.getContextPath() %>/common/logout.do" class="nav-link link-dark px-2">로그아웃</a></li>
-                </c:otherwise>
-            	</c:choose>
-            </ul>
-        </div>
-    </nav>
-    <div class="logo"><a href="<%=request.getContextPath()%>/"><img src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
-    <div class="container">
-        <ul class="navbar" role="menubar" id="dwcinema_gnb" style="overflow: hidden;">
-            <li role="menuitem">
-                <strong>영화</strong>
-                <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/movie/allMovie.do">전체영화</a></li>
-                    <li><a href="<%=request.getContextPath()%>/movie/screenMovie.do">현재상영작</a></li>
-                    <li><a href="<%=request.getContextPath()%>/movie/comingMovie.do">상영예정작</a></li>
-                    <li><a href="<%=request.getContextPath()%>/movie/review.do">영화리뷰</a></li>
-                    <li><a href="<%=request.getContextPath()%>/movie/moviePost.do">무비포스트</a></li>
-                </ul>
-            </li>
-            <li role="menuitem">
-                <strong><a href="<%=request.getContextPath()%>/theater/main.do">극장</a></strong>
-            </li>
-            <li role="menuitem">
-                <strong><a href="<%=request.getContextPath()%>/reservation/cinema.do">예매</a></strong>
-<!--                 <ul style="opacity: 0; height: 0px;"> -->
-<%--                     <li><a href="<%=request.getContextPath()%>/reservation/cinema.do">상영시간표</a></li> --%>
-<!--                     <li><a href="#">할인안내</a></li> -->
-<!--                 </ul> -->
-            </li>
-            <li role="menuitem" style="width: 280px;">
-            </li>
-            <li role="menuitem">
-                <strong>스토어</strong>
-                <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=1">기프트카드</a></li>
-                    <li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=2">팝콘/스낵/음료</a></li>
-                </ul>
-            </li>
-            <li role="menuitem">
-                <strong>이벤트</strong>
-                <ul style="opacity: 0; height: 0px;">
-                    <li><a href="<%=request.getContextPath()%>/event/main.do">진행중 이벤트</a></li>
-                    <li><a href="<%=request.getContextPath()%>/event/eventPast.do">지난 이벤트</a></li>
-<%--                     <li><a href="<%=request.getContextPath()%>/event/prizeWinner.do">당첨자발표</a></li> --%>
-                </ul>
-            </li>
-            <li role="menuitem" style="width: 65px;">
-                <a href="<%=request.getContextPath()%>/support/main.do" style="position: absolute; top: 20px; right: 40px; color: #333; font-size: 1.8rem;"><img src="<%=request.getContextPath()%>/resources/img/chat-support-icon.png" style="height: 29px; vertical-align: text-top; margin-top: 7px;"></a>
-                <a href="javascript:void(0)" id="myPageMain" style="position: absolute; top: 20px; right: 0; color: #333; font-size: 1.8rem;"><i class="bi bi-person"></i></a>
-            </li>
-        </ul>
-    </div>
-</header>
+
+
+<!-- 바뀐헤더입니다.  -->
+<div id="container1">
+	<div id="wrapper12">
+		<div id="roo" class="row">
+			<div class="logo col-3"><a href="<%=request.getContextPath()%>/"><img style="margin-top: 15px;" src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
+			<div class="col-3"></div>
+			<div class="col-6">
+				<div id="navbar">
+				    <div class="right-menu">
+				      <a href="<%=request.getContextPath()%>/member/membership.do" >혜택</a>
+				      <a href="<%=request.getContextPath() %>/support/main.do" >고객센터</a>
+				      <c:choose>
+		                <c:when test="${loginUser == null || loginUser == ''}">
+		                	<a href="#" data-bs-toggle="modal" data-bs-target="#login-modal" >로그인</a>
+			                <a href="#" id="kakaoJoin" data-bs-toggle="modal" data-bs-target="#authentication-modal">회원가입</a>
+		                </c:when>
+		                <c:otherwise>
+		                	<a href="<%=request.getContextPath() %>/common/logout.do" class="nav-link link-dark px-2">로그아웃</a>
+		                </c:otherwise>
+		              </c:choose>
+				    </div>
+				</div>
+		
+				<div id="menu">
+					<ul>
+						<li role="menuitem" style="width: 43px; text-align: left;">
+			                <a href="javascript:void(0)" id="myPageMain" ><i class="bi bi-person" style="font-size: 26px;"></i></a>
+			            </li>
+						<li>이벤트
+							<ul>
+								<li><a href="<%=request.getContextPath()%>/event/main.do">진행중인 이벤트</a></li>
+								<li><a href="<%=request.getContextPath()%>/event/eventPast.do">지난 이벤트</a></li>
+							</ul>
+						</li>
+						<li>스토어
+							<ul>
+								<li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=1">기프트카드</a></li>
+								<li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=2">팝콘/스낵/음료</a></li>
+							</ul>
+						</li>
+						<li><a href="<%=request.getContextPath()%>/reservation/cinema.do">예매 </a>
+						</li>
+						<li><a href="<%=request.getContextPath()%>/theater/main.do">극장</a>
+						</li>
+						<li>영화
+							<ul>
+								<li><a href="<%=request.getContextPath()%>/movie/allMovie.do">전체영화 </a></li>
+								<li><a href="<%=request.getContextPath()%>/movie/screenMovie.do">현재상영작 </a></li>
+								<li><a href="<%=request.getContextPath()%>/movie/comingMovie.do">상영예정작 </a></li>
+								<li><a href="<%=request.getContextPath()%>/movie/review.do">영화리뷰  </a></li>
+								<li><a href="<%=request.getContextPath()%>/movie/moviePost.do">무비포스트 </a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+	</div>	
+</div>
 <%@ include file="../include/login_modal.jsp" %>
 <%@ include file="../include/join_modal.jsp" %>
 <%@ include file="../include/authentication_modal.jsp"%>
@@ -144,14 +231,14 @@ if(session.getAttribute("loginUser") != null){
 	<input type="hidden" name="gb_sms_alert">
 </form>
 <script>
-$('#myPageMain').on('click', function(){
-	if('<%=mem_cd%>' == null || '<%=mem_cd%>' == ""){
-		$('#login-service-modal').modal("show");
-		return;
-	}else{
-		location.href="<%=request.getContextPath()%>/member/main.do";
-	}
+let loginNeed = "${loginNeed}";
+console.log(loginNeed);
+$(document).ready(function(){
+	if(loginNeed != ""){
+		$('#login-modal').modal('show');
+	};
 })
+
 function join_go(){
 let joinForm = $('#joinForm');
 let memberInfo = $('.memberInfo')
