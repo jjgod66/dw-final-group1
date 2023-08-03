@@ -36,14 +36,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.6/velocity.min.js"></script>
 <style type="text/css">
 #wrapper {margin-left:auto;margin-right:auto;width: 85%; margin-bottom: 100px;}
-body{
-  margin: 0;
-  overflow: clip;
-  background: #1B2021;
-  font-family: 'DM Serif Display', serif;
-  font-family: 'IBM Plex Sans KR', sans-serif;
-  min-height: 2000px;
-}
+body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4;}
 .ro {
     font-size: 5rem;
     color: #f8f9fa; 
@@ -137,19 +130,6 @@ canvas{
 		opacity:0.7;
 		transition: ease 0.5s;
 		}
-    
-    main {
-    /* position: fixed; */
-    /* display: flex; */
-    top: 0;
-    height: 100vh;
-}canvas {
-    /* width: 100%; */
-    /* height: 100%; */
-    /* margin: auto; */
-        width: 1920px;
-    height: 133px;
-}
 </style>
 </head>
 <body>
@@ -198,17 +178,6 @@ canvas{
 				</li>
 			</ul>
 		</div>
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 	</div>	
 </div>
 <script id="vertShader" type="text">

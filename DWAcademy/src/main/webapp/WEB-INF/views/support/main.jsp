@@ -287,8 +287,6 @@ button {
   
   
   .sub_visual {
-  
-    position: relative;
     width: 100%;
     height: 170px;
     text-align: center;

@@ -61,7 +61,20 @@
     color: #666;
 }
 </style>
-<div class="boxoffice">
+<p style="text-align: center;">수정전</p> 
+<p style="text-align: center;">수정전</p> 
+<p style="text-align: center;">수정전</p> 
+<p style="text-align: center;">수정전</p> 
+<p style="text-align: center;">ㅇ헤더 ㅇ \</p> 
+<p style="text-align: center;">1.메인 슬라이더 </p> 
+<p style="text-align: center;">2. 이벤트 게시글 </p> 
+<p style="text-align: center;">3. 고객센터 게시글 </p> 
+<p style="text-align: center;">4. 혜택 </p> 
+<p style="text-align: center;">5. 각 아이콘 </p> 
+<p style="text-align: center;">ㅇ 푸터ㅇ</p> 
+<p style="text-align: center;">수정전</p> 
+<p style="text-align: center;">수정전</p> 
+<%-- <div class="boxoffice">
     <div class="container">
         <div class="movieChartBeScreen_btn_wrap">
             <div class="tabBtn_wrap">
@@ -79,8 +92,8 @@
 	                            <div class="item_poster">
 	                                <div class="thumb_item">
 	                                    <div class="poster_movie" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movie.movie_mainpic_path}&item_cd=${movie.movie_cd }&type=moviePoster') no-repeat center /cover">
-<%-- 	                                        <span class="rank_num">${movie.movie_grade}</span> --%>
-<%-- 	                                        <span class="txt_tag">${movie.movie_grade}</span> --%>
+	                                        <span class="rank_num">${movie.movie_grade}</span>
+	                                        <span class="txt_tag">${movie.movie_grade}</span>
 	                                        <div class="movieChart_btn_wrap">
 	                                            <a href="/movie/viewer.do?movie_cd=${movie.movie_cd}" class="btn_movieChart_detail">상세보기</a>
 	                                            <a href="/reservation/cinema.do?movie_cd=${movie.movie_cd}" class="btn_movieChart_ticketing">예매하기</a>
@@ -112,7 +125,7 @@
             </div>
         </ol>
     </div>
-</div>
+</div> --%>
 <script>
 // Swiper 인스턴스 생성
 var swiper = new Swiper('.swiper-container', {
@@ -146,7 +159,7 @@ swiper.on('slideChange', function() {
   }
 });
 </script>
-<div class="event-wrapper">
+<%-- <div class="event-wrapper">
     <div class="container">
         <div class="event_title_wrap">
             <div class="tabBtn_wrap">
@@ -172,55 +185,9 @@ swiper.on('slideChange', function() {
 				</c:forEach>
 			</ul>
 		</div>
-<!--         <div class="row"> -->
-<!--             <div class="col-12 col-lg-3"> -->
-<!--                 <div class="card"> -->
-<!--                     <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg> -->
-<!--                     <div class="card-body"> -->
-<!--                         <a href="#"> -->
-<!--                             <strong>이밴트 제목</strong> -->
-<!--                             <span>2023.06.29~2023.12.01</span> -->
-<!--                         </a> -->
-<!--                     </div> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-12 col-lg-3"> -->
-<!--                 <div class="card"> -->
-<!--                     <a href="#"> -->
-<!--                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg> -->
-<!--                         <div class="card-body"> -->
-<!--                                 <strong>이밴트 제목</strong> -->
-<!--                                 <span>2023.06.29~2023.12.01</span> -->
-<!--                         </div> -->
-<!--                     </a> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-12 col-lg-3"> -->
-<!--                 <div class="card"> -->
-<!--                     <a href="#"> -->
-<!--                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg> -->
-<!--                         <div class="card-body"> -->
-<!--                                 <strong>이밴트 제목</strong> -->
-<!--                                 <span>2023.06.29~2023.12.01</span> -->
-<!--                         </div> -->
-<!--                     </a> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--             <div class="col-12 col-lg-3"> -->
-<!--                 <div class="card"> -->
-<!--                     <a href="#"> -->
-<!--                         <svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"/><text x="50%" y="50%" fill="#dee2e6" dy=".3em">이밴트 배너</text></svg> -->
-<!--                         <div class="card-body"> -->
-<!--                                 <strong>이밴트 제목</strong> -->
-<!--                                 <span>2023.06.29~2023.12.01</span> -->
-<!--                         </div> -->
-<!--                     </a> -->
-<!--                 </div> -->
-<!--             </div> -->
-<!--         </div> -->
     </div>
-</div>
-<div class="store-wrapper">
+</div> --%>
+<%-- <div class="store-wrapper">
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-6 col-xl-3">
@@ -303,5 +270,5 @@ swiper.on('slideChange', function() {
             </div>
         </div>
     </div>
-</div>
+</div> --%>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>

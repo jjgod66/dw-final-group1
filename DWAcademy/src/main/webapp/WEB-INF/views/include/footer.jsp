@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<footer id="footer">
+<footer id="footer" style="background: #E3E3E3;">
 <script src="<%=request.getContextPath()%>/resources/js/finder.js"></script>
     <ul class="nav justify-content-center pt-3">
 <!--         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">영화관 소개</a></li> -->
