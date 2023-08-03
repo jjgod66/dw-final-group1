@@ -61,6 +61,30 @@ public class CommonController {
 		return url;
 	}
 	
+	@RequestMapping("/common/loginSuccess")
+	public ModelAndView loginSuccess(ModelAndView mnv, HttpSession session) {
+		String url = "";
+		
+		Map<String, Object> loginUser = (Map<String, Object>) session.getAttribute("loginUser");
+		String CD = (String) loginUser.get("CD");
+		String CD_GB = (String)CD.substring(0,1);
+		System.out.println(CD_GB);
+		
+		if(CD_GB.equals("S")) {
+			System.out.println("1");
+			url = "redirect:/sysAdmin/main.do";
+		}else if(CD_GB.equals("T")) {
+			System.out.println("2");
+			url = "redirect:/thrAdmin/main.do";
+		}else {
+			url = "/main";
+		}
+		System.out.println(url);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	
 	@RequestMapping(value = "/main", method = { RequestMethod.GET, RequestMethod.POST })
 	public ModelAndView index(ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/main";

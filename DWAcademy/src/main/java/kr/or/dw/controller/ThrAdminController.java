@@ -90,7 +90,8 @@ public class ThrAdminController {
 		String url = "/thrAdmin/main";
 		
 		HttpSession session = req.getSession();
-		String admin_cd = (String) session.getAttribute("admin_cd");
+		Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
+		String admin_cd = (String) admin.get("CD");
 		
 		List<MovieVO> currentMovieList = sysAdminService.selectCurrentMovieForMain();
 		mnv.addObject("currentMovieList", currentMovieList);
