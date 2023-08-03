@@ -92,7 +92,7 @@ th.selectedDate {
 				
 				<div class="movieRowList" style="height: 20rem; overflow: auto; border: 1px solid #4aa8d8">
 					<c:forEach items="${movieList }" var="movie">
-						<div class="card card-body movieRow" style="height: 5rem;">
+						<div class="card card-body movieRow unselected" style="height: 5rem;">
 							<div class="row" style="align-items: center;">
 								<div class="col-md-2 movieRowPic"><img src="/sysAdmin/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" style="width:2rem; height:3rem; overflow: hidden;"></div>
 								<div class="col-md-4 movieRowCd">${movie.MOVIE_CD }</div>

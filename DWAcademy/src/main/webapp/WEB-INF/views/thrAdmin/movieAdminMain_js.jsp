@@ -105,7 +105,7 @@ window.onload = function(){
 	// 날짜 클릭시
 	$('.dayTableTd').on('click', function(){
 		let data = $(this).attr('data-date');
-		location.href="test.do?date="+data;
+		location.href="movieAdminMain.do?date="+data;
 	});
 	
 	// 다음버튼 클릭시	
@@ -129,15 +129,20 @@ window.onload = function(){
 	});
 	
 	// 원하는 영화 클릭시
-	$('.movieRow').on('click', function(){
+	$(document).on('click', '.unselected',function(){
+		$('.selected').addClass('unselected');
 		$('.selected').removeClass('selected');
 		$(this).addClass('selected');
+		$(this).removeClass('unselected');
 		
 		$('.modifyBox').remove();
 		$('.hided').removeClass('hided');
 		$('#addNewScreenBtn').show();
 		$('#modifyScreenBtn').hide();
 		$('#deleteScreenBtn').hide();
+		$('#startHouse').children('option:eq(0)').prop('selected', true);
+		$('#startHour').children('option:eq(0)').prop('selected', true);
+		$('#startMinute').children('option:eq(0)').prop('selected', true);
 		
 		let movieName = $(this).find('.movieRowName').text();
 		let movieCd = $(this).find('.movieRowCd').text();
@@ -149,6 +154,22 @@ window.onload = function(){
 		showDetailBox(movieName, movieCd, movieLength, movieDates, moviePic, movieType);
 		
 		showAddedBox(movieLength);
+	});
+	
+	$(document).on('click', '.selected',function(){
+		$('.addedBox').remove();
+		$(this).removeClass('selected');
+		$(this).addClass('unselected');
+		$('#movieRowName').text('');
+		$('#movieRowCd').text('');
+		$('#movieRowDates').text('');
+		$('#movieLength').text('');
+		$('#movieTypeTd').html('');
+		$('#startHouse').children('option:eq(0)').prop('selected', true);
+		$('#startHour').children('option:eq(0)').prop('selected', true);
+		$('#startMinute').children('option:eq(0)').prop('selected', true);
+		$('#endTimeTd').text('');
+		
 	});
 	
 	// 영화클릭, 또는 기존상영영화 클릭시
@@ -332,6 +353,8 @@ window.onload = function(){
 					$('#modifyScreenBtn').show();	
 					$('#deleteScreenBtn').show();
 					$('.addedBox').remove();
+					$('.selected').addClass('unselected');
+					$('.selected').removeClass('selected');
 					screenModify(data, thisBox);
 				} else {
 					if ($('.modifyBox').length > 0) {
