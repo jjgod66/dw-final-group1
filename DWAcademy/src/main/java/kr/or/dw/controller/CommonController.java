@@ -1,18 +1,27 @@
 package kr.or.dw.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +39,18 @@ import kr.or.dw.vo.NoticeVO;
 public class CommonController {
 
 	private static final Logger logger = LoggerFactory.getLogger(CommonController.class);
+
+	@Resource(name ="moviePicUploadPath")
+	private String moviePicUploadPath;
 	
+	@Resource(name ="storePicUploadPath")
+	private String storePicUploadPath;
+	
+	@Resource(name ="eventPicUploadPath")
+	private String eventPicUploadPath;
+	
+	@Resource(name ="memberPicUploadPath")
+	private String memberPicUploadPath;
 	
 	@Autowired
 	private MovieService movieService;
@@ -133,6 +153,41 @@ public class CommonController {
 		out.println("location.href='/';");
 		out.println("</script>");
 		out.close();
+	}
+	
+	@RequestMapping("/common/getPicture")
+	public ResponseEntity<byte[]> getPicture(String name, String item_cd, String type) throws IOException  {
+		
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+		String imgPath = "";
+		if (type != "" && type != null) {
+			if (type.equals("moviePoster")) {
+				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "mainPoster";
+			} else if (type.equals("movieImg")) {
+				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "pictures";
+			} else if (type.equals("productImg")) {
+				imgPath = this.storePicUploadPath + File.separator + item_cd;
+			} else if (type.equals("eventThumb")) {
+				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "thumb";
+			} else if (type.equals("eventImg")) {
+				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "img";
+			} else if (type.equals("memberPic")) {
+				imgPath = this.memberPicUploadPath + File.separator + item_cd;
+			}
+		}
+		
+		try {
+			in = new FileInputStream(new File(imgPath, name));
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} finally {
+			in.close();
+		}
+		
+		return entity;
 	}
 	
 }

@@ -87,7 +87,7 @@ element.style {
 					<tr>
 						<td>
 							<img alt="" border="0" 
-							src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${event.event_pic_path}&item_cd=${event.event_no}&type=eventImg"
+							src="<%=request.getContextPath() %>/common/getPicture.do?name=${event.event_pic_path}&item_cd=${event.event_no}&type=eventImg"
 							style="justify-content: center; width: 1100px" usemap="#Map">
 						</td>
 					</tr>

@@ -313,7 +313,7 @@ h3.tit {
 	<c:forEach items="${movieInfoList}" var="movieInfo">
 	<div class="container">
 		<div class="card-body row" style="padding-rigth: 0; border: 1px solid #503396">
-			<div class="col-2" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
+			<div class="col-2" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
 			<div class="col-5">
 				<span><strong>예매번호 </strong>${movieInfo.MERCHANT_UID}</span>
 				<br><br>

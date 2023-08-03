@@ -301,7 +301,7 @@ select {
 	    	<div class="col-2 postLankMoive" style="position: relative; margin-right: 20px;" data-movie_name="${movie.MOVIE_NAME }">
 	    		<div style="width: 180px; height: 250px; position: absolute;" >
 	    			<img
-								src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster"
+								src="<%=request.getContextPath() %>/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster"
 								onerror="noImg(this)" alt="${movie.MOVIE_NAME }" style="width: 100%; height: 100%;">
 	    		</div>
 	    		<div style="width: 180px; height: 250px; position: absolute; background-color:rgba(0, 0, 0, 0.5); color : white;" class="lankcount">
@@ -353,7 +353,7 @@ select {
 					<c:forEach items="${moviePostList }" var="mp">
 		        		<div class="col-3 post" style="height: 400px; width: 325px;">
 		        			<div id="mpCard" class="card" style="margin: 20px; height: 90%;" data-mpost_no="${mp.MPOST_NO }">
-		        				<div class="card-body" style="height: 45%; background-image: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${mp.MOVIE_PIC_PATH}&item_cd=${mp.MOVIE_CD}&type=movieImg');  background-repeat : no-repeat; background-size : cover;"></div>
+		        				<div class="card-body" style="height: 45%; background-image: url('<%=request.getContextPath() %>/common/getPicture.do?name=${mp.MOVIE_PIC_PATH}&item_cd=${mp.MOVIE_CD}&type=movieImg');  background-repeat : no-repeat; background-size : cover;"></div>
 		        				<div class="card-body" style="height: 55%;">
 		        					<div>
 		        						<p style="font-size: small;">
@@ -476,11 +476,11 @@ function showPost(res){
 	$('#mpUpdateBtn').data('mpost_no', res.mpost.MPOST_NO);
 	$('#mpDeleteBtn').data('mpost_no', res.mpost.MPOST_NO);
 	if(res.mpost.MEM_PIC_PATH != null && res.mpost.MEM_PIC_PATH != ''){
-		$('#mpWriteMemPic').prop('src', '<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + res.mpost.MEM_PIC_PATH + '&item_cd=$' + res.mpost.MEM_CD + '&type=memberPic');
+		$('#mpWriteMemPic').prop('src', '<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpost.MEM_PIC_PATH + '&item_cd=$' + res.mpost.MEM_CD + '&type=memberPic');
 	}else{
 		$('#mpWriteMemPic').prop('src', '../../resources/img/defaultprofile.png');
 	}
-	let mpbackImg = "<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=" + res.mpost.MOVIE_PIC_PATH + "&item_cd=" + res.mpost.MOVIE_CD + "&type=movieImg";
+	let mpbackImg = "<%=request.getContextPath() %>/common/getPicture.do?name=" + res.mpost.MOVIE_PIC_PATH + "&item_cd=" + res.mpost.MOVIE_CD + "&type=movieImg";
 	$('#thismpPic').css('background-image', 'url(' + mpbackImg + ')');
 	$('#moviepost-view-modal').modal("show");
 	$('#mpLikeCnt').text(res.mpost.LIKECNT);
@@ -501,7 +501,7 @@ function showPost(res){
 		replyShow += '<div style="display: flex; border-bottom: solid 1px #ced4da;" class="oneReply">';
 		replyShow += '<div style="margin: 10px;">';
 		if(res.mpostReplyList[i].MEM_PIC_PATH != null && res.mpostReplyList[i].MEM_PIC_PATH != ''){
-			replyShow += '<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=' + res.mpostReplyList[i].MEM_PIC_PATH + '&item_cd=$' + res.mpostReplyList[i].MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+			replyShow += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpostReplyList[i].MEM_PIC_PATH + '&item_cd=$' + res.mpostReplyList[i].MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 		}else{
 			replyShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 		}

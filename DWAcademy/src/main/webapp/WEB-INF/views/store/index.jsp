@@ -29,7 +29,7 @@ if (CategoryIdx == null) {
             	<c:forEach items="${productList }" var="product">
             		 <div class="col-12 col-lg-3">
 	                    <a href="/store/detail.do?product_cd=${product.product_cd }" class="btn_category_product">
-	                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/sysAdmin/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd}&type=productImg"></span>
+	                        <span class="com_list_img_wrap"><img src="<%=request.getContextPath()%>/common/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd}&type=productImg"></span>
 	                        <span class="com_list_text_wrap">
 	                            <span class="com_list_text_title">${product.product_name }</span>
 	                            <span class="com_list_text_name">${product.product_content }</span>

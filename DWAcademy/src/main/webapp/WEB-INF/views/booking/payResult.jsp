@@ -28,7 +28,7 @@
 								티켓 예매번호 <!-- 티켓 예매번호 -->
 								<span class="roboto">${merchant_uid }</span>
 							</p>
-							<img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${mapData.MOVIE_MAINPIC_PATH}&item_cd=${mapData.MOVIE_CD}&type=moviePoster" onerror="noImg(this)">
+							<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${mapData.MOVIE_MAINPIC_PATH}&item_cd=${mapData.MOVIE_CD}&type=moviePoster" onerror="noImg(this)">
 						</div>
 
 						<!-- movie-infomation-area -->

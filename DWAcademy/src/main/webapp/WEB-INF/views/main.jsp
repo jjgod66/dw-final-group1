@@ -78,7 +78,7 @@
 	                     <li class="swiper-slide">
 	                            <div class="item_poster">
 	                                <div class="thumb_item">
-	                                    <div class="poster_movie" style="background: url('<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movie.movie_mainpic_path}&item_cd=${movie.movie_cd }&type=moviePoster') no-repeat center /cover">
+	                                    <div class="poster_movie" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movie.movie_mainpic_path}&item_cd=${movie.movie_cd }&type=moviePoster') no-repeat center /cover">
 <%-- 	                                        <span class="rank_num">${movie.movie_grade}</span> --%>
 <%-- 	                                        <span class="txt_tag">${movie.movie_grade}</span> --%>
 	                                        <div class="movieChart_btn_wrap">
@@ -159,7 +159,7 @@ swiper.on('slideChange', function() {
 				<c:forEach items="${eventList }" var="event">
 					<li>
 						<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${event.event_no}" data-netfunnel="N" class="eventBtn">
-							<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" onerror="noImg(this);"></p>
+							<p class="img"> <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" onerror="noImg(this);"></p>
 							<p class="tit">
 								${event.event_title }
 							</p>

@@ -281,7 +281,7 @@ button, input, optgroup, select, textarea {
 							<li>
 								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${movieEvent.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title="${movieEvent.event_title} 상세보기">
 									<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-									<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${movieEvent.event_thum_path}&item_cd=${movieEvent.event_no}&type=eventThumb" alt="${movieEvent.event_title}" onerror="noImg(this);"></p>
+									<p class="img"> <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${movieEvent.event_thum_path}&item_cd=${movieEvent.event_no}&type=eventThumb" alt="${movieEvent.event_title}" onerror="noImg(this);"></p>
 									<p class="tit">
 										${movieEvent.event_title}
 									</p>
@@ -306,7 +306,7 @@ button, input, optgroup, select, textarea {
 							<li>
 								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${theaterEvent.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title="${theaterEvent.event_title} 상세보기">
 									<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-									<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${theaterEvent.event_thum_path}&item_cd=${theaterEvent.event_no}&type=eventThumb" alt="${theaterEvent.event_title}" onerror="noImg(this);"></p>
+									<p class="img"> <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${theaterEvent.event_thum_path}&item_cd=${theaterEvent.event_no}&type=eventThumb" alt="${theaterEvent.event_title}" onerror="noImg(this);"></p>
 									<p class="tit">
 										${theaterEvent.event_title}
 									</p>
@@ -331,7 +331,7 @@ button, input, optgroup, select, textarea {
 							<li>
 								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${stageEvent.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title="${stageEvent.event_title} 상세보기">
 									<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
-									<p class="img"> <img src="<%=request.getContextPath() %>/sysAdmin/getPicture.do?name=${stageEvent.event_thum_path}&item_cd=${stageEvent.event_no}&type=eventThumb" alt="${stageEvent.event_title}" onerror="noImg(this);"></p>
+									<p class="img"> <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${stageEvent.event_thum_path}&item_cd=${stageEvent.event_no}&type=eventThumb" alt="${stageEvent.event_title}" onerror="noImg(this);"></p>
 									<p class="tit">
 										${stageEvent.event_title}
 									</p>
