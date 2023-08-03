@@ -157,7 +157,10 @@ public class ViewController {
 	
 
 	
-	
+	@GetMapping("/include/404")
+	public String sagongsa() {
+		return "/include/404"; 
+	}
 //	@GetMapping("/support/main")
 //	public String supportMain() {
 //		return "/support/main"; 
