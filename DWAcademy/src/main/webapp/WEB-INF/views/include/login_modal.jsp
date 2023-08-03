@@ -157,8 +157,10 @@
                 <p class="extra">로그인 정보가 기억나지 않나요 ? <a href="#"><u>회원정보 찾기</u></a></p>
                 <p class="extra new">휴면을 해제하고 싶어요 <a href="#" data-bs-toggle="modal" data-bs-target="#dormantAccount_modal"><u>휴면 해제하기</u></a></p>
                 </form>
+                <div class="NonMemReservationDiv" style="display: none;"><button id="nonMemReservationBtn" style="background-color: #4aa8d8; border: none; color: white; border-radius: 0.5rem; padding: 0.8rem 1rem;">비회원 예매하기</button></div>
             </div>
         </div>
     </div>
 </div>
+
 <%@ include file = "login_modal_js.jsp" %>

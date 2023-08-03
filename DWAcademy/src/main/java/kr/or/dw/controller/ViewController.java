@@ -52,13 +52,6 @@ public class ViewController {
 		
 		return mnv;
 	}
-	
-	@GetMapping("/member/membership")
-	public String memberShip() {
-		String url = "/member/membership";
-		return url;
-	}
-	
 
 	/*
 	 * 극장 뷰어 컨트롤러 

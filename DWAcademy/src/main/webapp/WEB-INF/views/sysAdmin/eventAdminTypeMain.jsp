@@ -53,7 +53,7 @@
 							<div class="col-md-3" style="text-align: -webkit-center;">
 								<div class="card text-center h-100" style="width: 18rem;">
 									<a href="/sysAdmin/eventAdminDetail?type=read&event_no=${event.event_no }">
-										<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+										<img src="/common/getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
 									</a>
 									<div class="card-body">
 										<h3 class="card-title">${event.event_title }</h3>

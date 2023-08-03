@@ -307,4 +307,9 @@ public class SupportController {
 		String url = "/support/agreeScreen";
 		return url;
 	}
+	@RequestMapping("/membership")
+	public String memberShip() {
+		String url = "/support/membership";
+		return url;
+	}
 }

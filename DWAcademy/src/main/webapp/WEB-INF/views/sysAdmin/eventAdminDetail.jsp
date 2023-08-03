@@ -12,6 +12,9 @@
 #searchMovieNameBtn {
 	cursor: pointer;
 }
+select {
+	height: auto;
+}
 </style>
 
 <!-- Modal -->
@@ -35,7 +38,7 @@
         	<c:forEach items="${movieList }" var="movie">
 		        <div class="card card-body movieCard" style="height: 6rem; padding: 0.5rem;" >
 		        	<div class="row" style="height: 5rem; align-items: center;">
-			    		<div class="col-md-2  text-center"><img src="getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" style="width:4rem; height:5rem; overflow: hidden;"></div>
+			    		<div class="col-md-2  text-center"><img src="/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" style="width:4rem; height:5rem; overflow: hidden;"></div>
 			    		<div class="col-md-4 movieCd">${movie.MOVIE_CD }</div>
 			    		<div class="col-md-6 movieName">${movie.MOVIE_NAME }</div>
 		    		</div>
@@ -101,7 +104,7 @@
 							<div class="col-md-3">
 								<span>이벤트 유형 구분</span>
 								<span>
-									<select name="event_div" class="form-control">
+									<select name="event_div" class="form-control" style="height: ;">
 										<option value="영화" ${event.event_div eq '영화' ? 'selected' : ''}>영화</option>
 										<option value="극장" ${event.event_div eq '극장' ? 'selected' : ''}>극장</option>
 										<option value="시사회/무대인사" ${event.event_div eq '시사회/무대인사' ? 'selected' : ''}>시사회/무대인사</option>

@@ -31,7 +31,7 @@
 					<tr style="height: 10rem;">
 						<td style="width:10%;">
 							<div style="width: 6rem; height: 6rem;">
-								<img src="getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+								<img src="/common/getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
 							</div>
 						</td>
 						<td>

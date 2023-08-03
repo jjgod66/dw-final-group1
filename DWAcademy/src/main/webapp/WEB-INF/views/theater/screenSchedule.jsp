@@ -583,6 +583,8 @@ a {
 %>
 <%@ include file="login_service_modal.jsp" %>
 <%@ include file="alert_modal.jsp" %>
+<%@ include file="../include/login_modal.jsp" %>
+<%@ include file="../include/nonMember_reservationModal.jsp" %>
 <div id="contents" class="no-padding">
 	<div class="sub_visual theater-detail-page">
 	    <h3>${theater.thr_name }</h3>
@@ -852,11 +854,25 @@ $('#movieShow').html(app);
 
 function screenDetail(screen_cd){
 	if(mem_cd == ''){
-		$('#login-service-modal').modal("show");
+		$('#login-modal').modal('show');
+		$('.NonMemReservationDiv').show();
+		$('#nonMem_Modal_screen_cd').val(screen_cd);
+// 		$('#login-service-modal').modal("show");
 		return;
 	}
 	location.href="<%=request.getContextPath()%>/reservation/detail.do?screen_cd=" + screen_cd;
 }
+// 로그인 모달 닫히면 비회원예매하기 버튼 hide
+$('#login-modal').on('hidden.bs.modal', function(){
+	$('.NonMemReservationDiv').hide();
+});
+$('#nonMemReservationBtn').on('click', function(){
+	$('#login-modal').modal('hide');
+	$('#nonMember_reservationModal').modal('show');
+	checkNonMemberNum = '';
+	nonMemberPhone = '';
+	nonMemberPhoneChecked = '';
+});
 
 // 요일 한글로 변환 함수
 function getKoreanDayOfWeek(dayOfWeek) {

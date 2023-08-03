@@ -116,8 +116,8 @@ public class ThrAdminController {
 		String url = "/thrAdmin/theaterAdminMain";
 		
 		HttpSession session = req.getSession();
-		session.setAttribute("admin_cd", "T202307090001");
-		String admin_cd = (String) session.getAttribute("admin_cd");
+		Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
+		String admin_cd = (String) admin.get("CD");
 		
 		Map<String, Object> thr = thrAdminService.selectThrByAdmin_cd(admin_cd);
 		mnv.addAllObjects(thr);
@@ -186,8 +186,12 @@ public class ThrAdminController {
 	public ModelAndView noticeAdminMain(ModelAndView mnv, HttpServletRequest req, SearchCriteria cri) throws SQLException {
 		String url = "/thrAdmin/noticeAdminMain";
 		HttpSession session = req.getSession();
+		
+		Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
+		String admin_cd = (String) admin.get("CD");
+		
 		if (cri.getAdminType().equals("")) {
-			cri.setAdminType((String)session.getAttribute("admin_cd"));
+			cri.setAdminType(admin_cd);
 		}
 		
 		Map<String, Object> dataMap = thrAdminService.selectNoticeList(cri);
@@ -261,8 +265,11 @@ public class ThrAdminController {
 		String url = "/thrAdmin/qnaAdminMain";
 		
 		HttpSession session = req.getSession();
+		Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
+		String admin_cd = (String) admin.get("CD");
+		
 		if (cri.getAdminType().equals("")) {
-			cri.setAdminType((String)session.getAttribute("admin_cd"));
+			cri.setAdminType(admin_cd);
 		}
 		
 		Map<String,Object> dataMap = thrAdminService.selectQnaList(cri);
@@ -294,9 +301,10 @@ public class ThrAdminController {
 	public void answerRegist(AnswerVO ans, HttpServletRequest req, HttpServletResponse res) throws IOException, SQLException {
 		
 		HttpSession session = req.getSession();
-		String admin_cd = (String)session.getAttribute("admin_cd");
-		ans.setAdmin_cd(admin_cd);
+		Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
+		String admin_cd = (String) admin.get("CD");
 		
+		ans.setAdmin_cd(admin_cd);
 		thrAdminService.registAns(ans);
 		
 		res.setContentType("text/html; charset=utf-8");
@@ -329,8 +337,11 @@ public class ThrAdminController {
 		String url = "/thrAdmin/eventAdminMain";
 		
 		HttpSession session = req.getSession();
+		Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
+		String admin_cd = (String) admin.get("CD");
+		
 		if (cri.getAdminType().equals("")) {
-			cri.setAdminType((String)session.getAttribute("admin_cd"));
+			cri.setAdminType(admin_cd);
 		}
 		
 		Map<String, Object> dataMap = thrAdminService.selectEventList(cri);
@@ -505,8 +516,11 @@ public class ThrAdminController {
 		String url="/thrAdmin/eventAdminPastMain";
 		
 		HttpSession session = req.getSession();
+		Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
+		String admin_cd = (String) admin.get("CD");
+		
 		if (cri.getAdminType().equals("")) {
-			cri.setAdminType((String)session.getAttribute("admin_cd"));
+			cri.setAdminType(admin_cd);
 		}
 		
 		Map<String, Object> dataMap = thrAdminService.selectEventListforPast(cri);
@@ -588,8 +602,11 @@ public class ThrAdminController {
 		mnv.addObject("movieList", movieList);
 		System.out.println(movieList);
 		Map<String, Object> data = new HashMap<String, Object>();
+		
 		HttpSession session = req.getSession();
-		String admin_cd = (String) session.getAttribute("admin_cd");
+		Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
+		String admin_cd = (String) admin.get("CD");
+		
 		if (date == null) {
 			data.put("date", new Date());
 		} else {
@@ -704,6 +721,7 @@ public class ThrAdminController {
 	
 	@RequestMapping("/screenModify")
 	public void screenModify (ScreenVO screen, HttpServletResponse res) throws IOException, SQLException {
+		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(screen.getStartdate());
 		int year = cal.get(Calendar.YEAR);
@@ -734,7 +752,7 @@ public class ThrAdminController {
 	
 	@RequestMapping("/screenDelete")
 	public void screenDelete (ScreenVO screen, HttpServletResponse res) throws IOException, SQLException {
-		System.out.println("controller");
+		
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(screen.getStartdate());
 		int year = cal.get(Calendar.YEAR);

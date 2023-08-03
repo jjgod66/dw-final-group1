@@ -68,7 +68,7 @@
 										</c:when>
 										<c:otherwise>
 											<div class="imgDiv" style="margin: auto;">
-												<img alt="...." src="getPicture.do?name=${MEM_PIC_PATH }&item_cd=${MEM_CD}&type=memberPic" class="profileImg">
+												<img alt="...." src="/common/getPicture.do?name=${MEM_PIC_PATH }&item_cd=${MEM_CD}&type=memberPic" class="profileImg">
 											</div>
 										</c:otherwise>
 									</c:choose>
