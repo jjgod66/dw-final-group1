@@ -32,7 +32,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		try {
 			member = memberDAO.selectMemberById(login_id);
 			System.out.println(member);
-			System.out.println(member.get("PWD"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

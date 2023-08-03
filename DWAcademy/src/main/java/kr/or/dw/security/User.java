@@ -20,8 +20,10 @@ public class User implements UserDetails{
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		
 		List<GrantedAuthority> roles = new ArrayList<GrantedAuthority>();
-		roles.add(new SimpleGrantedAuthority((String) member.get("CD")));
+		roles.add(new SimpleGrantedAuthority((String) member.get("AUTH")));
+		
 		return roles;
 	}
 
