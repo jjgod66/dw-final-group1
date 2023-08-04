@@ -312,7 +312,7 @@ table th {
 														<input type="file" name="uploadVideo" accept="video/mp4,video/mkv, video/x-m4v,video/*" style="display: none;">
 														<button class="btn btn-outline-danger btn-sm" type="button" id="cancelAddBtn">X</button>
 														<video class="vi" style="width: 100%; height: 100%;" controls>
-															<source src='getVideo.do?movie_cd=${video.MOVIE_CD }&movie_pre_path=${video.MOVIE_PRE_PATH}'  type="video/mp4">
+															<source src='/common/getVideo.do?movie_cd=${video.MOVIE_CD }&movie_pre_path=${video.MOVIE_PRE_PATH}'  type="video/mp4">
 														</video>
 														<input id="videoName" class="form-control" type="hidden" name="imgName" value="${video.MOVIE_PRE_NO }">
 													</div>

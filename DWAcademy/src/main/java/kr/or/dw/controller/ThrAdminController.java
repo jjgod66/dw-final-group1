@@ -110,6 +110,7 @@ public class ThrAdminController {
 		return mnv;
 	}
 	
+	
 	@RequestMapping("/theaterAdminMain")
 	public ModelAndView placeAdmin(ModelAndView mnv, HttpServletRequest req) throws SQLException {
 		

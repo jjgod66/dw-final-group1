@@ -303,7 +303,4 @@ public class ThrAdminServiceImpl implements ThrAdminService {
 		return thrAdminDAO.selectEventForMain(admin_cd);
 	}
 
-
-	
-
 }

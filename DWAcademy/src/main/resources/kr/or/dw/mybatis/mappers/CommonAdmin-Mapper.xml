@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.CommonAdminDAO">
+
+	<select id="selectThrList" resultType="map">
+		SELECT a.admin_cd, a.thr_name
+		  FROM admin a, theater t
+		 WHERE a.admin_cd = t.admin_cd(+)
+		   and a.admin_cd != '${admin_cd}'
+		 ORDER BY a.ADMIN_CD
+	</select>
+	
+	<insert id="insertNote">
+		INSERT INTO admin_note
+					(
+					 note_no
+					,note_sender
+					,note_receiver
+					,note_title
+					,note_content
+					,senddate
+					,gb_del_sender
+					,gb_del_receiver
+					)
+			 VALUES (
+			 		 note_seq.nextval
+			 		,#{note_sender}
+			 		,#{note_receiver}
+			 		,#{note_title}
+			 		,#{note_content}
+			 		,SYSDATE
+			 		,'N'
+			 		,'N'
+			 		)
+	</insert>
+	
+	<select id="selectReceivedNoteListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM admin_note
+		 WHERE note_receiver = #{admin_cd}
+		   AND gb_del_receiver = 'N'
+	</select>
+	
+	<select id="selectReceivedNoteList" resultType="map">
+		SELECT * 
+		  FROM (
+				SELECT * 
+				  FROM (
+						SELECT *
+						  FROM (
+								SELECT an.*, NVL(t.thr_name, 'DW시네마') thr_name
+								  FROM admin_note an, theater t
+								 WHERE note_receiver = #{admin_cd}
+								   AND an.note_sender = t.admin_cd(+)
+								   AND gb_del_receiver = 'N'
+								 ORDER BY an.note_no DESC
+						  		)
+				  		 WHERE ROWNUM <![CDATA[<=]]> #{perPageNum} * #{page}
+				  		 ORDER BY NOTE_NO ASC
+						)
+				)
+		<if test="totalCount lt perPageNum * page">
+		  WHERE ROWNUM <![CDATA[<=]]> #{totalCount} - (#{page} - 1) * #{perPageNum}
+		</if>
+		<if test="totalCount gte perPageNum * page">
+		  WHERE ROWNUM <![CDATA[<=]]> #{perPageNum}
+		</if>
+		  ORDER BY NOTE_NO DESC
+	</select>
+	
+	<select id="selectSendedNoteListCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM admin_note
+		 WHERE note_sender = #{admin_cd}
+		   AND gb_del_sender = 'N'
+	</select>
+	
+	<select id="selectSendedNoteList" resultType="map">
+		SELECT * 
+		  FROM (
+				SELECT * 
+				  FROM (
+						SELECT *
+						  FROM (
+								SELECT an.*, NVL(t.thr_name, 'DW시네마') thr_name
+								  FROM admin_note an, theater t
+								 WHERE note_sender = #{admin_cd}
+								   AND an.note_receiver = t.admin_cd(+)
+								   AND gb_del_sender = 'N'
+								 ORDER BY an.note_no DESC
+						  		)
+				  		 WHERE ROWNUM <![CDATA[<=]]> #{perPageNum} * #{page}
+				  		 ORDER BY NOTE_NO ASC
+						)
+				)
+		<if test="totalCount lt perPageNum * page">
+		  WHERE ROWNUM <![CDATA[<=]]> #{totalCount} - (#{page} - 1) * #{perPageNum}
+		</if>
+		<if test="totalCount gte perPageNum * page">
+		  WHERE ROWNUM <![CDATA[<=]]> #{perPageNum}
+		</if>
+		  ORDER BY NOTE_NO DESC
+	</select>
+	
+	<select id="selectNoteByNote_no" resultType="map">
+		SELECT an.*, NVL(t.thr_name, 'DW시네마') thr_name
+		  FROM admin_note an, theater t
+		 WHERE note_no = #{note_no}
+		   <if test="note_type == 'S'.toString()">
+		   AND an.note_receiver = t.admin_cd(+)
+		   </if>
+		   <if test="note_type == 'R'.toString()">
+		   AND an.note_sender = t.admin_cd(+)
+		   </if>
+	</select>
+</mapper>

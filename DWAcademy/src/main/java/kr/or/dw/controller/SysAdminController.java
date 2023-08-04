@@ -1180,68 +1180,6 @@ public class SysAdminController {
 		
 		return fileName;
 	}
-	
-	@RequestMapping("/getPicture")
-	public ResponseEntity<byte[]> getPicture(String name, String item_cd, String type) throws IOException  {
-		
-		InputStream in = null;
-		ResponseEntity<byte[]> entity = null;
-		String imgPath = "";
-		if (type != "" && type != null) {
-			if (type.equals("moviePoster")) {
-				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "mainPoster";
-			} else if (type.equals("movieImg")) {
-				imgPath = this.moviePicUploadPath + File.separator + item_cd + File.separator + "pictures";
-			} else if (type.equals("productImg")) {
-				imgPath = this.storePicUploadPath + File.separator + item_cd;
-			} else if (type.equals("eventThumb")) {
-				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "thumb";
-			} else if (type.equals("eventImg")) {
-				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "img";
-			} else if (type.equals("memberPic")) {
-				imgPath = this.memberPicUploadPath + File.separator + item_cd;
-			}
-		}
-		
-		try {
-			in = new FileInputStream(new File(imgPath, name));
-			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
-		} finally {
-			in.close();
-		}
-		
-		return entity;
-	}
-	
-	 @RequestMapping(value = "getVideo")
-	    public ResponseEntity<ResourceRegion> getVideo(@RequestHeader HttpHeaders headers, String movie_cd, String movie_pre_path) throws IOException {
-	        logger.info("VideoController.getVideo");
-	        UrlResource video = new UrlResource("file:"+ this.moviePicUploadPath + File.separator + movie_cd + File.separator + "videos" + File.separator + movie_pre_path);
-	        ResourceRegion resourceRegion;
-
-	        final long chunkSize = 1000000L;
-	        long contentLength = video.contentLength();
-
-	        Optional<HttpRange> optional = headers.getRange().stream().findFirst();
-	        HttpRange httpRange;
-	        if (optional.isPresent()) {
-	            httpRange = optional.get();
-	            long start = httpRange.getRangeStart(contentLength);
-	            long end = httpRange.getRangeEnd(contentLength);
-	            long rangeLength = Long.min(chunkSize, end - start + 1);
-	            resourceRegion = new ResourceRegion(video, start, rangeLength);
-	        } else {
-	            long rangeLength = Long.min(chunkSize, contentLength);
-	            resourceRegion = new ResourceRegion(video, 0, rangeLength);
-	        }
-
-	        return ResponseEntity.status(HttpStatus.PARTIAL_CONTENT)
-	                .contentType(MediaTypeFactory.getMediaType(video).orElse(MediaType.APPLICATION_OCTET_STREAM))
-	                .body(resourceRegion);
-	   }
 	 
 	 @RequestMapping("/uploadTempImg")
 		public ResponseEntity<String> uploadTempImg(MultipartFile file, HttpServletRequest req) {

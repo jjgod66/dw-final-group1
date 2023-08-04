@@ -37,6 +37,7 @@
 	<bean id="payService" class="kr.or.dw.service.PayServiceImpl"/>
 	<bean id="nonMemService" class="kr.or.dw.service.NonMemServiceImpl"/>
 	<bean id="photoTicketService" class="kr.or.dw.service.PhotoTicketServiceImpl"/>
+	<bean id="commonAdminService" class="kr.or.dw.service.CommonAdminServiceImpl"/>
 
 
 	
