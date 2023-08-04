@@ -35,8 +35,9 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary"  id="cancelModalBtn" data-bs-dismiss="modal">닫기</button>
-        <button type="button" class="btn" id="registHouseBtn" style="background-color: #ef4836; color: white;">등록</button>
-        <button type="button" class="btn" id="modifyHouseBtn" style="background-color: #ef4836; color: white;">수정</button>
+        <button type="button" class="btn" id="registHouseBtn" style="background-color: #4aa8d8; color: white;">등록</button>
+        <button type="button" class="btn" id="modifyHouseBtn" style="background-color: #4aa8d8; color: white;">수정</button>
+        <button type="button" class="btn" id="deleteHouseBtn" style="background-color: #ef4836; color: white;">삭제</button>
       </div>
     </div>
   </div>
@@ -273,6 +274,11 @@ window.onload = function(){
 												  +'<td class="house_column">'+hc+'</td></tr>');
 	}
 	
+	// 삭제된 상영관 바로 없애기
+	function removeHouseRow(hno){
+		$('input.house_no[value="'+hno+'"]').closest('.list0').hide();
+	}
+	
 	// 수정된 상영관 바로 preview
 	function modifyHouseRow(hnm, hr, hc, hno){
 		
@@ -282,11 +288,42 @@ window.onload = function(){
 		houseTr.find('.house_column').text(hc);
 	}
 	
+	$('#deleteHouseBtn').on('click',function(){
+		if(confirm('정말 해당 상영관을 삭제하시겠습니까?')) {
+			let house_no = $('#house_no').val();
+			let data = house_no;
+			
+			$.ajax({
+				url : "<%=request.getContextPath()%>/thrAdmin/theaterAdminDeleteHouse",
+				type : "post",
+				data : JSON.stringify(data),
+				contentType : "application/json",
+				success : function(data){
+					console.log(data);
+					if (data == 'X') {
+						alert('해당 상영관에 상영 예정인 영화가 남아있습니다.');
+						return;
+					} else if (data == 'O') {
+						alert('상영관이 삭제되었습니다.');
+						removeHouseRow(house_no);
+						$('#cancelModalBtn').click();
+					}
+				},
+				error : function(err){
+					console.log(err);
+				}
+			});
+		}
+	});
+	
+	
+	
 	// 상영관 등록버튼 클릭시
 	$('#registModalBtn').on('click', function(){
 		
 		$('#registHouseBtn').show();
 		$('#modifyHouseBtn').hide();
+		$('#deleteHouseBtn').hide();
 		
 	});
 	
@@ -305,8 +342,10 @@ window.onload = function(){
 		
 		$('#registHouseBtn').hide();
 		$('#modifyHouseBtn').show();
+		$('#deleteHouseBtn').show();
 		
 	});
+	
 }	
 </script>
 <%@ include file="thrAdminFooter.jsp"%>

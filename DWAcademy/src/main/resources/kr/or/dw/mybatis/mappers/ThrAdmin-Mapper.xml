@@ -230,6 +230,7 @@
   		  FROM THEATER t , HOUSE h 
  		 WHERE t.THR_NAME = h.THR_NAME 
   		   AND t.ADMIN_CD = #{admin_cd}
+  		   AND h.gb_del = 'N'
   		 ORDER BY house_no ASC
 	</select>
 	
@@ -261,6 +262,19 @@
 		      ,house_column = #{house_column}
 		 WHERE house_no = #{house_no}
 	</select>
+
+	<select id="selectRemainMoviesCnt" resultType="int">
+		SELECT COUNT(*) 
+		  FROM screen
+		 WHERE house_no = #{house_no}
+		   AND startdate > SYSDATE
+	</select>
+	
+	<update id="deleteHouse">
+		UPDATE house
+		   SET gb_del = 'Y'
+		 WHERE house_no = #{house_no}
+	</update>
 
 	<select id="selectNoticeList" resultType="notice">
 		SELECT *

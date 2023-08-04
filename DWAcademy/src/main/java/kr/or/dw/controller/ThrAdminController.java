@@ -50,6 +50,7 @@ import kr.or.dw.command.EventModifyCommand;
 import kr.or.dw.command.EventRegistCommand;
 import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.service.CommonAdminService;
 import kr.or.dw.service.SysAdminService;
 import kr.or.dw.service.ThrAdminService;
 import kr.or.dw.vo.AnswerVO;
@@ -74,6 +75,9 @@ public class ThrAdminController {
 	
 	@Autowired
 	private SysAdminService sysAdminService;
+	
+	@Autowired
+	private CommonAdminService commonAdminService;
 	
 	@Resource(name ="moviePicUploadPath")
 	private String moviePicUploadPath;
@@ -105,6 +109,9 @@ public class ThrAdminController {
 		List<EventVO> eventList = thrAdminService.selectEventForMain(admin_cd);
 		mnv.addObject("eventList", eventList);
 		
+		int unreadedNoteCnt = commonAdminService.selectUnreadedNoteCnt(admin_cd);
+		mnv.addObject("unreadedNoteCnt", unreadedNoteCnt);
+		session.setAttribute("unreadedNoteCnt", unreadedNoteCnt);
 		
 		mnv.setViewName(url);
 		return mnv;
@@ -178,6 +185,26 @@ public class ThrAdminController {
 			entity = new ResponseEntity<>(newHouse, HttpStatus.OK);
 		} catch (Exception e) {
 			entity = new ResponseEntity<>(newHouse, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	@RequestMapping("/theaterAdminDeleteHouse")
+	public ResponseEntity<String> theaterAdminDeleteHouse(@RequestBody Object data) throws SQLException {
+		int house_no = Integer.parseInt((String)data);
+		ResponseEntity<String> entity = null;
+		System.out.println(data);
+		int result = thrAdminService.deleteHouse(house_no);
+		String resultString = "";
+		if (result > 0) {
+			resultString = "X";
+		} else {
+			resultString = "O";
+		}
+		try {
+			entity = new ResponseEntity<String>(resultString, HttpStatus.OK);
+		} catch (Exception e) {
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		return entity;

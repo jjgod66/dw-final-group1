@@ -22,5 +22,11 @@ public interface CommonAdminService {
 
 	// 쪽지를 조회한다.
 	Map<String, Object> selectNoteByNote_no(Map<String, Object> data) throws SQLException;
+
+	// 쪽지를 지운다.
+	void deleteNote(Map<String, Object> data) throws SQLException;
+
+	// 아직 읽지않은 쪽지 수를 가져온다.
+	int selectUnreadedNoteCnt(String admin_cd) throws SQLException;
 	
 }

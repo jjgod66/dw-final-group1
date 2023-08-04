@@ -303,4 +303,16 @@ public class ThrAdminServiceImpl implements ThrAdminService {
 		return thrAdminDAO.selectEventForMain(admin_cd);
 	}
 
+	@Override
+	public int deleteHouse(int house_no) throws SQLException {
+		int result = 0;
+		int remainMoviesCnt = thrAdminDAO.selectRemainMoviesCnt(house_no);
+		if (remainMoviesCnt > 0) {
+			result = remainMoviesCnt;
+		} else {
+			thrAdminDAO.deleteHouse(house_no);
+		}
+		return result;
+	}
+
 }

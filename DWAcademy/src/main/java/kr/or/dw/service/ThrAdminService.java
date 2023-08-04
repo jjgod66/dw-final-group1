@@ -115,5 +115,8 @@ public interface ThrAdminService {
 	// 메인페이지에 보여줄 이벤트 목록 가져오기
 	List<EventVO> selectEventForMain(String admin_cd) throws SQLException;
 
+	// 상영관 삭제
+	int deleteHouse(int house_no) throws SQLException;
+
 
 }
