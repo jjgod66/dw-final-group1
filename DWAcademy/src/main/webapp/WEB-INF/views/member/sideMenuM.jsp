@@ -149,7 +149,7 @@ margin-top:0px;
             </li>
             <li class="list2">
                 <a href="<%=request.getContextPath()%>/member/bookinglist.do">
-                    <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                    <span class="icon"><ion-icon name="bag-check-outline"></ion-icon></span>
                     <span class="title">예매/구매내역  </span>
                 </a>
             </li>
@@ -259,9 +259,10 @@ margin-top:0px;
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[7].classList.add('active1'); 
         	  }
-        	  if(mem_cd != ''){
+        	  
+        	  /* if(mem_cd != ''){
         	    	list[1].style.display = 'none'; 
-        	    }
+        	    } */
         	});
     
     
