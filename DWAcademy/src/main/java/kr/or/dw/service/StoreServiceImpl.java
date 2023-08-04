@@ -49,7 +49,9 @@ public class StoreServiceImpl implements StoreService{
 		param.put("product_cd",memBuy.getProduct_cd());
 		param.put("merchant_uid", memBuy.getMerchant_uid());
 		
-		storeDAO.insertMemPro(param);
+		for(int i = 0; i < memBuy.getAmount(); i++) {
+			storeDAO.insertMemPro(param);
+		}
 		
 		if(memBuy.getUse_point() > 0) {
 			PointVO pointVO = new PointVO();
@@ -87,7 +89,9 @@ public class StoreServiceImpl implements StoreService{
 		param.put("product_cd",memBuy.getProduct_cd());
 		param.put("merchant_uid", memBuy.getMerchant_uid());
 		
-		storeDAO.insertMemPro(param);
+		for(int i = 0; i < memBuy.getAmount(); i++) {
+			storeDAO.insertMemPro(param);
+		}
 		
 		if(memBuy.getUse_point() > 0) {
 			PointVO pointVO = new PointVO();
@@ -128,7 +132,9 @@ public class StoreServiceImpl implements StoreService{
 		param.put("product_cd",memBuy.getProduct_cd());
 		param.put("merchant_uid", memBuy.getMerchant_uid());
 		
-		storeDAO.insertMemPro(param);
+		for(int i = 0; i < memBuy.getAmount(); i++) {
+			storeDAO.insertMemPro(param);
+		}
 		
 		if(memBuy.getUse_point() > 0) {
 			PointVO pointVO = new PointVO();
@@ -154,7 +160,9 @@ public class StoreServiceImpl implements StoreService{
 		param.put("product_cd",memBuy.getProduct_cd());
 		param.put("merchant_uid", memBuy.getMerchant_uid());
 		
-		storeDAO.insertMemPro(param);
+		for(int i = 0; i < memBuy.getAmount(); i++) {
+			storeDAO.insertMemPro(param);
+		}
 		
 		
 		if(memBuy.getUse_point() > 0) {

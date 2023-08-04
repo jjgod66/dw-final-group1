@@ -610,7 +610,7 @@ $(function(){
 			success : function(res){
 				console.log(res);
 				if(res == 'over'){
-					$('#alertContent').text("5개까지 선택 가능합니다.");
+					$('#alertContent').text("5개까지 가능합니다.");
 					$('#alert-modal').modal('show');
 				}else if(res == 'like'){
 					$('.noneThLikeIcon').css('display', 'none');

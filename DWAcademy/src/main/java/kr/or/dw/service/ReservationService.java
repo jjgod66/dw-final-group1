@@ -9,6 +9,7 @@ import kr.or.dw.command.ReservationDetailCommand;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.Non_MemberVO;
 import kr.or.dw.vo.PayDetailVO;
 import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
@@ -108,5 +109,24 @@ public interface ReservationService {
 	 * @return
 	 */
 	Map<String, String> getResSMSInfo(String merchant_uid) throws SQLException;
+
+	/**
+	 * 비회원 예매
+	 * @param resList
+	 * @param payDetail
+	 * @param non_mem
+	 * @return
+	 * @throws SQLException
+	 */
+	Map<String, Object> getNonMemReservationResult(List<ReservationVO> resList, PayDetailVO payDetail,
+			Non_MemberVO non_mem) throws SQLException;
+
+	/**
+	 * 비회원 예매문자 보낼때 들어갈 정보 가져오는 메서드
+	 * @param merchant_uid
+	 * @return
+	 * @throws SQLException
+	 */
+	Map<String, String> getNonMemResSMSInfo(String merchant_uid) throws SQLException;
 
 }

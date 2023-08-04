@@ -10,6 +10,14 @@
 <!--  	<h3>예매하기</h3> -->
 <!--     <h6>ticket reservation</h6> -->
 <!-- </div> -->
+<%
+	mem_cd = "";
+	if(session.getAttribute("loginUser") != null){
+		Map member = (Map) session.getAttribute("loginUser");
+		mem_cd = (String)member.get("CD");
+	}
+	pageContext.setAttribute("mem_cd", mem_cd);
+%>
 <div id="contents" style="display: flex; justify-content: center;">
 		<!-- inner-wrap -->
 		<div class="inner-wrap">
@@ -58,10 +66,16 @@
 
 								
 							</div>
-
+						
 								<div class="btn-group pt30">
-									<a href="#" class="button large" id="btn_credit_info">결제정보</a>
-									<a href="#" class="button large" title="예매내역 페이지로 이동">예매내역 <!-- 예매내역 --></a>
+								<c:set var="mem_cd" value="${pageScope.mem_cd}"/>
+								<c:if test="${mem_cd != '' }">
+									<a href="<%=request.getContextPath() %>/member/bookinglist.do" class="button large" title="예매내역 페이지로 이동">예매내역 <!-- 예매내역 --></a>
+								</c:if>
+								<c:if test="${mem_cd == '' }">
+									<a href="<%=request.getContextPath() %>/non_member/bookinglist.do" class="button large" title="예매내역 페이지로 이동">비회원 예매확인 <!-- 예매내역 --></a>
+								</c:if>
+<!-- 									<a href="#" class="button large" id="btn_credit_info">결제정보</a> -->
 								</div>
 						</div>
 							

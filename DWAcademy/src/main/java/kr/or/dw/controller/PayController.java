@@ -72,4 +72,20 @@ ResponseEntity<String> entity = null;
 		
 		return entity;
 	}
+	
+	@RequestMapping("/buyCreInfo")
+	public ResponseEntity<Map<String, Object>> buyCreInfo(String mem_product_cd){
+		ResponseEntity<Map<String, Object>> entity = null;
+		
+		Map<String, Object> buyCreInfo = null;
+		try {
+			buyCreInfo = payService.getBuyCreInfo(mem_product_cd);
+			entity = new ResponseEntity<Map<String,Object>>(buyCreInfo, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<Map<String,Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
 }

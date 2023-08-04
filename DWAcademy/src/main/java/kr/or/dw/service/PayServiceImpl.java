@@ -102,8 +102,8 @@ RestTemplate restTemplate = new RestTemplate();
 				ReservationVO res = null;
 				res = payDAO.selectResCouPoint(merchant_uid);
 				if(res.getMem_coupon_no() != 0) {
-					int coupon_no = res.getMem_coupon_no();
-					payDAO.returnCoupon(coupon_no);
+					int mem_coupon_no = res.getMem_coupon_no();
+					payDAO.returnCoupon(mem_coupon_no);
 				}
 				if(res.getUse_point() != 0) {
 					payDAO.returnPoint(merchant_uid);
@@ -116,6 +116,7 @@ RestTemplate restTemplate = new RestTemplate();
 				if(memBuy.getUse_point() != 0) {
 					payDAO.returnPoint(merchant_uid);
 				}
+				payDAO.refundMemPro(merchant_uid);
 			}
 		}
 		
@@ -135,6 +136,8 @@ RestTemplate restTemplate = new RestTemplate();
 			creInfo2 = payDAO.selectResInfo(merchant_uid);
 		}else {
 			creInfo2 = payDAO.selectBuyInfo(merchant_uid);
+			creInfo.put("AMOUNT", creInfo2.get("AMOUNT"));
+			creInfo.put("PRODUCT_NAME", creInfo2.get("PRODUCT_NAME"));
 		}
 		
 		creInfo.put("DISCOUNT", creInfo2.get("DISCOUNT"));
@@ -157,5 +160,16 @@ RestTemplate restTemplate = new RestTemplate();
 		}
 		
 		return result;
+	}
+
+	@Override
+	public Map<String, Object> getBuyCreInfo(String mem_product_cd) throws SQLException {
+		Map<String, Object> buyCreInfo = null;
+		
+		String merchant_uid = null;
+		merchant_uid = payDAO.selectMerUidByMPC(mem_product_cd);
+		buyCreInfo = getPayInfo(merchant_uid);
+		
+		return buyCreInfo;
 	}
 }

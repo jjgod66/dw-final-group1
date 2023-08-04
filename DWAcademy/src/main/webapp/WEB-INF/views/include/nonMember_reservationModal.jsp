@@ -247,7 +247,7 @@ let checkNonMemberNum = "";
 let nonMemberPhone = '';
 let nonMemberPhoneChecked = '';
 $('#sendAuthNumberBtn').on('click',function(){
-	let phone = $('#non_mem_phone').val();
+	let phone = $('#formForNonMem #non_mem_phone').val();
 	nonMemberPhone = phone;
 	if(phone != ""){
 		$.ajax({
@@ -289,7 +289,7 @@ $('#submitNonMemberInfo').on('click', function(){
 			return;
 		}
 	}
-	if ($('input[name="non_mem_bir"]').val().length != 8) {
+	if ($('#formForNonMem input[name="non_mem_bir"]').val().length != 8) {
 		alert("생년월일이 유효하지 않습니다.");
 		return;
 	}
@@ -298,13 +298,14 @@ $('#submitNonMemberInfo').on('click', function(){
 		return;
 	}
 	
-	if ($('#non_mem_pwd').val() != $('#non_mem_pwd_certify').val()) {
+	if ($('#formForNonMem #non_mem_pwd').val() != $('#non_mem_pwd_certify').val()) {
 		alert("비밀번호가 일치하지 않습니다.");
 		return;
 	}
 	
 	if ($('input[name="agreeNonMem"]:checked').attr('id') != 'Y') {
 		alert("정보수집에 동의하지 않으면 이용할 수 없습니다.");
+		return;
 	}
 	
 	let form = $('#formForNonMem');

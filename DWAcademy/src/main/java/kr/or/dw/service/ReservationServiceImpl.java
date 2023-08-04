@@ -17,6 +17,7 @@ import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.dao.ReservationDAO;
 import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.Non_MemberVO;
 import kr.or.dw.vo.PayDetailVO;
 import kr.or.dw.vo.PointVO;
 import kr.or.dw.vo.ReservationVO;
@@ -273,6 +274,52 @@ public class ReservationServiceImpl implements ReservationService{
 		List<Map<String, Object>> SMSInfoAll = null;
 		SMSInfoAll = reservationDAO.selectResSMSInfo(merchant_uid);
 		String stMemPhone = (String) SMSInfoAll.get(0).get("MEM_PHONE");
+		String movie_name = (String) SMSInfoAll.get(0).get("MOVIE_NAME");
+		Date Dstartdate = (Date) SMSInfoAll.get(0).get("STARTDATE");
+		
+		Map<String, String> SMSInfo = new HashMap<>();
+		
+		String mem_phone = stMemPhone.replace("-", "");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		String startdate = format.format(Dstartdate);
+		
+		SMSInfo.put("mem_phone", mem_phone);
+		SMSInfo.put("movie_name", movie_name);
+		SMSInfo.put("startdate", startdate);
+		SMSInfo.put("merchant_uid", merchant_uid);
+		
+		return SMSInfo;
+	}
+
+	
+	@Override
+	public Map<String, Object> getNonMemReservationResult(List<ReservationVO> resList, PayDetailVO payDetail,
+			Non_MemberVO non_mem) throws SQLException {
+		
+		Map<String, Object> mapData = null;
+		reservationDAO.insertNonMem(non_mem);
+		reservationDAO.insertPayDetail(payDetail);
+		for(ReservationVO res : resList) {
+			res.setMem_cd(non_mem.getNon_mem_cd());
+			res.setMerchant_uid(payDetail.getMerchant_uid());
+			res.setRes_no(payDetail.getMerchant_uid().replace("M", ""));
+			reservationDAO.insertRes(res);
+		}
+		mapData = reservationDAO.selectPaymentScreenInfo(resList.get(0).getScreen_cd());
+		
+		
+		
+		mapData.put("merchant_uid", resList.get(0).getMerchant_uid());
+		return mapData;
+		
+		
+	}
+
+	@Override
+	public Map<String, String> getNonMemResSMSInfo(String merchant_uid) throws SQLException {
+		List<Map<String, Object>> SMSInfoAll = null;
+		SMSInfoAll = reservationDAO.selectNonMemResSMSInfo(merchant_uid);
+		String stMemPhone = (String) SMSInfoAll.get(0).get("NON_MEM_PHONE");
 		String movie_name = (String) SMSInfoAll.get(0).get("MOVIE_NAME");
 		Date Dstartdate = (Date) SMSInfoAll.get(0).get("STARTDATE");
 		

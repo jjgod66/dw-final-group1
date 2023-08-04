@@ -201,4 +201,10 @@ public class CommonController {
 		return url;
 	}
 	
+	@RequestMapping("/common/userIdFind")
+	public String userIdFind() {
+		String url = "/common/userIdFind";
+		return url;
+	}
+	
 }

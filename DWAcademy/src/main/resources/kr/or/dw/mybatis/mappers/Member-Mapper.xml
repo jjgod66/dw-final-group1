@@ -101,24 +101,38 @@
 	</update>
 	
 	<select id="selectBuyInfoList" resultType="Map">
-		SELECT mb.buydate, p.product_div, p.product_name, p.product_price, mp.gb_use, pd.refunddate
+		SELECT mb.buydate, p.product_div, p.product_name, p.product_price, mp.gb_use, pd.refunddate, mem_product_cd, mb.merchant_uid, gb_one_use
 		  FROM mem_buy mb, product p ,mem_product mp, pay_detail pd
+			  ,(SELECT mb.merchant_uid, max(gb_use) gb_one_use
+			  FROM mem_buy mb, mem_product mp
+			  WHERE mb.merchant_uid = mp.merchant_uid
+			  AND mb.mem_cd = #{mem_cd}
+			  GROUP BY mb.merchant_uid
+		 	 ) g
 		 WHERE mb.mem_cd = #{mem_cd}
 		   AND p.product_cd = mp.product_cd
-	       AND mb.merchant_uid = mp.merchant_uid
+		   AND mb.merchant_uid = mp.merchant_uid
 		   AND mb.merchant_uid = pd.merchant_uid
-		   ORDER BY buydate desc
+		   AND mb.merchant_uid = g.merchant_uid
+		   ORDER BY buydate DESC
 	</select>
 	
 	<select id="select3BuyInfo" resultType="Map">
 		SELECT *
 		  FROM (
-					SELECT mb.buydate, p.product_div, p.product_name, p.product_price, mp.gb_use, pd.refunddate
+					SELECT mb.buydate, p.product_div, p.product_name, p.product_price, mp.gb_use, pd.refunddate, mem_product_cd, mb.merchant_uid, gb_one_use
 					  FROM mem_buy mb, product p ,mem_product mp, pay_detail pd
+					  ,(SELECT mb.merchant_uid, max(gb_use) gb_one_use
+					  FROM mem_buy mb, mem_product mp
+					  WHERE mb.merchant_uid = mp.merchant_uid
+					  AND mb.mem_cd = #{mem_cd}
+					  GROUP BY mb.merchant_uid
+				 	 ) g
 					 WHERE mb.mem_cd = #{mem_cd}
 					   AND p.product_cd = mp.product_cd
 				       AND mb.merchant_uid = mp.merchant_uid
 					   AND mb.merchant_uid = pd.merchant_uid
+					    AND mb.merchant_uid = g.merchant_uid
 					   ORDER BY buydate desc
 				)
 		 WHERE rownum <![CDATA[<=]]> 3
@@ -127,12 +141,19 @@
 	</select>
 	
 	<select id="searchBuyInfo" resultType="Map">
-		SELECT mb.buydate, p.product_div, p.product_name, p.product_price, mp.gb_use, pd.refunddate
+		SELECT mb.buydate, p.product_div, p.product_name, p.product_price, mp.gb_use, pd.refunddate, mem_product_cd, mb.merchant_uid, gb_one_use
 		  FROM mem_buy mb, product p ,mem_product mp, pay_detail pd
+			  ,(SELECT mb.merchant_uid, max(gb_use) gb_one_use
+			  FROM mem_buy mb, mem_product mp
+			  WHERE mb.merchant_uid = mp.merchant_uid
+			  AND mb.mem_cd = #{mem_cd}
+			  GROUP BY mb.merchant_uid
+		 	 ) g
 		 WHERE mb.mem_cd = #{mem_cd}
 		   AND p.product_cd = mp.product_cd
-	       AND mb.merchant_uid = mp.merchant_uid
+		   AND mb.merchant_uid = mp.merchant_uid
 		   AND mb.merchant_uid = pd.merchant_uid
+		   AND mb.merchant_uid = g.merchant_uid
 		   AND TO_CHAR(buydate, 'YYYYMM') like #{cri.monthKeyword}
 		   ORDER BY buydate desc
 	</select>
