@@ -5,10 +5,7 @@
 			<p>adminDw © dwCinema. 2023 final project.</p>
 		</div>
 		
-		<!-- jquery 3.7.0  -->
-		<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
-		<!-- bootstrap 5.2.3 -->
-		<script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+	
 		<!-- common.js -->
 		<script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
 		<!-- summernote-lite -->

@@ -33,6 +33,7 @@
 		<typeAlias type="kr.or.dw.vo.EventVO" alias="event"/>
 		<typeAlias type="kr.or.dw.vo.MemBuyVO" alias="membuy"/>
 		<typeAlias type="kr.or.dw.vo.WinnerBoardVO" alias="wb"/>
+		<typeAlias type="kr.or.dw.vo.Admin_NoteVO" alias="note"/>
 
 	</typeAliases>
 

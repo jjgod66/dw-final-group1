@@ -305,6 +305,7 @@ $('#submitNonMemberInfo').on('click', function(){
 	
 	if ($('input[name="agreeNonMem"]:checked').attr('id') != 'Y') {
 		alert("정보수집에 동의하지 않으면 이용할 수 없습니다.");
+		return;
 	}
 	
 	let form = $('#formForNonMem');

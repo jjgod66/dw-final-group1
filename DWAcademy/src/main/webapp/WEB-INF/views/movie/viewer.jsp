@@ -329,7 +329,7 @@
 					<c:forEach items="${previewList }" var="preview">
 					    <div class="carousel-item active" style="">
 						 	<video class="vi" style="height: 400px; display : block; margin : auto;" controls>
-								<source src='<%=request.getContextPath()%>/sysAdmin/getVideo.do?movie_cd=${movieView.movie.movie_cd }&movie_pre_path=${preview.movie_pre_path}'  type="video/mp4">
+								<source src='<%=request.getContextPath()%>/common/getVideo.do?movie_cd=${movieView.movie.movie_cd }&movie_pre_path=${preview.movie_pre_path}'  type="video/mp4">
 							</video>
 					    	
 					    </div>
