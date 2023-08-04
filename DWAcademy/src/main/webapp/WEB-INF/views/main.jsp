@@ -92,8 +92,9 @@
 	                            <div class="item_poster">
 	                                <div class="thumb_item">
 	                                    <div class="poster_movie" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movie.movie_mainpic_path}&item_cd=${movie.movie_cd }&type=moviePoster') no-repeat center /cover">
-<%-- 	                                        <span class="rank_num">${movie.movie_grade}</span> --%>
-<%-- 	                                        <span class="txt_tag">${movie.movie_grade}</span> --%>
+
+	                                        <span class="rank_num">${movie.movie_grade}</span>
+	                                        <span class="txt_tag">${movie.movie_grade}</span>
 
 	                                        <div class="movieChart_btn_wrap">
 	                                            <a href="/movie/viewer.do?movie_cd=${movie.movie_cd}" class="btn_movieChart_detail">상세보기</a>

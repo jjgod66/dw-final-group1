@@ -30,12 +30,69 @@
 		a {
 			text-decoration : none;
 		}
+		.new_note_alert {
+			border-radius: 0.3rem;
+		    line-height: 1rem;
+		    font-size: 0.5rem;
+		    position: absolute;
+		    width: 1.5rem;
+		    height: 1rem;
+		    top: 40%;
+		    right: -1%;
+		    color: white;
+		    background-color: red;
+		    display: none;
+		}
+		.noteDiv {
+			display: none;
+		}
+		.my_received_notes {
+			display: block;
+		}
 		</style>
 		
 	</head>
 	
 	<body>
-	
+		<!-- Button trigger modal -->
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+		  Launch demo modal
+		</button>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="note_Modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h1 class="modal-title fs-5" id="exampleModalLabel">쪽지함</h1>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		        <div class="mt-2 mx-2">
+		        	<ul class="nav nav-tabs note_tab">
+					  <li class="nav-item">
+					    <a class="nav-link active" id="tap_received">받은 쪽지함</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link" id="tap_sended">보낸 쪽지함</a>
+					  </li>
+					  <li class="nav-item">
+					    <a class="nav-link" id="tap_sending">쪽지 보내기</a>
+					  </li>
+					</ul>
+		        </div>
+		      <div class="modal-body">
+		        <div class="noteDiv my_received_notes">받은쪽지함입니다.</div>
+		        <div class="noteDiv my_sended_notes">보낸쪽지함입니다.</div>
+		        <div class="noteDiv my_sending_notes">쪽지 작성폼입니다.</div>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		        <button type="button" class="btn btn-primary">Save changes</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
 		<header id="hd">
 			<div id="hd_wrap" style="background-color : #fafafa;">
 				<div style="padding : 0.5rem;" class="text-center">
@@ -46,6 +103,9 @@
 						<li><a href="<%=request.getContextPath() %>/thrAdmin/main.do">ADMIN HOME</a></li>
 						<li><a href="<%=request.getContextPath() %>/main.do">DWCinema HOME</a></li>
 						<li id="tnb_logout"><a href="">LOGOUT</a></li>
+						<li style="padding-left: 0.5rem; border: none; font-size: xx-large; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#note_Modal">
+							<i class="bi bi-envelope"></i><span class="new_note_alert">NEW</span>
+						</li>
 					</ul>
 				</div>
 	
@@ -79,3 +139,9 @@
 				</nav> 
 			</div>
 		</header>
+		
+		<script>
+			$('.note_tab a').on('click', function(){
+				if ($(this))
+			})
+		</script>

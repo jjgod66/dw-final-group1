@@ -377,8 +377,8 @@ public class ThrAdminController {
 		// 이벤트 테이블에 등록
 		sysAdminService.registEvent(event);
 		int event_no = event.getEvent_no();
-		String newContent = registReq.getEvent_content().replace("/sysAdmin/getTempImg.do?fileName="+registReq.getOldFileName() 
-																 ,"/sysAdmin/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+		String newContent = registReq.getEvent_content().replace("/common/getTempImg.do?fileName="+registReq.getOldFileName() 
+																 ,"/common/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
 		
 		Map<String, Object> modifyEventContentMap = new HashMap<>();
 		modifyEventContentMap.put("event_no", event_no);
