@@ -18,6 +18,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.apache.commons.io.FileUtils;
@@ -59,6 +60,7 @@ import kr.or.dw.command.MovieRegistCommand;
 import kr.or.dw.command.ProductModifyCommand;
 import kr.or.dw.command.ProductRegistCommand;
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.service.CommonAdminService;
 import kr.or.dw.service.StoreService;
 import kr.or.dw.service.SysAdminService;
 import kr.or.dw.vo.AnswerVO;
@@ -82,6 +84,9 @@ public class SysAdminController {
 	private SysAdminService sysAdminService;
 	
 	@Autowired
+	private CommonAdminService commonAdminService;
+	
+	@Autowired
 	private StoreService storeService;
 	
 	@Resource(name ="moviePicUploadPath")
@@ -97,8 +102,13 @@ public class SysAdminController {
 	private String memberPicUploadPath;
 	
 	@RequestMapping("/main")
-	public ModelAndView sysAdminIndex(ModelAndView mnv) throws SQLException {
+	public ModelAndView sysAdminIndex(ModelAndView mnv, HttpServletRequest req) throws SQLException {
+		
 		String url = "/sysAdmin/main";
+		
+		HttpSession session = req.getSession();
+		Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
+		String admin_cd = (String) admin.get("CD");
 		
 		List<MovieVO> currentMovieList = sysAdminService.selectCurrentMovieForMain();
 		mnv.addObject("currentMovieList", currentMovieList);
@@ -109,6 +119,10 @@ public class SysAdminController {
 		mnv.addObject("qnaList", qnaList);
 		List<EventVO> eventList = sysAdminService.selectEventForMain();
 		mnv.addObject("eventList", eventList);
+		
+		int unreadedNoteCnt = commonAdminService.selectUnreadedNoteCnt(admin_cd);
+		mnv.addObject("unreadedNoteCnt", unreadedNoteCnt);
+		session.setAttribute("unreadedNoteCnt", unreadedNoteCnt);
 		
 		mnv.setViewName(url);
 		return mnv;

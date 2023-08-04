@@ -4,6 +4,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,15 +88,30 @@ public class CommonAdminController {
 	}
 	
 	@RequestMapping("/readNote")
-	public ResponseEntity<Map<String, Object>> readNote (@RequestBody Map<String, Object> data) throws SQLException {
+	public ResponseEntity<Map<String, Object>> readNote (@RequestBody Map<String, Object> data, HttpServletRequest req) throws SQLException {
 		ResponseEntity<Map<String, Object>> entity = null;
 		System.out.println(data);
 		Map<String, Object> note = commonAdminService.selectNoteByNote_no(data);
-		
+		System.out.println("unreaded : " + note.get("UNREADEDCNT"));
+		HttpSession session = req.getSession();
+		session.setAttribute("unreadedNoteCnt", note.get("UNREADEDCNT"));
 		try {
 			entity = new ResponseEntity<Map<String, Object>>(note, HttpStatus.OK);
 		} catch (Exception e) {
 			entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return entity;
+	}
+	@RequestMapping("/deleteNote")
+	public ResponseEntity<String> deleteNote (@RequestBody Map<String, Object> data) throws SQLException {
+		ResponseEntity<String> entity = null;
+		System.out.println(data);
+		commonAdminService.deleteNote(data);
+		
+		try {
+			entity = new ResponseEntity<String>("", HttpStatus.OK);
+		} catch (Exception e) {
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return entity;
 	}

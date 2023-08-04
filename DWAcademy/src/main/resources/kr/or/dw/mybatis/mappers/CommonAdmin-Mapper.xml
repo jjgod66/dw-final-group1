@@ -21,6 +21,7 @@
 					,senddate
 					,gb_del_sender
 					,gb_del_receiver
+					,gb_read
 					)
 			 VALUES (
 			 		 note_seq.nextval
@@ -29,6 +30,7 @@
 			 		,#{note_title}
 			 		,#{note_content}
 			 		,SYSDATE
+			 		,'N'
 			 		,'N'
 			 		,'N'
 			 		)
@@ -104,6 +106,16 @@
 	
 	<select id="selectNoteByNote_no" resultType="map">
 		SELECT an.*, NVL(t.thr_name, 'DW시네마') thr_name
+		   <if test="note_type == 'R'.toString()">
+		   , (SELECT COUNT(*) 
+		   		FROM ADMIN_NOTE an2 
+		   	   WHERE NOTE_RECEIVER = (SELECT NOTE_RECEIVER 
+		   	   							FROM ADMIN_NOTE an 
+		   	   						   WHERE NOTE_NO=#{note_no} 
+		   	   						  )
+		   	     AND GB_READ = 'N'
+		   	     AND GB_DEL_RECEIVER = 'N') UNREADEDCNT
+		   </if>
 		  FROM admin_note an, theater t
 		 WHERE note_no = #{note_no}
 		   <if test="note_type == 'S'.toString()">
@@ -112,5 +124,30 @@
 		   <if test="note_type == 'R'.toString()">
 		   AND an.note_sender = t.admin_cd(+)
 		   </if>
+	</select>
+	
+	<update id="deleteNote">
+		UPDATE admin_note
+		<if test="note_type =='S'.toString()">
+		   SET gb_del_sender = 'Y'
+		</if>
+		<if test="note_type =='R'.toString()">
+		   SET gb_del_receiver = 'Y'
+		</if>
+		 WHERE note_no = #{note_no}
+	</update>
+	
+	<update id="updateGb_read">
+		UPDATE admin_note
+		   SET gb_read = 'Y'
+		 WHERE note_no = #{note_no}
+	</update>
+	
+	<select id="selectUnreadedNoteCnt" resultType="int">
+		SELECT COUNT(*)
+		  FROM admin_note
+		 WHERE note_receiver = #{admin_cd}
+		   AND gb_read = 'N'
+		   AND gb_del_receiver = 'N'
 	</select>
 </mapper>

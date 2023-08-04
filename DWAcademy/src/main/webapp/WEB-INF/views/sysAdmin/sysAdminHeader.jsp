@@ -38,7 +38,7 @@
 	</head>
 	
 	<body>
-	
+	<%@ include file="../include/admin_NoteModal.jsp" %>
 		<header id="hd">
 			<div id="hd_wrap" style="background-color : #fafafa;">
 				<div style="padding : 0.5rem;" class="text-center">
@@ -49,6 +49,9 @@
 						<li><a href="<%=request.getContextPath() %>/sysAdmin/main.do">ADMIN HOME</a></li>
 						<li><a href="<%=request.getContextPath() %>/main.do">DWCinema HOME</a></li>
 						<li id="tnb_logout"><a href="/common/logout.do">LOGOUT</a></li>
+						<li id="tnb_note" style="padding-left: 0.5rem; border: none; font-size: xx-large; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#note_Modal">
+							<i class="bi bi-envelope"></i><span class="new_note_alert text-center">${sessionScope.unreadedNoteCnt == 0 ? '' : sessionScope.unreadedNoteCnt}</span>
+						</li>
 					</ul>
 				</div>
 	
@@ -92,3 +95,4 @@
 				</nav> 
 			</div>
 		</header>
+<%@ include file="../include/admin_NoteModal_js.jsp" %>			
