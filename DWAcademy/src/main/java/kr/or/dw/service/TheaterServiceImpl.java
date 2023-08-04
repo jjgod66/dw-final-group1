@@ -44,18 +44,20 @@ public class TheaterServiceImpl implements TheaterService{
 		param.put("mem_cd", mem_cd);
 		param.put("thr_name", thr_name);
 		
-		if(likeThrCount >= 5) {
-			result = "over";
+	
+		int thisThrCount = theaterDAO.selectThisThrLikeYN(param);
+		if(thisThrCount > 0) {
+			result = "cancel";
+			theaterDAO.deleteLikeThr(param);
 		}else {
-			int thisThrCount = theaterDAO.selectThisThrLikeYN(param);
-			if(thisThrCount > 0) {
-				result = "cancel";
-				theaterDAO.deleteLikeThr(param);
+			if(likeThrCount >= 5) {
+				result = "over";
 			}else {
 				result = "like";
 				theaterDAO.insertLikeThr(param);
 			}
 		}
+		
 		
 		
 		return result;

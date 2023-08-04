@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.or.dw.dao.NonMemDAO">
+
+	<select id="selectNonMemExist" resultType="int">
+		SELECT COUNT(*)
+		FROM non_member
+		WHERE non_mem_name = #{non_mem_name}
+		AND non_mem_phone = #{non_mem_phone}
+		AND non_mem_pwd = #{non_mem_pwd}
+		AND TO_CHAR(non_mem_bir, 'yyyyMMdd') = #{non_mem_bir}
+	</select>
+	
+	<select id="selectNonMemResList" resultType="Map">
+		SELECT r.MERCHANT_UID
+		  ,LISTAGG(r.MEM_CAT , ', ') WITHIN GROUP(ORDER BY r.mem_cat) mem_cat
+		  ,LISTAGG(r.RES_SEAT , ', ') WITHIN GROUP(ORDER BY RES_SEAT)  res_seat
+			  ,MAX(startdate) startdate
+			  ,MAX(RESDATE) RESDATE
+			  ,MAX(h.house_name) house_name
+			  ,MAX(h.thr_name) thr_name
+			  ,MAX(REFUNDDATE) REFUNDDATE
+			  ,MAX(m.movie_name) movie_name
+			  ,MAX(m.movie_cd) movie_cd
+			  ,MAX(m.movie_mainpic_path) movie_mainpic_path
+		  FROM RESERVATION r
+		  	  ,screen s
+		  	  ,movie m
+		  	  ,house h
+		  	  ,PAY_DETAIL p
+		  	  ,non_member nm
+		 WHERE r.mem_cd = nm.non_mem_cd
+		   AND non_mem_name = #{non_mem_name}
+		   AND non_mem_phone = #{non_mem_phone}
+		   AND TO_CHAR(non_mem_bir, 'yyyyMMdd') = #{non_mem_bir}
+		   AND non_mem_pwd = #{non_mem_pwd}
+		   AND s.screen_cd = r.screen_cd 
+		   AND s.movie_cd = m.movie_cd
+		   AND h.house_no = s.house_no
+		   AND p.merchant_uid = r.merchant_uid
+		   <if test="searchType == 'curr'.toString()">
+		   		AND to_char(startdate, 'yyyyMMddHHmm') <![CDATA[>]]> to_char(sysdate, 'yyyyMMddHHmm')
+		   </if>
+		   <if test="searchType == 'past'.toString()">
+		   		AND to_char(startdate, 'yyyyMMddHHmm') <![CDATA[<=]]> to_char(sysdate, 'yyyyMMddHHmm')
+		   </if>
+		 GROUP BY r.merchant_uid
+	</select>
+	
+	<select id="selectNonMemResCount" resultType="int">
+		SELECT COUNT(*)
+		FROM (
+			SELECT COUNT(*)
+			  FROM RESERVATION r
+			  	  ,screen s
+			  	  ,movie m
+			  	  ,house h
+			  	  ,PAY_DETAIL p
+			  	  ,non_member nm
+			 WHERE r.mem_cd = nm.non_mem_cd
+			   AND non_mem_name = #{non_mem_name}
+			   AND non_mem_phone = #{non_mem_phone}
+			   AND TO_CHAR(non_mem_bir, 'yyyyMMdd') = #{non_mem_bir}
+			   AND non_mem_pwd = #{non_mem_pwd}
+			   AND s.screen_cd = r.screen_cd 
+			   AND s.movie_cd = m.movie_cd
+			   AND h.house_no = s.house_no
+			   AND p.merchant_uid = r.merchant_uid
+			   <if test="searchType == 'curr'.toString()">
+		   		AND to_char(startdate, 'yyyyMMddHHmm') <![CDATA[>]]> to_char(sysdate, 'yyyyMMddHHmm')
+			   </if>
+			   <if test="searchType == 'past'.toString()">
+			   		AND to_char(startdate, 'yyyyMMddHHmm') <![CDATA[<=]]> to_char(sysdate, 'yyyyMMddHHmm')
+			   </if>
+			 GROUP BY r.merchant_uid
+			 )
+	</select>
+</mapper>

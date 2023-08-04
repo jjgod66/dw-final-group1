@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import kr.or.dw.command.ScreenSchedualCommand;
 import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MovieVO;
+import kr.or.dw.vo.Non_MemberVO;
 import kr.or.dw.vo.PayDetailVO;
 import kr.or.dw.vo.PointVO;
 import kr.or.dw.vo.ReservationVO;
@@ -149,5 +150,20 @@ public interface ReservationDAO {
 	 * @return
 	 */
 	List<Map<String, Object>> selectResSMSInfo(String merchant_uid) throws SQLException;
+
+	/**
+	 * 비회원 추가
+	 * @param non_mem
+	 * @throws SQLException
+	 */
+	void insertNonMem(Non_MemberVO non_mem) throws SQLException;
+
+	/**
+	 * 비회원 예매 후 문자 보낼 때 필용한 정보 가져오는 메서드
+	 * @param merchant_uid
+	 * @return
+	 * @throws SQLException
+	 */
+	List<Map<String, Object>> selectNonMemResSMSInfo(String merchant_uid) throws SQLException;
 
 }

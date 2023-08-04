@@ -243,10 +243,15 @@ h3.tit {
 	padding: 5px;
 	margin-left: 5px;
 }
+.proName:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
 </style>
 
 <%@include file="creditInfo_modal.jsp" %>
 <%@include file="refund_modal.jsp" %>
+<%@include file="buy_refund_modal.jsp" %>
 <%@include file="photoTicket_refund_modal.jsp" %>
 <h2 class="tit">예매/구매 내역</h2>
 <div class="tab-block tab-layer">
@@ -426,23 +431,33 @@ h3.tit {
 					<th style="text-align : center;">상품명</th>
 					<th style="width : 10%; text-align : center;">결제금액</th>
 					<th style="width : 10%; text-align : center;">상태</th>
+					<th style="width : 10%; text-align : center;">취소</th>
 				</tr>
 <c:forEach items="${buyInfoList}" var="buyInfo">
 				<tr>
 					<td style="width : 20%; text-align : center;"><fmt:formatDate value="${buyInfo.BUYDATE}"/></td>
 					<td style="width : 10%; text-align : center;">${buyInfo.PRODUCT_DIV}</td>
-					<td style="text-align : center;">${buyInfo.PRODUCT_NAME}</td>
+					<td style="text-align : center;" class="proName" data-mem_product_cd="${buyInfo.MEM_PRODUCT_CD }">${buyInfo.PRODUCT_NAME}</td>
 					<td style="width : 10%; text-align : center;">${buyInfo.PRODUCT_PRICE}원</td>
+					<c:if test="${buyInfo.GB_USE eq 'N'}">
+						<td style="width : 10%; text-align : center; color: blue">사용가능</td>
+					</c:if>
+					<c:if test="${buyInfo.GB_USE eq 'Y'}">
+						<td style="width : 10%; text-align : center;">사용완료</td>
+					</c:if>
+					<c:if test="${buyInfo.GB_USE eq 'R'}">
+						<td style="width : 10%; text-align : center; color: red;">사용불가</td>
+					</c:if>
 					<c:if test="${buyInfo.REFUNDDATE eq null}">
-						<c:if test="${buyInfo.GB_USE eq 'N'}">
-							<td style="width : 10%; text-align : center;">사용가능</td>
+						<c:if test="${buyInfo.GB_ONE_USE eq 'N'}">
+							<td style="width : 10%; text-align : center;"><button type="button" class="btn-light CreBtn" data-merchant_uid="${buyInfo.MERCHANT_UID}" id="buyRefundBtn">취소</button></td>
 						</c:if>
-						<c:if test="${buyInfo.GB_USE eq 'Y'}">
-							<td style="width : 10%; text-align : center;">사용완료</td>
+						<c:if test="${buyInfo.GB_ONE_USE eq 'Y'}">
+							<td style="width : 10%; text-align : center; color: red;">취소불가</td>
 						</c:if>
 					</c:if>
 					<c:if test="${buyInfo.REFUNDDATE ne null}">
-						<td style="width : 10%; text-align : center;">결제취소</td>
+						<td style="width : 10%; text-align : center;">취소완료</td>
 					</c:if>
 				</tr>
 	</c:forEach>
@@ -453,7 +468,7 @@ h3.tit {
 </div>
 <br>
 <nav aria-label="member list Nabigation">
-	<ul class="pagination justify-content-center m-0" style="background-color : white;">
+	<ul class="pagination justify-content-center m-0">
 		<li class="page-item">
 			<a class="page-link" href="javascript:searchList_go(1);">
 				<i class="bi bi-chevron-double-left"></i>
@@ -490,6 +505,29 @@ h3.tit {
 </section>
 <script>
 $(function(){
+	$('#myBuy').on('click', '#buyRefundBtn', function(){
+		let merchant_uid = $(this).data('merchant_uid');
+		$('#buyrefundHiddenMUID').val(merchant_uid);
+		$('#buy-refund-modal').modal('show');
+	})
+	
+	$('#myBuy').on('click', '.proName', function(){
+		let mem_product_cd = $(this).data('mem_product_cd');
+		$("#infoModalMemProCd").text(mem_product_cd);
+		$.ajax({
+			url : '<%=request.getContextPath()%>/pay/buyCreInfo.do',
+			method : 'post',
+			data : {'mem_product_cd' : mem_product_cd},
+			success : function(res){
+				console.log(res);
+				payInfoBuy(res);
+				$('#creditInfo-modal').modal('show');
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
 	
 	$('#myMovie').on('click', '#photoTicketRefundBtn', function(){
 		let merchant_uid = $(this).data('merchant_uid');
@@ -678,6 +716,37 @@ function ptRefund(merchant_uid){
 	})
 }
 
+function payInfoBuy(res){
+	let paydate = dateFormat(new Date(res.PAYDATE));
+	
+	$('#infoModalPriceSum').text(res.PRICESUM + '원');
+	$('#infoModalDiscount').text(res.DISCOUNT + '원');
+	$('#infoModalPaidAmount').text(res.PAID_AMOUNT + '원');
+	$('#infoModalRefundPaidAmount').text(res.PAID_AMOUNT + '원');
+	$('#infoModalPaydate').text(paydate);
+	let cardShow = '';
+	cardShow += res.CARD_NAME + ' '; 
+	if(res.CARD_QUOTA == 0){
+		cardShow += '(일시불)';
+	}else{
+		cardShow += '(' + res.CARD_QUOTA + '개월)';
+		
+	}
+	$('#infoModalCard').text(cardShow);
+	
+	if(res.REFUNDDATE != null){
+		let refunddate = dateFormat(new Date(res.REFUNDDATE));
+		$('#infoModalRefunddate').text(refunddate);
+		$('.creInfoModalRefundInfo').css('display', '');
+	}else{
+		$('.creInfoModalRefundInfo').css('display', 'none');
+	}
+	
+	$('#infoModalProName').text(res.PRODUCT_NAME);
+	$('#infoModalBuyAmount').text(res.AMOUNT + '개');
+	$('.creInfoModalBuyInfo').css('display', '');
+}
+
 function payInfoRes(res){
 	let paydate = dateFormat(new Date(res.PAYDATE));
 	
@@ -703,6 +772,7 @@ function payInfoRes(res){
 	}else{
 		$('.creInfoModalRefundInfo').css('display', 'none');
 	}
+	$('.creInfoModalBuyInfo').css('display', 'none');
 }
 function dateFormat(date) {
     let month = date.getMonth() + 1;

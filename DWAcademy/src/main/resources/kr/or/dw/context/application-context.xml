@@ -35,6 +35,7 @@
 	<bean id="couponService" class="kr.or.dw.service.CouponServiceImpl"/>
 	<bean id="supportService" class="kr.or.dw.service.SupportServiceImpl"/>
 	<bean id="payService" class="kr.or.dw.service.PayServiceImpl"/>
+	<bean id="nonMemService" class="kr.or.dw.service.NonMemServiceImpl"/>
 	<bean id="photoTicketService" class="kr.or.dw.service.PhotoTicketServiceImpl"/>
 
 

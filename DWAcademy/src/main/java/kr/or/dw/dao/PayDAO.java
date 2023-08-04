@@ -106,5 +106,20 @@ public interface PayDAO {
 	 */
 	void deletePhotoTicket(String merchant_uid) throws SQLException;
 
+	/**
+	 * 회원 상품코드로 merchant_uid 가져오기
+	 * @param mem_product_cd
+	 * @return
+	 * @throws SQLException
+	 */
+	String selectMerUidByMPC(String mem_product_cd) throws SQLException;
+
+	/**
+	 * 회원 상품 환불
+	 * @param merchant_uid
+	 * @throws SQLException
+	 */
+	void refundMemPro(String merchant_uid) throws SQLException;
+
 
 }

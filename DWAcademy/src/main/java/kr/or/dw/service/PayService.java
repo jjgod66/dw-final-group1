@@ -32,4 +32,12 @@ public interface PayService {
 	 * @throws SQLException
 	 */
 	String ptRefund(String merchant_uid) throws SQLException;
+
+	/**
+	 * 구매 정보
+	 * @param mem_product_cd
+	 * @return
+	 * @throws SQLException
+	 */
+	Map<String, Object> getBuyCreInfo(String mem_product_cd) throws SQLException;
 }

@@ -153,8 +153,9 @@
                         <div class="p-t-10"><button type="button" id="kakaoLogin" class="btn btn--kakao">카카오로 시작하기</button></div> 
                     </div>
                 </div>
+                <p class="extra new"> <a href="#" data-bs-toggle="modal" data-bs-target="#nonMemLogin_modal"><u>비회원 예매확인</u></a></p>
                 <p class="extra new">회원이 아니신가요 ? <a href="#" data-bs-toggle="modal" data-bs-target="#authentication-modal"><u>회원가입</u></a></p>
-                <p class="extra">로그인 정보가 기억나지 않나요 ? <a href="#"><u>회원정보 찾기</u></a></p>
+                <p class="extra">로그인 정보가 기억나지 않나요 ? <a href="<%=request.getContextPath()%>/common/userIdFind.do"><u>회원정보 찾기</u></a></p>
                 <p class="extra new">휴면을 해제하고 싶어요 <a href="#" data-bs-toggle="modal" data-bs-target="#dormantAccount_modal"><u>휴면 해제하기</u></a></p>
                 </form>
                 <div class="NonMemReservationDiv" style="display: none;"><button id="nonMemReservationBtn" style="background-color: #4aa8d8; border: none; color: white; border-radius: 0.5rem; padding: 0.8rem 1rem;">비회원 예매하기</button></div>

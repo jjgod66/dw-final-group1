@@ -177,7 +177,7 @@ canvas{
 				<div id="menu">
 					<ul>
 						<li role="menuitem" style="width: 43px; text-align: left;">
-			                <a href="javascript:void(0)" id="myPageMain" ><i class="bi bi-person" style="font-size: 26px;"></i></a>
+			                <a href="<%=request.getContextPath()%>/member/main.do" id="myPageMain" ><i class="bi bi-person" style="font-size: 26px;"></i></a>
 			            </li>
 						<li>이벤트
 							<ul>
@@ -217,6 +217,7 @@ canvas{
 <%@ include file="../include/dormantAccount_modal.jsp"%>
 <%@ include file="../include/personInfoUtilAgreeAt.jsp"%>
 <%@ include file="../booking/login_service_modal.jsp" %>
+<%@ include file="../include/nonMember_loginModal.jsp" %>
 <form id="joinForm" action="<%=request.getContextPath()%>/member/join.do" method="post">
 	<input type="hidden" name="mem_id">
 	<input type="hidden" name="mem_name">

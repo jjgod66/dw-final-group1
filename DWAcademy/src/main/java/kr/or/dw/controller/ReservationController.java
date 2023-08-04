@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -71,27 +72,58 @@ public class ReservationController {
 	private ReservationService reservationService;
 
 	@RequestMapping("/moviePaymentForm")
-	public ModelAndView moviePaymentForm(ModelAndView mnv, MoviePaymentCommand mpc, HttpSession session) throws SQLException{
+	public ModelAndView moviePaymentForm(ModelAndView mnv, MoviePaymentCommand mpc, HttpSession session, HttpServletRequest req) throws SQLException, Exception{
 		String url = "/booking/payment";
 		
 		Map<String, Object> mapData = null;
 		mapData = reservationService.getPaymentScreenInfo(mpc.getScreen_cd());
 
-		Map<String, Object> member = (Map) session.getAttribute("loginUser");
-		String mem_cd = (String) member.get("CD");
+		if(session.getAttribute("loginUser") != null){
+			
+			Map<String, Object> member = (Map) session.getAttribute("loginUser");
+			String mem_cd = (String) member.get("CD");
+			
+			List<CouponVO> couponList = null;
+			couponList = reservationService.getCouponList(mem_cd);
+			
+			int point = 0;
+			point = reservationService.getPoint(mem_cd);
+			
+			mnv.addObject("point", point);
+			mnv.addObject("couponList", couponList);
+		}else {
+			Non_MemberVO non_mem = new Non_MemberVO();
+			String non_mem_info = getCookie(req, "non_mem");
+			String[] nonMemInfo = non_mem_info.split("/");
+			non_mem.setNon_mem_name(nonMemInfo[0]);
+			non_mem.setNon_mem_bir(nonMemInfo[1]);
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+			Date non_mem_bir = formatter.parse(nonMemInfo[1]);
+			non_mem.setNon_mem_bir_d(non_mem_bir);
+			non_mem.setNon_mem_phone(nonMemInfo[2]);
+			non_mem.setNon_mem_pwd(nonMemInfo[3]);
+			mnv.addObject("non_mem", non_mem);
+			url = "/booking/nonmem_payment";
+		}
 		
-		List<CouponVO> couponList = null;
-		couponList = reservationService.getCouponList(mem_cd);
-		
-		int point = 0;
-		point = reservationService.getPoint(mem_cd);
-		
-		mnv.addObject("point", point);
-		mnv.addObject("couponList", couponList);
 		mnv.addObject("mapData", mapData);
 		mnv.addObject("moviePayment", mpc);
 		mnv.setViewName(url);
 		return mnv;
+	}
+	
+	public String getCookie(HttpServletRequest req, String id){
+	    Cookie[] cookies=req.getCookies(); // 모든 쿠키 가져오기
+	    if(cookies!=null){
+	        for (Cookie c : cookies) {
+	            String name = c.getName(); // 쿠키 이름 가져오기
+	            String value = c.getValue(); // 쿠키 값 가져오기
+	            if (name.equals(id)) {
+	                return value;
+	            }
+	        }
+	    }
+	    return null;
 	}
 	
 	@RequestMapping("/cinema")
@@ -184,6 +216,19 @@ public class ReservationController {
 		}
 		
 		return entity;
+	}
+	
+	@RequestMapping("/nonMemPayResultRedirect")
+	public String nonMemPayResultRedirect(MoviePaymentCommand mpc, HttpServletRequest req) throws Exception {
+		Map<String, Object> dataMap = nonMemPayResult(mpc, req);
+		String merchant_uid = (String) dataMap.get("merchant_uid");
+		Map<String, String> smsInfo = reservationService.getNonMemResSMSInfo(merchant_uid);
+		
+		SmsController s = new SmsController();
+		s.reservationSMS(smsInfo);
+		QRcreate(merchant_uid);
+		return "redirect:/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
+		
 	}
 	
 	@RequestMapping("/pay0ResultRedirect")
@@ -330,5 +375,58 @@ public class ReservationController {
 		
 
 	}
+	public Map<String, Object> nonMemPayResult(MoviePaymentCommand mpc, HttpServletRequest req) throws Exception {
+		Non_MemberVO non_mem = new Non_MemberVO();
+		String non_mem_info = getCookie(req, "non_mem");
+		String[] nonMemInfo = non_mem_info.split("/");
+		non_mem.setNon_mem_name(nonMemInfo[0]);
+		non_mem.setNon_mem_bir(nonMemInfo[1]);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+		Date non_mem_bir = formatter.parse(nonMemInfo[1]);
+		non_mem.setNon_mem_bir_d(non_mem_bir);
+		non_mem.setNon_mem_phone(nonMemInfo[2]);
+		non_mem.setNon_mem_pwd(nonMemInfo[3]);
+		
+		Gson gson = new Gson();
+		PayDetailVO payDetail = gson.fromJson(mpc.getJson(), PayDetailVO.class);
+		
+		List<ReservationVO> resList = new ArrayList<>();
+		
+		String[] seatList = mpc.getRes_seats().replace(",", "").split(" ");
+		
+		List<String> catList = new ArrayList<>();
+		for(int i = 0; i < mpc.getAdultSeat(); i++) {
+			catList.add("성인");
+		}
+		for(int i = 0; i < mpc.getTeenSeat(); i++) {
+			catList.add("청소년");
+		}
+		for(int i = 0; i < mpc.getPreferSeat(); i++) {
+			catList.add("우대");
+		}
+		
+		
+		
+		for(int i = 0; i < seatList.length; i++) {
+			ReservationVO reservation = new ReservationVO();
+			reservation.setScreen_cd(mpc.getScreen_cd());
+			reservation.setMerchant_uid("M" + payDetail.getMerchant_uid());
+			reservation.setRes_seat(seatList[i]);
+			reservation.setMem_cat(catList.get(i));
+			reservation.setRes_no(payDetail.getMerchant_uid());
+			reservation.setPricesum(mpc.getPricesum());
+			reservation.setDiscount(mpc.getDiscount());
+			reservation.setMem_coupon_no(mpc.getMem_coupon_no());
+			reservation.setUse_point(mpc.getUse_point());
+			resList.add(reservation);
+		}
+		
+		Map<String, Object> mapData = null;
+		mapData = reservationService.getNonMemReservationResult(resList, payDetail, non_mem);
+		mapData.put("res_seat", mpc.getRes_seats());
+		
+		return mapData;
+	}
+
 	
 }

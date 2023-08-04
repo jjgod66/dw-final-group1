@@ -20,6 +20,10 @@
 		UPDATE mem_buy SET gb_cancel = 'Y' WHERE merchant_uid = #{merchant_uid}
 	</update>
 	
+	<update id="refundMemPro">
+		UPDATE mem_product SET gb_use = 'R' WHERE merchant_uid = #{merchant_uid}
+	</update>
+	
 	<select id="selectPayDetail" resultType="Map">
 		SELECT paid_amount, refunddate, nvl(card_name, '카카오페이') card_name, card_quota
 		FROM pay_detail
@@ -34,13 +38,14 @@
 	</select>
 	
 	<select id="selectBuyInfo" resultType="Map">
-		SELECT nvl(MAX(discount),0), buydate paydate, gb_cancel, pricesum
-		FROM mem_buy
-		WHERE merchant_uid = #{merchant_uid}
+		SELECT nvl(discount,0) discount, buydate paydate, gb_cancel, pricesum, amount, product_name
+		FROM mem_buy mb, product p
+		WHERE mb.product_cd = p.product_cd 
+		AND merchant_uid =  #{merchant_uid}
 	</select>
 	
 	<select id="selectResCouPoint" resultType="reservation">
-		SELECT nvl(MAX(coupon_no),0) coupon_no, nvl(MAX(use_point),0) use_point
+		SELECT nvl(MAX(mem_coupon_no),0) mem_coupon_no, nvl(MAX(use_point),0) use_point
 		FROM reservation
 		WHERE merchant_uid = #{merchant_uid}
 		GROUP BY merchant_uid
@@ -53,7 +58,7 @@
 	</select>
 	
 	<update id="returnCoupon">
-		UPDATE mem_coupon SET gb_use = 'N' WHERE coupon_no = #{coupon_no}
+		UPDATE mem_coupon SET gb_use = 'N' WHERE mem_coupon_no = #{mem_coupon_no}
 	</update>
 	
 	<delete id="returnPoint">
@@ -74,4 +79,10 @@
 	<delete id="deletePhotoTicket">
 		DELETE photo_ticket WHERE merchant_uid = #{merchant_uid}
 	</delete>
+	
+	<select id="selectMerUidByMPC" resultType="str">
+		SELECT merchant_uid
+		FROM mem_product
+		WHERE mem_product_cd = #{mem_product_cd}
+	</select>
 </mapper>
