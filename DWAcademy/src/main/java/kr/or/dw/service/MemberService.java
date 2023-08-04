@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.SnsVO;
 
@@ -26,7 +27,7 @@ public interface MemberService {
 	Map<String, Object> CheckMemberEmail(String email) throws SQLException;
 
 	// 개인정보 수집 동의 업데이트
-	void additionUpdate(Map<String, Object> dataMap) throws SQLException;
+	void additionUpdate(Map<String, Object> member) throws SQLException;
 	
 	// 회원 등급 업데이트
 	void updateMemgrade() throws SQLException;
@@ -48,5 +49,11 @@ public interface MemberService {
 
 	// 회원 구매 내역 3개 가져오기
 	List<Map<String, Object>> select3BuyInfo(String mem_cd) throws SQLException;
+
+	// 모든 장르 가져오기
+	List<GenreVO> selectAllGenreList() throws SQLException;
+
+	// 회원 선호장르 선택
+	void memLikeThr(List<String> thrNames, String mem_cd) throws SQLException;
 	
 }

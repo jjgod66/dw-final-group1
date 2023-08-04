@@ -122,8 +122,7 @@
 	
 	<select id="getAllTheaterList" resultType="theater">
 		SELECT *
-		  FROM theater
-		 WHERE gb_del = 'N'
+		  FROM loc
 	</select>
 	
 	<select id="searchTheaterName" resultType="theater">

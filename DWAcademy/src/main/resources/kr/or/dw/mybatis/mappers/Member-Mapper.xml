@@ -58,7 +58,7 @@
 	<update id="additionUpdate">
 		UPDATE member SET gb_email_alert = #{gb_email_alert},
 						  gb_sms_alert = #{gb_sms_alert}
-		WHERE mem_id = #{mem_id}
+		WHERE mem_id = #{ID}
 	</update>
 	
 	<select id="selectMemMonthResCnt" resultType="Map">
@@ -176,4 +176,20 @@
 		   AND mb.merchant_uid = pd.merchant_uid
 		   AND TO_CHAR(buydate, 'YYYYMM') like #{cri.monthKeyword}
 	</select>
+	
+	<select id="selectAllGenreList" resultType="genre">
+		SELECT *
+		  FROM genre
+	</select>
+	
+	<delete id="deleteMemLikeThr">
+		DELETE mem_like_theater WHERE mem_cd = #{mem_cd}
+	</delete>
+	
+	<update id="updateMemLikeThr">
+		<foreach collection="list" item="thrNames" separator=" " open="INSERT ALL" close="SELECT * FROM dual">
+		INTO mem_like_theater(mem_cd, thr_name)
+		VALUES (#{mem_cd}, #{thrNames})
+		</foreach>
+	</update>
 </mapper>

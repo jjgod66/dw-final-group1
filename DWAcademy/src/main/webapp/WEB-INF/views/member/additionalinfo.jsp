@@ -127,6 +127,7 @@
 }
 </style>
 <div class="additionalinfo-wrapper">
+<form role="additionInfo" action="<%=request.getContextPath()%>/member/addition.do" method="post">
 	<h2 class="tit">선택정보 수정</h2>
 	<div class="box-radius">
 		<div class="box-top">
@@ -167,17 +168,17 @@
 			</div>
 			<div class="chk-box">
 				<strong class="label w80px email">이메일</strong>
-				<input type="radio" name="marketEmailRcvAgreeAt" id="chk3" value="Y">
+				<input type="radio" name="gb_email_alert" id="chk3" value="Y">
 				<label for="chk3" class="w80px">수신동의</label>
-				<input type="radio" name="marketEmailRcvAgreeAt" id="chk4" value="N">
+				<input type="radio" name="gb_email_alert" id="chk4" value="N">
 				<label for="chk4" class="w80px">수신거부</label>
 			</div>
 			<div class="chk-box mt05">
 				<strong class="label w80px sms">SMS</strong>
-				<input type="radio" name="marketSmsRcvAgreeAt" id="chk5" value="Y">
+				<input type="radio" name="gb_sms_alert" id="chk5" value="Y">
 				<label for="chk5" class="w80px">수신동의</label>
 
-				<input type="radio" name="marketSmsRcvAgreeAt" id="chk6" value="N">
+				<input type="radio" name="gb_sms_alert" id="chk6" value="N">
 				<label for="chk6" class="w80px">수신거부</label>
 			</div>
 		</div>
@@ -198,70 +199,70 @@
 						<div class="selectMargin">
 							<span>1순위</span>
 							<div style="display: inline-block;">
-								<select name="selectThrLoc1st" class="form-select selectThrLoc" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option class="bs-title-option">1순위 지역선택</option>
+								<select name="selectThrLoc1st" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option class="bs-title-option">지역선택</option>
 									<c:forEach items="${theaterList}" var="theaterList">
 										<option class="bs-title-option">${theaterList.thr_loc}</option>
 									</c:forEach>
 								</select>
-								<select name="selectThrName1st" class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option>극장 선택</option>
+								<select name="selectThrName" id="selectThrName1st" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option value="">극장 선택</option>
 								</select>
 							</div>
 						</div>
 						<div class="selectMargin">
 							<span>2순위</span>
 							<div style="display: inline-block;">
-								<select name="selectThrLoc2nd" class="form-select selectThrLoc" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option class="bs-title-option">2순위 지역선택</option>
+								<select name="selectThrLoc2nd" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option class="bs-title-option">지역선택</option>
 									<c:forEach items="${theaterList}" var="theaterList">
 										<option class="bs-title-option">${theaterList.thr_loc}</option>
 									</c:forEach>
 								</select>
-								<select name="selectThrName2nd" class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option>극장 선택</option>
+								<select name="selectThrName" id="selectThrName2nd" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option value="">극장 선택</option>
 								</select>
 							</div>
 						</div>
 						<div class="selectMargin">
 							<span>3순위</span>
 							<div style="display: inline-block;">
-								<select name="selectThrLoc3rd" class="form-select selectThrLoc" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option class="bs-title-option">3순위 지역선택</option>
+								<select name="selectThrLoc3rd" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option class="bs-title-option">지역선택</option>
 									<c:forEach items="${theaterList}" var="theaterList">
 										<option class="bs-title-option">${theaterList.thr_loc}</option>
 									</c:forEach>
 								</select>
-								<select name="selectThrName3rd" class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option>극장 선택</option>
+								<select name="selectThrName" id="selectThrName3rd" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option value="">극장 선택</option>
 								</select>
 							</div>
 						</div>
 						<div class="selectMargin">
 							<span>4순위</span>
 							<div style="display: inline-block;"> 
-								<select name="selectThrLoc4th" class="form-select selectThrLoc" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option class="bs-title-option">4순위 지역선택</option>
+								<select name="selectThrLoc4th" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option class="bs-title-option">지역선택</option>
 									<c:forEach items="${theaterList}" var="theaterList">
 										<option class="bs-title-option">${theaterList.thr_loc}</option>
 									</c:forEach>
 								</select>
-								<select name="selectThrName4th" class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option>극장 선택</option>
+								<select name="selectThrName" id="selectThrName4th" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option value="">극장 선택</option>
 								</select>
 							</div>
 						</div>
 						<div class="selectMargin">
 							<span>5순위</span>
 							<div style="display: inline-block;">
-								<select name="selectThrLoc5th" class="form-select selectThrLoc" title="1순위 지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option class="bs-title-option">5순위 지역선택</option>
+								<select name="selectThrLoc5th" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option class="bs-title-option">지역선택</option>
 									<c:forEach items="${theaterList}" var="theaterList">
 										<option class="bs-title-option">${theaterList.thr_loc}</option>
 									</c:forEach>
 								</select>
-								<select name="selectThrName5th" class="form-select" title="순의 극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option>극장 선택</option>
+								<select name="selectThrName" id="selectThrName5th" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option value="">극장 선택</option>
 								</select>
 							</div>
 						</div>
@@ -272,14 +273,23 @@
 					<th scope="row" >선호 장르(3개 선택)</th>
 					<td>
 						<div class="row" style="display: inline-block; margin: 10px 0 10px 0;">
-							<select class="form-select" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+							<select name="genreType1" class="form-select selectGenre" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 								<option>장르선택</option>
+								<c:forEach items="${genreList}" var="genreList">
+									<option value="${genre.genre_cd}">${genreList.genre_name}</option>
+								</c:forEach>
 							</select>
-							<select class="form-select" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+							<select name="genreType2" class="form-select selectGenre" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 								<option>장르선택</option>
+								<c:forEach items="${genreList}" var="genreList">
+									<option value="${genre.genre_cd}">${genreList.genre_name}</option>
+								</c:forEach>
 							</select>
-							<select class="form-select" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+							<select name="genreType3" class="form-select selectGenre" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 								<option>장르선택</option>
+								<c:forEach items="${genreList}" var="genreList">
+									<option value="${genre.genre_cd}">${genreList.genre_name}</option>
+								</c:forEach>
 							</select>
 						</div>
 					</td>
@@ -289,30 +299,25 @@
 	</div>
 	<div>
 		<div class="btn-group py-3">
-			<button class="button large" id="cancelBtn">취소</button>
-			<button class="button purple large" id="updateBtn">수정</button>
+			<button type="button" class="button large" id="cancelBtn">취소</button>
+			<button type="button" class="button purple large" id="updateBtn" onclick="additionSubmit_go();">수정</button>
 		</div>
 	</div>
+</form>
 </div>
 
 <script>
 $('#chk1').on('click', function(){
-	$('input[name=marketSmsRcvAgreeAt]').attr("disabled", true);
-	$('input[name=marketEmailRcvAgreeAt]').attr("disabled", true);
+	$('input[name=gb_sms_alert]').attr("disabled", true);
+	$('input[name=gb_email_alert]').attr("disabled", true);
 	$('#chk4').attr('checked', true);
 	$('#chk6').attr('checked', true);
 })
 $('#chk2').on('click', function(){
-	$('input[name=marketSmsRcvAgreeAt]').attr("disabled", false);
-	$('input[name=marketEmailRcvAgreeAt]').attr("disabled", false);
+	$('input[name=gb_sms_alert]').attr("disabled", false);
+	$('input[name=gb_email_alert]').attr("disabled", false);
 	
 })
-
-// console.log($('#chk3').val())
-// console.log($('#chk4').val())
-// console.log($('#chk5').val())
-// console.log($('#chk6').val())
-
 
 if($('#chk3').val() == "${member.gb_email_alert}"){
 	$('#chk3').attr("checked", true);
@@ -331,61 +336,33 @@ if($('#chk3').is(':checked') || $('#chk5').is(':checked')){
 }
 else if($('#chk4').is(':checked') || $('#chk6').is(':checked')){
 	$('#chk1').attr('checked', true);
-	$('input[name=marketSmsRcvAgreeAt]').attr("disabled", true);
-	$('input[name=marketEmailRcvAgreeAt]').attr("disabled", true);
+	$('input[name=gb_sms_alert]').attr("disabled", true);
+	$('input[name=gb_email_alert]').attr("disabled", true);
 }
 
-$('#updateBtn').on('click', function(){
-console.log($('input:radio[name=marketSmsRcvAgreeAt]:checked').val())
-console.log($('input:radio[name=marketEmailRcvAgreeAt]:checked').val())
-let sms = $('input:radio[name=marketSmsRcvAgreeAt]:checked').val();
-let email = $('input:radio[name=marketEmailRcvAgreeAt]:checked').val();
-	$.ajax({
-		url : "<%=request.getContextPath()%>/member/addition.do",
-		method : "post",
-		data : {gb_sms_alert : sms,
-				gb_email_alert : email},
-		success : function(res){
-			console.log(res);
-		},
-		error : function(err){
-			console.log(err);
-		}
-	})
-})
+
+/* 선호 극장 시작*/
 let selectLocData = "";
 let createOption = "";
 let select = "";
+let cd = "";
 $('.selectThrLoc').on('change', function(){
 	selectLocData = $(this).val();
 	select = $(this);
-	console.log(selectLocData);
-// 	$('select[name=selectThrName]').("")
+	cd = select.attr('name').substr(12, 16);
 	$.ajax({
 		url : "<%=request.getContextPath()%>/member/searchTheater.do",
 		method : "get",
 		data : {selectLocData : selectLocData},
 		success : function(res){
-			console.log(res);
+			$('#selectThrName'+ cd).html("<option value=''>극장 선택</option>");
 			for(let i = 0; res.length > i; i++){
-				console.log(res[i]);
+				
 				createOption = "<option value='" + res[i].thr_name + "'>" + res[i].thr_name + "</option>";
-				if(select.text() == $('select[name=selectThrLoc1st]').text()){
-					$('select[name=selectThrName1st]').html("<option value=''>극장 선택</option>");
-					$('select[name=selectThrName1st]').append(createOption);
-				}else if(select.text() == $('select[name=selectThrLoc2nd]').text()){
-					$('select[name=selectThrName2nd]').html("<option value=''>극장 선택</option>");
-					$('select[name=selectThrName2nd]').append(createOption);
-				}else if(select.text() == $('select[name=selectThrLoc3rd]').text()){
-					$('select[name=selectThrName3rd]').html("<option value=''>극장 선택</option>");
-					$('select[name=selectThrName3rd]').append(createOption);
-				}else if(select.text() == $('select[name=selectThrLoc4th]').text()){
-					$('select[name=selectThrName4th]').html("<option value=''>극장 선택</option>");
-					$('select[name=selectThrName4th]').append(createOption);
-				}else if(select.text() == $('select[name=selectThrLoc5th]').text()){
-					$('select[name=selectThrName5th]').html("<option value=''>극장 선택</option>");
-					$('select[name=selectThrName5th]').append(createOption);
+				if(select.text() == $('select[name=selectThrLoc' + cd + ']').text()){
+					$('#selectThrName'+ cd).append(createOption);
 				}
+				
 			};
 		},
 		error : function(err){
@@ -393,5 +370,45 @@ $('.selectThrLoc').on('change', function(){
 		}
 	})
 });
+let selectArr = [];
+let selectThrName = "";
+$('.selectThrName').on('change', function(){
+	select = $(this);
+	cd = select.attr('id').substr(13, 16);
+	selectThrName = $('#selectThrName' + cd).val();
+	console.log(selectThrName);
+})
+/* 선호 극장 끝 */
+	
+/* 선호 장르 시작 */
+$('.selectGenre').on('change', function(){
+	
+});
+/* 선호 장르 끝 */
+
+
+/* 수정 버튼 */
+function additionSubmit_go(){
+let falg = true;
+let sameWord = "";
+	for(let i = 0; i < selectArr.length; i++){
+		for(let j = selectArr.length-1; j > i; j--){
+			if(selectArr[i] == selectArr[j]){
+				sameWord = selectArr[j];
+				console.log(sameWord);
+				if($($('.selectThrName')[j]).val() == sameWord){
+					$($('.selectThrName')[j]).focus();
+					alert("선호극장은 중복될 수 없습니다! 다시 선택해주세요.")
+					falg = false;
+					return;
+				}
+			};
+		};
+	};
+	if(falg == true){
+		$('form[role=additionInfo]').submit();
+	}
+};
+	
 </script>
 <%@ include file="../include/member_footer.jsp" %>
