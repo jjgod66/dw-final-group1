@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,6 +33,7 @@ import kr.or.dw.service.NaverLoginBO2;
 import kr.or.dw.service.SnsService;
 import kr.or.dw.service.SupportService;
 import kr.or.dw.service.TheaterService;
+import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.SnsVO;
 import kr.or.dw.vo.TheaterVO;
@@ -196,7 +199,9 @@ public class MemberController {
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		
 		List<TheaterVO> theaterList = theaterService.getAllTheaterList();
+		List<GenreVO> genreList = memberService.selectAllGenreList();
 		
+		mnv.addObject("genreList", genreList);
 		mnv.addObject("theaterList", theaterList);
 		mnv.addObject("member", member);
 		mnv.setViewName(url);
@@ -222,23 +227,30 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/addition")
-	public ResponseEntity<String> additionUpdate(String gb_sms_alert, String gb_email_alert, HttpSession session) throws SQLException{
-		ResponseEntity<String> entity = null;
-		Map<String, Object> dataMap = new HashMap<String, Object>();
-		Map<String, Object> id = (Map<String, Object>) session.getAttribute("loginUser");
-		dataMap.put("gb_sms_alert", gb_sms_alert);
-		dataMap.put("gb_email_alert", gb_email_alert);
-		dataMap.put("mem_id", id.get("ID"));
-		memberService.additionUpdate(dataMap);
-		try {
-			
-			entity = new ResponseEntity<String>("", HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+	public ModelAndView additionUpdate(ModelAndView mnv, String selectThrName ,String gb_sms_alert, String gb_email_alert, HttpSession session) throws SQLException{
+		String url = "redirect:/member/additionalinfo.do";
+		String[] thrArr = selectThrName.split(",");
+		List<String> thrNames = new ArrayList<>();
 		
-		return entity;
+		for(int i = 0; i < thrArr.length; i++) {
+			if(!"".equals(thrArr[i])) {
+				thrNames.add(thrArr[i]);
+			}
+		}
+		System.out.println(thrNames);
+		
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		member.put("gb_email_alert", gb_email_alert);
+		member.put("gb_sms_alert", gb_sms_alert);
+		String id = (String) member.get("ID");
+		String mem_cd = (String) member.get("CD");
+		System.out.println(member);
+		memberService.additionUpdate(member);
+		memberService.memLikeThr(thrNames, mem_cd);
+		
+		
+		mnv.setViewName(url);
+		return mnv;
 	}
 	
 	@RequestMapping("/member/bookinglist")

@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.SnsVO;
@@ -35,7 +36,7 @@ public interface MemberDAO {
 	Map<String, Object> CheckMemberEmail(String email) throws SQLException;
 
 	// 개인정보 수집 동의 업데이트
-	void additionUpdate(Map<String, Object> dataMap)throws SQLException;
+	void additionUpdate(Map<String, Object> member)throws SQLException;
 
 	//지난달 회원들의 영화 예매횟수 가져오는 메서드
 	List<Map<String, Object>> selectMemMonthResCnt() throws SQLException;
@@ -72,6 +73,15 @@ public interface MemberDAO {
 
 	// 회원 구매 내역 3개 가져오기
 	List<Map<String, Object>> select3BuyInfo(String mem_cd) throws SQLException;
+
+	// 모든 장르 가져오기
+	List<GenreVO> selectAllGenreList() throws SQLException;
+
+	// 회원 선호 극장 삭제
+	void deleteMemLikeThr(String mem_cd) throws SQLException;
+
+	// 회원 선호 극장 등록
+	void updateMemLikeThr(Map<String, Object> data) throws SQLException;
 
 
 }

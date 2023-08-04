@@ -13,6 +13,7 @@ import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.MemberDAO;
 import kr.or.dw.dao.MovieDAO;
+import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.ProductVO;
 import kr.or.dw.vo.SnsVO;
@@ -51,8 +52,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void additionUpdate(Map<String, Object> dataMap) throws SQLException {
-		memberDAO.additionUpdate(dataMap);
+	public void additionUpdate(Map<String, Object> member) throws SQLException {
+		memberDAO.additionUpdate(member);
 	}
 
 	@Override
@@ -165,6 +166,25 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public List<Map<String, Object>> select3BuyInfo(String mem_cd) throws SQLException {
 		return memberDAO.select3BuyInfo(mem_cd);
+	}
+
+	@Override
+	public List<GenreVO> selectAllGenreList() throws SQLException {
+		return memberDAO.selectAllGenreList();
+	}
+
+	@Override
+	public void memLikeThr(List<String> thrNames, String mem_cd) throws SQLException {
+		
+		Map<String, Object> data = new HashMap<>();
+		
+		data.put("list", thrNames);
+		data.put("mem_cd", mem_cd);
+		
+		memberDAO.deleteMemLikeThr(mem_cd);
+		memberDAO.updateMemLikeThr(data);
+		
+		System.out.println("data : " + data);
 	}
 
 }
