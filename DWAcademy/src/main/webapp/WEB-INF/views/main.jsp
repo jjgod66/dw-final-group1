@@ -61,9 +61,111 @@
     color: #666;
 }
 </style>
-<p style="text-align: center;">수정전</p> 
-<p style="text-align: center;">수정전</p> 
-<p style="text-align: center;">수정전</p> 
+
+	<!-- partial:index.partial.html -->
+	<div style="background: repeating-linear-gradient(45deg, #4ba8d8, #e5e9f0 300px);">
+	<div class="s">
+		  <div style="width: 40%">
+		    <span class="movieGrade"><!-- 이곳에 등급이 나타납니다  --></span>
+		    <h1 class="movie-title"> <!-- 이곳에 영화제목이 나타납니다. --> </h1>
+		    <hr>
+		    <p>상세보기 앵커태그에 무비시디를 c:밖에서 스크립트를 이용해 넣는 방법</p>
+		    <span class="txt_append">
+                <span class="info_txt">상영시간 : <span class="txt_grade movieLength1"></span>분</span>
+                <span class="info_txt">예매율<span class="txt_num movieRe1"></span>%</span>
+            </span>
+		    <a href="/movie/viewer.do?movie_cd=${movie.movie_cd}" class="movieCd">상세보기</a>
+		  </div>
+	  <div class="swiper">
+	    <div class="swiper-wrapper">
+			<c:forEach items="${movieList }" var="movie">
+		      <div class="swiper-slide" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movie.movie_mainpic_path}&item_cd=${movie.movie_cd }&type=moviePoster') no-repeat center /cover">
+		        <input type="hidden" class="movieName" value="${movie.movie_name }">
+		        <input type="hidden" class="movieGrade" value="${movie.movie_grade }">
+		        <input type="hidden" class="movieLength" value="${movie.movie_length }">
+		        <input type="hidden" class="movieRe" value="${movie.reserve == 0 ? 0 : movie.reserve / (movie.all_reserver == 0 ? 1 : movie.all_reserver) * 100}">
+		        <input type="hidden" class="movieCd" value="${movie.movie_cd }">
+		        <div class="bookBtn">
+		          <a href="/reservation/cinema.do?movie_cd=${movie.movie_cd}" target="_blank">예매하기</a>
+		        </div>
+		      </div>
+	      	</c:forEach>
+	    </div>
+	    <!-- Add Pagination -->
+	    <div class="swiper-pagination"></div>
+	  </div>
+	</div>
+	</div>
+	<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js'></script>
+<script  src="<%=request.getContextPath() %>/resources/js/slider.js"></script>
+<script>
+  // 문서가 로드되면 실행할 함수
+  document.addEventListener("DOMContentLoaded", function() {
+	  
+		     var slideElements = document.getElementsByClassName("swiper-slide");
+		    for (var i = 0; i < slideElements.length; i++) {
+		      var slideElement = slideElements[i];
+		      if (slideElement.classList.contains("swiper-slide-active")) {
+		        var movieNameElement = slideElement.querySelector(".movieName");
+		        var movieGradeElement = slideElement.querySelector(".movieGrade");
+		        var movieLengthElement = slideElement.querySelector(".movieLength");
+		        var movieCdElement = slideElement.querySelector(".movieCd");
+		        var movieReElement = slideElement.querySelector(".movieRe");
+		        if (movieNameElement) {
+		            var movieNameValue = movieNameElement.value;
+		            var movieGradeValue = movieGradeElement.value;
+		            var movieLengthValue = movieLengthElement.value;
+		            var movieCdValue = movieCdElement.value;
+		            var movieReValue = movieReElement.value;
+		        console.log("re"+movieReValue);
+		        }
+		        var h1Element = document.querySelector(".movie-title");
+		        var spanElement = document.querySelector(".movieGrade");
+		        var spanElement2 = document.querySelector(".movieLength1");
+		        var spanElement3 = document.querySelector(".movieRe1");
+		        var spanElement4 = document.querySelector(".movieCd");
+		        h1Element.textContent = movieNameValue;
+		        spanElement.textContent = movieGradeValue;
+		        spanElement2.textContent = movieLengthValue;
+		        spanElement3.textContent = movieRehValue;
+		        break;
+		      }
+		    }  
+  });
+	//드래그를 하면 해당 포스터의 정보를 리로드 합니다.
+  swiper.on('transitionStart', function () {
+	  console.log('test');
+		    var slideElements = document.getElementsByClassName("swiper-slide");
+		    for (var i = 0; i < slideElements.length; i++) {
+		      var slideElement = slideElements[i];
+		      if (slideElement.classList.contains("swiper-slide-active")) {
+		        var movieNameElement = slideElement.querySelector(".movieName");
+		        var movieGradeElement = slideElement.querySelector(".movieGrade");
+		        var movieLengthElement = slideElement.querySelector(".movieLength");
+		        if (movieNameElement) {
+		            var movieNameValue = movieNameElement.value;
+		            var movieGradeValue = movieGradeElement.value;
+		            var movieLengthValue = movieLengthElement.value;
+		        }
+		        var h1Element = document.querySelector(".movie-title");
+		        var spanElement = document.querySelector(".movieGrade");
+		        var spanElement2 = document.querySelector(".movieLength1");
+		        h1Element.textContent = movieNameValue;
+		        spanElement.textContent = movieGradeValue;
+		        spanElement2.textContent = movieLengthValue;
+		        break;
+		      }
+		    } 
+	  });
+	console.log('${movieList[0]}')
+</script>
+
+
+
+
+
+
 <p style="text-align: center;">수정전</p> 
 <p style="text-align: center;">ㅇ헤더 ㅇ \</p> 
 <p style="text-align: center;">1.메인 슬라이더 </p> 
@@ -73,8 +175,7 @@
 <p style="text-align: center;">5. 각 아이콘 </p> 
 <p style="text-align: center;">ㅇ 푸터ㅇ</p> 
 <p style="text-align: center;">수정전</p> 
-<p style="text-align: center;">수정전</p> 
-< <div class="boxoffice">
+ <div class="boxoffice">
     <div class="container">
         <div class="movieChartBeScreen_btn_wrap">
             <div class="tabBtn_wrap">

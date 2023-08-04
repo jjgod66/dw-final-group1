@@ -42,24 +42,29 @@ if(session.getAttribute("loginUser") != null){
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
+<!-- 메인슬라이 -->
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css'>
+<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/slider.css">
 
 <link href="<%=request.getContextPath()%>/resources/img/logo_ico.png" rel="shortcut icon" type="image/x-icon">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/dwcinema.css">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/swiper.min.css">
+<%-- <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/swiper.min.css"> --%>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/daterangepicker.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/scrollbar.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
-<script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
+<%-- <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script> --%>
 <script src="<%=request.getContextPath()%>/resources/js/moment.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/daterangepicker.js"></script>
 <style type="text/css">
 body{font-family: 'IBM Plex Sans KR', sans-serif; }#wrapper12 {margin-left:auto;margin-right:auto;width: 62%; padding-bottom: 10px; padding-top: 10px; }
+@media screen and (min-width: 1000px){#wrapper12{width:90%;} }
+@media screen and (min-width: 1500px){#wrapper12{width:62%;} }
 #roo{display: flex;}
 main{
   position: fixed;
@@ -179,13 +184,13 @@ canvas{
 						<li role="menuitem" style="width: 43px; text-align: left;">
 			                <a href="javascript:void(0)" id="myPageMain" ><i class="bi bi-person" style="font-size: 26px;"></i></a>
 			            </li>
-						<li>이벤트
+						<li style="z-index: 99;">이벤트
 							<ul>
 								<li><a href="<%=request.getContextPath()%>/event/main.do">진행중인 이벤트</a></li>
 								<li><a href="<%=request.getContextPath()%>/event/eventPast.do">지난 이벤트</a></li>
 							</ul>
 						</li>
-						<li>스토어
+						<li style="z-index: 99;">스토어
 							<ul>
 								<li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=1">기프트카드</a></li>
 								<li><a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=2">팝콘/스낵/음료</a></li>
@@ -195,7 +200,7 @@ canvas{
 						</li>
 						<li><a href="<%=request.getContextPath()%>/theater/main.do">극장</a>
 						</li>
-						<li>영화
+						<li style="z-index: 99;">영화
 							<ul>
 								<li><a href="<%=request.getContextPath()%>/movie/allMovie.do">전체영화 </a></li>
 								<li><a href="<%=request.getContextPath()%>/movie/screenMovie.do">현재상영작 </a></li>
