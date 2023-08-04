@@ -15,7 +15,7 @@
 #tnb {
     z-index: 2;
     position: absolute;
-    top: 0;
+    top: 8px;
     right: 30px;
     zoom: 1;
 }
@@ -37,8 +37,8 @@
     color: black;
 }
 #tnb ul #tnb_logout {
-    border-right: 0;
-    padding: 0;
+	border-right: 1px solid #444;
+    padding: 0 10px 0 0;
 }
 #tnb ul #tnb_logout a {
     color: #fa2828;
