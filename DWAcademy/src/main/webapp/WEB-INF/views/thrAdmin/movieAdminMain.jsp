@@ -206,9 +206,9 @@ th.selectedDate {
 						</tr>
 					</table>
 					<div class="text-center">
-						<button type="button" class="btn_medium" id="addNewScreenBtn">등록</button>
-						<button type="button" class="btn_medium" id="modifyScreenBtn" style="display:none;">수정</button>
-						<button type="button" class="btn_medium" id="deleteScreenBtn" style="display:none; background-color: #ef4836; border-color: #ef4836;">삭제</button>
+						<button type="button" class="bc_dw_blue borderRadius" id="addNewScreenBtn" style=" border: none; padding: 0.3rem 0.8rem;">등록</button>
+						<button type="button" class="bc_dw_blue borderRadius" id="modifyScreenBtn" style="display:none; border: none; padding: 0.3rem 0.8rem;">수정</button>
+						<button type="button" class="bc_dw_orange borderRadius" id="deleteScreenBtn" style="display:none; border: none; padding: 0.3rem 0.8rem;">삭제</button>
 					</div>
 				</div>
 			</div>

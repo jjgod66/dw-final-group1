@@ -194,13 +194,16 @@ public class SysAdminController {
 	
 	@RequestMapping("/theaterDelete")
 	public void theaterDelete (TheaterVO thr, HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException {
-		String thr_name = thr.getThr_name();
-		sysAdminService.theaterDelete(thr_name);
-	
+		String result = "비활성화";
+		if  (thr.getGb_del().equals("Y")) {
+			result = "활성화";
+		}
+
+		sysAdminService.theaterDelete(thr);
 		res.setContentType("text/html; charset=utf-8");
 		PrintWriter out = res.getWriter();
 		out.println("<script>");
-		out.println("alert('지점이 삭제(비활성화)되었습니다.')");
+		out.println("alert('지점이 "+result+"되었습니다.')");
 		out.println("location.href='theaterAdminMain.do';");
 		out.println("</script>");
 		out.flush();

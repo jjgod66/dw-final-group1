@@ -59,7 +59,7 @@ select[readonly] {
 			<jsp:param value="${item2 }" name="item2" />
 			<jsp:param value="${url }" name="url" />
 		</jsp:include>
-		<div class="card" style="margin : 0 0.5rem;">
+		<div class="card mx-3">
 			<form role="form" method="post" enctype="multipart/form-data">
 			<div class="card-header">
 				<input type="hidden" value="${sessionScope.admin_cd }" name="relate_cd">
@@ -124,7 +124,7 @@ select[readonly] {
 							<div class="col-md-3">
 								<span>이벤트 유형 구분</span>
 								<span>
-									<select name="event_div" class="form-control" disabled>
+									<select name="event_div" class="form-control" style="height: inherit;" disabled>
 										<option value="극장" selected>극장</option>
 										<option value="영화">영화</option>
 										<option value="시사회/무대인사">시사회/무대인사</option>
@@ -149,21 +149,20 @@ select[readonly] {
 			<div class="card-footer">
 				<c:choose>
 					<c:when test="${type eq 'create' }">
-						<button class="btn_medium" id="registBtn">등록</button>
+						<button class="btn_medium borderRadius" id="registBtn" style="background-color: #4aa8d8; color: white; border:none;">등록</button>
 					</c:when>
 					<c:otherwise>
-						<button class="btn_medium" id="modifyCertifyBtn">수정</button>
+						<button class="btn_medium borderRadius" id="modifyCertifyBtn" style="background-color: #4aa8d8; color: white; border:none;">수정</button>
 						<span style="float: right;">작성일 : <fmt:formatDate value='${event.regdate }' pattern='yyyy-MM-dd'/></span>
 					</c:otherwise>
 				</c:choose>
-				<button class="btn_medium" id="cancelBtn">뒤로가기</button>
+				<button class="btn_medium borderRadius" id="cancelBtn" style="color: white; border:none;">뒤로가기</button>
 			</div>
 		</div>
 	</div>
 </div>
 <script>
 let template1 = $('');
-window.onload = function(){
 	let modifyBoard = $('<div id="displaynone" style="display: none;"><textarea name="event_content" id="event_content" class="summernote">${event.event_content }</textarea></div>');
 	// 수정버튼 클릭시
 	$('#modifyCertifyBtn').on('click', function(){
@@ -176,7 +175,7 @@ window.onload = function(){
 		$('#event_content_before').remove();
 		$('.hideDiv').show();
 		
-		$('.card-footer').prepend('<button class="btn_medium" id="modifyBtn">수정완료</button>  <button class="btn_medium" id="deleteBtn">삭제하기</button>');
+		$('.card-footer').prepend('<button class="btn_medium borderRadius" id="modifyBtn" style="background-color: #4aa8d8; color: white; border:none;">수정완료</button>  <button class="btn_medium borderRadius" id="deleteBtn" style="background-color: #ef4836; color: white; border:none;">삭제하기</button>');
 	});
 	
 	// 등록버튼 클릭시
@@ -272,13 +271,10 @@ window.onload = function(){
 		}
 	});
 	
-}
-	
-</script>
-<script>
-window.onload = function(){
+window.onload=function(){
 	summernote();
 	
+}
 	function summernote () {
 		$('.summernote').summernote({
 			lang: 'ko-KR',
@@ -397,6 +393,5 @@ window.onload = function(){
 			}
 		});
 	} 
-}	
 </script>
 <%@ include file="thrAdminFooter.jsp" %>

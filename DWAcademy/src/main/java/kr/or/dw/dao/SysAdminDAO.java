@@ -50,7 +50,7 @@ public interface SysAdminDAO {
 	void updateTheater(TheaterVO thr) throws SQLException;
 
 	// 해당 지점 삭제(비활성화)
-	void updateDelTheater(String thr_name) throws SQLException;
+	void updateDelTheater(TheaterVO thr) throws SQLException;
 
 	// 장르 리스트 불러오기
 	List<GenreVO> selectGenreList() throws SQLException;
@@ -277,5 +277,8 @@ public interface SysAdminDAO {
 
 	// 이벤트 등록을 위한 영화목록을 가져온다.
 	List<Map<String, Object>> selectMovieListForEventRegist() throws SQLException;
+
+	// 비활성화 했던 극장을 다시 활성화
+	void updateUndelTheater(TheaterVO thr) throws SQLException;
 	
 }

@@ -92,7 +92,7 @@
 				</div>
 				
 				<div class="btn_confirm mb-3">
-					 <input type="button" value="수정" id="modifyInfoBtn" class="btn_medium" style="background-color: #4aa8d8; border: none;">
+					 <input type="button" value="수정" id="modifyInfoBtn" class="bc_dw_blue borderRadius" style="padding: 0.5rem 1rem; border: none;">
 				</div>
 				
 				<div class="local_ov mart30">
@@ -100,7 +100,7 @@
 				</div>
 				
 				<div class="local_frm01" style="margin-left:auto;margin-right:auto;">
-				<a class="fr btn_lsmall red" id="registModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">+ 상영관추가</a></div>
+				<a class="fr btn_lsmall bc_dw_orange borderRadius" id="registModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">+ 상영관추가</a></div>
 				<div class="tbl_head01" style="margin-left:auto;margin-right:auto;">
 					<table class="mt-2 mb-2" style="width: 90%; margin-left:auto;margin-right:auto; border: 1px solid #e4e5e7;">
 						<colgroup>
@@ -119,7 +119,7 @@
 							
 							<c:forEach items="${houseList }" var="house">
 								<tr class="list0">
-									<td><input type="hidden" class="house_no" value="${house.HOUSE_NO }"><a class="house_name" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">${house.HOUSE_NAME }</a></td>
+									<td><input type="hidden" class="house_no" value="${house.HOUSE_NO }"><a class="house_name" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;"><b>${house.HOUSE_NAME }</b></a></td>
 									<td class="house_row">${house.HOUSE_ROW }</td>
 									<td class="house_column">${house.HOUSE_COLUMN }</td>
 								</tr>

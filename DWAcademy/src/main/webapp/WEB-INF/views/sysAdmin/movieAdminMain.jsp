@@ -18,7 +18,12 @@
 #boxOffice, #futureOffice {
 	padding : 0.3rem;
 }
-
+.movieName b {
+	color: black;
+}
+.movieName b:hover {
+	color: #4aa8d8;
+}
 </style>
 
 <div id="wrapper">
@@ -33,10 +38,10 @@
 			<div class="card-header" style="padding-bottom: 0;">
 				<ul class="nav nav-tabs" style="padding-bottom: 0.4rem;">
 				  <li class="nav-item" id="boxOffice" onclick="isFuture('b'); searchList_go(1);">
-				    <button class="btn_medium">박스오피스</button>
+				    <button class="btn_medium borderRadius ${cri.keyword eq 'f' ? 'bc_dw_black' : 'bc_dw_blue' }">박스오피스</button>
 				  </li>
 				  <li class="nav-item" id="futureOffice" onclick="isFuture('f'); searchList_go(1);">
-				    <button class="btn_medium">상영예정작</button>
+				    <button class="btn_medium borderRadius ${cri.keyword eq 'f' ? 'bc_dw_blue' : 'bc_dw_black' }">상영예정작</button>
 				  </li>
 				</ul>
 				<div class="float-end">
@@ -48,31 +53,33 @@
 						</select>
 						<input type="hidden" id="keyword" name="keyword" value="${cri.keyword }">
 					</span>
-					<button type="button" class="btn_medium" id="movieRegistFormBtn" style="margin: 0.3rem;">&nbsp;&nbsp;등록&nbsp;&nbsp;</button>
+					<button type="button" class="btn_medium borderRadius bc_dw_blue" id="movieRegistFormBtn" style="margin: 0.3rem;">&nbsp;&nbsp;등록&nbsp;&nbsp;</button>
 				</div>
 			</div>
 			<div class="card-body">
 				<div class="container px-4">
-				<div class="movieList row gx-1 px-1" style="text-align: -webkit-center;">
+				<div class="movieList row px-1" style="text-align: -webkit-center;">
 					<c:forEach items="${movieList}" var="movie">
-						<div class="col-md-3" style="border: 1px solid #ccc;">
-							<div class="p-1" style="width: 80%; height: 20rem; overflow: hidden;">
-								<img src="/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" class="img-thumbnail" style="object-fit: cover; width: 100%; hegith:100%;">
-							</div>
-							<div>
-								${movie.GRADE } <a href="movieRegistForm.do?movie_cd=${movie.MOVIE_CD }">${movie.MOVIE_NAME}</a>
-							</div>
-							<div>
-								예매율: ${movie.reserveRatio }% / 개봉일: <fmt:formatDate value='${movie.OPENDATE }' pattern='yyyy-MM-dd'/>
+						<div class="col-md-3 py-2" style="">
+							<div class="borderRadius" style="width: 98%; height: 100%; border: 1px solid #4aa8d8;">
+								<div class="p-1" style="width: 80%; height: 20rem; overflow: hidden;">
+									<img src="/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" class="img-thumbnail" style="object-fit: cover; width: 100%; hegith:100%;">
+								</div>
+								<div>
+									${movie.GRADE } <a class="movieName" href="movieRegistForm.do?movie_cd=${movie.MOVIE_CD }"><b>${movie.MOVIE_NAME}</b></a>
+								</div>
+								<div>
+									예매율: ${movie.reserveRatio }% / 개봉일: <fmt:formatDate value='${movie.OPENDATE }' pattern='yyyy-MM-dd'/>
+								</div>
 							</div>
 						</div>
 					</c:forEach>
 				</div>
 				</div>
 			</div>
-			<div class="mt-5 mb-5">
-				<%@ include file="../common/pagination.jsp" %>
-			</div>
+		</div>
+		<div class="paginationDiv">
+			<%@ include file="../common/pagination.jsp" %>
 		</div>
 	</div>
 </div>    

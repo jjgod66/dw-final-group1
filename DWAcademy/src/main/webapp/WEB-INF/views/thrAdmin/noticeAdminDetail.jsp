@@ -19,7 +19,7 @@
 				<c:choose>
 					<c:when test="${type eq 'read' }">
 						<input type="hidden" value="${notice.notice_no }" name="notice_no">
-						<span id="notice_title_before">${notice.notice_title }</span>
+						<span id="notice_title_before"><b>${notice.notice_title }</b></span>
 						<span style="float: right;">작성일 : <fmt:formatDate value='${notice.regdate }' pattern='yyyy-MM-dd'/></span>
 					</c:when>
 					<c:when test="${type eq 'create' }">
