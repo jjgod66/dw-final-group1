@@ -17,8 +17,9 @@ h1, h2, h3, h4, h5, h6 {
 	background-color : #4aa8d8;
 	color : white;
 }
+
 </style>
-<section class="content-header">
+<section class="content-header borderTopRadius">
 	<div class="breadcrumb">
 		<span>${param.subject }</span> <i class="bi bi-chevron-compact-right" style="padding-top: 0.1rem; align-self: center;"></i> ${param.item1 }
 	</div>

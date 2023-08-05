@@ -230,6 +230,7 @@ nav ul {
     background-color: #fff;
     z-index: 5;
     min-width: 1210px;
+    min-height: 710px;
     zoom: 1;
 }
 #snb {
@@ -293,6 +294,7 @@ nav ul {
 	max-width: 80rem;
 	margin : 0rem auto 2rem auto;
     padding-bottom: 100px;
+    position : relative;
    /*  border: 1px solid #ccc; */
 }
 .breadcrumb {
@@ -577,10 +579,36 @@ textarea {
 	margin : 2rem auto 2rem auto;
     padding-bottom: 100px;
     border: 1px solid #ccc;
+    border-radius : 0.5rem;
 }
 .moreBtn {
 	cursor: pointer;
 }
 textarea:focus {
 	outline: none;
+}
+.paginationDiv {
+	position: absolute;
+	bottom : 30px;
+	transform: translate(-50%);
+	left : 50%;
+}
+.borderRadius {
+	border-radius : 0.5rem;
+}
+.borderLeftRadius {
+	border-top-left-radius : 0.5rem;
+	border-bottom-left-radius : 0.5rem;
+}
+.borderRightRadius {
+	border-top-right-radius : 0.5rem;
+	border-bottom-right-radius : 0.5rem;
+}
+.borderTopRadius {
+	border-top-left-radius : 0.5rem;
+	border-top-right-radius : 0.5rem;
+}
+.borderBottomRadius {
+	border-bottom-left-radius : 0.5rem;
+	border-bottom-right-radius : 0.5rem;
 }

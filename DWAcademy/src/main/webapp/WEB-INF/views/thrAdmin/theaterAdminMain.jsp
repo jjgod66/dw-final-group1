@@ -14,11 +14,11 @@
 
 </style>
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="screenModifyModal_title" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-sm">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">상영관 추가</h1>
+    <div class="modal-content"  style="border-color: #4aa8d8;">
+      <div class="modal-header" style="background-color: #4aa8d8; color: white;">
+        <h1 class="modal-title fs-5" id="screenModifyModal_title">상영관 추가</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -34,16 +34,16 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary"  id="cancelModalBtn" data-bs-dismiss="modal">닫기</button>
         <button type="button" class="btn" id="registHouseBtn" style="background-color: #4aa8d8; color: white;">등록</button>
         <button type="button" class="btn" id="modifyHouseBtn" style="background-color: #4aa8d8; color: white;">수정</button>
         <button type="button" class="btn" id="deleteHouseBtn" style="background-color: #ef4836; color: white;">삭제</button>
+        <button type="button" class="btn btn-secondary"  id="cancelModalBtn" data-bs-dismiss="modal">닫기</button>
       </div>
     </div>
   </div>
 </div>
 <div id="wrapper">
-	<div id="content">
+	<div id="content" style="padding-bottom: 20px;">
 		<jsp:include page="admin_contentHeader.jsp">
 			<jsp:param value="${subject }" name="subject" />
 			<jsp:param value="${item1 }" name="item1" />
@@ -102,7 +102,7 @@
 				<div class="local_frm01" style="margin-left:auto;margin-right:auto;">
 				<a class="fr btn_lsmall red" id="registModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">+ 상영관추가</a></div>
 				<div class="tbl_head01" style="margin-left:auto;margin-right:auto;">
-					<table class="mt-2" style="width: 90%; margin-left:auto;margin-right:auto; border: 1px solid #e4e5e7;">
+					<table class="mt-2 mb-2" style="width: 90%; margin-left:auto;margin-right:auto; border: 1px solid #e4e5e7;">
 						<colgroup>
 							<col class="w100">
 							<col class="w100">
@@ -246,9 +246,13 @@ window.onload = function(){
 			contentType : "application/json",
 			success : function(data){
 				console.log(data);
-				modifyHouseRow(data.house_name, data.house_row, data.house_column, data.house_no);
-				alert("상영관이 수정되었습니다.");
-				$('#cancelModalBtn').click();
+				if (data != "") {
+					modifyHouseRow(data.house_name, data.house_row, data.house_column, data.house_no);
+					alert("상영관이 수정되었습니다.");
+				} else {
+					alert("해당 상영관에 상영 예정인 영화가 남아있습니다.");
+				}
+					$('#cancelModalBtn').click();
 			},
 			error : function(err){
 				console.log(err);
@@ -320,7 +324,7 @@ window.onload = function(){
 	
 	// 상영관 등록버튼 클릭시
 	$('#registModalBtn').on('click', function(){
-		
+		$('#screenModifyModal_title').text('상영관 등록');
 		$('#registHouseBtn').show();
 		$('#modifyHouseBtn').hide();
 		$('#deleteHouseBtn').hide();
@@ -329,7 +333,7 @@ window.onload = function(){
 	
 	// 상영관 수정버튼 클릭시
 	$(document).on('click', '.house_name',function(){
-		
+		$('#screenModifyModal_title').text('상영관 수정');
 		let house_no = $(this).closest('.list0').find('.house_no').val();
 		let house_name = $(this).text();
 		let house_row = $(this).closest('.list0').find('.house_row').text();

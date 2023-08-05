@@ -158,8 +158,15 @@ public class ThrAdminServiceImpl implements ThrAdminService {
 	}
 
 	@Override
-	public void modifyHouse(HouseVO house) throws SQLException {
-		thrAdminDAO.updateHouse(house);
+	public int modifyHouse(HouseVO house) throws SQLException {
+		int result = 0;
+		int remainMoviesCnt = thrAdminDAO.selectRemainMoviesCnt(house.getHouse_no());
+		if (remainMoviesCnt > 0) {
+			result = remainMoviesCnt;
+		} else {
+			thrAdminDAO.updateHouse(house);
+		}
+		return result;
 	}
 
 	@Override

@@ -178,13 +178,18 @@ public class ThrAdminController {
 		
 		ResponseEntity<HouseVO> entity = null;
 		
-		thrAdminService.modifyHouse(house);
-		HouseVO newHouse = thrAdminService.selectHouseByHouse_no(house.getHouse_no());
+		int result = thrAdminService.modifyHouse(house);
+			HouseVO modifiedHouse = new HouseVO();
+		if (result == 0) {
+			modifiedHouse = thrAdminService.selectHouseByHouse_no(house.getHouse_no());
+		} else {
+			modifiedHouse = null;
+		}
 		
 		try {
-			entity = new ResponseEntity<>(newHouse, HttpStatus.OK);
+			entity = new ResponseEntity<>(modifiedHouse, HttpStatus.OK);
 		} catch (Exception e) {
-			entity = new ResponseEntity<>(newHouse, HttpStatus.INTERNAL_SERVER_ERROR);
+			entity = new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		return entity;

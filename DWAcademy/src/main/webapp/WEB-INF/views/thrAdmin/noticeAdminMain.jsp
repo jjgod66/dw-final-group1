@@ -4,6 +4,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="thrAdminHeader.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/notice.css">
+<style>
+.list li:nth-child(odd) {
+	background: #fbfbfb;
+}
+.board-body .list .dep1:hover {
+	background-color : #EBF5FB;
+}
+.pagination li.active a {
+	background-color : #4aa8d8;
+}
+</style>
 <c:set var="cri" value="${pageMaker.cri }" />
 <div id="wrapper">
 	<div id="content">
@@ -25,10 +36,10 @@
 		        <div class="board-body">
 		            <div class="tools">
 		                <div class="search">
-		                    <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요." value="${cri.keyword }">
-		                    <button type="button" class="btn_medium" id="btnSearch" onclick="javascript:searchList_go(1);"><i class="bi bi-search"></i></button>
+		                    <input type="text" id="keyword" class="borderLeftRadius" name="keyword" placeholder="검색어를 입력하세요." value="${cri.keyword }" style="bord">
+		                    <button type="button" class="btn_medium borderRightRadius" id="btnSearch" onclick="javascript:searchList_go(1);"><i class="bi bi-search"></i></button>
 		                </div>
-		                <button type="button" id="registBtn" class="btn_medium" style="height: 42px;">등록</button>
+		                <button type="button" id="registBtn" class="btn_medium borderRadius" style="height: 42px; background-color: #4aa8d8; color: white; border: 1px solid #4aa8d8;">등록</button>
 		            </div>
 		            <ul class="list">
 		    			<c:if test="${empty noticeList }">
@@ -43,11 +54,11 @@
 			                <li class="dep1">
 			                    <div class="leftInfo"><span class="sort">${notice.notice_thr }</span></div>
 			                    <div class="titInfo">
-			                        <p class="tit"><a href="noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read">${notice.notice_title }</a><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new"></p>
+			                        <p class="tit"><a href="noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read">${notice.notice_title }</a></p>
 			                    </div>
 			                    <div class="etc">
 			                        <ul class="clearFix">
-			                            <li class="date">
+			                            <li class="date" style="background-color: inherit;">
 			                                <span class="ico"><img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_time.png" alt="time"></span>
 			                                <span><fmt:formatDate value='${notice.regdate}' pattern='yyyy-MM-dd'/></span>
 			                            </li>
@@ -60,9 +71,9 @@
 	        </div>
 	        <div class="col-md-1"></div>
         </div>
-	</div>
-	<div class="mt-5 mb-5">
-		<%@ include file="../common/pagination.jsp" %>
+		<div class="paginationDiv">
+			<%@ include file="../common/pagination.jsp" %>
+		</div>
 	</div>
 </div>
 <script>

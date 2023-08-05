@@ -65,7 +65,7 @@ public interface ThrAdminService {
 	HouseVO selectHouseByHouse_no(int house_no) throws SQLException;
 
 	// 상영관을 수정한다.
-	void modifyHouse(HouseVO house) throws SQLException;
+	int modifyHouse(HouseVO house) throws SQLException;
 
 	// 해당하는 공지글 목록을 불러온다.
 	Map<String, Object> selectNoticeList(SearchCriteria cri) throws SQLException;

@@ -61,6 +61,26 @@ th.selectedDate {
 .bi:hover {
 	color: #4aa8d8;
 }
+#content h2 {
+	margin: 30px 0 0;
+	position: relative;
+	font-size: 16px;
+	font-weight: 600;
+	letter-spacing: -1px;
+	line-height: 1em;
+	padding: 0 0 10px 10px;
+}
+
+#content h2:before {
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 4px;
+	height: 16px;
+	background: #1a4e99;
+	content: '';
+}
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
 <%@ include file="movieAdminMain_Modal.jsp" %>
@@ -86,7 +106,7 @@ th.selectedDate {
 				<i class="bi bi-caret-right-square" id="nextWeekBtn"></i>
 			</div>
 		</div>
-		<div class="row mx-3 my-5">
+		<div class="row mx-3 my-2">
 			<div class="col-md-6">
 				<div class="mb-2">
 					<h2>상영 가능 영화</h2>
@@ -195,7 +215,7 @@ th.selectedDate {
 		</div>
 		<div class="row mx-3 mt-5">
 			<div class="col-md-12">
-				<div>
+				<div class="mb-3">
 					<h2>상영시간표</h2>
 				</div>
 				<div style="overflow: auto; white-space: nowrap;">
