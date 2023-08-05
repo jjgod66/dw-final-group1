@@ -100,8 +100,12 @@ public class SysAdminServiceImpl implements SysAdminService {
 	}
 
 	@Override
-	public void theaterDelete(String thr_name) throws SQLException {
-		sysAdminDAO.updateDelTheater(thr_name);
+	public void theaterDelete(TheaterVO thr) throws SQLException {
+		if (thr.getGb_del().equals("N")) {
+			sysAdminDAO.updateDelTheater(thr);
+		} else if (thr.getGb_del().equals("Y")) {
+			sysAdminDAO.updateUndelTheater(thr);
+		}
 	}
 
 	@Override

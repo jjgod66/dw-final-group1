@@ -13,6 +13,15 @@
 .local_frm01 {
 	width: 100%;
 }
+.local_frm01 button#theaterRegistFormBtn {
+	background-color: #4aa8d8; 
+	color: white; 
+	border: none; 
+	padding: 5px 10px;
+}
+.local_frm01 button#theaterRegistFormBtn:hover {
+	background-color: #3D8DB6;
+}
 </style>
 
 <div id="wrapper">
@@ -38,29 +47,32 @@
 						<tbody>
 							<tr>
 								<th scope="row">검색어</th>
-								<td><select name="searchType" id="searchType">
+								<td>
+									<select name="searchType" id="searchType">
 										<option value="nlaip" ${cri.searchType eq 'nlaip' ? 'selected' : '' }>구분</option>
 										<option value="n" ${cri.searchType eq 'n' ? 'selected' : '' }>영화관명</option>
 										<option value="l" ${cri.searchType eq 'l' ? 'selected' : '' }>지역구분</option>
 										<option value="a" ${cri.searchType eq 'a' ? 'selected' : '' }>주소</option>
 										<option value="i" ${cri.searchType eq 'i' ? 'selected' : '' }>관리자ID</option>
 										<option value="p" ${cri.searchType eq 'p' ? 'selected' : '' }>전화번호</option>
-								</select> <input type="text" name="keyword" value="${cri.keyword }" class="frm_input"
-									size="30"></td>
+									</select> 
+									<input type="text" name="keyword" value="${cri.keyword }" class="frm_input"	size="30">
+									<span><input type="submit" value="검색" class="btn_medium borderRadius" style="height: 23px; padding: 0 5px;"></span>
+								</td>
 							</tr>
 							
 						</tbody>
 					</table>
 				</div>
 				<div class="btn_confirm mb-2">
-					<input type="submit" value="검색" class="btn_medium">
+					
 				</div>
 			</form>
 				<div class="local_ov mart30">
 					전체 : <b class="fc_red">${pageMaker.totalCount }</b> 건 조회
 				</div>
 				<div class="local_frm01 mt-3">
-					<button class="btn_lsmall bx-white" id="theaterRegistFormBtn">지점 등록</button>
+					<button class="borderRadius" id="theaterRegistFormBtn">지점 등록</button>
 				</div>
 				<div class="tbl_head01">
 					<table>
@@ -98,13 +110,13 @@
 							</c:if>
 							<c:forEach items="${theaterList }" var="thr">
 								<tr class="list0">
-									<td><a href="theaterRegistForm.do?thr_name=${thr.thr_name }">${thr.thr_name }</a></td>
+									<td><a href="theaterRegistForm.do?thr_name=${thr.thr_name }"><b>${thr.thr_name }</b></a></td>
 									<td>${thr.thr_loc }</td>
 									<td>${thr.thr_addr } ${thr.thr_addr_detail }</td>
 									<td>${thr.admin_id }</td>
 									<td>${thr.admin_pwd }</td>
 									<td>${thr.thr_tel }</td>
-									<td>1234</td>
+									<td>${thr.houseCnt }</td>
 									<td><fmt:formatDate value='${thr.regdate }' pattern='yyyy-MM-dd'/></td>
 									<td>${thr.gb_del }</td>
 								</tr>
@@ -112,7 +124,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="mt-5">
+				<div class="paginationDiv">
 					<%@ include file="../common/pagination.jsp" %>
 				</div>
 		</div>

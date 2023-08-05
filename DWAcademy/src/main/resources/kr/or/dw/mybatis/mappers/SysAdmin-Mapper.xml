@@ -196,7 +196,7 @@
 	</sql>
 	
 	<select id="selectSearchTheaterList" resultType="theater">
-		SELECT t.*, a.admin_id, a.admin_pwd
+		SELECT t.*, a.admin_id, a.admin_pwd, (SELECT COUNT(*) FROM house WHERE thr_name = t.THR_NAME AND GB_DEL = 'N') houseCnt
 		  FROM theater t, admin a
 		 WHERE t.admin_cd = a.admin_cd
 		 <include refid="searchThr" />
@@ -285,9 +285,15 @@
 		 WHERE thr_name = #{thr_name}
 	</update>
 	
-	<update id="updateDelTheater" parameterType="str">
+	<update id="updateDelTheater" parameterType="theater">
 		UPDATE theater
 		   SET gb_del = 'Y'
+		 WHERE thr_name = #{thr_name}
+	</update>
+	
+	<update id="updateUndelTheater" parameterType="theater">
+		UPDATE theater
+		   SET gb_del = 'N'
 		 WHERE thr_name = #{thr_name}
 	</update>
 	

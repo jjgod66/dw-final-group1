@@ -11,9 +11,6 @@
 .board-body .list .dep1:hover {
 	background-color : #EBF5FB;
 }
-.pagination li.active a {
-	background-color : #4aa8d8;
-}
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
 <div id="wrapper">
@@ -43,10 +40,10 @@
 		            </div>
 		            <ul class="list">
 		    			<c:if test="${empty noticeList }">
-							<li class="dep1">
+							<li class="dep1" style="min-height: 30px;">
 			                    <div class="leftInfo"><span class="sort"></span></div>
 			                    <div class="titInfo" style="padding: 0; text-align: center; ">
-			                        <p class="tit"><a href="#"> 게시글이 없습니다.</a></p>
+			                        <p class="tit" style="margin-bottom : 0;"><a href="#"> <b>게시글이 없습니다.</b></a></p>
 			                    </div>
 			                </li>
 						</c:if>
@@ -54,7 +51,7 @@
 			                <li class="dep1">
 			                    <div class="leftInfo"><span class="sort">${notice.notice_thr }</span></div>
 			                    <div class="titInfo">
-			                        <p class="tit"><a href="noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read">${notice.notice_title }</a></p>
+			                        <p class="tit"><a href="noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read"><b>${notice.notice_title }</b></a></p>
 			                    </div>
 			                    <div class="etc">
 			                        <ul class="clearFix">
@@ -77,8 +74,8 @@
 	</div>
 </div>
 <script>
-window.onload = function(){
 	let searchFormUrl = "noticeAdminMain.do";
+window.onload = function(){
 	$('#registBtn').on('click', function(){
 		location.href='noticeAdminDetail.do?type=create';
 	});

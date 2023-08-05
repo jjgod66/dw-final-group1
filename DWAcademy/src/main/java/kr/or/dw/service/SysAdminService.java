@@ -36,7 +36,7 @@ public interface SysAdminService {
 	void theaterModify(TheaterVO thr) throws SQLException;
 
 	// 해당 지점 삭제(비활성화)
-	void theaterDelete(String thr_name) throws SQLException;
+	void theaterDelete(TheaterVO thr) throws SQLException;
 
 	//////////////movie admin////////////////////////
 	// 장르 리스트 불러오기

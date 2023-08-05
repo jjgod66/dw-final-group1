@@ -163,9 +163,6 @@ table th {
 	border-radius: 0;
 	-webkit-border-radius: 0;
 }
-.videoCol {
-	margin-bottom: 3rem;
-}
 </style>
 
 <div id="wrapper">
@@ -289,12 +286,14 @@ table th {
 										<div class="imgInput">
 											<div class="inputImgRow row">
 												<c:forEach items="${ movieImgList}" var="img">
-													<div class="col-md-3 imgCol alreadyImg">
-														<input type="file" name="uploadImg" accept=".jpeg, .png, .jpg, .gif" style="display: none;">
-														<button class="btn btn-outline-danger btn-sm" type="button" id="cancelAddBtn">X</button>
-														<div id="imgView" style="border: 1px solid green; height: 12rem; width: 10rem; margin: 0 auto; margin-bottom: 5px;
-															background-image: url('/common/getPicture.do?name=${img.MOVIE_PIC_PATH}&item_cd=${img.MOVIE_CD }&type=movieImg'); background-size:cover; background-repeat: no-repeat"></div>
-														<input id="imgName" class="form-control" type="hidden" name="imgName" value="${img.MOVIE_PIC_NO }">
+													<div class="col-md-6 gy-2 imgDiv">
+														<div class="imgCol alreadyImg borderRadius p-1 text-end" style="border: 2px solid #4aa8d8;">
+															<input type="file" name="uploadImg" accept=".jpeg, .png, .jpg, .gif" style="display: none;">
+															<button type="button" style="background-color: inherit; border: none; color: #ef4836;" id="cancelAddBtn"><i class="bi bi-dash-square"></i></button>
+															<div id="imgView" class="borderRadius" style="border: 1px solid green; height: 18rem; width: 24rem; margin: 0 auto; margin-bottom: 5px; background-position-x : 50%; background-position-y : 50%;
+																background-image: url('/common/getPicture.do?name=${img.MOVIE_PIC_PATH}&item_cd=${img.MOVIE_CD }&type=movieImg'); background-size:cover; background-repeat: no-repeat"></div>
+															<input id="imgName" class="form-control" type="hidden" name="imgName" value="${img.MOVIE_PIC_NO }">
+														</div>
 													</div>
 												</c:forEach>
 											</div>
@@ -308,13 +307,15 @@ table th {
 										<div class="videoInput">
 											<div class="inputVideoRow row">
 												<c:forEach items="${movieVideoList}" var="video">
-													<div class="col-md-6 videoCol alreadyVideo">
-														<input type="file" name="uploadVideo" accept="video/mp4,video/mkv, video/x-m4v,video/*" style="display: none;">
-														<button class="btn btn-outline-danger btn-sm" type="button" id="cancelAddBtn">X</button>
-														<video class="vi" style="width: 100%; height: 100%;" controls>
-															<source src='/common/getVideo.do?movie_cd=${video.MOVIE_CD }&movie_pre_path=${video.MOVIE_PRE_PATH}'  type="video/mp4">
-														</video>
-														<input id="videoName" class="form-control" type="hidden" name="imgName" value="${video.MOVIE_PRE_NO }">
+													<div class="col-md-6 gy-2 videoDiv">
+														<div class="videoCol alreadyVideo borderRadius p-1 text-end" style="border: 2px solid #4aa8d8;">
+															<input type="file" name="uploadVideo" accept="video/mp4,video/mkv, video/x-m4v,video/*" style="display: none;">
+															<button style="background-color: inherit; border: none; color: #ef4836;" type="button" id="cancelAddBtn"><i class="bi bi-dash-square"></i></button>
+															<video class="vi borderRadius" style="width: 100%; height: 100%; border: 1px solid green;" controls>
+																<source src='/common/getVideo.do?movie_cd=${video.MOVIE_CD }&movie_pre_path=${video.MOVIE_PRE_PATH}'  type="video/mp4">
+															</video>
+															<input id="videoName" class="form-control" type="hidden" name="imgName" value="${video.MOVIE_PRE_NO }">
+														</div>
 													</div>
 												</c:forEach>
 											</div>
@@ -329,14 +330,14 @@ table th {
 				<div class="btn_confirm">
 					<c:choose>
 						<c:when test="${empty MOVIE_CD}">
-							<button type="button" id="registBtn" class="btn_large">등록</button>
+							<button type="button" id="registBtn" class="borderRadius bc_dw_blue" style="padding: 0.5rem 1rem;">등록</button>
 						</c:when>
 						<c:otherwise>
-							<button type="button" id="modifyBtn" class="btn_large">수정</button>
+							<button type="button" id="modifyBtn" class="borderRadius bc_dw_blue" style="padding: 0.5rem 1rem;">수정</button>
 <!-- 							<button type="button" id="deleteBtn" class="btn_large">삭제</button> -->
 						</c:otherwise>
 					</c:choose>
-					<button type="button" id="cancelBtn" class="btn_large">뒤로가기</button>
+					<button type="button" id="cancelBtn" class="borderRadius bc_dw_black" style="padding: 0.5rem 1rem;">뒤로가기</button>
 				</div>
 		</div>
 		<!-- #################### -->

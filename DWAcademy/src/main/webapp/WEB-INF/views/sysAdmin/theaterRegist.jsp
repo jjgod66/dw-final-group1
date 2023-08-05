@@ -78,10 +78,10 @@
 										<button type="button" id="searchAddr" class="btn_small grey" onclick="sample6_execDaumPostcode();">주소검색</button>
 									</p>
 									<p class="mart3">
-										<input type="text" name="thr_addr" id="addr" class="frm_input" value="${thr.thr_addr }" size="60" readonly> 기본주소
+										기본 주소 <input type="text" name="thr_addr" id="addr" class="frm_input" value="${thr.thr_addr }" size="60" readonly>
 									</p>
 									<p class="mart3">
-										<input type="text" name="thr_addr_detail" id="addr_detail" class="frm_input" value="${thr.thr_addr_detail }" size="60"> 상세주소
+										상세 주소 <input type="text" name="thr_addr_detail" id="addr_detail" class="frm_input" value="${thr.thr_addr_detail }" size="60">
 									</p>
 								</td>
 							</tr>
@@ -123,17 +123,18 @@
 				<div class="btn_confirm">
 					<c:choose>
 						<c:when test="${empty thr}">
-							<button type="button" id="registBtn" class="btn_large">등록</button>
+							<button type="button" id="registBtn" class="borderRadius bc_dw_blue" style="padding: 0.5rem 1rem;">등록</button>
 						</c:when>
 						<c:otherwise>
-							<button type="button" id="modifyBtn" class="btn_large">수정</button>
-							<button type="button" id="deleteBtn" class="btn_large">삭제</button>
+							<button type="button" id="modifyBtn" class="borderRadius bc_dw_blue" style="padding: 0.5rem 1rem;">수정</button>
+							<button type="button" id="deleteBtn" class="borderRadius bc_dw_orange" style="padding: 0.5rem 1rem;">${thr.gb_del == 'Y' ? '재등록' : '비활성화' }</button>
 						</c:otherwise>
 					</c:choose>
-					<button type="button" id="cancelBtn" class="btn_large">뒤로가기</button>
+					<button type="button" id="cancelBtn" class="borderRadius bc_dw_black" style="padding: 0.5rem 1rem;">뒤로가기</button>
 				</div>
 				<input type="hidden" value="" id="thr_y" name="thr_y">
 				<input type="hidden" value="" id="thr_x" name="thr_x">
+				<input type="hidden" value="${thr.gb_del }" name="gb_del">
 			</form>
 		</div>
 	</div>
@@ -183,10 +184,18 @@ $('button#modifyBtn').on('click', function(){
 });
 
 $('button#deleteBtn').on('click', function(){
-	if(confirm('해당 지점을 정말로 삭제하시겠습니까?')) {
-		let form = $('form[role="form"]');
-		form.attr('action', 'theaterDelete.do');
-		form.submit();
+	if ('${thr.gb_del}' == 'Y') {
+		if(confirm('해당 지점을 재등록하시겠습니까?')) {
+			let form = $('form[role="form"]');
+			form.attr('action', 'theaterDelete.do');
+			form.submit();
+		}		
+	} else if ('${thr.gb_del}' == 'N') {
+		if(confirm('해당 지점을 정말로 삭제하시겠습니까?')) {
+			let form = $('form[role="form"]');
+			form.attr('action', 'theaterDelete.do');
+			form.submit();
+		}
 	}
 });
 

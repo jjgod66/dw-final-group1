@@ -10,14 +10,20 @@ function Attach_action(){
 			alert('사진 추가는 10장까지만 가능합니다.');
 			return;
 		}
-		let input = $('<input>').attr({"type" : "file", "name" : "uploadImg", "accept" : ".jpeg, .png, .jpg, .gif"}).css("display", "inline");
-		let imgCol = $('<div>').addClass('col-md-3 imgCol');
-		$('.inputImgRow').append(imgCol);
-		imgCol.append(input).append("<button class='btn btn-outline-danger btn-sm' type='button' id='cancelAddBtn'>X</button>").append("<div id='imgView'	style='border: 1px solid green; height: 12rem; width: 10rem; margin: 0 auto; margin-bottom: 5px;'></div>");
+		let input = $('<input>').attr({"type" : "file", "name" : "uploadImg", "accept" : ".jpeg, .png, .jpg, .gif"}).css("display", "none");
+		let addImgBtn = $('<button type="button" style="background-color: inherit; border:none; color: #4aa8d8;"><i class="bi bi-plus-square imgBtn"></i></button>');
+		let imgCol = $('<div style="border:2px solid #4aa8d8;">').addClass('imgCol borderRadius p-1 text-end'); 
+		$('.inputImgRow').append($('<div class="col-md-6 gy-2 imgDiv">'));
+		$('.inputImgRow > div').last().append(imgCol);
+		imgCol.append(input).append(addImgBtn).append("<button type='button' style='background-color: inherit; border: none; color: #ef4836;' id='cancelAddBtn'><i class='bi bi-dash-square'></i></button>").append("<div id='imgView' class='borderRadius' style='border: 1px solid green; height: 18rem; width: 24rem; margin: 0 auto; margin-bottom: 5px; background-position-x : 50%; background-position-y : 50%;'></div>");
+	});
+	
+	$(document).on('click','.imgBtn', function(){
+		$(this).closest('button').prev().click();
 	});
 	
 	// 사진 삭제 버튼
-	$('.imgInput').on('click', '#cancelAddBtn',function(){
+	$(document).on('click', 'button#cancelAddBtn',function(){
 		if($(this).closest('div.imgCol').hasClass('alreadyImg')) {
 			let pno = $(this).siblings('#imgName').val();
 			console.log(pno);
@@ -28,7 +34,7 @@ function Attach_action(){
 			  });
 			$('form[role="form"]').prepend(input);
 		}
-		$(this).closest('div.imgCol').remove();
+		$(this).closest('div.imgDiv').remove();
 	});
 	
 	// 동영상 추가 버튼
@@ -37,10 +43,12 @@ function Attach_action(){
 			alert('동영상 추가는 5개까지만 가능합니다.');
 			return;
 		}
-		let input = $('<input>').attr({"type" : "file", "name" : "uploadVideo", "accept" : "video/mp4,video/mkv, video/x-m4v,video/*"}).css("display", "inline");
-		let videoCol = $('<div>').addClass('col-md-6 videoCol');
-		$('.inputVideoRow').append(videoCol);
-		videoCol.append(input).append("<button class='btn btn-outline-danger btn-sm' type='button' id='cancelAddBtn'>X</button>").append("<video class='vi' style='width: 100%; height: 100%;' controls></video>");
+		let input = $('<input>').attr({"type" : "file", "name" : "uploadVideo", "accept" : "video/mp4,video/mkv, video/x-m4v,video/*"}).css("display", "none");
+		let addVideoBtn = $('<button type="button" style="background-color: inherit; border: none; color: #4aa8d8;"><i class="bi bi-plus-square videoBtn"></i></button>');
+		let videoCol = $('<div style="border: 2px solid #4aa8d8;">').addClass('videoCol borderRadius p-1 text-end');
+		$('.inputVideoRow').append($('<div class="col-md-6 gy-2 videoDiv">'));
+		$('.inputVideoRow > div').last().append(videoCol);
+		videoCol.append(input).append(addVideoBtn).append("<button type='button' style='background-color: inherit; border: none; color: #ef4836;' id='cancelAddBtn'><i class='bi bi-dash-square'></i></button>").append("<video class='vi borderRadius' style='width: 100%; height: 100%;' controls></video>");
 	});
 	
 	// 동영상 삭제 버튼
@@ -55,7 +63,7 @@ function Attach_action(){
 			  });
 			$('form[role="form"]').prepend(input);
 		}
-		$(this).closest('div.videoCol').remove();
+		$(this).closest('div.videoDiv').remove();
 	});
 
 	
