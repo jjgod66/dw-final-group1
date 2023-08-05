@@ -55,5 +55,8 @@ public interface MemberService {
 
 	// 회원 선호장르 선택
 	void memLikeThr(List<String> thrNames, String mem_cd) throws SQLException;
+
+	// 모든 회원 정보 가져오는 메서드
+	Map<String, Object> selectAllMemberInfo(String id) throws SQLException;
 	
 }

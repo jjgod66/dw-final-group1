@@ -90,4 +90,11 @@ public interface TheaterService {
 	 */
 	List<TheaterVO> searchTheaterName(String selectLocData) throws SQLException;
 
+	/**
+	 * 선호극장정보 가져오는 메서드
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> selectMemLikeTheater(String mem_cd) throws SQLException;
+
 }

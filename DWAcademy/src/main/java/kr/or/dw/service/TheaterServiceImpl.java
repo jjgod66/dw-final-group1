@@ -200,5 +200,10 @@ public class TheaterServiceImpl implements TheaterService{
 		return theaterDAO.searchTheaterName(selectLocData);
 	}
 
+	@Override
+	public List<Map<String, Object>> selectMemLikeTheater(String mem_cd) throws SQLException {
+		return theaterDAO.selectMemLikeTheater(mem_cd);
+	}
+
 	
 }

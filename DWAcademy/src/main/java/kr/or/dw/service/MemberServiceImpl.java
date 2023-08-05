@@ -187,4 +187,9 @@ public class MemberServiceImpl implements MemberService{
 		System.out.println("data : " + data);
 	}
 
+	@Override
+	public Map<String, Object> selectAllMemberInfo(String id) throws SQLException {
+		return memberDAO.selectAllMemberInfo(id);
+	}
+
 }

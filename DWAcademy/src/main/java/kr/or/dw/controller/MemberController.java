@@ -197,13 +197,27 @@ public class MemberController {
 	public ModelAndView memberAdditionalinfo(ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/member/additionalinfo";
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
-		
+		String id = (String) member.get("ID");
+		String mem_cd = (String) member.get("CD");
 		List<TheaterVO> theaterList = theaterService.getAllTheaterList();
 		List<GenreVO> genreList = memberService.selectAllGenreList();
+		Map<String, Object> mem_alert = memberService.selectAllMemberInfo(id);
+		List<Map<String, Object>> mem_like_theater = theaterService.selectMemLikeTheater(mem_cd);
+		
+		System.out.println(mem_alert);
+		System.out.println(mem_like_theater);
+		
+		String[] mlt = new String[mem_like_theater.size()];
+		for(int i = 0; i < mem_like_theater.size(); i++) {
+			mlt[i] += mem_like_theater.get(i);
+		}
+		System.out.println(Arrays.toString(mlt));
 		
 		mnv.addObject("genreList", genreList);
 		mnv.addObject("theaterList", theaterList);
 		mnv.addObject("member", member);
+		mnv.addObject("mem_alert", mem_alert);
+		mnv.addObject("mem_like_theater", mem_like_theater);
 		mnv.setViewName(url);
 		
 		return mnv;
