@@ -131,4 +131,11 @@
 		 WHERE thr_loc = #{selectLocData}
 		   AND gb_del = 'N'
 	</select>
+	
+	<select id="selectMemLikeTheater" resultType="Map">
+		SELECT mlt.thr_name, t.thr_loc 
+		  FROM mem_like_theater mlt, theater t
+		 WHERE mem_cd = #{mem_cd}
+		   AND mlt.thr_name = t.thr_name 
+	</select>
 </mapper>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/member_header.jsp" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style>
 .additionalinfo-wrapper {
 }
@@ -126,6 +127,9 @@
 	margin-top: 10px;
 }
 </style>
+<script>
+
+</script>
 <div class="additionalinfo-wrapper">
 <form role="additionInfo" action="<%=request.getContextPath()%>/member/addition.do" method="post">
 	<h2 class="tit">선택정보 수정</h2>
@@ -133,9 +137,9 @@
 		<div class="box-top">
 			<strong>마케팅 활용을 위한 개인정보 수집 이용 안내</strong>
 			<div class="righten">
-				<label for="chk1"><input type="radio" name="personInfoUtilAgreeAt" id="chk1" value="N">미동의</label>
+				<label for="chk1"><input type="radio" name="personInfoUtilAgreeAt" id="chk1" value="N" ${mem_alert.GB_EMAIL_ALERT eq 'N' and GB_SMS_ALERT eq 'N' ? 'checked' : ''}>미동의</label>
 				
-				<label for="chk2"><input type="radio" name="personInfoUtilAgreeAt" id="chk2" value="Y">동의</label>
+				<label for="chk2"><input type="radio" name="personInfoUtilAgreeAt" id="chk2" value="Y" ${mem_alert.GB_EMAIL_ALERT eq 'Y' or GB_SMS_ALERT eq 'Y' ? 'checked' : ''}>동의</label>
 				
 			</div>
 		</div>
@@ -168,17 +172,17 @@
 			</div>
 			<div class="chk-box">
 				<strong class="label w80px email">이메일</strong>
-				<input type="radio" name="gb_email_alert" id="chk3" value="Y">
+				<input type="radio" name="gb_email_alert" id="chk3" value="Y" ${mem_alert.GB_EMAIL_ALERT eq 'Y' ? 'checked' : ''}>
 				<label for="chk3" class="w80px">수신동의</label>
-				<input type="radio" name="gb_email_alert" id="chk4" value="N">
+				<input type="radio" name="gb_email_alert" id="chk4" value="N" ${mem_alert.GB_EMAIL_ALERT eq 'N' ? 'checked' : ''}>
 				<label for="chk4" class="w80px">수신거부</label>
 			</div>
 			<div class="chk-box mt05">
 				<strong class="label w80px sms">SMS</strong>
-				<input type="radio" name="gb_sms_alert" id="chk5" value="Y">
+				<input type="radio" name="gb_sms_alert" id="chk5" value="Y" ${mem_alert.GB_SMS_ALERT eq 'Y' ? 'checked' : ''}>
 				<label for="chk5" class="w80px">수신동의</label>
 
-				<input type="radio" name="gb_sms_alert" id="chk6" value="N">
+				<input type="radio" name="gb_sms_alert" id="chk6" value="N" ${mem_alert.GB_SMS_ALERT eq 'N' ? 'checked' : ''}>
 				<label for="chk6" class="w80px">수신거부</label>
 			</div>
 		</div>
@@ -202,7 +206,7 @@
 								<select name="selectThrLoc1st" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 									<option class="bs-title-option">지역선택</option>
 									<c:forEach items="${theaterList}" var="theaterList">
-										<option class="bs-title-option">${theaterList.thr_loc}</option>
+										<option class="bs-title-option" value="${theaterList.thr_loc}">${theaterList.thr_loc}</option>
 									</c:forEach>
 								</select>
 								<select name="selectThrName" id="selectThrName1st" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">

@@ -83,5 +83,8 @@ public interface MemberDAO {
 	// 회원 선호 극장 등록
 	void updateMemLikeThr(Map<String, Object> data) throws SQLException;
 
+	// 회원의 모든 정보 가져오는 메서드
+	Map<String, Object> selectAllMemberInfo(String id) throws SQLException;
+
 
 }
