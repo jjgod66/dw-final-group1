@@ -117,5 +117,7 @@ public interface EventDAO {
 	 * @throws SQLException
 	 */
 	List<EventVO> selectEvent4() throws SQLException;
+	List<EventVO> selectEvent2() throws SQLException;
+
 
 }

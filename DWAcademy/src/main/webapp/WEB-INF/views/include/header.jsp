@@ -42,23 +42,21 @@ if(session.getAttribute("loginUser") != null){
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300&display=swap" rel="stylesheet">
-<!-- 메인슬라이 -->
-<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css'>
-<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/slider.css">
 
 <link href="<%=request.getContextPath()%>/resources/img/logo_ico.png" rel="shortcut icon" type="image/x-icon">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/scrollbar.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/dwcinema.css">
-<%-- <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/swiper.min.css"> --%>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/swiper.min.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/daterangepicker.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/scrollbar.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/common.js"></script>
-<%-- <script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script> --%>
+
+<script src="<%=request.getContextPath()%>/resources/js/swiper.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/moment.min.js"></script>
 <script src="<%=request.getContextPath()%>/resources/js/daterangepicker.js"></script>
 <style type="text/css">
@@ -118,15 +116,17 @@ canvas{
 		padding-top:13px;
 		text-align: center;
 	}
-	#menu > ul > li:hover{background: #E3E3E3;}
 	#menu > ul > li {
 		--bs-link-hover-color: #000000;
 		float:right;
 		width:100px;
 		position:relative;
 	}
+	#menu > ul > li:hover{
+		background: #e7f5ff;
+	}
     #menu > ul > li > ul {
-    	background:#E3E3E3;
+    	background:#e7f5ff;
     	padding: 0;
 		width:100px;
 		display:none;
@@ -139,7 +139,8 @@ canvas{
     #menu > ul > li > ul > li:hover {
 		opacity:0.7;
 		transition: ease 0.5s;
-		background: #D1D1D1;
+		background: #d0ebff;
+		color: black;
 		}
 .sub_visual {
     position: initial;
