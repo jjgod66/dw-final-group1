@@ -48,10 +48,10 @@
 		        <div class="board-body">
 		            <div class="tools">
 		                <div class="search">
-		                    <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요." value="${cri.keyword }">
-		                    <button type="button" class="btn_medium" id="btnSearch" onclick="javascript:searchList_go(1);"><i class="bi bi-search"></i></button>
+		                    <input type="text" id="keyword" class="borderLeftRadius" name="keyword" placeholder="검색어를 입력하세요." value="${cri.keyword }">
+		                    <button type="button" class="btn_medium bc_dw_black borderRightRadius" id="btnSearch" onclick="javascript:searchList_go(1);"><i class="bi bi-search"></i></button>
 		                </div>
-		                <button type="button" id="registBtn" class="btn_medium" style="height: 42px;">등록</button>
+		                <button type="button" id="registBtn" class="bc_dw_black">등록</button>
 		            </div>
 		            <ul class="list">
 		    			<c:if test="${empty noticeList }">
@@ -83,7 +83,7 @@
 	        </div>
 	        <div class="col-md-1"></div>
         </div>
-		<div class="mt-5">
+		<div class="paginationDiv">
 			<%@ include file="../common/pagination.jsp" %>
 		</div>
 	</div>

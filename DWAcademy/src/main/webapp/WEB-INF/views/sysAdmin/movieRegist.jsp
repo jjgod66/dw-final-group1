@@ -207,7 +207,7 @@ table th {
 										<input type="hidden" name="oldPicture" value="${MOVIE_MAINPIC_PATH }">
 										<div id="pictureView" style="border: 1px solid green; height: 30rem; width: 100%; margin: 0 auto; margin-bottom: 5px;"></div>
 										<div>
-											<input type="button" id="posterBtn" value="포스터 등록" class="btn_medium" style="width: 30%; height: 3rem;"> 
+											<input type="button" id="posterBtn" value="포스터 등록" class="bc_dw_black" style="padding: 0.3rem 0.8rem;"> 
 											<input id="inputPosterName" type="text" name="inputPosterName" style="width: 68%; height: 3rem;" value="${MOVIE_MAINPIC_PATH }" disabled>
 											<input type="file" name="movie_mainPic_path" id="movie_mainPic_path" accept=".jpeg, .png, .jpg, .gif" style="display: none;" onchange="posterChange_go();" required> 
 										</div>
@@ -282,7 +282,7 @@ table th {
 								<tr>
 									<th scope="row">관련사진</th>
 									<td colspan="3">
-										<button class="btn btn-xs btn-primary" type="button" id="addImgBtn">사진 추가</button>
+										<button class="bc_dw_black" type="button" id="addImgBtn">사진 추가</button>
 										<div class="imgInput">
 											<div class="inputImgRow row">
 												<c:forEach items="${ movieImgList}" var="img">
@@ -303,7 +303,7 @@ table th {
 								<tr>
 									<th scope="row">예고편</th>
 									<td colspan="3" style="padding-bottom : 3rem;">
-										<button class="btn btn-xs btn-primary" type="button" id="addVideoBtn">동영상 추가</button>
+										<button class="bc_dw_black" type="button" id="addVideoBtn">동영상 추가</button>
 										<div class="videoInput">
 											<div class="inputVideoRow row">
 												<c:forEach items="${movieVideoList}" var="video">
@@ -330,14 +330,14 @@ table th {
 				<div class="btn_confirm">
 					<c:choose>
 						<c:when test="${empty MOVIE_CD}">
-							<button type="button" id="registBtn" class="borderRadius bc_dw_blue" style="padding: 0.5rem 1rem;">등록</button>
+							<button type="button" id="registBtn" class="bc_dw_blue">등록</button>
 						</c:when>
 						<c:otherwise>
-							<button type="button" id="modifyBtn" class="borderRadius bc_dw_blue" style="padding: 0.5rem 1rem;">수정</button>
+							<button type="button" id="modifyBtn" class="bc_dw_blue">수정</button>
 <!-- 							<button type="button" id="deleteBtn" class="btn_large">삭제</button> -->
 						</c:otherwise>
 					</c:choose>
-					<button type="button" id="cancelBtn" class="borderRadius bc_dw_black" style="padding: 0.5rem 1rem;">뒤로가기</button>
+					<button type="button" id="cancelBtn" class="bc_dw_black">뒤로가기</button>
 				</div>
 		</div>
 		<!-- #################### -->

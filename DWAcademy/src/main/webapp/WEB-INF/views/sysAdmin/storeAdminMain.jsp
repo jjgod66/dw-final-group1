@@ -38,7 +38,7 @@ if (CategoryIdx == null) {
 		            </ul>
 		        </div>
 		        <div>
-		        <button class="btn_medium" style="float: right;" id="registProductBtn">상품 등록</button>
+		        <button class="bc_dw_black" style="float: right;" id="registProductBtn">상품 등록</button>
 		        </div>
 		        <div class="content_wrap">
 		            <div class="row">

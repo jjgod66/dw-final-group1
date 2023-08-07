@@ -123,14 +123,14 @@
 				<div class="btn_confirm">
 					<c:choose>
 						<c:when test="${empty thr}">
-							<button type="button" id="registBtn" class="borderRadius bc_dw_blue" style="padding: 0.5rem 1rem;">등록</button>
+							<button type="button" id="registBtn" class="bc_dw_blue">등록</button>
 						</c:when>
 						<c:otherwise>
-							<button type="button" id="modifyBtn" class="borderRadius bc_dw_blue" style="padding: 0.5rem 1rem;">수정</button>
-							<button type="button" id="deleteBtn" class="borderRadius bc_dw_orange" style="padding: 0.5rem 1rem;">${thr.gb_del == 'Y' ? '재등록' : '비활성화' }</button>
+							<button type="button" id="modifyBtn" class="bc_dw_blue">수정</button>
+							<button type="button" id="deleteBtn" class="bc_dw_orange" >${thr.gb_del == 'Y' ? '재등록' : '비활성화' }</button>
 						</c:otherwise>
 					</c:choose>
-					<button type="button" id="cancelBtn" class="borderRadius bc_dw_black" style="padding: 0.5rem 1rem;">뒤로가기</button>
+					<button type="button" id="cancelBtn" class="bc_dw_black" >뒤로가기</button>
 				</div>
 				<input type="hidden" value="" id="thr_y" name="thr_y">
 				<input type="hidden" value="" id="thr_x" name="thr_x">

@@ -5,11 +5,17 @@
 <%@ include file="thrAdminHeader.jsp" %>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/notice.css">
 <style>
-.list li:nth-child(odd) {
-	background: #fbfbfb;
+#content h1 {
+    margin: 0 0 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #888;
+    font-size: 20px;
+    line-height: 1em;
+    letter-spacing: -1px;
 }
-.board-body .list .dep1:hover {
-	background-color : #EBF5FB;
+.tit {
+	color: black;
+	font-weight: bold;
 }
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
@@ -34,9 +40,9 @@
 		            <div class="tools">
 		                <div class="search">
 		                    <input type="text" id="keyword" class="borderLeftRadius" name="keyword" placeholder="검색어를 입력하세요." value="${cri.keyword }" style="bord">
-		                    <button type="button" class="btn_medium borderRightRadius" id="btnSearch" onclick="javascript:searchList_go(1);"><i class="bi bi-search"></i></button>
+		                    <button type="button" class="bc_dw_black borderRightRadius" id="btnSearch" onclick="javascript:searchList_go(1);"><i class="bi bi-search"></i></button>
 		                </div>
-		                <button type="button" id="registBtn" class="btn_medium borderRadius" style="height: 42px; background-color: #4aa8d8; color: white; border: 1px solid #4aa8d8;">등록</button>
+		                <button type="button" id="registBtn" class="bc_dw_blue" style="height: 42px; background-color: #4aa8d8; color: white; border: 1px solid #4aa8d8;">등록</button>
 		            </div>
 		            <ul class="list">
 		    			<c:if test="${empty noticeList }">
@@ -49,9 +55,9 @@
 						</c:if>
 		            	<c:forEach items="${ noticeList}" var="notice">
 			                <li class="dep1">
-			                    <div class="leftInfo"><span class="sort">${notice.notice_thr }</span></div>
+			                    <div class="leftInfo"><span class="sort" style="color: #4aa8d8;">${notice.notice_thr }</span></div>
 			                    <div class="titInfo">
-			                        <p class="tit"><a href="noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read"><b>${notice.notice_title }</b></a></p>
+			                        <p class="tit"><a href="noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read" style="color: black;"><b>${notice.notice_title }</b></a></p>
 			                    </div>
 			                    <div class="etc">
 			                        <ul class="clearFix">

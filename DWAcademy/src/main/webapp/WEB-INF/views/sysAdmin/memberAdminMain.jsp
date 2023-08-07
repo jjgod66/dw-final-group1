@@ -48,7 +48,7 @@
 										<option value="n" ${cri.searchType eq 'n' ? 'selected' : '' }>이름</option>
 									</select> 
 									<input type="text" name="keyword" value="${cri.keyword }" class="frm_input"size="30">
-									<button type="button" class="btn_medium" onclick="searchList_go(1);">검색</button>
+									<button type="button" class="bc_dw_black" onclick="searchList_go(1);">검색</button>
 								</td>
 								<td></td>
 								<td>
@@ -116,7 +116,7 @@
 						</tbody>
 					</table>
 				</div>
-				<div class="mt-5">
+				<div class="paginationDiv">
 					<%@ include file="../common/pagination.jsp" %>
 				</div>
 		</div>

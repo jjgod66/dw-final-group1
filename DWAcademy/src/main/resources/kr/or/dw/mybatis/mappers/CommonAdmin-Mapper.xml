@@ -150,4 +150,35 @@
 		   AND gb_read = 'N'
 		   AND gb_del_receiver = 'N'
 	</select>
+	
+	<select id="selectStatisticsMovie" resultType="map">
+		SELECT a.movie_cd, MAX(a.movie_name) movie_name, SUM(a.pricesum) pricesum_total
+		     , SUM(a.seatcnt) seatcnt_total, SUM(NVL(b.pricesum, 0)) pricesum_yesterday
+			 , SUM(NVL(b.seatcnt, 0)) seatcnt_yesterday, MAX(a.opendate) opendate, MAX(s.screencnt) screencnt 
+		  FROM (
+				SELECT MAX(m.MOVIE_CD) movie_cd, MAX(m.MOVIE_NAME) movie_name, SUM(r.PRICESUM) pricesum, COUNT(r.res_seat) seatcnt, MAX(m.opendate) opendate 
+				  FROM MOVIE m, RESERVATION r, SCREEN s
+				 WHERE m.MOVIE_CD = s.MOVIE_CD 
+				   AND r.SCREEN_CD = s.SCREEN_CD
+				   AND r.GB_CANCEL = 'N'
+				 GROUP BY r.MERCHANT_UID
+		  		) a, 
+		   		(
+				SELECT MAX(m.MOVIE_CD) movie_cd, MAX(m.MOVIE_NAME) movie_name, SUM(r.PRICESUM) pricesum, COUNT(r.res_seat) seatcnt
+				  FROM MOVIE m, RESERVATION r, SCREEN s
+				 WHERE m.MOVIE_CD = s.MOVIE_CD 
+				   AND r.SCREEN_CD = s.SCREEN_CD
+				   AND r.GB_CANCEL = 'N'
+				   AND r.RESDATE = sysdate - 1
+				 GROUP BY r.MERCHANT_UID
+		  		) b,
+		  		(
+		  		SELECT  MOVIE_CD ,COUNT(*) screencnt
+				  FROM SCREEN s 
+				 GROUP BY MOVIE_CD
+		  		) s
+		  WHERE a.movie_cd = b.movie_cd(+)
+		    AND a.movie_cd = s.MOVIE_CD
+		  GROUP BY a.movie_cd
+	</select>
 </mapper>

@@ -18,10 +18,17 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 		<!-- thrAdmin.css -->
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/admin.css">
+		<!-- datepicker.css -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css" />
+		
 		<!-- jquery 3.7.0 -->
 		<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
 		<!-- bootstrap 5.2.3 -->
 		<script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+		<!-- datepicker -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/i18n/jquery.ui.datepicker-ko.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<style>
 		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
 		body {
@@ -40,7 +47,7 @@
 	<body>
 	<%@ include file="../include/admin_NoteModal.jsp" %>
 		<header id="hd">
-			<div id="hd_wrap" style="background-color : #fafafa;">
+			<div id="hd_wrap">
 				<div style="padding : 0.5rem;" class="text-center">
 					<a href="<%=request.getContextPath() %>/sysAdmin/main.do"><img src="<%=request.getContextPath()%>/resources/img/logo.png"></a>
 				</div>
@@ -67,6 +74,7 @@
 							<div class="dropdown-content">
 								<a href="<%= request.getContextPath() %>/sysAdmin/movieAdminMain.do" class="gnb_1da">영화리스트</a>
 								<a href="<%= request.getContextPath() %>/sysAdmin/movieRegistForm.do" class="gnb_1da">영화등록</a>
+								<a href="<%= request.getContextPath() %>/sysAdmin/movieAdminStatistics.do" class="gnb_1da">영화통계</a>
 							</div>
 						</li>
 						<li class="gnb_1dli dropdown dropdown-menu">고객관리 

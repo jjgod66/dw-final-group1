@@ -36,10 +36,6 @@
     line-height: 1.444;
     font-weight: 600;
 }
-table a {
-	color: black;
-	font-weight: bold;
-}
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
 <div id="wrapper">
@@ -71,8 +67,8 @@ table a {
 						</select>
 					</div>
 					<div class="searchKeyword">
-						<input type="text" name="keyword" id="keyword" value="${cri.keyword }" placeholder="제목,내용,작성자이름">
-						<button id="searchBtn" onclick="searchList_go(1);"><i class="bi bi-search"></i></button>
+						<input type="text" name="keyword" id="keyword" value="${cri.keyword }" placeholder="제목,내용,작성자이름" style="border: 2px solid #4aa8d8;">
+						<button class="bc_dw_blue" style="padding: 0.3rem 0.8rem;" id="searchBtn" onclick="searchList_go(1);"><i class="bi bi-search"></i></button>
 					</div>
 		        </div>
 		        <div class="board-body">
@@ -95,7 +91,7 @@ table a {
 		            		<tr>
 		            			<td>${qna.que_type }</td>
 		            			<td>
-		            				<a href="qnaAdminDetail.do?que_no=${qna.que_no }">${qna.que_title }</a>
+		            				<a href="qnaAdminDetail.do?que_no=${qna.que_no }"><b>${qna.que_title }</b></a>
 		            				<jsp:useBean id="now" class="java.util.Date"/>
 		            				<fmt:formatDate value="${now }" pattern="yyyyMMdd" var="nowDate" />
 		            				<fmt:formatDate value="${qna.regdate }" pattern="yyyyMMdd" var="regDate" />
@@ -115,9 +111,9 @@ table a {
 	        </div>
 	        <div class="col-md-1"></div>
         </div>
-	</div>
-	<div class="mt-5 mb-5">
-		<%@ include file="../common/pagination.jsp" %>
+		<div class="paginationDiv">
+			<%@ include file="../common/pagination.jsp" %>
+		</div>
 	</div>
 </div>
 <script>

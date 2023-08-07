@@ -89,7 +89,7 @@ select[readonly] {
 							<div class="col-md-3">
 								<span>이벤트 유형 구분</span>
 								<span>
-									<select name="event_div" class="form-control" readonly>
+									<select style="height: 38px;" name="event_div" class="form-control" readonly>
 										<option value="영화" ${event.event_div eq '영화' ? 'selected' : ''}>영화</option>
 										<option value="극장" ${event.event_div eq '극장' ? 'selected' : ''}>극장</option>
 										<option value="시사회/무대인사" ${event.event_div eq '시사회/무대인사' ? 'selected' : ''}>시사회/무대인사</option>
@@ -149,14 +149,14 @@ select[readonly] {
 			<div class="card-footer">
 				<c:choose>
 					<c:when test="${type eq 'create' }">
-						<button class="btn_medium borderRadius" id="registBtn" style="background-color: #4aa8d8; color: white; border:none;">등록</button>
+						<button class="bc_dw_blue" id="registBtn">등록</button>
 					</c:when>
 					<c:otherwise>
-						<button class="btn_medium borderRadius" id="modifyCertifyBtn" style="background-color: #4aa8d8; color: white; border:none;">수정</button>
+						<button class="bc_dw_blue" id="modifyCertifyBtn">수정</button>
 						<span style="float: right;">작성일 : <fmt:formatDate value='${event.regdate }' pattern='yyyy-MM-dd'/></span>
 					</c:otherwise>
 				</c:choose>
-				<button class="btn_medium borderRadius" id="cancelBtn" style="color: white; border:none;">뒤로가기</button>
+				<button class="bc_dw_black" id="cancelBtn" style="color: white; border:none;">뒤로가기</button>
 			</div>
 		</div>
 	</div>
@@ -175,7 +175,7 @@ let template1 = $('');
 		$('#event_content_before').remove();
 		$('.hideDiv').show();
 		
-		$('.card-footer').prepend('<button class="btn_medium borderRadius" id="modifyBtn" style="background-color: #4aa8d8; color: white; border:none;">수정완료</button>  <button class="btn_medium borderRadius" id="deleteBtn" style="background-color: #ef4836; color: white; border:none;">삭제하기</button>');
+		$('.card-footer').prepend('<button class="bc_dw_blue" id="modifyBtn">수정완료</button>  <button class="bc_dw_orange" id="deleteBtn">삭제하기</button>');
 	});
 	
 	// 등록버튼 클릭시

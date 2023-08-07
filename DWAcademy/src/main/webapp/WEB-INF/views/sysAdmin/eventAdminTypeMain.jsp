@@ -45,7 +45,7 @@
 			<div>
 				<div class="mt-3 mb-3" style="display: flex; justify-content: space-between;">
 					<span class="ms-3 me-3">전체 <span style="color: red;"><b>${pageMaker.totalCount}</b></span>건</span>
-					<span class="ms-3 me-3"><input type="text"  style="height:2.5rem;" name="keyword"><button class="btn_medium ms-2" style="height:2.5rem;" onclick="javascript:searchList_go(1);">검색</button></span>
+					<span class="ms-3 me-3"><input type="text"  style="height:2.5rem;" name="keyword"><button class="bc_dw_black ms-2" onclick="javascript:searchList_go(1);">검색</button></span>
 				</div>
 				<div>
 					<div class="eventCards row gx-3 gy-3">
@@ -74,8 +74,8 @@
 </div>
     
 <script>
+let searchFormUrl = "eventAdminTypeMain.do";
 window.onload = function(){
-	let searchFormUrl = "eventAdminTypeMain.do";
 	
 	$('.searchTypeList a').on('click', function(){
 		let searchType = $(this).html();

@@ -11,6 +11,7 @@
     z-index: 11;
     position: relative;
     margin: 0 auto;
+    background-color: #f2f2f2;
 }
 #tnb {
     z-index: 2;
@@ -79,7 +80,8 @@
     position: relative;
     display: table-cell;
     margin: 0 0 0 -1px;
-    border: 1px solid #2d3032;
+    border-left: 1px solid #494b50;
+    border-right: 1px solid #494b50;
 /*     border-top: 0; */
 /*     border-bottom: 0; */
     justify-content: center;
@@ -169,16 +171,16 @@ nav ul {
 	position: relative;
 } 
 .dropdown-menu {
-	color: black;
+	color: white;
 	font-size: 16px;
 	cursor: pointer;
-	background-color: #f5f5f5;
+	background-color: #494b50;
 	text-align: center;
 	--bs-dropdown-border-radius: 0;
  } 
  .dropdown-content{
  	position: absolute;
- 	top: 2.5rem;
+ 	top: 2.55rem;
  	border-radius : 0;
  	background-color:#dcdcdc;
  	min-width: 160px;
@@ -200,7 +202,7 @@ nav ul {
 	background-color: #aaaaaa
 }
 .dropdown-menu:hover:not(.hone){
-	background-color: #3c3c3c;
+	background-color: #4aa8d8;
 	color: white;
 }
 .pagination li a{
@@ -219,8 +221,9 @@ nav ul {
     text-align: center;
     margin: 0;
     padding: 20px 0;
-    color: #999;
+    color: white;
     border-top: 1px solid #ccc;
+    background-color: #494b50;
 }
 #wrapper {
     background-color: #fff;
@@ -609,23 +612,32 @@ textarea:focus {
 	background-color: #4aa8d8;
 	color: white;
 	border: none;
+	padding: 0.3rem 0.8rem;
+	font-weight: bold;
+	font-size: small;
 }
-.bc_dw_blue.borderRadius:hover {
+.bc_dw_blue:hover {
 	background-color: #3D8DB6;
 }
 .bc_dw_orange {
 	background-color: #ef4836;
 	color: white;
 	border: none;
+	padding: 0.3rem 0.8rem;
+	font-weight: bold;
+	font-size: small;
 }
-.bc_dw_orange.borderRadius:hover {
+.bc_dw_orange:hover {
 	background-color: #D43F2F;
 }
 .bc_dw_black {
-	background-color: black;
+	background-color: #323232;
 	color: white;
 	border: none;
+	padding: 0.3rem 0.8rem;
+	font-weight: bold;
+	font-size: small;
 }
-.bc_dw_black.borderRadius:hover {
+.bc_dw_black:hover {
 	background-color: #454545;
 }

@@ -16,19 +16,20 @@
 	height : 100%;
 	object-fit : cover;
 }
+.memberTable, .memberTable th, .memberTable tr, .memberTable td {
+	border: 1px solid gray;
+}
 .memberTable th {
-	background-color: #808080;
-	color: white;
+	background-color: #f2f2f2;
+	color: black;
 	text-align : center;
+	font-weight: bold;
 }
 .table-striped th {
 	text-align : center;
 }
 #content h2 {
-	margin: 30px 0 0 0;
-	position: static;
-	letter-spacing: 0;
-	padding: 0;
+	margin: 25px 0 0 0;
 }
 .tbl_frm01 {
 	margin : 0;
@@ -48,8 +49,8 @@
 		
 		<div class="s_wrap">
 				<h2 class="mb-2">회원 정보</h2>
-				<div class="tbl_frm01">
-					<table class="tablef memberTable">
+				<div class="tbl_frm01 mb-2">
+					<table class="table-bordered memberTable">
 						<colgroup>
 							<col class="w150">
 							<col>
@@ -289,13 +290,13 @@
 				<div class="btn_confirm">
 					<c:choose>
 						<c:when test="${GB_BAN eq 'Y'}">
-							<button type="button" id="cancelBanBtn" class="btn_large" style="border: 1px solid red; background-color: red;">정지해제</button>
+							<button type="button" id="cancelBanBtn" class="bc_dw_orange" >정지해제</button>
 						</c:when>
 						<c:otherwise>
-							<button type="button" id="banBtn" class="btn_large" style="border: 1px solid red; background-color: red;">정지</button>
+							<button type="button" id="banBtn" class="bc_dw_orange">정지</button>
 						</c:otherwise>
 					</c:choose>
-					<button type="button" id="cancelBtn" class="btn_large">뒤로가기</button>
+					<button type="button" id="cancelBtn" class="bc_dw_black">뒤로가기</button>
 				</div>
 				<input type="hidden" value="" id="thr_y" name="thr_y">
 				<input type="hidden" value="" id="thr_x" name="thr_x">
