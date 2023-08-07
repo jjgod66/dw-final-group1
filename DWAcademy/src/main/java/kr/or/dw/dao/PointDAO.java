@@ -27,4 +27,18 @@ public interface PointDAO {
 	 */
 	void insertMoviePointVIP(Map<String, Object> pointIn) throws SQLException;
 
+	/**
+	 * 포인트 리스트
+	 * @param param
+	 * @return
+	 */
+	List<Map<String, Object>> selectMemPointList(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 포인트 갯수
+	 * @param param
+	 * @return
+	 */
+	int selectMemPointCount(Map<String, Object> param) throws SQLException;
+
 }

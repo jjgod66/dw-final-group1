@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/member_header.jsp" %>
 <style>
 .content {
@@ -188,14 +191,39 @@ h3.tit {
     border-width: 0 0 1px 0;
     text-align: center;
 }
+.mypage-infomation .btn-group {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+}
+.btn-group:after, .btn-group:before {
+    content: '';
+    display: table;
+}
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+.mypage-infomation {
+    position: relative;
+    min-height: 36px;
+    margin-top: 20px;
+    padding-bottom: 10px;
+}
 </style>
+<%@include file="giftCard_modal.jsp" %>
 <div class="content">
 	<h2 class="tit">포인트 이용내역</h2>
-	<h3 class="tit mt-3">이용내역 조회</h3>
-	<ul class="dot-list">
-		<li>하단 내역은 상영일 및 구매일 기준이며, 해당일 익일(+1) 에 사용 가능 포인트로 전환됩니다.</li>
-		<li>적립 예정 포인트는 사용 가능포인트에 포함되지 않으며, 환불 또는 거래 취소가 될 경우 내역에서 삭제됩니다.</li>
-	</ul>
+	<div class="mypage-infomation mt20">
+		<ul class="dot-list mb20">
+					<li>하단 내역은 상영일 및 구매일 기준이며, 해당일 익일(+1) 에 사용 가능 포인트로 전환됩니다.</li>
+			<!-- 		<li>적립 예정 포인트는 사용 가능포인트에 포함되지 않으며, 환불 또는 거래 취소가 될 경우 내역에서 삭제됩니다.</li> -->
+		</ul>
+		<div class="btn-group right">
+			<button class="button" id="giftCardRegBtn" title="기프트카드 등록">기프트카드 등록</button>
+		</div>
+	</div>
 	<div class="board-list-search mt-4">
 		<table>
 			<colgroup>
@@ -206,18 +234,20 @@ h3.tit {
 				<tr>
 					<th scope="row">조회기간</th>
 					<td>
-						<div class="btn-period">
-							<button type="button" class="btn on" value="D7">1주일</button>
-							<button type="button" class="btn" value="M1">1개월</button>
-							<button type="button" class="btn" value="M3">3개월</button>
-							<button type="button" class="btn" value="M6">6개월</button>
-						</div>
+<!-- 						<div class="btn-period"> -->
+<!-- 							<button type="button" class="btn on" value="D7">1주일</button> -->
+<!-- 							<button type="button" class="btn" value="M1">1개월</button> -->
+<!-- 							<button type="button" class="btn" value="M3">3개월</button> -->
+<!-- 							<button type="button" class="btn" value="M6">6개월</button> -->
+<!-- 						</div> -->
 
 						<div class="date">
-							<input type="text" title="조회기간 시작 날짜 입력" placeholder="yyyy.mm.dd" class="date-calendar"><button type="button" class="ui-datepicker-trigger">날짜 선택</button>
+<!-- 							<input type="text" title="조회기간 시작 날짜 입력" placeholder="yyyy.mm.dd" class="date-calendar"><button type="button" class="ui-datepicker-trigger">날짜 선택</button> -->
+							<input type="date" title="조회기간 시작 날짜 입력" placeholder="yyyy.mm.dd" class="date-calendar" name="searchType" style="width: 150px;" id="startdate" value="${pageMaker.cri.searchType }">
 							<span>~</span>
-							<input type="text" title="조회기간 마지막 날짜 입력" placeholder="yyyy.mm.dd" class="date-calendar"><button type="button" class="ui-datepicker-trigger">날짜 선택</button>
-							<button type="button" class="button gray-line" name="search"><i class="iconset ico-search-gray"></i> 조회</button>
+<!-- 							<input type="text" title="조회기간 마지막 날짜 입력" placeholder="yyyy.mm.dd" class="date-calendar"><button type="button" class="ui-datepicker-trigger">날짜 선택</button> -->
+							<input type="date" title="조회기간 마지막 날짜 입력" placeholder="yyyy.mm.dd" class="date-calendar" name="searchType2" style="width: 150px;" id="enddate"  value="${pageMaker.cri.searchType2 }">
+							<button type="button" class="button gray-line" name="search" onclick="pointSearchList_go(1)"><i class="iconset ico-search-gray"></i> 조회</button>
 						</div>
 					</td>
 				</tr>
@@ -225,7 +255,7 @@ h3.tit {
 		</table>
 	</div>
 	<div class="board-list-util">
-		<p class="result-count"><strong>전체 <b>0</b> 건</strong></p>
+		<p class="result-count"><strong>전체 <b>${pageMaker.totalCount }</b> 건</strong></p>
 	</div>
 	<div class="table-wrap">
 		<table class="board-list">
@@ -234,20 +264,97 @@ h3.tit {
 				<col style="width:120px;">
 				<col style="width:200px;">
 				<col>
-				<col style="width:150px;">
+<!-- 				<col style="width:150px;"> -->
 				<col style="width:110px;">
 			</colgroup>
 			<thead>
 				<tr>
-					<th scope="col">일자</th>
-					<th scope="col">구분</th>
-					<th scope="col">내용</th>
-					<th scope="col">지점</th>
-					<th scope="col">포인트</th>
+					<th scope="col" style="text-align: center;">일자</th>
+					<th scope="col" style="text-align: center;">구분</th>
+					<th scope="col" style="text-align: center;">내용</th>
+<!-- 					<th scope="col">지점</th> -->
+					<th scope="col" style="text-align: center;">포인트</th>
 				</tr>
 			</thead>
-			<tbody><tr><td colspan="5" class="a-c">조회된 내역이 없습니다</td></tr></tbody>
+			<tbody>
+			<c:forEach items="${pointList }" var="point">
+				<tr>
+					<td><fmt:formatDate value="${point.REGDATE }" pattern="yyyy-MM-dd"/> </td>
+					<td>
+						<c:set var="point_cd" value="${point.POINT_CD}" />
+						<c:set var="point_type" value="${fn:substring(point_cd,0,1) }" />
+						<c:if test="${point_type eq 'A' }">적립</c:if>
+						<c:if test="${point_type eq 'U' }">사용</c:if>
+					</td>
+					<td>
+						${point.POINT_NAME }
+					</td>
+					
+					<c:if test="${point_type eq 'A' }">
+						<td style="color:green;">
+							+<fmt:formatNumber value="${point.POINT}" pattern="#,###"/> 
+						</td>
+					</c:if>
+					<c:if test="${point_type eq 'U' }">
+						<td style="color:red;">
+							-<fmt:formatNumber value="${point.POINT}" pattern="#,###"/> 
+						</td>
+					</c:if>
+				</tr>
+			</c:forEach>
+			
+			<c:if test="${empty pointList }">
+				<tr><td colspan="5" class="a-c">조회된 내역이 없습니다</td></tr>
+			</c:if>
+			</tbody>
 		</table>
 	</div>
+	<c:if test="${!empty pointList }">
+		<div class="mt-5 mb-5 paginationdiv">
+			<%@ include file="../common/pagination.jsp" %>
+		</div>
+	</c:if>
+	<c:if test="${empty pointList }">
+		<div class="mt-5 mb-5 paginationdiv" style="display: none;">
+			<%@ include file="../common/pagination.jsp" %>
+		</div>
+	</c:if>
 </div>
+<form id="pointSearchForm">
+	<input type="hidden" name="page">
+	<input type="hidden" name="perPageNum">
+	<input type="hidden" name="searchType">
+	<input type="hidden" name="searchType2">
+</form>
+<script>
+	let searchFormUrl = '<%=request.getContextPath()%>/member/point-list.do';
+	
+	$(function(){
+		$('#giftCardRegBtn').on('click', function(){
+			$('#giftCard-modal').modal('show');
+		});
+	})
+function pointSearchList_go(page, url) {
+		if (page < 1) {
+			return;
+		}
+		
+		let perPageNum = 10;
+		if ($('select[name="perPageNum"]').val()) {
+			perPageNum = $('select[name="perPageNum"]').val();
+		}
+		let searchForm = $('#pointSearchForm');
+		searchForm.find('[name="page"]').val(page);
+		searchForm.find('[name="perPageNum"]').val(perPageNum);
+		searchForm.find('[name="searchType"]').val($('input[name="searchType"]').val());
+		searchForm.find('[name="searchType2"]').val($('input[name="searchType2"]').val());
+		searchForm.attr("method", "post");
+		if (url) {
+			searchForm.attr("action", url);
+		} else {
+			searchForm.attr("action", searchFormUrl);
+		}
+		searchForm.submit();
+	}	
+</script>
 <%@ include file="../include/member_footer.jsp" %>

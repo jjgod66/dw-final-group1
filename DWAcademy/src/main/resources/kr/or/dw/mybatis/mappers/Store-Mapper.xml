@@ -132,7 +132,7 @@
 	</select>
 	
 	<insert id="useMemPoint" parameterType="point">
-		INSERT INTO point (point_cd, mem_cd, merchant_uid, point, regdate) VALUES('U' || LPAD(point_seq.nextval,4,0), #{mem_cd}, #{merchant_uid}, #{point}, sysdate)
+		INSERT INTO point (point_cd, mem_cd, relate_cd, point, regdate) VALUES('U' || LPAD(point_seq.nextval,4,0), #{mem_cd}, #{merchant_uid}, #{point}, sysdate)
 	</insert>
 	
 	<insert id="insertMembuy0">
@@ -185,5 +185,20 @@
 		<selectKey resultType="str" keyProperty="merchant_uid" order="AFTER">
 			SELECT 'G' || #{merchant_uid} || LPAD(pay_seq.currval,4,0) merchant_uid FROM dual
 		</selectKey>
+	</insert>
+	
+	<insert id="insert0payDetail">
+		INSERT INTO pay_detail (imp_uid,
+								pay_method,
+								merchant_uid,
+								status,
+								paid_amount,
+								card_quota)
+					VALUES( 'Z' || to_char(sysdate, 'yyyyMMdd') || LPAD(imp_seq.nextval,4,0),
+							'point',
+							#{merchant_uid},
+							'paid',
+							0,
+							0)
 	</insert>
 </mapper>

@@ -166,6 +166,7 @@ public class ReservationServiceImpl implements ReservationService{
 			
 			reservationDAO.useMemPoint(point);
 		}
+		reservationDAO.insert0payDetail(merchant_uid);
 		
 		return merchant_uid;
 	}

@@ -93,7 +93,11 @@ RestTemplate restTemplate = new RestTemplate();
 		
 		String imp_uid = "";
 		imp_uid = payDAO.selectImpUidByMerUid(merchant_uid);
-		result = refundSer(imp_uid);
+		if(!imp_uid.substring(0, 1).equals("Z")) {
+			result = refundSer(imp_uid);
+		}else {
+			result = "S";
+		}
 		
 		if(!result.equals("F")) {
 			payDAO.refundPayDetail(merchant_uid);

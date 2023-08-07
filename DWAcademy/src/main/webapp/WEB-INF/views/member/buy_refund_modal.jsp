@@ -130,12 +130,12 @@
 
 $(function(){
 	$('#buyrefundModalCancel').on('click', function(){
-		$('#buy-buy-refund-modal').modal('hide');
+		$('#buy-refund-modal').modal('hide');
 	})
 	
 	$('#buyrefundChk').on('click', function(){
 		let merchant_uid = $('#buyrefundHiddenMUID').val();
-		$('#buy-buy-refund-modal').modal('hide');
+		$('#buy-refund-modal').modal('hide');
 		resRefund(merchant_uid);
 		
 	})

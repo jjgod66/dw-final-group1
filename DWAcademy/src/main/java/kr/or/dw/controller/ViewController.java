@@ -33,11 +33,11 @@ public class ViewController {
 	 */
 
 
-	@GetMapping("/member/point-list")
-	public String memberPointlist() {
-		String url = "/member/point-list";
-		return url;
-	}
+//	@GetMapping("/member/point-list")
+//	public String memberPointlist() {
+//		String url = "/member/point-list";
+//		return url;
+//	}
 
 
 	/*

@@ -87,4 +87,11 @@ public interface StoreDAO {
 	 */
 	void insertMemgift0(MemBuyVO memBuy) throws SQLException;
 
+	/**
+	 * 금액 0원일 때 payDetail insert 하는 메서드
+	 * @param merchant_uid
+	 * @throws SQLException
+	 */
+	void insert0payDetail(String merchant_uid) throws SQLException;
+
 }

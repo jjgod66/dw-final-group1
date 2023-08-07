@@ -30,11 +30,14 @@ import kr.or.dw.service.CouponService;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.service.NaverLoginBO2;
+import kr.or.dw.service.PointService;
 import kr.or.dw.service.SnsService;
 import kr.or.dw.service.SupportService;
 import kr.or.dw.service.TheaterService;
+import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.SnsVO;
 import kr.or.dw.vo.TheaterVO;
 
@@ -60,6 +63,9 @@ public class MemberController {
 	
 	@Autowired
 	private TheaterService theaterService;
+	
+	@Autowired
+	private PointService pointService;
 	
 	
 	/* NaverLoginBO */
@@ -353,6 +359,22 @@ public class MemberController {
 		return mnv;
 	}
 	
+	@RequestMapping("/member/myInquiryDetail")
+	public ModelAndView memberMyInquiryDetail(ModelAndView mnv, int que_no) throws SQLException {
+		String url = "/member/inquiry_detail";
+		
+		QnaVO qna = null;
+		AnswerVO answer = null;
+		qna = supportService.getQnaByQueNo(que_no);
+		answer = supportService.getAnswerByQueNo(que_no);
+		
+		mnv.addObject("answer", answer);
+		mnv.addObject("qna", qna);
+		
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
 	@RequestMapping("/member/searchMyQuestion")
 	public ModelAndView searchMyQuestion(ModelAndView mnv, HttpSession session, SearchCriteria cri) throws SQLException {
 		String url = "/member/myinquiry";
@@ -369,5 +391,19 @@ public class MemberController {
 	}
 	
 	
-	
+	@RequestMapping("/member/point-list")
+	public ModelAndView memberPointlist(ModelAndView mnv, SearchCriteria cri, HttpSession session) throws SQLException {
+		String url = "/member/point-list";
+		
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		
+		Map<String, Object> dataMap = null;
+		dataMap = pointService.getMemPointList(mem_cd, cri);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+
 }
