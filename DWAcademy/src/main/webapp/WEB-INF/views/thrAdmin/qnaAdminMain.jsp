@@ -67,7 +67,7 @@
 		            			<td>${qna.writer_name }</td>
 		            			<td>${qna.gb_mem eq 'Y' ? '회원' : '비회원' }</td>
 		            			<td><fmt:formatDate value='${qna.regdate}' pattern='yyyy-MM-dd'/></td>
-		            			<td>${empty qna.ans_content ? '<b>답변대기</b>' : '답변완료' }</td>
+		            			<td>${empty qna.ans_content ? '<b style="color:#4aa8d8;">답변대기</b>' : '답변완료' }</td>
 		            		</tr>
 		            	</c:forEach>
 						</tbody>

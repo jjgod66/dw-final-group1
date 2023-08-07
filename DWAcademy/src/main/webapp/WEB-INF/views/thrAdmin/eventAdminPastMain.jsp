@@ -58,7 +58,7 @@
 			<span>전체 <b style="color: red;"> ${pageMaker.totalCount}</b>건</span>
 			<span>
 				<input type="text" placeholder="검색어를 입력해주세요." name="keyword" style="height:100%;">
-				<button type="button" class="btn_medium borderRadius ms-2" onclick="javascript:searchList_go(1);">검색</button>
+				<button type="button" class="bc_dw_black ms-2" onclick="javascript:searchList_go(1);">검색</button>
 			</span>
 		</div>
 		<div class="ms-5 me-5 mt-5">
@@ -78,7 +78,7 @@
 							</a>
 						</td>
 						<td style="width: 10%;">
-							<button type="button" class="btn_medium registWinner borderRadius" style="background-color: ${empty event.winnerdate ? '#4aa8d8' : 'black' }; border: none;" data-no="${event.event_no }" data-type="${empty event.winnerdate ? 'create' : 'read' }">당첨자 발표  ${empty event.winnerdate ? '작성' : '조회' }</button>
+							<button type="button" class=" ${empty event.winnerdate ? 'bc_dw_blue' : 'bc_dw_black' } registWinner" data-no="${event.event_no }" data-type="${empty event.winnerdate ? 'create' : 'read' }">당첨자 발표  ${empty event.winnerdate ? '작성' : '조회' }</button>
 						</td>
 					</tr>
 				</c:forEach>
@@ -90,8 +90,8 @@
 	</div>
 </div>
 <script>
+let searchFormUrl = "eventAdminPastMain.do";
 window.onload = function(){
-	let searchFormUrl = "eventAdminPastMain.do";
 	$('.registWinner').on('click', function(){
 		let event_no = $(this).attr('data-no');
 		let type = $(this).attr('data-type');

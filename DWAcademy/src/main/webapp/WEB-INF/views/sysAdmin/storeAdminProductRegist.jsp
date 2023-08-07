@@ -31,8 +31,8 @@
 					<div class="col-md-4 text-center">
 						<div style="width: 20rem; height: 20rem; border: 1px solid black;" id="pictureView"></div>
 						<div class="mt-1 row">
-							<div class="col-md-3 p-0 me-3">
-								<button class="btn_medium" id="imgBtn" style="width:6rem;">이미지등록</button>
+							<div class="col-md-3 p-0 ms-2">
+								<button class="bc_dw_black" id="imgBtn" style="padding: 0.3rem 0.3rem;">이미지등록</button>
 							</div>
 							<div class="col-md-8 p-0">
 								<input type="hidden" name="oldPicture" value="${product.product_pic_path }">
@@ -69,13 +69,13 @@
 					<div class="col-md-12 text-center">
 						<c:choose>
 							<c:when test="${empty product.product_cd}">
-								<button class="btn_medium" id="registBtn">등록</button>
+								<button class="bc_dw_blue" id="registBtn">등록</button>
 							</c:when>
 							<c:otherwise>
-								<button class="btn_medium" id="modifyBtn">수정</button>
+								<button class="bc_dw_blue" id="modifyBtn">수정</button>
 							</c:otherwise>
 						</c:choose>
-						<button class="btn_medium" id="cancelBtn">뒤로가기</button>
+						<button class="bc_dw_black" id="cancelBtn">뒤로가기</button>
 					</div>
 				</div>
 			</form>

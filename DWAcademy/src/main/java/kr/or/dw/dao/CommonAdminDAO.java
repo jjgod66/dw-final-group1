@@ -41,5 +41,8 @@ public interface CommonAdminDAO {
 	// 아직 읽지않은 쪽지 수를 가져온다.
 	int selectUnreadedNoteCnt(String admin_cd) throws SQLException;
 
+	// 해당 검색에 대한 영화 통계를 가져온다.
+	List<Map<String, Object>> selectStatisticsMovie() throws SQLException;
+
 	
 }

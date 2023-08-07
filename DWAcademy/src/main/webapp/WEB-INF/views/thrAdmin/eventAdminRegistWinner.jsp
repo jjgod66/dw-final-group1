@@ -79,16 +79,16 @@ textarea:focus {
 				<div class="card-footer">
 					<c:choose>
 						<c:when test="${empty wb}">
-							<button type="button" id="registWinnerBtn" class="btn_medium">등록</button>
+							<button type="button" id="registWinnerBtn" class="bc_dw_blue">등록</button>
 						</c:when>
 						<c:otherwise>
-							<button type="button" id="modifyToggleWinnerBtn" class="btn_medium">수정</button>
-							<button type="button" id="modifyWinnerBtn" class="btn_medium hideDiv" style="display: none;">수정완료</button>
-							<button type="button" id="deleteWinnerBtn" class="btn_medium hideDiv" style="display: none;">삭제</button>
+							<button type="button" id="modifyToggleWinnerBtn" class="bc_dw_blue">수정</button>
+							<button type="button" id="modifyWinnerBtn" class="bc_dw_blue hideDiv" style="display: none;">수정완료</button>
+							<button type="button" id="deleteWinnerBtn" class="bc_dw_orange hideDiv" style="display: none;">삭제</button>
 						</c:otherwise>
 					</c:choose>
 					
-					<button type="button" id="cancelBtn" class="btn_medium">뒤로가기</button>
+					<button type="button" id="cancelBtn" class="bc_dw_black">뒤로가기</button>
 				</div>
 		</div>
 		
@@ -97,7 +97,6 @@ textarea:focus {
 </div>
 
 <script>
-window.onload = function(){
 	$('#registWinnerBtn').on('click', function(){
 		let registForm = $('form[role="form"]');
 		registForm.attr('action', 'eventAdminWinnerRegist.do');
@@ -123,10 +122,11 @@ window.onload = function(){
 			deleteForm.submit();
 		}
 	});
-}	
-</script>
+	
+	$('#cancelBtn').on('click', function(){
+		location.href='/thrAdmin/eventAdminPastMain.do';
+	});
 
-<script>
 window.onload = function(){
 	summernote();
 

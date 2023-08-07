@@ -46,7 +46,7 @@ select {
         	</c:forEach>
         	<div style="height: 3rem;"></div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalBtn">Close</button>
+	        <button type="button" class="bc_dw_black" data-bs-dismiss="modal" id="closeModalBtn">닫기</button>
 	      </div>
         </div>
       </div>
@@ -81,7 +81,7 @@ select {
 								<input type="text" id="movieName" class="form-control" value="" disabled>
 							</div>
 							<div class="col text-end">
-								<button type="button" class="btn_medium" id="selectMovieModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size:12px;">영화선택</button>
+								<button type="button" class="bc_dw_black p-2" id="selectMovieModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size:12px;">영화선택</button>
 								<input type="hidden" name="relate_cd" id="relate_cd" value="">
 							</div>
 						</div>
@@ -104,7 +104,7 @@ select {
 							<div class="col-md-3">
 								<span>이벤트 유형 구분</span>
 								<span>
-									<select name="event_div" class="form-control" style="height: ;">
+									<select name="event_div" class="form-control" style="height: 38px;">
 										<option value="영화" ${event.event_div eq '영화' ? 'selected' : ''}>영화</option>
 										<option value="극장" ${event.event_div eq '극장' ? 'selected' : ''}>극장</option>
 										<option value="시사회/무대인사" ${event.event_div eq '시사회/무대인사' ? 'selected' : ''}>시사회/무대인사</option>
@@ -163,14 +163,14 @@ select {
 			<div class="card-footer">
 				<c:choose>
 					<c:when test="${type eq 'create' }">
-						<button class="btn_medium" id="registBtn">등록</button>
+						<button class="bc_dw_blue" id="registBtn">등록</button>
 					</c:when>
 					<c:otherwise>
-						<button class="btn_medium" id="modifyCertifyBtn">수정</button>
+						<button class="bc_dw_blue" id="modifyCertifyBtn">수정</button>
 						<span style="float: right;">작성일 : <fmt:formatDate value='${event.regdate }' pattern='yyyy-MM-dd'/></span>
 					</c:otherwise>
 				</c:choose>
-				<button class="btn_medium" id="cancelBtn">뒤로가기</button>
+				<button class="bc_dw_black" id="cancelBtn">뒤로가기</button>
 			</div>
 		</div>
 	</div>

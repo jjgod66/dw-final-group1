@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/notice.css">
 <c:set var="cri" value="${pageMaker.cri }" />
 <style>
+
 .td_div > td {
 	cursor: pointer;
 }
@@ -21,9 +22,14 @@ textarea:focus {
 	outline: none;
 }
 #content h2 {
-	position: static;
-	margin : 0;
-	padding : 0;
+	margin: 5px 0 0 0;
+	background-color : white;
+/* 	position: static; */
+	letter-spacing: 0;
+	padding: 0;
+}
+#content h2:before {
+	background-color: white;
 }
 </style>
 
@@ -51,10 +57,10 @@ textarea:focus {
       	<textarea rows="10" cols="80" style="resize: none;" class="form-control" id="modalFaqContent" name="faq_content" placeholder="내용을 적어주세요."></textarea>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" id="registBtn">등록</button>
-        <button type="button" class="btn btn-primary" id="modifyBtn">수정</button>
-        <button type="button" class="btn btn-primary" id="deleteBtn">삭제</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">뒤로가기</button>
+        <button type="button" class="bc_dw_blue" id="registBtn">등록</button>
+        <button type="button" class="bc_dw_blue" id="modifyBtn">수정</button>
+        <button type="button" class="bc_dw_orange" id="deleteBtn">삭제</button>
+        <button type="button" class="bc_dw_black" data-bs-dismiss="modal">뒤로가기</button>
       </div>
     </div>
   	</form>
@@ -74,8 +80,8 @@ textarea:focus {
 	    	<div class="col-md-8 text-center">
 	    		<span style="font-weight: bold;">빠른검색 </span>
 	    		<input type="text" size="50" value="${cri.keyword }" name="keyword">  
-	    		<button class="btn_medium" id="searchBtn">검색</button>
-	    		<button class="btn_medium" id="registModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">등록</button>
+	    		<button class="bc_dw_black" id="searchBtn">검색</button>
+	    		<button class="bc_dw_black" id="registModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal">등록</button>
 	    		<select style="display: none;" name="searchType" id="searchType">
 	    			<option value="all" id="전체" ${cri.searchType eq 'all' ? 'selected' : '' }>all</option>
 	    			<option value="reservation" id="영화예매" ${cri.searchType eq 'reservation' ? 'selected' : '' }>reservation</option>
@@ -108,9 +114,9 @@ textarea:focus {
 	    <div class="row">
 	    	<div class="col-md-2"></div>
 	    	<div class="col-md-8">
-	    		<div>전체 ${pageMaker.totalCount }건 조회</div>
+	    		<div class="mb-3">전체 <b style="color: red">${pageMaker.totalCount }</b>건 조회</div>
 	    		<c:forEach items="${faqList}" var="faq">
-		    		<div class="accordion" id="accordionExample">
+		    		<div class="accordion mb-2" id="accordionExample">
 					  <div class="accordion-item">
 					    <h2 class="accordion-header" id="headingOne">
 					      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq${faq.faq_no }" aria-expanded="false" aria-controls="collapseOne">
@@ -137,7 +143,7 @@ textarea:focus {
 	    	</div>
 	    	<div class="col-md-2"></div>
 	    </div>
-	    <div class="mt-5 mb-5">
+	    <div class="paginationDiv">
 	    	<%@ include file="../common/pagination.jsp" %>
 	    </div>
     </div>
@@ -168,7 +174,9 @@ textarea:focus {
 		 $('#modalFaqContent').text(faqContent);
 		 $('input[name="faq_no"]').val(faqNo);
 		 $('#modalTitle').text('FAQ 수정');
-		 $('#registBtn').remove();
+		 $('#registBtn').hide();
+		 $('#modifyBtn').show();
+		 $('#deleteBtn').show();
 		 
 	 });
 	
@@ -188,8 +196,8 @@ textarea:focus {
 	// 등록버튼 클릭시
 	$('#registModalBtn').on('click', function(){
 		$('#modalTitle').text('FAQ 등록');
-		$('#modifyBtn').remove();
-		$('#deleteBtn').remove();
+		$('#modifyBtn').hide();
+		$('#deleteBtn').hide();
 	});
 	
 	// 모달 안의 등록버튼 클릭시

@@ -45,13 +45,13 @@
 			<div class="card-footer">
 				<c:choose>
 					<c:when test="${type eq 'create' }">
-						<button class="btn_medium" id="registBtn">등록</button>
+						<button class="bc_dw_blue" id="registBtn">등록</button>
 					</c:when>
 					<c:otherwise>
-						<button class="btn_medium" id="modifyCertifyBtn" style="background-color: #4aa8d8; border: none; color: white;">수정</button>
+						<button class="bc_dw_blue" id="modifyCertifyBtn">수정</button>
 					</c:otherwise>
 				</c:choose>
-				<button class="btn_medium" id="cancelBtn" style="background-color: #6c757d; border: none; color: white;">뒤로가기</button>
+				<button class="bc_dw_black" id="cancelBtn">뒤로가기</button>
 			</div>
 		</div>
 	</div>
@@ -70,7 +70,7 @@ window.onload = function(){
 		$('#notice_content_before').remove();
 		$('#hideDiv').show();
 		
-		$('.card-footer').prepend('<button class="btn_medium" id="modifyBtn" style="background-color: #4aa8d8; border:none; color: white;">수정완료</button>  <button class="btn_medium" id="deleteBtn" style="background-color: #ef4836; border: none; color: white;">삭제하기</button>');
+		$('.card-footer').prepend('<button class="bc_dw_blue" id="modifyBtn" style="background-color: #4aa8d8; border:none; color: white;">수정완료</button>  <button class="bc_dw_orange" id="deleteBtn" style="background-color: #ef4836; border: none; color: white;">삭제하기</button>');
 	});
 	
 	// 등록버튼 클릭시

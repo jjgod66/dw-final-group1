@@ -13,15 +13,6 @@
 .local_frm01 {
 	width: 100%;
 }
-.local_frm01 button#theaterRegistFormBtn {
-	background-color: #4aa8d8; 
-	color: white; 
-	border: none; 
-	padding: 5px 10px;
-}
-.local_frm01 button#theaterRegistFormBtn:hover {
-	background-color: #3D8DB6;
-}
 </style>
 
 <div id="wrapper">
@@ -57,7 +48,7 @@
 										<option value="p" ${cri.searchType eq 'p' ? 'selected' : '' }>전화번호</option>
 									</select> 
 									<input type="text" name="keyword" value="${cri.keyword }" class="frm_input"	size="30">
-									<span><input type="submit" value="검색" class="btn_medium borderRadius" style="height: 23px; padding: 0 5px;"></span>
+									<span><input type="submit" value="검색" class="bc_dw_black ms-2" style="padding: 0.3rem 0.5rem;"></span>
 								</td>
 							</tr>
 							
@@ -72,7 +63,7 @@
 					전체 : <b class="fc_red">${pageMaker.totalCount }</b> 건 조회
 				</div>
 				<div class="local_frm01 mt-3">
-					<button class="borderRadius" id="theaterRegistFormBtn">지점 등록</button>
+					<button class="bc_dw_black" id="theaterRegistFormBtn">지점 등록</button>
 				</div>
 				<div class="tbl_head01">
 					<table>

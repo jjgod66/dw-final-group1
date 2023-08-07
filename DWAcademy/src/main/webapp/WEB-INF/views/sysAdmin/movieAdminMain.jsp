@@ -38,10 +38,10 @@
 			<div class="card-header" style="padding-bottom: 0;">
 				<ul class="nav nav-tabs" style="padding-bottom: 0.4rem;">
 				  <li class="nav-item" id="boxOffice" onclick="isFuture('b'); searchList_go(1);">
-				    <button class="btn_medium borderRadius ${cri.keyword eq 'f' ? 'bc_dw_black' : 'bc_dw_blue' }">박스오피스</button>
+				    <button class="${cri.keyword eq 'f' ? 'bc_dw_black' : 'bc_dw_blue' }">박스오피스</button>
 				  </li>
 				  <li class="nav-item" id="futureOffice" onclick="isFuture('f'); searchList_go(1);">
-				    <button class="btn_medium borderRadius ${cri.keyword eq 'f' ? 'bc_dw_blue' : 'bc_dw_black' }">상영예정작</button>
+				    <button class="${cri.keyword eq 'f' ? 'bc_dw_blue' : 'bc_dw_black' }">상영예정작</button>
 				  </li>
 				</ul>
 				<div class="float-end">
@@ -53,7 +53,7 @@
 						</select>
 						<input type="hidden" id="keyword" name="keyword" value="${cri.keyword }">
 					</span>
-					<button type="button" class="btn_medium borderRadius bc_dw_blue" id="movieRegistFormBtn" style="margin: 0.3rem;">&nbsp;&nbsp;등록&nbsp;&nbsp;</button>
+					<button type="button" class="bc_dw_black" id="movieRegistFormBtn" style="margin: 0.3rem;">&nbsp;&nbsp;등록&nbsp;&nbsp;</button>
 				</div>
 			</div>
 			<div class="card-body">

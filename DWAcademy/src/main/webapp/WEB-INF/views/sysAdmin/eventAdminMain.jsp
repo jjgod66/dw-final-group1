@@ -48,7 +48,7 @@
 				</select>
 			</div>
 			<div>
-				<div class="row mt-2 mb-2"><div class="col-md-2 text-end" style="margin-left: auto;"><button class="btn_medium" id="registBtn">이벤트 등록</button></div></div>
+				<div class="row mt-2 mb-2"><div class="col-md-2 text-end" style="margin-left: auto;"><button class="bc_dw_black" id="registBtn">이벤트 등록</button></div></div>
 				<div class="mt-5">
 					<div class="eventTypeHeader">
 						<span class="typeName">영화</span>

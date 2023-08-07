@@ -2,8 +2,7 @@
     pageEncoding="UTF-8"%>
 <script>
 // 읽지않은 쪽지 수 헤더에서 보여주기
-if (${sessionScope.unreadedNoteCnt} != 0) {
-	console.log(${sessionScope.unreadedNoteCnt} + 'sssss');
+if ('${sessionScope.unreadedNoteCnt}' != 0) {
 	$('.new_note_alert').show();
 }
 
@@ -325,6 +324,11 @@ $(document).on('click', '.noteRow', function(){
 							  + ' ' + note_senddate.getHours() + ':' + note_senddate.getMinutes();
 				$('#read_note_date').val(note_senddate);
 				$('#read_note_relator_cd').val(data.NOTE_SENDER);
+				if (note_type == 'S') {
+					$('#reSendBtn').hide();
+				} else if (note_type == 'R') {
+					$('#reSendBtn').show();
+				}
 				console.log(data.UNREADEDCNT);
 				if (data.UNREADEDCNT != 0) {
 					$('.new_note_alert').show();

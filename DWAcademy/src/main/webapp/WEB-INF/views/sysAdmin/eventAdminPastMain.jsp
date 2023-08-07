@@ -8,6 +8,12 @@
 	font-size : 1.5rem;
 	font-weight : bold;
 }
+.eventListTable tr:nth-child(odd) {
+	background-color : #F6F6F6;
+}
+.eventListTable tr:hover {
+	background-color : #EBF5FB;
+}
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
 <div id="wrapper">
@@ -22,11 +28,11 @@
 			<span>전체  ${pageMaker.totalCount}건</span>
 			<span>
 				<input type="text" placeholder="검색어를 입력해주세요." name="keyword">
-				<button type="button" class="btn_medium" onclick="javascript:searchList_go(1);">검색</button>
+				<button type="button" class="bc_dw_black" onclick="javascript:searchList_go(1);">검색</button>
 			</span>
 		</div>
 		<div class="ms-5 me-5 mt-5">
-			<table class="table table-border align-middle" style="border-top : 1px solid black;">
+			<table class="table table-border align-middle eventListTable" style="border-top : 1px solid black;">
 				<c:forEach items="${eventList }" var="event">
 					<tr style="height: 10rem;">
 						<td style="width:10%;">
@@ -36,13 +42,13 @@
 						</td>
 						<td>
 							<a href="/sysAdmin/eventAdminDetail?type=read&event_no=${event.event_no }">
-								<p>${event.event_div }</p>
-								<p>${event.event_title }</p>
+								<p><b>[${event.event_div }]</b></p>
+								<p style="color: black;"><b>${event.event_title }</b></p>
 								<p><fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/></p>
 							</a>
 						</td>
 						<td style="width: 10%;">
-							<button type="button" class="btn_medium registWinner" style="background-color: ${empty event.winnerdate ? '#4aa8d8' : 'black' }; border: none;" data-no="${event.event_no }" data-type="${empty event.winnerdate ? 'create' : 'read' }">당첨자 발표  ${empty event.winnerdate ? '작성' : '조회' }</button>
+							<button type="button" class="${empty event.winnerdate ? 'bc_dw_blue' : 'bc_dw_black' } registWinner" style="font-size: small;" data-no="${event.event_no }" data-type="${empty event.winnerdate ? 'create' : 'read' }">당첨자 발표  ${empty event.winnerdate ? '작성' : '조회' }</button>
 						</td>
 					</tr>
 				</c:forEach>

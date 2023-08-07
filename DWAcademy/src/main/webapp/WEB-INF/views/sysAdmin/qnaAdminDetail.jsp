@@ -62,13 +62,13 @@
 			<div class="card-footer">
 				<c:choose>
 						<c:when test="${empty ans }">
-							<button class="btn_medium" id="registAnsBtn">답변등록</button>
+							<button class="bc_dw_blue" id="registAnsBtn">답변등록</button>
 						</c:when>
 						<c:otherwise>
-							<button class="btn_medium" id="modifyAnsToogleBtn">답변수정</button>
+							<button class="bc_dw_blue" id="modifyAnsToogleBtn">답변수정</button>
 						</c:otherwise>
 				</c:choose>
-				<button class="btn_medium" id="cancelBtn">뒤로가기</button>
+				<button class="bc_dw_black" id="cancelBtn">뒤로가기</button>
 			</div>
 		</div>
 	</div>

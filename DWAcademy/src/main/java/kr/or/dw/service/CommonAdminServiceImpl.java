@@ -81,4 +81,11 @@ public class CommonAdminServiceImpl implements CommonAdminService {
 	public int selectUnreadedNoteCnt(String admin_cd) throws SQLException {
 		return commonAdminDAO.selectUnreadedNoteCnt(admin_cd);
 	}
+
+	@Override
+	public List<Map<String, Object>> selectStatisticsMovie() throws SQLException {
+		List<Map<String, Object>> resultList = null;
+		resultList = commonAdminDAO.selectStatisticsMovie();
+		return resultList;
+	}
 }
