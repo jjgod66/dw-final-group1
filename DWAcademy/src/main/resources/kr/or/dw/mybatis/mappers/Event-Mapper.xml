@@ -13,7 +13,22 @@
 						ORDER BY regdate DESC
 						) e
 						)
-		WHERE rnum <![CDATA[<=]]> 4
+		WHERE rnum <![CDATA[<=]]> 2
+	</select>
+	
+	<select id="selectEvent2" resultType="event">
+	SELECT *
+	FROM (
+			SELECT rownum rnum, e.*
+			FROM (
+					SELECT *
+					FROM event
+					WHERE enddate <![CDATA[>=]]> sysdate
+					AND ROWNUM <![CDATA[<=]]> 4
+					ORDER BY regdate DESC
+					) e
+					)
+	WHERE rnum <![CDATA[>=]]> 3
 	</select>
 
 	<select id="selectMoiveEvent4" resultType="event">

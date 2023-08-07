@@ -3,8 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
-<link rel="stylesheet" href="../../resources/css/boxoffice.css">
-<%@ include file="/WEB-INF/views/common/boxoffice.jsp" %>
+<%-- <link rel="stylesheet" href="../../resources/css/boxoffice.css">
+<%@ include file="/WEB-INF/views/common/boxoffice.jsp" %> --%>
+<!-- 메인슬라이 -->
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css'>
+<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/slider.css">
+<!-- 페럴 --> 
 <style>
 .event-list {
     margin-top: 15px;
@@ -18,7 +22,7 @@
     position: relative;
     float: left;
     width: 22%;
-    margin: 0 0 0 40px;
+    margin: 0 -53px 0 71px;
     padding: 0;
 }
 .event-list ul li a {
@@ -26,15 +30,12 @@
     display: block;
     border: 1px solid #e4e4e4;
     border-radius: 10px;
-    min-height: 364px;
 }
 .event-list ul li a .img {
     width: 100%;
     height: 100%;
     font-size: 0;
     line-height: 0;
-    border-bottom: 1px solid #e4e4e4;
-    background-color: #eee;
 }
 .event-list ul li a .img img {
     width: 100%!important;
@@ -60,21 +61,117 @@
     line-height: 1.1;
     color: #666;
 }
+
+
+
+#mainMovieSlider123{
+	    background: repeating-linear-gradient(45deg, #282828, #123c64 500px);
+}
+.s > div span {
+    color: #e5e9f0;
+}
+.s > div h1 {
+    background-image: linear-gradient(45deg, #ffffff, #5cbeff);
+}
+.s1 > div h1 {
+	text-align:center;
+  text-transform: capitalize;
+  letter-spacing: 0.8px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.4375rem, 2.25rem + 0.75vw, 2rem);
+  background-color: #005baa;
+  background-image: linear-gradient(45deg, #005baa, #000000);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+
+
+
+
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.parallax-box {
+  text-align:center;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transform: translate(-50%, 0);
+   transition: transform 1s cubic-bezier(0.2, 0.2, 0.2, 0.5), opacity 2s ease-in-out;
+  opacity: 0; /* 초기에는 보이지 않도록 설정 */
+}
+ .parallax-box-left {
+  text-align:center;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transform: translate(50%, 0);
+   transition: transform 1s cubic-bezier(0.2, 0.2, 0.2, 0.5), opacity 2s ease-in-out;
+  opacity: 0; /* 초기에는 보이지 않도록 설정 */
+} 
+ .parallax-box-left1 {
+  text-align:center;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transform: translate(50%, 0);
+   transition: transform 1s cubic-bezier(0.2, 0.2, 0.2, 0.5), opacity 2s ease-in-out;
+  opacity: 0; /* 초기에는 보이지 않도록 설정 */
+} 
+.content-box {
+	  position: relative;
+  overflow: hidden;
+    top: 77%;
+    left: 56%;
+    position: absolute;
+  padding: 20px;
+  width: 35%;
+}
+
+.mainBtn{
+	border: 2px solid #c2c2c2;
+    margin-top: 2.188rem;
+    padding: 0.625rem 1.875rem;
+    display: inline-block;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 500;
+    background: #fff;
+    border-radius: 3.125rem;
+    transition: 0.3s ease-in-out;
+    color: black;
+}
+.mainBtn:hover {
+  border: 0.125rem solid #005baa;
+  color: #005baa;
+}
 </style>
 
 	<!-- partial:index.partial.html -->
-	<div style="background: repeating-linear-gradient(45deg, #4ba8d8, #e5e9f0 300px);">
+	<div id="mainMovieSlider123">
 	<div class="s">
 		  <div style="width: 40%">
 		    <span class="movieGrade"><!-- 이곳에 등급이 나타납니다  --></span>
-		    <h1 class="movie-title"> <!-- 이곳에 영화제목이 나타납니다. --> </h1>
-		    <hr>
-		    <p>상세보기 앵커태그에 무비시디를 c:밖에서 스크립트를 이용해 넣는 방법</p>
-		    <span class="txt_append">
-                <span class="info_txt">상영시간 : <span class="txt_grade movieLength1"></span>분</span>
-                <span class="info_txt">예매율<span class="txt_num movieRe1"></span>%</span>
-            </span>
-		    <a href="/movie/viewer.do?movie_cd=${movie.movie_cd}" class="movieCd">상세보기</a>
+		    <h1 class="movie-title" style="text-align: center;"> <!-- 이곳에 영화제목이 나타납니다. --> </h1>
+		    <hr style="width: 21.1rem; background: #ffffff;">
+		    <p class="movieInfo"></p>
+		    <p>
+                <span class="">개봉일  : <span class="txt_grade movieOpendate"></span>일</span><br>
+                <span class="">상영시간 : <span class="txt_grade movieLength1"></span>분</span><br>
+                <span class="">예매율  : <span class="txt_num movieRe1"></span>%</span>
+		    </p>
+		    <a href="" class="movieCd">예매하기</a>
+		    <a href="" class="movieDetail">상세보기</a>
 		  </div>
 	  <div class="swiper">
 	    <div class="swiper-wrapper">
@@ -85,9 +182,10 @@
 		        <input type="hidden" class="movieLength" value="${movie.movie_length }">
 		        <input type="hidden" class="movieRe" value="${movie.reserve == 0 ? 0 : movie.reserve / (movie.all_reserver == 0 ? 1 : movie.all_reserver) * 100}">
 		        <input type="hidden" class="movieCd" value="${movie.movie_cd }">
-		        <div class="bookBtn">
+		        <input type="hidden" class="movieOpendate" value="${movie.opendate }">
+		        <%-- <div class="bookBtn">
 		          <a href="/reservation/cinema.do?movie_cd=${movie.movie_cd}" target="_blank">예매하기</a>
-		        </div>
+		        </div> --%>
 		      </div>
 	      	</c:forEach>
 	    </div>
@@ -100,70 +198,165 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js'></script>
 <script  src="<%=request.getContextPath() %>/resources/js/slider.js"></script>
 <script>
-  // 문서가 로드되면 실행할 함수
-  document.addEventListener("DOMContentLoaded", function() {
-	  
-		     var slideElements = document.getElementsByClassName("swiper-slide");
-		    for (var i = 0; i < slideElements.length; i++) {
-		      var slideElement = slideElements[i];
-		      if (slideElement.classList.contains("swiper-slide-active")) {
-		        var movieNameElement = slideElement.querySelector(".movieName");
-		        var movieGradeElement = slideElement.querySelector(".movieGrade");
-		        var movieLengthElement = slideElement.querySelector(".movieLength");
-		        var movieCdElement = slideElement.querySelector(".movieCd");
-		        var movieReElement = slideElement.querySelector(".movieRe");
-		        if (movieNameElement) {
-		            var movieNameValue = movieNameElement.value;
-		            var movieGradeValue = movieGradeElement.value;
-		            var movieLengthValue = movieLengthElement.value;
-		            var movieCdValue = movieCdElement.value;
-		            var movieReValue = movieReElement.value;
-		        console.log("re"+movieReValue);
-		        }
-		        var h1Element = document.querySelector(".movie-title");
-		        var spanElement = document.querySelector(".movieGrade");
-		        var spanElement2 = document.querySelector(".movieLength1");
-		        var spanElement3 = document.querySelector(".movieRe1");
-		        var spanElement4 = document.querySelector(".movieCd");
-		        h1Element.textContent = movieNameValue;
-		        spanElement.textContent = movieGradeValue;
-		        spanElement2.textContent = movieLengthValue;
-		        spanElement3.textContent = movieRehValue;
-		        break;
-		      }
-		    }  
+  // 문서가 로드되면 실행할 함수 , 한번실행
+ $(document).ready(function() {
+    var slideElements = $(".swiper-slide");
+    slideElements.each(function(index, element) {
+      if ($(element).hasClass("swiper-slide-active")) {
+        var movieNameValue = $(element).find(".movieName").val();
+        var movieGradeValue = $(element).find(".movieGrade").val();
+        var movieLengthValue = $(element).find(".movieLength").val();
+        var movieCdValue = $(element).find(".movieCd").val();
+        var movieReValue = $(element).find(".movieRe").val();
+        var datePattern = /^(\d{4}-\d{2}-\d{2})/; //date패턴
+        var movieOpenValue = $(element).find(".movieOpendate").val().match(datePattern)[1];
+        $(".movie-title").text(movieNameValue);
+        $(".movieGrade").text(movieGradeValue);
+        $(".movieLength1").text(movieLengthValue);
+        $(".movieRe1").text(movieReValue);
+        $(".movieCd").attr("href", "/reservation/cinema.do?movie_cd=" + movieCdValue);
+        $(".movieDetail").attr("href", "/movie/viewer.do?movie_cd=" + movieCdValue);
+        $(".movieOpendate").text(movieOpenValue);
+        return false; 
+      }
+    });
   });
 	//드래그를 하면 해당 포스터의 정보를 리로드 합니다.
   swiper.on('transitionStart', function () {
-	  console.log('test');
-		    var slideElements = document.getElementsByClassName("swiper-slide");
-		    for (var i = 0; i < slideElements.length; i++) {
-		      var slideElement = slideElements[i];
-		      if (slideElement.classList.contains("swiper-slide-active")) {
-		        var movieNameElement = slideElement.querySelector(".movieName");
-		        var movieGradeElement = slideElement.querySelector(".movieGrade");
-		        var movieLengthElement = slideElement.querySelector(".movieLength");
-		        if (movieNameElement) {
-		            var movieNameValue = movieNameElement.value;
-		            var movieGradeValue = movieGradeElement.value;
-		            var movieLengthValue = movieLengthElement.value;
-		        }
-		        var h1Element = document.querySelector(".movie-title");
-		        var spanElement = document.querySelector(".movieGrade");
-		        var spanElement2 = document.querySelector(".movieLength1");
-		        h1Element.textContent = movieNameValue;
-		        spanElement.textContent = movieGradeValue;
-		        spanElement2.textContent = movieLengthValue;
-		        break;
+		    var slideElements = $(".swiper-slide");
+		    slideElements.each(function(index, element) {
+		      if ($(element).hasClass("swiper-slide-active")) {
+		        var movieNameValue = $(element).find(".movieName").val();
+		        var movieGradeValue = $(element).find(".movieGrade").val();
+		        var movieLengthValue = $(element).find(".movieLength").val();
+		        var movieCdValue = $(element).find(".movieCd").val();
+		        var movieReValue = $(element).find(".movieRe").val();
+		        $(".movie-title").text(movieNameValue);
+		        $(".movieGrade").text(movieGradeValue);
+		        $(".movieLength1").text(movieLengthValue);
+		        $(".movieRe1").text(movieReValue);
+		        $(".movieCd").attr("href", "/reservation/cinema.do?movie_cd=" + movieCdValue);
+		        $(".movieDetail").attr("href", "/movie/viewer.do?movie_cd=" + movieCdValue);
+		        return false; 
 		      }
-		    } 
+		    });
 	  });
-	console.log('${movieList[0]}')
+	
+  
 </script>
 
+   <!-- 페럴  -->
+<div style="margin-top: 60px;">
+	<div class="parallax-container">
+	  <div class="parallax-box-left">
+		<div class="event-list">
+				<ul>
+					<c:forEach items="${eventList }" var="event">
+						<li>
+							<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${event.event_no}" data-netfunnel="N" class="eventBtn">
+								<p class="img"> 
+									<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" onerror="noImg(this);">
+								</p>
+							</a>
+						</li>
+					</c:forEach>
+				</ul>
+			</div>
+	   </div>
+	     <div class="content-box">
+	     	<div class="s1">
+	     		<div>
+			    <h1 class="" style="text-align: center;">새로운 이벤트를 확인해 보세요!  </h1>
+			    </div>
+			</div>
+		 </div>
+	</div>
+	
+	<div class="parallax-container" style="padding-top: 30px;">
+	  <div class="parallax-box-left1">
+		<div class="event-list">
+				<ul>
+					<c:forEach items="${eventList2 }" var="event">
+						<li>
+							<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${event.event_no}" data-netfunnel="N" class="eventBtn">
+								<p class="img"> 
+									<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" onerror="noImg(this);">
+								</p>
+							</a>
+						</li>
+					</c:forEach>
+				</ul>
+			</div>
+	   </div>
+	  <p style="position: absolute;
+	  			text-align:center;
+	  			bottom: 111px;
+                width: 24%;
+                left: 62%;
+                font-size: 17px;">
+      새로운 친구들을 만나고 즐거운 경험을 나눌 수 있는 이벤트에 여러분을 초대합니다. 다양한 활동과 놀이, 그리고 맛있는 음식과 음료를 통해 이번 행사에서 특별한 순간을 만들어보세요. 여러분의 참여로 더욱 빛나는 날을 만들어요!<br>
+            <a href="<%=request.getContextPath() %>/event/main.do" class="mainBtn">이벤트 전체보기</a>
+      </p>
+	</div>
+</div>
 
+<script>
+const parallaxBoxes = document.querySelectorAll('.parallax-box');
+const parallaxBoxesLeft = document.querySelectorAll('.parallax-box-left');
+const parallaxBoxesLeft1 = document.querySelectorAll('.parallax-box-left1');
+const scrollThreshold = window.innerHeight / 2; // 화면 절반 높이만큼 스크롤 시 나타나게 설정
+const scrollThreshold1 = window.innerHeight / 1.2; 
 
+window.addEventListener('scroll', () => {
+  parallaxBoxes.forEach((box) => {
+    const boxTop = box.getBoundingClientRect().top;
+    if (boxTop < scrollThreshold) {
+      box.style.transform = 'translate(0)';
+      box.style.opacity = 1;
+    } else {
+      box.style.transform = 'translate(-50%, 0)';
+      box.style.opacity = 0;
+    }
+  });
+  
+  parallaxBoxesLeft.forEach((box) => {
+	    const boxTop = box.getBoundingClientRect().top;
+	    if (boxTop < scrollThreshold) {
+	      box.style.transform = 'translate(0)';
+	      box.style.opacity = 1;
+	    } else {
+	      box.style.transform = 'translate(50%, 0)';
+	      box.style.opacity = 0;
+	    }
+	  }); 
+  
+   parallaxBoxesLeft1.forEach((box) => {
+	    const boxTop = box.getBoundingClientRect().top;
+	    if (boxTop < scrollThreshold1) {
+	      box.style.transform = 'translate(0)';
+	      box.style.opacity = 1;
+	    } else {
+	      box.style.transform = 'translate(50%, 0)';
+	      box.style.opacity = 0;
+	    }
+	  }); 
+});
 
+$(document).ready(function() {
+    var eventListItems = $(".event-list li");
+    var idCounter = 0;
+    var idPrefix = ["aa", "bb", "cc", "dd"];
+
+    eventListItems.each(function(index, element) {
+      var currentIdPrefix = idPrefix[idCounter];
+      var itemId = currentIdPrefix;
+
+      $(element).attr("id", itemId);
+
+      idCounter = (idCounter + 1) % idPrefix.length; 
+    });
+  });
+</script>
 
 
 <p style="text-align: center;">수정전</p> 
@@ -175,80 +368,11 @@
 <p style="text-align: center;">5. 각 아이콘 </p> 
 <p style="text-align: center;">ㅇ 푸터ㅇ</p> 
 <p style="text-align: center;">수정전</p> 
- <div class="boxoffice">
-    <div class="container">
-        <div class="movieChartBeScreen_btn_wrap">
-            <div class="tabBtn_wrap">
-                <h3><a class="active" id="btnMovie">박스오피스</a></h3>
-<!--                 <h3><a href="#none" id="btnReserMovie">상영예정작</a></h3> -->
-            </div>
-            <a href="<%=request.getContextPath() %>/movie/allMovie.do" class="btn btn-allView">전체보기</a>
-        </div>
-        <ol>
-            <div class="schedule-slider">
-                <div class="swiper-container">
-                    <div class="swiper-wrapper" id="swiper-wrapper">
-                    	<c:forEach items="${movieList }" var="movie">
-	                     <li class="swiper-slide">
-	                            <div class="item_poster">
-	                                <div class="thumb_item">
-	                                    <div class="poster_movie" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movie.movie_mainpic_path}&item_cd=${movie.movie_cd }&type=moviePoster') no-repeat center /cover">
-
-	                                        <span class="rank_num">${movie.movie_grade}</span>
-	                                        <span class="txt_tag">${movie.movie_grade}</span>
-
-	                                        <div class="movieChart_btn_wrap">
-	                                            <a href="/movie/viewer.do?movie_cd=${movie.movie_cd}" class="btn_movieChart_detail">상세보기</a>
-	                                            <a href="/reservation/cinema.do?movie_cd=${movie.movie_cd}" class="btn_movieChart_ticketing">예매하기</a>
-	                                        </div>
-	                                    </div>
-	                                </div>
-	                                <div class="thumb_cont">
-	                                    <strong class="tit_item">
-	                                        <c:if test="${movie.movie_grade eq '전체 관람가'}"><img src="../../resources/img/moviegrade/ALL.png" style="width: 8%; height: 8%;"></c:if>
-	                                        <c:if test="${movie.movie_grade eq '12세 관람가'}"><img src="../../resources/img/moviegrade/12.png" style="width: 8%; height: 8%;"></c:if>
-	                                        <c:if test="${movie.movie_grade eq '15세 관람가'}"><img src="../../resources/img/moviegrade/15.png" style="width: 8%; height: 8%;"></c:if>
-	                                        <c:if test="${movie.movie_grade eq '청소년 관람불가'}"><img src="../../resources/img/moviegrade/18.png" style="width: 8%; height: 8%;"></c:if><a href="<%=request.getContextPath()%>/movie/viewer.do?movie_cd=${movie.movie_cd}" class="link_txt" data-tiara-layer="moviename"> ${movie.movie_name}</a>
-	                                    </strong>
-	                                    <span class="txt_append">
-	                                        <span class="info_txt">상영시간<span class="txt_grade">${movie.movie_length}</span>분</span>
-	                                        <span class="info_txt">예매율<span class="txt_num">${movie.reserve == 0 ? 0 : movie.reserve / movie.all_reserver * 100}</span>%</span>
-	                                    </span>
-	                                    <span class="txt_info">
-	                                        개봉일<span class="txt_num"><fmt:formatDate value="${movie.opendate}" pattern="yyyy-MM-dd"/></span>
-	                                    </span>
-	                                </div>
-	                            </div>
-	                        </li>
-                    	</c:forEach>
-                    </div>
-                </div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
-        </ol>
-    </div>
-</div> 
+ 
 <script>
-// Swiper 인스턴스 생성
-var swiper = new Swiper('.swiper-container', {
-  // 설정 옵션
-  slidesPerView: 5
-});
-// 이전 버튼 클릭 이벤트 처리
-var prevButton = document.querySelector('.swiper-button-prev');
-prevButton.addEventListener('click', function() {
-  swiper.slidePrev();
-});
-
-// 다음 버튼 클릭 이벤트 처리
-var nextButton = document.querySelector('.swiper-button-next');
-nextButton.addEventListener('click', function() {
-  swiper.slideNext();
-});
     
 // 슬라이드 이동 시 버튼 활성화 여부 변경
-swiper.on('slideChange', function() {
+/* swiper.on('slideChange', function() {
   if (swiper.isBeginning) {
     prevButton.classList.add('swiper-button-disabled');
   } else {
@@ -260,7 +384,7 @@ swiper.on('slideChange', function() {
   } else {
     nextButton.classList.remove('swiper-button-disabled');
   }
-});
+}); */
 </script>
 <div class="event-wrapper">
     <div class="container">

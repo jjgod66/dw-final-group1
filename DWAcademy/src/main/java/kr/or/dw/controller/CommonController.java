@@ -134,12 +134,16 @@ public class CommonController {
 		List<EventVO> eventList = null;
 		eventList = eventService.getEvent4();
 		
+		List<EventVO> eventList2 = null;
+		eventList2 = eventService.getEvent2();
+		
 		List<NoticeVO> noticeList = null;
 		noticeList = supportService.getNotice2();
 		
 		mnv.addObject("loginNeed", login);
 		mnv.addObject("noticeList", noticeList);
 		mnv.addObject("eventList", eventList);
+		mnv.addObject("eventList2", eventList2);
 		mnv.addObject("movieList", movieList);
 		mnv.setViewName(url);
 		return mnv;

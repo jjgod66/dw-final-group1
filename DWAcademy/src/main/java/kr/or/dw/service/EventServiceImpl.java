@@ -161,4 +161,12 @@ public class EventServiceImpl implements EventService {
 		return eventList;
 	}
 
+	@Override
+	public List<EventVO> getEvent2() throws SQLException {
+		List<EventVO> eventList2 = null;
+		eventList2 = eventDAO.selectEvent2();
+		
+		return eventList2;
+	}
+
 }

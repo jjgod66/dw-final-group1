@@ -78,4 +78,6 @@ public interface EventService {
 	 */
 	List<EventVO> getEvent4() throws SQLException;
 
+	List<EventVO> getEvent2() throws SQLException;
+
 }

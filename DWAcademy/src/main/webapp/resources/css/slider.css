@@ -28,10 +28,11 @@
   text-transform: uppercase;
   letter-spacing: 1.5px;
   font-size: 1rem;
-  color: #717171;
+  color: #f6f6f6;
 }
 
 .s > div h1 {
+	text-align:center;
   text-transform: capitalize;
   letter-spacing: 0.8px;
   font-family: "Roboto", sans-serif;
@@ -51,7 +52,7 @@
   display: block;
   background: #005baa;
   height: 0.25rem;
-  width: 6.25rem;
+  width: 21.1rem;
   border: none;
   margin: 1.125rem 0 1.875rem 0;
 }
@@ -64,11 +65,11 @@
   display: inline-block;
   text-decoration: none;
   text-transform: uppercase;
-  color: #717171;
   font-weight: 500;
   background: #fff;
   border-radius: 3.125rem;
   transition: 0.3s ease-in-out;
+  color : black;
 }
 
 .s > div > a {
