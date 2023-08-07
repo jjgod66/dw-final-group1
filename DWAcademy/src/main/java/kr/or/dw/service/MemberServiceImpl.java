@@ -192,4 +192,21 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.selectAllMemberInfo(id);
 	}
 
+	@Override
+	public void memLikeGenre(List<String> genreNames, String mem_cd) throws SQLException {
+		
+		Map<String, Object> data = new HashMap<>();
+		
+		data.put("list", genreNames);
+		data.put("mem_cd", mem_cd);
+		
+		memberDAO.deleteMemLikeGenre(mem_cd);
+		memberDAO.updateMemLikeGenre(data);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMemLikeGenre(String mem_cd) throws SQLException {
+		return memberDAO.selectMemLikeGenre(mem_cd);
+	}
+
 }

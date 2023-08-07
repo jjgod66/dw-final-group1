@@ -198,4 +198,20 @@
 		VALUES (#{mem_cd}, #{thrNames})
 		</foreach>
 	</update>
+	
+	<delete id="deleteMemLikeGenre">
+		delete mem_like_genre WHERE mem_cd = #{mem_cd}
+	</delete>
+	
+	<update id="updateMemLikeGenre">
+		<foreach collection="list" item="genreNames" separator=" " open="INSERT ALL" close="SELECT * FROM dual">
+			INTO mem_like_genre(mem_cd, genre_cd)
+			VALUES (#{mem_cd}, #{genreNames})
+		</foreach>
+	</update>
+	
+	<select id="selectMemLikeGenre" resultType="Map">
+		SELECT *
+		  FROM mem_like_genre
+	</select>
 </mapper>
