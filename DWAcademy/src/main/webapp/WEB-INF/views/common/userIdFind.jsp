@@ -1,11 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ include file="../include/header.jsp" %>
 <style>
+.button {
+    display: inline-block;
+    margin: 0;
+    padding: 0 15px;
+    text-align: center;
+    line-height: 34px;
+    color: #4aa8d8;
+    font-weight: 400;
+    border-radius: 4px;
+    font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
+    text-decoration: none;
+    border: 1px solid #4aa8d8;
+    vertical-align: middle;
+    background-color: #fff;
+    cursor: pointer;
+}
 .member-wrap {
 	width: 1000px;
 	min-height: 100%;
@@ -39,19 +54,6 @@
 	display: block;
 	margin: 0;
 	padding: 0 0 70px 0
-}
-
-.member-wrap .ci a {
-	display: block;
-	width: 500px;
-	height: 47px;
-	margin: 0 auto;
-	padding: 0;
-	font-size: 0;
-	line-height: 0;
-	background:
-		url(<%=request.getContextPath()%>/resources/img/logo.png)	
-		center no-repeat
 }
 
 .member-wrap .col-wrap {
@@ -677,13 +679,34 @@ ol, ul {
     margin-left: 10px;
     margin-right: 10px;
 }
+.input-text {
+    display: inline-block;
+    width: 100%;
+    height: 32px;
+    padding: 0 10px;
+    line-height: 30px;
+    color: #444;
+    border: 1px solid #d8d9db;
+    vertical-align: middle;
+    font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
+}
+.w230px {
+    width: 230px!important;
+}
 
+.button.disabled {
+    color: #777!important;
+    background-color: #e0e0e0!important;
+    border-color: #e0e0e0!important;
+}
 </style>
 
 </head>
 <body>
+<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
+<%@ include file="find_id_modal.jsp" %>
 <div class="member-wrap">
-		<h1 class="ci"><a href="/main" title="메인 페이지로 이동">MEGABOX : Life Theater</a></h1>
+<!-- 		<h1 class="ci"><a href="/main" title="메인 페이지로 이동">MEGABOX : Life Theater</a></h1> -->
 		<!-- col-wrap -->
 		<div class="col-wrap">
 			<!-- col -->
@@ -698,7 +721,7 @@ ol, ul {
 <!-- 					</ul> -->
 <!-- 				</div> -->
 
-				<h2>아이디 찾기</h2>
+				<h2 style="margin: 10px;">아이디 찾기</h2>
 				<div class="table-wrap">
 					<table class="board-form">
 						<colgroup>
@@ -715,15 +738,15 @@ ol, ul {
 							<tr>
 								<th scope="row"><label for="ibxSchIdBirthDe">생년월일<!--생년월일--></label></th>
 								<td>
-									<input id="ibxSchIdBirthDe" maxlength="8" type="text" placeholder="생년월일 앞8자리" class="input-text w230px"><!--생년월일 8자리-->
-									<div id="schIdBirthDe-error-text" class="alert"></div>
+									<input id="ibxSchIdBirthDe" maxlength="8" type="text" placeholder="생년월일 앞8자리" class="input-text w230px" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"><!--생년월일 8자리-->
+<!-- 									<div id="schIdBirthDe-error-text" class=""></div> -->
 								</td>
 							</tr>
 							<tr>
 								<th scope="row"><label for="ibxSchIdMblpTelno">휴대폰 번호<!--휴대폰 번호--></label></th>
 								<td>
-									<input id="ibxSchIdMblpTelno" maxlength="11" type="text" placeholder="'-' 없이 입력" class="input-text w230px"><!--'-' 없이 입력-->
-									<div id="schIdMblpNo-error-text" class="alert"></div>
+									<input id="ibxSchIdMblpTelno" maxlength="11" type="text" placeholder="'-' 없이 입력" class="input-text w230px" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"><!--'-' 없이 입력-->
+<!-- 									<div id="schIdMblpNo-error-text" class=""></div> -->
 								</td>
 							</tr>
 						</tbody>
@@ -732,10 +755,10 @@ ol, ul {
 
 
 				<div class="btn-member-bottom v1">
-					<button id="btnSchId" type="button" class="button purple large btn btn-regist">아이디 찾기<!--아이디 찾기--></button>
+					<button id="btnSchId" type="button" class="button purple large btn-regist">아이디 찾기<!--아이디 찾기--></button>
 
 				</div>
-				<h2>비밀번호 찾기</h2>
+				<h2  style="margin: 10px;">비밀번호 찾기</h2>
 				<div class="table-wrap">
 					<table class="board-form">
 						<colgroup>
@@ -758,8 +781,8 @@ ol, ul {
 							<tr>
 								<th scope="row"><label for="ibxSchPwdMblpTelno">휴대폰 번호<!--휴대폰 번호--></label></th>
 								<td>
-									<input type="text" id="ibxSchPwdMblpTelno" maxlength="11" placeholder="'-' 없이 입력" class="input-text w230px"><!--'-' 없이 입력-->
-									<button id="btnSchPwdMbCertNoSend" type="button" class="button gray w75px ml08 disabled" disabled="disabled">인증요청<!--인증요청--></button>
+									<input type="text" id="ibxSchPwdMblpTelno" maxlength="11" placeholder="'-' 없이 입력" class="input-text w230px" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"><!--'-' 없이 입력-->
+									<button id="btnSchPwdMbCertNoSend" type="button" class="button gray w75px ml08 disabled" readonly="readonly">인증요청<!--인증요청--></button>
 								</td>
 							</tr>
 							<tr id="schPwdMblpCertRow">
@@ -767,16 +790,16 @@ ol, ul {
 								<td>
 									<div class="chk-num">
 										<div class="line">
-											<input maxlength="4" type="text" id="ibxSchPwdMblpCharCertNo" class="input-text w180px" title="인증번호 입력" disabled="disabled"><!--인증번호 입력-->
+											<input maxlength="6" type="text" id="ibxSchPwdMblpCharCertNo" class="input-text w180px" title="인증번호 입력" readonly="readonly"><!--인증번호 입력-->
 
 											<div class="time-limit" id="schPwdtimer">
-												3:00
+												03:00
 											</div>
 										</div>
 									</div>
 
-									<button id="btnSchPwdMblpCharCert" type="button" class="button gray-line w75px ml08 disabled" disabled="disabled">인증확인<!--인증확인--></button>
-									<div id="schPwdMblpNo-error-text" class="alert"></div>
+									<button id="btnSchPwdMblpCharCert" type="button" class="button gray-line w75px ml08 disabled" readonly="readonly">인증확인<!--인증확인--></button>
+									<div id="schPwdMblpNo-error-text" class=""></div>
 								</td>
 							</tr>
 
@@ -784,12 +807,203 @@ ol, ul {
 					</table>
 				</div>
 				<div class="btn-member-bottom v1">
-					<button id="btnSchPwd" type="button" class="button purple large btn btn-regist">비밀번호 찾기<!--비밀번호 찾기--></button>
+					<button id="btnSchPwd" type="button" class="button purple large btn-regist">비밀번호 찾기<!--비밀번호 찾기--></button>
 				</div>
 			</div>
 			<!--// col -->
 		</div>
 		<!--// col-wrap -->
 	</div>
-</body>
-</html>
+	
+<form id="pwdChangeForm" method="post" action="<%=request.getContextPath()%>/common/pwdChangePage.do">
+<input type="hidden" name="mem_id">
+</form>
+<script>
+$(function(){
+	var timer = null;
+	var isRunning = false;
+	let SMSYN = 'N';
+	
+	$("#btnSchPwdMbCertNoSend").on("click", function() {
+		  var display = $("#schPwdtimer");
+		  // 유효시간 설정
+		  var leftSec = 180;
+
+		  // 버튼 클릭 시 시간 연장
+		  if (isRunning){
+		    clearInterval(timer);
+		    display.html("");
+		    startTimer(leftSec, display);
+		  }else{
+		  	startTimer(leftSec, display);
+		  }
+		});
+	function startTimer(count, display) {  
+		  var minutes, seconds;
+		  timer = setInterval(function () {
+		    minutes = parseInt(count / 60, 10);
+		    seconds = parseInt(count % 60, 10);
+
+		    minutes = minutes < 10 ? "0" + minutes : minutes;
+		    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+		    display.html(minutes + ":" + seconds);
+
+		    // 타이머 끝
+		    if (--count < 0) {
+		      clearInterval(timer);
+		      $("#btnSchPwdMblpCharCert").attr("disabled", true);
+		      $("#btnSchPwdMblpCharCert").addClass("disabled");
+		      isRunning = false;
+		    }
+		  }, 1000);
+		  isRunning = true;
+		}	    
+		
+	
+	
+	$('#ibxSchPwdMblpCharCertNo').on('input', function(){
+		SMSYN = 'N';
+		if($('#ibxSchPwdMblpCharCertNo').val() != ""){
+			$('#btnSchPwdMblpCharCert').prop('readonly', '');
+			$('#btnSchPwdMblpCharCert').removeClass('disabled');
+		}else{
+			$('#btnSchPwdMblpCharCert').prop('readonly', 'readonly');
+			$('#btnSchPwdMblpCharCert').addClass('disabled');
+		}
+	})
+	
+	$('#ibxSchPwdMblpTelno').on('input', function(){
+		if($('#ibxSchPwdMblpTelno').val() != ""){
+			$('#btnSchPwdMbCertNoSend').prop('readonly', '');
+			$('#btnSchPwdMbCertNoSend').removeClass('disabled');
+		}else{
+			$('#btnSchPwdMbCertNoSend').prop('readonly', 'readonly');
+			$('#btnSchPwdMbCertNoSend').addClass('disabled');
+		}
+	})
+	
+	let smsCheckNum = 0;
+	$('#btnSchPwdMbCertNoSend').on('click', function(){
+		SMSYN = 'N';
+		let phone = $('#ibxSchPwdMblpTelno').val();
+		if(phone != ""){
+			$.ajax({
+				url : '<%=request.getContextPath()%>/SMS/send.do',
+				method : 'post',
+				data : {"mem_phone" : phone},
+				success : function(res){
+					alert('메세지를 보냈습니다.')
+					$('#ibxSchPwdMblpCharCertNo').prop('readonly', '');
+					$('#ibxSchPwdMblpCharCertNo').removeClass('disabled');
+					$('#btnSchPwdMbCertNoSend').text('재전송');
+					smsCheckNum = res;
+				},
+				error : function(err){
+					alert(err.status);
+				}
+			});
+		}else{
+			alert('번호를 입력해주세요.');
+		}
+	});
+	
+	$('#btnSchPwdMblpCharCert').on('click', function(){
+		let memInputSMSNum = $('#ibxSchPwdMblpCharCertNo').val();
+		if(memInputSMSNum == smsCheckNum){
+			SMSYN = 'Y';
+			clearInterval(timer);
+			alert("인증되었습니다.");
+			$('#schPwdtimer').css('display', 'none');
+			$('#btnSchPwdMbCertNoSend').text('인증완료');
+			$('#btnSchPwdMbCertNoSend').prop('readonly', 'readonly');
+			$('#btnSchPwdMbCertNoSend').addClass('disabled');
+			$('#btnSchPwdMblpCharCert').css('display', 'none');
+			$('#ibxSchPwdMblpTelno').prop('readonly', 'readonly');
+		}else{
+			alert("인증번호가 일치하지 않습니다.")
+			$("#noneEq").css('display', 'inline');
+			SMSYN = 'N';
+		}
+	});
+	
+	$('#btnSchId').on('click', function(){
+		
+		let mem_name = $('#ibxSchIdMbNm').val();
+		let mem_phone = $('#ibxSchIdMblpTelno').val();
+		let mem_bir = $('#ibxSchIdBirthDe').val();
+		if(mem_name == '' || mem_name == null){
+			alert('이름을 입력해주세요.');
+			return;
+		}
+		if(mem_bir == '' || mem_bir == null){
+			alert('생년월일을 입력해주세요.');
+			return;
+		}
+		if(mem_phone == '' || mem_phone == null){
+			alert('휴대폰 번호를 입력해주세요.');
+			return;
+		}
+		
+		$.ajax({
+			url : '<%=request.getContextPath()%>/common/userIdFindAjax.do',
+			method : 'post',
+			data : {"mem_name" : mem_name, "mem_phone" : mem_phone, "mem_bir" : mem_bir},
+			success : function(res){
+				console.log(res);
+				if(res == 'N'){
+					alert('입력한 정보와 일치하는 아이디가 없습니다.');
+					return;
+				}else{
+					let mem_id = res.slice(0, -2) + '**';
+					$('#findIdResult').text(mem_id);
+					$('#find-id-modal').modal('show');
+				}
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
+	
+	$('#btnSchPwd').on('click', function(){
+		
+		let mem_name = $('#ibxSchPwdMbNm').val();
+		let mem_id = $('#ibxSchPwdLoginId').val();
+		let mem_phone = $('#ibxSchPwdMblpTelno').val();
+		if(mem_id == '' || mem_id == null){
+			alert('아이디를 입력해주세요.');
+			return;
+		}
+		if(mem_name == '' || mem_name == null){
+			alert('이름을 입력해주세요.');
+			return;
+		}
+		if(SMSYN == 'N'){
+			alert('휴대폰 인증을 완료해주세요.');
+			return;
+		}
+		
+		
+		$.ajax({
+			url : '<%=request.getContextPath()%>/common/userPwdFindAjax.do',
+			method : 'post',
+			data : {"mem_name" : mem_name, "mem_phone" : mem_phone, "mem_id" : mem_id},
+			success : function(res){
+				console.log(res);
+				if(res == 'N'){
+					alert('입력한 정보와 일치하는 계정이 없습니다.');
+					return;
+				}else{
+					$('#pwdChangeForm input[name="mem_id"]').val(mem_id);
+					$('#pwdChangeForm').submit();
+				}
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
+})
+</script>
+<%@ include file="../include/footer.jsp" %>

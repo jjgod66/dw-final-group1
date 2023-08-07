@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.RowBounds;
 
 import kr.or.dw.command.SearchCriteria;
+import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.Non_MemberVO;
 
 @Mapper
@@ -39,5 +40,28 @@ public interface NonMemDAO {
 	 * @throws SQLException
 	 */
 	int selectNonMemResCount(Map<String, Object> param) throws SQLException;
+
+	/**
+	 * 회원 아이디 찾기
+	 * @param member
+	 * @return
+	 * @throws SQLException
+	 */
+	String selectFindMemId(Map<String, String> member) throws SQLException;
+
+	/**
+	 * 비밀번호 찾기에서 입력한 정보에 해당하는 멤버코드 가져오는 메서드
+	 * @param member
+	 * @return
+	 * @throws SQLException
+	 */
+	String selectFindMemCd(MemberVO member) throws SQLException;
+
+	/**
+	 * 비밀번호 변경
+	 * @param member
+	 * @throws SQLException
+	 */
+	void updateMemPwd(MemberVO member) throws SQLException;
 
 }

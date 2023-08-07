@@ -144,6 +144,8 @@ public class StoreServiceImpl implements StoreService{
 			
 			storeDAO.useMemPoint(pointVO);
 		}
+		String merchant_uid = memBuy.getMerchant_uid();
+		storeDAO.insert0payDetail(merchant_uid);
 		
 		return memBuy.getMerchant_uid();
 	}
@@ -173,7 +175,8 @@ public class StoreServiceImpl implements StoreService{
 			
 			storeDAO.useMemPoint(pointVO);
 		}
-		
+		String merchant_uid = memBuy.getMerchant_uid();
+		storeDAO.insert0payDetail(merchant_uid);
 		return mapData;
 	}
 

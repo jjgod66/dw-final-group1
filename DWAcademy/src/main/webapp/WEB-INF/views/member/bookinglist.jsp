@@ -732,6 +732,9 @@ function payInfoBuy(res){
 		cardShow += '(' + res.CARD_QUOTA + '개월)';
 		
 	}
+	if(res.IMP_UID.substring(0, 1) == 'Z'){
+		cardShow = '포인트';
+	}
 	$('#infoModalCard').text(cardShow);
 	
 	if(res.REFUNDDATE != null){
@@ -762,6 +765,9 @@ function payInfoRes(res){
 	}else{
 		cardShow += '(' + res.CARD_QUOTA + '개월)';
 		
+	}
+	if(res.IMP_UID.substring(0, 1) == 'Z'){
+		cardShow = '포인트';
 	}
 	$('#infoModalCard').text(cardShow);
 	

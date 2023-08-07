@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.NonMemDAO;
+import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.Non_MemberVO;
 
 public class NonMemServiceImpl implements NonMemService{
@@ -63,5 +64,28 @@ public class NonMemServiceImpl implements NonMemService{
 		
 		
 		return dataMap;
+	}
+
+	@Override
+	public String getFindMemId(Map<String, String> member) throws SQLException {
+		String mem_id = null;
+		mem_id = nonMemDAO.selectFindMemId(member);
+		
+		return mem_id;
+	}
+
+	@Override
+	public String getFindMemCd(MemberVO member) throws SQLException {
+		String mem_cd = null;
+		
+		mem_cd = nonMemDAO.selectFindMemCd(member);
+		
+		return mem_cd;
+	}
+
+	@Override
+	public void updateMemPwd(MemberVO member) throws SQLException {
+		nonMemDAO.updateMemPwd(member);
+		
 	}
 }

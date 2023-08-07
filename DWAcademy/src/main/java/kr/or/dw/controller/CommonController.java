@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -39,8 +40,10 @@ import kr.or.dw.command.IndexMovieCommand;
 import kr.or.dw.service.EventService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.service.NaverLoginBO;
+import kr.or.dw.service.NonMemService;
 import kr.or.dw.service.SupportService;
 import kr.or.dw.vo.EventVO;
+import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.NoticeVO;
 
 @Controller
@@ -68,6 +71,9 @@ public class CommonController {
 	
 	@Autowired
 	private SupportService supportService;
+	
+	@Autowired
+	private NonMemService nonMemService;
 	
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -240,6 +246,77 @@ public class CommonController {
 	public String userIdFind() {
 		String url = "/common/userIdFind";
 		return url;
+	}
+	
+	@RequestMapping("/common/userIdFindAjax")
+	public ResponseEntity<String> idFindAjax(String mem_name, String mem_phone, String mem_bir){
+		ResponseEntity<String> entity = null;
+		
+		Map<String, String> member = new HashMap<String, String>();
+		member.put("mem_name", mem_name);
+		member.put("mem_phone", mem_phone);
+		member.put("mem_bir", mem_bir);
+		
+		String mem_id = null;
+		try {
+			mem_id = nonMemService.getFindMemId(member);
+			if(mem_id == null || "".equals(mem_id)) {
+				mem_id = "N";
+			}
+			entity = new ResponseEntity<String>(mem_id, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return entity;
+		
+	}
+	@RequestMapping("/common/userPwdFindAjax")
+	public ResponseEntity<String> userPwdFindAjax(MemberVO member){
+		ResponseEntity<String> entity = null;
+		
+		String mem_cd = null;
+		try {
+			mem_cd = nonMemService.getFindMemCd(member);
+			if(mem_cd == null || "".equals(mem_cd)) {
+				mem_cd = "N";
+			}
+			entity = new ResponseEntity<String>(mem_cd, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
+	
+	@RequestMapping("/common/pwdChangePage")
+	public ModelAndView pwdChangePage(String mem_id, ModelAndView mnv) {
+		String url = "/common/pwdChange";
+		
+		mnv.addObject("mem_id", mem_id);
+		mnv.setViewName(url);
+		return mnv;
+		
+	}
+	
+	@RequestMapping("/changePwd")
+	public void changePwd(String change_mem_id, String change_mem_pwd, HttpServletResponse res, HttpServletRequest req) throws Exception {
+		
+		MemberVO member = new MemberVO();
+		member.setMem_id(change_mem_id);
+		member.setMem_pwd(change_mem_pwd);
+		
+		nonMemService.updateMemPwd(member);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('비밀번호가 변경되었습니다.');");
+		out.println("location.href='" + req.getContextPath() + "main.do';");
+		out.println("</script>");
+		out.flush();
+		out.close();
 	}
 	
 }

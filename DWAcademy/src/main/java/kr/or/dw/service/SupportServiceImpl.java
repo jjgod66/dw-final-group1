@@ -193,8 +193,13 @@ public class SupportServiceImpl implements SupportService{
 		int limit = cri.getPerPageNum();
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		MyQuestionList = supportDAO.getAllMyQuestionList(cri, rowBounds, mem_cd);
-		int MyQuestionListCnt = supportDAO.MyQuestionListCnt(cri, mem_cd);
+		Map<String, Object> param = new HashMap<>();
+		param.put("mem_cd", mem_cd);
+		param.put("keyword", cri.getKeyword());
+		param.put("searchType", cri.getSearchType());
+		
+		MyQuestionList = supportDAO.getAllMyQuestionList(param, rowBounds);
+		int MyQuestionListCnt = supportDAO.MyQuestionListCnt(param);
 		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);

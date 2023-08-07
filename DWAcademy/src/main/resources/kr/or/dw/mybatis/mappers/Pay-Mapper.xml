@@ -25,7 +25,7 @@
 	</update>
 	
 	<select id="selectPayDetail" resultType="Map">
-		SELECT paid_amount, refunddate, nvl(card_name, '카카오페이') card_name, card_quota
+		SELECT paid_amount, refunddate, nvl(card_name, '카카오페이') card_name, card_quota, imp_uid
 		FROM pay_detail
 		WHERE merchant_uid = #{merchant_uid}
 	</select>
@@ -62,7 +62,7 @@
 	</update>
 	
 	<delete id="returnPoint">
-		DELETE point WHERE merchant_uid = #{merchant_uid} AND point_cd like '%U%'
+		DELETE point WHERE relate_cd = #{merchant_uid} AND point_cd like '%U%'
 	</delete>
 	
 	<select id="selectPTImpUidByMerUid" resultType="str">

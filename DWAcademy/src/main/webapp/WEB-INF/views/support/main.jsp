@@ -452,7 +452,7 @@ button {
 
 	  <div class="main-content">
 	    <div class="image-container">
-	      <a href="<%=request.getContextPath()%>/member/membership.do">
+	      <a href="<%=request.getContextPath()%>/support/membership.do">
 	        <img src="/resources/img/member.png" alt="이미지 1">
 	        <h2>멤버쉽</h2>
 	        <p>DW시네마의 자세한 멤버쉽 약관을 확인할 수 있습니다. </p>

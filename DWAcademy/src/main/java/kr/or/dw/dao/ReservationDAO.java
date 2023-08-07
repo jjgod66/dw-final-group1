@@ -166,4 +166,11 @@ public interface ReservationDAO {
 	 */
 	List<Map<String, Object>> selectNonMemResSMSInfo(String merchant_uid) throws SQLException;
 
+	/**
+	 * 결제 금액 0일때 paydetail insert 메서드
+	 * @param merchant_uid
+	 * @throws SQLException
+	 */
+	void insert0payDetail(String merchant_uid) throws SQLException;
+
 }

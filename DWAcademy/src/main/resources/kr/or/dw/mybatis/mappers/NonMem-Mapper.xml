@@ -75,4 +75,24 @@
 			 GROUP BY r.merchant_uid
 			 )
 	</select>
+	
+	<select id="selectFindMemId" resultType="str">
+		SELECT mem_id
+		FROM member
+		WHERE mem_name = #{mem_name}
+		AND mem_phone= #{mem_phone}
+		AND TO_CHAR(mem_bir,'yyyyMMdd') = #{mem_bir}
+	</select>
+	
+	<select id="selectFindMemCd" resultType="str">
+		SELECT mem_cd
+		FROM member
+		WHERE mem_name = #{mem_name}
+		AND mem_phone= #{mem_phone}
+		AND mem_id = #{mem_id}
+	</select>
+	
+	<update id="updateMemPwd">
+		UPDATE member SET mem_pwd = #{mem_pwd} WHERE mem_id = #{mem_id}
+	</update>
 </mapper>

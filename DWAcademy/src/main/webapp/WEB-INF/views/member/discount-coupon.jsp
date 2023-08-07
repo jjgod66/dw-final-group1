@@ -146,7 +146,7 @@ h2.tit {
 		</colgroup>
 		<thead>
 		<tr>
-			<th style="text-align: center;" scope="col">구분</th>
+			<th style="text-align: center;" scope="col">번호</th>
 			<th style="text-align: center;" scope="col">쿠폰명</th>
 			<th style="text-align: center;" scope="col">유효기간</th>
 			<th style="text-align: center;" scope="col">사용상태</th>

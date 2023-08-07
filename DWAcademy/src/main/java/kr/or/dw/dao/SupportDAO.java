@@ -154,22 +154,22 @@ public interface SupportDAO {
 	 */
 	NoticeVO selectNoticeDetail(int notice_no) throws SQLException;
 
-	/**
-	 * 나의 문의 내역 조회
-	 * @param cri
-	 * @param rowBounds
-	 * @param mem_cd
-	 * @return
-	 */
-	List<Map<String, Object>> getAllMyQuestionList(SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd) throws SQLException;
-
-	/**
-	 * 나의 문의 내역 총 개수
-	 * @param cri
-	 * @param mem_cd
-	 * @return
-	 */
-	int MyQuestionListCnt(SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
+//	/**
+//	 * 나의 문의 내역 조회
+//	 * @param cri
+//	 * @param rowBounds
+//	 * @param mem_cd
+//	 * @return
+//	 */
+//	List<Map<String, Object>> getAllMyQuestionList(SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd) throws SQLException;
+//
+//	/**
+//	 * 나의 문의 내역 총 개수
+//	 * @param cri
+//	 * @param mem_cd
+//	 * @return
+//	 */
+//	int MyQuestionListCnt(SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
 
 	/**
 	 * 나의 문의 내역 검색
@@ -187,5 +187,22 @@ public interface SupportDAO {
 	 * @return
 	 */
 	int searchMyQuestionListCnt(@Param("cri")SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	/**
+	 * 나의문의내역 조회
+	 * @param param
+	 * @param rowBounds
+	 * @return
+	 * @throws SQLException
+	 */
+	List<Map<String, Object>> getAllMyQuestionList(Map<String, Object> param, RowBounds rowBounds) throws SQLException;
+
+	/**
+	 * 나의 문의내역 갯수
+	 * @param param
+	 * @return
+	 * @throws SQLException
+	 */
+	int MyQuestionListCnt(Map<String, Object> param)throws SQLException ;
 
 }
