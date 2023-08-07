@@ -86,5 +86,14 @@ public interface MemberDAO {
 	// 회원의 모든 정보 가져오는 메서드
 	Map<String, Object> selectAllMemberInfo(String id) throws SQLException;
 
+	// 회원 선호 장르 등록
+	void updateMemLikeGenre(Map<String, Object> data) throws SQLException;
+
+	// 회원 선호 장르 삭제
+	void deleteMemLikeGenre(String mem_cd) throws SQLException;
+
+	// 회원 선호장르 가져오기
+	List<Map<String, Object>> selectMemLikeGenre(String mem_cd) throws SQLException;
+
 
 }

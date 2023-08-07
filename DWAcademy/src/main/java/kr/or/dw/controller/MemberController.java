@@ -199,25 +199,29 @@ public class MemberController {
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		String id = (String) member.get("ID");
 		String mem_cd = (String) member.get("CD");
+		
 		List<TheaterVO> theaterList = theaterService.getAllTheaterList();
 		List<GenreVO> genreList = memberService.selectAllGenreList();
+		
 		Map<String, Object> mem_alert = memberService.selectAllMemberInfo(id);
 		List<Map<String, Object>> mem_like_theater = theaterService.selectMemLikeTheater(mem_cd);
+		List<Map<String, Object>> mem_like_genre = memberService.selectMemLikeGenre(mem_cd);
 		
 		System.out.println(mem_alert);
 		System.out.println(mem_like_theater);
 		
-		String[] mlt = new String[mem_like_theater.size()];
-		for(int i = 0; i < mem_like_theater.size(); i++) {
-			mlt[i] += mem_like_theater.get(i);
-		}
-		System.out.println(Arrays.toString(mlt));
+//		String[] mlt = {};
+//		for(int i = 0; i < mem_like_theater.size(); i++) {
+//			mlt[i] += mem_like_theater.get(i);
+//		}
+//		System.out.println(Arrays.toString(mlt));
 		
 		mnv.addObject("genreList", genreList);
 		mnv.addObject("theaterList", theaterList);
 		mnv.addObject("member", member);
 		mnv.addObject("mem_alert", mem_alert);
 		mnv.addObject("mem_like_theater", mem_like_theater);
+		mnv.addObject("mem_like_genre", mem_like_genre);
 		mnv.setViewName(url);
 		
 		return mnv;
@@ -228,6 +232,7 @@ public class MemberController {
 		ResponseEntity<List<TheaterVO>> entity = null;
 		
 		List<TheaterVO> theaterNameList = theaterService.searchTheaterName(selectLocData);
+		System.out.println(theaterNameList);
 		try {
 			entity = new ResponseEntity<List<TheaterVO>>(theaterNameList, HttpStatus.OK);
 		} catch (Exception e) {
@@ -241,17 +246,25 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/addition")
-	public ModelAndView additionUpdate(ModelAndView mnv, String selectThrName ,String gb_sms_alert, String gb_email_alert, HttpSession session) throws SQLException{
+	public ModelAndView additionUpdate(ModelAndView mnv, String genreType, String selectThrName ,String gb_sms_alert, String gb_email_alert, HttpSession session) throws SQLException{
 		String url = "redirect:/member/additionalinfo.do";
 		String[] thrArr = selectThrName.split(",");
+		String[] genreArr = genreType.split(",");
 		List<String> thrNames = new ArrayList<>();
+		List<String> genreNames = new ArrayList<>();
 		
 		for(int i = 0; i < thrArr.length; i++) {
 			if(!"".equals(thrArr[i])) {
 				thrNames.add(thrArr[i]);
 			}
 		}
+		for(int i = 0; i < genreArr.length; i++) {
+			if(!"".equals(genreArr[i])) {
+				genreNames.add(genreArr[i]);
+			}
+		}
 		System.out.println(thrNames);
+		System.out.println(genreNames);
 		
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		member.put("gb_email_alert", gb_email_alert);
@@ -259,9 +272,10 @@ public class MemberController {
 		String id = (String) member.get("ID");
 		String mem_cd = (String) member.get("CD");
 		System.out.println(member);
+		
 		memberService.additionUpdate(member);
 		memberService.memLikeThr(thrNames, mem_cd);
-		
+		memberService.memLikeGenre(genreNames, mem_cd);
 		
 		mnv.setViewName(url);
 		return mnv;
