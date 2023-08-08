@@ -129,9 +129,6 @@
 		<div class="top2">
 			<div class="mbimg"><img src="https://img.megabox.co.kr/static/pc/images/2023/01/member_WELCOME_2.png" alt="WELCOME"></div>
 			<div class="mb_name">안녕하세요!<p>${loginUser.ID }<span>님</span></p></div>
-			<div class="link">
-				<a href="" title="개인정보수정 페이지로 이동">개인정보수정</a>
-			</div>
 			<div class="totalPoint"><fmt:formatNumber value="${point }" pattern="#,###"></fmt:formatNumber> P</div>
 		</div>
 	</div>

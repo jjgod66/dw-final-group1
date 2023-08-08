@@ -209,4 +209,14 @@ public class MemberServiceImpl implements MemberService{
 		return memberDAO.selectMemLikeGenre(mem_cd);
 	}
 
+	@Override
+	public void resginMember(String mem_cd) throws SQLException {
+		memberDAO.resginMember(mem_cd);
+	}
+
+	@Override
+	public void memberInfoUpdate(MemberVO memVO) throws SQLException {
+		memberDAO.memberInfoUpdate(memVO);
+	}
+
 }

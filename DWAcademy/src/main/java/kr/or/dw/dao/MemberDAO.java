@@ -102,6 +102,12 @@ public interface MemberDAO {
 	// 회원 선호장르 가져오기
 	List<Map<String, Object>> selectMemLikeGenre(String mem_cd) throws SQLException;
 
+	// 회원 탈퇴
+	void resginMember(String mem_cd) throws SQLException;
+
+	// 회원 개인정보 업데이트
+	void memberInfoUpdate(MemberVO memVO)throws SQLException;
+
 
 
 }

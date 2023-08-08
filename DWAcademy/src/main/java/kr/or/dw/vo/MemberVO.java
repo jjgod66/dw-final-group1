@@ -2,7 +2,9 @@ package kr.or.dw.vo;
 
 import java.util.Date;
 
+
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -24,6 +26,7 @@ public class MemberVO {
 	private String gb_sms_alert;
 	private String gb_email_alert;
 	private String mem_pic_path;
+	private MultipartFile member_pic_path;
 	private String mem_grade;
 	private Date regdate;
 	private String gb_del;
@@ -33,4 +36,5 @@ public class MemberVO {
 	private String gb_sleep;
 	private Date lastlogindate;
 	private String gb;
+	private String oldPicture;
 }
