@@ -59,4 +59,49 @@ public class PointServiceImpl implements PointService{
 		
 		return dataMap;
 	}
+
+	@Override
+	public String giftCardReg(String mem_product_cd, String mem_cd) throws SQLException {
+		String result = "N";
+		
+		int cnt = 0;
+		cnt = pointDAO.selectMemProCdExist(mem_product_cd);
+		String gb_use = null;
+		
+		if(cnt > 0) {
+			gb_use = pointDAO.selectMemProCdGbUse(mem_product_cd);
+		}
+		
+		Map<String, Object> param = new HashMap<>();
+		param.put("mem_cd", mem_cd);
+		param.put("mem_product_cd", mem_product_cd);
+		int point = 0;
+		if("N".equals(gb_use)) {
+			point = pointDAO.selectPointByMemProCd(mem_product_cd);
+			param.put("point",point);
+			pointDAO.insertMemGiftCard(param);
+			pointDAO.updateMemProGbUse(mem_product_cd);
+			result = "S";
+		}else if("Y".equals(gb_use)){
+			result = "Y";
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int getMemTotalPoint(String mem_cd) throws SQLException {
+		int point = 0;
+		List<PointVO> pointList = null;
+		pointList = pointDAO.selectMemPoint(mem_cd);
+		
+		for(PointVO pointVo : pointList) {
+			if(pointVo.getPoint_cd().substring(0, 1).equals("A")) {
+				point += pointVo.getPoint();
+			}else {
+				point -= pointVo.getPoint();
+			}
+		}
+		return point;
+	}
 }

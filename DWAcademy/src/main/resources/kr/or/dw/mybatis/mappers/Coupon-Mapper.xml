@@ -23,6 +23,7 @@
 		  FROM mem_coupon mc, coupon c
 		 WHERE mem_cd = #{mem_cd}
 		   AND mc.coupon_cd = c.coupon_cd
+		   AND TO_CHAR(enddate, 'yyyyMMdd') >= TO_CHAR(sysdate, 'yyyyMMdd')
 	</select>
 
 </mapper>

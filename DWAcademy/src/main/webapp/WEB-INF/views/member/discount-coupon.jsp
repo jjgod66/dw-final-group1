@@ -122,60 +122,65 @@ h2.tit {
     margin: 0;
     padding: 20px;
 }
+.content {
+	padding: 20px 0;
+}
 </style>
-<h2 class="tit">보유 쿠폰 내역</h2>
-<div class="mypage-infomation mb30">
-	<ul class="dot-list">
-		<li>보유하신 쿠폰 내역입니다.</li>
-		<li>각 쿠폰 별 사용 방법이 다르니 사용 전 상세 쿠폰정보를 확인바랍니다.</li>
-	</ul>
-</div>
-<div class="board-list-util por">
-	<p class="result-count">
- 		총 <b class="font-gblue">${fn:length(coupon)}</b>매
-	</p>
-</div>
-<div class="table-wrap mt10">
-	<table class="board-list" summary="취소일시, 영화명, 극장, 상영일시, 취소금액 항목을 가진 취소내역 목록 표">
-		<caption>취소일시, 영화명, 극장, 상영일시, 취소금액 항목을 가진 취소내역 목록 표</caption>
-		<colgroup>
-			<col style="width:15%;">
-			<col>
-			<col style="width:30%;">
-			<col style="width:15%;">
-		</colgroup>
-		<thead>
-		<tr>
-			<th style="text-align: center;" scope="col">번호</th>
-			<th style="text-align: center;" scope="col">쿠폰명</th>
-			<th style="text-align: center;" scope="col">유효기간</th>
-			<th style="text-align: center;" scope="col">사용상태</th>
-		</tr>
-		</thead>
-	<c:forEach items="${coupon}" var="coupon">
-		<c:set var="i" value="${i+1 }" />
-		<tbody>
-			<c:if test="${empty coupon}">
-				<tr><td colspan="5" class="a-c">취소내역이 없습니다.</td></tr>
-			</c:if>
+<div class="content">
+	<h2 class="tit">보유 쿠폰 내역</h2>
+	<div class="mypage-infomation mb30">
+		<ul class="dot-list">
+			<li>보유하신 쿠폰 내역입니다.</li>
+			<li>각 쿠폰 별 사용 방법이 다르니 사용 전 상세 쿠폰정보를 확인바랍니다.</li>
+		</ul>
+	</div>
+	<div class="board-list-util por">
+		<p class="result-count">
+	 		총 <b class="font-gblue">${fn:length(coupon)}</b>매
+		</p>
+	</div>
+	<div class="table-wrap mt10">
+		<table class="board-list" summary="취소일시, 영화명, 극장, 상영일시, 취소금액 항목을 가진 취소내역 목록 표">
+			<caption>취소일시, 영화명, 극장, 상영일시, 취소금액 항목을 가진 취소내역 목록 표</caption>
+			<colgroup>
+				<col style="width:15%;">
+				<col>
+				<col style="width:30%;">
+				<col style="width:15%;">
+			</colgroup>
+			<thead>
 			<tr>
-				<td>${i }</td>
-				<td>${coupon.coupon_name}</td>
-				<td><fmt:formatDate value="${coupon.enddate}" type="both" />까지</td>
-				<td>${coupon.gb_use eq 'N' ? '사용완료' : '사용가능'}</td>
+				<th style="text-align: center;" scope="col">번호</th>
+				<th style="text-align: center;" scope="col">쿠폰명</th>
+				<th style="text-align: center;" scope="col">유효기간</th>
+				<th style="text-align: center;" scope="col">사용상태</th>
 			</tr>
-		</tbody>
-	</c:forEach>
-	</table>
-</div>
-<div class="cont">
-	<ul class="dot-list">
-		<li>등록하신 쿠폰은 영화 예매 시 결제수단 &gt; 포인트/할인쿠폰 &gt; 할인쿠폰에서 사용 가능합니다.</li>
-		<li>특정 영화/상품/극장 전용 쿠폰일 경우, 지정 영화 및 상품, 극장에서 명시된 사용기간 내에만 사용이 가능합니다.</li>
-		<li>매점 전용 쿠폰은 모바일앱을 통해 쿠폰을 매점에 제시 후 사용 가능합니다.</li>
-		<li>온라인 전용으로 발행된 쿠폰의 경우에는 현장 사용이 불가능합니다.</li>
-		<li>취소 시 현금 환불은 되지 않으며, 기존 쿠폰으로 유효기간 중에 재사용 하실 수 있습니다.</li>
-		<li>기타 할인쿠폰에 대한 문의사항이 있으실 경우, 000-000-0000 또는 홈페이지를 이용해 주시기 바랍니다.</li>
-	</ul>
+			</thead>
+		<c:forEach items="${coupon}" var="coupon">
+			<c:set var="i" value="${i+1 }" />
+			<tbody>
+				<c:if test="${empty coupon}">
+					<tr><td colspan="5" class="a-c">취소내역이 없습니다.</td></tr>
+				</c:if>
+				<tr>
+					<td>${i }</td>
+					<td>${coupon.coupon_name}</td>
+					<td><fmt:formatDate value="${coupon.enddate}" type="both" />까지</td>
+					<td>${coupon.gb_use eq 'N' ? '사용가능' : '사용완료'}</td>
+				</tr>
+			</tbody>
+		</c:forEach>
+		</table>
+	</div>
+	<div class="cont">
+		<ul class="dot-list">
+			<li>등록하신 쿠폰은 영화 예매 시 결제수단 &gt; 포인트/할인쿠폰 &gt; 할인쿠폰에서 사용 가능합니다.</li>
+			<li>특정 영화/상품/극장 전용 쿠폰일 경우, 지정 영화 및 상품, 극장에서 명시된 사용기간 내에만 사용이 가능합니다.</li>
+			<li>매점 전용 쿠폰은 모바일앱을 통해 쿠폰을 매점에 제시 후 사용 가능합니다.</li>
+			<li>온라인 전용으로 발행된 쿠폰의 경우에는 현장 사용이 불가능합니다.</li>
+			<li>취소 시 현금 환불은 되지 않으며, 기존 쿠폰으로 유효기간 중에 재사용 하실 수 있습니다.</li>
+			<li>기타 할인쿠폰에 대한 문의사항이 있으실 경우, 000-000-0000 또는 홈페이지를 이용해 주시기 바랍니다.</li>
+		</ul>
+	</div>
 </div>
 <%@ include file="../include/member_footer.jsp" %>
