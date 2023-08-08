@@ -73,35 +73,7 @@
     font-size: 18px;
     width: 100%
 }
-#giftCard-modal .btn--naver {
-    background-color: #27d34a !important;
-    background-image: url(https://vendor-cdn.imweb.me/images/naver_login2x.png);
-    background-size: 16px;
-    background-position: 15px 50%;
-    background-repeat: no-repeat;
-    border-color: #27d34a !important;
-    color: #fff !important;
-    font-size: 12px;
-    padding: 0;
-}
-#giftCard-modal .btn--kakao {
-    background-color: #ffeb00 !important;
-    background-image: url(https://vendor-cdn.imweb.me/images/kakao_icon.png);
-    background-size: 20px;
-    background-position: 12px 49%;
-    background-repeat: no-repeat;
-    border-color: #ffeb00 !important ;
-    color: #333 !important;
-    font-size: 12px;
-    padding: 0;
-}
-#giftCard-modal .btn--login {
-    background: #4aa8d8;
-    color: #fff;
-    font-size: 13px;
-    border-color: #4aa8d8;
-    margin-bottom: 3vh;
-}
+
 #giftCard-modal .btn-regist {
     background: #4aa8d8;
     color: #fff;
@@ -116,11 +88,16 @@
     background: #fff;
     color: #4aa8d8;
     font-size: 13px;
-    border-color: #4aa8d8;
+    border: solid 1px #4aa8d8;
     width: 50%;
     margin-bottom: 3vh;
     margin-left: 10px;
     margin-right: 10px;
+    margin-top: 10px;
+}
+#giftCard-modal .btn-cancel:hover {
+    background: #4aa8d8;
+    color: #fff;
 }
 #giftCard-modal .extra{
       padding-bottom: 4vh;
@@ -181,42 +158,133 @@ thead th,
 tbody th {
   background-color: #f8f8f8;
 }
+
+.layer-con {
+    overflow-y: auto;
+    background-color: #fff;
+    padding: 20px 20px 0 20px;
+}
+
+.pop-gray {
+    position: relative;
+    padding: 20px;
+    background-color: #f2f4f5;
+    text-align: center;
+}
+.input-text+.button {
+    height: 32px;
+    line-height: 29px;
+}
+.button.gray {
+    color: #fff;
+    line-height: 36px;
+    border: 0;
+    background: #666;
+}
+.ml05 {
+    margin-left: 5px!important;
+}
+
+.box-border.v1 {
+    padding: 15px;
+    border-color: #ebebeb;
+}
+.mt20 {
+    margin-top: 20px!important;
+}
+.box-border {
+    padding: 20px;
+    border: 1px solid #d8d9db;
+    background-color: #fff;
+    border-radius: 5px;
+}
+.mr20 {
+    margin-right: 20px!important;
+}
+label {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+}
+* {
+    box-sizing: border-box;
+}
+.w250px {
+    width: 250px!important;
+}
+.input-text {
+    display: inline-block;
+    width: 100%;
+    height: 32px;
+    padding: 0 10px;
+    line-height: 30px;
+    color: #444;
+    border: 1px solid #d8d9db;
+    vertical-align: middle;
+    font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
+}
+
+.box-border .tit, .box-border .tit-box {
+    margin: 0;
+    padding: 0 0 5px 0;
+    font-weight: 400;
+    color: #222;
+    font-size: 1.0667em;
+}
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+ol, ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+}
+.dash-list>li {
+    position: relative;
+    padding: 0 0 0 11px;
+    font-size: .9333em;
+}
 </style>
 <div class="modal fade" id="giftCard-modal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered" style="--bs-modal-width:700px;">
+        <div class="modal-content" style="height: 500px;">
             <!-- Modal body -->
             <div class="modal-body">
             	<h3 class="fs-3 text-center my-2"></h3>
-            	<h5>쿠폰 목록</h5>
-                <div class="layer-con" style="height: 388px;">
-                        <p class="reset mb10">보유하신 쿠폰번호를 입력해 주세요.</p>
+            	<h5>기프트카드 등록</h5>
+                <div class="layer-con">
+                        <p class="reset mb10">보유하신 기프트카드 상품코드를 입력해 주세요.</p>
 
                         <div class="pop-gray">
-                            <label for="couponnum01" class="mr20">할인쿠폰 번호</label>
-                            <input type="text" id="couponnum01" class="input-text w250px" placeholder="숫자만 입력해 주세요" title="할인쿠폰번호 입력" maxlength="16">
-                            <button class="button gray ml05">등록</button>
+                            <label for="couponnum01" class="mr20">기프트카드 코드</label>
+                            <input type="text" id="inputGiftCardCode" class="input-text w250px" placeholder="문자포함 17자리를 입력해주세요." title="기프트카드 코드 입력" maxlength="17">
+                            <button class="button gray ml05" id="gifyCardRegBtn">등록</button>
                         </div>
 
                         <div class="box-border v1 mt20">
                             <p class="tit-box">이용안내</p>
 
                             <ul class="dash-list">
-                                <li>메가박스에서 발행된 매표, 매점, 포인트 쿠폰을 등록 하실 수 있습니다.</li>
-                                <li>등록된 쿠폰은 삭제가 불가능합니다.</li><br>
-                                <li class="noline" style="padding-left: 0px;">[포인트 적립 쿠폰]</li>
-                    			<li>쿠폰 등록 시 바로 사용 가능한 포인트로 적립됩니다.</li>
-                    			<li>적립된 포인트는 MY &gt; 포인트 내역에서 확인 가능합니다.</li>
+                                <li>코드는 구매내역 > 구매정보 > 상품코드에서 확인 가능합니다.</li><br>
+                                <li>등록된 기프트 카드는 삭제가 불가능합니다.</li><br>
+                    			<li>등록 시 바로 사용 가능한 포인트로 적립됩니다.</li>
+                    			<li>적립된 포인트는 마이페이지 &gt; 포인트 이용내역에서 확인 가능합니다.</li>
                             </ul>
                         </div>
                     </div>
                 <div class="p-t-10" style="display: flex;">
-<!-- 	                <div style="width: 50%; margin: 0 auto;" id="regDiv"> -->
-<!-- 	                    <button class="btn btn-regist" type="button" data-target="#" style="float: right;" id="couRegistBtn">적용</button> -->
-<!-- 	                </div> -->
-	               
 	                <div style="width: 50%; margin: 0 auto;">
-	                    <button class="btn btn-cancel" type="button" data-target="#" style="float: left;" id="giftCardCancelBtn">닫기</button>
+	                    <button class="btn btn-cancel" type="button" id="giftCardCancelBtn">닫기</button>
 	                </div>
                 </div>
             </div>
@@ -226,7 +294,38 @@ tbody th {
 
 <script>
 $(function(){
+	$('#giftCardCancelBtn').on('click', function(){
+		$('#giftCard-modal').modal('hide');
+	})
+	$('#giftCard-modal').on('hidden.bs.modal', function (e) {
+		$('#inputGiftCardCode').val('');
+		location.reload();
+	})
 	
+	$('#gifyCardRegBtn').on('click', function(){
+		let mem_product_cd = $('#inputGiftCardCode').val();
+		
+		$.ajax({
+			url : '<%=request.getContextPath()%>/member/giftCardReg.do',
+			method : 'post',
+			data : {'mem_product_cd' : mem_product_cd},
+			success : function(res){
+				console.log(res);
+				if(res == 'S'){
+					alert("등록되었습니다.");
+					$('#inputGiftCardCode').val('');
+				}else if(res == 'Y'){
+					alert('이미 사용된 코드입니다.');
+				}else{
+					alert("존재하지 않는 코드입니다.");
+				}
+				
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
 	
 })
 

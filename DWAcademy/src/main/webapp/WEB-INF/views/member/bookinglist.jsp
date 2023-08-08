@@ -269,8 +269,8 @@ h3.tit {
 		</colgroup>
 		<tbody>
 			<tr>
-				<th scope="row">구분 </th>
-				<td>
+				<th scope="row" style="border: none; background-color: transparent;">구분 </th>
+				<td style="border: none;">
 					<input type="radio" id="radBokd01" name="radBokd" value="B" checked="checked">
 					<label for="radBokd01">예매내역 </label>
 					
@@ -310,7 +310,7 @@ h3.tit {
 		</tbody>
 	</table>
 </div>
-	<div class="container" id="myMovie">
+	<div class="container" id="myMovie" style="margin-top: 10px;">
 <c:if test="${empty movieInfoList}">
 	<div id="bokdList"><div class="no-history-reservation mt20">예매 내역이 없습니다.</div></div>
 </c:if>
@@ -318,8 +318,8 @@ h3.tit {
 	<div>총 ${movieTotalCount}건</div>
 </c:if>
 	<c:forEach items="${movieInfoList}" var="movieInfo">
-	<div class="container">
-		<div class="card-body row" style="padding-rigth: 0; border: 1px solid #503396">
+	<div class="container" style="margin-top: 10px;">
+		<div class="card-body row" style="padding: 30px; border: 1px solid gray; border-radius: 10px;">
 			<div class="col-2" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
 			<div class="col-5">
 				<span><strong>예매번호 </strong>${movieInfo.MERCHANT_UID}</span>
@@ -390,8 +390,8 @@ h3.tit {
 		</colgroup>
 		<tbody>
 			<tr>
-				<th scope="row">구분 </th>
-				<td>
+				<th scope="row" style="border: none; background-color: transparent;">구분 </th>
+				<td style="border: none;">
 					<div class="dropdown bootstrap-select small bs3">
 						<select name="buyYM" class="selectpicker small" tabindex="-98">
 							<option value="202307" ${cri.monthKeyword eq '202307' ? 'selected' : '' }>2023년 7월</option>
@@ -420,10 +420,10 @@ h3.tit {
 <c:if test="${buyTotalCount eq 0}">
 	<div id="buyList"><div class="no-history-reservation mt20">구매 내역이 없습니다.</div></div>
 </c:if>
-	<div class="container">
+	<div class="container" style="margin-top: 10px;">
 	<c:if test="${!empty buyInfoList}">
 	<div>총 ${buyTotalCount}건</div>
-		<div class="card-body" style="padding-rigth: 0; border-top: 1px solid #503396">
+		<div class="card-body" style="margin-top: 10px;">
 			<table style="width : 100%;">
 				<tr>
 					<th style="width : 20%; text-align : center;">결제일시</th>

@@ -7,9 +7,9 @@
 }
 .my-magabox-info {
     overflow: hidden;
-    height: 240px;
+/*     height: 240px; */
     border-radius: 10px;
-    background-color: #f3f4f6;
+/*     background-color: #f3f4f6; */
 }
 .my-magabox-info .top2 {
     position: relative;
@@ -132,7 +132,7 @@
 			<div class="link">
 				<a href="" title="개인정보수정 페이지로 이동">개인정보수정</a>
 			</div>
-			<div class="totalPoint">0 P</div>
+			<div class="totalPoint"><fmt:formatNumber value="${point }" pattern="#,###"></fmt:formatNumber> P</div>
 		</div>
 	</div>
 	<div class="my-board-list">
@@ -145,7 +145,7 @@
 		<div class="my-reserve-history">
 			<ul>
 				<li class="no-result">
-					<div class="row" style="padding-rigth: 0; border: 1px solid #503396">
+					<div class="row" style="padding: 30px; border: 1px solid gray; border-radius: 10px;">
 					<c:if test="${empty movieInfoList}">
 						예매 내역이 없습니다.
 					</c:if>

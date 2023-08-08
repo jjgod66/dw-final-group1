@@ -123,7 +123,7 @@
 	</update>
 	
 	<insert id="useMemPoint" parameterType="point">
-		INSERT INTO point (point_cd, mem_cd, relate_cd, point, regdate) VALUES('U' || LPAD(point_seq.nextval,4,0), #{mem_cd}, #{merchant_uid}, #{point}, sysdate)
+		INSERT INTO point (point_cd, mem_cd, relate_cd, point, regdate) VALUES('U' || to_char(sysdate, 'yyyyMMdd') || LPAD(point_seq.nextval,4,0), #{mem_cd}, #{merchant_uid}, #{point}, sysdate)
 	</insert>
 	
 	<insert id="insertPayDetail">
@@ -173,7 +173,7 @@
 		SELECT *
 		FROM mem_coupon mc, coupon c
 		WHERE mc.coupon_cd = c.coupon_cd
-		AND enddate > sysdate
+		AND to_char(enddate, 'yyyyMMdd') >= to_char(sysdate, 'yyyyMMdd')
 		AND gb_use = 'N'
 		AND mem_cd = #{mem_cd}
 	</select>

@@ -38,7 +38,7 @@ h2.tit {
     position: absolute;
     top: 9px;
     left: 0;
-    background-color: #503396;
+    background-color: #4aa8d8;
     width: 3px;
     height: 3px;
 }
@@ -55,15 +55,19 @@ h2.tit {
     padding: 0 15px;
     text-align: center;
     line-height: 34px;
-    color: #503396;
+    color: #4aa8d8;
     font-weight: 400;
     border-radius: 4px;
     font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
     text-decoration: none;
-    border: 1px solid #503396;
+    border: 1px solid #4aa8d8;
     vertical-align: middle;
     background-color: #fff;
     cursor: pointer;
+}
+.button:hover{
+	background-color: #4aa8d8;
+	color: #fff
 }
 .mypage-infomation+.board-list-util {
     padding: 0;
@@ -176,78 +180,84 @@ h2.tit {
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+.content {
+	padding: 20px 0;
+}
 </style>
-<h2 class="tit">나의 문의내역</h2>
-<div class="mypage-infomation mt20">
-	<ul class="dot-list mb20">
-		<li id="tabDesc">고객센터를 통해 남기신 1:1 문의내역을 확인하실 수 있습니다.</li>
-		<!-- <li>문의하시기 전 <a href="/support/faq" class="a-link"><strong>자주묻는질문</strong></a>을 확인하시면 궁금증을 더욱 빠르게 해결하실 수 있습니다</li> -->
-	</ul>
-	<div class="btn-group right">
-		<a href="<%=request.getContextPath()%>/support/inquiry.do" class="button" id="inqBtn" title="1:1 문의하기">1:1 문의하기</a>
-	</div>
-</div>
-<br>
-<div class="board-list-util mb10">
-	<p class="result-count">
-		<!-- to 개발 : 검색을 안한 경우 -->
-		<strong>전체 (<b id="totalCnt">${MyQuestionListCnt}</b>건)</strong>
-	</p>
-	<div class="dropdown bootstrap-select bs3">
-		<select name="searchType" id="custInqStatCd" class="" tabindex="-98">
-			<option value="">선택</option>
-			<option value="theater" ${pageMaker.cri.searchType eq 'theater' ? 'selected' : '' }>극장</option>
-			<option value="type" ${pageMaker.cri.searchType eq 'type' ? 'selected' : '' }>유형</option>
-			<option value="title" ${pageMaker.cri.searchType eq 'title' ? 'selected' : '' }>제목</option>
-		</select>
-		<div class="board-search ml07">
-			<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." name="keyword" class="input-text" id="searchTxt" value="${pageMaker.cri.keyword}">
-			<button type="button" class="btn-search-input" id="searchBtn" onclick="searchList_go(1, '/member/myinquiry.do')">검색</button>
+<div class="content">
+	<h2 class="tit">나의 문의내역</h2>
+	<div class="mypage-infomation mt20">
+		<ul class="dot-list mb20">
+			<li id="tabDesc">고객센터를 통해 남기신 1:1 문의내역을 확인하실 수 있습니다.</li>
+			<!-- <li>문의하시기 전 <a href="/support/faq" class="a-link"><strong>자주묻는질문</strong></a>을 확인하시면 궁금증을 더욱 빠르게 해결하실 수 있습니다</li> -->
+		</ul>
+		<div class="btn-group right">
+			<a href="<%=request.getContextPath()%>/support/inquiry.do" class="button" id="inqBtn" title="1:1 문의하기">1:1 문의하기</a>
 		</div>
 	</div>
-</div>
-<br>
-<div class="table-wrap">
-	<table class="board-list a-c">
-		<caption>번호, 극장, 유형, 제목, 답변상태, 등록일 순서로 보여주는 1:1 문의 내역 표입니다</caption>
-		<colgroup>
-			<col style="width:50px">
-			<col style="width:140px;">
-			<col style="width:120px;">
-			<col>
-			<col style="width:160px;">
-			<col style="width:150px;">
-		</colgroup>
-		<thead>
-
-			<tr>
-				<th scope="col" style="text-align: center;">번호</th>
-				<th scope="col" style="text-align: center;">극장</th>
-				<th scope="col" style="text-align: center;">유형</th>
-				<th scope="col" style="text-align: center;">제목</th>
-				<th scope="col" style="text-align: center;">답변상태</th>
-				<th scope="col" style="text-align: center;">등록일</th>
-			</tr>
-		</thead>
-<c:forEach items="${MyQuestionList}" var="question">
-		<tbody>
-			<tr>
-		<c:if test="${empty MyQuestionList}">
-				<td colspan="6">목록이 없습니다.</td>
-		</c:if>
-				<td>${question.ROWNUM}</td>
-				<td>${question.THR_NAME}</td>
-				<td>${question.QUE_TYPE}</td>
-				<td id="queTitle" data-que_no="${question.QUE_NO }">${question.QUE_TITLE}</td>
-				<td>${question.ANS_CONTENT eq null or question.ANS_CONTENT eq "" ? "미답변" : "답변완료"}</td>
-				<td><fmt:formatDate value="${question.REGDATE}" pattern="yyyy-MM-dd"/></td>
-			</tr>
-		</tbody>
-</c:forEach>
-	</table>
-<br>
-<%@ include file="../common/pagination.jsp" %>
-<br>
+	<br>
+	<div class="board-list-util mb10">
+		<p class="result-count">
+			<!-- to 개발 : 검색을 안한 경우 -->
+			<strong>전체 (<b id="totalCnt">${MyQuestionListCnt}</b>건)</strong>
+		</p>
+		<div class="dropdown bootstrap-select bs3">
+			<select name="searchType" id="custInqStatCd" class="" tabindex="-98">
+				<option value="">선택</option>
+				<option value="theater" ${pageMaker.cri.searchType eq 'theater' ? 'selected' : '' }>극장</option>
+				<option value="type" ${pageMaker.cri.searchType eq 'type' ? 'selected' : '' }>유형</option>
+				<option value="title" ${pageMaker.cri.searchType eq 'title' ? 'selected' : '' }>제목</option>
+			</select>
+			<div class="board-search ml07">
+				<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." name="keyword" class="input-text" id="searchTxt" value="${pageMaker.cri.keyword}">
+				<button type="button" class="btn-search-input" id="searchBtn" onclick="searchList_go(1, '/member/myinquiry.do')">검색</button>
+			</div>
+		</div>
+	</div>
+	<br>
+	<div class="table-wrap">
+		<table class="board-list a-c">
+			<caption>번호, 극장, 유형, 제목, 답변상태, 등록일 순서로 보여주는 1:1 문의 내역 표입니다</caption>
+			<colgroup>
+				<col style="width:50px">
+				<col style="width:140px;">
+				<col style="width:120px;">
+				<col>
+				<col style="width:160px;">
+				<col style="width:150px;">
+			</colgroup>
+			<thead>
+	
+				<tr>
+					<th scope="col" style="text-align: center;">번호</th>
+					<th scope="col" style="text-align: center;">극장</th>
+					<th scope="col" style="text-align: center;">유형</th>
+					<th scope="col" style="text-align: center;">제목</th>
+					<th scope="col" style="text-align: center;">답변상태</th>
+					<th scope="col" style="text-align: center;">등록일</th>
+				</tr>
+			</thead>
+	<c:forEach items="${MyQuestionList}" var="question">
+			<tbody>
+				<tr>
+			<c:if test="${empty MyQuestionList}">
+					<td colspan="6">목록이 없습니다.</td>
+			</c:if>
+					<td>${question.ROWNUM}</td>
+					<td>${question.THR_NAME}</td>
+					<td>${question.QUE_TYPE}</td>
+					<td id="queTitle" data-que_no="${question.QUE_NO }">${question.QUE_TITLE}</td>
+					<td>${question.ANS_CONTENT eq null or question.ANS_CONTENT eq "" ? "미답변" : "답변완료"}</td>
+					<td><fmt:formatDate value="${question.REGDATE}" pattern="yyyy-MM-dd"/></td>
+				</tr>
+			</tbody>
+	</c:forEach>
+		</table>
+	<br>
+	<%@ include file="../common/pagination.jsp" %>
+	<br>
+	</div>
 </div>
 <script>
 let searchFormUrl = "/member/myinquiry.do";

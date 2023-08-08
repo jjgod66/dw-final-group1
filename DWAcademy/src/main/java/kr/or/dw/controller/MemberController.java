@@ -86,6 +86,10 @@ public class MemberController {
 		List<Map<String, Object>> movieInfoList = movieService.getMy2ResInfo(mem_cd);
 		List<Map<String, Object>> buyInfoList = memberService.select3BuyInfo(mem_cd);
 		
+		int point = 0;
+		point = pointService.getMemTotalPoint(mem_cd);
+		
+		mnv.addObject("point", point);
 		mnv.addObject("buyInfoList", buyInfoList);
 		mnv.addObject("movieInfoList", movieInfoList);
 		mnv.addObject("member", member);
@@ -447,4 +451,23 @@ public class MemberController {
 		return mnv;
 	}
 
+	
+	@RequestMapping("/member/giftCardReg")
+	public ResponseEntity<String> giftCardReg(String mem_product_cd, HttpSession session){
+		ResponseEntity<String> entity = null;
+		
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		
+		String result = "N";
+		try {
+			result = pointService.giftCardReg(mem_product_cd, mem_cd);
+			entity = new ResponseEntity<String>(result, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
 }

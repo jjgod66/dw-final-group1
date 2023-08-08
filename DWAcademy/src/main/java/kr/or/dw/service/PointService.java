@@ -21,4 +21,21 @@ public interface PointService {
 	 */
 	Map<String, Object> getMemPointList(String mem_cd, SearchCriteria cri) throws SQLException;
 
+	/**
+	 * 기프트카드 등록
+	 * @param mem_product_cd
+	 * @param mem_cd
+	 * @return
+	 * @throws SQLException
+	 */
+	String giftCardReg(String mem_product_cd, String mem_cd) throws SQLException;
+
+	/**
+	 * 회원 총 포인트
+	 * @param mem_cd
+	 * @return
+	 * @throws SQLException
+	 */
+	int getMemTotalPoint(String mem_cd) throws SQLException;
+
 }

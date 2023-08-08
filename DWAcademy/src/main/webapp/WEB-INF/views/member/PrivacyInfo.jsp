@@ -101,23 +101,65 @@
     padding: 0 30px;
     line-height: 44px;
 }
-.board-list {
-	width: 100%;
-    line-height: 1.3;
+
+p.reset {
+    padding: 0;
+    margin: 0;
 }
-.board-list>thead>tr>th {
-    height: 45px;
-    padding: 3px 10px;
-    color: #222;
-    background-color: #f2f4f5;
+.lh32 {
+    line-height: 32px;
 }
-.board-list>tbody>tr>td,
-.board-list>tbody>tr>th {
-    height: 45px;
-    padding: 10px;
-    border: 1px solid #eaeaea;
-    border-width: 0 0 1px 0;
-    text-align: center;
+
+.float-l {
+    float: left!important;
+}
+
+.profile-photo .profile-img img {
+    width: 100%;
+    height: 100%;
+}
+.profile-photo .profile-img {
+    overflow: hidden;
+    float: left;
+    width: 68px;
+    height: 68px;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+    border-radius: 68px;
+    background-size: 100%;
+    background-position: center;
+}
+
+.profile-photo {
+    overflow: hidden;
+}
+.profile-photo .button.member-out {
+    float: right;
+    margin-left: 0;
+}
+
+.input-text {
+    display: inline-block;
+    width: 100%;
+    height: 32px;
+    padding: 0 10px;
+    line-height: 30px;
+    color: #444;
+    border: 1px solid #d8d9db;
+    vertical-align: middle;
+    font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
+}
+.tit-util .right {
+    float: right;
+}
+
+.board-form tbody td, .board-form tbody th {
+    position: relative;
+    height: 50px;
+    padding: 7px 15px;
+    text-align: left;
 }
 </style>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
@@ -126,83 +168,151 @@
 <script>
 	Kakao.init('4d3eb758ca79e46a21afa1951cdbec30'); //발급받은 키 중 javascript키를 사용해준다.
 </script>
-<div class="PrivacyInfo-wrapper">
-	<form enctype="multipart/form-data" role="form" name="registForm">
-		<h2 class="tit">개인정보 수정</h2>
-		<div class="box-radius">
-			<table class="board-list" style="width: 100%;">
-				<colgroup>
-				<col style="width:200px;">
-				<col>
-				</colgroup>
-				<thead>
-					<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
-						<th scope="row">프로필 사진</th>	
-						<td style="padding: 10px 0 10px 0">
-						<c:if test="${memberInfo.MEM_PIC_PATH != null}">
-							<img alt="Generic placeholder image" id="preview" src="<%=request.getContextPath()%>/common/getPicture.do?name=${memberInfo.MEM_PIC_PATH}&item_cd=${memberInfo.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
-						</c:if>
-						<c:if test="${memberInfo.MEM_PIC_PATH == null}">
-							<img alt="Generic placeholder image" id="preview" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
-						</c:if>
-							<button type="button" class="btn-sm" style="border: 1px solid;" id="profileBtn">이미지 등록</button>
-							<input type="hidden" name="oldPicture" value="${memberInfo.MEM_PIC_PATH}">
-							<input type="file" id="imgFile" name="mem_pic_path" accept=".jpeg, .png, .jpg, .gif" onchange="imgChange_go();" style="display: none;">
-						</td>
-						<td><button type="button" id="resignBtn" style="float:right;">회원 탈퇴</button></td>
-					</tr>
-					<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
-						<th scope="row">아이디</th>	
-						<td> ${memberInfo.MEM_ID}</td>				
-					</tr>
-				</thead>
-			</table>
-		</div>
+<div class="additionalinfo-wrapper">
+	<div id="contents" class="">
+          <h2 class="tit">개인정보 수정</h2>
+
+          <ul class="dot-list mb10">
+              <li>회원님의 정보를 정확히 입력해주세요.</li>
+          </ul>
+			<div class="box-radius">
+				<div class="box-top">
+		          <div class="table-wrap">
+		              <table class="board-form" style="width:100%;">
+		                  <caption>프로필사진, 아이디 항목을 가진 표</caption>
+		                  <colgroup>
+		                      <col style="width:180px;">
+		                      <col>
+		                  </colgroup>
+		                  <tbody>
+		                      <tr>
+		                          <th scope="row">프로필 사진</th>
+		                          <td>
+		                              <div class="profile-photo">
+		                                  <form name="fileForm">
+		                                      <input type="file" id="profileTarget" name="file" style="display: none;">
+		                                      
+		                                  </form>
+		                                          <div class="profile-img">
+		                                              <img src="../../resources/img/defaultprofile.png">
+		                                          </div>
+		                                          <button type="button" class="button small gray-line" id="addProfileImgBtn">이미지 등록</button>
+		                                  <a href="#" class="button small member-out" title="회원탈퇴">회원탈퇴</a>
+		                              </div>
+		                          </td>
+		                      </tr>
+		                      <tr>
+		                          <th scope="row">아이디</th>
+		                          <td>test123</td>
+		                      </tr>
+		                  </tbody>
+		              </table>
+		          </div>
+	          </div>
+          </div>
 		<div class="box-radius">
 			<div class="box-top">
-				<strong>기본 정보</strong>
-			</div>
-				<table class="board-list" style="width: 100%;">
-					<colgroup>
-					<col style="width:200px;">
-					<col>
-					</colgroup>
-					<thead>
-						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
-							<th scope="row">이름</th>
-							<td> ${memberInfo.MEM_NAME}
-								<button type="button">이름 변경</button>
-								<span>*이름을 계명한 경우 변경할 수 있습니다.</span>			
-							</td>
-						</tr>
-						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
-							<th scope="row">생년월일</th>			
-							<td><fmt:formatDate value="${memberInfo.MEM_BIR}" pattern="yyyy-MM-dd"/></td>
-						</tr>
-						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
-							<th scope="row">휴대폰</th>
-							<td> ${memberInfo.MEM_PHONE}
-								<button type="button">휴대폰 번호 변경</button>
-							</td>					
-						</tr>
-						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
-							<th scope="row">이메일</th>
-							<td> ${memberInfo.MEM_EMAIL}</td>				
-						</tr>
-						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
-							<th scope="row">비밀번호</th>
-							<td><button type="button">비밀번호 변경</button></td>			
-						</tr>
-						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
-							<th scope="row">주소</th>					
-							<td> ${memberInfo.MEM_ADDR} ${memberInfo.MEM_ADDR_DETAIL}
-								<button type="button">주소 변경</button>
-							</td>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		</form>
+	          <div class="tit-util mt40 mb10">
+	              <strong>기본정보</strong>
+	              <div class="right">
+	                  <p class="reset"><em class="font-orange">*</em> 필수</p>
+	              </div>
+	          </div>
+	              <div class="table-wrap mb40">
+	                  <table class="board-form">
+	                      <caption>이름, 생년월일, 휴대폰, 이메일, 비밀번호, 주소 항목을 가진 기본정보 표</caption>
+	                      <colgroup>
+	                          <col style="width:180px;">
+	                          <col>
+	                      </colgroup>
+	                      <tbody>
+	                          <tr>
+	                              <th scope="row">
+	                                  이름 <em class="font-orange">*</em>
+	                              </th>
+	                              <td>
+	                                  <span class="mbNmClass">김민경</span>
+	                              </td>
+	                          </tr>
+	                          <tr>
+	                              <th scope="row">
+	                                  생년월일 <em class="font-orange">*</em>
+	                              </th>
+	                              <td>
+	                                  2023년
+	                                  00월
+	                                  00일
+	                              </td>
+	                          </tr>
+	                          <tr>
+	                              <th scope="row">
+	                                  <label for="num">휴대폰</label> <em class="font-orange">*</em>
+	                              </th>
+	                              <td>
+	                                  <div class="clearfix">
+	                                      <p class="reset float-l w170px lh32 changeVal" data-name="phoneNo">
+	                                          010-1111-1111
+	                                      </p>
+	                                      <div class="float-l">
+	                                          <button type="button" class="button small gray-line change-phone-num" id="phoneChgBtn" title="휴대폰번호 변경">휴대폰번호 변경</button>
+	                                      </div>
+	                                  </div>
+	                                  <div class="change-phone-num-area">
+	                                      <div class="position">
+	                                          <label for="chPhone" class="label">변경할 휴대폰</label>
+	                                          <input type="text" id="chPhone" class="input-text w160px numType" placeholder="'-'없이 입력해 주세요" title="변경할 휴대폰 번호 입력" maxlength="11">
+	                                          <button type="button" class="button small gray-line" id="sendNumberBtn">인증번호 전송</button>
+	                                      </div>
+	                                      <div class="position" style="display: none;">
+	                                          <label for="chkNum" class="label">인증번호 입력</label>
+	
+	                                          <div class="chk-num small">
+	                                              <div class="line">
+	                                                  <input type="text" id="chkNum" class="input-text w180px" title="인증번호 입력" placeholder="인증번호를 입력해 주세요" maxlength="4">
+	                                                  <div class="time-limit" id="timeLimit">3:00</div>
+	                                              </div>
+	                                          </div>
+	                                          <button type="button" class="button small gray-line" id="chgBtn">변경완료</button>
+	                                      </div>
+	                                  </div>
+	                              </td>
+	                          </tr>
+	                          <tr>
+	                              <th scope="row">
+	                                  <label for="email">이메일</label> <em class="font-orange">*</em>
+	                              </th>
+	                              <td>
+	                                  <input type="text" id="email" name="mbEmail" class="input-text w500px" value="test1@test.com">
+	                              </td>
+	                          </tr>
+	                          <tr>
+	                              <th scope="row">비밀번호 <em class="font-orange">*</em></th>
+	                              <td>
+	                                  <a href="/on/oh/ohh/Mypage/userPwdChangePage.do" class="button small gray-line" title="비밀번호 변경">비밀번호 변경</a>
+	                              </td>
+	                          </tr>
+	                          <tr>
+	                              <th scope="row">주소</th>
+	                              <td>
+	                                  <span></span>
+	                                  <a href="#none" id="addrBtn" class="button small gray-line ml10" title="우편번호 검색">우편번호 검색</a>
+	                                  <p class="reset mt10"></p>
+	                                  <input type="text" name="mem_addr_detail" placeholder="상세주소입력" class="input-text">
+	                              </td>
+	                          </tr>
+	                      </tbody>
+	                  </table>
+	              </div>
+	          </div>
+          </div>
+		</div>
+         <div class="btn-group py-3">
+			<button class="button large" id="cancelBtn">취소</button>
+			<button class="button purple large" id="updateBtn">수정</button>
+		</div>
+      </div>
+	
+</div>
 	<div class="box-radius">
 		<div class="box-top">
 			<strong>간편로그인 계정 연동</strong>
@@ -252,14 +362,6 @@
 					</tr>
 				</tbody>
 			</table>
-		</div>
-		</div>
-	</div>
-	<div class="btn-group py-3">
-		<button class="button large" id="cancelBtn">취소</button>
-		<button class="button purple large" id="updateBtn">수정</button>
-	</div>
-</div>
 <script>
 function imgChange_go() {
 	let inputImage = $('input#imgFile')[0];
