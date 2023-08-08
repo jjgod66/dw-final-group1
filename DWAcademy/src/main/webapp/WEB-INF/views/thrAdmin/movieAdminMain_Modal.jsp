@@ -27,27 +27,27 @@
         		<table class="table table-bordered text-center" style="vertical-align: middle;">
         			<tr>
         				<th>상영코드</th>
-        				<td id="movieCd_modal">abcd</td>
+        				<td id="movieCd_modal"></td>
         				<th>영화명</th>
-        				<td id="movieName_modal">가나다라</td>
+        				<td id="movieName_modal"></td>
         			</tr>
         			<tr>
         				<th>상영관</th>
         				<td id="houseName_modal"></td>
         				<th>예매수</th>
-        				<td id="screenReservCnt_modal">100</td>
+        				<td id="screenReservCnt_modal"></td>
         			</tr>
         			<tr>
         				<th>러닝타임</th>
-        				<td id="movieLength_modal">x분</td>
+        				<td id="movieLength_modal"></td>
         				<th>상영타입<br>(자막/3D유무)</th>
-        				<td id="screenType_modal">없음/2D</td>
+        				<td id="screenType_modal"></td>
         			</tr>
         			<tr>
         				<th>시작시간</th>
-        				<td id="startTime_modal">2020-08-02 10:00</td>
+        				<td id="startTime_modal"></td>
         				<th>종료시간</th>
-        				<td id="endTime_modal">2020-08-02 13:00</td>
+        				<td id="endTime_modal"></td>
         			</tr>
         		</table>
         	</div>

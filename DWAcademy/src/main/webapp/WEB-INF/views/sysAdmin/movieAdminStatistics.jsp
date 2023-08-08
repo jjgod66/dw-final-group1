@@ -27,29 +27,27 @@
 							&nbsp;&nbsp;&nbsp;&nbsp;
 							<input type="radio" name="howlong" id="month" data-type="monthDiv">&nbsp;<label for="month">월별</label>
 							&nbsp;&nbsp;&nbsp;&nbsp;
-							<select>
-								<option>극장 전체</option>
+							<select name="searchType">
 								<c:forEach items="${theaterList }" var="thr">
-									<option value="${thr.ADMIN_CD }">${thr.THR_NAME }</option>
+									<option value="${thr.ADMIN_CD }">${thr.THR_NAME eq 'DW시네마' ? '극장 전체' : thr.THR_NAME}</option>
 								</c:forEach>
 							</select>
 						</div>
 						<div class="mb-2 howlongDiv">
 							<div id="dayDiv">
-<!-- 								<input type="text" id="datePicker" value="a" /> -->
-								<input type="date">
+								<input type="date" name="keyword" max="2023-08-07">
 							</div>
 							<div id="weekDiv" style="display: none;">
-								<input type="text" value="b" readonly>
-								<input type="date">
+								<input type="text" name="weekView" value="" style="width:8.5rem;"readonly>
+								<input type="date" name="keyword">
 							</div>
 							<div id="monthDiv" style="display: none;">
-								<input type="text" value="c" readonly>
-								<input type="date">
+								<input type="text" name="monthView" value=""  style="width:8.5rem;"readonly>
+								<input type="date" value="" name="keyword">
 							</div>
 						</div>
 						<div class="text-center">
-							<button type="button" class="bc_dw_black">조회</button>
+							<button type="button" id="searchBtn" class="bc_dw_black">조회</button>
 						</div>
 					</div>
 					<div class="col-md-6" style="text-align: -webkit-center;">
@@ -109,17 +107,16 @@
 		</div>
 	</div>
 </div>
-
+<div style="display: none;">
+	<%@ include file="../common/pagination.jsp" %>
+</div>
 
 
 
 <script>
+let searchFormUrl = "/sysAdmin/movieAdminStatistics.do";
 $(function(){
 	
-	$('input[name="howlong"]').on('click', function(){
-		$('div.howlongDiv div').hide();
-		$('div#'+$(this).attr('data-type')).show();
-	});
 	
 	const resultList = '<c:out value="${resultList}" />';
 	
@@ -173,13 +170,83 @@ $(function(){
 	new Chart(ctx, chart_config);
 	new Chart(ctx2, chart_config);
 	
+	
+	// date를 'yyyy-MM-dd' 형식으로
+	function dateToString(date) {
+		return date.getFullYear()+'-'+(date.getMonth()+1<10?'0'+(date.getMonth()+1):date.getMonth()+1)+'-'+(date.getDate()<10?'0'+date.getDate():date.getDate());
+	}
+	
+	// 주간별일때 input text value값 자동 넣어지게
+	function setWeekView(date) {
+		function getWeek(date){
+			  const currentDate = date.getDate();
+			  const firstDay = new Date(date.setDate(1)).getDay();
 
-// 	// Set backgroundColor 랜덤하게 값 추가 ( 투명도 30% )
-// 	var RGB_1 = Math.floor(Math.random() * (255 + 1));
-// 	var RGB_2 = Math.floor(Math.random() * (255 + 1));
-// 	var RGB_3 = Math.floor(Math.random() * (255 + 1));
-// 	var strRGBA = 'rgba(' + RGB_1 + ',' + RGB_2 + ',' + RGB_3 + ',0.3)';
-// 	chart_config.data.datasets[0].backgroundColor.push(strRGBA);
+			  return Math.ceil((currentDate + firstDay) / 7);
+		};
+		let week = getWeek(date);
+		let month = date.getMonth() + 1;
+		let year = date.getFullYear();
+		$('#weekDiv input[name="weekView"]').val(year +"년 " + month + "월 " + week + "주차");
+	}
+	
+	// 월별일때 input text value값 자동 넣어지게
+	function setMonthView(date) {
+		let month = date.getMonth() + 1;
+		let year = date.getFullYear();
+		$('#monthDiv input[name="monthView"]').val(year + "년 " + month + "월");
+	}
+	
+	// 초기 세팅
+	let today = new Date();
+	let today_year = today.getFullYear();
+	let today_month = today.getMonth();
+	let today_date = today.getDate();
+	let yesterday = new Date(today_year, today_month, today_date-1);
+	yesterday_toString = dateToString(yesterday);
+	$('.howlongDiv input[type="date"]').val(yesterday_toString);
+	$('.howlongDiv input[type="date"]').attr('max', yesterday_toString);
+	
+	// 검색 날짜 설정 방법 radio 클릭시
+	$('input[name="howlong"]').on('click', function(){
+		$('div.howlongDiv div').hide();
+		$('div#'+$(this).attr('data-type')).show();
+		$('.howlongDiv input[name="keyword"]').val(yesterday_toString);
+		$('.howlongDiv input[type="text"]').val('');
+		if ($(this).attr('data-type') == 'dayDiv') {
+			
+		} else if ($(this).attr('data-type') == 'weekDiv') {
+			setWeekView(yesterday);
+		} else if ($(this).attr('data-type') == 'monthDiv') {
+			setMonthView(yesterday);
+		}
+	});
+	
+	// 일별 날짜 설정시
+	$('#dayDiv input[name="keyword"]').on('change', function(){
+		console.log($(this).val());
+		$('#searchForm input[name="keyword"]').val($(this).val());
+	});
+
+	// 주간별 날짜 설정시
+	$('#weekDiv input[name="keyword"]').on('change', function(){
+		let date = new Date($(this).val());
+		setWeekView(date);
+	});
+	
+	// 월별 날짜 설정시
+	$('#monthDiv input[name="keyword"]').on('change', function(){
+		let date = new Date($(this).val());
+		setMonthView(date);
+	});
+	
+	$('#searchBtn').on('click', function(){
+		$('form#searchForm input[name="searchType2"]').val($('input[name="howlong"]:checked').attr('id'));
+		console.log($('#searchForm input[name="searchType2"]').val());
+		let div = $('input[name="howlong"]:checked').attr('data-type');
+		$('.howlongDiv div').not('#'+div).remove();
+		searchList_go(1);
+	});
 });
 </script>
 <%@ include file="sysAdminFooter.jsp" %>
