@@ -63,4 +63,6 @@ public interface StoreService {
 	 */
 	Map<String, Object> insertMemgift0GetMUID(MemBuyVO memBuy) throws SQLException;
 
+	List<ProductVO> getproductFood() throws SQLException;
+
 }

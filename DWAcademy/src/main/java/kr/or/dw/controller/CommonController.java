@@ -41,10 +41,12 @@ import kr.or.dw.service.EventService;
 import kr.or.dw.service.MovieService;
 import kr.or.dw.service.NaverLoginBO;
 import kr.or.dw.service.NonMemService;
+import kr.or.dw.service.StoreService;
 import kr.or.dw.service.SupportService;
 import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.NoticeVO;
+import kr.or.dw.vo.ProductVO;
 
 @Controller
 public class CommonController {
@@ -74,6 +76,9 @@ public class CommonController {
 	
 	@Autowired
 	private NonMemService nonMemService;
+	
+	@Autowired
+	private StoreService storeService;
 	
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -154,7 +159,11 @@ public class CommonController {
 		List<NoticeVO> noticeList = null;
 		noticeList = supportService.getNotice2();
 		
+		List<ProductVO> productFood = null;
+		productFood = storeService.getproductFood();
+		
 		mnv.addObject("loginNeed", login);
+		mnv.addObject("productFood", productFood);
 		mnv.addObject("noticeList", noticeList);
 		mnv.addObject("eventList", eventList);
 		mnv.addObject("eventList2", eventList2);
@@ -196,7 +205,7 @@ public class CommonController {
 				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "img";
 			} else if (type.equals("memberPic")) {
 				imgPath = this.memberPicUploadPath + File.separator + item_cd;
-			}
+			} 
 		}
 		
 		try {

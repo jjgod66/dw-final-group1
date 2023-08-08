@@ -180,4 +180,12 @@ public class StoreServiceImpl implements StoreService{
 		return mapData;
 	}
 
+	@Override
+	public List<ProductVO> getproductFood() throws SQLException {
+		// TODO Auto-generated method stub
+		List<ProductVO> productFood = null;
+		productFood = storeDAO.selectProductFood();
+		return productFood;
+	}
+
 }
