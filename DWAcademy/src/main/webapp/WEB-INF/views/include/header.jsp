@@ -239,7 +239,6 @@ canvas{
 </form>
 <script>
 let loginNeed = "${loginNeed}";
-console.log(loginNeed);
 $(document).ready(function(){
 	if(loginNeed != ""){
 		$('#login-modal').modal('show');

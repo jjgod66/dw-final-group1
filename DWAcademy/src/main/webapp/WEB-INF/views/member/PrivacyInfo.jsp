@@ -4,9 +4,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
-.additionalinfo-wrapper {
+.PrivacyInfo-wrapper {
 }
-.additionalinfo-wrapper h2.tit {
+.PrivacyInfo-wrapper h2.tit {
     padding: 26px 0 26px 0;
     font-size: 1.8666em;
     font-weight: 400;
@@ -14,45 +14,44 @@
     line-height: 1.1;
     color: #222;
 }
-.additionalinfo-wrapper .box-radius {
+.PrivacyInfo-wrapper .box-radius {
     border: 1px solid #d8d9db;
     border-radius: 5px;
     margin: 0 0 30px 0;
 }
-.additionalinfo-wrapper .box-radius .box-top {
+.PrivacyInfo-wrapper .box-radius .box-top {
     position: relative;
     line-height: 48px;
     padding: 0 30px;
-    border-bottom: 1px solid #d8d9db;
 }
-.additionalinfo-wrapper .box-radius .box-top strong {
+.PrivacyInfo-wrapper .box-radius .box-top strong {
     font-size: 1.2em;
 }
-.additionalinfo-wrapper .box-radius .box-top .righten {
+.PrivacyInfo-wrapper .box-radius .box-top .righten {
     position: absolute;
     right: 30px;
     top: 0;
 }
-.additionalinfo-wrapper .box-radius .box-top .righten input {
+.PrivacyInfo-wrapper .box-radius .box-top .righten input {
     margin: 0 5px 0 10px;
 }
-.additionalinfo-wrapper .box-radius .box-top .righten [type=checkbox], 
-.additionalinfo-wrapper .box-radius .box-top .righten [type=radio] {
+.PrivacyInfo-wrapper .box-radius .box-top .righten [type=checkbox], 
+.PrivacyInfo-wrapper .box-radius .box-top .righten [type=radio] {
     width: 16px;
     height: 16px;
     vertical-align: middle;
 }
-.additionalinfo-wrapper .box-radius .box-bot {
+.PrivacyInfo-wrapper .box-radius .box-bot {
     padding: 30px;
 }
-.additionalinfo-wrapper .box-radius p {
+.PrivacyInfo-wrapper .box-radius p {
     margin: 0;
     padding: 0;
 }
-.additionalinfo-wrapper .box-radius p+p {
+.PrivacyInfo-wrapper .box-radius p+p {
     margin: 10px 0 0 0;
 }
-.additionalinfo-wrapper .iconset {
+.PrivacyInfo-wrapper .iconset {
     overflow: hidden;
     display: inline-block;
     margin: -1px 0 0 0;
@@ -63,24 +62,24 @@
     background-position: 0 0;
     background-repeat: no-repeat;
 }
-.additionalinfo-wrapper .ico-exclamation-gblue {
+.PrivacyInfo-wrapper .ico-exclamation-gblue {
     width: 16px;
     height: 16px;
     background-image: url(https://img.megabox.co.kr/static/pc/images/common/ico/ico-exclamation-gblue.png);
 }
-.additionalinfo-wrapper .chk-box .label {
+.PrivacyInfo-wrapper .chk-box .label {
     display: inline-block;
     vertical-align: middle;
 }
-.additionalinfo-wrapper .chk-box .w80px {
+.PrivacyInfo-wrapper .chk-box .w80px {
     width: 80px!important;
 }
-.additionalinfo-wrapper .btn-group {
+.PrivacyInfo-wrapper .btn-group {
     display: block;
     margin: 20px auto 30px;
     text-align: center;
 }
-.additionalinfo-wrapper .button {
+.PrivacyInfo-wrapper .button {
     display: inline-block;
     height: 36px;
     margin: 0;
@@ -97,10 +96,28 @@
     background-color: #fff;
     cursor: pointer;
 }
-.additionalinfo-wrapper .button.large {
+.PrivacyInfo-wrapper .button.large {
     height: 46px;
     padding: 0 30px;
     line-height: 44px;
+}
+.board-list {
+	width: 100%;
+    line-height: 1.3;
+}
+.board-list>thead>tr>th {
+    height: 45px;
+    padding: 3px 10px;
+    color: #222;
+    background-color: #f2f4f5;
+}
+.board-list>tbody>tr>td,
+.board-list>tbody>tr>th {
+    height: 45px;
+    padding: 10px;
+    border: 1px solid #eaeaea;
+    border-width: 0 0 1px 0;
+    text-align: center;
 }
 </style>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
@@ -108,10 +125,84 @@
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
 <script>
 	Kakao.init('4d3eb758ca79e46a21afa1951cdbec30'); //발급받은 키 중 javascript키를 사용해준다.
-	console.log(Kakao.isInitialized()); // sdk초기화여부판단
 </script>
-<div class="additionalinfo-wrapper">
-	<h2 class="tit">개인정보 수정</h2>
+<div class="PrivacyInfo-wrapper">
+	<form enctype="multipart/form-data" role="form" name="registForm">
+		<h2 class="tit">개인정보 수정</h2>
+		<div class="box-radius">
+			<table class="board-list" style="width: 100%;">
+				<colgroup>
+				<col style="width:200px;">
+				<col>
+				</colgroup>
+				<thead>
+					<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
+						<th scope="row">프로필 사진</th>	
+						<td style="padding: 10px 0 10px 0">
+						<c:if test="${memberInfo.MEM_PIC_PATH != null}">
+							<img alt="Generic placeholder image" id="preview" src="<%=request.getContextPath()%>/common/getPicture.do?name=${memberInfo.MEM_PIC_PATH}&item_cd=${memberInfo.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+						</c:if>
+						<c:if test="${memberInfo.MEM_PIC_PATH == null}">
+							<img alt="Generic placeholder image" id="preview" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+						</c:if>
+							<button type="button" class="btn-sm" style="border: 1px solid;" id="profileBtn">이미지 등록</button>
+							<input type="hidden" name="oldPicture" value="${memberInfo.MEM_PIC_PATH}">
+							<input type="file" id="imgFile" name="mem_pic_path" accept=".jpeg, .png, .jpg, .gif" onchange="imgChange_go();" style="display: none;">
+						</td>
+						<td><button type="button" id="resignBtn" style="float:right;">회원 탈퇴</button></td>
+					</tr>
+					<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
+						<th scope="row">아이디</th>	
+						<td> ${memberInfo.MEM_ID}</td>				
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div class="box-radius">
+			<div class="box-top">
+				<strong>기본 정보</strong>
+			</div>
+				<table class="board-list" style="width: 100%;">
+					<colgroup>
+					<col style="width:200px;">
+					<col>
+					</colgroup>
+					<thead>
+						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
+							<th scope="row">이름</th>
+							<td> ${memberInfo.MEM_NAME}
+								<button type="button">이름 변경</button>
+								<span>*이름을 계명한 경우 변경할 수 있습니다.</span>			
+							</td>
+						</tr>
+						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
+							<th scope="row">생년월일</th>			
+							<td><fmt:formatDate value="${memberInfo.MEM_BIR}" pattern="yyyy-MM-dd"/></td>
+						</tr>
+						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
+							<th scope="row">휴대폰</th>
+							<td> ${memberInfo.MEM_PHONE}
+								<button type="button">휴대폰 번호 변경</button>
+							</td>					
+						</tr>
+						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
+							<th scope="row">이메일</th>
+							<td> ${memberInfo.MEM_EMAIL}</td>				
+						</tr>
+						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
+							<th scope="row">비밀번호</th>
+							<td><button type="button">비밀번호 변경</button></td>			
+						</tr>
+						<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
+							<th scope="row">주소</th>					
+							<td> ${memberInfo.MEM_ADDR} ${memberInfo.MEM_ADDR_DETAIL}
+								<button type="button">주소 변경</button>
+							</td>
+						</tr>
+					</thead>
+				</table>
+			</div>
+		</form>
 	<div class="box-radius">
 		<div class="box-top">
 			<strong>간편로그인 계정 연동</strong>
@@ -169,4 +260,34 @@
 		<button class="button purple large" id="updateBtn">수정</button>
 	</div>
 </div>
+<script>
+function imgChange_go() {
+	let inputImage = $('input#imgFile')[0];
+	preViewPicture(inputImage, $('#preview'));
+}
+// 등록이 아니라 수정시 기존 이미지 프리뷰
+if ('${memberInfo.MEM_PIC_PATH}' != null && '${memberInfo.MEM_PIC_PATH}' != '') {
+	let imageURL = '/common/getPicture.do?name=${memberInfo.MEM_PIC_PATH}&item_cd=${memberInfo.MEM_CD}&type=productImg';	// 이미지명 가지고 와서 셋팅
+	$('#preview').css({
+							'background-image' : 'url("' + imageURL + '")',
+							'background-position' : 'center',
+							'background-size' : 'cover',
+							'background-repeat' : 'no-repeat'
+						});
+	$('#inputFileName').val('${memberInfo.MEM_PIC_PATH}');
+}
+//이미지버튼 클릭
+$('#profileBtn').on('click', function(e){
+	e.preventDefault();
+	$('#imgFile').click();
+});
+$('#imgFile').on('change', function(){
+	$('#inputFileName').removeClass('is-invalid');
+})
+
+// 탈퇴버튼 클릭
+$('#resignBtn').on('click', function(){
+	location.href="<%=request.getContextPath()%>/member/resign.do";
+})
+</script>
 <%@ include file="../include/member_footer.jsp" %>

@@ -100,6 +100,9 @@ public class MemberController {
 		
 		
 		Map<String, Object> member =  (Map<String, Object>) session.getAttribute("loginUser");
+		String id = (String) member.get("ID");
+		
+		Map<String, Object> memberInfo = memberService.selectAllMemberInfo(id);
 		System.out.println(member);
 		SnsVO kakao = new SnsVO();
 		SnsVO naver = new SnsVO();
@@ -120,6 +123,7 @@ public class MemberController {
 		System.out.println("네이버:" + naverAuthUrl);
 		
 		//네이버 
+		mnv.addObject("memberInfo", memberInfo);
 		mnv.addObject("url", naverAuthUrl);
 		mnv.setViewName(url);
 		
@@ -416,6 +420,29 @@ public class MemberController {
 		dataMap = pointService.getMemPointList(mem_cd, cri);
 		
 		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/member/resign")
+	public ModelAndView resign(ModelAndView mnv, HttpSession session) throws SQLException {
+		String url = "/member/resign";
+		
+		Map<String, Object> member =  (Map<String, Object>) session.getAttribute("loginUser");
+		String id = (String) member.get("ID");
+		
+		Map<String, Object> memberInfo = memberService.selectAllMemberInfo(id);
+		
+		mnv.addObject("memberInfo", memberInfo);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/member/resginMember")
+	public ModelAndView resginMember(ModelAndView mnv, HttpSession session) {
+		String url = "/member/main";
+		
+		
 		mnv.setViewName(url);
 		return mnv;
 	}
