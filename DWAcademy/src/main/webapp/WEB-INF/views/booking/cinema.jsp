@@ -242,7 +242,7 @@ $(function(){
 	})
 	
 	//날짜 선택시
-	$('.btnDay').on('click', function(){
+	$('.btnDay.abled').on('click', function(){
 		let target = $('.mvTimeLine .row');
 		target.html("");
 		$('.bx_notice').css('display', '');
@@ -418,7 +418,7 @@ while (currentDate <= endDate) {
   var koreanDayOfWeek = getKoreanDayOfWeek(dayOfWeek);
 
   // 클래스 추가 여부 확인
-  var isDisabled = currentDate > new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000) ? 'disabled' : '';
+  var isDisabled = currentDate > new Date(new Date().getTime() + 6 * 24 * 60 * 60 * 1000) ? 'disabled' : 'abled';
   var isActive = currentDate.toDateString() === new Date().toDateString() && !isDisabled ? 'active' : '';
 
   // 태그 생성

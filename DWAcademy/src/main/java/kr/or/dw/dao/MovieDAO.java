@@ -470,5 +470,12 @@ public interface MovieDAO {
 	 */
 	List<Map<String, Object>> getMy2ResInfo(String mem_cd) throws SQLException;
 
+	/**
+	 * 리뷰 삭제
+	 * @param review_no
+	 * @throws SQLException
+	 */
+	void deleteReview(int review_no) throws SQLException;
+
 
 }

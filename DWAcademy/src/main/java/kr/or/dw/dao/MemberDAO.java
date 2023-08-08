@@ -86,6 +86,13 @@ public interface MemberDAO {
 	// 회원의 모든 정보 가져오는 메서드
 	Map<String, Object> selectAllMemberInfo(String id) throws SQLException;
 
+	/**
+	 * 전달 100,000원 넘게 예매한 회원 가져오는 메서드
+	 * @return
+	 * @throws SQLException
+	 */
+	String[] select10000overMem() throws SQLException;
+
 	// 회원 선호 장르 등록
 	void updateMemLikeGenre(Map<String, Object> data) throws SQLException;
 
@@ -94,6 +101,7 @@ public interface MemberDAO {
 
 	// 회원 선호장르 가져오기
 	List<Map<String, Object>> selectMemLikeGenre(String mem_cd) throws SQLException;
+
 
 
 }

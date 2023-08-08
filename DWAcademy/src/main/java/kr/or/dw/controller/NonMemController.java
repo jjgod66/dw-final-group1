@@ -48,7 +48,9 @@ public class NonMemController {
 	public ModelAndView login(ModelAndView mnv, Non_MemberVO non_mem, SearchCriteria cri) throws SQLException {
 		String url = "/non_member/bookinglist";
 		cri.setPerPageNum("5");
-		
+		if("".equals(cri.getSearchType())) {
+			cri.setSearchType("curr");
+		}
 		System.out.println("non_mem" + non_mem);
 		Map<String, Object> dataMap = nonMemService.getNonMemResList(non_mem, cri);
 		

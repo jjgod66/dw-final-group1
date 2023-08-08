@@ -176,60 +176,62 @@ tbody th {
             <div class="modal-body">
             	<h3 class="fs-3 text-center my-2"></h3>
             	<h5 class="creInfoModalBuyInfo">구매정보</h5>
-                <div class="input-group creInfoModalBuyInfo" style="margin-top: 20px; display: ;">
+                <div class="input-group creInfoModalBuyInfo" style="margin-top: 10px; display: ;">
 <!--                     		<div> -->
 	                    	<table style="width: 100%;">
-	                    		<tr style="font-size: 11px;">
+	                    		<tr style="font-size: 15px;">
 	                    			<th style="width: 20%;">상품코드</th>
 	                    			<td style="width: 80%;" id="infoModalMemProCd"></td>
 	                    		</tr>
-	                    		<tr style="font-size: 11px;">
+	                    		<tr style="font-size: 15px;">
 	                    			<th style="width: 20%;">상품명</th>
 	                    			<td style="width: 80%;" id="infoModalProName"></td>
 	                    		</tr>
-	                    		<tr style="font-size: 11px;">
+	                    		<tr style="font-size: 15px;">
 	                    			<th style="width: 20%;">구매수량</th>
 	                    			<td style="width: 80%;" id="infoModalBuyAmount"></td>
 	                    		</tr>
                     		</table>
 <!--                    		</div> -->
                 </div>
+                <br>
             	<h5>결제정보</h5>
-                <div class="input-group" style="margin-top: 20px; display: ;">
+                <div class="input-group" style="margin-top: 10px; display: ;">
 <!--                     		<div> -->
 	                    	<table style="width: 100%;">
-	                    		<tr style="font-size: 11px;">
+	                    		<tr style="font-size: 15px;">
 	                    			<th style="width: 20%;">상품금액</th>
 	                    			<td style="width: 80%;" id="infoModalPriceSum">원</td>
 	                    		</tr>
-	                    		<tr style="font-size: 11px;">
+	                    		<tr style="font-size: 15px;">
 	                    			<th style="width: 20%;">할인금액</th>
 	                    			<td style="width: 80%;" id="infoModalDiscount">원</td>
 	                    		</tr>
-	                    		<tr style="font-size: 11px;">
+	                    		<tr style="font-size: 15px;">
 	                    			<th style="width: 20%;">최종 결제금액</th>
 	                    			<td style="width: 80%;" id="infoModalPaidAmount">원</td>
 	                    		</tr>
-	                    		<tr style="font-size: 11px;">
+	                    		<tr style="font-size: 15px;">
 	                    			<th style="width: 20%;">결제수단</th>
 	                    			<td style="width: 80%;" id="infoModalCard">원</td>
 	                    		</tr>
-	                    		<tr style="font-size: 11px;">
+	                    		<tr style="font-size: 15px;">
 	                    			<th style="width: 20%;">결제일시</th>
 	                    			<td style="width: 80%;" id="infoModalPaydate"></td>
 	                    		</tr>
                     		</table>
 <!--                    		</div> -->
                 </div>
+                <br>
             	<h5 class="creInfoModalRefundInfo">취소정보</h5>
-                <div class="input-group creInfoModalRefundInfo" style="margin-top: 20px; display: ;">
+                <div class="input-group creInfoModalRefundInfo" style="margin-top: 10px; display: ;">
 <!--                     		<div> -->
 	                    	<table style="width: 100%;">
-	                    		<tr style="font-size: 11px;">
+	                    		<tr style="font-size: 15px;">
 	                    			<th style="width: 20%;">취소금액</th>
 	                    			<td style="width: 80%;" id="infoModalRefundPaidAmount">원</td>
 	                    		</tr>
-	                    		<tr style="font-size: 11px;">
+	                    		<tr style="font-size: 15px;">
 	                    			<th style="width: 20%;">취소일</th>
 	                    			<td style="width: 80%;" id="infoModalRefunddate">원</td>
 	                    		</tr>

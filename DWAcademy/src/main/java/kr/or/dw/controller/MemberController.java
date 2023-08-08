@@ -302,7 +302,24 @@ public class MemberController {
 		Map<String, Object> member = (Map) session.getAttribute("loginUser");
 		String mem_cd = (String)member.get("CD");
 		cri.setPerPageNum("5");
-		Map<String, Object> dataMap = movieService.selectMovieInfo(cri, mem_cd);
+		Map<String, Object> dataMap = movieService.searchMovieInfo(cri, mem_cd);
+		
+		mnv.addAllObjects(dataMap);
+		System.out.println(dataMap);
+		
+		
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	@RequestMapping("/member/buylist")
+	public ModelAndView memberBuylist(SearchCriteria cri, ModelAndView mnv, HttpSession session, String on) throws SQLException {
+		String url = "/member/buylist";
+		System.out.println("on : " + on);
+		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		String mem_cd = (String)member.get("CD");
+		cri.setPerPageNum("5");
+		Map<String, Object> dataMap = movieService.searchBuyInfo(cri, mem_cd);
 		
 		mnv.addAllObjects(dataMap);
 		System.out.println(dataMap);

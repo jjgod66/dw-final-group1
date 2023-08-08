@@ -41,7 +41,7 @@
 		WHERE t.thr_name = h.thr_name
 		AND h.house_no = s.house_no
 		AND to_char(startdate, 'yyyyMMdd') = to_char(#{date}, 'yyyyMMdd')
-		AND to_char(startdate, 'yyyyMMdd') > to_char(sysdate, 'yyyyMMdd')
+		AND startdate > sysdate
 		AND h.thr_name = #{thr_name}
 		GROUP BY movie_cd
 	</select>
@@ -54,7 +54,7 @@
 		AND t.thr_name = #{thr_name}
 		AND movie_cd = #{movie_cd}
 		AND to_char(startdate, 'yyyyMMdd') = to_char(#{date}, 'yyyyMMdd')
-		AND to_char(startdate, 'yyyyMMdd') > to_char(sysdate, 'yyyyMMdd')
+		AND startdate > sysdate
 		GROUP BY s.house_no
 		ORDER BY house_no
 	</select>
@@ -77,7 +77,7 @@
 		AND s.movie_cd = #{movie_cd}
 		AND s.house_no = #{house_no}
 		AND to_char(startdate, 'yyyyMMdd') = to_char(#{date}, 'yyyyMMdd')
-		AND to_char(startdate, 'yyyyMMdd') > to_char(sysdate, 'yyyyMMdd')
+		AND startdate > sysdate
 		ORDER BY startdate
 	</select>
 	
