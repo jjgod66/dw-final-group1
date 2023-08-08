@@ -14,6 +14,7 @@ import kr.or.dw.vo.ProductVO;
 @Mapper
 public interface StoreDAO {
 
+
 	List<ProductVO> selectProDiv(String CategoryIdx) throws SQLException;
 
 	ProductVO selectProDetail(String product_cd) throws SQLException;
@@ -93,5 +94,7 @@ public interface StoreDAO {
 	 * @throws SQLException
 	 */
 	void insert0payDetail(String merchant_uid) throws SQLException;
+
+	List<ProductVO> selectProductFood() throws SQLException;
 
 }

@@ -8,6 +8,7 @@
 <!-- 메인슬라이 -->
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css'>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/slider.css">
+<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/StoreCard.css">
 <!-- 페럴 --> 
 <style>
 .event-list {
@@ -81,7 +82,23 @@
   font-weight: 900;
   font-size: clamp(1.4375rem, 2.25rem + 0.75vw, 2rem);
   background-color: #005baa;
-  background-image: linear-gradient(45deg, #005baa, #000000);
+  background-image: linear-gradient(45deg, #91ccff, #d7cdff);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
+.s2 > div h1 {
+	text-align:center;
+  text-transform: capitalize;
+  letter-spacing: 0.8px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.4375rem, 2.25rem + 0.75vw, 2rem);
+  background-color: #005baa;
+    background-image: linear-gradient(45deg, #152b3e, #0162ee);
   background-size: 100%;
   background-repeat: repeat;
   -webkit-background-clip: text;
@@ -92,13 +109,24 @@
 
 
 
-
 .parallax-container {
   position: relative;
-  overflow: hidden;
+/*   overflow: hidden; */
 }
-
+.backRain{
+	    background: linear-gradient(45deg, #b0d9ff, transparent);
+	padding:1px;
+}
 .parallax-box {
+  text-align:center;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transform: translate(-50%, 0);
+   transition: transform 1s cubic-bezier(0.2, 0.2, 0.2, 0.9), opacity 2s ease-in-out;
+  opacity: 0; /* 초기에는 보이지 않도록 설정 */
+}
+.parallax-box-R {
   text-align:center;
   width: 100%;
   height: 100%;
@@ -131,13 +159,21 @@
 .content-box {
 	  position: relative;
   overflow: hidden;
-    top: 77%;
+    top: 47%;
     left: 56%;
     position: absolute;
   padding: 20px;
   width: 35%;
 }
-
+.content-box2 {
+	margin-left: 243px;
+    margin-top: 120px;
+	  position: relative;
+  overflow: hidden;
+    position: absolute;
+  padding: 20px;
+  width: 35%;
+}
 .mainBtn{
 	border: 2px solid #c2c2c2;
     margin-top: 2.188rem;
@@ -155,6 +191,8 @@
   border: 0.125rem solid #005baa;
   color: #005baa;
 }
+@media screen and (min-width: 1500px){.wrapperEvent{width: 75%; margin: auto;} }
+
 </style>
 
 	<!-- partial:index.partial.html -->
@@ -244,9 +282,19 @@
 	
   
 </script>
+<!-- 스타이벤트배경  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript"></script>
+<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/star.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
 
-   <!-- 페럴  -->
-<div style="margin-top: 60px;">
+<div class="starEvent">
+	<div id='stars'></div>
+	<div id='stars2'></div>
+	<div id='stars3'></div>
+	
+	<!-- 내용 -->
+	<!-- 페럴  -->
+<div style="margin-top: 60px; padding-top: 50px; padding-bottom: 80px;" class="wrapperEvent">
 	<div class="parallax-container">
 	  <div class="parallax-box-left">
 		<div class="event-list">
@@ -290,11 +338,14 @@
 	   </div>
 	  <p style="position: absolute;
 	  			text-align:center;
-	  			bottom: 111px;
+	  			bottom: 142px;
                 width: 24%;
                 left: 62%;
-                font-size: 17px;">
-      새로운 친구들을 만나고 즐거운 경험을 나눌 수 있는 이벤트에 여러분을 초대합니다. 다양한 활동과 놀이, 그리고 맛있는 음식과 음료를 통해 이번 행사에서 특별한 순간을 만들어보세요. 여러분의 참여로 더욱 빛나는 날을 만들어요!<br>
+                font-size: 17px;
+                color: #adb5bd;">
+      			새로운 친구들을 만나고 즐거운 경험을 나눌 수 있는 이벤트에 여러분을 초대합니다. 다양한 활동과 놀이, 그리고 맛있는 음식과 음료를 통해 이번 행사에서 특별한 순간을 만들고 영화와 스토어에서 사용할 수 있는
+      			 쿠폰과 티켓에 도전해 보세요.
+      			 여러분의 참여로 더욱 빛나는 날을 만들어 보세요! 더 궁금하신 사항은 이미지를 눌러 확인하실수 있습니다. <br>
             <a href="<%=request.getContextPath() %>/event/main.do" class="mainBtn">이벤트 전체보기</a>
       </p>
 	</div>
@@ -357,64 +408,114 @@ $(document).ready(function() {
     });
   });
 </script>
+<!-- 	내용 패럴 끝  -->
+</div>
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<!-- 스타배경끝 -->
 
 
-<p style="text-align: center;">수정전</p> 
-<p style="text-align: center;">ㅇ헤더 ㅇ \</p> 
-<p style="text-align: center;">1.메인 슬라이더 </p> 
-<p style="text-align: center;">2. 이벤트 게시글 </p> 
-<p style="text-align: center;">3. 고객센터 게시글 </p> 
-<p style="text-align: center;">4. 혜택 </p> 
-<p style="text-align: center;">5. 각 아이콘 </p> 
-<p style="text-align: center;">ㅇ 푸터ㅇ</p> 
-<p style="text-align: center;">수정전</p> 
- 
-<script>
-    
-// 슬라이드 이동 시 버튼 활성화 여부 변경
-/* swiper.on('slideChange', function() {
-  if (swiper.isBeginning) {
-    prevButton.classList.add('swiper-button-disabled');
-  } else {
-    prevButton.classList.remove('swiper-button-disabled');
-  }
 
-  if (swiper.isEnd) {
-    nextButton.classList.add('swiper-button-disabled');
-  } else {
-    nextButton.classList.remove('swiper-button-disabled');
-  }
-}); */
-</script>
-<div class="event-wrapper">
-    <div class="container">
-        <div class="event_title_wrap">
-            <div class="tabBtn_wrap">
-                <h3>EVENT</h3>
-            </div>
-            <a href="<%=request.getContextPath() %>/event/main.do" class="btn btn-allView">전체보기</a>
-        </div>
-        <div class="event-list">
-			<ul>
-				<c:forEach items="${eventList }" var="event">
-					<li>
-						<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${event.event_no}" data-netfunnel="N" class="eventBtn">
-							<p class="img"> <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" onerror="noImg(this);"></p>
-							<p class="tit">
-								${event.event_title }
-							</p>
-							<p class="date">
-							<fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ 
-							<fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/>
-							</p>
-						</a>
-					</li>
-				</c:forEach>
-			</ul>
-		</div>
+
+
+
+
+
+
+<!-- 이미지카드리스트 시 -->
+<div class="backRain">
+	<div class="content-box2">
+    	<div class="s2">
+    		<div>
+		    	<h1 class="" style="text-align: center;">특별한 맛과 함께 영화를 즐겨보세요!  </h1>
+		    </div>
+	    </div>
     </div>
-</div> 
-<div class="store-wrapper">
+	<p style="position: absolute;
+				margin: 230px 0 0 350px;
+	  			text-align:center;
+                width: 24%;
+                font-size: 17px;
+                color: #495057;">
+      			지금 당신을 위해 준비한 특별한 시간이 찾아왔습니다. 우리의 행사에서는 다채로운 기프트카드와 함께, 신선한 팝콘과 다양한 스낵, 그리고 상큼한 음료를 제공합니다. 이 맛있는 조합으로 특별한 순간을 더욱 풍성하게 만들어보세요! <br>
+            <a href="<%=request.getContextPath() %>/store/index.do" class="mainBtn">스토어 바로가기</a>
+      </p>
+      
+      <div class="parallax-box" style="margin-left: 49%; margin-top: 100px; margin-bottom: 100px;">
+		  <div style="margin: 0 1%; display: flex; flex-wrap: wrap;">
+		    <c:forEach items="${productFood}" var="Food" varStatus="loop">
+		      <div id="StoreCard" >
+		        <div class="wrapper">
+		          <div class="card" style="width: 140px;  height: 160px;">
+		            <a href="/store/detail.do?product_cd=${Food.product_cd }">
+		              <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${Food.product_pic_path}&item_cd=${Food.product_cd}&type=productImg">
+		              <small>${Food.product_name}</small>
+		            </a>
+		          </div>
+		        </div>
+		      </div>
+		      <!-- 각 행의 마지막 요소일 때, 새로운 줄을 시작 -->
+		      <c:if test="${loop.index % 4 == 3}">
+		        </div><div style="margin: 0 1%; display: flex; flex-wrap: wrap;">
+		      </c:if>
+		    </c:forEach>
+		  </div>
+		</div>
+		      
+<!-- 	<div class="parallax-box" style="display:flex; margin-left: 49%; margin-top: 100px; margin-bottom: 100px;"> -->
+<!-- 		<div style="margin: 0 1%; display: flex;"> -->
+<%-- 			<c:forEach items="${productFood }" var="Food"> --%>
+<!-- 				<div id="StoreCard"> -->
+<!-- 				  <div class="wrapper"> -->
+<!-- 				    <div class="card"> -->
+<!-- 				      <a> -->
+<%-- 				        <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${Food.product_pic_path}&item_cd=${Food.product_cd}&type=productImg"> --%>
+<%-- 				        <small>${Food.product_name}</small> --%>
+<!-- 				      </a> -->
+<!-- 				    </div> -->
+<!-- 				  </div> -->
+<!-- 				</div> -->
+<%-- 			</c:forEach> --%>
+<!-- 		</div> -->
+<!-- 	</div> -->
+</div>
+<!-- 이미지 카드리스트 끝  -->
+<script>
+$(document).ready(function() {
+	  const parallaxBoxes = $('.parallax-box');
+	  const scrollThreshold = $(window).innerHeight() / 1.5; // 화면 절반 높이만큼 스크롤 시 나타나게 설정
+
+	  $(window).on('scroll', function() {
+	    parallaxBoxes.each(function() {
+	      const boxTop = $(this).offset().top - $(window).scrollTop();
+	      if (boxTop < scrollThreshold) {
+	        $(this).css({ transform: 'translate(0)', opacity: 1 });
+	      } else {
+	        $(this).css({ transform: 'translate(-50%, 0)', opacity: 0 });
+	      }
+	    });
+	  });
+	});
+</script>
+
+
+<p style="text-align: center; padding: 30px;">무비포스트 100% </p>
+<p style="text-align: center; padding: 30px;">영화 리뷰 50%</p>
+<p style="text-align: center; padding: 30px;"> 혜택50% </p>
+<p style="text-align: center; padding: 30px;"> ############# </p>
+<p style="text-align: center; padding: 30px;"> 공지50% 고객센터50%  </p>
+<p style="text-align: center; padding: 30px;"> 전체 메뉴100% </p>
+<p style="text-align: center; padding: 30px;">푸터 </p>
+
+
+
+
+
+
+
+
+   
+
+<%-- <div class="store-wrapper">
     <div class="container">
         <div class="row">
             <div class="col-12 col-lg-6 col-xl-3">
@@ -451,7 +552,9 @@ $(document).ready(function() {
             </div>
         </div>
     </div>
-</div>
+</div> --%>
+
+
 <div class="info-wrapper">
     <div class="container">
         <div class="row">
