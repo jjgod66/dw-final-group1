@@ -19,13 +19,13 @@
 		<div class="mx-2">
 			<div id="setSearchTypeDiv mx-2">
 				<div class="row">
-					<div class="col-md-12 text-center">
+					<div class="col-md-12 text-center mb-4">
 						<div class="mb-2">
-							<input type="radio" name="howlong" id="day" data-type="dayDiv" checked>&nbsp;<label for="day">일별</label>
+							<input type="radio" name="howlong" id="day" data-type="dayDiv" ${cri.searchType2 eq 'day' || empty cri.searchType2 ? 'checked' : '' }>&nbsp;<label for="day">일별</label>
 							&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="radio" name="howlong" id="week" data-type="weekDiv">&nbsp;<label for="week">주간별</label>
+							<input type="radio" name="howlong" id="week" data-type="weekDiv" ${cri.searchType2 eq 'week' ? 'checked' : '' }>&nbsp;<label for="week">주간별</label>
 							&nbsp;&nbsp;&nbsp;&nbsp;
-							<input type="radio" name="howlong" id="month" data-type="monthDiv">&nbsp;<label for="month">월별</label>
+							<input type="radio" name="howlong" id="month" data-type="monthDiv" ${cri.searchType2 eq 'month' ? 'checked' : '' }>&nbsp;<label for="month">월별</label>
 							&nbsp;&nbsp;&nbsp;&nbsp;
 							<select name="searchType">
 								<c:forEach items="${theaterList }" var="thr">
@@ -35,15 +35,15 @@
 						</div>
 						<div class="mb-2 howlongDiv">
 							<div id="dayDiv">
-								<input type="date" name="keyword" max="2023-08-07">
+								<input type="date" name="keyword" value="${cri.searchType2 eq 'day' || empty cri.searchType2 ? keyword : '' }">
 							</div>
 							<div id="weekDiv" style="display: none;">
-								<input type="text" name="weekView" value="" style="width:8.5rem;"readonly>
-								<input type="date" name="keyword">
+								<input type="text" name="weekView" style="width:8.5rem;"readonly>
+								<input type="date" name="keyword" value="${cri.searchType2 eq 'week' ? keyword : '' }">
 							</div>
 							<div id="monthDiv" style="display: none;">
 								<input type="text" name="monthView" value=""  style="width:8.5rem;"readonly>
-								<input type="date" value="" name="keyword">
+								<input type="date" name="keyword" value="${cri.searchType2 eq 'month' ? keyword : '' }">
 							</div>
 						</div>
 						<div class="text-center">
@@ -52,17 +52,17 @@
 					</div>
 					<div class="col-md-6" style="text-align: -webkit-center;">
 						<div style="width:400px; hegiht:400px;">
-						  <canvas class="myChart1"></canvas>
+						  <canvas class="sales_yesterday_chart"></canvas>
 						</div>
 					</div>
 					<div class="col-md-6" style="text-align: -webkit-center;">
 						<div style="width:400px; hegiht:400px;">
-						  <canvas class="myChart2"></canvas>
+						  <canvas class="sales_all_chart"></canvas>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div id="searchResultDiv">
+			<div id="searchResultDiv" style="margin-top: 2rem;">
 				<h3>2023년 8월 7일</h3>
 				<table class="table table-bordered" style="font-size: small;">
 					<thead class="table-light text-center">
@@ -75,30 +75,22 @@
 							<th>누적매출액</th>
 							<th>관객수</th>
 							<th>누적관객수</th>
-							<th>상영횟수</th>
+							<th>누적상영횟수</th>
 						</tr>
 					</thead>
 					<tbody>
-						<%
-							List<Map<String, Object>> resultList = (List<Map<String, Object>>)request.getAttribute("resultList");
-							int pricesum_total_allmovie = 0;
-							for (Map<String, Object> result : resultList) {
-								pricesum_total_allmovie += Integer.parseInt(String.valueOf(result.get("PRICESUM_TOTAL")));
-							}
-							pageContext.setAttribute("pricesum_total_allmovie", pricesum_total_allmovie);
-						%>
-						<c:forEach items="${resultList }" var="result">
+						<c:forEach items="${movieList }" var="movie">
 						<tr class="text-end">
 							<c:set var="i" value="${i+1 }" />
 							<th class="text-center">${i }</th>
-							<td class="text-center">${result.MOVIE_NAME }</td>
-							<td class="text-center"><fmt:formatDate value="${result.OPENDATE }" pattern="yyyy-MM-dd" /></td>
-							<td><fmt:formatNumber value="${result.PRICESUM_YESTERDAY }" pattern="#,###" /></td>
-							<td>${result.PRICESUM_TOTAL/pageScope.pricesum_total_allmovie}</td>
-							<td><fmt:formatNumber value="${result.PRICESUM_TOTAL }" pattern="#,###" /></td>
-							<td><fmt:formatNumber value="${result.SEATCNT_YESTERDAY }" pattern="#,###" /></td>
-							<td><fmt:formatNumber value="${result.SEATCNT_TOTAL }" pattern="#,###" /></td>
-							<td><fmt:formatNumber value="${result.SCREENCNT }" pattern="#,###" /></td>
+							<td class="text-center">${movie.MOVIE_NAME }</td>
+							<td class="text-center"><fmt:formatDate value="${movie.OPENDATE }" pattern="yyyy-MM-dd" /></td>
+							<td><fmt:formatNumber value="${movie.SALES_YESTERDAY }" pattern="#,###" /></td>
+							<td>${movie.SALES_YESTERDAY / (movie.SALES_ALL_YESTERDAY == 0 ? 1 : movie.SALES_ALL_YESTERDAY)}</td>
+							<td><fmt:formatNumber value="${movie.SALES_ALL}" pattern="#,###" /></td>
+							<td><fmt:formatNumber value="${movie.SEAT_YESTERDAY }" pattern="#,###" /></td>
+							<td><fmt:formatNumber value="${movie.SEAT_ALL }" pattern="#,###" /></td>
+							<td><fmt:formatNumber value="${movie.SCREENCNT }" pattern="#,###" /></td>
 						</tr>
 						</c:forEach>
 					</tbody>
@@ -117,15 +109,15 @@
 let searchFormUrl = "/sysAdmin/movieAdminStatistics.do";
 $(function(){
 	
-	
-	const resultList = '<c:out value="${resultList}" />';
-	
 	const movieList = new Array();
-	<c:forEach items="${resultList}" var="result">
-		movieList.push({
-			name : "${result.MOVIE_NAME}",
-			data : "${result.PRICESUM_TOTAL}"
-		});
+	<c:forEach items="${movieList}" var="movie">
+		<c:if test="${movie.SALES_YESTERDAY ne 0}">
+			movieList.push({
+				name : "${movie.MOVIE_NAME}",
+				sales_yesterday : "${movie.SALES_YESTERDAY}",
+				sales_all : "${movie.SALES_ALL}"
+			});
+		</c:if>
 	</c:forEach>
 	
 	var strRGBAList = new Array();
@@ -140,42 +132,136 @@ $(function(){
 	const movieNameList = movieList.map(function(e){
 		return e.name
 	});
-	const moviePriceSumList = movieList.map(function(e){
-		return e.data
+	const movieSales_yesterday_List = movieList.map(function(e){
+		return e.sales_yesterday
+	});
+	const movieSales_all_List = movieList.map(function(e){
+		return e.sales_all
 	});
 	
-	const ctx = $('.myChart1');
-	const ctx2 = $('.myChart2');
+	const ctx = $('.sales_yesterday_chart');
+	const ctx2 = $('.sales_all_chart');
 	
-	let chart_config = {
+	const plugin = {
+			  id: 'customCanvasBackgroundColor',
+			  beforeDraw: (chart, args, options) => {
+			    const {ctx} = chart;
+			    ctx.save();
+			    ctx.globalCompositeOperation = 'destination-over';
+			    ctx.fillStyle = options.color || '#99ffff';
+			    ctx.fillRect(0, 0, chart.width, chart.height);
+			    ctx.restore();
+			  }
+	};
+	
+	let chart_config_yesterday = {
 		    type: 'pie',
 		    data:  {
 					  labels: movieNameList,
 					  datasets: [{
 					    label: 'My First Dataset',
-					    data: moviePriceSumList,
+					    data: movieSales_yesterday_List,
+					    hoverOffset: 4,
+					    backgroundColor: strRGBAList
+					  }],
+					},
+		    options: {
+				scales: {
+					x: {
+						display: false,
+				    	grid: {
+				    		display: false,
+				    		drawTicks: false
+			    		}
+			    	},
+			        y: {
+			        	display: false,
+			        	beginAtZero: true,
+			        	grid: {
+			        		display: false,
+			        		drawTicks: false
+			          }
+			        }
+			      },
+			      plugins: {
+			    	  title : {
+				    	  display: true,
+				    	  text: '매출액',
+				    	  font: {
+				    		  weight: 'bold',
+				    		  size: 18
+				    	  },
+				    	  padding: 20,
+				    	  align: 'center',
+				    	  position: 'bottom',
+				    	  fullSize: false
+				      },
+				      customCanvasBackgroundColor: {
+				    	  color: '#e9ecef',
+				      }
+			      }
+		    },
+		    plugins: [plugin],
+	}
+	
+	let chart_config_all = {
+		    type: 'pie',
+		    data:  {
+					  labels: movieNameList,
+					  datasets: [{
+					    label: 'My First Dataset',
+					    data: movieSales_all_List,
 					    hoverOffset: 4,
 					    backgroundColor: strRGBAList
 					  }]
 					},
 		    options: {
 			      scales: {
-			        y: {
-			          beginAtZero: true
-			        }
+			    	  x: {
+							display: false,
+					    	grid: {
+					    		display: false,
+					    		drawTicks: false
+				    		}
+				    	},
+				        y: {
+				        	display: false,
+				        	beginAtZero: true,
+				        	grid: {
+				        		display: false,
+				        		drawTicks: false
+				          }
+				        }
+			      },
+			      plugins: {
+			    	  title : {
+				    	  display: true,
+				    	  text: '총 매출액',
+				    	  font: {
+				    		  weight: 'bold',
+				    		  size: 18
+				    	  },
+				    	  padding: 20,
+				    	  align: 'center',
+				    	  position: 'bottom',
+				    	  fullSize: false
+				      },
+				      customCanvasBackgroundColor: {
+				    	  color: '#e9ecef',
+				      }
 			      }
-		    }
+		    },
+		    plugins: [plugin],
 	}
 	
-	new Chart(ctx, chart_config);
-	new Chart(ctx2, chart_config);
+	new Chart(ctx, chart_config_yesterday);
+	new Chart(ctx2, chart_config_all);
 	
 	
 	// date를 'yyyy-MM-dd' 형식으로
 	function dateToString(date) {
 		return date.getFullYear()+'-'+(date.getMonth()+1<10?'0'+(date.getMonth()+1):date.getMonth()+1)+'-'+(date.getDate()<10?'0'+date.getDate():date.getDate());
 	}
-	
 	// 주간별일때 input text value값 자동 넣어지게
 	function setWeekView(date) {
 		function getWeek(date){
@@ -204,7 +290,7 @@ $(function(){
 	let today_date = today.getDate();
 	let yesterday = new Date(today_year, today_month, today_date-1);
 	yesterday_toString = dateToString(yesterday);
-	$('.howlongDiv input[type="date"]').val(yesterday_toString);
+	$('.howlongDiv input[type="date"]').val('${cri.keyword}');
 	$('.howlongDiv input[type="date"]').attr('max', yesterday_toString);
 	
 	// 검색 날짜 설정 방법 radio 클릭시
