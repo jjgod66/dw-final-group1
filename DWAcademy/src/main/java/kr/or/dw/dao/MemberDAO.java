@@ -93,5 +93,15 @@ public interface MemberDAO {
 	 */
 	String[] select10000overMem() throws SQLException;
 
+	// 회원 선호 장르 등록
+	void updateMemLikeGenre(Map<String, Object> data) throws SQLException;
+
+	// 회원 선호 장르 삭제
+	void deleteMemLikeGenre(String mem_cd) throws SQLException;
+
+	// 회원 선호장르 가져오기
+	List<Map<String, Object>> selectMemLikeGenre(String mem_cd) throws SQLException;
+
+
 
 }

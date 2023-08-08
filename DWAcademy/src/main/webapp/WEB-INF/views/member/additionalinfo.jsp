@@ -200,76 +200,22 @@
 					<th scope="row">선호극장</th>
 					<td style="padding-left: 25px; border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
 						<span>선호 영화관은 최대 3개까지 등록 가능합니다.</span>
-						<div class="selectMargin">
-							<span>1순위</span>
-							<div style="display: inline-block;">
-								<select name="selectThrLoc1st" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option class="bs-title-option">지역선택</option>
-									<c:forEach items="${theaterList}" var="theaterList">
-										<option class="bs-title-option" value="${theaterList.thr_loc}">${theaterList.thr_loc}</option>
-									</c:forEach>
-								</select>
-								<select name="selectThrName" id="selectThrName1st" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option value="">극장 선택</option>
-								</select>
+						<c:forEach begin="1" end="5" var="index">
+							<div class="selectMargin">
+								<span>${index}</span>
+								<div style="display: inline-block;">
+									<select name="selectThrLoc${index}" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+										<option class="bs-title-option" value="">지역선택</option>
+										<c:forEach items="${theaterList}" var="theaterList">
+											<option class="bs-title-option" value="${theaterList.thr_loc}">${theaterList.thr_loc}</option>
+										</c:forEach>
+									</select>
+									<select name="selectThrName" id="selectThrName${index}" class="form-select" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+										<option value="">극장 선택</option>
+									</select>
+								</div>
 							</div>
-						</div>
-						<div class="selectMargin">
-							<span>2순위</span>
-							<div style="display: inline-block;">
-								<select name="selectThrLoc2nd" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option class="bs-title-option">지역선택</option>
-									<c:forEach items="${theaterList}" var="theaterList">
-										<option class="bs-title-option">${theaterList.thr_loc}</option>
-									</c:forEach>
-								</select>
-								<select name="selectThrName" id="selectThrName2nd" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option value="">극장 선택</option>
-								</select>
-							</div>
-						</div>
-						<div class="selectMargin">
-							<span>3순위</span>
-							<div style="display: inline-block;">
-								<select name="selectThrLoc3rd" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option class="bs-title-option">지역선택</option>
-									<c:forEach items="${theaterList}" var="theaterList">
-										<option class="bs-title-option">${theaterList.thr_loc}</option>
-									</c:forEach>
-								</select>
-								<select name="selectThrName" id="selectThrName3rd" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option value="">극장 선택</option>
-								</select>
-							</div>
-						</div>
-						<div class="selectMargin">
-							<span>4순위</span>
-							<div style="display: inline-block;"> 
-								<select name="selectThrLoc4th" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option class="bs-title-option">지역선택</option>
-									<c:forEach items="${theaterList}" var="theaterList">
-										<option class="bs-title-option">${theaterList.thr_loc}</option>
-									</c:forEach>
-								</select>
-								<select name="selectThrName" id="selectThrName4th" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option value="">극장 선택</option>
-								</select>
-							</div>
-						</div>
-						<div class="selectMargin">
-							<span>5순위</span>
-							<div style="display: inline-block;">
-								<select name="selectThrLoc5th" class="form-select selectThrLoc" title="지역 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option class="bs-title-option">지역선택</option>
-									<c:forEach items="${theaterList}" var="theaterList">
-										<option class="bs-title-option">${theaterList.thr_loc}</option>
-									</c:forEach>
-								</select>
-								<select name="selectThrName" id="selectThrName5th" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-									<option value="">극장 선택</option>
-								</select>
-							</div>
-						</div>
+						</c:forEach>
 						<br>
 					</td>
 				</tr>
@@ -277,24 +223,14 @@
 					<th scope="row" >선호 장르(3개 선택)</th>
 					<td>
 						<div class="row" style="display: inline-block; margin: 10px 0 10px 0;">
-							<select name="genreType1" class="form-select selectGenre" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-								<option>장르선택</option>
-								<c:forEach items="${genreList}" var="genreList">
-									<option value="${genre.genre_cd}">${genreList.genre_name}</option>
-								</c:forEach>
-							</select>
-							<select name="genreType2" class="form-select selectGenre" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-								<option>장르선택</option>
-								<c:forEach items="${genreList}" var="genreList">
-									<option value="${genre.genre_cd}">${genreList.genre_name}</option>
-								</c:forEach>
-							</select>
-							<select name="genreType3" class="form-select selectGenre" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
-								<option>장르선택</option>
-								<c:forEach items="${genreList}" var="genreList">
-									<option value="${genre.genre_cd}">${genreList.genre_name}</option>
-								</c:forEach>
-							</select>
+							<c:forEach begin="1" end="3" var="index">
+								<select name="genreType" id="selectedGenre${index}" class="form-select selectGenre" title="장르선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<option value="">장르선택</option>
+									<c:forEach items="${genreList}" var="genreList">
+										<option value="${genreList.genre_cd}">${genreList.genre_name}</option>
+									</c:forEach>
+								</select>
+							</c:forEach>	
 						</div>
 					</td>
 				</tr>
@@ -309,7 +245,13 @@
 	</div>
 </form>
 </div>
-
+<c:forEach items="${mem_like_theater}" var="mlt">
+	<input type="hidden" value="${mlt.THR_LOC}" class="mlt">
+	<input type="hidden" value="${mlt.THR_NAME}" class="mltThrName">
+</c:forEach>
+<c:forEach items="${mem_like_genre}" var="mlg">
+	<input type="hidden" value="${mlg.GENRE_CD}" class="mlg">
+</c:forEach>
 <script>
 $('#chk1').on('click', function(){
 	$('input[name=gb_sms_alert]').attr("disabled", true);
@@ -350,15 +292,74 @@ let selectLocData = "";
 let createOption = "";
 let select = "";
 let cd = "";
+
+$(document).ready(function() {
+    let selectedValues = new Set();
+    
+    $('.mlt').each(function() {
+      	let selectedValue = $(this).val();
+		
+		$('select[name^=selectThrLoc]').each(function() {
+	        console.log("Selected Value:", selectedValue);
+			if (!$(this).hasClass('processed')) {
+				let optionToSelect = $(this).find('option[value="' + selectedValue + '"]');
+				console.log(optionToSelect)
+				optionToSelect.attr('selected', true);
+				select = $(this);
+				const cd = select.attr('name').substr(12, 13);
+				$.ajax({
+	           		url : "<%=request.getContextPath()%>/member/searchTheater.do",
+	           		method : "get",
+	           		data : {selectLocData : selectedValue},
+	           		success : function(res){
+	           			$('#selectThrName'+ cd).html("<option value=''>극장 선택</option>");
+	           			for(let i = 0; res.length > i; i++){
+	           				createOption = "<option value='" + res[i].thr_name + "'>" + res[i].thr_name + "</option>";
+	           				if(select.text() == $('select[name=selectThrLoc' + cd + ']').text()){
+	           					$('#selectThrName'+ cd).append(createOption);
+	           				}
+	           				
+	           			};
+	           			test();
+	           		},
+	           		error : function(err){
+	           			console.log(err);
+	           		}
+	           	});
+				$(this).addClass('processed');
+				return false;
+			}
+		});
+    });
+    
+    
+	function test() {
+		let i = 1;
+       	$('select[name=selectThrName]').each(function() {
+			$('.mltThrName').each(function() {
+				console.log(i)
+				let selectedValue = $(this).val();
+	       		console.log('@@@@@', selectedValue)
+	       		console.log($('#selectThrName' + i))
+	    		$('#selectThrName' + i).find('option[value="' + selectedValue + '"]').attr('selected', true);
+	       		i = i + 1;
+			})
+	       		return false;
+		});
+    }
+});
+
+
 $('.selectThrLoc').on('change', function(){
-	selectLocData = $(this).val();
 	select = $(this);
 	cd = select.attr('name').substr(12, 16);
+	selectLocData = $(this).val();
 	$.ajax({
 		url : "<%=request.getContextPath()%>/member/searchTheater.do",
 		method : "get",
 		data : {selectLocData : selectLocData},
 		success : function(res){
+			console.log(res)
 			$('#selectThrName'+ cd).html("<option value=''>극장 선택</option>");
 			for(let i = 0; res.length > i; i++){
 				
@@ -376,18 +377,24 @@ $('.selectThrLoc').on('change', function(){
 });
 let selectArr = [];
 let selectThrName = "";
-$('.selectThrName').on('change', function(){
-	select = $(this);
-	cd = select.attr('id').substr(13, 16);
-	selectThrName = $('#selectThrName' + cd).val();
-	console.log(selectThrName);
-})
 /* 선호 극장 끝 */
 	
 /* 선호 장르 시작 */
-$('.selectGenre').on('change', function(){
-	
-});
+
+$('.mlg').each(function(){
+		let genre_id = $('select[name=genreType]').attr('id').substr(13, 14);
+// 		console.log(genre_id)
+		let selectGenre = $(this).val();
+	$('select[name=genreType]').each(function(){
+		if(!$(this).hasClass("processed")){
+			let selectedGenre = $(this).find('option[value=' + selectGenre + ']');
+// 			console.log(selectedGenre)
+			selectedGenre.attr('selected', true);
+			$(this).addClass("processed");
+			return false;
+		}
+	});
+})
 /* 선호 장르 끝 */
 
 
@@ -395,20 +402,37 @@ $('.selectGenre').on('change', function(){
 function additionSubmit_go(){
 let falg = true;
 let sameWord = "";
-	for(let i = 0; i < selectArr.length; i++){
-		for(let j = selectArr.length-1; j > i; j--){
-			if(selectArr[i] == selectArr[j]){
-				sameWord = selectArr[j];
-				console.log(sameWord);
-				if($($('.selectThrName')[j]).val() == sameWord){
-					$($('.selectThrName')[j]).focus();
-					alert("선호극장은 중복될 수 없습니다! 다시 선택해주세요.")
-					falg = false;
-					return;
-				}
-			};
-		};
-	};
+let sameGenre = "";
+selectArr = [];
+let selectGenreArr = [];
+$('select[name=selectThrName]').each(function(){
+	selectThrName = $(this).val();
+	if(selectThrName != ''){
+		if(selectArr.indexOf(selectThrName) != -1){
+			alert('중복!' + selectThrName)
+			let duplication = $(this).find('option[value=' + selectThrName + ']');
+			duplication.focus();
+			falg = false;
+			return false;
+		}
+		selectArr.push(selectThrName);
+		console.log(selectArr)
+	}
+});
+$('select[name=genreType]').each(function(){
+	selectGenreName = $(this).val();
+	if(selectGenreName != ''){
+		if(selectGenreArr.indexOf(selectGenreName) != -1){
+			alert('중복!' + selectGenreName)
+			let duplication = $(this).find('option[value=' + selectGenreName + ']');
+			duplication.focus();
+			falg = false;
+			return false;
+		}
+		selectGenreArr.push(selectGenreName);
+		console.log(selectGenreArr)
+	}
+});
 	if(falg == true){
 		$('form[role=additionInfo]').submit();
 	}

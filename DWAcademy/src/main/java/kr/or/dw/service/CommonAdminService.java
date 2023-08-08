@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.Admin_NoteVO;
 
 public interface CommonAdminService {
@@ -31,5 +32,8 @@ public interface CommonAdminService {
 
 	// 해당 검색에 대한 영화 통계를 가져온다.
 	List<Map<String, Object>> selectStatisticsMovie() throws SQLException;
+
+	// 해당 검색에 대한 영화 통계를 가져온다.
+	Map<String, Object> selectStatisticsMovie(SearchCriteria cri) throws SQLException;
 	
 }

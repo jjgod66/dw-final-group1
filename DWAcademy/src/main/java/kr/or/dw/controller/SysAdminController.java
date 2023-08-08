@@ -458,11 +458,14 @@ public class SysAdminController {
 	}
 	
 	@RequestMapping("/movieAdminStatistics")
-	public ModelAndView movieAdminStatistics(ModelAndView mnv) throws SQLException {
+	public ModelAndView movieAdminStatistics(ModelAndView mnv, SearchCriteria cri) throws SQLException {
 		String url = "/sysAdmin/movieAdminStatistics";
 		
-		List<Map<String, Object>> theaterList = commonAdminService.selectThrList("S202307200022");
+		List<Map<String, Object>> theaterList = commonAdminService.selectThrList(" ");
 		mnv.addObject("theaterList", theaterList);
+		
+//		Map<String, Object> dataMap = commonAdminService.selectStatisticsMovie(cri);
+		
 		
 		List<Map<String, Object>> resultList = commonAdminService.selectStatisticsMovie();
 		mnv.addObject("resultList", resultList);
@@ -1156,18 +1159,6 @@ public class SysAdminController {
 		out.flush();
 		out.close();
 	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-//	// admin_contentHeader에 넣을 정보들
-//	private Map<String, Object> addSubject(String subject, String item1, String item2) {
-//		Map<String, Object> subjectMap = new HashMap<String, Object>();
-//		subjectMap.put("subject", subject);
-//		subjectMap.put("item1", item1);
-//		subjectMap.put("item2", item2);
-//		return subjectMap;
-//	}
 	
 	private Map<String, Object> addSubject(String subject, String item1, String item2, String url) {
 		Map<String, Object> subjectMap = new HashMap<String, Object>();

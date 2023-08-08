@@ -53,10 +53,16 @@ public interface MemberService {
 	// 모든 장르 가져오기
 	List<GenreVO> selectAllGenreList() throws SQLException;
 
-	// 회원 선호장르 선택
+	// 회원 선호극장 등록
 	void memLikeThr(List<String> thrNames, String mem_cd) throws SQLException;
 
 	// 모든 회원 정보 가져오는 메서드
 	Map<String, Object> selectAllMemberInfo(String id) throws SQLException;
+
+	// 회원의 선호장르 등록
+	void memLikeGenre(List<String> genreNames, String mem_cd) throws SQLException;
+
+	// 회원 선호장르 가져오는 메서드
+	List<Map<String, Object>> selectMemLikeGenre(String mem_cd) throws SQLException;
 	
 }
