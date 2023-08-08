@@ -1,9 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<div id="section1" class="section" style="display: block;">
   <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans&display=swap" rel="stylesheet">
-	  
-	  <style>
+<style>
 	  .abs,
 h2:after,
 .cards .card figcaption,
@@ -208,72 +206,30 @@ h2:after {
   opacity: 1;
   transform: none;
 }
-	  </style>
-	  
-	  
-	 <div class="wrapper123">
-
-	<h2><strong> 2023,08<span>( 4 )</span></strong></h2>
-
-	<div class="cards">
-
-		<figure class="card">
-
-			<img src="/resources/img/범죄도시3_메인포스터.jpg" />
-
-			<figcaption>범죄도시</figcaption>
-
-		</figure>
-
-		<figure class="card">
-
-			<img src="https://www.linkpicture.com/q/2_965.jpg" />
-
-			<figcaption>Stick Fight</figcaption>
-
-		</figure>
-
-		<figure class="card">
-
-			<img src="https://www.linkpicture.com/q/3_695.jpg" />
-
-			<figcaption>Minion Masters</figcaption>
-
-		</figure>
-
-		<!-- <figure class="card">
-
-			<img src="https://www.linkpicture.com/q/4_543.jpg" />
-
-			<figcaption>KoseBoz!</figcaption>
-
-		</figure> -->
-
-	</div>
-	
-	<h2><strong> 2023,07<span>( 4 )</span></strong></h2>
-
-	<div class="cards">
-
-		<figure class="card">
-
-			<img src="/resources/img/범죄도시3_메인포스터.jpg" />
-
-			<figcaption>범죄도시</figcaption>
-
-		</figure>
-
-	</div>
-
-
-</div> 
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
-	  
+</style>
+<div id="section1" class="section" style="display: block;">
+	<div class="wrapper123">
+		<h2><strong> 2023,08<span>( 4 )</span></strong></h2>
+		<div class="cards">
+			<figure class="card">
+				<img src="/resources/img/범죄도시3_메인포스터.jpg" />
+				<figcaption>범죄도시</figcaption>
+			</figure>
+			<figure class="card">
+				<img src="https://www.linkpicture.com/q/2_965.jpg" />
+				<figcaption>Stick Fight</figcaption>
+			</figure>
+			<figure class="card">
+				<img src="https://www.linkpicture.com/q/3_695.jpg" />
+				<figcaption>Minion Masters</figcaption>
+			</figure>
+		</div>
+		<h2><strong> 2023,07<span>( 4 )</span></strong></h2>
+		<div class="cards">
+			<figure class="card">
+				<img src="/resources/img/범죄도시3_메인포스터.jpg" />
+				<figcaption>범죄도시</figcaption>
+			</figure>
+		</div>
+	</div> 
 </div>

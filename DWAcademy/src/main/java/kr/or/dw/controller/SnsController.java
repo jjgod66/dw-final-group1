@@ -325,8 +325,7 @@ public class SnsController {
 		@RequestMapping(value="/kakao/callback", method= {RequestMethod.GET, RequestMethod.POST})
 		public ModelAndView callback(ModelAndView mnv, @RequestParam String code, HttpSession session, HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException {
 			String url = "/member/PrivacyInfo";
-			MemberVO member = (MemberVO) session.getAttribute("loginUser");
-			System.out.println(member.getMem_cd());
+			Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 			
 			System.out.println("#########" + code);
 			Map<String, String> tokenMap = new HashMap<>();
@@ -342,7 +341,7 @@ public class SnsController {
 			
 			userInfo.put("access_Token", access_Token);
 			userInfo.put("refresh_Token", refresh_Token);
-			userInfo.put("mem_cd", member.getMem_cd());
+			userInfo.put("mem_cd", member.get("CD"));
 			
 			System.out.println(userInfo);
 			

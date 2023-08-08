@@ -122,7 +122,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;}
 	<%@ include file="movieTimeLine.jsp" %>
 	
 	<div id="section2" class="section" style="display: none;">
-	  섹션 2 내용
+		<%@ include file="myMoviepost.jsp" %>
 	</div>
 	
 	<div id="section3" class="section" style="display: none;">

@@ -67,6 +67,28 @@ ol {
     position: relative;
     padding: 0 0 0 8px;
 }
+.button.large {
+    height: 46px;
+    padding: 0 30px;
+    line-height: 44px;
+}
+.button {
+    display: inline-block;
+    height: 36px;
+    margin: 0;
+    padding: 0 15px;
+    text-align: center;
+    line-height: 34px;
+    color: #503396;
+    font-weight: 400;
+    border-radius: 4px;
+    font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
+    text-decoration: none;
+    border: 1px solid #503396;
+    vertical-align: middle;
+    background-color: #fff;
+    cursor: pointer;
+}
 </style>
     <div class="container has-lnb">
         	<div id="contents" class="location-fixed">
@@ -144,6 +166,9 @@ $('#resignSubmitBtn').on('click', function(){
 	}else{
 		alert('비밀번호를 다시 입력해주세요');
 	}
+})
+$('#cancelBtn').on('click', function(){
+	location.href="<%=request.getContextPath()%>/member/PrivacyInfo.do";
 })
 </script>
 <%@ include file="../include/member_footer.jsp" %>

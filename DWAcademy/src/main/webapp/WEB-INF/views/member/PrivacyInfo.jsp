@@ -4,8 +4,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
-.PrivacyInfo-wrapper {
-}
 .PrivacyInfo-wrapper h2.tit {
     padding: 26px 0 26px 0;
     font-size: 1.8666em;
@@ -168,7 +166,7 @@ p.reset {
 <script>
 	Kakao.init('4d3eb758ca79e46a21afa1951cdbec30'); //발급받은 키 중 javascript키를 사용해준다.
 </script>
-<div class="additionalinfo-wrapper">
+<div class="PrivacyInfo-wrapper">
 	<div id="contents" class="">
           <h2 class="tit">개인정보 수정</h2>
 
@@ -191,19 +189,23 @@ p.reset {
 		                              <div class="profile-photo">
 		                                  <form name="fileForm">
 		                                      <input type="file" id="profileTarget" name="file" style="display: none;">
-		                                      
 		                                  </form>
-		                                          <div class="profile-img">
-		                                              <img src="../../resources/img/defaultprofile.png">
+		                                          <div class="profile-img" id="preview">
+                                    					<c:if test="${memberInfo.MEM_PIC_PATH != null}">
+															<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/common/getPicture.do?name=${memberInfo.MEM_PIC_PATH}&item_cd=${memberInfo.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 75px; height: 75px;">
+														</c:if>
+														<c:if test="${memberInfo.MEM_PIC_PATH == null}">
+															<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+														</c:if>
 		                                          </div>
-		                                          <button type="button" class="button small gray-line" id="addProfileImgBtn">이미지 등록</button>
-		                                  <a href="#" class="button small member-out" title="회원탈퇴">회원탈퇴</a>
+		                                          <button type="button" class="button small gray-line" id="profileBtn">이미지 등록</button>
+		                                  <a href="#" class="button small member-out" id="resignBtn" title="회원탈퇴">회원탈퇴</a>
 		                              </div>
 		                          </td>
 		                      </tr>
 		                      <tr>
 		                          <th scope="row">아이디</th>
-		                          <td>test123</td>
+		                          <td>${memberInfo.MEM_ID}</td>
 		                      </tr>
 		                  </tbody>
 		              </table>
@@ -231,7 +233,7 @@ p.reset {
 	                                  이름 <em class="font-orange">*</em>
 	                              </th>
 	                              <td>
-	                                  <span class="mbNmClass">김민경</span>
+	                                  <span class="mbNmClass">${memberInfo.MEM_NAME}</span>
 	                              </td>
 	                          </tr>
 	                          <tr>
@@ -239,36 +241,32 @@ p.reset {
 	                                  생년월일 <em class="font-orange">*</em>
 	                              </th>
 	                              <td>
-	                                  2023년
-	                                  00월
-	                                  00일
+	                                 <fmt:formatDate value="${memberInfo.MEM_BIR}" pattern="yyyy-MM-dd"/>
 	                              </td>
 	                          </tr>
 	                          <tr>
 	                              <th scope="row">
-	                                  <label for="num">휴대폰</label> <em class="font-orange">*</em>
+	                                  <label for="num">휴대폰</label><em class="font-orange">*</em>
 	                              </th>
 	                              <td>
 	                                  <div class="clearfix">
-	                                      <p class="reset float-l w170px lh32 changeVal" data-name="phoneNo">
-	                                          010-1111-1111
-	                                      </p>
+	                                      <p class="reset float-l w170px lh32 changeVal" id="mem_phone" data-name="phoneNo">${memberInfo.MEM_PHONE}</p> 
 	                                      <div class="float-l">
 	                                          <button type="button" class="button small gray-line change-phone-num" id="phoneChgBtn" title="휴대폰번호 변경">휴대폰번호 변경</button>
 	                                      </div>
 	                                  </div>
-	                                  <div class="change-phone-num-area">
+	                                  <div class="change-phone-num-area" style="display:none;">
 	                                      <div class="position">
 	                                          <label for="chPhone" class="label">변경할 휴대폰</label>
 	                                          <input type="text" id="chPhone" class="input-text w160px numType" placeholder="'-'없이 입력해 주세요" title="변경할 휴대폰 번호 입력" maxlength="11">
 	                                          <button type="button" class="button small gray-line" id="sendNumberBtn">인증번호 전송</button>
 	                                      </div>
-	                                      <div class="position" style="display: none;">
+	                                      <div class="position" id="authNum" style="display: none;">
 	                                          <label for="chkNum" class="label">인증번호 입력</label>
 	
 	                                          <div class="chk-num small">
 	                                              <div class="line">
-	                                                  <input type="text" id="chkNum" class="input-text w180px" title="인증번호 입력" placeholder="인증번호를 입력해 주세요" maxlength="4">
+	                                                  <input type="text" id="chkNum" class="input-text w180px" title="인증번호 입력" placeholder="인증번호를 입력해 주세요" maxlength="6">
 	                                                  <div class="time-limit" id="timeLimit">3:00</div>
 	                                              </div>
 	                                          </div>
@@ -282,22 +280,25 @@ p.reset {
 	                                  <label for="email">이메일</label> <em class="font-orange">*</em>
 	                              </th>
 	                              <td>
-	                                  <input type="text" id="email" name="mbEmail" class="input-text w500px" value="test1@test.com">
+	                                  <input type="text" id="email" name="mbEmail" class="input-text w500px" value="${memberInfo.MEM_EMAIL}">
 	                              </td>
 	                          </tr>
 	                          <tr>
 	                              <th scope="row">비밀번호 <em class="font-orange">*</em></th>
 	                              <td>
-	                                  <a href="/on/oh/ohh/Mypage/userPwdChangePage.do" class="button small gray-line" title="비밀번호 변경">비밀번호 변경</a>
+	                                  <a href="<%=request.getContextPath()%>/common/pwdChangePage.do?mem_id=${memberInfo.MEM_ID}" class="button small gray-line" title="비밀번호 변경">비밀번호 변경</a>
 	                              </td>
 	                          </tr>
 	                          <tr>
 	                              <th scope="row">주소</th>
 	                              <td>
-	                                  <span></span>
-	                                  <a href="#none" id="addrBtn" class="button small gray-line ml10" title="우편번호 검색">우편번호 검색</a>
+	                                  <span id="m_addr_post">${memberInfo.MEM_ZIPCODE}</span>
+	                                  <a href="#none" id="addrBtn" class="button small gray-line ml10" onclick="sample6_execDaumPostcode1();" title="우편번호 검색">우편번호 검색</a>
+	                                  <br>
+	                                  <span id="m_addr">${memberInfo.MEM_ADDR}</span>
+	                                  <span id="m_addr_detail">${memberInfo.MEM_ADDR_DETAIL}</span>
 	                                  <p class="reset mt10"></p>
-	                                  <input type="text" name="mem_addr_detail" placeholder="상세주소입력" class="input-text">
+	                                  <input type="text" id="mem_addr_detail" placeholder="상세주소입력" class="input-text" style="display: none;">
 	                              </td>
 	                          </tr>
 	                      </tbody>
@@ -306,13 +307,6 @@ p.reset {
 	          </div>
           </div>
 		</div>
-         <div class="btn-group py-3">
-			<button class="button large" id="cancelBtn">취소</button>
-			<button class="button purple large" id="updateBtn">수정</button>
-		</div>
-      </div>
-	
-</div>
 	<div class="box-radius">
 		<div class="box-top">
 			<strong>간편로그인 계정 연동</strong>
@@ -362,14 +356,32 @@ p.reset {
 					</tr>
 				</tbody>
 			</table>
+			</div>
+		</div>
+	</div>
+         <div class="btn-group py-3">
+			<button class="button large" id="cancelBtn">취소</button>
+			<button class="button purple large" id="updateBtn">수정</button>
+		</div>
+	</div>
+<form enctype="multipart/form-data" id="PriUpdateForm" action="<%=request.getContextPath()%>/member/PrivacyInfoUpdate.do" method="post">
+	<input type="hidden" name="oldPicture" value="${memberInfo.MEM_PIC_PATH}">
+    <input type="file" id="imgFile" name="member_pic_path" accept=".jpeg, .png, .jpg, .gif" onchange="imgChange_go();" style="display: none;">
+	<input type="hidden" name="mem_email">
+	<input type="hidden" name="mem_phone">
+	<input type="hidden" name="mem_zipcode">
+	<input type="hidden" name="mem_addr">
+	<input type="hidden" name="mem_addr_detail">
+</form>
 <script>
+let imageURL = '/common/getPicture.do?name=${memberInfo.MEM_PIC_PATH}&item_cd=${memberInfo.MEM_CD}&type=memberPic';	// 이미지명 가지고 와서 셋팅
 function imgChange_go() {
 	let inputImage = $('input#imgFile')[0];
 	preViewPicture(inputImage, $('#preview'));
+	$('#preview').find('img').hide();
 }
 // 등록이 아니라 수정시 기존 이미지 프리뷰
 if ('${memberInfo.MEM_PIC_PATH}' != null && '${memberInfo.MEM_PIC_PATH}' != '') {
-	let imageURL = '/common/getPicture.do?name=${memberInfo.MEM_PIC_PATH}&item_cd=${memberInfo.MEM_CD}&type=productImg';	// 이미지명 가지고 와서 셋팅
 	$('#preview').css({
 							'background-image' : 'url("' + imageURL + '")',
 							'background-position' : 'center',
@@ -383,13 +395,90 @@ $('#profileBtn').on('click', function(e){
 	e.preventDefault();
 	$('#imgFile').click();
 });
-$('#imgFile').on('change', function(){
-	$('#inputFileName').removeClass('is-invalid');
-})
 
 // 탈퇴버튼 클릭
 $('#resignBtn').on('click', function(){
 	location.href="<%=request.getContextPath()%>/member/resign.do";
+})
+
+// 휴대폰 번호 변경 버튼 클릭
+$('#phoneChgBtn').on('click', function(){
+	$('.change-phone-num-area').show();
+})
+// 인증번호 전송 버튼 클릭
+let authNum = "";
+$('#sendNumberBtn').on('click', function(){
+	let phone = $('#chPhone').val();
+	if(phone != ""){
+		$.ajax({
+			url : '<%=request.getContextPath()%>/SMS/send.do',
+			method : 'post',
+			data : {"phone" : phone},
+			success : function(res){
+				alert('메세지를 성공적으로 보냈습니다!')
+				console.log(res);
+				authNum = res;
+				$('#authNum').show();
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	}else{
+		alert('번호를 입력해주세요.');
+	}
+})
+$('#chgBtn').on('click', function(){
+	let chkNum = $('#chkNum').val();
+	let mem_phone = $('#chPhone').val();
+	if(chkNum == authNum){
+		$.ajax({
+			method : "post",
+			url : "<%=request.getContextPath()%>/member/CheckMember.do",
+			data : {mem_phone : mem_phone},
+			success : function(res){
+				if(res != ""){
+					alert('이미 가입된 회원번호입니다!');
+				}else{
+					$('#mem_phone').html(mem_phone);
+					$('.position').hide();
+					$('.position').val('');
+				}
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	}else{
+		alert('인증번호가 일치하지 않습니다! 다시 인증해주세요');
+		authNum = "";
+		$('#authNum').hide();
+	}
+	
+})
+// 주소 변경 클릭
+$('#addrBtn').on('click', function(){
+	$('#mem_addr_detail').show();
+	$('#mem_addr_detail').val("${memberInfo.MEM_ADDR_DETAIL}")
+	$('#m_addr_detail').hide();
+})
+
+
+let emailReg = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+let PriUpdateForm = $('#PriUpdateForm')
+$('#updateBtn').on('click', function(){
+	let input_email = $('input[name=mbEmail]').val();
+	if(emailReg.test(input_email)){
+		PriUpdateForm.find('input[name=mem_email]').val(input_email)
+		PriUpdateForm.find('input[name=mem_phone]').val($('#mem_phone').text())
+		PriUpdateForm.find('input[name=mem_zipcode]').val($('#m_addr_post').text())
+		PriUpdateForm.find('input[name=mem_addr]').val($('#m_addr').text())
+		PriUpdateForm.find('input[name=mem_addr_detail]').val($('#mem_addr_detail').val())
+		$('#PriUpdateForm').submit();
+	}else{
+		alert('이메일을 형식에 맞게 작성해주세요!')
+	}
+	
 })
 </script>
 <%@ include file="../include/member_footer.jsp" %>

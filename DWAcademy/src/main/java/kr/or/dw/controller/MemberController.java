@@ -1,5 +1,6 @@
 package kr.or.dw.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.SearchCriteria;
@@ -45,6 +48,9 @@ import kr.or.dw.vo.TheaterVO;
 public class MemberController {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	
+	@Resource(name ="memberPicUploadPath")
+	private String memberPicUploadPath;
 	
 	@Autowired
 	private MemberService memberService;
@@ -74,6 +80,34 @@ public class MemberController {
 	@Autowired
 	private void setNaverLoginBO(NaverLoginBO2 naverLoginBO2) {
 		this.naverLoginBO2 = naverLoginBO2;
+	}
+	
+	private String saveMemberPicture(MultipartFile multi, String oldPicture, String mem_cd) throws Exception {
+		
+		String fileName = null;
+		
+		// 파일 유무 확인
+		if (!(multi == null || multi.isEmpty() || multi.getSize() > 1024 * 1024 * 10)) {
+			// 파일 저장 폴더 설정
+			String imgPath = "";
+			imgPath = this.memberPicUploadPath + File.separator + mem_cd;
+			fileName = multi.getOriginalFilename();
+			File storeFile = new File(imgPath, fileName);
+			
+			storeFile.mkdirs();
+			
+			// local HDD에 저장
+			multi.transferTo(storeFile);
+			
+			if (!oldPicture.isEmpty()) {
+				File oldFile = new File(imgPath, oldPicture);
+				if (oldFile.exists()) {
+					oldFile.delete();
+				}
+			}
+		}
+		
+		return fileName;
 	}
 	
 	@RequestMapping("/member/main")
@@ -132,6 +166,25 @@ public class MemberController {
 		mnv.setViewName(url);
 		
 		return mnv;
+	}
+	
+	@RequestMapping("/member/PrivacyInfoUpdate")
+	public void PrivacyInfoUpdate(HttpSession session, MemberVO memVO, HttpServletRequest req, HttpServletResponse res) throws Exception {
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		String fileName = saveMemberPicture(memVO.getMember_pic_path(),memVO.getOldPicture(), mem_cd);
+		
+		memVO.setMem_cd(mem_cd);
+		memVO.setMem_pic_path(fileName);
+		
+		memberService.memberInfoUpdate(memVO);
+		
+		res.setContentType("text/html; charset=utf-8");
+	    PrintWriter out = res.getWriter();
+	    out.println("<script>");
+	    out.println("alert('개인정보 수정이 정상적으로 되었습니다.');");
+	    out.println("location.href='" + req.getContextPath() + "/member/PrivacyInfo';");
+	    out.println("</script>");
 	}
 	
 	@RequestMapping("/member/join")
@@ -442,10 +495,14 @@ public class MemberController {
 		return mnv;
 	}
 	
-	@RequestMapping("/member/resginMember")
-	public ModelAndView resginMember(ModelAndView mnv, HttpSession session) {
+	@RequestMapping("/member/resignMember")
+	public ModelAndView resginMember(ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/member/main";
 		
+		Map<String, Object> member =  (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		
+		memberService.resginMember(mem_cd);
 		
 		mnv.setViewName(url);
 		return mnv;

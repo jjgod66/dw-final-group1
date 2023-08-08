@@ -214,4 +214,20 @@
 		SELECT *
 		  FROM mem_like_genre
 	</select>
+	
+	<update id="resginMember">
+		UPDATE member SET mem_del = 'Y'
+		 WHERE mem_cd = #{mem_cd}
+	</update>
+	
+	<update id="memberInfoUpdate">
+		UPDATE member SET 
+							mem_phone = #{mem_phone}
+							,mem_email = #{mem_email}
+							,mem_zipcode = #{mem_zipcode}
+							,mem_addr = #{mem_addr}
+							,mem_addr_detail = #{mem_addr_detail}
+							,mem_pic_path = #{mem_pic_path}
+		 WHERE mem_cd = #{mem_cd}
+	</update>
 </mapper>
