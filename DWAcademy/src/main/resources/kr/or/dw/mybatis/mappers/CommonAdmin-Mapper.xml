@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.or.dw.dao.CommonAdminDAO">
-
+	
+	<sql id="searchMovieStatistics">
+		<if test="searchType2 == ''.toString()">
+		</if>
+		<if test="searchType2 == 'day'.toString()">
+			AND to_char(resdate, 'yyyy-MM-dd') = #{keyword}
+		</if>
+		<if test="searchType2 == 'week'.toString()">
+			AND to_char(resdate, 'yyyy-MM-dd') <![CDATA[<]]> to_char(TRUNC(TO_DATE(#{keyword})+7, 'dy'), 'yyyy-MM-dd')
+			AND to_char(resdate, 'yyyy-MM-dd') <![CDATA[>=]]> to_char(TRUNC(TO_DATE(#{keyword}), 'dy'), 'yyyy-MM-dd')
+		</if>
+		<if test="searchType2 == 'month'.toString()">
+			AND to_char(resdate, 'yyyy-MM') = TO_CHAR(TO_DATE(#{keyword}), 'yyyy-MM')
+		</if>
+	</sql>
+	
+	<sql id="searchMovieStatistics2">
+		<if test="searchType != 'S202307200022'.toString()">
+			AND t.admin_cd = #{searchType}
+		</if>
+	</sql>
+	
 	<select id="selectThrList" resultType="map">
 		SELECT a.admin_cd, a.thr_name
 		  FROM admin a, theater t
@@ -151,34 +172,103 @@
 		   AND gb_del_receiver = 'N'
 	</select>
 	
-	<select id="selectStatisticsMovie" resultType="map">
-		SELECT a.movie_cd, MAX(a.movie_name) movie_name, SUM(a.pricesum) pricesum_total
-		     , SUM(a.seatcnt) seatcnt_total, SUM(NVL(b.pricesum, 0)) pricesum_yesterday
-			 , SUM(NVL(b.seatcnt, 0)) seatcnt_yesterday, MAX(a.opendate) opendate, MAX(s.screencnt) screencnt 
+	<select id="selectStatisticsMovieList" resultType="map">
+		SELECT movie_name, opendate, nvl(yessales,0) sales_yesterday, nvl(yesPer,0) seat_yesterday
+			 , nvl(allsales,0) sales_all, nvl(allPer,0) seat_all
+			 , nvl(allScreen,0) screencnt, nvl(yesAllsales,0) sales_all_yesterday
+		  FROM movie m,
+		      (SELECT movie_cd, count(*) allScreen
+		      	 FROM screen s, theater t, house h
+		      	WHERE s.house_no = h.house_no
+		      	  AND t.thr_name = h.thr_name
+		      	  <include refid="searchMovieStatistics2"/>
+		      	GROUP BY movie_cd)
+		      a,
+		      (SELECT sum(pricesum) allsales, movie_cd, count(*) allPer
+		      	 FROM reservation r, screen s, theater t, house h
+		      	WHERE r.screen_cd = s.screen_cd
+		      	  AND s.house_no = h.house_no
+		      	  AND t.thr_name = h.thr_name
+		      	  AND r.resdate <![CDATA[<]]> SYSDATE
+		      	  <include refid="searchMovieStatistics2"/>
+		          AND r.GB_CANCEL = 'N'
+		        GROUP BY movie_cd) 
+		      b,
+		      (SELECT sum(pricesum) yessales, movie_cd, count(*) yesPer
+		      	 FROM reservation r, screen s, theater t, house h
+		     	WHERE r.screen_cd = s.screen_cd
+		     	  AND s.house_no = h.house_no
+		     	  AND t.thr_name = h.thr_name
+			      <include refid="searchMovieStatistics2"/>
+			      <include refid="searchMovieStatistics"/>
+			      AND r.GB_CANCEL = 'N'
+		        GROUP BY movie_cd)
+		      c,
+		      (SELECT sum(pricesum) yesAllsales
+		      	 FROM reservation r, screen s, theater t, house h
+		      	WHERE r.screen_cd = s.screen_cd
+		      	  AND s.house_no = h.house_no
+		      	  AND t.thr_name = h.thr_name
+		      	  AND r.resdate <![CDATA[<]]> SYSDATE
+		      	  <include refid="searchMovieStatistics2"/>
+		      	  <include refid="searchMovieStatistics"/>
+		      	  AND r.GB_CANCEL = 'N')
+		      d
+		 WHERE m.movie_cd = a.movie_cd(+)
+		   AND m.movie_cd = b.movie_cd(+)
+		   AND m.movie_cd = c.movie_cd(+)
+		   AND to_char(m.enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
+		ORDER BY sales_yesterday DESC, sales_all DESC
+	</select>
+	<select id="selectStatisticsMovieListCount" resultType="int">
+		SELECT COUNT(*)
 		  FROM (
-				SELECT MAX(m.MOVIE_CD) movie_cd, MAX(m.MOVIE_NAME) movie_name, SUM(r.PRICESUM) pricesum, COUNT(r.res_seat) seatcnt, MAX(m.opendate) opendate 
-				  FROM MOVIE m, RESERVATION r, SCREEN s
-				 WHERE m.MOVIE_CD = s.MOVIE_CD 
-				   AND r.SCREEN_CD = s.SCREEN_CD
-				   AND r.GB_CANCEL = 'N'
-				 GROUP BY r.MERCHANT_UID
-		  		) a, 
-		   		(
-				SELECT MAX(m.MOVIE_CD) movie_cd, MAX(m.MOVIE_NAME) movie_name, SUM(r.PRICESUM) pricesum, COUNT(r.res_seat) seatcnt
-				  FROM MOVIE m, RESERVATION r, SCREEN s
-				 WHERE m.MOVIE_CD = s.MOVIE_CD 
-				   AND r.SCREEN_CD = s.SCREEN_CD
-				   AND r.GB_CANCEL = 'N'
-				   AND r.RESDATE = sysdate - 1
-				 GROUP BY r.MERCHANT_UID
-		  		) b,
-		  		(
-		  		SELECT  MOVIE_CD ,COUNT(*) screencnt
-				  FROM SCREEN s 
-				 GROUP BY MOVIE_CD
-		  		) s
-		  WHERE a.movie_cd = b.movie_cd(+)
-		    AND a.movie_cd = s.MOVIE_CD
-		  GROUP BY a.movie_cd
+				SELECT movie_name, opendate, nvl(yessales,0) sales_yesterday, nvl(yesPer,0) seat_yesterday
+					 , nvl(allsales,0) sales_all, nvl(allPer,0) seat_all
+					 , nvl(allScreen,0) screencnt, nvl(yesAllsales,0) sales_all_yesterday
+				  FROM movie m,
+				      (SELECT movie_cd, count(*) allScreen
+				      	 FROM screen s, theater t, house h
+				      	WHERE s.house_no = h.house_no
+				      	  AND t.thr_name = h.thr_name
+				      	  <include refid="searchMovieStatistics2"/>
+				      	GROUP BY movie_cd)
+				      a,
+				      (SELECT sum(pricesum) allsales, movie_cd, count(*) allPer
+				      	 FROM reservation r, screen s, theater t, house h
+				      	WHERE r.screen_cd = s.screen_cd
+				      	  AND s.house_no = h.house_no
+				      	  AND t.thr_name = h.thr_name
+				      	  AND r.resdate <![CDATA[<]]> SYSDATE
+				      	  <include refid="searchMovieStatistics2"/>
+				          AND r.GB_CANCEL = 'N'
+				        GROUP BY movie_cd) 
+				      b,
+				      (SELECT sum(pricesum) yessales, movie_cd, count(*) yesPer
+				      	 FROM reservation r, screen s, theater t, house h
+				     	WHERE r.screen_cd = s.screen_cd
+				     	  AND s.house_no = h.house_no
+				     	  AND t.thr_name = h.thr_name
+					      <include refid="searchMovieStatistics2"/>
+					      <include refid="searchMovieStatistics"/>
+					      AND r.GB_CANCEL = 'N'
+				        GROUP BY movie_cd)
+				      c,
+				      (SELECT sum(pricesum) yesAllsales
+				      	 FROM reservation r, screen s, theater t, house h
+				      	WHERE r.screen_cd = s.screen_cd
+				      	  AND s.house_no = h.house_no
+				      	  AND t.thr_name = h.thr_name
+				      	  AND r.resdate <![CDATA[<]]> SYSDATE
+				      	  <include refid="searchMovieStatistics2"/>
+				      	  <include refid="searchMovieStatistics"/>
+				      	  AND GB_CANCEL = 'N')
+				      d
+				 WHERE m.movie_cd = a.movie_cd(+)
+				   AND m.movie_cd = b.movie_cd(+)
+				   AND m.movie_cd = c.movie_cd(+)
+				   AND to_char(m.enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
+				ORDER BY sales_yesterday DESC, sales_all DESC
+			)
 	</select>
 </mapper>

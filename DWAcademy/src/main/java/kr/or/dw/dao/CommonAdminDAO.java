@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.session.RowBounds;
 
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.Admin_NoteVO;
 
 @Mapper
@@ -43,6 +45,10 @@ public interface CommonAdminDAO {
 
 	// 해당 검색에 대한 영화 통계를 가져온다.
 	List<Map<String, Object>> selectStatisticsMovie() throws SQLException;
+
+	List<Map<String, Object>> selectStatisticsMovieList(SearchCriteria cri) throws SQLException;
+
+	int selectStatisticsMovieListCount(SearchCriteria cri) throws SQLException;
 
 	
 }
