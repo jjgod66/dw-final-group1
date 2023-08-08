@@ -247,15 +247,6 @@ h3.tit {
 	text-decoration: underline;
 	cursor: pointer;
 }
-.input-text {
-    height: 32px;
-    padding: 0 10px;
-    line-height: 30px;
-    color: #444;
-    border: 1px solid #d8d9db;
-    vertical-align: middle;
-    font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
-}
 .content {
 	padding: 20px 0;
 }
@@ -269,13 +260,14 @@ h3.tit {
 	<h2 class="tit">예매/구매 내역</h2>
 	<div class="tab-block tab-layer">
 		<ul>
-			<li class="on"><a href="<%=request.getContextPath() %>/member/bookinglist.do" class="btn">예매 </a></li>
-			<li><a href="<%=request.getContextPath() %>/member/buylist.do" class="btn">구매 </a></li>
+			<li><a href="<%=request.getContextPath() %>/member/bookinglist.do" class="btn">예매 </a></li>
+			<li class="on"><a href="<%=request.getContextPath() %>/member/buylist.do" class="btn">구매 </a></li>
 		</ul>
 	</div>
-	<!-- <section id="myBokdArea"  class="content-section" style="display: block"> -->
+	<!-- 구매 내역 시작 -->
+	<!-- <section id="myPurcArea" class="content-section" style="display: block"> -->
 	<div class="board-list-search mt20">
-		<table summary="예매 조회 조건">
+		<table summary="구매 조회 조건">
 			<colgroup>
 				<col style="width:75px;">
 				<col>
@@ -284,27 +276,16 @@ h3.tit {
 				<tr>
 					<th scope="row" style="border: none; background-color: transparent;">구분 </th>
 					<td style="border: none;">
-						<input type="radio" id="radBokd01" name="radBokd" value="B" checked="checked">
-						<label for="radBokd01">예매내역 </label>
-						
-						<div class="dropdown bootstrap-select disabled small bs3">
-							<select name="searchType">
-								<option value="">선택</option>
-								<option value="date" ${cri.searchType eq 'date' ? 'selected' : '' }>월별</option>
-								<option value="movie" ${cri.searchType eq 'movie' ? 'selected' : '' }>영화별</option>
-								<option value="theater" ${cri.searchType eq 'theater' ? 'selected' : '' }>극장별</option>
-							</select>
-						</div>
-							<input type="text" class="small bd3 toggle input-text" name="keyword" value="${cri.keyword}">
-						<div class=" bootstrap-select small bs3" id="selYM" style="display:none;">
-						<c:set var="now" value="<%=new java.util.Date()%>" />
+						<div class="dropdown bootstrap-select small bs3">
+							<c:set var="now" value="<%=new java.util.Date()%>" />
 							<c:set var="sysYear"><fmt:formatDate value="${now}" pattern="yyyy" /></c:set> 
 							<c:set var="sysMonth"><fmt:formatDate value="${now}" pattern="MM" /></c:set> 
 							<c:set var="sysYearS" value="${sysYear }"/>
 							<c:set var="sysMonthS" value="${sysMonth }"/>
 							<c:set var="0" value="0"/>
-							<select name="monthKeyword" class="selectpicker small" tabindex="-98">
-								<c:forEach begin="1" end="12" varStatus="status">
+							<select name="buyYM" class="selectpicker small" tabindex="-98">
+							
+							<c:forEach begin="1" end="12" varStatus="status">
 								<option value="${sysYearS }${sysMonthS}" ${cri.monthKeyword eq sysYearS += sysMonthS ? 'selected' : '' }>${sysYearS }년 ${sysMonthS }월</option>	
 								<c:choose> 
 									<c:when test="${sysMonthS - 1 >= 1}">
@@ -320,140 +301,121 @@ h3.tit {
 								</c:choose>
 							</c:forEach>
 							</select>
+							
 						</div>
-						<button type="button" class="button gray-line small ml05" id="reserveSearchBtn" onclick=" searchList_go(1, '/member/searchResDate.do');">
+						<button type="button" id="buyYMSearchBtn" class="button gray-line small ml05" name="search" onclick="searchBuyList_go(1);">
 							<i class="iconset ico-search-gray"></i> 조회 
 						</button>
-						<select style="display:none;" name="perPageNum">
-							<option value="5" selected></option>
-						</select>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-		<div class="container" id="myMovie" style="margin-top: 10px;">
-	<c:if test="${empty movieInfoList}">
+	<div class="container" id="myBuy">
+	<c:if test="${buyTotalCount eq 0}">
 		<div class="" style="padding: 50px 0; margin: auto;">
-			<div style="text-align: center;">예매내역이 없습니다.</div>
+			<div style="text-align: center;">구매내역이 없습니다.</div>
 		</div>
 	</c:if>
-	<c:if test="${!empty movieInfoList}">
-		<div>총 ${movieTotalCount}건</div>
-	</c:if>
-		<c:forEach items="${movieInfoList}" var="movieInfo">
 		<div class="container" style="margin-top: 10px;">
-			<div class="card-body row" style="padding: 30px; border: 1px solid gray; border-radius: 10px;">
-				<div class="col-2" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
-				<div class="col-5">
-					<span><strong>예매번호 </strong>${movieInfo.MERCHANT_UID}</span>
-					<br><br>
-					<span><strong>영화명 </strong>${movieInfo.MOVIE_NAME}</span>
-					<br><br>
-					<span><strong>극장/상영관 </strong>${movieInfo.THR_NAME} / ${movieInfo.HOUSE_NAME}</span>
-					<br><br>
-					<span><strong>관람일시 </strong>${movieInfo.STARTDATE}</span>
-					<br><br>
-					<span><strong>결제일시 </strong>${movieInfo.RESDATE}</span>
-					<button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="creInfoBtn">결제정보</button>
-	<!-- 				<button type="button" class="btn-light">결제취소</button> -->
-				</div>
-				<div class="col-4 infodiv2">
-					<br><br>
-					<br><br>
-					<span><strong>관람인원 </strong>${movieInfo.MEM_CAT}</span>
-					<br><br>
-					<span><strong>관람좌석 </strong>${movieInfo.RES_SEAT}</span>
-					<br><br>
-					<c:set var="now" value="<%=new java.util.Date()%>" />
-					<c:set var="sysDate"><fmt:formatDate value="${now}" pattern="yyyyMMddHHmm" /></c:set> 
-					<c:set var="screenDate"><fmt:formatDate value="${movieInfo.STARTDATE}" pattern="yyyyMMddHHmm" /></c:set> 
-					<c:if test="${movieInfo.REFUNDDATE eq null}">
-						<c:if test="${screenDate - 30 > sysDate }">
-								<span><strong>취소일시 </strong><button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="resRefundBtn">예매취소</button></span>
+		<c:if test="${!empty buyInfoList}">
+		<div>총 ${buyTotalCount}건</div>
+			<div class="card-body" style="margin-top: 10px;">
+				<table style="width : 100%;">
+					<tr>
+						<th style="width : 20%; text-align : center;">결제일시</th>
+						<th style="width : 10%; text-align : center;">구분</th>
+						<th style="text-align : center;">상품명</th>
+						<th style="width : 10%; text-align : center;">결제금액</th>
+						<th style="width : 10%; text-align : center;">상태</th>
+						<th style="width : 10%; text-align : center;">취소</th>
+					</tr>
+	<c:forEach items="${buyInfoList}" var="buyInfo">
+					<tr>
+						<td style="width : 20%; text-align : center;"><fmt:formatDate value="${buyInfo.BUYDATE}"/></td>
+						<td style="width : 10%; text-align : center;">${buyInfo.PRODUCT_DIV}</td>
+						<td style="text-align : center;" class="proName" data-mem_product_cd="${buyInfo.MEM_PRODUCT_CD }">${buyInfo.PRODUCT_NAME}</td>
+						<td style="width : 10%; text-align : center;"><fmt:formatNumber value="${buyInfo.PRODUCT_PRICE}" pattern="#,###"/> 원</td>
+						<c:if test="${buyInfo.GB_USE eq 'N'}">
+							<td style="width : 10%; text-align : center; color: blue">사용가능</td>
 						</c:if>
-						<c:if test="${screenDate < sysDate}">
-							<c:if test="${movieInfo.GB_PRINT eq null }">
-								<span><strong>포토티켓 </strong><button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="photoTicketBtn">포토티켓 만들기</button></span>
+						<c:if test="${buyInfo.GB_USE eq 'Y'}">
+							<td style="width : 10%; text-align : center;">사용완료</td>
+						</c:if>
+						<c:if test="${buyInfo.GB_USE eq 'R'}">
+							<td style="width : 10%; text-align : center; color: red;">사용불가</td>
+						</c:if>
+						<c:if test="${buyInfo.REFUNDDATE eq null}">
+							<c:if test="${buyInfo.GB_ONE_USE eq 'N'}">
+								<td style="width : 10%; text-align : center;"><button type="button" class="btn-light CreBtn" data-merchant_uid="${buyInfo.MERCHANT_UID}" id="buyRefundBtn">취소</button></td>
 							</c:if>
-							<c:if test="${movieInfo.GB_PRINT ne null }">
-								<span><strong>포토티켓 </strong>
-									<c:if test="${movieInfo.GB_PRINT =='Y'}">
-										(출력완료)
-									</c:if>
-									<c:if test="${movieInfo.GB_PRINT =='N'}">
-										(출력전)<button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="photoTicketRefundBtn">취소</button>
-									</c:if>
-								</span>
+							<c:if test="${buyInfo.GB_ONE_USE eq 'Y'}">
+								<td style="width : 10%; text-align : center; color: red;">취소불가</td>
 							</c:if>
 						</c:if>
-					</c:if>
-	<%-- 				<c:if test="${movieInfo.REFUNDDATE eq null}"> --%>
-	<!-- 					<span><strong>취소일시 </strong> - </span> -->
-	<%-- 				</c:if> --%>
-					<c:if test="${movieInfo.REFUNDDATE ne null}">
-						<span><strong>취소일시 </strong>${movieInfo.REFUNDDATE}</span>
-					</c:if>
-				</div>
-			</div>
-		</div>
-		<br>
+						<c:if test="${buyInfo.REFUNDDATE ne null}">
+							<td style="width : 10%; text-align : center;">취소완료</td>
+						</c:if>
+					</tr>
 		</c:forEach>
+				</table>
+			</div>
+		</c:if>
+		</div>
 	</div>
-	<c:if test="${empty movieInfoList}">
+	<br>
+	<c:if test="${buyTotalCount eq 0}">
 		<div class="mt-5 mb-5 paginationdiv" style="display: none;">
 			<%@ include file="../common/pagination.jsp" %>
 		</div>
 	</c:if>
-	<c:if test="${!empty movieInfoList}">
+	<c:if test="${buyTotalCount ne 0}">
 		<div class="mt-5 mb-5 paginationdiv">
 			<%@ include file="../common/pagination.jsp" %>
 		</div>
 	</c:if>
 	<br>
 </div>
+<form id="reserveSearchForm">
+	<input type="hidden" name="page">
+	<input type="hidden" name="perPageNum">
+	<input type="hidden" name="monthKeyword">
+</form>
+<!-- </section> -->
 <script>
 $(function(){
-
-	$('#myMovie').on('click', '#photoTicketRefundBtn', function(){
+	$('#myBuy').on('click', '#buyRefundBtn', function(){
 		let merchant_uid = $(this).data('merchant_uid');
-		$('#ptrefundHiddenMUID').val(merchant_uid);
-		$('#photoTicket-refund-modal').modal('show');
+		$('#buyrefundHiddenMUID').val(merchant_uid);
+		$('#buy-refund-modal').modal('show');
 	})
 	
-	$('.infodiv2').on('click', '#photoTicketBtn', function(){
-		let merchant_uid = $(this).data('merchant_uid');
-		location.href="<%=request.getContextPath()%>/photoTicket/edit.do?merchant_uid=" + merchant_uid;
-		
-	})
-	
-	$('#myMovie').on('click', '#resRefundBtn', function(){
-		let merchant_uid = $(this).data('merchant_uid');
-		$('#refundHiddenMUID').val(merchant_uid);
-		$('#refund-modal').modal('show');
-	})
-	
-	$('#myMovie').on('click', '#creInfoBtn', function(){
-		
-		let merchant_uid = $(this).data('merchant_uid');
-		
+	$('#myBuy').on('click', '.proName', function(){
+		let mem_product_cd = $(this).data('mem_product_cd');
+		$("#infoModalMemProCd").text(mem_product_cd);
 		$.ajax({
-			url : '<%=request.getContextPath()%>/pay/creInfo.do',
+			url : '<%=request.getContextPath()%>/pay/buyCreInfo.do',
 			method : 'post',
-			data : {'merchant_uid' : merchant_uid},
+			data : {'mem_product_cd' : mem_product_cd},
 			success : function(res){
 				console.log(res);
-				payInfoRes(res);
+				payInfoBuy(res);
 				$('#creditInfo-modal').modal('show');
 			},
 			error : function(err){
 				alert(err.status);
 			}
 		})
+	})
+
+	$('.infodiv2').on('click', '#photoTicketBtn', function(){
+		let merchant_uid = $(this).data('merchant_uid');
+		location.href="<%=request.getContextPath()%>/photoTicket/edit.do?merchant_uid=" + merchant_uid;
 		
 	})
 	
-	$('#myMovie').on('click', '#creInfoBtn', function(){
+	
+	$('#myBuy').on('click', '#creInfoBtn', function(){
 		
 		let merchant_uid = $(this).data('merchant_uid');
 		
@@ -473,7 +435,7 @@ $(function(){
 	})
 })
 
-let searchUrl = "/member/bookinglist.do"
+let searchUrl = "/member/buylist.do"
 if (${not empty sessionScope.admin_cd}) {
 	$('#reserveSearchForm').find('[name="adminType"]').val('${sessionScope.admin_cd}');
 }
@@ -499,8 +461,8 @@ function searchBuyList_go(page, url) {
 	}
 	reserveSearchForm.submit();
 }
-let searchFormUrl = "/member/bookinglist.do";
-$(document).ready(function () {
+let searchFormUrl = "/member/buylist.do";
+// $(document).ready(function () {
 // 	// 페이지가 로드되면 해시태그에 따라 해당 콘텐츠를 보여주거나 감추는 함수 실행
 // 	handleHashChange();
 // 	if($('li[data-tit="구매내역"]').hasClass('on') == true){
@@ -537,32 +499,32 @@ $(document).ready(function () {
 // 		$(".content-section").hide();
 // 		$(hash).show();
 // 	};
-	$('select[name="searchType"]').on('change', function(){
-		console.log(this.value);
-		if(this.value == "date"){
-			$('input[name="keyword"]').hide();
-			$('#selYM').show();
-		}else if(this.value == "movie" || this.value == "theater"){
-			$('#selYM').hide();
-			$('input[name="keyword"]').show();
-		}else{
-			$('#selYM').hide();
-			$('input[name="keyword"]').hide();
-		}
-	})
-let searchType = "<c:out value='${cri.searchType}'/>";
+// 	$('select[name="searchType"]').on('change', function(){
+// 		console.log(this.value);
+// 		if(this.value == "date"){
+// 			$('input[name="keyword"]').hide();
+// 			$('#selYM').show();
+// 		}else if(this.value == "movie" || this.value == "theater"){
+// 			$('#selYM').hide();
+// 			$('input[name="keyword"]').show();
+// 		}else{
+// 			$('#selYM').hide();
+// 			$('input[name="keyword"]').hide();
+// 		}
+// 	})
+// let searchType = "<c:out value='${cri.searchType}'/>";
 
-	if(searchType == 'date'){
-		$('#selYM').show();
-	}else if(searchType == 'movie' || searchType == 'theater'){
-		$('input[name="keyword"]').show();
-	}
+// 	if(searchType == 'date'){
+// 		$('#selYM').show();
+// 	}else if(searchType == 'movie' || searchType == 'theater'){
+// 		$('input[name="keyword"]').show();
+// 	}
 
 // 	$('#radBokd01').on('click', function(){
 <%-- 		location.href="<%=request.getContextPath()%>/member/bookinglist.do"; --%>
 // 	});
 
-});
+// });
 
 
 

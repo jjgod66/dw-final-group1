@@ -303,6 +303,14 @@ public interface MovieService {
 	 * @return
 	 */
 	Map<String, Object> searchMovieInfo(SearchCriteria cri, String mem_cd) throws SQLException;
+	/**
+	 * 구매 내역조회
+	 * @param cri 
+	 * @param mem_cd
+	 * @param searchVal
+	 * @return
+	 */
+	Map<String, Object> searchBuyInfo(SearchCriteria cri, String mem_cd) throws SQLException;
 
 	/**
 	 * 리뷰 작성 탑5 영화 가져오는 메서드
@@ -317,5 +325,13 @@ public interface MovieService {
 	 * @return
 	 */
 	List<Map<String, Object>> getMy2ResInfo(String mem_cd) throws SQLException;
+
+	/**
+	 * 리뷰 삭제
+	 * @param review_no
+	 * @return
+	 * @throws SQLException
+	 */
+	String deleteReview(int review_no) throws SQLException;
 
 }

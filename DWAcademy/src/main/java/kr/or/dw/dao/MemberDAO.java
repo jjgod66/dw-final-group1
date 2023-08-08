@@ -86,5 +86,12 @@ public interface MemberDAO {
 	// 회원의 모든 정보 가져오는 메서드
 	Map<String, Object> selectAllMemberInfo(String id) throws SQLException;
 
+	/**
+	 * 전달 100,000원 넘게 예매한 회원 가져오는 메서드
+	 * @return
+	 * @throws SQLException
+	 */
+	String[] select10000overMem() throws SQLException;
+
 
 }

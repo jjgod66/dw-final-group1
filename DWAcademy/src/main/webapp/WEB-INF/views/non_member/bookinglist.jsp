@@ -266,8 +266,8 @@ h3.tit {
 		</colgroup>
 		<tbody>
 			<tr>
-				<th scope="row">구분 </th>
-				<td>
+				<th scope="row" style="border: none; background-color: transparent;">구분 </th>
+				<td style="border: none;">
 				<c:if test="${pageMaker.cri.searchType != 'past' }">
 					<input type="radio" id="radBokd01" name="searchTyperes" value="curr" checked="checked">
 					<label for="radBokd01">예매내역 </label>
@@ -294,7 +294,7 @@ h3.tit {
 		</tbody>
 	</table>
 </div>
-	<div class="container" id="myMovie">
+	<div class="container" id="myMovie" style="margin-top: 10px;">
 <c:if test="${empty resList}">
 	<div class="" style="padding: 30px; margin: auto;">
 		<div style="text-align: center;">내역이 없습니다.</div>
@@ -304,8 +304,8 @@ h3.tit {
 	<div>총 ${totalCount}건</div>
 </c:if>
 	<c:forEach items="${resList}" var="res">
-	<div class="container">
-		<div class="card-body row" style="padding-rigth: 0; border: 1px solid #503396">
+	<div class="container" style="margin-top: 10px;">
+		<div class="card-body row"  style="padding: 30px; border: 1px solid gray; border-radius: 10px;">
 			<div class="col-2" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${res.MOVIE_MAINPIC_PATH}&item_cd=${res.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
 			<div class="col-5">
 				<span><strong>예매번호 </strong>${res.MERCHANT_UID}</span>

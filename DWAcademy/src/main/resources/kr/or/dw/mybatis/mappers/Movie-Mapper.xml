@@ -3,27 +3,31 @@
 <mapper namespace="kr.or.dw.dao.MovieDAO">
 
 	<select id="selectBoxOfficeMovie10" resultType="Map">
-		SELECT m2.movie_cd movie_cd, reserve, movie_name, movie_grade, movie_length, movie_mainpic_path, opendate
-		FROM (
-			SELECT m.movie_cd, nvl(sum(reserve), 0) reserve
+	SELECT *
+	FROM (
+		SELECT a.*, rownum rnum
+		FROM (SELECT m2.movie_cd movie_cd, reserve, movie_name, movie_grade, movie_length, movie_mainpic_path, opendate
 			FROM (
-				SELECT s.*, reserve
+				SELECT m.movie_cd, nvl(sum(reserve), 0) reserve
 				FROM (
-					SELECT count(*) reserve, screen_cd
-					FROM reservation
-					WHERE TO_CHAR(resdate, 'YYYYMMDD') =  TO_CHAR(sysdate - 1, 'YYYYMMDD') 
-					AND gb_cancel = 'N'
-					GROUP BY screen_cd
-					) r, screen s
-				WHERE r.screen_cd(+) = s.screen_cd
-				) s, movie m
-			WHERE s.movie_cd(+) = m.movie_cd
-			GROUP BY m.movie_cd
-			) m1, movie m2
-		WHERE m1.movie_cd = m2.movie_cd
-		AND enddate <![CDATA[>]]> SYSDATE
-		AND movie_name like '%' || #{keyword} || '%'
-		ORDER BY reserve DESC NULLS last
+					SELECT s.*, reserve
+					FROM (
+						SELECT count(*) reserve, screen_cd
+						FROM reservation
+						WHERE TO_CHAR(resdate, 'YYYYMMDD') =  TO_CHAR(sysdate - 1, 'YYYYMMDD') 
+						AND gb_cancel = 'N'
+						GROUP BY screen_cd
+						) r, screen s
+					WHERE r.screen_cd(+) = s.screen_cd
+					) s, movie m
+				WHERE s.movie_cd(+) = m.movie_cd
+				GROUP BY m.movie_cd
+				) m1, movie m2
+			WHERE m1.movie_cd = m2.movie_cd
+			AND movie_name like '%' || '' || '%'
+			AND enddate <![CDATA[>=]]> SYSDATE
+			ORDER BY reserve DESC NULLS LAST) a)
+	WHERE rnum <![CDATA[<=]]> 10
 	</select>
 	
 	<select id="selectMovieDetail" parameterType="str" resultType="movie">
@@ -54,6 +58,8 @@
 		SELECT *
 		FROM review
 		WHERE movie_cd = #{movie_cd}
+		AND gb_del = 'N'
+		ORDER BY regdate DESC
 	</select>
 	
 	<select id="selectMovieTypeByCd" parameterType="str" resultType="str">
@@ -285,17 +291,22 @@
 	</insert>
 	
 	<select id="selectReview3" resultType="Map">
-		SELECT r.*, nvl(reviewlike, 0) reviewlike, mem_id, mem_pic_path
+		SELECT *
 		FROM (
-			SELECT count(*) reviewlike, review_no
-			FROM review_like
-			GROUP BY review_no
-			)rl, review r, MEMBER m
-		WHERE rl.review_no(+) = r.review_no
-		AND r.mem_cd = m.mem_cd
-		AND r.gb_del = 'N'
-		AND movie_cd = #{movie_cd}
-		AND rownum <![CDATA[<=]]> 3
+			SELECT a.*, rownum rnum
+			FROM (
+				SELECT r.*, nvl(reviewlike, 0) reviewlike, mem_id, mem_pic_path
+				FROM (
+					SELECT count(*) reviewlike, review_no
+					FROM review_like
+					GROUP BY review_no
+					)rl, review r, MEMBER m
+				WHERE rl.review_no(+) = r.review_no
+				AND r.mem_cd = m.mem_cd
+				AND r.gb_del = 'N'
+				AND movie_cd = #{movie_cd}
+				ORDER BY r.regdate DESC) a )
+		WHERE rnum <![CDATA[<=]]> 3
 	</select>
 	
 	<select id="getAllMovieReview" resultType="Map">
@@ -360,6 +371,7 @@
 		SELECT nvl(ROUND(avg(review_rating), 3),0)
 		FROM review
 		WHERE movie_cd = #{movie_cd}
+		AND gb_del = 'N'
 	</select>
 	
 	<select id="searchReview" resultType="Map">
@@ -372,6 +384,7 @@
 		 WHERE movie_name like '%' || #{keyword} ||'%'
  		   AND m.MOVIE_CD = r.MOVIE_CD
    		   AND mem.MEM_CD = r.MEM_CD
+   		   AND r.gb_del = 'N'
 	</select>
 	
 	<select id="selectMoviePostMap" resultType="Map">
@@ -486,6 +499,7 @@
 	   AND p.merchant_uid = r.merchant_uid
 	   AND p.merchant_uid = pt.merchant_uid(+)
 	 GROUP BY r.merchant_uid
+	  ORDER BY resdate desc
 	</select>
 	
 	<select id="searchMovieInfoList" resultType="Map">
@@ -523,6 +537,7 @@
 	   AND p.merchant_uid = r.merchant_uid
 	   AND p.merchant_uid = pt.merchant_uid(+)
 	 GROUP BY r.merchant_uid
+	  ORDER BY resdate desc
 	</select>
 
 	<insert id="insertMoviePost">
@@ -778,4 +793,8 @@
 			 )
  	WHERE rownum <![CDATA[<=]]> 1
 	</select>
+	
+	<update id="deleteReview">
+		UPDATE review SET gb_del = 'Y' WHERE review_no = #{review_no}
+	</update>
 </mapper>

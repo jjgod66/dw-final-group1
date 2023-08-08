@@ -910,6 +910,10 @@ $(function(){
 	
 	$('#btnSchPwdMblpCharCert').on('click', function(){
 		let memInputSMSNum = $('#ibxSchPwdMblpCharCertNo').val();
+		if(memInputSMSNum == ""){
+			alert("인증번호를 입력하세요.");
+			return;
+		}
 		if(memInputSMSNum == smsCheckNum){
 			SMSYN = 'Y';
 			clearInterval(timer);

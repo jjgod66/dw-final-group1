@@ -60,7 +60,7 @@ public class MemberServiceImpl implements MemberService{
 	public void updateMemgrade() throws SQLException {
 		List<Map<String, Object>> memList = null;
 		memList = memberDAO.selectMemMonthResCnt();
-		
+//		String[] over10000Mem = memberDAO.select10000overMem();
 		
 		for(Map<String, Object> mem : memList) {
 			String mem_cd = (String)mem.get("MEM_CD");

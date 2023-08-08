@@ -78,6 +78,19 @@
 		WHERE c.mem_cd(+) = m.mem_cd
 	</select>
 	
+	<select id="select10000overMem" resultType="str">
+		SELECT m.mem_cd
+		FROM (
+			SELECT sum(pricesum) pricesum, mem_cd
+			FROM reservation
+			WHERE to_char(resdate, 'yyyyMM') = to_char(ADD_MONTHS(sysdate, -1), 'yyyyMM')
+			AND gb_cancel = 'N'
+			GROUP BY mem_cd
+			) c, MEMBER m
+		WHERE c.mem_cd(+) = m.mem_cd
+		AND pricesum >= 100000
+	</select>
+	
 	<update id="updateMemGradeVIP">
 		UPDATE member SET mem_grade = 'V' where mem_cd = #{mem_cd}
 	</update>
@@ -160,7 +173,9 @@
 		   AND mb.merchant_uid = mp.merchant_uid
 		   AND mb.merchant_uid = pd.merchant_uid
 		   AND mb.merchant_uid = g.merchant_uid
-		   AND TO_CHAR(buydate, 'YYYYMM') like #{cri.monthKeyword}
+		   <if test="cri.monthKeyword != null and cri.monthKeyword != ''.toString()">
+			   AND TO_CHAR(buydate, 'YYYYMM') like #{cri.monthKeyword}
+		   </if>
 		   ORDER BY buydate desc
 	</select>
 	
@@ -180,7 +195,9 @@
 		   AND p.product_cd = mb.product_cd
 		   AND mb.merchant_uid = mp.merchant_uid
 		   AND mb.merchant_uid = pd.merchant_uid
-		   AND TO_CHAR(buydate, 'YYYYMM') like #{cri.monthKeyword}
+		   <if test="cri.monthKeyword != null and cri.monthKeyword != ''.toString()">
+			   AND TO_CHAR(buydate, 'YYYYMM') like #{cri.monthKeyword}
+		   </if>
 	</select>
 	
 	<select id="selectAllGenreList" resultType="genre">

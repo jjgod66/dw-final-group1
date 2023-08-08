@@ -184,7 +184,7 @@
 		<div class="tit-util">
 			<h3 class="tit">나의 구매내역</h3>
 			<div class="float-end">
-				<a href="<%=request.getContextPath()%>/member/bookinglist.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/member/buylist.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div class="my-reserve-history">

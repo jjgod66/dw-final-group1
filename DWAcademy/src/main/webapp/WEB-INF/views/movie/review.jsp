@@ -259,6 +259,7 @@ select {
 	}
 %>
 <%@ include file="login_service_modal.jsp" %>
+<%@ include file="review_delete_modal.jsp" %>
 <c:set var="cri" value="${pageMaker.cri }" />
 <div class="sub_visual">
     <h3>영화리뷰</h3>
@@ -369,9 +370,14 @@ select {
 											</a>
 										</c:if>
 										<c:if test="${review.MEM_CD == mem_cd }">
-											<a href="javascript:void(0)" style="color: black; text-align: center;" class="col-6" id="reviewUpdateBtn" data-review_no="${review.REVIEW_NO }">
-												<p>수정</p>
+										<div class="w20 reUD col-6" style="text-align: right; padding: 0;">
+											<a href="javascript:void(0)" style="color: black; text-align: center; display: inline; margin-right: 10px;" id="reviewUpdateBtn" data-review_no="${review.REVIEW_NO }">
+												수정
 											</a>
+											<a href="javascript:void(0)" style="color: black; text-align: center; display: inline; margin-right: 10px;" id="reviewDeleteBtn" data-review_no="${review.REVIEW_NO }">
+												삭제
+											</a>
+										</div>
 										</c:if>
 									</div>
 								</div>
@@ -389,6 +395,13 @@ select {
 <script>
 
 $(function(){
+	
+	
+	$('.container').on('click', '#reviewDeleteBtn', function(){
+		let review_no = $(this).data('review_no');
+		$('#reviewDelReplyNo').val(review_no);
+		$('#review-delete-modal').modal('show');
+	})
 	
 	$('.container').on('click', '#reviewUpdateBtn', function(){
 		let review_content = $(this).parents('.card').find('#review_content').text();

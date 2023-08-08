@@ -41,7 +41,7 @@
 		<div style="width: 100%; display: flex; justify-content: center;">
 			<div class="btn-group pt30">
 <!-- 				<a href="#" class="button large" id="btn_bill_print">결제정보</a> -->
-				<a href="<%=request.getContextPath() %>/member/bookinglist.do" class="button large" title="구매내역 페이지로 이동">구매내역 <!-- 예매내역 --></a>
+				<a href="<%=request.getContextPath() %>/member/buylist.do" class="button large" title="구매내역 페이지로 이동">구매내역 <!-- 예매내역 --></a>
 			</div>
 		</div>
 					<div class="box-border v1 mt10" style="margin: 50px;">

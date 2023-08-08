@@ -626,4 +626,20 @@ public class MovieController {
 		
 		
 	}
+	
+	@RequestMapping("/reviewDelete")
+	public ResponseEntity<String> reviewDelete(int review_no){
+		ResponseEntity<String> entity = null;
+		String result = null;
+		
+		try {
+			result = movieService.deleteReview(review_no);
+			entity = new ResponseEntity<String>(result, HttpStatus.OK);
+		} catch (SQLException e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
 }

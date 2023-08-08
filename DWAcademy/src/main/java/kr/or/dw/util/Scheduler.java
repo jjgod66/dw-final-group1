@@ -24,7 +24,7 @@ public class Scheduler {
 	PointService pointService;
 	
 	//상영 다음날 해당 영화 예매한 회원들한테 포인트 적립해주는 스케줄러
-//	@Scheduled(cron = "0 0 0 ? * *")
+//	@Scheduled(cron = "0 3 15 ? * *")
 //	public void insertMoviePoint() throws SQLException {
 //		pointService.insertMoviePoint();
 //	}

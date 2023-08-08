@@ -663,9 +663,7 @@ public class MovieServiceImpl implements MovieService{
 	@Override
 	public Map<String, Object> searchMovieInfo(SearchCriteria cri, String mem_cd) throws SQLException {
 		
-		System.out.println("searchType : " + cri.getSearchType());
 		List<Map<String, Object>> movieInfoList = null;
-		List<ProductVO> buyInfoList = null;
 		int offset = cri.getPageStartRowNum();
 		int limit = cri.getPerPageNum();
 		RowBounds rowBounds = new RowBounds(offset, limit);
@@ -673,27 +671,76 @@ public class MovieServiceImpl implements MovieService{
 		movieInfoList = movieDAO.searchMovieInfoList(cri, rowBounds, mem_cd);
 		int movieTotalCount = movieDAO.SearchMovieInfoListCnt(cri, mem_cd);
 		
+		for(Map<String, Object> movie : movieInfoList) {
+			String mem_cat = (String) movie.get("MEM_CAT");
+			String[] cats = mem_cat.split(", ");
+			int teen = 0;
+			int adult = 0;
+			int prefer = 0;
+			for(String cat : cats) {
+				if(cat.equals("청소년")) {
+					teen++;
+				}else if(cat.equals("성인")) {
+					adult++;
+				}else {
+					prefer++;
+				}
+			}
+			if(adult > 0) {
+				mem_cat = "성인 " + adult;
+				if(teen > 0) {
+					mem_cat += ", 청소년 " + teen;
+				}
+				if(prefer > 0) {
+					mem_cat += ", 우대 " + prefer;
+				}
+			}else if(teen > 0) {
+				mem_cat = "청소년 " + teen;
+				if(prefer > 0) {
+					mem_cat += ", 우대 " + prefer;
+				}
+			}else {
+				mem_cat = "우대 " + prefer;
+			}
+			movie.put("MEM_CAT", mem_cat);
+		}
+		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(movieTotalCount);
 		
-		buyInfoList = memberDAO.selectBuyInfoList(cri, rowBounds, mem_cd);
-		int buyTotalCount = memberDAO.selectBuyInfoListCnt(cri, mem_cd);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+
+		dataMap.put("movieTotalCount", movieTotalCount);
+		dataMap.put("movieInfoList", movieInfoList);
+		
+		dataMap.put("pageMaker", pageMaker);
+		dataMap.put("cri", cri);
+		
+		return dataMap;
+	}
+	@Override
+	public Map<String, Object> searchBuyInfo(SearchCriteria cri, String mem_cd) throws SQLException {
+		
+		List<Map<String, Object>> buyInfoList = null;
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		buyInfoList = memberDAO.searchBuyInfo(cri, rowBounds, mem_cd);
+		int buyTotalCount = memberDAO.searchBuyInfoListCnt(cri, mem_cd);
 		
 		PageMaker pageMaker2 = new PageMaker();
 		pageMaker2.setCri(cri);
 		pageMaker2.setTotalCount(buyTotalCount);
 		
 		Map<String, Object> dataMap = new HashMap<String, Object>();
-
-		dataMap.put("movieTotalCount", movieTotalCount);
-		dataMap.put("movieInfoList", movieInfoList);
-
+		
+		
 		dataMap.put("buyTotalCount", buyTotalCount);
 		dataMap.put("buyInfoList", buyInfoList);
 		
-		dataMap.put("pageMaker", pageMaker);
-		dataMap.put("pageMaker2", pageMaker2);
+		dataMap.put("pageMaker", pageMaker2);
 		dataMap.put("cri", cri);
 		
 		return dataMap;
@@ -709,7 +756,50 @@ public class MovieServiceImpl implements MovieService{
 
 	@Override
 	public List<Map<String, Object>> getMy2ResInfo(String mem_cd) throws SQLException {
-		return movieDAO.getMy2ResInfo(mem_cd);
+		List<Map<String, Object>> movieInfoList = null;
+		movieInfoList = movieDAO.getMy2ResInfo(mem_cd);
+		for(Map<String, Object> movie : movieInfoList) {
+			String mem_cat = (String) movie.get("MEM_CAT");
+			String[] cats = mem_cat.split(", ");
+			int teen = 0;
+			int adult = 0;
+			int prefer = 0;
+			for(String cat : cats) {
+				if(cat.equals("청소년")) {
+					teen++;
+				}else if(cat.equals("성인")) {
+					adult++;
+				}else {
+					prefer++;
+				}
+			}
+			if(adult > 0) {
+				mem_cat = "성인 " + adult;
+				if(teen > 0) {
+					mem_cat += ", 청소년 " + teen;
+				}
+				if(prefer > 0) {
+					mem_cat += ", 우대 " + prefer;
+				}
+			}else if(teen > 0) {
+				mem_cat = "청소년 " + teen;
+				if(prefer > 0) {
+					mem_cat += ", 우대 " + prefer;
+				}
+			}else {
+				mem_cat = "우대 " + prefer;
+			}
+			movie.put("MEM_CAT", mem_cat);
+		}
+		return movieInfoList;
+	}
+
+	@Override
+	public String deleteReview(int review_no) throws SQLException {
+		
+		movieDAO.deleteReview(review_no);
+		
+		return "S";
 	}
 
 

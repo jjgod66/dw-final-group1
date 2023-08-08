@@ -691,7 +691,7 @@ a {
 let mem_cd = '<%=mem_cd%>';
 let thr_name = '${theater.thr_name}';
 $(function(){
-	$('#swiper-wrapper').on('click', '.btnDay', function(){
+	$('#swiper-wrapper').on('click', '.btnDay.abled', function(){
 		let date = $(this).data('dt');
 		
 		$.ajax({
@@ -898,7 +898,7 @@ while (currentDate <= endDate) {
   var koreanDayOfWeek = getKoreanDayOfWeek(dayOfWeek);
 
   // 클래스 추가 여부 확인
-  var isDisabled = currentDate > new Date(new Date().getTime() + 5 * 24 * 60 * 60 * 1000) ? 'disabled' : '';
+  var isDisabled = currentDate > new Date(new Date().getTime() + 6 * 24 * 60 * 60 * 1000) ? 'disabled' : 'abled';
   var isActive = currentDate.toDateString() === new Date().toDateString() && !isDisabled ? 'active' : '';
 
   // 태그 생성
@@ -917,6 +917,8 @@ while (currentDate <= endDate) {
   // 다음 날짜로 이동
   currentDate.setDate(currentDate.getDate() + 1);
 }
+
+
 
 // 날짜 태그를 swiper-wrapper에 추가
 var wrapperElement = document.getElementById('swiper-wrapper');
