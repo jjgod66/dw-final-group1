@@ -403,11 +403,26 @@ window.onload = function(){
 	}
 	
 	function screenDetailInfo(map) {
+		console.log(map);
 		$('#movieCd_modal').text(map.SCREEN_CD);
 		$('#movieName_modal').text(map.MOVIE_NAME);
 		$('#houseName_modal').text(map.HOUSE_NAME);
 		$('#screenReservCnt_modal').text(map.RESERVCNT + ' / ' + (map.HOUSE_ROW * map.HOUSE_COLUMN));
 		$('#movieLength_modal').text(map.MOVIE_LENGTH + '분');
+		let startdate = new Date(map.STARTDATE);
+		startdate = startdate.getFullYear() + "-" 
+				  + (startdate.getMonth()+1 < 10 ? '0'+(startdate.getMonth()+1) : startdate.getMonth()+1) + '-'
+				  + (startdate.getDate() < 10 ? '0'+startdate.getDate() : startdate.getDate()) + ' '
+				  + (startdate.getHours() < 10 ? '0'+startdate.getHours() : startdate.getHours()) + ':'
+				  + (startdate.getMinutes() < 10 ? '0'+startdate.getMinutes() : startdate.getMinutes());
+		let enddate = new Date(map.ENDDATE);
+		enddate = enddate.getFullYear() + "-" 
+				  + (enddate.getMonth()+1 < 10 ? '0'+(enddate.getMonth()+1) : enddate.getMonth()+1) + '-'
+				  + (enddate.getDate() < 10 ? '0'+enddate.getDate() : enddate.getDate()) + ' '
+				  + (enddate.getHours() < 10 ? '0'+enddate.getHours() : enddate.getHours()) + ':'
+				  + (enddate.getMinutes() < 10 ? '0'+enddate.getMinutes() : enddate.getMinutes());
+		$('#startTime_modal').text(startdate);
+		$('#endTime_modal').text(enddate);
 		$('#screenType_modal').text(map.MOVIE_TYPE_DES);
 		$('.modalImgDiv img').attr('src', '/common/getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster');
 		$('#seatMapDiv').html('');

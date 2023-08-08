@@ -4,9 +4,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.or.dw.command.PageMaker;
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.CommonAdminDAO;
 import kr.or.dw.vo.Admin_NoteVO;
 
@@ -87,5 +90,29 @@ public class CommonAdminServiceImpl implements CommonAdminService {
 		List<Map<String, Object>> resultList = null;
 		resultList = commonAdminDAO.selectStatisticsMovie();
 		return resultList;
+	}
+
+	@Override
+	public Map<String, Object> selectStatisticsMovie(SearchCriteria cri) throws SQLException {
+		
+		List<Map<String, Object>> movieList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		
+		movieList = commonAdminDAO.selectStatisticsMovieList(cri, rowBounds);
+		
+		int totalCount = commonAdminDAO.selectStatisticsMovieList(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		
+		
+		Map<String, Object> dataMap = null;
+		dataMap.put("movieList", movieList);
+		dataMap.put("pageMaker", pageMaker);
+		return dataMap;
 	}
 }
