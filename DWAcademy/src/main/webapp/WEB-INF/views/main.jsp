@@ -498,13 +498,19 @@ $(document).ready(function() {
 </script>
 
 
-<p style="text-align: center; padding: 30px;">무비포스트 100% </p>
-<p style="text-align: center; padding: 30px;">영화 리뷰 50%</p>
-<p style="text-align: center; padding: 30px;"> 혜택50% </p>
-<p style="text-align: center; padding: 30px;"> ############# </p>
-<p style="text-align: center; padding: 30px;"> 공지50% 고객센터50%  </p>
-<p style="text-align: center; padding: 30px;"> 전체 메뉴100% </p>
-<p style="text-align: center; padding: 30px;">푸터 </p>
+<div style="border: 1px solid black; width: 600px; height: 100px; margin: 0 auto; text-align: center;">무비포스트4개 한줄 </div>
+<div style="   margin-left: 35%;
+    display: inline-flex;">
+<div style="border: 1px solid black; width: 300px; height: 100px; margin: 0 auto; text-align: center;">리뷰 리스트5개</div>
+<div style="border: 1px solid black; width: 300px; height: 100px; margin: 0 auto; text-align: center;">혜택 작게4개 두줄</div>
+</div>
+<div style="   margin-left: 35%;
+    display: inline-flex;">
+<div style="border: 1px solid black; width: 300px; height: 100px; margin: 0 auto; text-align: center;">r공지사항 리스트3개</div>
+<div style="border: 1px solid black; width: 300px; height: 100px; margin: 0 auto; text-align: center;">고객센터</div>
+</div>
+<p style="text-align: center; padding: 10px;"> 전체 메뉴100% </p>
+<p style="text-align: center; padding: 10px;">푸터 </p>
 
 
 
