@@ -210,7 +210,7 @@
 											<option class="bs-title-option" value="${theaterList.thr_loc}">${theaterList.thr_loc}</option>
 										</c:forEach>
 									</select>
-									<select name="selectThrName" id="selectThrName${index}" class="form-select selectThrName" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
+									<select name="selectThrName" id="selectThrName${index}" class="form-select" title="극장 선택" style="display: inline-block; margin-left: 30px!important; width: 150px;">
 										<option value="">극장 선택</option>
 									</select>
 								</div>
@@ -333,17 +333,18 @@ $(document).ready(function() {
     });
     
     
-   // 위아래 바꾸기
-    function test() {
-       	$('select[id^=selectThrName]').each(function() {
-	    	console.log("test")
-	    	if($(this).prev().hasClass("processed")){
-	    		$(this).find('option[value="' + selectedValue + '"]').attr('selected', true);
-	    	};
+	function test() {
+		let i = 1;
+       	$('select[name=selectThrName]').each(function() {
 			$('.mltThrName').each(function() {
-	       		let selectedValue = $(this).val();
+				console.log(i)
+				let selectedValue = $(this).val();
 	       		console.log('@@@@@', selectedValue)
-   			})
+	       		console.log($('#selectThrName' + i))
+	    		$('#selectThrName' + i).find('option[value="' + selectedValue + '"]').attr('selected', true);
+	       		i = i + 1;
+			})
+	       		return false;
 		});
     }
 });
@@ -376,10 +377,6 @@ $('.selectThrLoc').on('change', function(){
 });
 let selectArr = [];
 let selectThrName = "";
-$('.selectThrName').on('change', function(){
-	
-	
-})
 /* 선호 극장 끝 */
 	
 /* 선호 장르 시작 */
