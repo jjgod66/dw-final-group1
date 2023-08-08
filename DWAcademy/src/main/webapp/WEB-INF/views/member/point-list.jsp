@@ -5,7 +5,7 @@
 <%@ include file="../include/member_header.jsp" %>
 <style>
 .content {
-	padding: 15px 0;
+	padding: 20px 0;
 }
 h2.tit {
     padding: 0 0 26px 0;
@@ -20,7 +20,7 @@ h3.tit {
     padding: 0 0 16px 0;
     font-size: 1.6em;
     font-weight: 400;
-    color: #503396;
+    color: #4aa8d8;
     line-height: 1.1;
 }
 .dot-list>li {
@@ -33,7 +33,7 @@ h3.tit {
     position: absolute;
     top: 9px;
     left: 0;
-    background-color: #503396;
+    background-color: #4aa8d8;
     width: 3px;
     height: 3px;
 }
@@ -42,14 +42,14 @@ h3.tit {
     background-color: #f2f4f5;
 }
 }
-.board-list-search table {
-    width: 100%;
-    margin: 0;
-    border: 0;
-    table-layout: fixed;
-    border-collapse: collapse;
-    empty-cells: show;
-}
+/* .board-list-search table { */
+/*     width: 100%; */
+/*     margin: 0; */
+/*     border: 0; */
+/*     table-layout: fixed; */
+/*     border-collapse: collapse; */
+/*     empty-cells: show; */
+/* } */
 .board-list-search table tbody tr td,
 .board-list-search table tbody tr th {
     padding: 2px 0;
@@ -123,15 +123,19 @@ h3.tit {
     padding: 0 15px;
     text-align: center;
     line-height: 34px;
-    color: #503396;
+    color: #4aa8d8;
     font-weight: 400;
     border-radius: 4px;
     font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
     text-decoration: none;
-    border: 1px solid #503396;
+    border: 1px solid #4aa8d8;
     vertical-align: middle;
     background-color: #fff;
     cursor: pointer;
+}
+.button:hover{
+	background-color: #4aa8d8;
+	color: #fff
 }
 .board-list-search .date .button {
     min-width: 0;
@@ -179,16 +183,16 @@ h3.tit {
     height: 45px;
     padding: 3px 10px;
     color: #222;
-    border: 1px solid #eaeaea;
-    border-width: 0 0 1px 0;
+/*     border: 1px solid #eaeaea; */
+/*     border-width: 0 0 1px 0; */
     background-color: #f2f4f5;
 }
 .board-list>tbody>tr>td,
 .board-list>tbody>tr>th {
     height: 45px;
     padding: 10px;
-    border: 1px solid #eaeaea;
-    border-width: 0 0 1px 0;
+/*     border: 1px solid #eaeaea; */
+/*     border-width: 0 0 1px 0; */
     text-align: center;
 }
 .mypage-infomation .btn-group {
@@ -211,6 +215,7 @@ h3.tit {
     margin-top: 20px;
     padding-bottom: 10px;
 }
+
 </style>
 <%@include file="giftCard_modal.jsp" %>
 <div class="content">
@@ -232,8 +237,8 @@ h3.tit {
 			</colgroup>
 			<tbody>
 				<tr>
-					<th scope="row">조회기간</th>
-					<td>
+					<th scope="row" style="border: none; background-color: transparent;">조회기간</th>
+					<td style="border: none;">
 <!-- 						<div class="btn-period"> -->
 <!-- 							<button type="button" class="btn on" value="D7">1주일</button> -->
 <!-- 							<button type="button" class="btn" value="M1">1개월</button> -->

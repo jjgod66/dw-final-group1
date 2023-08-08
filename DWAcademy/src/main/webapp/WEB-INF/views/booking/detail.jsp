@@ -38,6 +38,19 @@
                     </div>
                 </div>
                 </c:if>
+                <c:if test="${screen.movieVO.movie_grade eq '청소년 관람불가'}">
+                <div class="cell" style="display: none;">
+                    <p class="txt">청소년</p>
+                    <div class="count"><button type="button" class="down" title="청소년 좌석 선택 감소" id="teendown">-</button>
+                    <div class="number"><button type="button" class="now" title="청소년 현재 좌석 선택 수" ticketgrpcd="TKA" id="teencount">0</button>
+                        <ul class="num-choice">
+                            <li><button type="button" class="btn">0</button></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="up" title="청소년 좌석 선택 증가" id="teenup">+</button>
+                    </div>
+                </div>
+                </c:if>
                 <div class="cell">
                     <p class="txt">우대</p>
                     <div class="count"><button type="button" class="down" title="우대 좌석 선택 감소" id="preferdown">-</button>
