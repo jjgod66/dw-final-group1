@@ -486,5 +486,71 @@ public interface MovieDAO {
 	 */
 	List<Map<String, Object>> getMyMoviepost(@Param("cri")SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd);
 
+	/**
+	 * 나의 무비스토리 총 개수
+	 * @param mem_cd
+	 * @return
+	 */
+	int getMyMoviepostCount(String mem_cd) throws SQLException;
+
+	/**
+	 * 나의 무비스토리 검색
+	 * @param cri
+	 * @param rowBounds
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> searchMyMoviepost(@Param("cri")SearchCriteria cri, RowBounds rowBounds,@Param("mem_cd")String mem_cd);
+
+	/**
+	 * 나의 무비스토리 검색 총 개수
+	 * @param cri
+	 * @param mem_cd 
+	 * @return
+	 */
+	int getSearchMyMoviepostCount(@Param("cri")SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	/**
+	 * 나의 리뷰 가져오기
+	 * @param cri
+	 * @param rowBounds
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> getMyReview(@Param("cri")SearchCriteria cri, RowBounds rowBounds,@Param("mem_cd") String mem_cd) throws SQLException;
+
+	/**
+	 * 나의 리뷰 총 개수
+	 * @param cri 
+	 * @param mem_cd
+	 * @return
+	 */
+	int getMyReviewCount(@Param("cri")SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	/**
+	 * 나의 리뷰 검색
+	 * @param cri
+	 * @param rowBounds
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> searchMyReview(@Param("cri")SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd) throws SQLException;
+	
+	/**
+	 * 나의 리뷰 검색 총 개수
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	int searchMyReviewCount(@Param("cri")SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	/**
+	 * 내가 좋아요한 영화 가져오기
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> getMyLikeMovie(String mem_cd) throws SQLException;
+
+
 
 }

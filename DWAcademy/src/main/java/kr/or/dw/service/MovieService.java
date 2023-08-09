@@ -342,4 +342,35 @@ public interface MovieService {
 	 */
 	Map<String, Object> getMyMoviepost(SearchCriteria cri, String mem_cd) throws SQLException;
 
+	/**
+	 * 나의 무비스토리 검색
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	Map<String, Object> searchMyMoviepost(SearchCriteria cri, String mem_cd) throws SQLException;
+
+	/**
+	 * 나의 리뷰 가져오기
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	Map<String, Object> getMyReview(SearchCriteria cri, String mem_cd) throws SQLException;
+
+	/**
+	 * 나의 리뷰 검색
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	Map<String, Object> searchMyReview(SearchCriteria cri, String mem_cd) throws SQLException;
+
+	/**
+	 * 내가 좋아요한 영화 가져오기
+	 * @param mem_cd
+	 * @return
+	 */
+	Map<String, Object> getMyLikeMovie(String mem_cd) throws SQLException;
+
 }

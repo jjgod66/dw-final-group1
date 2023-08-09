@@ -799,8 +799,204 @@
 	</update>
 	
 	<select id="getMyMoviepost" resultType="Map">
-		SELECT *
-		  FROM moviepost
-		 WHERE mem_cd = #{mem_cd}
+		SELECT mp.mpost_no
+			 , MAX(mp.mem_cd) mem_cd
+			 , MAX(mp.movie_cd) movie_cd
+			 , MAX(mp.mpost_content) mpost_content
+			 , MAX(mp.movie_pic_no) movie_pic_no
+			 , MAX(mp.regdate) regdate
+			 , MAX(movie_name) movie_name
+			 , MAX(mem_id) mem_id
+			 , MAX(mem_pic_path) mem_pic_path
+			 , MAX(movie_pic_path) movie_pic_path
+			 , count(ml.mpost_no) likecnt
+			 , max(r.replycnt) replycnt
+		FROM moviepost mp, movie m, MEMBER mb, movie_picture mpic, mp_like ml, (SELECT COUNT(*) replycnt, mpost_no
+																				FROM reply
+																				WHERE gb_del = 'N'
+																				GROUP BY mpost_no) r
+		WHERE mp.mem_cd = mb.mem_cd
+		AND mp.movie_cd = m.movie_cd
+		AND mp.movie_pic_no = mpic.movie_pic_no
+		AND ml.mpost_no(+) = mp.mpost_no
+		AND r.mpost_no(+) = mp.mpost_no
+		AND mp.mem_cd = #{mem_cd}
+		AND mp.gb_del = 'N'
+		GROUP BY mp.mpost_no
+	</select>
+	
+	<select id="getMyMoviepostCount" resultType="int">
+		SELECT count(*)
+		  FROM (	
+				SELECT mp.mpost_no
+					 , MAX(mp.mem_cd) mem_cd
+					 , MAX(mp.movie_cd) movie_cd
+					 , MAX(mp.mpost_content) mpost_content
+					 , MAX(mp.movie_pic_no) movie_pic_no
+					 , MAX(mp.regdate) regdate
+					 , MAX(movie_name) movie_name
+					 , MAX(mem_id) mem_id
+					 , MAX(mem_pic_path) mem_pic_path
+					 , MAX(movie_pic_path) movie_pic_path
+					 , count(ml.mpost_no) likecnt
+					 , max(r.replycnt) replycnt
+				FROM moviepost mp, movie m, MEMBER mb, movie_picture mpic, mp_like ml, (SELECT COUNT(*) replycnt, mpost_no
+																						FROM reply
+																						WHERE gb_del = 'N'
+																						GROUP BY mpost_no) r
+				WHERE mp.mem_cd = mb.mem_cd
+				AND mp.movie_cd = m.movie_cd
+				AND mp.movie_pic_no = mpic.movie_pic_no
+				AND ml.mpost_no(+) = mp.mpost_no
+				AND r.mpost_no(+) = mp.mpost_no
+				AND mp.mem_cd = #{mem_cd}
+				AND mp.gb_del = 'N'
+				GROUP BY mp.mpost_no
+				)
+	</select>
+	
+	<select id="searchMyMoviepost" resultType="Map">
+		SELECT mp.mpost_no
+				 , MAX(mp.mem_cd) mem_cd
+				 , MAX(mp.movie_cd) movie_cd
+				 , MAX(mp.mpost_content) mpost_content
+				 , MAX(mp.movie_pic_no) movie_pic_no
+				 , MAX(mp.regdate) regdate
+				 , MAX(movie_name) movie_name
+				 , MAX(mem_id) mem_id
+				 , MAX(mem_pic_path) mem_pic_path
+				 , MAX(movie_pic_path) movie_pic_path
+				 , count(ml.mpost_no) likecnt
+				 , max(r.replycnt) replycnt
+			FROM moviepost mp, movie m, MEMBER mb, movie_picture mpic, mp_like ml, (SELECT COUNT(*) replycnt, mpost_no
+																					FROM reply
+																					WHERE gb_del = 'N'
+																					GROUP BY mpost_no) r
+			WHERE mp.mem_cd = mb.mem_cd
+			AND mp.movie_cd = m.movie_cd
+			AND mp.movie_pic_no = mpic.movie_pic_no
+			AND ml.mpost_no(+) = mp.mpost_no
+			AND r.mpost_no(+) = mp.mpost_no
+			AND mp.mem_cd = #{mem_cd}
+			AND mp.gb_del = 'N'
+			AND m.movie_name like '%' || #{cri.keyword} || '%'
+			GROUP BY mp.mpost_no
+	</select>
+	
+	<select id="getSearchMyMoviepostCount" resultType="int">
+		SELECT count(*)
+		  FROM (
+				SELECT mp.mpost_no
+						 , MAX(mp.mem_cd) mem_cd
+						 , MAX(mp.movie_cd) movie_cd
+						 , MAX(mp.mpost_content) mpost_content
+						 , MAX(mp.movie_pic_no) movie_pic_no
+						 , MAX(mp.regdate) regdate
+						 , MAX(movie_name) movie_name
+						 , MAX(mem_id) mem_id
+						 , MAX(mem_pic_path) mem_pic_path
+						 , MAX(movie_pic_path) movie_pic_path
+						 , count(ml.mpost_no) likecnt
+						 , max(r.replycnt) replycnt
+					FROM moviepost mp, movie m, MEMBER mb, movie_picture mpic, mp_like ml, (SELECT COUNT(*) replycnt, mpost_no
+																							FROM reply
+																							WHERE gb_del = 'N'
+																							GROUP BY mpost_no) r
+					WHERE mp.mem_cd = mb.mem_cd
+					AND mp.movie_cd = m.movie_cd
+					AND mp.movie_pic_no = mpic.movie_pic_no
+					AND ml.mpost_no(+) = mp.mpost_no
+					AND r.mpost_no(+) = mp.mpost_no
+					AND mp.mem_cd = #{mem_cd}
+					AND mp.gb_del = 'N'
+					AND m.movie_name like '%' || #{cri.keyword} || '%'
+					GROUP BY mp.mpost_no
+				)
+	</select>
+	
+	<select id="getMyReview" resultType="Map">
+		SELECT m.MOVIE_NAME , r.*, mem.MEM_ID, mem.MEM_PIC_PATH, (
+		  		SELECT count(*)
+		  		  FROM review_like
+		  		 WHERE REVIEW_NO = r.REVIEW_NO
+		  		) reviewlike
+		  FROM movie m, review r, MEMBER mem
+		 WHERE m.MOVIE_CD = r.MOVIE_CD
+ 		   AND mem.MEM_CD = r.MEM_CD
+ 		   AND r.gb_del = 'N'
+ 		   AND mem.mem_cd = #{mem_cd}
+	</select>
+	
+	<select id="getMyReviewCount" resultType="int">
+		SELECT count(*)
+		  FROM (
+			SELECT m.MOVIE_NAME , r.*, mem.MEM_ID, mem.MEM_PIC_PATH, (
+			  		SELECT count(*)
+			  		  FROM review_like
+			  		 WHERE REVIEW_NO = r.REVIEW_NO
+			  		) reviewlike
+			  FROM movie m, review r, MEMBER mem
+			 WHERE m.MOVIE_CD = r.MOVIE_CD
+	 		   AND mem.MEM_CD = r.MEM_CD
+	 		   AND r.gb_del = 'N'
+	 		   AND mem.mem_cd = #{mem_cd}
+	 		   AND movie_name like '%' || #{cri.keyword} ||'%'
+	 		   )
+	</select>
+	
+	<select id="searchMyReview" resultType="Map">
+		SELECT m.MOVIE_NAME , r.*, mem.MEM_ID, mem.MEM_PIC_PATH, (
+			  		SELECT count(*)
+			  		  FROM review_like
+			  		 WHERE REVIEW_NO = r.REVIEW_NO
+			  		) reviewlike
+			  FROM movie m, review r, MEMBER mem
+			 WHERE m.MOVIE_CD = r.MOVIE_CD
+	 		   AND mem.MEM_CD = r.MEM_CD
+	 		   AND r.gb_del = 'N'
+	 		   AND mem.mem_cd = #{mem_cd}
+ 		   <if test="cri.searchType == 'movieName'.toString()">
+	 		   AND movie_name like '%' || #{cri.keyword} ||'%'
+ 		   </if>
+ 		   <if test="cri.searchType == 'reviewContent'.toString()">
+	 		   AND review_content like '%' || #{cri.keyword} ||'%'
+ 		   </if>
+	</select>
+	
+	<select id="searchMyReviewCount" resultType="int">
+		SELECT count(*)
+		  FROM (
+				SELECT m.MOVIE_NAME , r.*, mem.MEM_ID, mem.MEM_PIC_PATH, (
+					  		SELECT count(*)
+					  		  FROM review_like
+					  		 WHERE REVIEW_NO = r.REVIEW_NO
+					  		) reviewlike
+					  FROM movie m, review r, MEMBER mem
+					 WHERE m.MOVIE_CD = r.MOVIE_CD
+			 		   AND mem.MEM_CD = r.MEM_CD
+			 		   AND r.gb_del = 'N'
+			 		   AND mem.mem_cd = #{mem_cd}
+		 		   <if test="cri.searchType == 'movieName'.toString()">
+			 		   AND movie_name like '%' || #{cri.keyword} || '%'
+		 		   </if>
+		 		   <if test="cri.searchType == 'reviewContent'.toString()">
+			 		   AND review_content like '%' || #{cri.keyword} || '%'
+		 		   </if>
+		 		   )
+	</select>
+	
+	<select id="getMyLikeMovie" resultType="Map">
+		SELECT m.MOVIE_CD 
+			  ,m.movie_name
+			  ,m.movie_grade
+			  ,m.movie_mainpic_path
+			  ,m2.mem_cd
+			  ,(SELECT COUNT(*)
+				 FROM movie_like
+				WHERE movie_cd = #{movie_cd}) likecount
+		  FROM MOVIE_LIKE ml, MOVIE m , "MEMBER" m2  
+		 WHERE ml.MEM_CD = m2.MEM_CD 
+		   AND ml.MOVIE_CD = m.MOVIE_CD 
+		   AND m2.MEM_CD = #{mem_cd}
 	</select>
 </mapper>

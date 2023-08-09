@@ -270,6 +270,8 @@ public class MovieController {
 	    out.println("alert('리뷰가 수정되었습니다.');");
 	    if(referer.equals("http://localhost/movie/review.do")) {
 	    	out.println("location.href='" + req.getContextPath() + "/movie/review.do';");
+		}else if(referer.equals("http://localhost/member/myReview.do")) {
+			out.println("location.href='" + req.getContextPath() + "/member/myReview.do';");
 		}else {
 			out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + review.getMovie_cd() + "';");
 		}

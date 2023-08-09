@@ -427,9 +427,9 @@ public class MemberController {
 		return mnv;
 	}
 	
-	@RequestMapping("/member/moviestory")
+	@RequestMapping("/member/movieTimeLine")
 	public ModelAndView memberMoviestory(ModelAndView mnv, HttpSession session) {
-		String url = "/member/moviestory";
+		String url = "/member/movieTimeLine";
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
 		
@@ -447,6 +447,65 @@ public class MemberController {
 		String mem_cd = (String) member.get("CD");
 		
 		Map<String, Object> dataMap = movieService.getMyMoviepost(cri, mem_cd);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/member/searchMyMoviepost")
+	ModelAndView searchMyMoviepost(ModelAndView mnv, HttpSession session, SearchCriteria cri) throws SQLException {
+		String url = "/member/myMoviepost";
+		
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		
+		Map<String, Object> dataMap = movieService.searchMyMoviepost(cri, mem_cd);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/member/myReview")
+	public ModelAndView myReview(ModelAndView mnv, HttpSession session, SearchCriteria cri) throws SQLException {
+		String url = "/member/myReview";
+		
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		
+		Map<String, Object> dataMap = movieService.getMyReview(cri, mem_cd);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/member/searchMyReview")
+	public ModelAndView searchMyReview(ModelAndView mnv, HttpSession session, SearchCriteria cri) throws SQLException {
+		String url = "/member/myReview";
+		
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		
+		Map<String, Object> dataMap = movieService.searchMyReview(cri, mem_cd);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/member/myLikeMovie.do")
+	public ModelAndView myLikeMovie(ModelAndView mnv, HttpSession session) throws SQLException {
+		String url = "/member/myLikeMovie";
+		
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		
+		Map<String, Object> dataMap = movieService.getMyLikeMovie(mem_cd);
+		
 		
 		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);

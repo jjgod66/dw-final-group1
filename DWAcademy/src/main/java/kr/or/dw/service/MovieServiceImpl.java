@@ -811,14 +811,102 @@ public class MovieServiceImpl implements MovieService{
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		mpList = movieDAO.getMyMoviepost(cri, rowBounds, mem_cd);
 		
-		int totalCount = movieDAO.getSearchReviewListCount(cri);
+		int totalCount = movieDAO.getMyMoviepostCount(mem_cd);
 		
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(totalCount);
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		dataMap.put("mpList", mpList);
+		dataMap.put("pageMaker", pageMaker);
 		
+		
+		return dataMap;
+	}
+
+	@Override
+	public Map<String, Object> searchMyMoviepost(SearchCriteria cri, String mem_cd) throws SQLException {
+		List<Map<String, Object>> mpList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		mpList = movieDAO.searchMyMoviepost(cri, rowBounds, mem_cd);
+		
+		int totalCount = movieDAO.getSearchMyMoviepostCount(cri, mem_cd);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("mpList", mpList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		return dataMap;
+	}
+
+	@Override
+	public Map<String, Object> getMyReview(SearchCriteria cri, String mem_cd) throws SQLException {
+		List<Map<String, Object>> myReivewList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		myReivewList = movieDAO.getMyReview(cri, rowBounds, mem_cd);
+		
+		int totalCount = movieDAO.getMyReviewCount(cri, mem_cd);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("myReivewList", myReivewList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		
+		return dataMap;
+	}
+
+	@Override
+	public Map<String, Object> searchMyReview(SearchCriteria cri, String mem_cd) throws SQLException {
+		List<Map<String, Object>> myReviewList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		myReviewList = movieDAO.searchMyReview(cri, rowBounds, mem_cd);
+		
+		int totalCount = movieDAO.searchMyReviewCount(cri, mem_cd);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("myReivewList", myReviewList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		
+		return dataMap;
+	}
+
+	@Override
+	public Map<String, Object> getMyLikeMovie(String mem_cd) throws SQLException {
+		List<Map<String, Object>> LikeMovieList = null;
+		
+		LikeMovieList = movieDAO.getMyLikeMovie(mem_cd);
+		List<Integer> likeCount = new ArrayList<>();
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		for(Map<String, Object> movieMap : LikeMovieList) {
+			String movie_cd = (String) movieMap.get("MOVIE_CD");
+			int LikeCount = movieDAO.selectMovieLikeCount(movie_cd);
+			likeCount.add(LikeCount);
+		}
+		System.out.println(likeCount);
+		
+		dataMap.put("LikeMovieList", LikeMovieList);
+		dataMap.put("likeCount", likeCount);
 		
 		return dataMap;
 	}

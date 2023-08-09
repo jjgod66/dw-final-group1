@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
   <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans&display=swap" rel="stylesheet">
+<%@ include file="../include/member_header.jsp" %>
 <style>
 	  .abs,
 h2:after,
@@ -206,8 +207,28 @@ h2:after {
   opacity: 1;
   transform: none;
 }
+.tab-block>ul>a{
+	float: left;
+	width: 20%;
+	padding: 5px 0 5px 0;
+	text-align: center;
+	border: 1px solid #4aa8d8;
+}
+.on{
+	background-color: #4aa8d8;
+}
 </style>
-<div id="section1" class="section" style="display: block;">
+<div class="container" style="margin-top: 10px;">
+	<div class="row" style="width:100%;">
+		<div class="tab-block tab-layer">
+			<ul>
+				<a href="<%=request.getContextPath()%>/member/movieTimeLine.do" class="on" ><li>무비타임라인</li></a>
+				<a href="<%=request.getContextPath()%>/member/myMoviepost.do" class=""><li>무비포스트</li></a>
+				<a href="<%=request.getContextPath()%>/member/myReview.do" class=""><li>리뷰</li></a>
+				<a href="<%=request.getContextPath()%>/member/myLikeMovie.do" class=""><li>좋아요</li></a>
+			</ul>
+		</div>
+	</div>
 	<div class="wrapper123">
 		<h2><strong>2023-08</strong></h2>
 		<div class="cards">
@@ -218,3 +239,4 @@ h2:after {
 		</div>
 	</div> 
 </div>
+<%@ include file="../include/member_footer.jsp" %>

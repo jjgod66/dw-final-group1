@@ -160,7 +160,7 @@ margin-top:0px;
                 </a>
             </li>
             <li class="list2">
-                <a href="<%=request.getContextPath()%>/member/moviestory.do">
+                <a href="<%=request.getContextPath()%>/member/movieTimeLine.do">
                     <span class="icon"><ion-icon name="hand-left-outline"></ion-icon></span>
                     <span class="title">나의 무비스토리</span>
                 </a>
