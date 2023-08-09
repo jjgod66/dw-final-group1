@@ -334,4 +334,12 @@ public interface MovieService {
 	 */
 	String deleteReview(int review_no) throws SQLException;
 
+	/**
+	 * 나의 무비스토리 가져오기
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	Map<String, Object> getMyMoviepost(SearchCriteria cri, String mem_cd) throws SQLException;
+
 }

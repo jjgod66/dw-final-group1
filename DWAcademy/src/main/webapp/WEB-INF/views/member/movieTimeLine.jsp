@@ -209,22 +209,7 @@ h2:after {
 </style>
 <div id="section1" class="section" style="display: block;">
 	<div class="wrapper123">
-		<h2><strong> 2023,08<span>( 4 )</span></strong></h2>
-		<div class="cards">
-			<figure class="card">
-				<img src="/resources/img/범죄도시3_메인포스터.jpg" />
-				<figcaption>범죄도시</figcaption>
-			</figure>
-			<figure class="card">
-				<img src="https://www.linkpicture.com/q/2_965.jpg" />
-				<figcaption>Stick Fight</figcaption>
-			</figure>
-			<figure class="card">
-				<img src="https://www.linkpicture.com/q/3_695.jpg" />
-				<figcaption>Minion Masters</figcaption>
-			</figure>
-		</div>
-		<h2><strong> 2023,07<span>( 4 )</span></strong></h2>
+		<h2><strong>2023-08</strong></h2>
 		<div class="cards">
 			<figure class="card">
 				<img src="/resources/img/범죄도시3_메인포스터.jpg" />

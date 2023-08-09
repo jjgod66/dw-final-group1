@@ -797,4 +797,10 @@
 	<update id="deleteReview">
 		UPDATE review SET gb_del = 'Y' WHERE review_no = #{review_no}
 	</update>
+	
+	<select id="getMyMoviepost" resultType="Map">
+		SELECT *
+		  FROM moviepost
+		 WHERE mem_cd = #{mem_cd}
+	</select>
 </mapper>

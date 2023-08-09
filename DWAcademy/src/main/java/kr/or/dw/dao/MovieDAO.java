@@ -477,5 +477,14 @@ public interface MovieDAO {
 	 */
 	void deleteReview(int review_no) throws SQLException;
 
+	/**
+	 * 나의 무비스토리 가져오기
+	 * @param cri
+	 * @param rowBounds
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> getMyMoviepost(@Param("cri")SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd);
+
 
 }

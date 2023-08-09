@@ -802,6 +802,27 @@ public class MovieServiceImpl implements MovieService{
 		return "S";
 	}
 
+	@Override
+	public Map<String, Object> getMyMoviepost(SearchCriteria cri, String mem_cd) throws SQLException {
+		List<Map<String, Object>> mpList = null;
+		
+		int offset = cri.getPageStartRowNum();
+		int limit = cri.getPerPageNum();
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		mpList = movieDAO.getMyMoviepost(cri, rowBounds, mem_cd);
+		
+		int totalCount = movieDAO.getSearchReviewListCount(cri);
+		
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("mpList", mpList);
+		
+		
+		return dataMap;
+	}
+
 
 
 }

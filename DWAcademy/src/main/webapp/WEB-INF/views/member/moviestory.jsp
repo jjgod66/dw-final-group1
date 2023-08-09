@@ -105,24 +105,16 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;}
 <div id="wrapper1234">
 	<div class="navM">
 		<div class="tabs">
-				<input type="radio" id="radio-1" name="tabs" checked="" onclick="showSection('section1')">
-				<label class="tabo" for="radio-1" data-url="/mypage/movieStory?tab=01">무비타임라인<span class="notification">2</span></label>
-				<input type="radio" id="radio-2" name="tabs" onclick="showSection('section2')">
-				<label class="tabo" for="radio-2" data-url="/mypage/movieStory?tab=02">무비포스트<span class="notification">9</span></label>
-				<input type="radio" id="radio-3" name="tabs" onclick="showSection('section3')">
-				<label class="tabo" for="radio-3" data-url="/mypage/movieStory?tab=03">리뷰<span class="notification">10</span></label>
-				<input type="radio" id="radio-4" name="tabs" onclick="showSection('section4')">
-				<label class="tabo" for="radio-4" data-url="/mypage/movieStory?tab=04">좋아요<span class="notification">26</span></label>
-				<input type="radio" id="radio-1" name="tabs" >
-				<span class="glider"></span>
+				<a>무비타임라인</a>
+				<a href="<%=request.getContextPath()%>/member/myMoviepost.do">무비포스트</a>
+				<a>리뷰</a>
+				<a>좋아요</a>
 		</div>
 	</div>
 	
 	<!-- 무비타임라인클릭시 보이는 화면  -->
-	<%@ include file="movieTimeLine.jsp" %>
 	
 	<div id="section2" class="section" style="display: none;">
-		<%@ include file="myMoviepost.jsp" %>
 	</div>
 	
 	<div id="section3" class="section" style="display: none;">

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -429,9 +430,26 @@ public class MemberController {
 	@RequestMapping("/member/moviestory")
 	public ModelAndView memberMoviestory(ModelAndView mnv, HttpSession session) {
 		String url = "/member/moviestory";
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
 		
 		
 		
+		
+		return mnv;
+	}
+	
+	@RequestMapping("/member/myMoviepost")
+	public ModelAndView myMoviepost(ModelAndView mnv, HttpSession session, SearchCriteria cri) throws SQLException {
+		String url = "/member/myMoviepost";
+		
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		
+		Map<String, Object> dataMap = movieService.getMyMoviepost(cri, mem_cd);
+		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
 		return mnv;
 	}
 	
