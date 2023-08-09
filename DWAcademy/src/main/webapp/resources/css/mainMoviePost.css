@@ -1,0 +1,131 @@
+@charset "UTF-8";
+
+
+/* *, *:before, *:after { */
+/*   box-sizing: border-box; */
+/* } */
+
+.u-float-right {
+  float: right;
+  box-sizing: border-box;
+}
+
+.u-clearfix:before,
+.u-clearfix:after {
+  content: " ";
+  display: table;
+  box-sizing: border-box;
+}
+
+.u-clearfix:after {
+  clear: both;
+  box-sizing: border-box;
+}
+
+.u-clearfix {
+  *zoom: 1;
+  box-sizing: border-box;
+}
+
+
+.mainMoviePost {box-sizing: border-box;
+  margin: 12px auto;
+  width: 560px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+.cardPost {box-sizing: border-box;
+  background-color: #effaff;
+  border-radius: 22px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
+  width: 100%;
+      min-height: 210px;
+}
+
+.card-media {box-sizing: border-box;
+  float: left;
+  position: relative;
+  width: 50%;
+}
+
+.card-media-img {box-sizing: border-box;
+    left: -20px;
+    height: 186px;
+        border-radius: 20px;
+	width:100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, .3);
+  float: left;
+  position: relative;
+}
+
+
+.cardPost:hover .card-media-preview {box-sizing: border-box;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+.card-body {box-sizing: border-box;
+  float: left;
+  padding: 25px 18px 2px 20px;
+  width: 50%;
+}
+
+.card-body-heading {box-sizing: border-box;
+  color: #6f6f6f;
+  display: inline-block;
+  font-size: 20px;
+}
+
+.card-body-options {box-sizing: border-box;
+  padding-top:10px;
+}
+
+.card-body-option {box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  position: relative;
+  margin-left: 5px;
+}
+
+
+.card-button {box-sizing: border-box;
+  color: #9C948A;
+  display: inline-block;
+  font-weight: 500;
+  padding: 5px 0px;
+  text-decoration: none;
+  transition: all 200ms ease-out;
+}
+
+.card-button svg {box-sizing: border-box;
+  fill: #9C948A;
+  transition: all 200ms ease-out;
+}
+
+.card-button-cta {box-sizing: border-box;
+  background-color: #9C948A;
+  border-radius: 2px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, .15);
+  color: #fff;
+}
+
+.card-button-cta:hover {box-sizing: border-box;
+  box-shadow: 1px 5px 8px rgba(0, 0, 0, .18);
+  background-color: #F44336;
+}
+
+.card-button-link:hover {box-sizing: border-box;
+  color: #444;
+}
+
+.card-button-link:hover svg {box-sizing: border-box;
+  fill: #444;
+}
+
+.card-button-icon {box-sizing: border-box;
+  display:inline-block;
+  vertical-align:middle;
+}
+
