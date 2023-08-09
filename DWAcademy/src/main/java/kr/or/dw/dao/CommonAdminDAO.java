@@ -46,9 +46,14 @@ public interface CommonAdminDAO {
 	// 해당 검색에 대한 영화 통계를 가져온다.
 	List<Map<String, Object>> selectStatisticsMovie() throws SQLException;
 
+	// 해당 검색에 대한 영화 통계를 가져온다.
 	List<Map<String, Object>> selectStatisticsMovieList(SearchCriteria cri) throws SQLException;
 
+	// 해당 검색에 대한 영화 통계 총 개수를 가져온다.
 	int selectStatisticsMovieListCount(SearchCriteria cri) throws SQLException;
+
+	// 검색창에 쓴 텍스트기반 영화 검색
+	List<Map<String, Object>> selectBySearchMovieName(String searchText) throws SQLException;
 
 	
 }

@@ -65,7 +65,9 @@
 		if ($('select[name="searchType2"]').length) {
 			searchForm.find('[name="searchType2"]').val($('select[name="searchType2"]').val());
 		}
-		searchForm.find('[name="orderType"]').val($('select[name="orderType"]').val());
+		if ($('select[name="orderType"]').length) {
+			searchForm.find('[name="orderType"]').val($('select[name="orderType"]').val());
+		}
 		searchForm.find('[name="keyword"]').val($('input[name="keyword"]').val());
 		searchForm.find('[name="monthKeyword"]').val($('select[name="monthKeyword"]').val());
 		searchForm.attr("method", "post");
