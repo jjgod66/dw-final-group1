@@ -86,12 +86,12 @@ public class CommonAdminServiceImpl implements CommonAdminService {
 		return commonAdminDAO.selectUnreadedNoteCnt(admin_cd);
 	}
 
-	@Override
-	public List<Map<String, Object>> selectStatisticsMovie() throws SQLException {
-		List<Map<String, Object>> resultList = null;
-		resultList = commonAdminDAO.selectStatisticsMovie();
-		return resultList;
-	}
+//	@Override
+//	public List<Map<String, Object>> selectStatisticsMovie() throws SQLException {
+//		List<Map<String, Object>> resultList = null;
+//		resultList = commonAdminDAO.selectStatisticsMovie();
+//		return resultList;
+//	}
 
 	@Override
 	public Map<String, Object> selectStatisticsMovie(SearchCriteria cri) throws SQLException {
@@ -117,5 +117,10 @@ public class CommonAdminServiceImpl implements CommonAdminService {
 		dataMap.put("pageMaker", pageMaker);
 		
 		return dataMap;
+	}
+
+	@Override
+	public List<Map<String, Object>> selectBySearchMovieName(String searchText) throws SQLException {
+		return commonAdminDAO.selectBySearchMovieName(searchText);
 	}
 }

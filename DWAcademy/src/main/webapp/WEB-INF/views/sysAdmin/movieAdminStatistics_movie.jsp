@@ -15,6 +15,15 @@
 	right: 3px;
 	cursor: pointer;
 }
+#searchMovieNameSelect {
+	width: 100%; 
+	height: 20rem; 
+	position: absolute; 
+ 	display: none; 
+	top: 36px; 
+	border: 1px solid gray; 
+	background-color: white;
+}
 </style>
 <c:set var="cri" value="${pageMaker.cri }" />
 <div id="wrapper">
@@ -28,28 +37,35 @@
 		<div class="mx-2">
 			<ul class="nav nav-pills">
 			  <li class="nav-item">
-			    <a class="nav-link active" aria-current="page" href="/sysAdmin/movieAdminStatistics.do">일자별</a>
+			    <a class="nav-link" aria-current="page" href="/sysAdmin/movieAdminStatistics.do">일자별</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link" href="/sysAdmin/movieAdminStatistics_movie.do">영화별</a>
+			    <a class="nav-link active" href="/sysAdmin/movieAdminStatistics_movie.do">영화별</a>
 			  </li>
 			</ul>
 			<div id="setSearchTypeDiv mx-2">
 				<div class="row">
-					<div class="col-md-12 text-center mb-4">
-						<div class="mb-2">
+					<div class="col-md-12 text-center mb-4" >
+						<div class="mb-2" style="text-align: -webkit-center;">
+							<div class="mb-2" style="position: relative; width: 30%;">
+								<input type="text" name="orderType" id="searchMovieName" class="form-control" autocomplete="off" placeholder="영화명을 입력하세요.">
+								<div id="searchMovieNameSelect" class="borderRadius" style="overflow: auto">
+									
+								</div>
+							</div>
 							<input type="radio" name="howlong" id="day" data-type="dayDiv" ${cri.searchType2 eq 'day' || empty cri.searchType2 ? 'checked' : '' }>
 							&nbsp;
-							<label for="day">일별</label> 
+							<label for="day">해당 주 일별</label> 
 							&nbsp;&nbsp;&nbsp;&nbsp; 
 							<input type="radio" name="howlong" id="week" data-type="weekDiv" ${cri.searchType2 eq 'week' ? 'checked' : '' }>
 							&nbsp;
-							<label for="week">주간별</label> &nbsp;&nbsp;&nbsp;&nbsp; 
+							<label for="week">해당 월 주별</label> 
+							&nbsp;&nbsp;&nbsp;&nbsp; 
 							<input type="radio" name="howlong" id="month" data-type="monthDiv" ${cri.searchType2 eq 'month' ? 'checked' : '' }>
 							&nbsp;
-							<label for="month">월별</label> 
+							<label for="month">해당 연 월별</label> 
 							&nbsp;&nbsp;&nbsp;&nbsp; 
-							<select	name="searchType">
+							<select name="searchType">
 								<c:forEach items="${theaterList }" var="thr">
 									<option value="${thr.ADMIN_CD }">${thr.THR_NAME eq 'DW시네마' ? '극장 전체' : thr.THR_NAME}</option>
 								</c:forEach>
@@ -57,6 +73,7 @@
 						</div>
 						<div class="mb-2 howlongDiv">
 							<div id="dayDiv" style="${cri.searchType2 eq 'day' || cri.searchType2 eq '' ? '' : 'display: none;'}">
+								<input type="text" name="dayView" style="width: 8.5rem;" readonly> 
 								<input type="date" name="keyword" value="${cri.searchType2 eq 'day' || empty cri.searchType2 ? keyword : '' }">
 							</div>
 							<div id="weekDiv" style="${cri.searchType2 eq 'week' ? '' : 'display: none;'}">
@@ -64,7 +81,7 @@
 								<input type="date" name="keyword" value="${cri.searchType2 eq 'week' ? keyword : '' }">
 							</div>
 							<div id="monthDiv" style="${cri.searchType2 eq 'month' ? '' : 'display: none;'}">
-								<input type="text" name="monthView" style="width: 8.5rem;" readonly> 
+								<input type="text" name="monthView" value="" style="width: 8.5rem;" readonly> 
 								<input type="date" name="keyword" value="${cri.searchType2 eq 'month' ? keyword : '' }">
 							</div>
 						</div>
@@ -90,45 +107,25 @@
 					style="font-size: small;">
 					<thead class="table-light text-center">
 						<tr>
-							<th>순위 <span class="sortBtn"><i
-									class="bi bi-arrow-down-up" onclick="sortTable(0);"></i></span></th>
-							<th>영화명 <span class="sortBtn"><i
-									class="bi bi-arrow-down-up" onclick="sortTable(1);"></i></span></th>
-							<th>개봉일 <span class="sortBtn"><i
-									class="bi bi-arrow-down-up" onclick="sortTable(2);"></i></span></th>
-							<th>매출액 <span class="sortBtn"><i
-									class="bi bi-arrow-down-up" onclick="sortTable(3);"></i></span></th>
-							<th>매출액점유율 <span class="sortBtn"><i
-									class="bi bi-arrow-down-up" onclick="sortTable(4);"></i></span></th>
-							<th>누적매출액 <span class="sortBtn"><i
-									class="bi bi-arrow-down-up" onclick="sortTable(5);"></i></span></th>
+							<th></th>
 							<th>관객수 <span class="sortBtn"><i
-									class="bi bi-arrow-down-up" onclick="sortTable(6);"></i></span></th>
-							<th>누적관객수 <span class="sortBtn"><i
-									class="bi bi-arrow-down-up" onclick="sortTable(7);"></i></span></th>
-							<th>누적상영횟수 <span class="sortBtn"><i
-									class="bi bi-arrow-down-up" onclick="sortTable(8);"></i></span></th>
+									class="bi bi-arrow-down-up" onclick="sortTable(0);"></i></span></th>
+							<th>매출액 <span class="sortBtn"><i
+									class="bi bi-arrow-down-up" onclick="sortTable(1);"></i></span></th>
+							<th>점유율 <span class="sortBtn"><i
+									class="bi bi-arrow-down-up" onclick="sortTable(2);"></i></span></th>
+							<th>상영수 <span class="sortBtn"><i
+									class="bi bi-arrow-down-up" onclick="sortTable(2);"></i></span></th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${movieList }" var="movie">
 							<tr class="text-end">
-								<c:set var="i" value="${i+1 }" />
-								<th class="text-center">${i }</th>
-								<td class="text-center">${movie.MOVIE_NAME }</i></td>
-								<td class="text-center"><fmt:formatDate
-										value="${movie.OPENDATE }" pattern="yyyy-MM-dd" /></td>
-								<td><fmt:formatNumber value="${movie.SALES_DAY }"
-										pattern="#,###" /></td>
+								<th class="text-center">2000-00-00</th>
+								<td><fmt:formatNumber value="${movie.SALES_DAY }" pattern="#,###" /></td>
 								<td>${movie.SALES_DAY_RATIO != 0 ? (movie.SALES_DAY_RATIO += '%') : 0}</td>
-								<td><fmt:formatNumber value="${movie.SALES_ALLDAY}"
-										pattern="#,###" /></td>
-								<td><fmt:formatNumber value="${movie.SEAT_DAY }"
-										pattern="#,###" /></td>
-								<td><fmt:formatNumber value="${movie.SEAT_ALLDAY }"
-										pattern="#,###" /></td>
-								<td><fmt:formatNumber value="${movie.SCREENCNT }"
-										pattern="#,###" /></td>
+								<td><fmt:formatNumber value="${movie.SEAT_DAY }" pattern="#,###" /></td>
+								<td><fmt:formatNumber value="${movie.SCREENCNT }" pattern="#,###" /></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -144,9 +141,57 @@
 
 
 <script>
-let searchFormUrl = "/sysAdmin/movieAdminStatistics.do";
+let searchFormUrl = "/sysAdmin/movieAdminStatistics_movie.do";
 
 $(function(){
+	$('#searchMovieName').on('focus', function(){
+		$('#searchMovieNameSelect').show();
+	});
+	$('#searchMovieName').on('blur', function(){
+		$('#searchMovieNameSelect').hide();
+	});
+	
+	$('#searchMovieName').on('keyup', function(){
+		if ($(this).val().length <= 0 ) return;
+		let searchText = $(this).val();
+		console.log(searchText);
+		$.ajax({
+			url : "<%=request.getContextPath()%>/commonAdmin/searchMovieName.do",
+			type : "post",
+			data : JSON.stringify(searchText),
+			contentType : "application/json",
+			success : function(data) {
+				console.log(data);
+				candidateList(data);
+			},
+			error : function(err) {
+				console.log(err);
+			}
+			
+		});
+	});
+	
+	function candidateList(data) {
+		$('#searchMovieNameSelect').html('');
+		for (movie of data) {
+			let inputRow = $('<div class="candidateRow row text-start my-2" style="width:90%; cursor: pointer;">');
+			let inputTd1 = $('<div class="col-md-12" style="padding:0;">'+movie.MOVIE_NAME+'</div>');
+			let inputTd2 = $('<input type="hidden" value="'+movie.MOVIE_CD+'">');
+			inputRow.append(inputTd1).append(inputTd2);
+			$('#searchMovieNameSelect').append(inputRow);
+		}
+	}
+	
+	$(document).on('mousedown', '.candidateRow',function(){
+		console.log($(this).find('div').text());
+		$('#searchMovieName').val($(this).find('div').text());
+	});
+	
+	
+	
+	
+	
+	
 	
 	// 가져온 영화목록 chart를 위해 새 배열에 세팅
 	const movieList = new Array();
@@ -314,14 +359,20 @@ $(function(){
 		let week = getWeek(date);
 		let month = date.getMonth() + 1;
 		let year = date.getFullYear();
-		$('#weekDiv input[name="weekView"]').val(year +"년 " + month + "월 " + week + "주차");
+		$('#dayDiv input[name="dayView"]').val(year +"년 " + month + "월 " + week + "주차");
 	}
 	
 	// 월별일때 input text value값 자동 넣어지게
 	function setMonthView(date) {
 		let month = date.getMonth() + 1;
 		let year = date.getFullYear();
-		$('#monthDiv input[name="monthView"]').val(year + "년 " + month + "월");
+		$('#weekDiv input[name="weekView"]').val(year + "년 " + month + "월");
+	}
+	
+	// 연별일때 input text value값 자동 넣어지게
+	function setYearView(date) {
+		let year = date.getFullYear();
+		$('#monthDiv input[name="monthView"]').val(year + "년 " );
 	}
 	
 	// 초기 세팅
@@ -335,15 +386,17 @@ $(function(){
 	$('.howlongDiv input[type="date"]').attr('max', yesterday_toString);
 	if ('${cri.keyword}' == '') {
 		$('#searchResultDiv h3').text(yesterday_toString);	
-		$('#dayDiv input[name="keyword"]').val(yesterday_toString);
 	} else {
 		$('#searchResultDiv h3').text('${cri.keyword}');
-		if ('${cri.searchType2}' == 'week') {
+		if ('${cri.searchType2}' == 'day') {
 			setWeekView(new Date('${cri.keyword}'));
+			$('#searchResultDiv h3').text($('#dayDiv input[name="dayView"]').val());
+		} else if ('${cri.searchType2}' == 'week') {
+			setMonthView(new Date('${cri.keyword}'));
 			$('#searchResultDiv h3').text($('#weekDiv input[name="weekView"]').val());
 		} else if ('${cri.searchType2}' == 'month') {
-			setMonthView(new Date('${cri.keyword}'));
-			$('#searchResultDiv h3').text($('#monthDiv input[name="monthView"]').val());
+			setYearView(new Date('${cri.keyword}'));
+			$('#searchResultDiv h3').text($('#yearDiv input[name="monthView"]').val());
 		}
 	}
 	
@@ -354,36 +407,36 @@ $(function(){
 		$('.howlongDiv input[name="keyword"]').val(yesterday_toString);
 		$('.howlongDiv input[type="text"]').val('');
 		if ($(this).attr('data-type') == 'dayDiv') {
-			
-		} else if ($(this).attr('data-type') == 'weekDiv') {
 			setWeekView(yesterday);
-		} else if ($(this).attr('data-type') == 'monthDiv') {
+		} else if ($(this).attr('data-type') == 'weekDiv') {
 			setMonthView(yesterday);
-		}
+		} else if ($(this).attr('data-type') == 'monthDiv') {
+			setYearView(yesterday);
+		} 
 	});
 	
 	// 일별 날짜 설정시
 	$('#dayDiv input[name="keyword"]').on('change', function(){
-		console.log($(this).val());
-		$('#searchForm input[name="keyword"]').val($(this).val());
+		let date = new Date($(this).val());
+		setWeekView(date);
 	});
 
 	// 주간별 날짜 설정시
 	$('#weekDiv input[name="keyword"]').on('change', function(){
 		let date = new Date($(this).val());
-		setWeekView(date);
+		setMonthView(date);
 	});
 	
 	// 월별 날짜 설정시
 	$('#monthDiv input[name="keyword"]').on('change', function(){
 		let date = new Date($(this).val());
-		setMonthView(date);
+		setYearView(date);
 	});
 	
 	// 조회버튼 클릭시
 	$('#searchBtn').on('click', function(){
 		$('form#searchForm input[name="searchType2"]').val($('input[name="howlong"]:checked').attr('id'));
-		console.log($('#searchForm input[name="searchType2"]').val());
+		$('form#searchForm input[name="orderType"]').val($('input[name="orderType"]').val());
 		let div = $('input[name="howlong"]:checked').attr('data-type');
 		$('.howlongDiv div').not('#'+div).remove();
 		searchList_go(1);
@@ -425,58 +478,3 @@ function sortTable(cellNum){
    }
 </script>
 <%@ include file="sysAdminFooter.jsp"%>
-
-<%--
-SELECT a1.seatcnt, b1.sales_allmovie, c1.sales_movie, d1.screencnt, cal.dt dates
-  FROM (
-		SELECT COUNT(*) seatcnt, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
-		  FROM RESERVATION r, SCREEN s, MOVIE m 
-		 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy') + 7
-		   AND s.MOVIE_CD = m.MOVIE_CD
-		   AND r.SCREEN_CD = s.SCREEN_CD 
-		   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd')
-		) a1,
-	   (
-		SELECT SUM(pricesum) sales_allmovie, resdate
-  		  FROM (
-				SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
- 		  		  FROM RESERVATION
-				 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy')+7
- 			     GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
-		  		) a
-		 GROUP BY a.resdate
-	   ) b1,
-	   (
-		SELECT SUM(pricesum) sales_movie, resdate
-		  FROM (
-				SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
-		 		  FROM RESERVATION r, SCREEN s, MOVIE m
-				 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy')+7
-				   AND r.SCREEN_CD = s.SCREEN_CD 
-				   AND s.MOVIE_CD = m.MOVIE_CD 
-				   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		 		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
-				  ) a
-		GROUP BY a.resdate
-	   ) c1,
-  	   (
-		SELECT count(s.SCREEN_CD) screencnt, TO_CHAR(s.STARTDATE, 'yyyy-MM-dd') startdate
-		  FROM screen s, MOVIE m 
-		  WHERE s.STARTDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy') + 7
-		   and s.MOVIE_CD = m.MOVIE_CD 
-		   AND s.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		  GROUP BY TO_CHAR(s.STARTDATE, 'yyyy-MM-dd')
-	   ) d1,
-  	   (
-  		SELECT TO_CHAR(TRUNC(SYSDATE, 'dy') + LEVEL - 1, 'yyyy-MM-dd') AS dt
-      	  FROM dual 
-        CONNECT BY LEVEL <= ((TRUNC(SYSDATE, 'dy') + 6) - TRUNC(SYSDATE, 'dy') + 1)
-      )cal
- WHERE cal.dt = a1.resdate(+)
-   AND cal.dt = b1.resdate(+)
-   AND cal.dt = c1.resdate(+)
-   AND cal.dt = d1.startdate(+)
-  ORDER BY cal.dt
-
-%-->

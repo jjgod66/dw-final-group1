@@ -809,6 +809,29 @@ public class ThrAdminController {
 		out.close();
 	}
 	
+	@RequestMapping("/movieAdminStatistics")
+	public ModelAndView movieAdminStatistics(ModelAndView mnv, SearchCriteria cri, HttpServletRequest req) throws SQLException {
+		String url = "/thrAdmin/movieAdminStatistics";
+		
+		if (cri.getSearchType() == "") {
+			HttpSession session = req.getSession();
+			Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
+			String admin_cd = (String) admin.get("CD");
+			cri.setSearchType(admin_cd);
+		}
+		
+		List<Map<String, Object>> theaterList = commonAdminService.selectThrList(" ");
+		mnv.addObject("theaterList", theaterList);
+		System.out.println(cri);
+		Map<String, Object> dataMap = commonAdminService.selectStatisticsMovie(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "영화 통계", url);
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
 	// admin_contentHeader에 넣을 정보들
 	private Map<String, Object> addSubject(String subject, String item1, String item2, String url) {
 		Map<String, Object> subjectMap = new HashMap<String, Object>();

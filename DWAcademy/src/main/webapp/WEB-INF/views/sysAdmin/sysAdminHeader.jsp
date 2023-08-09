@@ -28,6 +28,7 @@
 		<script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
 		<!-- datepicker -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/i18n/jquery.ui.datepicker-ko.min.js"></script>
+		<!-- chart.js  -->
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<style>
 		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');

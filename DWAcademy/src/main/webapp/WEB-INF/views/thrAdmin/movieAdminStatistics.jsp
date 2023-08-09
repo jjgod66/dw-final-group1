@@ -4,7 +4,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ include file="sysAdminHeader.jsp"%>
+<%@ include file="thrAdminHeader.jsp"%>
 <style>
 #statisticsTable th {
 	position: relative;
@@ -26,46 +26,40 @@
 			<jsp:param value="${url }" name="url" />
 		</jsp:include>
 		<div class="mx-2">
-			<ul class="nav nav-pills">
-			  <li class="nav-item">
-			    <a class="nav-link active" aria-current="page" href="/sysAdmin/movieAdminStatistics.do">일자별</a>
-			  </li>
-			  <li class="nav-item">
-			    <a class="nav-link" href="/sysAdmin/movieAdminStatistics_movie.do">영화별</a>
-			  </li>
-			</ul>
 			<div id="setSearchTypeDiv mx-2">
 				<div class="row">
 					<div class="col-md-12 text-center mb-4">
 						<div class="mb-2">
-							<input type="radio" name="howlong" id="day" data-type="dayDiv" ${cri.searchType2 eq 'day' || empty cri.searchType2 ? 'checked' : '' }>
-							&nbsp;
-							<label for="day">일별</label> 
-							&nbsp;&nbsp;&nbsp;&nbsp; 
-							<input type="radio" name="howlong" id="week" data-type="weekDiv" ${cri.searchType2 eq 'week' ? 'checked' : '' }>
-							&nbsp;
-							<label for="week">주간별</label> &nbsp;&nbsp;&nbsp;&nbsp; 
-							<input type="radio" name="howlong" id="month" data-type="monthDiv" ${cri.searchType2 eq 'month' ? 'checked' : '' }>
-							&nbsp;
-							<label for="month">월별</label> 
-							&nbsp;&nbsp;&nbsp;&nbsp; 
-							<select	name="searchType">
+							<input type="radio" name="howlong" id="day" data-type="dayDiv"
+								${cri.searchType2 eq 'day' || empty cri.searchType2 ? 'checked' : '' }>&nbsp;<label
+								for="day">일별</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
+								type="radio" name="howlong" id="week" data-type="weekDiv"
+								${cri.searchType2 eq 'week' ? 'checked' : '' }>&nbsp;<label
+								for="week">주간별</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
+								type="radio" name="howlong" id="month" data-type="monthDiv"
+								${cri.searchType2 eq 'month' ? 'checked' : '' }>&nbsp;<label
+								for="month">월별</label> &nbsp;&nbsp;&nbsp;&nbsp; <select
+								name="searchType" style="display: none;">
 								<c:forEach items="${theaterList }" var="thr">
-									<option value="${thr.ADMIN_CD }">${thr.THR_NAME eq 'DW시네마' ? '극장 전체' : thr.THR_NAME}</option>
+									<option value="${thr.ADMIN_CD }" ${thr.ADMIN_CD eq sessionScope.loginUser.CD ? 'selected' : '' }>${thr.THR_NAME eq 'DW시네마' ? '극장 전체' : thr.THR_NAME}</option>
 								</c:forEach>
 							</select>
 						</div>
 						<div class="mb-2 howlongDiv">
-							<div id="dayDiv" style="${cri.searchType2 eq 'day' || cri.searchType2 eq '' ? '' : 'display: none;'}">
-								<input type="date" name="keyword" value="${cri.searchType2 eq 'day' || empty cri.searchType2 ? keyword : '' }">
+							<div id="dayDiv">
+								<input type="date" name="keyword"
+									value="${cri.searchType2 eq 'day' || empty cri.searchType2 ? keyword : '' }">
 							</div>
-							<div id="weekDiv" style="${cri.searchType2 eq 'week' ? '' : 'display: none;'}">
-								<input type="text" name="weekView" style="width: 8.5rem;" readonly> 
-								<input type="date" name="keyword" value="${cri.searchType2 eq 'week' ? keyword : '' }">
+							<div id="weekDiv" style="display: none;">
+								<input type="text" name="weekView" style="width: 8.5rem;"
+									readonly> <input type="date" name="keyword"
+									value="${cri.searchType2 eq 'week' ? keyword : '' }">
 							</div>
-							<div id="monthDiv" style="${cri.searchType2 eq 'month' ? '' : 'display: none;'}">
-								<input type="text" name="monthView" style="width: 8.5rem;" readonly> 
-								<input type="date" name="keyword" value="${cri.searchType2 eq 'month' ? keyword : '' }">
+							<div id="monthDiv" style="display: none;">
+								<input type="text" name="monthView" value=""
+									style="width: 8.5rem;" readonly> <input type="date"
+									name="keyword"
+									value="${cri.searchType2 eq 'month' ? keyword : '' }">
 							</div>
 						</div>
 						<div class="text-center">
@@ -335,16 +329,8 @@ $(function(){
 	$('.howlongDiv input[type="date"]').attr('max', yesterday_toString);
 	if ('${cri.keyword}' == '') {
 		$('#searchResultDiv h3').text(yesterday_toString);	
-		$('#dayDiv input[name="keyword"]').val(yesterday_toString);
 	} else {
 		$('#searchResultDiv h3').text('${cri.keyword}');
-		if ('${cri.searchType2}' == 'week') {
-			setWeekView(new Date('${cri.keyword}'));
-			$('#searchResultDiv h3').text($('#weekDiv input[name="weekView"]').val());
-		} else if ('${cri.searchType2}' == 'month') {
-			setMonthView(new Date('${cri.keyword}'));
-			$('#searchResultDiv h3').text($('#monthDiv input[name="monthView"]').val());
-		}
 	}
 	
 	// 검색 날짜 설정 방법 radio 클릭시
@@ -424,59 +410,4 @@ function sortTable(cellNum){
        }   
    }
 </script>
-<%@ include file="sysAdminFooter.jsp"%>
-
-<%--
-SELECT a1.seatcnt, b1.sales_allmovie, c1.sales_movie, d1.screencnt, cal.dt dates
-  FROM (
-		SELECT COUNT(*) seatcnt, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
-		  FROM RESERVATION r, SCREEN s, MOVIE m 
-		 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy') + 7
-		   AND s.MOVIE_CD = m.MOVIE_CD
-		   AND r.SCREEN_CD = s.SCREEN_CD 
-		   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd')
-		) a1,
-	   (
-		SELECT SUM(pricesum) sales_allmovie, resdate
-  		  FROM (
-				SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
- 		  		  FROM RESERVATION
-				 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy')+7
- 			     GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
-		  		) a
-		 GROUP BY a.resdate
-	   ) b1,
-	   (
-		SELECT SUM(pricesum) sales_movie, resdate
-		  FROM (
-				SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
-		 		  FROM RESERVATION r, SCREEN s, MOVIE m
-				 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy')+7
-				   AND r.SCREEN_CD = s.SCREEN_CD 
-				   AND s.MOVIE_CD = m.MOVIE_CD 
-				   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		 		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
-				  ) a
-		GROUP BY a.resdate
-	   ) c1,
-  	   (
-		SELECT count(s.SCREEN_CD) screencnt, TO_CHAR(s.STARTDATE, 'yyyy-MM-dd') startdate
-		  FROM screen s, MOVIE m 
-		  WHERE s.STARTDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy') + 7
-		   and s.MOVIE_CD = m.MOVIE_CD 
-		   AND s.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		  GROUP BY TO_CHAR(s.STARTDATE, 'yyyy-MM-dd')
-	   ) d1,
-  	   (
-  		SELECT TO_CHAR(TRUNC(SYSDATE, 'dy') + LEVEL - 1, 'yyyy-MM-dd') AS dt
-      	  FROM dual 
-        CONNECT BY LEVEL <= ((TRUNC(SYSDATE, 'dy') + 6) - TRUNC(SYSDATE, 'dy') + 1)
-      )cal
- WHERE cal.dt = a1.resdate(+)
-   AND cal.dt = b1.resdate(+)
-   AND cal.dt = c1.resdate(+)
-   AND cal.dt = d1.startdate(+)
-  ORDER BY cal.dt
-
-%-->
+<%@ include file="thrAdminFooter.jsp"%>
