@@ -38,17 +38,37 @@
     right: 1px;
     top: 1px;
 }
+.tab-block>ul>a{
+	float: left;
+	width: 20%;
+	padding: 5px 0 5px 0;
+	text-align: center;
+	border: 1px solid #4aa8d8;
+}
+.on{
+	background-color: #4aa8d8;
+}
 </style>
 <c:set var="cri" value="${pageMaker.cri }"/>
-<div class="moviepost_container" style=" margin-top: 10px">
-	<div>
+<div class="container" style=" margin-top: 10px">
+	<div class="row" style="width:100%;">
+		<div class="tab-block tab-layer">
+			<ul>
+				<a href="<%=request.getContextPath()%>/member/movieTimeLine.do" class="" ><li>무비타임라인</li></a>
+				<a href="<%=request.getContextPath()%>/member/myMoviepost.do" class="on"><li>무비포스트</li></a>
+				<a href="<%=request.getContextPath()%>/member/myReview.do" class=""><li>리뷰</li></a>
+				<a href="<%=request.getContextPath()%>/member/myLikeMovie.do" class=""><li>좋아요</li></a>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
 	<p style="float:left;">
-		<strong>총 <b class="font-gblue" id="myMoviePostCnt"></b> 건</strong>
+		<strong>총 <b class="font-gblue" id="myMoviePostCnt">${fn:length(mpList)}</b> 건</strong>
 	</p>
 		<div style="float: right;">
 			<div class="movie-sorting" style="margin: 10px;">
-				<button type="button" class="on" data-type="date">최신순</button>
-				<button type="button" class="on" data-type="like">공감순</button>
+				<button type="button" id="newest" class="" data-type="date">최신순</button>
+				<button type="button" id="likest"class="" data-type="like">공감순</button>
 			</div>
 			<div class="movie-search">
 				<input type="text" title="영화 제목을 입력해 주세요." placeholder="영화 제목을 입력해 주세요." name="keyword"
@@ -62,11 +82,11 @@
 			<div style="text-align: center;">등록된 무비포스트가 없습니다.</div>
 		</div>
 	</c:if>
-	<div class="" style="padding-bottom: 10px;">
-		<div class="row">
+	<div style="padding-bottom: 10px;">
+		<div class="row" style="flex-wrap: nowrap;">
 			<c:forEach items="${mpList}" var="mp">
-        		<div class="col-3 post" style="height: 400px; width: 325px;">
-        			<div id="mpCard" class="card" style="margin: 20px; height: 90%;" data-mpost_no="${mp.MPOST_NO }">
+        		<div class="col-3 post" style="height: 300px; width: 250px;">
+        			<div id="mpCard" class="card" style="margin: 20px; height: 90%;" data-mpost_no="${mp.MPOST_NO }" data-timestamp="${fn:replace(mp.REGDATE, '', 'T')}">
         				<div class="card-body" style="height: 45%; background-image: url('<%=request.getContextPath() %>/common/getPicture.do?name=${mp.MOVIE_PIC_PATH}&item_cd=${mp.MOVIE_CD}&type=movieImg');  background-repeat : no-repeat; background-size : cover;"></div>
         				<div class="card-body" style="height: 55%;">
         					<div>
@@ -92,21 +112,53 @@
        	</div>
     	</div>
     	<div class="mt-5 mb-5 paginationdiv">
-<%-- 		<%@ include file="../common/pagination.jsp" %> --%>
+		<%@ include file="../common/pagination.jsp" %>
 		</div>
 </div>
+<%@ include file="../movie/moviepost_view_modal.jsp" %>
 <script>
+$('#newest').on('click', function(){
+	let posts = $('.post').toArray();
+	
+	// timestamp를 기준으로 내림차순 정렬
+	posts.sort(function(a ,b){
+		let timestampA = new Date($(a).find('#mpCard').data('timestamp'));
+		let timestampB = new Date($(b).find('#mpCard').data('timestamp'));
+		return timestampB - timestampA;
+	});
+	
+	// 정렬된 요소를 부모 요소에 추가
+	let container = $('.col-3.post').parent();
+	container.empty
+	posts.forEach(function(post){
+		container.append(post);
+	});
+});
 
-let searchFormUrl = "moviePost.do";
+$('#likest').on('click', function(){
+	let posts = $('.post').toArray();
+	
+	// 공감 수를 기준으로 내림차순 정렬
+	posts.sort(function(a ,b){
+		let likeCntA = new Date($(a).find('.fa-thumbs-up span').text());
+		let likeCntB = new Date($(b).find('.fa-thumbs-up span').text());
+		return likeCntB - likeCntA;
+	});
+	
+	// 정렬된 요소를 부모 요소에 추가
+	let container = $('.col-3.post').parent();
+	container.empty
+	posts.forEach(function(post){
+		container.append(post);
+	});
+});
+
+
+
+let searchFormUrl = "searchMyMoviepost.do";
 $(function(){
 	
-	$('.postLankMoive').on('click', function(){
-		let movie_name = $(this).data('movie_name');
-		$('input[name="keyword"]').val(movie_name);
-		searchList_go(1);
-	})
-	
-	$('.moviepost_container').on('click', '#mpCard', function(){
+	$('.container').on('click', '#mpCard', function(){
 		let mpost_no = $(this).data("mpost_no");
 		
 		$.ajax({

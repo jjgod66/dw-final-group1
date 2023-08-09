@@ -30,4 +30,4 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;}
 <div id="wrapper">
     <div class="container">
         <div class="row">
-            <div class="">
+            <div style="width: 100%;">
