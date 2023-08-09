@@ -9,6 +9,7 @@
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css'>
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/slider.css">
 <link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/StoreCard.css">
+<link rel="stylesheet" href="<%=request.getContextPath() %>/resources/css/mainMoviePost.css">
 <!-- 페럴 --> 
 <style>
 .event-list {
@@ -107,17 +108,35 @@
   -moz-text-fill-color: transparent;
 }
 
-
+.s3 > div h1 {
+	margin-top:50px;
+	text-align:center;
+  text-transform: capitalize;
+  letter-spacing: 0.8px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.4375rem, 2.25rem + 0.75vw, 2rem);
+  background-color: #005baa;
+    background-image: linear-gradient(45deg, #152b3e, #0162ee);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
 
 .parallax-container {
   position: relative;
 /*   overflow: hidden; */
 }
 .backRain{
-	    background: linear-gradient(45deg, #b0d9ff, transparent);
+	
+	background: linear-gradient(45deg, #b0d9ff, transparent);
 	padding:1px;
 }
 .parallax-box {
+	margin-left: 49%; margin-top: 100px; margin-bottom: 100px;
   text-align:center;
   height: 100%;
   background-size: cover;
@@ -192,7 +211,30 @@
   color: #005baa;
 }
 @media screen and (min-width: 1500px){.wrapperEvent{width: 75%; margin: auto;} }
-
+@media screen and (max-width: 1400px){.content-box2{margin-left: 103px;}}
+.content-box2-p{
+	position: absolute;
+	margin: 230px 0 0 350px;
+    text-align:center;
+    width: 24%;
+    font-size: 17px;
+    color: #495057;
+}
+@media screen and (max-width:1400px){.content-box2-p{margin: 230px 0 0 173px; }}
+@media screen and (max-width:1400px){.parallax-box{margin-left: 45%; }}
+.mainPost{
+	flex-wrap: wrap;
+	width: 65%;
+	margin: 0 auto;
+	display: flex;
+}
+.content-box3-p{
+	position: absolute;
+	margin: 458px 0 0 565px;
+    text-align:center;
+    font-size: 17px;
+    color: #495057;
+}
 </style>
 
 	<!-- partial:index.partial.html -->
@@ -430,18 +472,13 @@ $(document).ready(function() {
 		    </div>
 	    </div>
     </div>
-	<p style="position: absolute;
-				margin: 230px 0 0 350px;
-	  			text-align:center;
-                width: 24%;
-                font-size: 17px;
-                color: #495057;">
-      			지금 당신을 위해 준비한 특별한 시간이 찾아왔습니다. 우리의 행사에서는 다채로운 기프트카드와 함께, 신선한 팝콘과 다양한 스낵, 그리고 상큼한 음료를 제공합니다. 이 맛있는 조합으로 특별한 순간을 더욱 풍성하게 만들어보세요! <br>
-            <a href="<%=request.getContextPath() %>/store/index.do" class="mainBtn">스토어 바로가기</a>
-      </p>
+	<p class="content-box2-p" >
+      	지금 당신을 위해 준비한 특별한 시간이 찾아왔습니다. 우리의 행사에서는 다채로운 기프트카드와 함께, 신선한 팝콘과 다양한 스낵, 그리고 상큼한 음료를 제공합니다. 이 맛있는 조합으로 특별한 순간을 더욱 풍성하게 만들어보세요! <br>
+        <a href="<%=request.getContextPath() %>/store/index.do" class="mainBtn">스토어 바로가기</a>
+    </p>
       
-      <div class="parallax-box" style="margin-left: 49%; margin-top: 100px; margin-bottom: 100px;">
-		  <div style="margin: 0 1%; display: flex; flex-wrap: wrap;">
+      <div class="parallax-box">
+		  <div style="margin: 0 1%; display: flex;">
 		    <c:forEach items="${productFood}" var="Food" varStatus="loop">
 		      <div id="StoreCard" >
 		        <div class="wrapper">
@@ -498,7 +535,207 @@ $(document).ready(function() {
 </script>
 
 
-<div style="border: 1px solid black; width: 600px; height: 100px; margin: 0 auto; text-align: center;">무비포스트4개 한줄 </div>
+<!-- 영화무비포스트메인  -->
+
+    	<div class="s3">
+   		<div style="margin-bottom: 39px;">
+	    	<h1 class="" style="text-align: center;"> 다양한 무비포스터들을 확인하세요! </h1>
+	    </div>
+	    </div>
+<div class="mainPost">
+	    
+	<div class="mainMoviePost">
+	  <div class="cardPost u-clearfix">
+	<!--   	영화 포스터 -->
+	    <div class="card-media">
+	      <img src="/resources/img/tom.png" alt="" class="card-media-img" />
+	    </div>
+	<!--     영화제 -->
+		    <div class="card-body">
+		      <h2 class="card-body-heading">미션임파서블:폴아웃</h2>
+		      <div class="card-body-options">
+		        <div class="card-body-option">
+	<!-- 	        아이콘 -->
+		          	<div style="display: flex; padding-right: 10px;     align-items: center;">
+			          	<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z"/></svg>
+			            <p style="padding: 0px 0 0 5px; font-size: large;">1402</p>
+		            </div>
+		            <div style="display: flex;     align-items: center;">
+		          		<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
+		        	    <p style="padding: 0px 0 0 5px; font-size: large;">201</p>
+		            </div>
+		      </div>
+	<!-- 	      아이디 내용 상세보기  -->
+		      <div style="padding-top: 10px; color: #495057;"> 
+				<p style="font-size: 15px; padding-bottom: 8px;">
+			    	aooo**
+		   		</p>
+			      <p> 이게 영화지 영화관이 아직 있어야 하는 이유</p>
+		   	  </div>
+		      
+		      <a href="#/" class="card-button card-button-link">
+		        상세보기
+		        <span class="card-button-icon">
+		          <svg fill="#9C948A" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+		            <path d="M0 0h24v24H0z" fill="none"/>
+		            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+		          </svg>
+		        </span>
+		      </a>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	
+	
+	<div class="mainMoviePost">
+	  <div class="cardPost u-clearfix">
+	<!--   	영화 포스터 -->
+	    <div class="card-media">
+	      <img src="/resources/img/chfhd.jpeg" alt="" class="card-media-img" />
+	    </div>
+	<!--     영화제 -->
+		    <div class="card-body">
+		      <h2 class="card-body-heading">범죄도시3</h2>
+		      <div class="card-body-options">
+		        <div class="card-body-option">
+	<!-- 	        아이콘 -->
+		          	<div style="display: flex; padding-right: 10px;     align-items: center;">
+			          	<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z"/></svg>
+			            <p style="padding: 0px 0 0 5px; font-size: large;">3420</p>
+		            </div>
+		            <div style="display: flex;     align-items: center;">
+		          		<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
+		        	    <p style="padding: 0px 0 0 5px; font-size: large;">521</p>
+		            </div>
+		      </div>
+	<!-- 	      아이디 내용 상세보기  -->
+		      <div style="padding-top: 10px; color: #495057;"> 
+				<p style="font-size: 15px; padding-bottom: 8px;">
+			    	aqwer**
+		   		</p>
+			      <p>  초롱이가 제일 강력하다.</p>
+		   	  </div>
+		      
+		      <a href="#/" class="card-button card-button-link">
+		        상세보기
+		        <span class="card-button-icon">
+		          <svg fill="#9C948A" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+		            <path d="M0 0h24v24H0z" fill="none"/>
+		            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+		          </svg>
+		        </span>
+		      </a>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	
+	
+	<div class="mainMoviePost">
+	  <div class="cardPost u-clearfix">
+	<!--   	영화 포스터 -->
+	    <div class="card-media">
+	      <img src="/resources/img/슬램.jpeg" alt="" class="card-media-img" />
+	    </div>
+	<!--     영화제 -->
+		    <div class="card-body">
+		      <h2 class="card-body-heading">슬램덩크 더 퍼스트</h2>
+		      <div class="card-body-options">
+		        <div class="card-body-option">
+	<!-- 	        아이콘 -->
+		          	<div style="display: flex; padding-right: 10px;     align-items: center;">
+			          	<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z"/></svg>
+			            <p style="padding: 0px 0 0 5px; font-size: large;">823</p>
+		            </div>
+		            <div style="display: flex;     align-items: center;">
+		          		<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
+		        	    <p style="padding: 0px 0 0 5px; font-size: large;">91</p>
+		            </div>
+		      </div>
+	<!-- 	      아이디 내용 상세보기  -->
+		      <div style="padding-top: 10px; color: #495057;"> 
+				<p style="font-size: 15px; padding-bottom: 8px;">
+			    	rrqwe1**
+		   		</p>
+			      <p>   너희들은 안늙었구나..</p>
+		   	  </div>
+		      
+		      <a href="#/" class="card-button card-button-link">
+		        상세보기
+		        <span class="card-button-icon">
+		          <svg fill="#9C948A" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+		            <path d="M0 0h24v24H0z" fill="none"/>
+		            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+		          </svg>
+		        </span>
+		      </a>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	
+	<div class="mainMoviePost">
+	  <div class="cardPost u-clearfix">
+	<!--   	영화 포스터 -->
+	    <div class="card-media">
+	      <img src="/resources/img/chfhd.jpeg" alt="" class="card-media-img" />
+	    </div>
+	<!--     영화제 -->
+		    <div class="card-body">
+		      <h2 class="card-body-heading">범죄도시3</h2>
+		      <div class="card-body-options">
+		        <div class="card-body-option">
+	<!-- 	        아이콘 -->
+		          	<div style="display: flex; padding-right: 10px;     align-items: center;">
+			          	<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z"/></svg>
+			            <p style="padding: 0px 0 0 5px; font-size: large;">3420</p>
+		            </div>
+		            <div style="display: flex;     align-items: center;">
+		          		<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
+		        	    <p style="padding: 0px 0 0 5px; font-size: large;">521</p>
+		            </div>
+		      </div>
+	<!-- 	      아이디 내용 상세보기  -->
+		      <div style="padding-top: 10px; color: #495057;"> 
+				<p style="font-size: 15px; padding-bottom: 8px;">
+			    	aqwer**
+		   		</p>
+			      <p>  초롱이가 제일 강력하다.</p>
+		   	  </div>
+		      
+		      <a href="#/" class="card-button card-button-link">
+		        상세보기
+		        <span class="card-button-icon">
+		          <svg fill="#9C948A" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
+		            <path d="M0 0h24v24H0z" fill="none"/>
+		            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+		          </svg>
+		        </span>
+		      </a>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	
+	
+	
+	
+<!-- 		wj전체보기 버튼  -->
+		<p class="content-box3-p" >
+       		 <a href="<%=request.getContextPath() %>/movie/moviePost.do" class="mainBtn">전체보기</a>
+    	</p>
+	
+	
+</div>
+
+
+
+
+
+
+<br><br><br><br><br><br><br><br><br><br>
+
 <div style="   margin-left: 35%;
     display: inline-flex;">
 <div style="border: 1px solid black; width: 300px; height: 100px; margin: 0 auto; text-align: center;">리뷰 리스트5개</div>
