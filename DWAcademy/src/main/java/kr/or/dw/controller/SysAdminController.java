@@ -463,12 +463,9 @@ public class SysAdminController {
 		
 		List<Map<String, Object>> theaterList = commonAdminService.selectThrList(" ");
 		mnv.addObject("theaterList", theaterList);
-		
-//		Map<String, Object> dataMap = commonAdminService.selectStatisticsMovie(cri);
-		
-		
-		List<Map<String, Object>> resultList = commonAdminService.selectStatisticsMovie();
-		mnv.addObject("resultList", resultList);
+		System.out.println(cri);
+		Map<String, Object> dataMap = commonAdminService.selectStatisticsMovie(cri);
+		mnv.addAllObjects(dataMap);
 		
 		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "영화 통계", url);
 		mnv.addAllObjects(subjectMap);

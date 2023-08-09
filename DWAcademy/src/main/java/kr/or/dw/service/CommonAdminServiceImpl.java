@@ -1,6 +1,7 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,25 +95,27 @@ public class CommonAdminServiceImpl implements CommonAdminService {
 
 	@Override
 	public Map<String, Object> selectStatisticsMovie(SearchCriteria cri) throws SQLException {
-		
+		System.out.println(cri);
 		List<Map<String, Object>> movieList = null;
 		
-		int offset = cri.getPageStartRowNum();
-		int limit = cri.getPerPageNum();
-		RowBounds rowBounds = new RowBounds(offset, limit);
+//		int offset = cri.getPageStartRowNum();
+//		int limit = cri.getPerPageNum();
+//		RowBounds rowBounds = new RowBounds(offset, limit);
 		
-		movieList = commonAdminDAO.selectStatisticsMovieList(cri, rowBounds);
+		movieList = commonAdminDAO.selectStatisticsMovieList(cri);
 		
-		int totalCount = commonAdminDAO.selectStatisticsMovieList(cri);
-		
+		int totalCount = commonAdminDAO.selectStatisticsMovieListCount(cri);
+		System.out.println(movieList);
+		System.out.println(totalCount);
 		PageMaker pageMaker = new PageMaker();
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(totalCount);
 		
 		
-		Map<String, Object> dataMap = null;
+		Map<String, Object> dataMap = new HashMap<String, Object>();
 		dataMap.put("movieList", movieList);
 		dataMap.put("pageMaker", pageMaker);
+		
 		return dataMap;
 	}
 }
