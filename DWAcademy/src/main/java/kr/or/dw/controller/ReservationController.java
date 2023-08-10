@@ -260,7 +260,7 @@ public class ReservationController {
 		for(int i = 0; i < seatList.length; i++) {
 			ReservationVO reservation = new ReservationVO();
 			reservation.setScreen_cd(mpc.getScreen_cd());
-			reservation.setMerchant_uid("M" + mpc.getMerchant_uid());
+			reservation.setMerchant_uid(mpc.getMerchant_uid());
 			reservation.setMem_cd(mem_cd);
 			reservation.setRes_seat(seatList[i]);
 			reservation.setMem_cat(catList.get(i));
