@@ -18,10 +18,13 @@
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 		<!-- thrAdmin.css -->
 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/resources/css/admin.css">
+		
 		<!-- jquery 3.7.0 -->
 		<script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
 		<!-- bootstrap 5.2.3 -->
 		<script src="<%=request.getContextPath()%>/resources/bootstrap-5.2.3-dist/js/bootstrap.bundle.min.js"></script>
+		<!-- chart.js  -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<style>
 		@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
 		body {
@@ -65,7 +68,7 @@
 						<li class="gnb_1dli dropdown dropdown-menu" >영화관리 
 							<div class="dropdown-content">
 								<a href="<%= request.getContextPath() %>/thrAdmin/movieAdminMain.do" class="gnb_1da">영화등록</a>
-								<a href="#" class="gnb_1da">영화통계</a>
+								<a href="<%= request.getContextPath() %>/thrAdmin/movieAdminStatistics.do" class="gnb_1da">영화통계</a>
 							</div>
 						</li>
 						<li class="gnb_1dli dropdown dropdown-menu">고객관리 

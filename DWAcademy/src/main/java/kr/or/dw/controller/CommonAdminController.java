@@ -115,4 +115,20 @@ public class CommonAdminController {
 		}
 		return entity;
 	}
+	
+	@RequestMapping("/searchMovieName")
+	public ResponseEntity<List<Map<String, Object>>> searchMovieName (@RequestBody Object searchText) throws SQLException {
+		ResponseEntity<List<Map<String, Object>>> entity = null;
+		String movie_name = (String) searchText;
+		System.out.println("searchText : " + movie_name);
+		List<Map<String, Object>> movieList = commonAdminService.selectBySearchMovieName(movie_name);
+		
+		try {
+			entity = new ResponseEntity<List<Map<String, Object>>>(movieList, HttpStatus.OK);
+		} catch (Exception e) {
+			entity = new ResponseEntity<List<Map<String, Object>>>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return entity;
+	}
 }

@@ -473,6 +473,23 @@ public class SysAdminController {
 		return mnv;
 	}
 	
+	@RequestMapping("/movieAdminStatistics_movie")
+	public ModelAndView movieAdminStatistics_movie(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/sysAdmin/movieAdminStatistics_movie";
+		
+		List<Map<String, Object>> theaterList = commonAdminService.selectThrList(" ");
+		mnv.addObject("theaterList", theaterList);
+		System.out.println(theaterList);
+		System.out.println(cri);
+		Map<String, Object> dataMap = commonAdminService.selectStatisticsMovieByMovieName(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "영화 통계", url);
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
 	@RequestMapping("/storeAdminMain")
 	public ModelAndView storeAdmin(ModelAndView mnv, String CategoryIdx) throws SQLException {
 		String url = "/sysAdmin/storeAdminMain";

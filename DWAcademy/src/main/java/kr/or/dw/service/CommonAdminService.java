@@ -30,10 +30,16 @@ public interface CommonAdminService {
 	// 아직 읽지않은 쪽지 수를 가져온다.
 	int selectUnreadedNoteCnt(String admin_cd) throws SQLException;
 
-	// 해당 검색에 대한 영화 통계를 가져온다.
-	List<Map<String, Object>> selectStatisticsMovie() throws SQLException;
+//	// 해당 검색에 대한 영화 통계를 가져온다.
+//	List<Map<String, Object>> selectStatisticsMovie() throws SQLException;
 
 	// 해당 검색에 대한 영화 통계를 가져온다.
 	Map<String, Object> selectStatisticsMovie(SearchCriteria cri) throws SQLException;
+
+	// 검색창에 쓴 텍스트기반 영화 검색
+	List<Map<String, Object>> selectBySearchMovieName(String searchText) throws SQLException;
+
+	// 검색에 대한 해당 영화 통계를 가져온다.
+	Map<String, Object> selectStatisticsMovieByMovieName(SearchCriteria cri) throws SQLException;
 	
 }

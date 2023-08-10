@@ -405,6 +405,7 @@ public class ThrAdminController {
 	@RequestMapping("/eventAdminRegist")
 	public void eventAdminRegist (EventRegistCommand registReq, HttpServletRequest req, HttpServletResponse res) throws SQLException, IllegalStateException, IOException {
 		String eventPicUploadPath = this.eventPicUploadPath;
+		System.out.println(registReq.getRelate_cd());
 		EventVO event = registReq.toEventVO();
 		
 		// 이벤트 테이블에 등록
@@ -807,6 +808,46 @@ public class ThrAdminController {
 		out.println("</script>");
 		out.flush();
 		out.close();
+	}
+	
+	@RequestMapping("/movieAdminStatistics")
+	public ModelAndView movieAdminStatistics(ModelAndView mnv, SearchCriteria cri, HttpServletRequest req) throws SQLException {
+		String url = "/thrAdmin/movieAdminStatistics";
+		
+		if (cri.getSearchType() == "") {
+			HttpSession session = req.getSession();
+			Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
+			String admin_cd = (String) admin.get("CD");
+			cri.setSearchType(admin_cd);
+		}
+		
+		List<Map<String, Object>> theaterList = commonAdminService.selectThrList(" ");
+		mnv.addObject("theaterList", theaterList);
+		System.out.println(cri);
+		Map<String, Object> dataMap = commonAdminService.selectStatisticsMovie(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "영화 통계", url);
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
+	}
+	
+	@RequestMapping("/movieAdminStatistics_movie")
+	public ModelAndView movieAdminStatistics_movie(ModelAndView mnv, SearchCriteria cri) throws SQLException {
+		String url = "/thrAdmin/movieAdminStatistics_movie";
+		
+		List<Map<String, Object>> theaterList = commonAdminService.selectThrList(" ");
+		mnv.addObject("theaterList", theaterList);
+		System.out.println(theaterList);
+		System.out.println(cri);
+		Map<String, Object> dataMap = commonAdminService.selectStatisticsMovieByMovieName(cri);
+		mnv.addAllObjects(dataMap);
+		
+		Map<String, Object> subjectMap = addSubject("HOME", "영화 관리", "영화 통계", url);
+		mnv.addAllObjects(subjectMap);
+		mnv.setViewName(url);
+		return mnv;
 	}
 	
 	// admin_contentHeader에 넣을 정보들

@@ -4,7 +4,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ include file="sysAdminHeader.jsp"%>
+<%@ include file="thrAdminHeader.jsp"%>
 <style>
 #statisticsTable th {
 	position: relative;
@@ -28,44 +28,46 @@
 		<div class="mx-2">
 			<ul class="nav nav-pills">
 			  <li class="nav-item">
-			    <a class="nav-link active" aria-current="page" href="/sysAdmin/movieAdminStatistics.do">일자별</a>
+			    <a class="nav-link active" aria-current="page" href="/thrAdmin/movieAdminStatistics.do">일자별</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link" href="/sysAdmin/movieAdminStatistics_movie.do">영화별</a>
+			    <a class="nav-link" href="/thrAdmin/movieAdminStatistics_movie.do">영화별</a>
 			  </li>
 			</ul>
 			<div id="setSearchTypeDiv mx-2">
 				<div class="row">
 					<div class="col-md-12 text-center mb-4">
 						<div class="mb-2">
-							<input type="radio" name="howlong" id="day" data-type="dayDiv" ${cri.searchType2 eq 'day' || empty cri.searchType2 ? 'checked' : '' }>
-							&nbsp;
-							<label for="day">일별</label> 
-							&nbsp;&nbsp;&nbsp;&nbsp; 
-							<input type="radio" name="howlong" id="week" data-type="weekDiv" ${cri.searchType2 eq 'week' ? 'checked' : '' }>
-							&nbsp;
-							<label for="week">주간별</label> &nbsp;&nbsp;&nbsp;&nbsp; 
-							<input type="radio" name="howlong" id="month" data-type="monthDiv" ${cri.searchType2 eq 'month' ? 'checked' : '' }>
-							&nbsp;
-							<label for="month">월별</label> 
-							&nbsp;&nbsp;&nbsp;&nbsp; 
-							<select	name="searchType">
+							<input type="radio" name="howlong" id="day" data-type="dayDiv"
+								${cri.searchType2 eq 'day' || empty cri.searchType2 ? 'checked' : '' }>&nbsp;<label
+								for="day">일별</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
+								type="radio" name="howlong" id="week" data-type="weekDiv"
+								${cri.searchType2 eq 'week' ? 'checked' : '' }>&nbsp;<label
+								for="week">주간별</label> &nbsp;&nbsp;&nbsp;&nbsp; <input
+								type="radio" name="howlong" id="month" data-type="monthDiv"
+								${cri.searchType2 eq 'month' ? 'checked' : '' }>&nbsp;<label
+								for="month">월별</label> &nbsp;&nbsp;&nbsp;&nbsp; <select
+								name="searchType" style="display: none;">
 								<c:forEach items="${theaterList }" var="thr">
-									<option value="${thr.ADMIN_CD }" ${searchType eq thr.ADMIN_CD ? 'selected' : ''}>${thr.THR_NAME eq 'DW시네마' ? '극장 전체' : thr.THR_NAME}</option>
+									<option value="${thr.ADMIN_CD }" ${thr.ADMIN_CD eq sessionScope.loginUser.CD ? 'selected' : '' }>${thr.THR_NAME eq 'DW시네마' ? '극장 전체' : thr.THR_NAME}</option>
 								</c:forEach>
 							</select>
 						</div>
 						<div class="mb-2 howlongDiv">
-							<div id="dayDiv" style="${cri.searchType2 eq 'day' || cri.searchType2 eq '' ? '' : 'display: none;'}">
-								<input type="date" name="keyword" value="${cri.searchType2 eq 'day' || empty cri.searchType2 ? keyword : '' }">
+							<div id="dayDiv">
+								<input type="date" name="keyword"
+									value="${cri.searchType2 eq 'day' || empty cri.searchType2 ? keyword : '' }">
 							</div>
-							<div id="weekDiv" style="${cri.searchType2 eq 'week' ? '' : 'display: none;'}">
-								<input type="text" name="weekView" style="width: 8.5rem;" readonly> 
-								<input type="date" name="keyword" value="${cri.searchType2 eq 'week' ? keyword : '' }">
+							<div id="weekDiv" style="display: none;">
+								<input type="text" name="weekView" style="width: 8.5rem;"
+									readonly> <input type="date" name="keyword"
+									value="${cri.searchType2 eq 'week' ? keyword : '' }">
 							</div>
-							<div id="monthDiv" style="${cri.searchType2 eq 'month' ? '' : 'display: none;'}">
-								<input type="text" name="monthView" style="width: 8.5rem;" readonly> 
-								<input type="date" name="keyword" value="${cri.searchType2 eq 'month' ? keyword : '' }">
+							<div id="monthDiv" style="display: none;">
+								<input type="text" name="monthView" value=""
+									style="width: 8.5rem;" readonly> <input type="date"
+									name="keyword"
+									value="${cri.searchType2 eq 'month' ? keyword : '' }">
 							</div>
 						</div>
 						<div class="text-center">
@@ -98,7 +100,7 @@
 									class="bi bi-arrow-down-up" onclick="sortTable(2);"></i></span></th>
 							<th>매출액 <span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(3);"></i></span></th>
-							<th>예매점유율 <span class="sortBtn"><i
+							<th>매출액점유율 <span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(4);"></i></span></th>
 							<th>누적매출액 <span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(5);"></i></span></th>
@@ -152,7 +154,7 @@
 
 
 <script>
-let searchFormUrl = "/sysAdmin/movieAdminStatistics.do";
+let searchFormUrl = "/thrAdmin/movieAdminStatistics.do";
 
 $(function(){
 	
@@ -343,16 +345,8 @@ $(function(){
 	$('.howlongDiv input[type="date"]').attr('max', yesterday_toString);
 	if ('${cri.keyword}' == '') {
 		$('#searchResultDiv h3').text(yesterday_toString);	
-		$('#dayDiv input[name="keyword"]').val(yesterday_toString);
 	} else {
 		$('#searchResultDiv h3').text('${cri.keyword}');
-		if ('${cri.searchType2}' == 'week') {
-			setWeekView(new Date('${cri.keyword}'));
-			$('#searchResultDiv h3').text($('#weekDiv input[name="weekView"]').val());
-		} else if ('${cri.searchType2}' == 'month') {
-			setMonthView(new Date('${cri.keyword}'));
-			$('#searchResultDiv h3').text($('#monthDiv input[name="monthView"]').val());
-		}
 	}
 	
 	// 검색 날짜 설정 방법 radio 클릭시
@@ -432,4 +426,4 @@ function sortTable(cellNum){
        }   
    }
 </script>
-<%@ include file="sysAdminFooter.jsp"%>
+<%@ include file="thrAdminFooter.jsp"%>
