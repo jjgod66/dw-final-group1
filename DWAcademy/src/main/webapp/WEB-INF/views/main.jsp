@@ -109,7 +109,7 @@
 }
 
 .s3 > div h1 {
-	margin-top:50px;
+	padding-top:50px;
 	text-align:center;
   text-transform: capitalize;
   letter-spacing: 0.8px;
@@ -125,14 +125,32 @@
   -moz-background-clip: text;
   -moz-text-fill-color: transparent;
 }
-
+.s4 > div h1 {
+    width: 600px;
+	padding-top:70px;
+	text-align:center;
+  text-transform: capitalize;
+  letter-spacing: 0.8px;
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.4375rem, 2.25rem + 0.75vw, 2rem);
+  background-color: #005baa;
+    background-image: linear-gradient(45deg, #152b3e, #0162ee);
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-background-clip: text;
+  -moz-text-fill-color: transparent;
+}
 .parallax-container {
   position: relative;
 /*   overflow: hidden; */
 }
 .backRain{
-	
-	background: linear-gradient(45deg, #b0d9ff, transparent);
+	    background-size: cover;
+	background-image: url("resources/img/food2.jpeg");
+/* 	background: linear-gradient(45deg, #b0d9ff, transparent); */
 	padding:1px;
 }
 .parallax-box {
@@ -206,7 +224,25 @@
     transition: 0.3s ease-in-out;
     color: black;
 }
+.mainBtn2{
+    margin-right: 20px;
+    border: 2px solid #c2c2c2;
+    /* margin-top: 2.188rem; */
+    padding: 0.325rem 1.275rem;
+    display: inline-block;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 500;
+    background: #fff;
+    border-radius: 3.125rem;
+    transition: 0.3s ease-in-out;
+    color: black;
+}
 .mainBtn:hover {
+  border: 0.125rem solid #005baa;
+  color: #005baa;
+}
+.mainBtn2:hover {
   border: 0.125rem solid #005baa;
   color: #005baa;
 }
@@ -227,14 +263,39 @@
 	width: 65%;
 	margin: 0 auto;
 	display: flex;
+	
+	
+}
+.mainPostBack{
+	    padding-bottom: 90px;
+		background-color: #fff;
+		background-image: linear-gradient(90deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px),
+						  linear-gradient(#eee .1em, transparent .1em);
+		background-size: 100% 1.2em;
 }
 .content-box3-p{
 	position: absolute;
-	margin: 458px 0 0 565px;
+	margin: 440px 0 0 565px;
     text-align:center;
     font-size: 17px;
     color: #495057;
 }
+.content-box4-p{
+    color: #495057;
+}
+@media screen and (min-width:800px){.mainPost{width: 94%;   }}
+@media screen and (min-width:1500px){.mainPost{width: 65%;   }}
+.thrBack { 
+	display: flex;
+    padding: 0 30% 0 20%;
+	height: 431px;
+	background: url("/resources/img/thrBack.jpeg");
+}
+.thrBack > img { padding: 59px;    border-radius: 50%;}
+.s4 > p {font-size: 17px;  padding: 0 95px 0 95px;}
+
+@media screen and (min-width:800px ){ .thrBack { padding:0; } }
+@media screen and (min-width:1500px ){.thrBack{padding: 0 30% 0 20%;}}
 </style>
 
 	<!-- partial:index.partial.html -->
@@ -536,7 +597,7 @@ $(document).ready(function() {
 
 
 <!-- 영화무비포스트메인  -->
-
+<div class="mainPostBack">
     	<div class="s3">
    		<div style="margin-bottom: 39px;">
 	    	<h1 class="" style="text-align: center;"> 다양한 무비포스터들을 확인하세요! </h1>
@@ -718,9 +779,6 @@ $(document).ready(function() {
 		</div>
 	</div>
 	
-	
-	
-	
 <!-- 		wj전체보기 버튼  -->
 		<p class="content-box3-p" >
        		 <a href="<%=request.getContextPath() %>/movie/moviePost.do" class="mainBtn">전체보기</a>
@@ -728,85 +786,60 @@ $(document).ready(function() {
 	
 	
 </div>
-
-
-
-
-
-
-<br><br><br><br><br><br><br><br><br><br>
-
-<div style="   margin-left: 35%;
-    display: inline-flex;">
-<div style="border: 1px solid black; width: 300px; height: 100px; margin: 0 auto; text-align: center;">리뷰 리스트5개</div>
-<div style="border: 1px solid black; width: 300px; height: 100px; margin: 0 auto; text-align: center;">혜택 작게4개 두줄</div>
 </div>
-<div style="   margin-left: 35%;
-    display: inline-flex;">
-<div style="border: 1px solid black; width: 300px; height: 100px; margin: 0 auto; text-align: center;">r공지사항 리스트3개</div>
-<div style="border: 1px solid black; width: 300px; height: 100px; margin: 0 auto; text-align: center;">고객센터</div>
-</div>
-<p style="text-align: center; padding: 10px;"> 전체 메뉴100% </p>
-<p style="text-align: center; padding: 10px;">푸터 </p>
+<!-- a무비포스트 끝  -->
 
 
-
-
-
-
-
-
-   
-
-<%-- <div class="store-wrapper">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-6 col-xl-3">
-                <a href="<%=request.getContextPath()%>/movie/moviePost.do">
-	                <div class="icon">
-	                    <img src="/resources/img/community-icon.png">
-	                </div>
-               		 무비포스트
-                </a>
-            </div>
-            <div class="col-12 col-lg-6 col-xl-3">
-                <a href="<%=request.getContextPath()%>/member/membership.do">
-	                <div class="icon">
-	                    <img src="/resources/img/giftbox-icon.png">
-	                </div>
-              		  혜택
-                </a>
-            </div>
-            <div class="col-12 col-lg-6 col-xl-3">
-                <a href="<%=request.getContextPath()%>/store/index.do?CategoryIdx=1">
-	                <div class="icon">
-	                    <img src="/resources/img/popcorn-icon.png">
-	                </div>
-                	스토어
-                </a>
-            </div>
-            <div class="col-12 col-lg-6 col-xl-3">
-                <a href="<%=request.getContextPath()%>/support/main.do">
-	                <div class="icon">
-	                    <img src="/resources/img/chat-support-icon.png">
-	                </div>
-               		 고객센터
-                </a>
-            </div>
-        </div>
+<div class="thrBack">
+	<img src="/resources/img/cinema.jpg">
+	<div class="s4">
+   		<div style="margin-bottom: 39px;">
+	    	<h1 class="" style="text-align: center;"> 전국 어디서나 DW시네마와 함께! </h1>
+	    </div>
+    <p>최고의 영화 감상 경험을 누리세요. DW 시네마의 풍부한 프로그램과 현대적인 시설로 편안하고 특별한 시간을 만들어보세요. 우리와 함께라면 여러분의 영화 시간은 더욱 특별하고 즐거운 순간으로 가득할 것입니다. 상영 중인 영화를 확인하고 가까운 DW 시네마에서 만나보세요!</p>
+	<p class="" style="text-align: center;" >
+       		 <a href="<%=request.getContextPath() %>/theater/main.do" class="mainBtn">극장찾기</a>
+    </p>    
     </div>
-</div> --%>
+</div>
+<!-- ####################################################################### -->
+<!-- ####################################################################### -->
+<!-- ####################################################################### -->
+<!-- ####################################################################### -->
+<!-- ####################################################################### -->
+<!-- ####################################################################### -->
+<!-- ####################################################################### -->
+<!-- ####################################################################### -->
+<!-- ####################################################################### -->
+<!-- ####################################################################### -->
+<!-- ####################################################################### -->
 
 
-<div class="info-wrapper">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div style="padding: 50px;">
+<div class="info-wrapper" style="padding: 50px;">
     <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-7 col-xl-8">
+        <div class="row" style="justify-content: center;">
+            <div class="col-12 col-lg-6 col-xl-5" style="border-top: 1px solid #b9b9b9;
+    margin: 0 45px;">
                 <div class="notice_title_wrap">
                     <div class="tabBtn_wrap">
-                        <h3>공지사항</h3>
+                       <strong style="font-size: 22px;">공지사항</strong>
                     </div>
-                    <a href="<%=request.getContextPath() %>/support/notice.do" class="btn btn-allView">더보기</a>
+                    <a href="<%=request.getContextPath() %>/support/notice.do" class="mainBtn2">더보기</a>
                 </div>
                 <div class="notice">
                     <ul>
@@ -814,7 +847,7 @@ $(document).ready(function() {
 	                        <li>
 	                            <a href="<%=request.getContextPath()%>/support/noticeMini_Detail.do?notice_no=${notice.notice_no }">
 	                                <dl>
-	                                    <dt>[${notice.notice_thr }] ${notice.notice_title }</dt>
+	                                    <dt style="font-size: 15px;">[${notice.notice_thr }] ${notice.notice_title }</dt>
 	                                    <dd><fmt:formatDate value="${notice.regdate }" pattern="yyyy-MM-dd"/></dd>
 	                                </dl>
 	                            </a>
@@ -823,25 +856,46 @@ $(document).ready(function() {
                     </ul>
                 </div>
             </div>
-            <div class="col-12 col-lg-5 col-xl-4">
-                <div class="client-wrap">
+            <div class="col-12 col-lg-6 col-xl-5" style="    border-top: 1px solid #b9b9b9;">
+                <div class="notice_title_wrap">
+                    <div class="tabBtn_wrap">
+                       <strong style="font-size: 22px;">고객센터</strong>
+                    </div>
+                    <p>
+                  	  <a href="<%=request.getContextPath() %>/support/main.do" class="mainBtn2">더보기</a>
+                    </p>
+                </div>
+                <div class="">
                     <dl class="client-list">
-                        <dt><strong>고객센터</strong></dt>
                         <dd>
-                            <strong>042-000-0000</strong>
-                            <span>고객센터 운영시간 (평일 09:00~18:00)
+                            <strong>042-257-8349</strong>
+                            <span> 운영시간 (평일 09:00~18:00)
                             <p>업무시간 외 자동응답 안내 가능합니다.</p>
                         </span></dd>
                     </dl>
-                    <div class="client-btn-wrap">
-                        <a href="<%=request.getContextPath()%>/support/faq.do">FAQ</a>
-                        <a href="<%=request.getContextPath()%>/support/inquiry.do">1:1 문의</a>
-                        <!--<a href="#">분실물 문의</a>//-->
-<!--                         <a href="#">대관/단체 문의</a> -->
-                    </div>
                 </div>
+                
+                	<p style="    margin-top: 20px;">
+                  	  <a href="<%=request.getContextPath() %>/support/main.do" class="mainBtn2">
+                  	  	<span class="icon"><ion-icon name="hand-left-outline"></ion-icon></span>
+                  	  	<span class="title">자주묻는질문</span>
+                  	  </a>
+                  	  <a href="<%=request.getContextPath()%>/support/inquiry.do" class="mainBtn2">
+	                    <span class="icon"><ion-icon name="chatbubbles-outline"></ion-icon></span>
+	                    <span class="title">1:1 문의</span>
+	                 </a>
+	                 <a href="<%=request.getContextPath()%>/support/membership.do" class="mainBtn2">
+	                    <span class="icon"><ion-icon name="person-add-outline"></ion-icon></span>
+	                    <span class="title">멤버쉽</span>
+	                 </a>
+                    </p>
+                    
+                
             </div>
         </div>
     </div>
 </div>
+</div>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
