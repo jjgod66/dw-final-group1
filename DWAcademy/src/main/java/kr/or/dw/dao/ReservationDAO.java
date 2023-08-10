@@ -173,4 +173,11 @@ public interface ReservationDAO {
 	 */
 	void insert0payDetail(String merchant_uid) throws SQLException;
 
+	/**
+	 * 총 결제 금액이 0원일때 처리해주는 메서드
+	 * @param res
+	 * @throws SQLException
+	 */
+	void insertPay0Res1(ReservationVO reservationVO) throws SQLException;
+
 }

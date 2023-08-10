@@ -147,9 +147,14 @@ public class ReservationServiceImpl implements ReservationService{
 
 	@Override
 	public String pay0InsertRes(List<ReservationVO> resList) throws SQLException {
-		for(ReservationVO res : resList) {
-			reservationDAO.insertPay0Res(res);
+		reservationDAO.insertPay0Res1(resList.get(0));
+		if(resList.size() > 1) {
+			for(int i = 1; i < resList.size(); i++) {
+				resList.get(i).setMerchant_uid(resList.get(0).getMerchant_uid());
+				reservationDAO.insertPay0Res(resList.get(i));
+			}
 		}
+			
 		
 		if(resList.get(0).getMem_coupon_no() != 0) {
 			int mem_coupon_no = resList.get(0).getMem_coupon_no();

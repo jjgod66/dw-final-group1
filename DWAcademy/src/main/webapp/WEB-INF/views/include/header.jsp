@@ -166,6 +166,7 @@ canvas{
 			<div class="col-6">
 				<div id="navbar">
 				    <div class="right-menu">
+				      <a href="#" onclick="OpenWindow('<%=request.getContextPath() %>/support/consult.do', '상담톡', 650, 750);">상담톡</a>
 				      <a href="<%=request.getContextPath()%>/support/membership.do" >혜택</a>
 				      <a href="<%=request.getContextPath() %>/support/main.do" >고객센터</a>
 				      <c:choose>

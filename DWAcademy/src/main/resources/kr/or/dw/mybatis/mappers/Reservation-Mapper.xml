@@ -98,7 +98,7 @@
 							#{use_point})
 	</insert>
 	
-	<insert id="insertPay0Res">
+	<insert id="insertPay0Res1">
 		INSERT INTO reservation (res_no, merchant_uid, mem_cd, screen_cd, mem_cat, res_seat, resdate, pricesum, gb_cancel, discount, mem_coupon_no, use_point) 
 							values(
 							#{res_no} || LPAD(pay_seq.nextval,4,0) || LPAD(res_seq.nextval,4,0), 
@@ -116,6 +116,23 @@
 		<selectKey resultType="str" keyProperty="merchant_uid" order="AFTER">
 			SELECT 'M' || #{merchant_uid} || LPAD(pay_seq.currval,4,0) merchant_uid FROM dual
 		</selectKey>
+	</insert>
+	
+	<insert id="insertPay0Res">
+		INSERT INTO reservation (res_no, merchant_uid, mem_cd, screen_cd, mem_cat, res_seat, resdate, pricesum, gb_cancel, discount, mem_coupon_no, use_point) 
+							values(
+							REPLACE(#{merchant_uid},'M','') || LPAD(res_seq.nextval,4,0), 
+							#{merchant_uid}, 
+							#{mem_cd}, 
+							#{screen_cd}, 
+							#{mem_cat}, 
+							#{res_seat}, 
+							sysdate,
+							#{pricesum},
+							'N',
+							#{discount},
+							#{mem_coupon_no},
+							#{use_point})
 	</insert>
 	
 	<update id="useMemCoupon">

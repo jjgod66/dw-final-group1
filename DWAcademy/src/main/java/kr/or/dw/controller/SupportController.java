@@ -287,6 +287,12 @@ public class SupportController {
 		return attach;
 	}
 	
+	@RequestMapping("/consult")
+	public String consult() {
+		String url = "/support/consult";
+		return url;
+	}
+	
 	@RequestMapping("/agreeUse")
 	public String supportAgreeUse() {
 		String url = "/support/agreeUse";

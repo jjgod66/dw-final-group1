@@ -426,57 +426,57 @@ function sortTable(cellNum){
 </script>
 <%@ include file="sysAdminFooter.jsp"%>
 
-<%--
-SELECT a1.seatcnt, b1.sales_allmovie, c1.sales_movie, d1.screencnt, cal.dt dates
-  FROM (
-		SELECT COUNT(*) seatcnt, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
-		  FROM RESERVATION r, SCREEN s, MOVIE m 
-		 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy') + 7
-		   AND s.MOVIE_CD = m.MOVIE_CD
-		   AND r.SCREEN_CD = s.SCREEN_CD 
-		   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd')
-		) a1,
-	   (
-		SELECT SUM(pricesum) sales_allmovie, resdate
-  		  FROM (
-				SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
- 		  		  FROM RESERVATION
-				 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy')+7
- 			     GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
-		  		) a
-		 GROUP BY a.resdate
-	   ) b1,
-	   (
-		SELECT SUM(pricesum) sales_movie, resdate
-		  FROM (
-				SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
-		 		  FROM RESERVATION r, SCREEN s, MOVIE m
-				 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy')+7
-				   AND r.SCREEN_CD = s.SCREEN_CD 
-				   AND s.MOVIE_CD = m.MOVIE_CD 
-				   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		 		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
-				  ) a
-		GROUP BY a.resdate
-	   ) c1,
-  	   (
-		SELECT count(s.SCREEN_CD) screencnt, TO_CHAR(s.STARTDATE, 'yyyy-MM-dd') startdate
-		  FROM screen s, MOVIE m 
-		  WHERE s.STARTDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy') + 7
-		   and s.MOVIE_CD = m.MOVIE_CD 
-		   AND s.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		  GROUP BY TO_CHAR(s.STARTDATE, 'yyyy-MM-dd')
-	   ) d1,
-  	   (
-  		SELECT TO_CHAR(TRUNC(SYSDATE, 'dy') + LEVEL - 1, 'yyyy-MM-dd') AS dt
-      	  FROM dual 
-        CONNECT BY LEVEL <= ((TRUNC(SYSDATE, 'dy') + 6) - TRUNC(SYSDATE, 'dy') + 1)
-      )cal
- WHERE cal.dt = a1.resdate(+)
-   AND cal.dt = b1.resdate(+)
-   AND cal.dt = c1.resdate(+)
-   AND cal.dt = d1.startdate(+)
-  ORDER BY cal.dt
+<%-- <%-- --%>
+<%-- SELECT a1.seatcnt, b1.sales_allmovie, c1.sales_movie, d1.screencnt, cal.dt dates --%>
+<%--   FROM ( --%>
+<%-- 		SELECT COUNT(*) seatcnt, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate --%>
+<%-- 		  FROM RESERVATION r, SCREEN s, MOVIE m  --%>
+<%-- 		 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy') + 7 --%>
+<%-- 		   AND s.MOVIE_CD = m.MOVIE_CD --%>
+<%-- 		   AND r.SCREEN_CD = s.SCREEN_CD  --%>
+<%-- 		   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자') --%>
+<%-- 		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd') --%>
+<%-- 		) a1, --%>
+<%-- 	   ( --%>
+<%-- 		SELECT SUM(pricesum) sales_allmovie, resdate --%>
+<%--   		  FROM ( --%>
+<%-- 				SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate --%>
+<%--  		  		  FROM RESERVATION --%>
+<%-- 				 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy')+7 --%>
+<%--  			     GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO  --%>
+<%-- 		  		) a --%>
+<%-- 		 GROUP BY a.resdate --%>
+<%-- 	   ) b1, --%>
+<%-- 	   ( --%>
+<%-- 		SELECT SUM(pricesum) sales_movie, resdate --%>
+<%-- 		  FROM ( --%>
+<%-- 				SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate --%>
+<%-- 		 		  FROM RESERVATION r, SCREEN s, MOVIE m --%>
+<%-- 				 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy')+7 --%>
+<%-- 				   AND r.SCREEN_CD = s.SCREEN_CD  --%>
+<%-- 				   AND s.MOVIE_CD = m.MOVIE_CD  --%>
+<%-- 				   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자') --%>
+<%-- 		 		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO  --%>
+<%-- 				  ) a --%>
+<%-- 		GROUP BY a.resdate --%>
+<%-- 	   ) c1, --%>
+<%--   	   ( --%>
+<%-- 		SELECT count(s.SCREEN_CD) screencnt, TO_CHAR(s.STARTDATE, 'yyyy-MM-dd') startdate --%>
+<%-- 		  FROM screen s, MOVIE m  --%>
+<%-- 		  WHERE s.STARTDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy') + 7 --%>
+<%-- 		   and s.MOVIE_CD = m.MOVIE_CD  --%>
+<%-- 		   AND s.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자') --%>
+<%-- 		  GROUP BY TO_CHAR(s.STARTDATE, 'yyyy-MM-dd') --%>
+<%-- 	   ) d1, --%>
+<%--   	   ( --%>
+<%--   		SELECT TO_CHAR(TRUNC(SYSDATE, 'dy') + LEVEL - 1, 'yyyy-MM-dd') AS dt --%>
+<%--       	  FROM dual  --%>
+<%--         CONNECT BY LEVEL <= ((TRUNC(SYSDATE, 'dy') + 6) - TRUNC(SYSDATE, 'dy') + 1) --%>
+<%--       )cal --%>
+<%--  WHERE cal.dt = a1.resdate(+) --%>
+<%--    AND cal.dt = b1.resdate(+) --%>
+<%--    AND cal.dt = c1.resdate(+) --%>
+<%--    AND cal.dt = d1.startdate(+) --%>
+<%--   ORDER BY cal.dt --%>
 
-%-->
+<%-- %--> --%>
