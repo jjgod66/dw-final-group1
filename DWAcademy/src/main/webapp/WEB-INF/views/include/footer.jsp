@@ -5,11 +5,13 @@
 <!--         <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">영화관 소개</a></li> -->
         <li class="nav-item"><a href="<%=request.getContextPath() %>/support/agreeUse.do" class="nav-link px-2 text-muted">이용약관</a></li>
         <li class="nav-item"><a href="<%=request.getContextPath() %>/support/agreePrivacy.do" class="nav-link px-2 text-muted">개인정보처리방침</a></li>
+        <li class="nav-item"><a href="<%=request.getContextPath() %>/support/agreeWhere.do" class="nav-link px-2 text-muted">위치기반서비스이용약관</a></li>
+        <li class="nav-item"><a href="<%=request.getContextPath() %>/support/agreeScreen.do" class="nav-link px-2 text-muted">스크린배정수에관한기준</a></li>
     </ul>
     <div class="footer-info">
         <div>
-            <address>대전광역시 중구 선화동</address>
-            <p>ARS 042-000-0000</p>
+            <address>대전광역시 중구 121번길 20, DWcinema(2층)</address>
+            <p>ARS 042-257-8349</p>
         </div>
         <p>대표자명 홍길동</p>
         <p>· 개인정보보호책임자 홍길동</p>

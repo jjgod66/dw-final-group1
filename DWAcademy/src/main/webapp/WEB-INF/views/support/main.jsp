@@ -506,24 +506,9 @@ button {
 		      </ul>
 		    </div>
 	    </div>
-	
-	    <!-- 이벤트 이미지 사진 가로로 2개 -->
-<!-- 	    <div class="notice1"> -->
-<!-- 	    	<h2> -->
-<!-- 	          <span>이벤트</span> -->
-<!-- 	        </h2> -->
-<!-- 	     </div> -->
-<!-- 	    <div class="event"> -->
-<!-- 	      <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/25/pHWu3B7N4eBD2O1mAxz8lEmOz4GVcum3.jpg" alt="[수원AK플라자] 그랜드 오픈 페스타"> -->
-<%-- 	      <img src="https://img.megabox.co.kr/SharedImg/event/2023/07/24/Pfe3l661h6014JkhWRSGuT0Yj6N48k22.jpg" alt="메가박스 오리지널 티켓 No.85 <밀수>"> --%>
-<!-- 	    </div> -->
-<!--    	    <div class="btn-holder"> -->
-<!-- 		  <button class="btn btn-4 hover-border-10"> -->
-<!-- 		    <span>더보기</span> -->
-<!-- 		  </button> -->
-<!-- 		</div> -->
+	    
+	    
 	  </div>
-	  
 	</div>
 </div>
 

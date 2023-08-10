@@ -90,7 +90,9 @@ canvas{
       padding-top: 5px;
     }
 	.right-menu {margin-right: 13px;
-    float: right;}
+     }
+    
+    
     .right-menu a {
       padding-right:10px;
       color: #787878;
@@ -119,7 +121,7 @@ canvas{
 	#menu > ul > li {
 		--bs-link-hover-color: #000000;
 		float:right;
-		width:100px;
+		width:113px;
 		position:relative;
 	}
 	#menu > ul > li:hover{
@@ -128,7 +130,7 @@ canvas{
     #menu > ul > li > ul {
     	background:#e7f5ff;
     	padding: 0;
-		width:100px;
+		width:inherit;
 		display:none;
 		position: absolute;
 		font-size:14px;
@@ -161,11 +163,11 @@ canvas{
 <div id="container1">
 	<div id="wrapper12">
 		<div id="roo" class="row">
-			<div class="logo col-3"><a href="<%=request.getContextPath()%>/"><img style="margin-top: 15px;" src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
-			<div class="col-3"></div>
-			<div class="col-6">
+			<div class="logo col-2"><a href="<%=request.getContextPath()%>/"><img style="margin-top: 15px;" src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
+			<div class="col-2"></div>
+			<div class="col-8">
 				<div id="navbar">
-				    <div class="right-menu">
+				    <div class="right-menu text-end">
 				      <a href="<%=request.getContextPath()%>/support/membership.do" >혜택</a>
 				      <a href="<%=request.getContextPath() %>/support/main.do" >고객센터</a>
 				      <c:choose>

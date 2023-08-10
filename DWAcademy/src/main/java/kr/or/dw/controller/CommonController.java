@@ -44,6 +44,7 @@ import kr.or.dw.service.NonMemService;
 import kr.or.dw.service.StoreService;
 import kr.or.dw.service.SupportService;
 import kr.or.dw.vo.EventVO;
+import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
@@ -162,6 +163,10 @@ public class CommonController {
 		List<ProductVO> productFood = null;
 		productFood = storeService.getproductFood();
 		
+		List<FaqVO> faqList = null;
+		faqList = supportService.getFaQ5();
+		
+		mnv.addObject("faqList", faqList);
 		mnv.addObject("loginNeed", login);
 		mnv.addObject("productFood", productFood);
 		mnv.addObject("noticeList", noticeList);
