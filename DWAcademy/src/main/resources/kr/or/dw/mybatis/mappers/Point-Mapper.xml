@@ -83,6 +83,7 @@
 		SELECT COUNT(*)
 		FROM mem_product
 		WHERE mem_product_cd = #{mem_product_cd}
+		AND to_char(enddate, 'yyyyMMdd') >= to_char(sysdate, 'yyyyMMdd')
 	</select>
 	
 	<select id="selectMemProCdGbUse" resultType="str">
