@@ -38,5 +38,8 @@ public interface CommonAdminService {
 
 	// 검색창에 쓴 텍스트기반 영화 검색
 	List<Map<String, Object>> selectBySearchMovieName(String searchText) throws SQLException;
+
+	// 검색에 대한 해당 영화 통계를 가져온다.
+	Map<String, Object> selectStatisticsMovieByMovieName(SearchCriteria cri) throws SQLException;
 	
 }

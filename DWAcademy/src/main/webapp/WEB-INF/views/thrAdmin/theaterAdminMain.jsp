@@ -30,7 +30,7 @@
         	<div class="col-md-4"><input type="text" id="house_row" name="house_row" class="form-control" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"></div>
         	<div class="col-md-2" style="height: 38px; line-height: 38px;">열 :</div>
         	<div class="col-md-4"><input type="text" id="house_column" name="house_column" class="form-control" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3"></div>
-        	<div class="col-md-12 text-end" style="display:none;" id="confirmYourFormDiv"><b class="red">작성 양식을 확인하세요</b></div>
+        	<div class="col-md-12 text-end" style="display:none;" id="confirmYourFormDiv"><b class="red"></b></div>
         </div>
       </div>
       <div class="modal-footer">
@@ -169,7 +169,11 @@ window.onload = function(){
 	
 	// 상영관 폼 양식 확인
 	function checkForm(house_name, house_row, house_column) {
-		
+		if (Number($('#house_row').val()) > 20 || $('#house_column').val() > 20) {
+			$('#confirmYourFormDiv b').html('상영관 행과 열은 각각<br>20석을 넘을 수 없습니다.')
+			$('#confirmYourFormDiv').show();
+			return 1;
+		}
 		if (house_name == "") {
 			$('#house_name').addClass('is-invalid');
 		}
@@ -180,12 +184,14 @@ window.onload = function(){
 			$('#house_column').addClass('is-invalid');
 		}
 		if ($('.is-invalid').length > 0) {
+			$('#confirmYourFormDiv b').text('작성 양식을 확인하세요');
 			$('#confirmYourFormDiv').show();
 			return 1;
 		}
 	}
 	// 상영관 등록시
 	$('#registHouseBtn').on('click', function(){
+		
 		let house_name = $('#house_name').val();
 		let house_row = $('#house_row').val();
 		let house_column = $('#house_column').val();

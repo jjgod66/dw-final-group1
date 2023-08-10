@@ -51,7 +51,7 @@
 							&nbsp;&nbsp;&nbsp;&nbsp; 
 							<select	name="searchType">
 								<c:forEach items="${theaterList }" var="thr">
-									<option value="${thr.ADMIN_CD }">${thr.THR_NAME eq 'DW시네마' ? '극장 전체' : thr.THR_NAME}</option>
+									<option value="${thr.ADMIN_CD }" ${searchType eq thr.ADMIN_CD ? 'selected' : ''}>${thr.THR_NAME eq 'DW시네마' ? '극장 전체' : thr.THR_NAME}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -98,7 +98,7 @@
 									class="bi bi-arrow-down-up" onclick="sortTable(2);"></i></span></th>
 							<th>매출액 <span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(3);"></i></span></th>
-							<th>매출액점유율 <span class="sortBtn"><i
+							<th>예매점유율 <span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(4);"></i></span></th>
 							<th>누적매출액 <span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(5);"></i></span></th>
@@ -133,6 +133,14 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<div class="text-end mt-4">
+					<h4>매출액 : 해당 일자 예매 매출액</h4>
+					<h4>예매 점유율 : 해당 일자 해당 영화 예매 매출액 ÷ 해당 일자 전체 영화 예매 매출 총액</h4>
+					<h4>누적 매출액 : 전체 일자 누적 예매 매출액</h4>
+					<h4>관객수 : 해당 일자 관람 관객수</h4>
+					<h4>누적 관객수 : 전체 일자 누적 관람 관객수</h4>
+					<h4>누적상영횟수 : 전체 일자 누적 스크린 상영 횟수</h4>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -425,58 +433,3 @@ function sortTable(cellNum){
    }
 </script>
 <%@ include file="sysAdminFooter.jsp"%>
-
-<%--
-SELECT a1.seatcnt, b1.sales_allmovie, c1.sales_movie, d1.screencnt, cal.dt dates
-  FROM (
-		SELECT COUNT(*) seatcnt, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
-		  FROM RESERVATION r, SCREEN s, MOVIE m 
-		 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy') + 7
-		   AND s.MOVIE_CD = m.MOVIE_CD
-		   AND r.SCREEN_CD = s.SCREEN_CD 
-		   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd')
-		) a1,
-	   (
-		SELECT SUM(pricesum) sales_allmovie, resdate
-  		  FROM (
-				SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
- 		  		  FROM RESERVATION
-				 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy')+7
- 			     GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
-		  		) a
-		 GROUP BY a.resdate
-	   ) b1,
-	   (
-		SELECT SUM(pricesum) sales_movie, resdate
-		  FROM (
-				SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
-		 		  FROM RESERVATION r, SCREEN s, MOVIE m
-				 WHERE RESDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy')+7
-				   AND r.SCREEN_CD = s.SCREEN_CD 
-				   AND s.MOVIE_CD = m.MOVIE_CD 
-				   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		 		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
-				  ) a
-		GROUP BY a.resdate
-	   ) c1,
-  	   (
-		SELECT count(s.SCREEN_CD) screencnt, TO_CHAR(s.STARTDATE, 'yyyy-MM-dd') startdate
-		  FROM screen s, MOVIE m 
-		  WHERE s.STARTDATE BETWEEN TRUNC(SYSDATE, 'dy') AND TRUNC(SYSDATE, 'dy') + 7
-		   and s.MOVIE_CD = m.MOVIE_CD 
-		   AND s.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = '귀공자')
-		  GROUP BY TO_CHAR(s.STARTDATE, 'yyyy-MM-dd')
-	   ) d1,
-  	   (
-  		SELECT TO_CHAR(TRUNC(SYSDATE, 'dy') + LEVEL - 1, 'yyyy-MM-dd') AS dt
-      	  FROM dual 
-        CONNECT BY LEVEL <= ((TRUNC(SYSDATE, 'dy') + 6) - TRUNC(SYSDATE, 'dy') + 1)
-      )cal
- WHERE cal.dt = a1.resdate(+)
-   AND cal.dt = b1.resdate(+)
-   AND cal.dt = c1.resdate(+)
-   AND cal.dt = d1.startdate(+)
-  ORDER BY cal.dt
-
-%-->

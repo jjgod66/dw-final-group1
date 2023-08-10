@@ -95,7 +95,6 @@ public class CommonAdminServiceImpl implements CommonAdminService {
 
 	@Override
 	public Map<String, Object> selectStatisticsMovie(SearchCriteria cri) throws SQLException {
-		System.out.println(cri);
 		List<Map<String, Object>> movieList = null;
 		
 //		int offset = cri.getPageStartRowNum();
@@ -122,5 +121,40 @@ public class CommonAdminServiceImpl implements CommonAdminService {
 	@Override
 	public List<Map<String, Object>> selectBySearchMovieName(String searchText) throws SQLException {
 		return commonAdminDAO.selectBySearchMovieName(searchText);
+	}
+
+	@Override
+	public Map<String, Object> selectStatisticsMovieByMovieName(SearchCriteria cri) throws SQLException {
+		List<Map<String, Object>> dateList = null;
+		
+//		int offset = cri.getPageStartRowNum();
+//		int limit = cri.getPerPageNum();
+//		RowBounds rowBounds = new RowBounds(offset, limit);
+		int totalCount = 0;
+		if (cri.getSearchType2().equals("")) {
+			dateList = null;
+			totalCount = 0;
+		} else if (cri.getSearchType2().equals("day") ) {	
+			dateList = commonAdminDAO.selectStatisticsMovieByMovieName_day(cri);
+			totalCount = commonAdminDAO.selectStatisticsMovieByMovieNameCount_day(cri);
+		} else if (cri.getSearchType2().equals("week")) {
+			dateList = commonAdminDAO.selectStatisticsMovieByMovieName_week(cri);
+			totalCount = commonAdminDAO.selectStatisticsMovieByMovieNameCount_week(cri);
+		} else if (cri.getSearchType2().equals("month")) {
+			dateList = commonAdminDAO.selectStatisticsMovieByMovieName_month(cri);
+			totalCount = commonAdminDAO.selectStatisticsMovieByMovieNameCount_month(cri);
+		}
+		
+		System.out.println(dateList);
+		System.out.println(totalCount);
+		PageMaker pageMaker = new PageMaker();
+		pageMaker.setCri(cri);
+		pageMaker.setTotalCount(totalCount);
+
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("dateList", dateList);
+		dataMap.put("pageMaker", pageMaker);
+		
+		return dataMap;
 	}
 }

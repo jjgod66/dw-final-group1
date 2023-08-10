@@ -26,6 +26,14 @@
 			<jsp:param value="${url }" name="url" />
 		</jsp:include>
 		<div class="mx-2">
+			<ul class="nav nav-pills">
+			  <li class="nav-item">
+			    <a class="nav-link active" aria-current="page" href="/thrAdmin/movieAdminStatistics.do">일자별</a>
+			  </li>
+			  <li class="nav-item">
+			    <a class="nav-link" href="/thrAdmin/movieAdminStatistics_movie.do">영화별</a>
+			  </li>
+			</ul>
 			<div id="setSearchTypeDiv mx-2">
 				<div class="row">
 					<div class="col-md-12 text-center mb-4">
@@ -127,6 +135,14 @@
 						</c:forEach>
 					</tbody>
 				</table>
+				<div class="text-end mt-4">
+					<h4>매출액 : 해당 일자 예매 매출액</h4>
+					<h4>예매 점유율 : 해당 일자 해당 영화 예매 매출액 ÷ 해당 일자 전체 영화 예매 매출 총액</h4>
+					<h4>누적 매출액 : 전체 일자 누적 예매 매출액</h4>
+					<h4>관객수 : 해당 일자 관람 관객수</h4>
+					<h4>누적 관객수 : 전체 일자 누적 관람 관객수</h4>
+					<h4>누적상영횟수 : 전체 일자 누적 스크린 상영 횟수</h4>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -138,7 +154,7 @@
 
 
 <script>
-let searchFormUrl = "/sysAdmin/movieAdminStatistics.do";
+let searchFormUrl = "/thrAdmin/movieAdminStatistics.do";
 
 $(function(){
 	

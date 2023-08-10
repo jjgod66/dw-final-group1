@@ -23,7 +23,7 @@
 			AND t.admin_cd = #{searchType}
 		</if>
 	</sql>
-	
+		
 	<select id="selectThrList" resultType="map">
 		SELECT a.admin_cd, a.thr_name
 		  FROM admin a, theater t
@@ -292,4 +292,462 @@
   		 WHERE MOVIE_NAME LIKE '%' || #{searchText} || '%'
 	</select>
 	
+	<select id="selectStatisticsMovieByMovieName_day" resultType="map">
+		SELECT NVL(a1.seatcnt, 0) seatcnt
+			 , NVL(b1.sales_allmovie, 0) sales_allmovie, NVL(c1.sales_movie, 0) sales_movie
+		     , ROUND(NVL(c1.sales_movie, 0) / DECODE(NVL(b1.sales_allmovie, 0),0, 1, NVL(b1.sales_allmovie, 0)), 4) * 100 sales_movie_ratio
+ 			 , NVL(d1.screencnt, 0) screencnt, cal.dt dates
+		  FROM (
+				SELECT COUNT(*) seatcnt, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
+				  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t
+				 WHERE 1=1
+				   AND RESDATE BETWEEN TRUNC(TO_DATE(#{keyword}), 'dy') AND TRUNC(TO_DATE(#{keyword}), 'dy') + 7
+				   AND s.MOVIE_CD = m.MOVIE_CD
+				   AND r.SCREEN_CD = s.SCREEN_CD 
+				   AND h.house_no = s.house_no
+				   AND t.thr_name = h.thr_name
+				 	<include refid="searchMovieStatistics2" />
+				   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+				 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd')
+				) a1,
+			   (
+				SELECT SUM(pricesum) sales_allmovie, resdate
+		  		  FROM (
+						SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
+		 		  		  FROM RESERVATION r, house h, theater t, SCREEN s
+						 WHERE 1=1
+						   AND r.SCREEN_CD = s.SCREEN_CD
+						   AND s.HOUSE_NO = h.HOUSE_NO
+						   AND h.THR_NAME = t.THR_NAME
+						   <include refid="searchMovieStatistics2" />
+						   AND RESDATE BETWEEN TRUNC(TO_DATE(#{keyword}), 'dy') AND TRUNC(TO_DATE(#{keyword}), 'dy') + 7
+		 			     GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
+				  		) a
+				 GROUP BY a.resdate
+			   ) b1,
+			   (
+				SELECT SUM(pricesum) sales_movie, resdate
+				  FROM (
+						SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
+				 		  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t
+						 WHERE 1=1
+						   AND RESDATE BETWEEN TRUNC(TO_DATE(#{keyword}), 'dy') AND TRUNC(TO_DATE(#{keyword}), 'dy') + 7
+						   AND r.SCREEN_CD = s.SCREEN_CD 
+						   AND s.MOVIE_CD = m.MOVIE_CD 
+						   AND s.HOUSE_NO = h.HOUSE_NO
+						   AND h.THR_NAME = t.THR_NAME
+						   <include refid="searchMovieStatistics2" />
+						   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+				 		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
+						  ) a
+				GROUP BY a.resdate
+			   ) c1,
+		  	   (
+				SELECT count(s.SCREEN_CD) screencnt, TO_CHAR(s.STARTDATE, 'yyyy-MM-dd') startdate
+				  FROM screen s, MOVIE m, house h, theater t
+				  WHERE 1=1
+				    AND s.STARTDATE BETWEEN TRUNC(TO_DATE(#{keyword}), 'dy') AND TRUNC(TO_DATE(#{keyword}), 'dy') + 7
+				    AND s.MOVIE_CD = m.MOVIE_CD 
+				    AND h.house_no = s.house_no
+				    AND h.thr_name = t.thr_name
+				    <include refid="searchMovieStatistics2" />
+				    AND s.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+				  GROUP BY TO_CHAR(s.STARTDATE, 'yyyy-MM-dd')
+			   ) d1,
+		  	   (
+		  		SELECT TO_CHAR(TRUNC(SYSDATE, 'dy') + LEVEL - 1, 'yyyy-MM-dd') AS dt
+		      	  FROM dual 
+		        CONNECT BY LEVEL <![CDATA[<=]]> ((TRUNC(SYSDATE, 'dy') + 6) - TRUNC(SYSDATE, 'dy') + 1)
+		      )cal
+		 WHERE cal.dt = a1.resdate(+)
+		   AND cal.dt = b1.resdate(+)
+		   AND cal.dt = c1.resdate(+)
+		   AND cal.dt = d1.startdate(+)
+		  ORDER BY cal.dt
+	</select>
+	
+	<select id="selectStatisticsMovieByMovieNameCount_day" resultType="int">
+		SELECT COUNT(*)
+		  FROM (
+		  		SELECT NVL(a1.seatcnt, 0) seatcnt
+					 , NVL(b1.sales_allmovie, 0) sales_allmovie, NVL(c1.sales_movie, 0) sales_movie
+				     , ROUND(NVL(c1.sales_movie, 0) / DECODE(NVL(b1.sales_allmovie, 0),0, 1, NVL(b1.sales_allmovie, 0)), 4) * 100 sales_movie_ratio
+		 			 , NVL(d1.screencnt, 0) screencnt, cal.dt dates
+				  FROM (
+						SELECT COUNT(*) seatcnt, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
+						  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t
+						 WHERE 1=1
+						   AND RESDATE BETWEEN TRUNC(TO_DATE(#{keyword}), 'dy') AND TRUNC(TO_DATE(#{keyword}), 'dy') + 7
+						   AND s.MOVIE_CD = m.MOVIE_CD
+						   AND r.SCREEN_CD = s.SCREEN_CD 
+						   AND h.house_no = s.house_no
+						   AND t.thr_name = h.thr_name
+						 	<include refid="searchMovieStatistics2" />
+						   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+						 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd')
+						) a1,
+					   (
+						SELECT SUM(pricesum) sales_allmovie, resdate
+				  		  FROM (
+								SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
+				 		  		  FROM RESERVATION r, house h, theater t, SCREEN s
+								 WHERE 1=1
+								   AND r.SCREEN_CD = s.SCREEN_CD
+								   AND s.HOUSE_NO = h.HOUSE_NO
+								   AND h.THR_NAME = t.THR_NAME
+								   <include refid="searchMovieStatistics2" />
+								   AND RESDATE BETWEEN TRUNC(TO_DATE(#{keyword}), 'dy') AND TRUNC(TO_DATE(#{keyword}), 'dy') + 7
+				 			     GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
+						  		) a
+						 GROUP BY a.resdate
+					   ) b1,
+					   (
+						SELECT SUM(pricesum) sales_movie, resdate
+						  FROM (
+								SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM-dd') resdate
+						 		  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t
+								 WHERE 1=1
+								   AND RESDATE BETWEEN TRUNC(TO_DATE(#{keyword}), 'dy') AND TRUNC(TO_DATE(#{keyword}), 'dy') + 7
+								   AND r.SCREEN_CD = s.SCREEN_CD 
+								   AND s.MOVIE_CD = m.MOVIE_CD 
+								   AND s.HOUSE_NO = h.HOUSE_NO
+								   AND h.THR_NAME = t.THR_NAME
+								   <include refid="searchMovieStatistics2" />
+								   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+						 		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM-dd'), RES_NO 
+								  ) a
+						GROUP BY a.resdate
+					   ) c1,
+				  	   (
+						SELECT count(s.SCREEN_CD) screencnt, TO_CHAR(s.STARTDATE, 'yyyy-MM-dd') startdate
+						  FROM screen s, MOVIE m, house h, theater t
+						  WHERE 1=1
+						    AND s.STARTDATE BETWEEN TRUNC(TO_DATE(#{keyword}), 'dy') AND TRUNC(TO_DATE(#{keyword}), 'dy') + 7
+						    AND s.MOVIE_CD = m.MOVIE_CD 
+						    AND h.house_no = s.house_no
+						    AND h.thr_name = t.thr_name
+						    <include refid="searchMovieStatistics2" />
+						    AND s.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+						  GROUP BY TO_CHAR(s.STARTDATE, 'yyyy-MM-dd')
+					   ) d1,
+				  	   (
+				  		SELECT TO_CHAR(TRUNC(SYSDATE, 'dy') + LEVEL - 1, 'yyyy-MM-dd') AS dt
+				      	  FROM dual 
+				        CONNECT BY LEVEL <![CDATA[<=]]> ((TRUNC(SYSDATE, 'dy') + 6) - TRUNC(SYSDATE, 'dy') + 1)
+				      )cal
+				 WHERE cal.dt = a1.resdate(+)
+				   AND cal.dt = b1.resdate(+)
+				   AND cal.dt = c1.resdate(+)
+				   AND cal.dt = d1.startdate(+)
+				  ORDER BY cal.dt
+		  	)
+	</select>
+	
+	<select id="selectStatisticsMovieByMovieName_month" resultType="map">
+		SELECT NVL(a1.seatcnt, 0) seatcnt
+			 , NVL(b1.sales_allmovie, 0) sales_allmovie, NVL(c1.sales_movie, 0) sales_movie
+		     , ROUND(NVL(c1.sales_movie, 0) / DECODE(NVL(b1.sales_allmovie, 0),0, 1, NVL(b1.sales_allmovie, 0)), 4) * 100 sales_movie_ratio
+			 , NVL(d1.screencnt, 0) screencnt, cal.dt dates
+		  FROM (
+				SELECT COUNT(*) seatcnt, TO_CHAR(RESDATE, 'yyyy-MM') resdate
+				  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t 
+				 WHERE 1=1
+				   AND RESDATE BETWEEN TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM') AND TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '12', 'YYYYMM')
+				   AND RESDATE BETWEEN TRUNC(TO_DATE(#{keyword}), 'dy') AND TRUNC(TO_DATE(#{keyword}), 'dy') + 7
+				   AND s.MOVIE_CD = m.MOVIE_CD
+				   AND r.SCREEN_CD = s.SCREEN_CD 
+				   AND h.house_no = s.house_no
+				   AND t.thr_name = h.thr_name
+				 	<include refid="searchMovieStatistics2" />
+				   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+				 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM')
+				) a1,
+			   (
+				SELECT SUM(pricesum) sales_allmovie, resdate
+		  		  FROM (
+						SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM') resdate
+		 		  		  FROM RESERVATION r, house h, theater t, SCREEN s
+						 WHERE 1=1
+						   AND r.SCREEN_CD = s.SCREEN_CD
+						   AND s.HOUSE_NO = h.HOUSE_NO
+						   AND h.THR_NAME = t.THR_NAME
+						   <include refid="searchMovieStatistics2" />
+						   AND RESDATE BETWEEN TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM') AND TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '12', 'YYYYMM')
+		 			     GROUP BY TO_CHAR(RESDATE, 'yyyy-MM'), RES_NO 
+				  		) a
+				 GROUP BY a.resdate
+			   ) b1,
+			   (
+				SELECT SUM(pricesum) sales_movie, resdate
+				  FROM (
+						SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM') resdate
+				 		  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t
+						 WHERE 1=1
+						   AND RESDATE BETWEEN TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM') AND TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '12', 'YYYYMM')
+						   AND r.SCREEN_CD = s.SCREEN_CD 
+						   AND s.MOVIE_CD = m.MOVIE_CD 
+						   AND s.HOUSE_NO = h.HOUSE_NO
+						   AND h.THR_NAME = t.THR_NAME
+						   <include refid="searchMovieStatistics2" />
+						   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+				 		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM'), RES_NO 
+						  ) a
+				GROUP BY a.resdate
+			   ) c1,
+		  	   (
+				SELECT count(s.SCREEN_CD) screencnt, TO_CHAR(s.STARTDATE, 'yyyy-MM') startdate
+				  FROM screen s, MOVIE m, house h, theater t 
+				  WHERE 1=1
+				    AND s.STARTDATE BETWEEN TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM') AND TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '12', 'YYYYMM')
+		 			AND s.MOVIE_CD = m.MOVIE_CD
+		 			AND s.MOVIE_CD = m.MOVIE_CD 
+				    AND h.house_no = s.house_no
+				    AND h.thr_name = t.thr_name
+				    <include refid="searchMovieStatistics2" />
+				    AND s.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+				  GROUP BY TO_CHAR(s.STARTDATE, 'yyyy-MM')
+			   ) d1,
+		  	   (
+		  		SELECT TO_CHAR(ADD_MONTHS(TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM'),(LEVEL - 1)), 'yyyy-MM') AS dt
+				  FROM DUAL
+				CONNECT BY ADD_MONTHS(TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM'),(LEVEL - 1)) <![CDATA[<=]]> ADD_MONTHS(TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM'),+11)
+		      )cal
+		 WHERE cal.dt = a1.resdate(+)
+		   AND cal.dt = b1.resdate(+)
+		   AND cal.dt = c1.resdate(+)
+		   AND cal.dt = d1.startdate(+)
+		  ORDER BY cal.dt
+	</select>
+	
+	<select id="selectStatisticsMovieByMovieNameCount_month" resultType="int">
+		SELECT COUNT(*)
+		  FROM (
+		  			SELECT NVL(a1.seatcnt, 0) seatcnt
+						 , NVL(b1.sales_allmovie, 0) sales_allmovie, NVL(c1.sales_movie, 0) sales_movie
+					     , ROUND(NVL(c1.sales_movie, 0) / DECODE(NVL(b1.sales_allmovie, 0),0, 1, NVL(b1.sales_allmovie, 0)), 4) * 100 sales_movie_ratio
+						 , NVL(d1.screencnt, 0) screencnt, cal.dt dates
+					  FROM (
+							SELECT COUNT(*) seatcnt, TO_CHAR(RESDATE, 'yyyy-MM') resdate
+							  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t 
+							 WHERE 1=1
+							   AND RESDATE BETWEEN TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM') AND TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '12', 'YYYYMM')
+							   AND RESDATE BETWEEN TRUNC(TO_DATE(#{keyword}), 'dy') AND TRUNC(TO_DATE(#{keyword}), 'dy') + 7
+							   AND s.MOVIE_CD = m.MOVIE_CD
+							   AND r.SCREEN_CD = s.SCREEN_CD 
+							   AND h.house_no = s.house_no
+							   AND t.thr_name = h.thr_name
+							 	<include refid="searchMovieStatistics2" />
+							   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+							 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM')
+							) a1,
+						   (
+							SELECT SUM(pricesum) sales_allmovie, resdate
+					  		  FROM (
+									SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM') resdate
+					 		  		  FROM RESERVATION r, house h, theater t, SCREEN s
+									 WHERE 1=1
+									   AND r.SCREEN_CD = s.SCREEN_CD
+									   AND s.HOUSE_NO = h.HOUSE_NO
+									   AND h.THR_NAME = t.THR_NAME
+									   <include refid="searchMovieStatistics2" />
+									   AND RESDATE BETWEEN TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM') AND TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '12', 'YYYYMM')
+					 			     GROUP BY TO_CHAR(RESDATE, 'yyyy-MM'), RES_NO 
+							  		) a
+							 GROUP BY a.resdate
+						   ) b1,
+						   (
+							SELECT SUM(pricesum) sales_movie, resdate
+							  FROM (
+									SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'yyyy-MM') resdate
+							 		  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t
+									 WHERE 1=1
+									   AND RESDATE BETWEEN TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM') AND TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '12', 'YYYYMM')
+									   AND r.SCREEN_CD = s.SCREEN_CD 
+									   AND s.MOVIE_CD = m.MOVIE_CD 
+									   AND s.HOUSE_NO = h.HOUSE_NO
+									   AND h.THR_NAME = t.THR_NAME
+									   <include refid="searchMovieStatistics2" />
+									   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+							 		 GROUP BY TO_CHAR(RESDATE, 'yyyy-MM'), RES_NO 
+									  ) a
+							GROUP BY a.resdate
+						   ) c1,
+					  	   (
+							SELECT count(s.SCREEN_CD) screencnt, TO_CHAR(s.STARTDATE, 'yyyy-MM') startdate
+							  FROM screen s, MOVIE m, house h, theater t 
+							  WHERE 1=1
+							    AND s.STARTDATE BETWEEN TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM') AND TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '12', 'YYYYMM')
+					 			AND s.MOVIE_CD = m.MOVIE_CD
+					 			AND s.MOVIE_CD = m.MOVIE_CD 
+							    AND h.house_no = s.house_no
+							    AND h.thr_name = t.thr_name
+							    <include refid="searchMovieStatistics2" />
+							    AND s.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+							  GROUP BY TO_CHAR(s.STARTDATE, 'yyyy-MM')
+						   ) d1,
+					  	   (
+					  		SELECT TO_CHAR(ADD_MONTHS(TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM'),(LEVEL - 1)), 'yyyy-MM') AS dt
+							  FROM DUAL
+							CONNECT BY ADD_MONTHS(TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM'),(LEVEL - 1)) <![CDATA[<=]]> ADD_MONTHS(TO_DATE(TO_CHAR(TO_DATE(#{keyword}), 'yyyy') || '01', 'YYYYMM'),+11)
+					      )cal
+					 WHERE cal.dt = a1.resdate(+)
+					   AND cal.dt = b1.resdate(+)
+					   AND cal.dt = c1.resdate(+)
+					   AND cal.dt = d1.startdate(+)
+					  ORDER BY cal.dt
+		  	   )
+	</select>
+	
+	<select id="selectStatisticsMovieByMovieName_week" resultType="map">
+		SELECT NVL(a1.seatcnt, 0) seatcnt
+			 , NVL(b1.sales_allmovie, 0) sales_allmovie, NVL(c1.sales_movie, 0) sales_movie
+		     , ROUND(NVL(c1.sales_movie, 0) / DECODE(NVL(b1.sales_allmovie, 0),0, 1, NVL(b1.sales_allmovie, 0)), 4) * 100 sales_movie_ratio
+			 , NVL(d1.screencnt, 0) screencnt, TO_CHAR(TO_DATE(#{keyword}),'yyyy-MM') || ' ' || cal.dt || '주차' dates
+		  FROM (
+				SELECT COUNT(*) seatcnt, TO_CHAR(RESDATE, 'W') resdate
+				  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t 
+				 WHERE 1=1
+				   AND RESDATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'YYYYMMDD') AND LAST_DAY(TO_DATE(#{keyword}))
+				   AND s.MOVIE_CD = m.MOVIE_CD
+				   AND r.SCREEN_CD = s.SCREEN_CD 
+				   AND h.house_no = s.house_no
+				   AND t.thr_name = h.thr_name
+				 	<include refid="searchMovieStatistics2" /> 
+				   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+				 GROUP BY TO_CHAR(RESDATE, 'W')
+				) a1,
+			   (
+				SELECT SUM(pricesum) sales_allmovie, resdate
+		  		  FROM (
+						SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'W') resdate
+		 		  		  FROM RESERVATION r, house h, theater t, SCREEN s
+						 WHERE 1=1
+						   AND r.SCREEN_CD = s.SCREEN_CD
+						   AND s.HOUSE_NO = h.HOUSE_NO
+						   AND h.THR_NAME = t.THR_NAME
+						   <include refid="searchMovieStatistics2" />
+						   AND RESDATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'YYYYMMDD') AND LAST_DAY(TO_DATE(#{keyword}))
+		 			     GROUP BY TO_CHAR(RESDATE, 'W'), RES_NO 
+				  		) a
+				 GROUP BY a.resdate
+			   ) b1,
+			   (
+				SELECT SUM(pricesum) sales_movie, resdate
+				  FROM (
+						SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'W') resdate
+				 		  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t
+						 WHERE 1=1
+						   AND RESDATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'YYYYMMDD') AND LAST_DAY(TO_DATE(#{keyword}))
+						   AND r.SCREEN_CD = s.SCREEN_CD 
+						   AND s.MOVIE_CD = m.MOVIE_CD 
+						   AND s.HOUSE_NO = h.HOUSE_NO
+						   AND h.THR_NAME = t.THR_NAME
+						   <include refid="searchMovieStatistics2" />
+						   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+				 		 GROUP BY TO_CHAR(RESDATE, 'W'), RES_NO 
+						  ) a
+				GROUP BY a.resdate
+			   ) c1,
+		  	   (
+				SELECT count(s.SCREEN_CD) screencnt, TO_CHAR(s.STARTDATE, 'W') startdate
+				  FROM screen s, MOVIE m, house h, theater t 
+				  WHERE 1=1
+				    AND s.STARTDATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'YYYYMMDD') AND LAST_DAY(TO_DATE(#{keyword}))
+		 			AND s.MOVIE_CD = m.MOVIE_CD 
+				    AND h.house_no = s.house_no
+				    AND h.thr_name = t.thr_name
+				    <include refid="searchMovieStatistics2" />
+				   AND s.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+				  GROUP BY TO_CHAR(s.STARTDATE, 'W')
+				  ORDER BY TO_CHAR(s.STARTDATE, 'W') ASC
+			   ) d1,
+		  	   (
+		  		SELECT LEVEL AS dt
+				  FROM dual 
+				CONNECT BY LEVEL <![CDATA[<=]]> ((TO_CHAR(LAST_DAY(TO_DATE(#{keyword})), 'W') - TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'W') + 1) - (TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'W') - TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'W') + 1) + 1)
+		      )cal
+		 WHERE cal.dt = a1.resdate(+)
+		   AND cal.dt = b1.resdate(+)
+		   AND cal.dt = c1.resdate(+)
+		   AND cal.dt = d1.startdate(+)
+		  ORDER BY cal.dt
+	</select>
+	
+	<select id="selectStatisticsMovieByMovieNameCount_week" resultType="int">
+		SELECT COUNT(*)
+		  FROM (
+		  			SELECT NVL(a1.seatcnt, 0) seatcnt
+						 , NVL(b1.sales_allmovie, 0) sales_allmovie, NVL(c1.sales_movie, 0) sales_movie
+					     , ROUND(NVL(c1.sales_movie, 0) / DECODE(NVL(b1.sales_allmovie, 0),0, 1, NVL(b1.sales_allmovie, 0)), 4) * 100 sales_movie_ratio
+						 , NVL(d1.screencnt, 0) screencnt, TO_CHAR(TO_DATE(#{keyword}),'yyyy-MM') || ' ' || cal.dt || '주차' dates
+					  FROM (
+							SELECT COUNT(*) seatcnt, TO_CHAR(RESDATE, 'W') resdate
+							  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t 
+							 WHERE 1=1
+							   AND RESDATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'YYYYMMDD') AND LAST_DAY(TO_DATE(#{keyword}))
+							   AND s.MOVIE_CD = m.MOVIE_CD
+							   AND r.SCREEN_CD = s.SCREEN_CD 
+							   AND h.house_no = s.house_no
+							   AND t.thr_name = h.thr_name
+							 	<include refid="searchMovieStatistics2" /> 
+							   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+							 GROUP BY TO_CHAR(RESDATE, 'W')
+							) a1,
+						   (
+							SELECT SUM(pricesum) sales_allmovie, resdate
+					  		  FROM (
+									SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'W') resdate
+					 		  		  FROM RESERVATION r, house h, theater t, SCREEN s
+									 WHERE 1=1
+									   AND r.SCREEN_CD = s.SCREEN_CD
+									   AND s.HOUSE_NO = h.HOUSE_NO
+									   AND h.THR_NAME = t.THR_NAME
+									   <include refid="searchMovieStatistics2" />
+									   AND RESDATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'YYYYMMDD') AND LAST_DAY(TO_DATE(#{keyword}))
+					 			     GROUP BY TO_CHAR(RESDATE, 'W'), RES_NO 
+							  		) a
+							 GROUP BY a.resdate
+						   ) b1,
+						   (
+							SELECT SUM(pricesum) sales_movie, resdate
+							  FROM (
+									SELECT DISTINCT max(MERCHANT_UID), sum(PRICESUM) pricesum, TO_CHAR(RESDATE, 'W') resdate
+							 		  FROM RESERVATION r, SCREEN s, MOVIE m, house h, theater t
+									 WHERE 1=1
+									   AND RESDATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'YYYYMMDD') AND LAST_DAY(TO_DATE(#{keyword}))
+									   AND r.SCREEN_CD = s.SCREEN_CD 
+									   AND s.MOVIE_CD = m.MOVIE_CD 
+									   AND s.HOUSE_NO = h.HOUSE_NO
+									   AND h.THR_NAME = t.THR_NAME
+									   <include refid="searchMovieStatistics2" />
+									   AND m.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+							 		 GROUP BY TO_CHAR(RESDATE, 'W'), RES_NO 
+									  ) a
+							GROUP BY a.resdate
+						   ) c1,
+					  	   (
+							SELECT count(s.SCREEN_CD) screencnt, TO_CHAR(s.STARTDATE, 'W') startdate
+							  FROM screen s, MOVIE m, house h, theater t 
+							  WHERE 1=1
+							    AND s.STARTDATE BETWEEN TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'YYYYMMDD') AND LAST_DAY(TO_DATE(#{keyword}))
+					 			AND s.MOVIE_CD = m.MOVIE_CD 
+							    AND h.house_no = s.house_no
+							    AND h.thr_name = t.thr_name
+							    <include refid="searchMovieStatistics2" />
+							   AND s.MOVIE_CD = (SELECT movie_cd FROM MOVIE m2 WHERE movie_name = #{orderType})
+							  GROUP BY TO_CHAR(s.STARTDATE, 'W')
+							  ORDER BY TO_CHAR(s.STARTDATE, 'W') ASC
+						   ) d1,
+					  	   (
+					  		SELECT LEVEL AS dt
+							  FROM dual 
+							CONNECT BY LEVEL <![CDATA[<=]]> ((TO_CHAR(LAST_DAY(TO_DATE(#{keyword})), 'W') - TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'W') + 1) - (TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'W') - TO_CHAR(TRUNC(TO_DATE(#{keyword}),'MM'),'W') + 1) + 1)
+					      )cal
+					 WHERE cal.dt = a1.resdate(+)
+					   AND cal.dt = b1.resdate(+)
+					   AND cal.dt = c1.resdate(+)
+					   AND cal.dt = d1.startdate(+)
+					  ORDER BY cal.dt
+		  	   )
+	</select>
 </mapper>

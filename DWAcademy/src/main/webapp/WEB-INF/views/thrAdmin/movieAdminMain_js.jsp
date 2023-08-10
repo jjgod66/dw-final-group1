@@ -165,6 +165,7 @@ window.onload = function(){
 		$('#movieRowDates').text('');
 		$('#movieLength').text('');
 		$('#movieTypeTd').html('');
+		$('#movieRowPic').html('');
 		$('#startHouse').children('option:eq(0)').prop('selected', true);
 		$('#startHour').children('option:eq(0)').prop('selected', true);
 		$('#startMinute').children('option:eq(0)').prop('selected', true);
@@ -347,6 +348,10 @@ window.onload = function(){
 			contentType : "application/json",
 			success : function(data) {
 				if (thisBox.hasClass('possibleModify')) {
+					if ($('.modifyBox').length > 0) {
+						$('.modifyBox').remove();
+						$('.hided').removeClass('hided');
+					} 
 					console.log(data);
 					$(this).addClass('hided');
 					$('#addNewScreenBtn').hide();
