@@ -62,7 +62,6 @@ select[readonly] {
 		<div class="card mx-3">
 			<form role="form" method="post" enctype="multipart/form-data">
 			<div class="card-header">
-				<input type="hidden" value="${sessionScope.admin_cd }" name="relate_cd">
 				<c:choose>
 					<c:when test="${type eq 'read' }">
 						<input type="hidden" value="${event.event_no }" name="event_no">
@@ -138,6 +137,8 @@ select[readonly] {
 									<input type="text" id="thumb_name" class="form-control" disabled>
 									<input type="hidden" id="event_pic_path" name="event_pic_path">
 									<input type="hidden" id="oldFileName" name="oldFileName">
+									<input type="hidden" name="relate_cd" value="${sessionScope.loginUser.CD }">
+									<input type="hidden" name="event_div" value="극장">
 								</span>
 							</div>
 						</div>

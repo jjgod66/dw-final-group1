@@ -4,7 +4,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ include file="sysAdminHeader.jsp"%>
+<%@ include file="thrAdminHeader.jsp"%>
 <style>
 #statisticsTable th {
 	position: relative;
@@ -37,10 +37,10 @@
 		<div class="mx-2">
 			<ul class="nav nav-pills">
 			  <li class="nav-item">
-			    <a class="nav-link" aria-current="page" href="/sysAdmin/movieAdminStatistics.do" class="bc_dw_blue">일자별</a>
+			    <a class="nav-link" aria-current="page" href="/thrAdmin/movieAdminStatistics.do" class="bc_dw_blue">일자별</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link active" href="/sysAdmin/movieAdminStatistics_movie.do">영화별</a>
+			    <a class="nav-link active" href="/thrAdmin/movieAdminStatistics_movie.do">영화별</a>
 			  </li>
 			</ul>
 			<div id="setSearchTypeDiv mx-2">
@@ -65,9 +65,9 @@
 							&nbsp;
 							<label for="month">해당 연 월별</label> 
 							&nbsp;&nbsp;&nbsp;&nbsp; 
-							<select name="searchType" style="">
+							<select name="searchType" style="display: none;">
 								<c:forEach items="${theaterList }" var="thr">
-									<option value="${thr.ADMIN_CD }" ${cri.searchType eq thr.ADMIN_CD ? 'selected' : ''}>${thr.THR_NAME eq 'DW시네마' ? '극장 전체' : thr.THR_NAME}</option>
+									<option value="${thr.ADMIN_CD }" ${sessionScope.loginUser.CD eq thr.ADMIN_CD ? 'selected' : ''}>${thr.THR_NAME eq 'DW시네마' ? '극장 전체' : thr.THR_NAME}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -148,7 +148,7 @@
 
 
 <script>
-let searchFormUrl = "/sysAdmin/movieAdminStatistics_movie.do";
+let searchFormUrl = "/thrAdmin/movieAdminStatistics_movie.do";
 
 $(function(){
 	
@@ -200,6 +200,8 @@ $(function(){
 	
 	
 	// 가져온 영화목록 chart를 위해 새 배열에 세팅
+// 	if (!'${empty dateList}') {
+		
 	const resultList = new Array();
 	<c:forEach items="${dateList}" var="date">
 		<c:if test="${date.SALES_DAY ne 0}">
@@ -238,12 +240,14 @@ $(function(){
 		  }
 		  return max;
 	};
+	
 	if (resultList.length != 0) {
 		const seat_Max = arrayMax(seat_cnt_List);
 		var seat_Ceil = 10**(seat_Max.toString().length);
 		const screen_Max = arrayMax(screen_cnt_List);
 		var screen_Ceil = 10**(screen_Max.toString().length);
 	}
+	
 	const ctx = $('.sales_movie_chart');
 	const ctx2 = $('.cnt_chart');
 	
@@ -376,7 +380,7 @@ $(function(){
 	
 	new Chart(ctx, chart_config_sales_movie);
 	new Chart(ctx2, chart_config_cnt);
-	
+// 	}
 	
 	// date를 'yyyy-MM-dd' 형식으로
 	function dateToString(date) {
@@ -519,4 +523,4 @@ function sortTable(cellNum){
        }   
    }
 </script>
-<%@ include file="sysAdminFooter.jsp"%>
+<%@ include file="thrAdminFooter.jsp"%>

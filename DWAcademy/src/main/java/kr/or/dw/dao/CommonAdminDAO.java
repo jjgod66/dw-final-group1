@@ -55,5 +55,21 @@ public interface CommonAdminDAO {
 	// 검색창에 쓴 텍스트기반 영화 검색
 	List<Map<String, Object>> selectBySearchMovieName(String searchText) throws SQLException;
 
+	// 검색에 대한 해당 영화 통계를 가져온다. 일별
+	List<Map<String, Object>> selectStatisticsMovieByMovieName_day(SearchCriteria cri) throws SQLException;
+
+	// 검색에 대한 해당 영화 통계 총 개수를 가져온다.
+	int selectStatisticsMovieByMovieNameCount_day(SearchCriteria cri) throws SQLException;
+
+	// 검색에 대한 해당 영화 통계를 가져온다. 월별
+	List<Map<String, Object>> selectStatisticsMovieByMovieName_month(SearchCriteria cri)throws SQLException;
+
+	// 검색에 대한 해당 영화 통계 총 개수를 가져온다.
+	int selectStatisticsMovieByMovieNameCount_month(SearchCriteria cri) throws SQLException;
+
+	// 검색에 대한 해당 영화 통계를 가져온다. 주별
+	List<Map<String, Object>> selectStatisticsMovieByMovieName_week(SearchCriteria cri) throws SQLException;
 	
+	// 검색에 대한 해당 영화 통계 총 개수를 가져온다.
+	int selectStatisticsMovieByMovieNameCount_week(SearchCriteria cri) throws SQLException;
 }
