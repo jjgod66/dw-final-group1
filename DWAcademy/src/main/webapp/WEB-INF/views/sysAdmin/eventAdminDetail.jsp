@@ -15,6 +15,9 @@
 select {
 	height: auto;
 }
+.movieCard:hover {
+	background-color: #D2DBE0;
+} 
 </style>
 
 <!-- Modal -->
@@ -80,8 +83,8 @@ select {
 							<div class="col-md-3">
 								<input type="text" id="movieName" class="form-control" value="" disabled>
 							</div>
-							<div class="col text-end">
-								<button type="button" class="bc_dw_black p-2" id="selectMovieModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size:12px;">영화선택</button>
+							<div class="col">
+								<button type="button" class="bc_dw_black p-2" style="margin-top: 0.1rem;" id="selectMovieModalBtn" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size:12px;">영화선택</button>
 								<input type="hidden" name="relate_cd" id="relate_cd" value="">
 							</div>
 						</div>
@@ -197,7 +200,7 @@ window.onload = function(){
 		$('#event_content_before').remove();
 		$('.hideDiv').show();
 		
-		$('.card-footer').prepend('<button class="btn_medium" id="modifyBtn">수정완료</button>  <button class="btn_medium" id="deleteBtn">삭제하기</button>');
+		$('.card-footer').prepend('<button class="bc_dw_blue" id="modifyBtn">수정완료</button>  <button class="bc_dw_orange" id="deleteBtn">삭제하기</button>');
 	});
 	
 	// 등록버튼 클릭시
@@ -292,7 +295,17 @@ window.onload = function(){
 			$('#thumb_name').removeClass('is-invalid')
 		}
 	});
-	
+	$('input#movieName').on('change', function(){
+		if ($(this).hasClass('is-invalid')) {
+			$(this).removeClass('is-invalid')
+		}
+	});
+	$(document).on('focus', '.note-editable', function(){
+		if ($('#event_content').hasClass('is-invalid')) {
+			$('#event_content').removeClass('is-invalid');
+			$('.note-frame').css('border', '1px solid rgba(0, 0, 0, .2)');
+		}
+	});
 	//모달에서 검색시
 	$('#searchMovieName').on('keyup', function(){
 		let inputText = $(this).val();
@@ -365,7 +378,7 @@ window.onload = function(){
 		console.log($('#event_content').val());
 		if ($('#event_content').val() == '') {
 			$('#event_content').addClass('is-invalid');
-			alert('작성내용은 필수입력항목입니다.');
+			$('.note-editor').css('border-color', 'red');
 			$('#event_content').focus();
 			return;
 		}
@@ -381,6 +394,10 @@ window.onload = function(){
 		}
 		if ($('input#thumb_name').val() == '') {
 			$('input#thumb_name').addClass('is-invalid');
+			return;
+		}
+		if ($('input#movieName').val() == '') {
+			$('input#movieName').addClass('is-invalid');
 			return;
 		}
 	}

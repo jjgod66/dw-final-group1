@@ -13,7 +13,7 @@
 	cursor: pointer;
 }
 .td_div > td:hover {
-	background-color : gray;
+	background-color : #D2DBE0;
 }
 .iconDiv i {
 	cursor : pointer;
@@ -89,6 +89,9 @@ textarea:focus {
 	    			<option value="membership" id="멤버십" ${cri.searchType eq 'membership' ? 'selected' : '' }>membership</option>
 	    			<option value="store" id="스토어" ${cri.searchType eq 'store' ? 'selected' : '' }>store</option>
 	    			<option value="giftcard" id="기프트카드" ${cri.searchType eq 'giftcard' ? 'selected' : '' }>giftcard</option>
+	    			<option value="discount" id="할인혜택" ${cri.searchType eq 'discount' ? 'selected' : '' }>discount</option>
+	    			<option value="vip" id="VIP" ${cri.searchType eq 'vip' ? 'selected' : '' }>vip</option>
+	    			<option value="theater" id="극장" ${cri.searchType eq 'theater' ? 'selected' : '' }>theater</option>
 	    		</select>
 	    	</div>
 	    	<div class="col-md-2"></div>
@@ -100,10 +103,15 @@ textarea:focus {
 				<tr class="td_div">
 					<td class="${cri.searchType eq 'all' || cri.searchType eq '' ? 'table-active' : '' }">전체</td>
 					<td class="${cri.searchType eq 'reservation' ? 'table-active' : '' }">영화예매</td>
-					<td class="${cri.searchType eq 'pay' ? 'table-active' : '' }">결제수단</td>
+					<td class="${cri.searchType eq 'discount' ? 'table-active' : '' }">할인혜택</td>
 				</tr>
 				<tr class="td_div">
+					<td class="${cri.searchType eq 'pay' ? 'table-active' : '' }">결제수단</td>
 					<td class="${cri.searchType eq 'membership' ? 'table-active' : '' }">멤버십</td>
+					<td class="${cri.searchType eq 'vip' ? 'table-active' : '' }">VIP</td>
+				</tr>
+				<tr class="td_div">
+					<td class="${cri.searchType eq 'theater' ? 'table-active' : '' }">극장</td>
 					<td class="${cri.searchType eq 'store' ? 'table-active' : '' }">스토어</td>
 					<td class="${cri.searchType eq 'giftcard' ? 'table-active' : '' }">기프트카드</td>
 				</tr>

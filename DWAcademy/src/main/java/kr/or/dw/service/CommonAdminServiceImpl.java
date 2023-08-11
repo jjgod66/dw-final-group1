@@ -72,7 +72,9 @@ public class CommonAdminServiceImpl implements CommonAdminService {
 
 	@Override
 	public Map<String, Object> selectNoteByNote_no(Map<String, Object> data) throws SQLException {
-		commonAdminDAO.updateGb_read(data);
+		if (data.get("note_type").equals("R")) {
+			commonAdminDAO.updateGb_read(data);
+		}
 		return commonAdminDAO.selectNoteByNote_no(data);
 	}
 

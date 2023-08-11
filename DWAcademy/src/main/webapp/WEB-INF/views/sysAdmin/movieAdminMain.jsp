@@ -24,6 +24,12 @@
 .movieName b:hover {
 	color: #4aa8d8;
 }
+.movieBox {
+	cursor: pointer;
+}
+.movieBox:hover {
+	background-color: #E3E3E3;
+}
 </style>
 
 <div id="wrapper">
@@ -61,16 +67,21 @@
 				<div class="movieList row px-1" style="text-align: -webkit-center;">
 					<c:forEach items="${movieList}" var="movie">
 						<div class="col-md-3 py-2" style="">
-							<div class="borderRadius" style="width: 98%; height: 100%; border: 1px solid #4aa8d8;">
+							<div class="movieBox" style="width: 98%; height: 100%; border: 1px solid #4aa8d8; box-shadow: 1px 1px 3px 1px gray;">
 								<div class="p-1" style="width: 80%; height: 20rem; overflow: hidden;">
 									<img src="/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" class="img-thumbnail" style="object-fit: cover; width: 100%; hegith:100%;">
 								</div>
 								<div>
-									${movie.GRADE } <a class="movieName" href="movieRegistForm.do?movie_cd=${movie.MOVIE_CD }"><b>${movie.MOVIE_NAME}</b></a>
+									<c:if test="${movie.MOVIE_GRADE eq '전체 관람가'}"><img src="../../resources/img/moviegrade/ALL.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
+                                    <c:if test="${movie.MOVIE_GRADE eq '12세 관람가'}"><img src="../../resources/img/moviegrade/12.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
+                                    <c:if test="${movie.MOVIE_GRADE eq '15세 관람가'}"><img src="../../resources/img/moviegrade/15.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
+                                    <c:if test="${movie.MOVIE_GRADE eq '청소년 관람불가'}"><img src="../../resources/img/moviegrade/18.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
+									<b>${movie.MOVIE_NAME}</b>
 								</div>
-								<div>
-									예매율: ${movie.reserveRatio }% / 개봉일: <fmt:formatDate value='${movie.OPENDATE }' pattern='yyyy-MM-dd'/>
+								<div class="mb-2">
+									예매율: <b>${movie.reserveRatio }%</b> / 개봉일: <fmt:formatDate value='${movie.OPENDATE }' pattern='yyyy-MM-dd'/>
 								</div>
+								<input type="hidden" name="movie_cd" value="${movie.MOVIE_CD }"> 
 							</div>
 						</div>
 					</c:forEach>
@@ -89,6 +100,10 @@
 	$(function(){
 		$('#movieRegistFormBtn').on('click', function(){
 			location.href="movieRegistForm.do";
+		});
+		$('.movieBox').on('click', function(){
+			let movie_cd = $(this).find($('input[name="movie_cd"]')).val();
+			location.href="movieRegistForm.do?movie_cd="+movie_cd;
 		});
 		
 	});

@@ -71,6 +71,7 @@ import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
+import kr.or.dw.vo.QnaAttachVO;
 import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.ReplyVO;
 import kr.or.dw.vo.ReviewVO;
@@ -747,8 +748,16 @@ public class SysAdminController {
 		QnaVO qna = sysAdminService.selectQnaByQue_no(Integer.parseInt(que_no));
 		mnv.addObject("qna", qna);
 		
+		QnaAttachVO attach = sysAdminService.selectQnaAttachByQue_no(Integer.parseInt(que_no));
+		if (attach != null) {
+			String fileName = attach.getAttach_path().substring(attach.getAttach_path().lastIndexOf("$$") + 2);
+			attach.setAttach_path(fileName);
+			mnv.addObject("attach", attach);
+		}
+		
 		AnswerVO ans = sysAdminService.selectAnsByQue_no(Integer.parseInt(que_no));
 		mnv.addObject("ans", ans);
+		
 		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "1:1문의 게시글", url+".do?que_no="+que_no);
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
