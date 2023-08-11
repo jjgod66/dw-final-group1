@@ -65,13 +65,6 @@
 			authentication-failure-handler-ref="loginFailureHandler"
 		/>
 		
-<!-- 		<form-login -->
-<!-- 			login-page="/sns/login" -->
-<!-- 			login-processing-url="/sns/login.do" -->
-<!-- 			username-parameter="email" -->
-<!-- 			authentication-success-handler-ref="loginSuccessHandler" -->
-<!-- 			authentication-failure-handler-ref="loginFailureHandler" -->
-<!-- 		/> -->
 		
 		<logout
 			logout-url="/common/logout.do"
