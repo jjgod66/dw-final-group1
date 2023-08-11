@@ -428,13 +428,15 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/movieTimeLine")
-	public ModelAndView memberMoviestory(ModelAndView mnv, HttpSession session) {
+	public ModelAndView memberMoviestory(ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/member/movieTimeLine";
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
 		
+		Map<String, Object> dataMap = movieService.myMovieTimeLine(mem_cd);
 		
-		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
 		
 		return mnv;
 	}

@@ -373,4 +373,11 @@ public interface MovieService {
 	 */
 	Map<String, Object> getMyLikeMovie(String mem_cd) throws SQLException;
 
+	/**
+	 * 나의 무비 타임라인
+	 * @param mem_cd
+	 * @return
+	 */
+	Map<String, Object> myMovieTimeLine(String mem_cd) throws SQLException;
+
 }
