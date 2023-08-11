@@ -24,7 +24,7 @@ import kr.or.dw.vo.Admin_NoteVO;
 @RequestMapping("/commonAdmin")
 public class CommonAdminController {
 
-	private static final Logger logger = LoggerFactory.getLogger(SysAdminController.class);
+	private static final Logger logger = LoggerFactory.getLogger(CommonAdminController.class);
 	
 	@Autowired
 	private CommonAdminService commonAdminService;
@@ -131,4 +131,5 @@ public class CommonAdminController {
 		
 		return entity;
 	}
+	
 }

@@ -24,6 +24,9 @@
 				<div id="qna_content">
 					${qna.que_content }
 				</div>
+				<div id="qna_attach" class="float-end">
+					첨부파일 : 
+				</div>
 			</div>
 			<div class="card-body">
 				<div id="answer">

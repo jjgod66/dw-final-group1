@@ -89,14 +89,14 @@
 							</tr>
 						</tbody>
 					</table>
+					<div class="text-end" style="font-size: 0.8rem;">*영화관 소개 이외의 정보 수정은 주 관리자에게 문의하세요.</div>
 				</div>
-				
 				<div class="btn_confirm mb-3">
 					 <input type="button" value="수정" id="modifyInfoBtn" class="bc_dw_blue" style="padding: 0.5rem 1rem; border: none;">
 				</div>
 				
 				<div class="local_ov mart30">
-					전체 : <b class="fc_red">${fn:length(houseList)}</b> 건 조회
+					전체 : <b class="fc_red">${fn:length(houseList)}</b> 관
 				</div>
 				
 				<div class="local_frm01" style="margin-left:auto;margin-right:auto;">

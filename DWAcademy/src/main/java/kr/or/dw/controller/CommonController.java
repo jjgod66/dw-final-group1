@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -31,9 +32,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.or.dw.command.IndexMovieCommand;
@@ -43,11 +46,13 @@ import kr.or.dw.service.NaverLoginBO;
 import kr.or.dw.service.NonMemService;
 import kr.or.dw.service.StoreService;
 import kr.or.dw.service.SupportService;
+import kr.or.dw.service.SysAdminService;
 import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
+import kr.or.dw.vo.QnaAttachVO;
 
 @Controller
 public class CommonController {
@@ -66,6 +71,9 @@ public class CommonController {
 	@Resource(name ="memberPicUploadPath")
 	private String memberPicUploadPath;
 	
+	@Resource(name ="attachUploadPath")
+	private String attachUploadPath;
+	
 	@Autowired
 	private MovieService movieService;
 	
@@ -80,6 +88,9 @@ public class CommonController {
 	
 	@Autowired
 	private StoreService storeService;
+	
+	@Autowired
+	private SysAdminService sysAdminService;
 	
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -252,6 +263,78 @@ public class CommonController {
                 .contentType(MediaTypeFactory.getMediaType(video).orElse(MediaType.APPLICATION_OCTET_STREAM))
                 .body(resourceRegion);
     }
+	 
+	@RequestMapping("/common/uploadTempImg")
+	public ResponseEntity<String> uploadTempImg(MultipartFile file, HttpServletRequest req) {
+		ResponseEntity<String> result = null;
+		
+		int fileSize = 5 * 1024 * 1024;
+		
+		if (file.getSize() > fileSize) {
+			return new ResponseEntity<String>("용량 초과입니다.", HttpStatus.BAD_REQUEST);
+		}
+		
+		String savePath = eventPicUploadPath + File.separator + "temp";
+		String fileName = UUID.randomUUID().toString().replace("-", "")+"$$"+file.getOriginalFilename();
+		
+		File saveFile = new File(savePath, fileName);
+		
+		if(!saveFile.exists()) {
+			saveFile.mkdirs();
+		}
+		
+		try {
+			file.transferTo(saveFile);
+			result = new ResponseEntity<String>(req.getContextPath() + "/sysAdmin/getTempImg.do?fileName=" + fileName, HttpStatus.OK);
+		} catch (Exception e) {
+			result = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return result;
+	}
+	 
+	@RequestMapping("/common/getTempImg")
+	public ResponseEntity<byte[]> getTempImg(String fileName, HttpServletRequest req) throws IOException {
+		ResponseEntity<byte[]> entity = null;
+		
+		// 저장경로
+		String savePath = eventPicUploadPath + File.separator + "temp";
+		File sendFile = new File(savePath, fileName);
+		
+		InputStream in = null;
+		
+		try {
+			in = new FileInputStream(sendFile);
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} finally {
+			in.close();
+		}
+		
+		return entity;
+	}
+		
+	@RequestMapping("/common/deleteTempImg")
+	public ResponseEntity<String> deleteTempImg(@RequestBody Map<String, String> data) {
+		ResponseEntity<String> result = null;
+		String savePath = eventPicUploadPath + File.separator + "temp";
+		File target = new File(savePath, data.get("fileName"));
+		
+		if (!target.exists()) {
+			result = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		} else {
+			try {
+				target.delete();
+				result = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
+			} catch (Exception e) {
+				result = new ResponseEntity<String>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		}
+		return result;
+	}
+	 
 	
 	@RequestMapping("common/login")
 	public String loginFrom() {
@@ -335,6 +418,34 @@ public class CommonController {
 		out.println("</script>");
 		out.flush();
 		out.close();
+	}
+	
+	@RequestMapping("/common/getFile")
+	public ResponseEntity<byte[]> getFile(int ano) throws Exception {
+		InputStream in = null;
+		ResponseEntity<byte[]> entity = null;
+		 
+		QnaAttachVO attach = sysAdminService.selectQnaAttachByAno(ano);
+		
+		String fileUploadPath = this.attachUploadPath;
+		String fileName = attach.getAttach_path();
+		
+		try {
+			in = new FileInputStream(fileUploadPath + File.separator + fileName);
+			fileName = fileName.substring(fileName.lastIndexOf("$$") + 2);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+			headers.add("Content-Disposition", "attachment; filename=\"" + new String(fileName.getBytes("utf-8"), "ISO-8859-1") + "\"");
+			
+			entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), headers, HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
+		} finally {
+			in.close();
+		}
+		
+		return entity;
 	}
 	
 }

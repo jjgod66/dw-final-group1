@@ -39,6 +39,9 @@
 .moreBtn {
 	cursor: pointer;
 }
+.deleteBtn {
+ 	cursor: pointer; 
+}
 </style>
 </head>
 <body>
@@ -59,6 +62,8 @@
 							<col class="w150">
 							<col class="w80">
 							<col class="w130">
+							<col class="w130">
+							<col class="w30">
 						</colgroup>
 						<tbody>
 								<tr>
@@ -66,6 +71,8 @@
 									<th>내용</th>
 									<th>신고수</th>
 									<th>작성일자</th>
+									<th>삭제여부</th>
+									<th></th>
 								</tr>
 								<c:if test="${empty mpReplyList }">
 									<tr><th scope="row" colspan="4">작성 글이 없습니다.</th></tr>
@@ -76,6 +83,12 @@
 									<td><div style="width: 400px; margin: auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${reply.REPLY_CONTENT }</div></td>
 									<td><b style="color : red;">${reply.REPORTCNT }</b></td>
 									<td><fmt:formatDate value="${reply.REGDATE }" pattern="yyyy-MM-dd"/></td>
+									<td>${reply.GB_DEL }</td>
+									<td class="deleteBtn" style="color: red;">
+									<c:if test="${reply.GB_DEL eq 'N' }">
+										<i class="bi bi-x-octagon-fill"></i><input type="hidden" name="reply_no" value="${reply.REPLY_NO }">
+									</c:if>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -85,4 +98,13 @@
 		</div>
 	</div>
 </body>
+
+<script>
+$('.deleteBtn').on('click', function(){
+	if (confirm('해당 댓글을 정말 삭제하시겠습니까?')) {
+		let reply_no = $(this).find('input[name="reply_no"]').val();
+		location.href="/sysAdmin/deleteReply.do?reply_no=" + reply_no;
+	}
+});
+</script>
 </html>
