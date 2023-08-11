@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
@@ -33,6 +34,12 @@ public class MemberServiceImpl implements MemberService{
 
 	@Override
 	public void join(MemberVO memVO) throws SQLException {
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String securePassword = encoder.encode(memVO.getMem_pwd());
+		
+		memVO.setMem_pwd(securePassword);
+		
 		memberDAO.insert(memVO);
 	}
 

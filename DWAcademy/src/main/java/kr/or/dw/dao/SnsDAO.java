@@ -35,6 +35,12 @@ public interface SnsDAO {
 	// 네이버 연동해제
 	void neverDelete(MemberVO user) throws SQLException;
 
+	// 카카오 연동 이메일 체크
+	SnsVO kakaoEmailCheck(String mem_email) throws SQLException;
+
+	// 네이버 연동 이메일 체크
+	SnsVO naverEmailCheck(String sns_email) throws SQLException;
+
 
 	
 	

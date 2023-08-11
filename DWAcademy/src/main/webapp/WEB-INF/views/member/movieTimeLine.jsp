@@ -43,7 +43,7 @@ h2 strong,
 .cards,
 .news {
   display: inline-flex;
-  width: 45%;
+  width: 49%;
 }
 .dif {
   display: inline-flex;
@@ -221,13 +221,13 @@ h2:after {
 .on{
 	background-color: #4aa8d8;
 }
-.movie-info>div {
+.movie-info {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: flex-start;
-    margin-top: 20px;
- 	max-width: 200px;
-    padding-top: 100px;
+    margin-bottom: 20px;
+ 	max-width: 60%;
+ 	font-size: 12px;
 }
 .disnone{
 	display: none;
@@ -259,7 +259,6 @@ h2:after {
 			<div class="cards">
 				<figure class="card">
 					<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${bookingList.MOVIE_MAINPIC_PATH}&item_cd=${bookingList.MOVIE_CD}&type=moviePoster" />
-					<figcaption>${bookingList.MOVIE_NAME}</figcaption>
 				</figure>
 				<div class="movie-info">
 					<div>
@@ -284,7 +283,6 @@ $(document).ready(function() {
     
     
     for (let i = 12; i < movieDiv.length; i++) {
-//         $('.cards').eq(i).css('display', 'none');
         $('.cards').eq(i).addClass('disnone');
         $('.cards').eq(i).prev('h2').css('display', 'none');
     }
@@ -300,7 +298,6 @@ $(document).ready(function() {
         }
 
         for (let i = 0; i < 12; i++) {
-            $('.disnone').eq(0).css('display', '');
             $('.disnone').eq(0).removeClass('disnone');
             $('.disnone').eq(0).prev('h2').css('display', '');
         }

@@ -9,8 +9,12 @@
 <style>
 .active{
     background: #ff8080;
-    color: #ffffff;
     border-radius: 3px;
+    border: solid 1px #ff8080;
+    text-align: center;
+    padding: 2px 5px 2px 5px;
+}
+.btn-heart{
     border: solid 1px #ff8080;
     text-align: center;
     padding: 2px 5px 2px 5px;
@@ -236,4 +240,4 @@ $('#AddMovieBtn').on('click', function(){
 	}
 })
 </script>
-<%@ include file="../include/footer.jsp" %>
+<%@ include file="../include/member_footer.jsp" %>

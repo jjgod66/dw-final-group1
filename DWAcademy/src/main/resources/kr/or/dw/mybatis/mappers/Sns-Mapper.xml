@@ -48,4 +48,18 @@
 	<delete id="neverDelete">
 		DELETE mem_sns_login WHERE sns_email = #{mem_email} AND sns = 'N'
 	</delete>
+	
+	<select id="kakaoEmailCheck" resultType="sns">
+		SELECT *
+		  FROM mem_sns_login
+		 WHERE sns_email = #{mem_email}
+		   AND sns = 'K'
+	</select>
+	
+	<select id="naverEmailCheck" resultType="sns">
+		SELECT *
+		  FROM mem_sns_login
+		 WHERE sns_email = #{sns_email}
+		   AND sns = 'N'
+	</select>
 </mapper>

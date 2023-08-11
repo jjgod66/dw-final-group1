@@ -54,5 +54,15 @@ public class SnsServiceImpl implements SnsService{
 		snsDAO.neverDelete(user);
 	}
 
+	@Override
+	public SnsVO kakaoEmailCheck(String mem_email) throws SQLException {
+		return snsDAO.kakaoEmailCheck(mem_email);
+	}
+
+	@Override
+	public SnsVO naverEmailCheck(String sns_email) throws SQLException {
+		return snsDAO.naverEmailCheck(sns_email);
+	}
+
 
 }

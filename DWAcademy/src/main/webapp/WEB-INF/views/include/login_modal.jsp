@@ -149,7 +149,7 @@
                         <div class="p-t-10"><a href="<%=request.getContextPath()%>${url}" class="btn btn--naver" type="button">네이버로 시작하기</a></div> 
                     </div>
                     <div class="col">
-                        <div class="p-t-10"><button type="button" id="kakaoLogin" class="btn btn--kakao">카카오로 시작하기</button></div> 
+                        <div class="p-t-10"><button type="submit" name="K" id="kakaoLogin" class="btn btn--kakao" >카카오로 시작하기</button></div> 
                     </div>
                 </div>
                 <p class="extra new"> <a href="#" data-bs-toggle="modal" data-bs-target="#nonMemLogin_modal"><u>비회원 예매확인</u></a></p>
@@ -163,4 +163,4 @@
     </div>
 </div>
 
-<%@ include file = "login_modal_js.jsp" %>
+<%-- <%@ include file = "login_modal_js.jsp" %> --%>
