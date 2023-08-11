@@ -128,6 +128,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
 				        <span id="b">${qna.thr_name } </span>
 				        <span id="b">${qna.que_type } </span>
 				        <span id="b"><fmt:formatDate value="${qna.regdate }" pattern="yyyy-MM-dd"/> </span>
+				        <span id="b">첨부파일</span>
 				
 				    <div class="post-content" >
 				        <p>
@@ -136,7 +137,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
 				    </div>
 				</div>
 					      		
-	      	</div>			          		
+	      	</div>	
       	</div>	
       	<c:if test="${!empty answer }">
       	<div id="im" style="margin: 10px 0;">

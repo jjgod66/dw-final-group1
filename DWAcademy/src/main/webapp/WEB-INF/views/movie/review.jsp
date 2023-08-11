@@ -319,7 +319,7 @@ select {
 <!-- 		</select> -->
 <!-- 		<input type="text" name="keyword" id="searchReview"> -->
 <!-- 		<input class="btn" id="searchReviewBtn" type="submit" value="검색" onclick="javascript:searchList_go(1);"> -->
-	    <div class="container">
+	    <div class="">
         	<c:if test="${reviewList[0].REVIEW_NO == null}">
         		<div class="reviews-members row" style="margin: 30px 0px 30px 0px;" >
 	        		<div style="text-align: center;">
@@ -329,7 +329,7 @@ select {
         	</c:if>
 			<c:if test="${reviewList[0].REVIEW_NO != null}">
 				<c:forEach items="${reviewList}" var="review">
-			        <div class="row" style="margin: 30px 0px 30px 0px; border-radius: solid 1px #e5e5e5;" >
+			        <div class="row" style="margin: 30px 0px 30px 0px; border-radius: solid 1px #e5e5e5; width: 1300px;" >
 						<div class="col-1">
 							<c:if test="${review.MEM_PIC_PATH != null}">
 								<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/common/getPicture.do?name=${review.MEM_PIC_PATH}&item_cd=${review.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">

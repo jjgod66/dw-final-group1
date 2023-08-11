@@ -247,21 +247,14 @@ $(function(){
 	
 	$('#btnAddMovie').on('click', function(){
 		if($('.disnone').length <= 12){
-			for(let i = 0; i < $('.disnone').length; i++){
-				$('.disnone').eq(i).css('display', '');
-			}
-			for(let i = 0; i < $('.disnone').length; i++){
-				$('.disnone').eq(i).removeClass('disnone');
-			}
+			$('.disnone').css('display', '');
+			$('.disnone').removeClass('disnone');
 			$('#btnAddMovie').css('display', 'none');
 			return;
 		}
 		for(let i = 0; i < 12; i++){
-			$('.disnone').eq(i).css('display', '');
-			
-		}
-		for(let i = 0; i < 12; i++){
-			$('.disnone').eq(i).removeClass('disnone');
+			$('.disnone').eq(0).css('display', '');
+			$('.disnone').eq(0).removeClass('disnone');
 			
 		}
 	})

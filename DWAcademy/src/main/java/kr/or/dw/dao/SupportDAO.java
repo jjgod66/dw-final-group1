@@ -205,4 +205,12 @@ public interface SupportDAO {
 	 */
 	int MyQuestionListCnt(Map<String, Object> param)throws SQLException ;
 
+	/**
+	 * 1대1문의 첨부파일 가져오는 메서드
+	 * @param que_no
+	 * @return
+	 * @throws SQLException
+	 */
+	QnaAttachVO selectAttachByQnaNo(int que_no) throws SQLException;
+
 }

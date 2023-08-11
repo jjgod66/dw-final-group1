@@ -41,6 +41,7 @@ import kr.or.dw.service.TheaterService;
 import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.QnaAttachVO;
 import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.SnsVO;
 import kr.or.dw.vo.TheaterVO;
@@ -537,10 +538,13 @@ public class MemberController {
 		QnaVO qna = null;
 		AnswerVO answer = null;
 		qna = supportService.getQnaByQueNo(que_no);
+		QnaAttachVO attach = null;
+		attach = supportService.getQnaAttachByQnaNo(que_no);
 		answer = supportService.getAnswerByQueNo(que_no);
 		
 		mnv.addObject("answer", answer);
 		mnv.addObject("qna", qna);
+		mnv.addObject("attach", attach);
 		
 		mnv.setViewName(url);
 		return mnv;

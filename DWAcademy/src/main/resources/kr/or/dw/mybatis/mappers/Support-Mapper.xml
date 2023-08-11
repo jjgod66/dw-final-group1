@@ -275,4 +275,10 @@
 			  ORDER BY q.regdate DESC
 			 )
 	</select>
+	
+	<select id="selectAttachByQnaNo" resultType="kr.or.dw.vo.QnaAttachVO">
+		SELECT *
+		FROM question_attach
+		WHERE que_no = #{que_no}
+	</select>
 </mapper>

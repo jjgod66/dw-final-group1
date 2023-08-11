@@ -130,6 +130,10 @@ margin-top:0px;
     line-height: 60px;
     white-space: nowrap;
 }
+.md.hydrated{
+	contain:none; 
+	height: auto;
+}
 </style>
 <%
 	mem_cd = "";
@@ -226,6 +230,10 @@ margin-top:0px;
         	  const bookinglist = 'http://localhost/member/bookinglist.do';
         	  const discount = 'http://localhost/member/discount-coupon.do';
         	  const story = 'http://localhost/member/moviestory.do';
+        	  const timeline = 'http://localhost/member/movieTimeLine.do';
+        	  const review = 'http://localhost/member/myReview.do';
+        	  const post = 'http://localhost/member/myMoviepost.do';
+        	  const like = 'http://localhost/member/myLikeMovie.do'; 
         	  const myin = 'http://localhost/member/myinquiry.do';
         	  const po = 'http://localhost/member/point-list.do';
         	  const pri = 'http://localhost/member/PrivacyInfo.do';
@@ -239,7 +247,19 @@ margin-top:0px;
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[2].classList.add('active1'); 
         	  }
-        	  if (currentURL.includes(story)) {
+        	  if (currentURL.includes(timeline)) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[3].classList.add('active1'); 
+        	  }
+        	  if (currentURL.includes(review)) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[3].classList.add('active1'); 
+        	  }
+        	  if (currentURL.includes(post)) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[3].classList.add('active1'); 
+        	  }
+        	  if (currentURL.includes(like)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[3].classList.add('active1'); 
         	  }
