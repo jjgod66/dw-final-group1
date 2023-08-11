@@ -123,6 +123,9 @@
 .my-board-list .my-reserve-history ul li.no-result .no-history-reservation {
     border: none;
 }
+p {
+	text-align: center;
+}
 </style>
 <div class="main-wrapper">
 	<div class="my-magabox-info">
@@ -144,7 +147,7 @@
 				<li class="no-result">
 					<div class="row" style="padding: 30px; border: 1px solid gray; border-radius: 10px;">
 					<c:if test="${empty movieInfoList}">
-						예매 내역이 없습니다.
+						<p>예매 내역이 없습니다.</p>
 					</c:if>
 						<c:forEach items="${movieInfoList}" var="movieInfo">
 									<div class="col-2" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
@@ -189,8 +192,9 @@
 				<li class="no-result">
 					<div class="row">
 					<c:if test="${empty buyInfoList}">
-						구매 내역이 없습니다.
+						<p>구매 내역이 없습니다.</p>
 					</c:if>
+					<c:if test="${!empty buyInfoList}">
 			<table style="width : 100%;">
 				<tr>
 					<th style="width : 20%; text-align : center;">결제일시</th>
@@ -217,6 +221,7 @@
 				</tr>
 		</c:forEach>
 			</table>
+					</c:if>
 					</div>
 				</li>
 			</ul>

@@ -141,19 +141,17 @@ public class MemberController {
 		
 		Map<String, Object> member =  (Map<String, Object>) session.getAttribute("loginUser");
 		String id = (String) member.get("ID");
-		
+		String mem_cd = (String) member.get("CD");
 		Map<String, Object> memberInfo = memberService.selectAllMemberInfo(id);
 		System.out.println(member);
-		SnsVO kakao = new SnsVO();
-		SnsVO naver = new SnsVO();
+		Map<String, Object> kakao = null;
+		Map<String, Object> naver = null;
 		
-//		kakao = snsService.selectKakaoInfo(member);
-		System.out.println(kakao);
-		req.setAttribute("kakao", kakao);
+		kakao = snsService.selectKakaoInfo(mem_cd);
+		System.out.println("kakao:"+kakao);
 
-//		naver = snsService.selectNaverInfo(member);
-		System.out.println(naver);
-		req.setAttribute("naver", naver);
+		naver = snsService.selectNaverInfo(mem_cd);
+		System.out.println("naver"+naver);
 		
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
 		String naverAuthUrl = naverLoginBO2.getAuthorizationUrl(session);
@@ -163,6 +161,8 @@ public class MemberController {
 		System.out.println("네이버:" + naverAuthUrl);
 		
 		//네이버 
+		mnv.addObject("kakao", kakao);
+		mnv.addObject("naver", naver);
 		mnv.addObject("memberInfo", memberInfo);
 		mnv.addObject("url", naverAuthUrl);
 		mnv.setViewName(url);

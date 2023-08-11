@@ -32,6 +32,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.MediaTypeFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -140,10 +141,11 @@ public class CommonController {
 	
 	
 	@RequestMapping(value = "/main", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView index(ModelAndView mnv, HttpSession session, String login) throws SQLException {
+	public ModelAndView index(ModelAndView mnv, HttpSession session, String login, String sns_email, String mem_email) throws SQLException {
 		String url = "/main";
 		
 		System.out.println(login);
+		System.out.println(sns_email);
 		List<Map<String, Object>> movieListMap = null;
 		movieListMap = movieService.getIndexBoxOfficeMovie10();
 		
@@ -187,6 +189,8 @@ public class CommonController {
 		mnv.addObject("eventList", eventList);
 		mnv.addObject("eventList2", eventList2);
 		mnv.addObject("movieList", movieList);
+		mnv.addObject("sns_email",sns_email);
+		mnv.addObject("mem_email",mem_email);
 		mnv.setViewName(url);
 		return mnv;
 		
