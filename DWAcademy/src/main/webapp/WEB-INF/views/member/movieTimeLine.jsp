@@ -42,7 +42,8 @@ h2 strong,
 .df,
 .cards,
 .news {
-  display: flex;
+  display: inline-flex;
+  width: 45%;
 }
 .dif {
   display: inline-flex;
@@ -225,7 +226,9 @@ h2:after {
     flex-direction: column;
     align-items: flex-start;
     margin-top: 20px;
-    max-width: 300px;
+ 	max-width: 200px;
+    padding-top: 100px;
+}
 }
 </style>
 <div class="container" style="margin-top: 10px;">
@@ -249,6 +252,7 @@ h2:after {
 		<c:if test="${screenDate != prevMonth}">
 			<h2 id="startdate${i}"><strong><fmt:formatDate value="${bookingList.STARTDATE}" pattern="yyyy-MM"/></strong></h2>
 			<c:set var="prevMonth" value="${screenDate}" />
+			<c:set var="i" value="${i+1}"/>
 		</c:if>
 			<div class="cards">
 				<figure class="card">
@@ -263,7 +267,6 @@ h2:after {
 					</div>
 				</div>
 			</div>
-			<c:set var="i" value="${i+1}"/>
 		</c:forEach>
 		<div class="btn-more v1" id="addMovieDiv" style="width: 100%;; margin: 0 auto;">
 			<div style="width: 90%; margin: 0 auto;">
@@ -279,8 +282,6 @@ $(document).ready(function() {
     for (let i = 12; i < movieDiv.length; i++) {
         $('.cards').eq(i).css('display', 'none');
         $('.cards').eq(i).addClass('disnone');
-        $('h2').css('dispaly', 'none');
-        $('h2').addClass('disnone');
     }
 
     $('#AddMovieBtn').on('click', function() {
