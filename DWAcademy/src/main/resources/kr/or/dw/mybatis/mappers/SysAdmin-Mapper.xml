@@ -682,6 +682,18 @@
 		 WHERE que_no = #{que_no}
 	</select>
 	
+	<select id="selectQnaAttachByQue_no" resultType="attach">
+		SELECT *
+		  FROM question_attach
+		 WHERE que_no = #{que_no}
+	</select>
+	
+	<select id="selectQnaAttachByAno" resultType="attach">
+		SELECT *
+		  FROM question_attach
+		 WHERE attach_no = #{ano}
+	</select>
+	
 	<select id='selectAnsByQue_no' resultType="ans">
 		SELECT *
 		  FROM answer
@@ -1096,5 +1108,32 @@
 		   SET gb_ban = 'N'
 		      ,stopdate = NULL
 		 WHERE mem_cd = #{mem_cd}
+	</update>
+	
+	<update id="deleteReview">
+		UPDATE review
+		   SET gb_del = 'Y'
+		 WHERE review_no = #{review_no}
+		 <selectKey resultType="str" keyProperty="mem_cd" order="AFTER">
+		 	SELECT mem_cd FROM review WHERE review_no = #{review_no}
+		 </selectKey>
+	</update>
+	
+	<update id="deleteMoviePost">
+		UPDATE moviepost
+		   SET gb_del = 'Y'
+		 WHERE mpost_no = #{mpost_no}
+		 <selectKey resultType="str" keyProperty="mem_cd" order="AFTER">
+		 	SELECT mem_cd FROM moviepost WHERE mpost_no = #{mpost_no}
+		 </selectKey>
+	</update>
+	
+	<update id="deleteReply">
+		UPDATE reply
+		   SET gb_del = 'Y'
+		 WHERE reply_no = #{reply_no}
+		 <selectKey resultType="str" keyProperty="mem_cd" order="AFTER">
+		 	SELECT mem_cd FROM reply WHERE reply_no = #{reply_no}
+		 </selectKey>
 	</update>
 </mapper>

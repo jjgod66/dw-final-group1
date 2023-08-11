@@ -36,6 +36,9 @@
 .moreBtn {
 	cursor: pointer;
 }
+.deleteBtn {
+ 	cursor: pointer; 
+}
 </style>
 </head>
 <body>
@@ -57,6 +60,8 @@
 							<col class="w80">
 							<col class="w80">
 							<col class="w130">
+							<col class="w130">
+							<col class="w30">
 						</colgroup>
 						<tbody>
 								<tr>
@@ -65,6 +70,8 @@
 									<th>공감수</th>
 									<th>신고수</th>
 									<th>작성일자</th>
+									<th>삭제여부</th>
+									<th></th>
 								</tr>
 								<c:if test="${empty mpList }">
 									<tr><th scope="row" colspan="5">작성 글이 없습니다.</th></tr>
@@ -76,6 +83,12 @@
 									<td><b>${mp.LIKECNT }</b></td>
 									<td><b style="color : red;">${mp.REPORTCNT }</b></td>
 									<td><fmt:formatDate value="${mp.REGDATE }" pattern="yyyy-MM-dd"/></td>
+									<td>${mp.GB_DEL }</td>
+									<td class="deleteBtn" style="color: red;">
+									<c:if test="${mp.GB_DEL eq 'N' }">
+										<i class="bi bi-x-octagon-fill"></i><input type="hidden" name="mpost_no" value="${mp.MPOST_NO }">
+									</c:if>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -85,4 +98,13 @@
 		</div>
 	</div>
 </body>
+
+<script>
+$('.deleteBtn').on('click', function(){
+	if (confirm('해당 무비포스트를 정말 삭제하시겠습니까?')) {
+		let mpost_no = $(this).find('input[name="mpost_no"]').val();
+		location.href="/sysAdmin/deleteMoviePost.do?mpost_no=" + mpost_no;
+	}
+});
+</script>
 </html>

@@ -21,10 +21,14 @@ import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
+import kr.or.dw.vo.QnaAttachVO;
 import kr.or.dw.vo.QnaVO;
+import kr.or.dw.vo.ReplyVO;
+import kr.or.dw.vo.ReviewVO;
 import kr.or.dw.vo.TheaterVO;
 import kr.or.dw.vo.WinnerBoardVO;
 
@@ -389,6 +393,16 @@ public class SysAdminServiceImpl implements SysAdminService {
 		QnaVO qna = sysAdminDAO.selectQnaByQue_no(que_no);
 		return qna;
 	}
+	
+	@Override
+	public QnaAttachVO selectQnaAttachByQue_no(int que_no) throws SQLException {
+		return sysAdminDAO.selectQnaAttachByQue_no(que_no);
+	}
+	
+	@Override
+	public QnaAttachVO selectQnaAttachByAno(int ano) throws SQLException {
+		return sysAdminDAO.selectQnaAttachByAno(ano);
+	}
 
 	@Override
 	public AnswerVO selectAnsByQue_no(int que_no) throws SQLException {
@@ -614,6 +628,21 @@ public class SysAdminServiceImpl implements SysAdminService {
 	@Override
 	public List<Map<String, Object>> selectMovieListForEventRegist() throws SQLException {
 		return sysAdminDAO.selectMovieListForEventRegist();
+	}
+
+	@Override
+	public void deleteReview(ReviewVO review) throws SQLException {
+		sysAdminDAO.deleteReview(review);
+	}
+
+	@Override
+	public void deleteMoviePost(MoviePostVO mp) throws SQLException {
+		sysAdminDAO.deleteMoviePost(mp);
+	}
+
+	@Override
+	public void deleteReply(ReplyVO reply) throws SQLException {
+		sysAdminDAO.deleteReply(reply);
 	}
 
 }

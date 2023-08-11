@@ -354,7 +354,7 @@ window.onload=function(){
 		let form_data = new FormData();
 		form_data.append("file", file);
 		$.ajax({
-			url : '<%=request.getContextPath() %>/sysAdmin/uploadTempImg.do',
+			url : '<%=request.getContextPath() %>/common/uploadTempImg.do',
 			type : 'post',
 			data : form_data,
 			contentType : false,
@@ -384,7 +384,7 @@ window.onload=function(){
 		console.log(JSON.stringify(fileData));
 		
 		$.ajax({
-			url : "<%=request.getContextPath()%>/sysAdmin/deleteTempImg.do",
+			url : "<%=request.getContextPath()%>/common/deleteTempImg.do",
 			type : "post",
 			data : JSON.stringify(fileData),
 			contentType : "application/json",
