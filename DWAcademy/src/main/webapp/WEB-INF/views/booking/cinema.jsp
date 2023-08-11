@@ -401,8 +401,10 @@ function getKoreanDayOfWeek(dayOfWeek) {
 }
 
 // 현재 날짜 가져오기
-var currentDate = new Date();
-
+let date = new Date();
+let offset = date.getTimezoneOffset() * 60000; //ms단위라 60000곱해줌
+var currentDate = new Date(date.getTime() - offset);
+  
 // 14일 후의 날짜 계산
 var endDate = new Date();
 endDate.setDate(currentDate.getDate() + 14);
@@ -419,7 +421,7 @@ while (currentDate <= endDate) {
 
   // 클래스 추가 여부 확인
   var isDisabled = currentDate > new Date(new Date().getTime() + 6 * 24 * 60 * 60 * 1000) ? 'disabled' : 'abled';
-  var isActive = currentDate.toDateString() === new Date().toDateString() && !isDisabled ? 'active' : '';
+  var isActive = currentDate.toDateString() === new Date().toDateString() && isDisabled != 'disabled' ? 'active' : '';
 
   // 태그 생성
   var tag = '<div class="swiper-slide" style="width: 113.75px; margin-right: 10px;">' +

@@ -307,7 +307,7 @@
 		    <hr style="width: 21.1rem; background: #ffffff;">
 		    <p class="movieInfo"></p>
 		    <p>
-                <span class="">개봉일  : <span class="txt_grade movieOpendate"></span>일</span><br>
+                <span class="">개봉일  : <span class="txt_grade movieOpendate1"></span>일</span><br>
                 <span class="">상영시간 : <span class="txt_grade movieLength1"></span>분</span><br>
                 <span class="">예매율  : <span class="txt_num movieRe1"></span>%</span>
 		    </p>
@@ -357,7 +357,7 @@
         $(".movieRe1").text(movieReValue);
         $(".movieCd").attr("href", "/reservation/cinema.do?movie_cd=" + movieCdValue);
         $(".movieDetail").attr("href", "/movie/viewer.do?movie_cd=" + movieCdValue);
-        $(".movieOpendate").text(movieOpenValue);
+        $(".movieOpendate1").text(movieOpenValue);
         return false; 
       }
     });
@@ -372,12 +372,15 @@
 		        var movieLengthValue = $(element).find(".movieLength").val();
 		        var movieCdValue = $(element).find(".movieCd").val();
 		        var movieReValue = $(element).find(".movieRe").val();
+		        var datePattern = /^(\d{4}-\d{2}-\d{2})/; //date패턴
+		        var movieOpenValue = $(element).find(".movieOpendate").val().match(datePattern)[1];
 		        $(".movie-title").text(movieNameValue);
 		        $(".movieGrade").text(movieGradeValue);
 		        $(".movieLength1").text(movieLengthValue);
 		        $(".movieRe1").text(movieReValue);
 		        $(".movieCd").attr("href", "/reservation/cinema.do?movie_cd=" + movieCdValue);
 		        $(".movieDetail").attr("href", "/movie/viewer.do?movie_cd=" + movieCdValue);
+		        $(".movieOpendate1").text(movieOpenValue);
 		        return false; 
 		      }
 		    });
