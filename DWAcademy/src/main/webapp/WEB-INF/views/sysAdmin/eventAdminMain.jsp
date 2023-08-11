@@ -51,7 +51,7 @@
 				<div class="row mt-2 mb-2"><div class="col-md-2 text-end" style="margin-left: auto;"><button class="bc_dw_black" id="registBtn">이벤트 등록</button></div></div>
 				<div class="mt-5">
 					<div class="eventTypeHeader">
-						<span class="typeName">영화</span>
+						<span class="typeName h4"><b>영화</b></span>
 						<span class="float-end moreBtn" data-searchType="영화">더보기 ></span>
 					</div>
 					<div class="eventCards row">
@@ -72,7 +72,7 @@
 				</div>
 				<div class="mt-5">
 					<div class="eventTypeHeader">
-						<span class="typeName">극장</span>
+						<span class="typeName h4"><b>극장</b></span>
 						<span class="float-end moreBtn" data-searchType="극장">더보기 ></span>
 					</div>
 					<div class="eventCards row">
@@ -93,7 +93,7 @@
 				</div>
 				<div class="mt-5">
 					<div class="eventTypeHeader">
-						<span class="typeName">시사회/무대인사</span>
+						<span class="typeName h4"><b>시사회/무대인사</b></span>
 						<span class="float-end moreBtn" data-searchType="시사회/무대인사">더보기 ></span>
 					</div>
 					<div class="eventCards row">

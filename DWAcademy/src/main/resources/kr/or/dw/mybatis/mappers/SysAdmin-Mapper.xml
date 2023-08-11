@@ -91,6 +91,15 @@
 		<if test="searchType == 'giftcard'.toString()">
 			AND faq_div = '기프트카드'
 		</if>
+		<if test="searchType == 'vip'.toString()">
+			AND faq_div = 'VIP'
+		</if>
+		<if test="searchType == 'theater'.toString()">
+			AND faq_div = '극장'
+		</if>
+		<if test="searchType == 'discount'.toString()">
+			AND faq_div = '할인혜택'
+		</if>
 		AND  (
 			 faq_title LIKE '%' || #{keyword} || '%'
 			 OR

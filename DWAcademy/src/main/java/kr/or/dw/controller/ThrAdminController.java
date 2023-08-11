@@ -304,8 +304,13 @@ public class ThrAdminController {
 		
 		QnaVO qna = sysAdminService.selectQnaByQue_no(Integer.parseInt(que_no));
 		mnv.addObject("qna", qna);
-		QnaAttachVO attach = sysAdminService.selectQnaAttachByQue_no(Integer.parseInt(que_no));
 		
+		QnaAttachVO attach = sysAdminService.selectQnaAttachByQue_no(Integer.parseInt(que_no));
+		if (attach != null) {
+			String fileName = attach.getAttach_path().substring(attach.getAttach_path().lastIndexOf("$$") + 2);
+			attach.setAttach_path(fileName);
+			mnv.addObject("attach", attach);
+		}
 		
 		AnswerVO ans = sysAdminService.selectAnsByQue_no(Integer.parseInt(que_no));
 		mnv.addObject("ans", ans);
