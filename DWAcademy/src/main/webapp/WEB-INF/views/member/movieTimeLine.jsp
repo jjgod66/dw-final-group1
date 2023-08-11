@@ -229,6 +229,8 @@ h2:after {
  	max-width: 200px;
     padding-top: 100px;
 }
+.disnone{
+	display: none;
 }
 </style>
 <div class="container" style="margin-top: 10px;">
@@ -250,7 +252,7 @@ h2:after {
 		<c:set var="sysDate"><fmt:formatDate value="${now}" pattern="yyyyMM" /></c:set> 
 		<c:set var="screenDate"><fmt:formatDate value="${bookingList.STARTDATE}" pattern="yyyyMM" /></c:set>
 		<c:if test="${screenDate != prevMonth}">
-			<h2 id="startdate${i}"><strong><fmt:formatDate value="${bookingList.STARTDATE}" pattern="yyyy-MM"/></strong></h2>
+			<h2 id="startdate${i}" class="YYMM"><strong><fmt:formatDate value="${bookingList.STARTDATE}" pattern="yyyy-MM"/></strong></h2>
 			<c:set var="prevMonth" value="${screenDate}" />
 			<c:set var="i" value="${i+1}"/>
 		</c:if>
@@ -279,9 +281,12 @@ h2:after {
 $(document).ready(function() {
     let movieDiv = $('.cards').get();
     
+    
+    
     for (let i = 12; i < movieDiv.length; i++) {
-        $('.cards').eq(i).css('display', 'none');
+//         $('.cards').eq(i).css('display', 'none');
         $('.cards').eq(i).addClass('disnone');
+        $('.cards').eq(i).prev('h2').css('display', 'none');
     }
 
     $('#AddMovieBtn').on('click', function() {
@@ -295,8 +300,9 @@ $(document).ready(function() {
         }
 
         for (let i = 0; i < 12; i++) {
-            $('.disnone').eq(i).css('display', '');
-            $('.disnone').eq(i).removeClass('disnone');
+            $('.disnone').eq(0).css('display', '');
+            $('.disnone').eq(0).removeClass('disnone');
+            $('.disnone').eq(0).prev('h2').css('display', '');
         }
     });
 });
