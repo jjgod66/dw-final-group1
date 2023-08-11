@@ -276,7 +276,7 @@
 			 )
 	</select>
 	
-	<select id="selectAttachByQnaNo" resultType="kr.or.dw.vo.QnaAttachVO">
+	<select id="selectAttachByQnaNo" resultType="attach">
 		SELECT *
 		FROM question_attach
 		WHERE que_no = #{que_no}

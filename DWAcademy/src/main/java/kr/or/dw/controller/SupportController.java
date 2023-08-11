@@ -180,9 +180,18 @@ public class SupportController {
 		AnswerVO answer = null;
 		qna = supportService.getQnaByQueNo(que_no);
 		answer = supportService.getAnswerByQueNo(que_no);
+		QnaAttachVO attach = null;
+		attach = supportService.getQnaAttachByQnaNo(que_no);
+		String attach_name = null;
+		if(attach != null) {
+			attach_name = attach.getAttach_path().split("\\$\\$")[1];
+		}
 		
 		mnv.addObject("answer", answer);
 		mnv.addObject("qna", qna);
+		mnv.addObject("attach", attach);
+		mnv.addObject("attach_name", attach_name);
+		
 		mnv.setViewName(url);
 		return mnv;
 	}
@@ -280,7 +289,7 @@ public class SupportController {
 		
 		System.out.println("save5");
 		QnaAttachVO attach = new QnaAttachVO();
-		attach.setAttach_path("C:/DWAcademyFiles/qna/" + fileName);
+		attach.setAttach_path(fileName);
 		attach.setAttach_type(fileName.split("\\.")[1]);
 		System.out.println("save6");
 	

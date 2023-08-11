@@ -114,6 +114,10 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
         background-color: #ffa8a8;
         color: #757575;
     }
+    .attachDown:hover{
+    	cursor: pointer;
+    	text-decoration: underline;
+    }
 </style>
 
 <div class="sub_visual">
@@ -145,7 +149,10 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
 				        <span id="b">${qna.thr_name } </span>
 				        <span id="b">${qna.que_type } </span>
 				        <span id="b"><fmt:formatDate value="${qna.regdate }" pattern="yyyy-MM-dd"/> </span>
-				
+				 		<c:if test="${!empty attach }">
+					        <span id="b">첨부파일</span>
+					        <span id="b" class="attachDown" onclick="location.href='<%=request.getContextPath()%>/common/getFile.do?ano=${attach.attach_no}'">${attach_name }</span>
+				        </c:if>
 				    <div class="post-content" >
 				        <p>
 				            ${qna.que_content }

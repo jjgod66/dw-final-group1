@@ -120,6 +120,7 @@ if(session.getAttribute("loginUser") != null){
 	<input type="hidden" name="front_path">
 	<input type="hidden" name="back_path">
 	<input type="hidden" name="json">
+	<input type="hidden" name="page" value="${page }">
 </form>
 <script>
 const IMP = window.IMP;

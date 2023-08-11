@@ -52,4 +52,20 @@
 		INSERT INTO photo_ticket (pt_cd, merchant_uid, front_path, back_path, gb_print)
 		VALUES(#{pt_cd}, #{merchant_uid}, #{front_path}, #{back_path}, 'N')
 	</insert>
+	
+	<select id="selectPTByMerUID" resultType="photoTicket">
+		SELECT *
+		FROM photo_ticket
+		WHERE merchant_uid = #{merchant_uid}
+	</select>
+	
+	<update id="updateGbPrint">
+		UPDATE photo_ticket SET gb_print = 'Y' WHERE pt_cd = #{pt_cd}
+	</update>
+	
+	<select id="selectPTGbPrint" resultType="str">
+		SELECT gb_print
+		FROM photo_ticket
+		WHERE merchant_uid = #{merchant_uid}
+	</select>
 </mapper>

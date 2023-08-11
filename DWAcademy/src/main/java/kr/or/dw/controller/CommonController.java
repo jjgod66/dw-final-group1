@@ -74,6 +74,9 @@ public class CommonController {
 	@Resource(name ="attachUploadPath")
 	private String attachUploadPath;
 	
+	@Resource(name="photoTicketUploadPath")
+	private String photoTicketUploadPath;
+	
 	@Autowired
 	private MovieService movieService;
 	
@@ -221,7 +224,11 @@ public class CommonController {
 				imgPath = this.eventPicUploadPath + File.separator + item_cd + File.separator + "img";
 			} else if (type.equals("memberPic")) {
 				imgPath = this.memberPicUploadPath + File.separator + item_cd;
-			} 
+			} else if (type.equals("back")) {
+				imgPath = this.photoTicketUploadPath + File.separator + "back";
+			} else if (type.equals("front")) {
+				imgPath = this.photoTicketUploadPath + File.separator + "front";
+			}
 		}
 		
 		try {
