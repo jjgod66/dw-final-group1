@@ -61,7 +61,7 @@
 }
 
 .accordion-list ul li div.title p.cont-thr {
-	width: 110px;
+	width: 150px;
 	text-align: left;
 	float: left;
 	white-space: nowrap;

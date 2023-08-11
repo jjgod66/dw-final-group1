@@ -54,6 +54,7 @@ import kr.or.dw.vo.MemberVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.Non_MemberVO;
 import kr.or.dw.vo.PayDetailVO;
+import kr.or.dw.vo.PhotoTicketVO;
 import kr.or.dw.vo.ReservationVO;
 import kr.or.dw.vo.ScreenVO;
 import net.sourceforge.barbecue.Barcode;
@@ -427,6 +428,6 @@ public class ReservationController {
 		
 		return mapData;
 	}
-
+	
 	
 }

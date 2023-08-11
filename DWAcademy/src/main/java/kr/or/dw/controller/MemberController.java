@@ -541,10 +541,15 @@ public class MemberController {
 		QnaAttachVO attach = null;
 		attach = supportService.getQnaAttachByQnaNo(que_no);
 		answer = supportService.getAnswerByQueNo(que_no);
+		String attach_name = null;
+		if(attach != null) {
+			attach_name = attach.getAttach_path().split("\\$\\$")[1];
+		}
 		
 		mnv.addObject("answer", answer);
 		mnv.addObject("qna", qna);
 		mnv.addObject("attach", attach);
+		mnv.addObject("attach_name", attach_name);
 		
 		mnv.setViewName(url);
 		return mnv;
