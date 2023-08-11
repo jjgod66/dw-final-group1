@@ -3,6 +3,7 @@ package kr.or.dw.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -20,8 +21,6 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +30,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.github.scribejava.core.model.OAuth2AccessToken;
 
-import kr.or.dw.service.KakaoService;
+import kr.or.dw.service.KakaoConnectService;
+import kr.or.dw.service.KakaoLoginService;
 import kr.or.dw.service.MemberService;
 import kr.or.dw.service.NaverLoginBO;
 import kr.or.dw.service.NaverLoginBO2;
@@ -52,7 +52,10 @@ public class SnsController {
 	private MemberService memberService;
 	
 	@Autowired
-	private KakaoService ka;
+	private KakaoConnectService kca;
+
+	@Autowired
+	private KakaoLoginService kla;
 	
 	/* NaverLoginBO */
 	private NaverLoginBO naverLoginBO;
@@ -229,12 +232,13 @@ public class SnsController {
 		public String naverUnConnect(HttpSession session, HttpServletResponse res)throws IOException, SQLException {
 				System.out.println("여기는 unLink");
 				
-				MemberVO member = (MemberVO) session.getAttribute("loginUser");
-				SnsVO snsToken = snsService.selectNaverInfo(member);
-				System.out.println(snsToken.getAccess_token());
+				Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+				String mem_cd = (String) member.get("CD");
+				Map<String, Object> snsToken = snsService.selectNaverInfo(mem_cd);
+				System.out.println(snsToken);
 				
 				
-				URL url = new URL("https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=xECJaEapJzaHHIpgDcjz&client_secret=ep7rTSf5so&service_provider=NAVER&access_token=" + snsToken.getAccess_token());
+				URL url = new URL("https://nid.naver.com/oauth2.0/token?grant_type=delete&client_id=xECJaEapJzaHHIpgDcjz&client_secret=ep7rTSf5so&service_provider=NAVER&access_token=" + snsToken.get("ACCESS_TOKEN"));
 				
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				
@@ -260,15 +264,19 @@ public class SnsController {
 		        res.setContentType("text/html; charset=utf-8");
 				PrintWriter out = res.getWriter();
 				
+				Map<String, Object> user = (Map<String, Object>) session.getAttribute("loginUser");
+				String sns_email = (String) user.get("EMAIL");
+				System.out.println("user: " + user);
+				System.out.println("emao:" + sns_email);
+				
+				snsService.naverUnlink(sns_email);
+
 				out.println("<script>");
 				out.println("alert('연동이 해제되었습니다.')");
 				out.println("location.href='/member/PrivacyInfo';");
 				out.println("</script>");
 				out.close();
 				
-				MemberVO user = (MemberVO) session.getAttribute("loginUser");
-				
-				snsService.naverUnlink(user);
 				
 				
 				return null;
@@ -277,16 +285,19 @@ public class SnsController {
 	@RequestMapping("/kakao/unConnect")
 	public String kakaoUnConnect(HttpSession session, HttpServletResponse res) throws Exception {
 		String reqURL = "https://kapi.kakao.com/v1/user/unlink";
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+		String mem_cd = (String) member.get("CD");
+		Map<String, Object> kakao = snsService.selectKakaoInfo(mem_cd);
+
+		String accessToken = (String) kakao.get("ACCESS_TOKEN");
 		
 	    try {
-	    	MemberVO member = (MemberVO) session.getAttribute("loginUser");
-	    	SnsVO kakao = snsService.selectKakaoInfo(member);
-	    	
+	    	System.out.println("1"+kakao);
+	    	System.out.println("accessToken"+ accessToken);
 	        URL url = new URL(reqURL);
 	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 	        conn.setRequestMethod("POST");
-	        conn.setRequestProperty("Authorization", "Bearer " + kakao.getAccess_token());
-	        
+	        conn.setRequestProperty("Authorization", "Bearer " + accessToken);
 	        int responseCode = conn.getResponseCode();
 	        System.out.println("responseCode : " + responseCode);
 	        
@@ -306,9 +317,9 @@ public class SnsController {
 	    res.setContentType("text/html; charset=utf-8");
 		PrintWriter out = res.getWriter();
 
-		MemberVO user = (MemberVO) session.getAttribute("loginUser");
-		
-		snsService.kakaounlink(user);
+		Map<String, Object> user = (Map<String, Object>) session.getAttribute("loginUser");
+		String sns_email = (String) user.get("EMAIL");
+		snsService.kakaounlink(sns_email);
 		
 		out.println("<script>");
 		out.println("alert('연동이 해제되었습니다.')");
@@ -320,21 +331,6 @@ public class SnsController {
 	}
 	
 	// 카카오 소셜로그인
-		@RequestMapping(value="/kakaoCode", method=RequestMethod.GET)
-		public String kakaoCode(@RequestParam(value = "code", required = false) String code) throws Exception {
-			
-			
-			System.out.println("#########" + code);
-			
-			Map<String, String> access_Token = ka.getAccessToken(code);
-			System.out.println("###access_Token#### : " + access_Token);
-			return "/member/PrivacyInfo";
-			/*
-			 * 리턴값의 testPage는 아무 페이지로 대체해도 괜찮습니다.
-			 * 없는 페이지를 넣어도 무방합니다.
-			 * 404가 떠도 제일 중요한건 #########인증코드 가 잘 출력이 되는지가 중요하므로 너무 신경 안쓰셔도 됩니다.
-			 */
-	    	}
 		
 		@RequestMapping(value="/kakao/callback", method= {RequestMethod.GET, RequestMethod.POST})
 		public ModelAndView callback(ModelAndView mnv, @RequestParam String code, HttpSession session, HttpServletRequest req, HttpServletResponse res) throws SQLException, IOException {
@@ -343,10 +339,10 @@ public class SnsController {
 			
 			System.out.println("#########" + code);
 			Map<String, String> tokenMap = new HashMap<>();
-			tokenMap = ka.getAccessToken(code);
+			tokenMap = kca.getAccessToken(code);
 			String access_Token = tokenMap.get("access_Token");
 			String refresh_Token = tokenMap.get("refresh_Token");
-			HashMap<String, Object> userInfo = ka.getUserInfo(access_Token);
+			HashMap<String, Object> userInfo = kca.getUserInfo(access_Token);
 			
 			System.out.println(tokenMap);
 			System.out.println("###access_Token#### : " + access_Token);
@@ -393,58 +389,107 @@ public class SnsController {
 			return null;
 		}
 		
-//		@RequestMapping("/common/kakaoLogin")
-//		public ResponseEntity<Map<String, Object>>kakaoLogin(String email, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws SQLException {
-//			ResponseEntity<Map<String, Object>> entity = null;
-//			
-//			SnsVO sns = snsService.kakaoSelectByMemberCode(email);
-//			Map<String, Object> memberChk = memberService.CheckMemberEmail(email);
-//			System.out.println("email : " + email);
-//			System.out.println("sns : " + sns);
-//			System.out.println("memberChk : " + memberChk.get("MEM_EMAIL"));
-//			Map<String, Object> sns_email = new HashMap<>();
-//			
-//			sns_email.put("SNS_EMAIL", email);
-//			
-//			System.out.println(sns_email);
-//			
-//			
-//			if(memberChk.get("EMAIL") == null) {
-//				sns_email.put("GB","non_member");
-//				System.out.println('1');
-//				try {
-//					entity = new ResponseEntity<Map<String, Object>>(sns_email, HttpStatus.OK);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
-//				}
-//			}else if(sns == null) {
-//				sns_email.put("GB","noConnect");
-//				System.out.println('2');
-//				
-//				try {
-//					entity = new ResponseEntity<Map<String, Object>>(sns_email, HttpStatus.OK);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
-//				}
-//				
-//			}else if(memberChk != null && sns != null){
-//				System.out.println('3');
-//				sns_email.put("GB", "member");
-//				Map<String, Object> member = memberService.selectMemberCode(sns);
-//				System.out.println("member : " + member);
-//				
-//				session.setAttribute("loginUser", member);
-//				
-//				try {
-//					entity = new ResponseEntity<Map<String, Object>>(member, HttpStatus.OK);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
-//				}
-//			}
-//			return entity;
-//		}
-//	
+		@RequestMapping("/common/kakaoLogin")
+		public ModelAndView kakaoLogin(ModelAndView mnv, @RequestParam String code, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws SQLException, IOException {
+
+			Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+			
+			System.out.println("#" + code);
+			
+			Map<String, String> tokenMap = new HashMap<>();
+			tokenMap = kla.getAccessToken(code);
+			String access_Token = tokenMap.get("access_Token");
+			String refresh_Token = tokenMap.get("refresh_Token");
+			HashMap<String, Object> userInfo = kla.getUserInfo(access_Token);
+			
+			System.out.println(tokenMap);
+			System.out.println("###access_Token#### : " + access_Token);
+			System.out.println("###nickname#### : " + userInfo.get("sns_name"));
+			System.out.println("###email#### : " + userInfo.get("sns_email"));
+			
+			userInfo.put("access_Token", access_Token);
+			userInfo.put("refresh_Token", refresh_Token);
+			
+			String email = (String) userInfo.get("sns_email");
+			
+			SnsVO sns = snsService.kakaoSelectByMemberCode(email);
+			Map<String, Object> memberChk = memberService.CheckMemberEmail(email);
+			System.out.println("email : " + email);
+			System.out.println("sns : " + sns);
+			Map<String, Object> sns_email = new HashMap<>();
+			
+			sns_email.put("SNS_EMAIL", email);
+			
+			System.out.println(sns_email);
+			
+			res.setContentType("text/html; charset=utf-8");
+			PrintWriter out = res.getWriter();
+			
+			if(memberChk == null) {
+				sns_email.put("GB","non_member");
+				String url = "redirect:/main.do?sns_email=" + sns_email.get("GB") + "&mem_email=" + email + "";
+				System.out.println('1');
+				
+				mnv.setViewName(url);
+				
+				return mnv;
+			}else if(sns == null) {
+				sns_email.put("GB","noConnect");
+				
+				 String clientId = "bf62309a02d7160678300f689ce8d447";
+			        String tokenToRevoke = access_Token; // 해당 토큰을 삭제하려는 토큰 값
+
+			        try {
+			            URL url = new URL("https://kapi.kakao.com/v1/user/unlink");
+			            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+			            connection.setRequestMethod("POST");
+			            connection.setRequestProperty("Authorization", "Bearer " + tokenToRevoke);
+			            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+			            connection.setDoOutput(true);
+
+			            String parameters = "client_id=" + clientId;
+
+			            try (OutputStream os = connection.getOutputStream()) {
+			                byte[] input = parameters.getBytes("utf-8");
+			                os.write(input, 0, input.length);
+			            }
+
+			            int responseCode = connection.getResponseCode();
+			            
+			            if (responseCode == HttpURLConnection.HTTP_OK) {
+			                // 권한 해제 성공
+			                System.out.println("Consent revoked successfully.");
+			            } else {
+			                // 권한 해제 실패
+			                System.out.println("Consent revocation failed. Response Code: " + responseCode);
+			            }
+			        } catch (IOException e) {
+			            e.printStackTrace();
+			        }
+		        session.invalidate();
+		        
+				System.out.println('2');
+				out.println("<script>");
+				out.println("alert('연동된 계정이 없습니다! 소셜로그인은 [마이페이지 > 개인정보수정] 에서 연동 후 사용해주세요.')");
+				out.println("location.replace('/main.do')");
+				out.println("</script>");
+				out.close();
+				
+			}else if(memberChk != null && sns != null){
+				System.out.println('3');
+				sns_email.put("GB", "member");
+				Map<String, Object> mem_cd = memberService.selectMemberCode(sns);
+				System.out.println("member : " + mem_cd);
+				
+				session.setAttribute("loginUser", mem_cd);
+				
+				out.println("<script>");
+				out.println("location.href='/main';");
+				out.println("</script>");
+				out.close();
+			}
+			
+			return null;
+		}
 }

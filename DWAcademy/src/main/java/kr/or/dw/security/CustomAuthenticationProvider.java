@@ -40,7 +40,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
-		if(member != null && encoder.matches(login_pwd, (String) member.get("PWD"))) {	// 로그인 성공
+		if(member != null && login_pwd.equals((String) member.get("PWD"))) {	// 로그인 성공
 			User authUser = new User(member);
 
 			if(member.get("GB_BAN") == "Y") {

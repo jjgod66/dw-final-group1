@@ -27,14 +27,14 @@
 							VALUES (#{mem_cd}, 'N', SYSDATE, #{access_token}, #{refresh_token}, #{sns_email})
 	</insert>
 	
-	<select id="selectKakaoInfo" resultType="sns">
+	<select id="selectKakaoInfo" resultType="Map">
 		SELECT *
 		  FROM mem_sns_login
 		 WHERE mem_cd = #{mem_cd}
 		   AND sns = 'K'
 	</select>
 
-	<select id="selectNaverInfo" resultType="sns">
+	<select id="selectNaverInfo" resultType="Map">
 		SELECT *
 		  FROM mem_sns_login
 		 WHERE mem_cd = #{mem_cd}
@@ -42,11 +42,11 @@
 	</select>
 	
 	<delete id="kakaoDelete">
-		DELETE mem_sns_login WHERE sns_email = #{mem_email} AND sns = 'K'
+		DELETE mem_sns_login WHERE sns_email = #{sns_email} AND sns = 'K'
 	</delete>
 	
 	<delete id="neverDelete">
-		DELETE mem_sns_login WHERE sns_email = #{mem_email} AND sns = 'N'
+		DELETE mem_sns_login WHERE sns_email = #{sns_email} AND sns = 'N'
 	</delete>
 	
 	<select id="kakaoEmailCheck" resultType="sns">

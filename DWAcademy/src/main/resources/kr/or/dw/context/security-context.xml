@@ -40,7 +40,6 @@
 		<access-denied-handler error-page="/security/accessDenied" />
 		<intercept-url pattern="/sysAdmin/**" access="hasAnyRole('S')" />
 		<intercept-url pattern="/thrAdmin/**" access="hasAnyRole('T')" />
-		<intercept-url pattern="/member/**" access="hasAnyRole('M')" />
 		
 <!-- 		<intercept-url pattern="/index.do**" access="isAuthenticated()" /> -->
 <!-- 		<intercept-url pattern="/member/main.do" access="isAuthenticated()" /> -->

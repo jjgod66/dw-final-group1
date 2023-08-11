@@ -4,10 +4,6 @@
 
 
 </style>
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
-<script>
-	Kakao.init('4d3eb758ca79e46a21afa1951cdbec30'); //발급받은 키 중 javascript키를 사용해준다.
-</script>
 <div class="modal fade" id="nonMemLogin_modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -84,4 +80,3 @@ $('#submitNonMemberLoginBtn').on('click', function(){
 	})
 })
 </script>
-<%@ include file = "login_modal_js.jsp" %>
