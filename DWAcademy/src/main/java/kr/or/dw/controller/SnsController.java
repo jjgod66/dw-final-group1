@@ -158,8 +158,8 @@ public class SnsController {
 		public String naverConnect(@RequestParam String code, @RequestParam String state, HttpSession session, HttpServletResponse res) throws ParseException, Exception {
 			OAuth2AccessToken oauthToken;
 	        oauthToken = naverLoginBO2.getAccessToken(session, code, state);
-			MemberVO member = (MemberVO) session.getAttribute("loginUser");
-			String mem_cd = member.getMem_cd();
+	        Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
+			String mem_cd = (String) member.get("CD");
 			
 			
 	        //1. 로그인 사용자 정보를 읽어온다.
@@ -197,7 +197,21 @@ public class SnsController {
 			naverUserInfo.put("sns_email", sns_email);
 			
 			
-			snsService.naverInsert(naverUserInfo);
+			SnsVO snsCheck = snsService.naverEmailCheck(sns_email);
+			
+			if(snsCheck == null) {
+				snsService.naverInsert(naverUserInfo);
+			}else {
+				res.setContentType("text/html; charset=utf-8");
+				PrintWriter out = res.getWriter();
+				
+				out.println("<script>");
+				out.println("alert('이미 연동된 계정이 존재합니다!')");
+				out.println("location.href='/member/PrivacyInfo';");
+				out.println("</script>");
+				out.close();
+			}
+			
 			
 			res.setContentType("text/html; charset=utf-8");
 			PrintWriter out = res.getWriter();
@@ -345,7 +359,23 @@ public class SnsController {
 			
 			System.out.println(userInfo);
 			
-			snsService.kakaoInsert(userInfo);
+			String mem_email = (String) userInfo.get("sns_email");
+			
+			SnsVO snsCheck = snsService.kakaoEmailCheck(mem_email);
+			
+			if(snsCheck == null) {
+				snsService.kakaoInsert(userInfo);
+			}else {
+				res.setContentType("text/html; charset=utf-8");
+				PrintWriter out = res.getWriter();
+				
+				out.println("<script>");
+				out.println("alert('이미 연동된 계정이 존재합니다!')");
+				out.println("location.href='/member/PrivacyInfo';");
+				out.println("</script>");
+				out.close();
+			}
+			
 			
 //			req.setAttribute("userInfo", userInfo);
 
@@ -363,58 +393,58 @@ public class SnsController {
 			return null;
 		}
 		
-		@RequestMapping("/common/kakaoLogin")
-		public ResponseEntity<Map<String, Object>>kakaoLogin(String email, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws SQLException {
-			ResponseEntity<Map<String, Object>> entity = null;
-			
-			SnsVO sns = snsService.kakaoSelectByMemberCode(email);
-			Map<String, Object> memberChk = memberService.CheckMemberEmail(email);
-			System.out.println("email : " + email);
-			System.out.println("sns : " + sns);
-			System.out.println("memberChk : " + memberChk.get("MEM_EMAIL"));
-			Map<String, Object> sns_email = new HashMap<>();
-			
-			sns_email.put("SNS_EMAIL", email);
-			
-			System.out.println(sns_email);
-			
-			
-			if(memberChk.get("EMAIL") == null) {
-				sns_email.put("GB","non_member");
-				System.out.println('1');
-				try {
-					entity = new ResponseEntity<Map<String, Object>>(sns_email, HttpStatus.OK);
-				} catch (Exception e) {
-					e.printStackTrace();
-					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
-				}
-			}else if(sns == null) {
-				sns_email.put("GB","noConnect");
-				System.out.println('2');
-				
-				try {
-					entity = new ResponseEntity<Map<String, Object>>(sns_email, HttpStatus.OK);
-				} catch (Exception e) {
-					e.printStackTrace();
-					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
-				}
-				
-			}else if(memberChk != null && sns != null){
-				System.out.println('3');
-				sns_email.put("GB", "member");
-				Map<String, Object> member = memberService.selectMemberCode(sns);
-				System.out.println(member);
-				
-				session.setAttribute("loginUser", member);
-				
-				try {
-					entity = new ResponseEntity<Map<String, Object>>(member, HttpStatus.OK);
-				} catch (Exception e) {
-					e.printStackTrace();
-					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
-				}
-			}
-			return entity;
-		}
-	
+//		@RequestMapping("/common/kakaoLogin")
+//		public ResponseEntity<Map<String, Object>>kakaoLogin(String email, HttpServletRequest req, HttpServletResponse res, HttpSession session) throws SQLException {
+//			ResponseEntity<Map<String, Object>> entity = null;
+//			
+//			SnsVO sns = snsService.kakaoSelectByMemberCode(email);
+//			Map<String, Object> memberChk = memberService.CheckMemberEmail(email);
+//			System.out.println("email : " + email);
+//			System.out.println("sns : " + sns);
+//			System.out.println("memberChk : " + memberChk.get("MEM_EMAIL"));
+//			Map<String, Object> sns_email = new HashMap<>();
+//			
+//			sns_email.put("SNS_EMAIL", email);
+//			
+//			System.out.println(sns_email);
+//			
+//			
+//			if(memberChk.get("EMAIL") == null) {
+//				sns_email.put("GB","non_member");
+//				System.out.println('1');
+//				try {
+//					entity = new ResponseEntity<Map<String, Object>>(sns_email, HttpStatus.OK);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+//				}
+//			}else if(sns == null) {
+//				sns_email.put("GB","noConnect");
+//				System.out.println('2');
+//				
+//				try {
+//					entity = new ResponseEntity<Map<String, Object>>(sns_email, HttpStatus.OK);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+//				}
+//				
+//			}else if(memberChk != null && sns != null){
+//				System.out.println('3');
+//				sns_email.put("GB", "member");
+//				Map<String, Object> member = memberService.selectMemberCode(sns);
+//				System.out.println("member : " + member);
+//				
+//				session.setAttribute("loginUser", member);
+//				
+//				try {
+//					entity = new ResponseEntity<Map<String, Object>>(member, HttpStatus.OK);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					entity = new ResponseEntity<Map<String, Object>>(HttpStatus.INTERNAL_SERVER_ERROR);
+//				}
+//			}
+//			return entity;
+//		}
+//	
 }

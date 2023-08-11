@@ -23,7 +23,7 @@
 	
 	<insert id="insert">
 		INSERT INTO member(mem_cd, mem_id, mem_pwd, mem_name, mem_email, mem_bir, mem_phone, regdate, mem_addr, mem_addr_detail, mem_zipcode, gb_email_alert, gb_sms_alert, mem_grade, gb_del, gb_ban, gb_sleep)
-					VALUES('M' || TO_char(#{mem_bir}, 'YYYYMMDD') || lpad(mem_seq.nextVal,4,0)
+					VALUES('M' || TO_char(SYSDATE, 'YYYYMMDD') || lpad(mem_seq.nextVal,4,0)
 						  ,#{mem_id}
 						  ,#{mem_pwd}
 						  ,#{mem_name}
@@ -44,21 +44,21 @@
 	</insert>
 	
 	<select id="selectMemberCode" resultType="Map">
-		SELECT mem_cd cd, mem_id id, mem_email email, mem_name name, mem_phone phone
-		  FROM member
-		 WHERE mem_cd = #{mem_cd}
+		SELECT *
+		  FROM accountCheck
+		 WHERE cd = #{mem_cd}
 	</select>
 	
 	<select id="CheckMember" resultType="Map">
-		SELECT mem_phone phone
-		  FROM member
-		 WHERE mem_phone = #{mem_phone}
+		SELECT phone
+		  FROM accountCheck
+		 WHERE phone = #{mem_phone}
 	</select>
 	
 	<select id="CheckMemberEmail" resultType="Map">
-		SELECT mem_email email
-		  FROM member
-		 WHERE mem_email = #{email}
+		SELECT email
+		  FROM accountCheck
+		 WHERE email = #{email}
 	</select>
 	
 	<update id="additionUpdate">

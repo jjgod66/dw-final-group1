@@ -17,10 +17,13 @@
 	 -->
 	 <authentication-manager>
 	 	<authentication-provider ref="authenticator" />
+<!-- 	 	<authentication-provider ref="snsAuthenticator" /> -->
 	 </authentication-manager>
 	 
 	 <beans:bean id="authenticator" 
 		 			class="kr.or.dw.security.CustomAuthenticationProvider" />
+<!-- 	 <beans:bean id="snsAuthenticator"  -->
+<!-- 		 			class="kr.or.dw.security.SnsAuthenticationProvider" /> -->
 	 
 	 <!-- 인허가 -->
 	 <!-- 
@@ -62,6 +65,14 @@
 			authentication-failure-handler-ref="loginFailureHandler"
 		/>
 		
+<!-- 		<form-login -->
+<!-- 			login-page="/sns/login" -->
+<!-- 			login-processing-url="/sns/login.do" -->
+<!-- 			username-parameter="email" -->
+<!-- 			authentication-success-handler-ref="loginSuccessHandler" -->
+<!-- 			authentication-failure-handler-ref="loginFailureHandler" -->
+<!-- 		/> -->
+		
 		<logout
 			logout-url="/common/logout.do"
 			invalidate-session="true"
@@ -78,6 +89,7 @@
 <!-- 		</session-management> -->
 		
 	</http>
+	
 	
 	<beans:bean id="loginSuccessHandler" 
 				class="kr.or.dw.security.LoginSuccessHandler" 

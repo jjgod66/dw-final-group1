@@ -25,7 +25,7 @@ const URLSearch = new URLSearchParams(location.search);
 				email = JSON.stringify(res);
 				$.ajax({
 					method : "post",
-					url : "<%=request.getContextPath()%>/common/kakaoLogin.do",
+					url : "<%=request.getContextPath()%>/sns/login.do",
 					data : {email : res.kakao_account.email},
 					success : function(res){
 						console.log(res);
