@@ -17,10 +17,13 @@
 	 -->
 	 <authentication-manager>
 	 	<authentication-provider ref="authenticator" />
+<!-- 	 	<authentication-provider ref="snsAuthenticator" /> -->
 	 </authentication-manager>
 	 
 	 <beans:bean id="authenticator" 
 		 			class="kr.or.dw.security.CustomAuthenticationProvider" />
+<!-- 	 <beans:bean id="snsAuthenticator"  -->
+<!-- 		 			class="kr.or.dw.security.SnsAuthenticationProvider" /> -->
 	 
 	 <!-- 인허가 -->
 	 <!-- 
@@ -37,7 +40,6 @@
 		<access-denied-handler error-page="/security/accessDenied" />
 		<intercept-url pattern="/sysAdmin/**" access="hasAnyRole('S')" />
 		<intercept-url pattern="/thrAdmin/**" access="hasAnyRole('T')" />
-		<intercept-url pattern="/member/**" access="hasAnyRole('M')" />
 		
 <!-- 		<intercept-url pattern="/index.do**" access="isAuthenticated()" /> -->
 <!-- 		<intercept-url pattern="/member/main.do" access="isAuthenticated()" /> -->
@@ -62,6 +64,7 @@
 			authentication-failure-handler-ref="loginFailureHandler"
 		/>
 		
+		
 		<logout
 			logout-url="/common/logout.do"
 			invalidate-session="true"
@@ -78,6 +81,7 @@
 <!-- 		</session-management> -->
 		
 	</http>
+	
 	
 	<beans:bean id="loginSuccessHandler" 
 				class="kr.or.dw.security.LoginSuccessHandler" 

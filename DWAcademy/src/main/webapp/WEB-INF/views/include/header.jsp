@@ -186,7 +186,7 @@ canvas{
 				<div id="menu">
 					<ul>
 						<li role="menuitem" style="width: 43px; text-align: left;">
-			                <a href="<%=request.getContextPath()%>/member/main.do" id="myPageMain" ><i class="bi bi-person" style="font-size: 26px;"></i></a>
+			                <a href="javascript:void(0)" id="myPageMain" ><i class="bi bi-person" style="font-size: 26px;"></i></a>
 			            </li>
 						<li style="z-index: 99;">이벤트
 							<ul>
@@ -241,13 +241,21 @@ canvas{
 	<input type="hidden" name="gb_sms_alert">
 </form>
 <script>
-let loginNeed = "${loginNeed}";
+// let loginNeed = "${loginNeed}";
+let mem_cd = "<%=mem_cd%>";
 $(document).ready(function(){
-	if(loginNeed != ""){
-		$('#login-modal').modal('show');
-	};
+// 	if(loginNeed != ""){
+// 		$('#login-modal').modal('show');
+// 	};
+let sns_email = "${sns_email}"
+let mem_email = "${mem_email}"
+console.log(sns_email);
+console.log(mem_email);
+	if(sns_email == "non_member"){
+		$('input[name="mem_email"]').val(mem_email);
+		$('#authentication-modal').modal('show');
+	}
 })
-
 function join_go(){
 let joinForm = $('#joinForm');
 let memberInfo = $('.memberInfo')
@@ -269,6 +277,15 @@ let memberInfo = $('.memberInfo')
 
 $('#login-modal').on('hidden.bs.modal', function(){
 	$(this).find('form')[0].reset();
+})
+
+$('#myPageMain').on('click', function(){
+	if(mem_cd == null || mem_cd == ""){
+		$('#login-service-modal').modal('show');
+		return;
+	}else{
+		location.href="<%=request.getContextPath()%>/member/main.do";
+	}
 })
 </script>
 <div class="background" style="height: 150px; display: none; opacity: 0;"></div>

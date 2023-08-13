@@ -135,4 +135,12 @@ public interface SupportService {
 	 */
 	Map<String, Object> searchMyQuestionList(SearchCriteria cri, String mem_cd) throws SQLException;
 
+	/**
+	 * 1대1문의 첨부파일 가져오는 메서드
+	 * @param que_no
+	 * @return
+	 * @throws SQLException
+	 */
+	QnaAttachVO getQnaAttachByQnaNo(int que_no) throws SQLException;
+
 }

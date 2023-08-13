@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>상담톡</title>
 <script src="<%=request.getContextPath()%>/resources/js/jquery-3.7.0.min.js"></script>
 <style>
 .header.scrolled {

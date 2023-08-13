@@ -2,6 +2,7 @@ package kr.or.dw.service;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,18 +26,18 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 	@Override
-	public SnsVO selectKakaoInfo(MemberVO member) throws SQLException {
-		return snsDAO.selectKakaoInfo(member);
+	public Map<String, Object> selectKakaoInfo(String mem_cd) throws SQLException {
+		return snsDAO.selectKakaoInfo(mem_cd);
 	}
 
 	@Override
-	public SnsVO selectNaverInfo(MemberVO member) throws SQLException {
-		return snsDAO.selectNaverInfo(member);
+	public Map<String, Object> selectNaverInfo(String mem_cd) throws SQLException {
+		return snsDAO.selectNaverInfo(mem_cd);
 	}
 
 	@Override
-	public void kakaounlink(MemberVO user) throws SQLException {
-		snsDAO.kakaoDelete(user);
+	public void kakaounlink(String sns_email) throws SQLException {
+		snsDAO.kakaoDelete(sns_email);
 	}
 
 	@Override
@@ -50,8 +51,18 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 	@Override
-	public void naverUnlink(MemberVO user) throws SQLException {
-		snsDAO.neverDelete(user);
+	public void naverUnlink(String sns_email) throws SQLException {
+		snsDAO.neverDelete(sns_email);
+	}
+
+	@Override
+	public SnsVO kakaoEmailCheck(String mem_email) throws SQLException {
+		return snsDAO.kakaoEmailCheck(mem_email);
+	}
+
+	@Override
+	public SnsVO naverEmailCheck(String sns_email) throws SQLException {
+		return snsDAO.naverEmailCheck(sns_email);
 	}
 
 

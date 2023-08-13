@@ -72,4 +72,25 @@ public class PhotoTicketServiceImpl implements PhotoTicketService{
 		photoTicketDAO.insertPhotoTicket(photoTicket);
 		
 	}
+
+	@Override
+	public PhotoTicketVO getPhotoTicketMyMerUID(String merchant_uid) throws SQLException {
+		PhotoTicketVO photoTicket = null;
+		photoTicket = photoTicketDAO.selectPTByMerUID(merchant_uid);
+		
+		return photoTicket;
+	}
+
+	@Override
+	public void updateGbPrint(String pt_cd) throws SQLException {
+		photoTicketDAO.updateGbPrint(pt_cd);
+		
+	}
+
+	@Override
+	public String getGbPrintYN(String merchant_uid) throws SQLException {
+		String result = null;
+		result = photoTicketDAO.selectPTGbPrint(merchant_uid);
+		return result;
+	}
 }

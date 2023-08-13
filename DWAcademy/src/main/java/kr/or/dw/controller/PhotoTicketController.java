@@ -113,7 +113,7 @@ public class PhotoTicketController {
 		}
 	
 		@RequestMapping("/edit")
-		public ModelAndView photoTicketMain(ModelAndView mnv, String merchant_uid) throws SQLException {
+		public ModelAndView photoTicketMain(ModelAndView mnv, String merchant_uid, int page) throws SQLException {
 			String url = "/booking/photoTicket";
 			
 			Map<String, Object> dataMap = null;
@@ -121,7 +121,7 @@ public class PhotoTicketController {
 			dataMap = photoTicketService.getMovieInfo(merchant_uid);
 			
 			
-			
+			mnv.addObject("page", page);
 			mnv.addObject("dataMap", dataMap);
 			mnv.setViewName(url);
 			return mnv;
@@ -148,7 +148,7 @@ public class PhotoTicketController {
 		}
 		
 		@RequestMapping("/pay")
-		public void photoTicketPay(HttpSession session, PhotoTicketPayCommand ptc, HttpServletResponse res, HttpServletRequest req) throws Exception {
+		public void photoTicketPay(HttpSession session, PhotoTicketPayCommand ptc, HttpServletResponse res, HttpServletRequest req, int page) throws Exception {
 			
 			Gson gson = new Gson();
 			PayDetailVO payDetail = gson.fromJson(ptc.getJson(), PayDetailVO.class);
@@ -163,9 +163,57 @@ public class PhotoTicketController {
 			res.setContentType("text/html; charset=utf-8");
 			PrintWriter out = res.getWriter();
 			out.println("<script>");
-			out.println("location.href='" + req.getContextPath() + "/member/bookinglist.do';");
+			out.println("alert('결제가 완료되었습니다.');");
+			out.println("location.href='" + req.getContextPath() + "/member/bookinglist.do?page=" + page +  " ';");
 			out.println("</script>");
 			out.flush();
 			out.close();
 		}
+		
+		@RequestMapping("/photoTicketPreview")
+		public ModelAndView photoTicketPreview(String merchant_uid, ModelAndView mnv) throws SQLException {
+			String url = "/booking/photoTicketPreview";
+			
+			PhotoTicketVO photoTicket = null;
+			photoTicket = photoTicketService.getPhotoTicketMyMerUID(merchant_uid);
+			
+			mnv.addObject("photoTicket", photoTicket);
+			mnv.setViewName(url);
+			return mnv;
+			
+		}
+		
+		@RequestMapping("/print")
+		public ResponseEntity<String> print(String pt_cd){
+			ResponseEntity<String> entity = null;
+			
+			String result = "F";
+			try {
+				photoTicketService.updateGbPrint(pt_cd);
+				result = "S";
+				entity = new ResponseEntity<String>(result, HttpStatus.OK);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			return entity;
+		}
+		
+		@RequestMapping("/gbPrintChk")
+		public ResponseEntity<String> gbPrintChk(String merchant_uid){
+			ResponseEntity<String> entity = null;
+			
+			String result = null;
+			try {
+				result = photoTicketService.getGbPrintYN(merchant_uid);
+				entity = new ResponseEntity<String>(result, HttpStatus.OK);
+			} catch (SQLException e) {
+				e.printStackTrace();
+				entity = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+			
+			return entity;
+		}
+
 }

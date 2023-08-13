@@ -239,4 +239,12 @@ public class SupportServiceImpl implements SupportService{
 		
 		return dataMap;
 	}
+
+	@Override
+	public QnaAttachVO getQnaAttachByQnaNo(int que_no) throws SQLException {
+		QnaAttachVO attach = null;
+		attach = supportDAO.selectAttachByQnaNo(que_no);
+		
+		return attach;
+	}
 }

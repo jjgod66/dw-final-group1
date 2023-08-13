@@ -345,6 +345,7 @@ $(function(){
 	$('.howlongDiv input[type="date"]').attr('max', yesterday_toString);
 	if ('${cri.keyword}' == '') {
 		$('#searchResultDiv h3').text(yesterday_toString);	
+		$('#dayDiv input[name="keyword"]').val(yesterday_toString);
 	} else {
 		$('#searchResultDiv h3').text('${cri.keyword}');
 	}

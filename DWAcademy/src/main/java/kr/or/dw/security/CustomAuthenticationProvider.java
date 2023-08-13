@@ -11,6 +11,7 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import kr.or.dw.dao.MemberDAO;
 
@@ -36,7 +37,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if(member != null && login_pwd.equals(member.get("PWD"))) {	// 로그인 성공
+		
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		
+		if(member != null && login_pwd.equals((String) member.get("PWD"))) {	// 로그인 성공
 			User authUser = new User(member);
 
 			if(member.get("GB_BAN") == "Y") {

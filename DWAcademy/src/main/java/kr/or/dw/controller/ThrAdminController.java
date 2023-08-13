@@ -1,15 +1,11 @@
 package kr.or.dw.controller;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -22,43 +18,30 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.JsonArray;
 
-import kr.or.dw.command.CheckScreenTimeClashCommand;
 import kr.or.dw.command.EventModifyCommand;
 import kr.or.dw.command.EventRegistCommand;
-import kr.or.dw.command.PageMaker;
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.service.CommonAdminService;
 import kr.or.dw.service.SysAdminService;
 import kr.or.dw.service.ThrAdminService;
 import kr.or.dw.vo.AnswerVO;
-import kr.or.dw.vo.ClickMovieInfoVO;
 import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.HouseVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
+import kr.or.dw.vo.QnaAttachVO;
 import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.ScreenVO;
 import kr.or.dw.vo.TheaterVO;
@@ -68,7 +51,7 @@ import kr.or.dw.vo.WinnerBoardVO;
 @RequestMapping("/thrAdmin")
 public class ThrAdminController {
 
-	private static final Logger logger = LoggerFactory.getLogger(SysAdminController.class);
+	private static final Logger logger = LoggerFactory.getLogger(ThrAdminController.class);
 	
 	@Autowired
 	private ThrAdminService thrAdminService;
@@ -253,6 +236,7 @@ public class ThrAdminController {
 	
 	@RequestMapping("noticeAdminRegist")
 	public void noticeAdminRegist (NoticeVO notice, HttpServletResponse res) throws SQLException, IOException {
+		System.out.println(notice);
 		thrAdminService.registNotice(notice);
 		
 		res.setContentType("text/html; charset=utf-8");
@@ -320,6 +304,13 @@ public class ThrAdminController {
 		
 		QnaVO qna = sysAdminService.selectQnaByQue_no(Integer.parseInt(que_no));
 		mnv.addObject("qna", qna);
+		
+		QnaAttachVO attach = sysAdminService.selectQnaAttachByQue_no(Integer.parseInt(que_no));
+		if (attach != null) {
+			String fileName = attach.getAttach_path().substring(attach.getAttach_path().lastIndexOf("$$") + 2);
+			attach.setAttach_path(fileName);
+			mnv.addObject("attach", attach);
+		}
 		
 		AnswerVO ans = sysAdminService.selectAnsByQue_no(Integer.parseInt(que_no));
 		mnv.addObject("ans", ans);
@@ -474,9 +465,9 @@ public class ThrAdminController {
 		
 		int event_no = event.getEvent_no();
 		Map<String, Object> modifyEventContentMap = new HashMap<>();
-		if (modifyReq.getEvent_content().contains("/sysAdmin/getTempImg.do?fileName=")) {
-			String newContent = modifyReq.getEvent_content().replace("/sysAdmin/getTempImg.do?fileName="+modifyReq.getOldFileName() 
-																	,"/sysAdmin/getPicture.do?name="+modifyReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+		if (modifyReq.getEvent_content().contains("/commonAdmin/getTempImg.do?fileName=")) {
+			String newContent = modifyReq.getEvent_content().replace("/common/getTempImg.do?fileName="+modifyReq.getOldFileName() 
+																	,"/common/getPicture.do?name="+modifyReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
 			modifyEventContentMap.put("event_no", event.getEvent_no());
 			modifyEventContentMap.put("newContent", newContent);
 			sysAdminService.modifyEventContent(modifyEventContentMap);

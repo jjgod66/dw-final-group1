@@ -10,10 +10,14 @@ import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
+import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
+import kr.or.dw.vo.QnaAttachVO;
 import kr.or.dw.vo.QnaVO;
+import kr.or.dw.vo.ReplyVO;
+import kr.or.dw.vo.ReviewVO;
 import kr.or.dw.vo.TheaterVO;
 import kr.or.dw.vo.WinnerBoardVO;
 
@@ -129,6 +133,12 @@ public interface SysAdminService {
 	// 해당 1:1문의 게시글 불러오기
 	QnaVO selectQnaByQue_no(int que_no) throws SQLException;
 
+	// 해당 1:1문의 첨부파일을 가져온다.
+	QnaAttachVO selectQnaAttachByQue_no(int que_no) throws SQLException;
+	
+	// attach_no로 1:1문의 첨부파일 정보를 불러온다.
+	QnaAttachVO selectQnaAttachByAno(int ano) throws SQLException;
+	
 	// 해당 1:1문의 게시글 답변 불러오기
 	AnswerVO selectAnsByQue_no(int que_no) throws SQLException;
 
@@ -226,5 +236,14 @@ public interface SysAdminService {
 
 	// 이벤트 등록을 위한 영화목록을 가져온다.
 	List<Map<String, Object>> selectMovieListForEventRegist() throws SQLException;
+
+	// 해당 관람평을 삭제한다.
+	void deleteReview(ReviewVO review) throws SQLException;
+
+	// 해당 무비포스트를 삭제한다.
+	void deleteMoviePost(MoviePostVO mp) throws SQLException;
+
+	// 해당 무비포스트 댓글을 삭제한다.
+	void deleteReply(ReplyVO reply) throws SQLException;
 
 }

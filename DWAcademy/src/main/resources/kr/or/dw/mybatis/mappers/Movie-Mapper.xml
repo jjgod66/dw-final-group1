@@ -1022,4 +1022,36 @@ AND ROWNUM <![CDATA[<=]]> 4
 		   AND ml.MOVIE_CD = m.MOVIE_CD 
 		   AND m2.MEM_CD = #{mem_cd}
 	</select>
+	
+	<select id="getMybookingList" resultType="Map">
+		 SELECT *
+		   FROM (
+			SELECT r.MERCHANT_UID
+				  ,LISTAGG(r.MEM_CAT , ', ') WITHIN GROUP(ORDER BY r.mem_cat) mem_cat
+				  ,LISTAGG(r.RES_SEAT , ', ') WITHIN GROUP(ORDER BY RES_SEAT) res_seat
+				  ,MAX(startdate) startdate
+				  ,MAX(RESDATE) RESDATE
+				  ,MAX(h.house_name) house_name
+				  ,MAX(h.thr_name) thr_name
+				  ,MAX(REFUNDDATE) REFUNDDATE
+				  ,MAX(m.movie_name) movie_name
+				  ,MAX(m.movie_cd) movie_cd
+				  ,MAX(m.movie_mainpic_path) movie_mainpic_path
+		  		  ,MAX(m.movie_director) movie_director
+		  		  ,MAX(m.movie_actor) movie_actor
+			  FROM RESERVATION r
+			  	  ,screen s
+			  	  ,movie m
+			  	  ,house h
+			  	  ,PAY_DETAIL p
+			 WHERE r.mem_cd = #{mem_cd}
+		 	   AND r.gb_cancel = 'N'
+			   AND s.screen_cd = r.screen_cd 
+			   AND s.movie_cd = m.movie_cd
+			   AND h.house_no = s.house_no
+			   AND p.merchant_uid = r.merchant_uid
+			 GROUP BY r.merchant_uid
+			 )
+		ORDER BY startdate DESC
+	</select>
 </mapper>

@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
   <link href="https://fonts.googleapis.com/css?family=Alegreya+Sans&display=swap" rel="stylesheet">
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<link rel="stylesheet" href="../../resources/css/boxoffice.css">
 <%@ include file="../include/member_header.jsp" %>
 <style>
 	  .abs,
@@ -38,7 +42,8 @@ h2 strong,
 .df,
 .cards,
 .news {
-  display: flex;
+  display: inline-flex;
+  width: 49%;
 }
 .dif {
   display: inline-flex;
@@ -59,7 +64,6 @@ body {
   
 }
 .wrapper123 {
-  padding: 15px;
   font-family: 'Alegreya Sans';
 }
 h2 {
@@ -96,8 +100,8 @@ h2:after {
 .cards .card,
 .news .card {
   margin: 20px;
-  width: 180px;
-  height: 270px;
+  width: 125px;
+  height: 180px;
   overflow: hidden;
   box-shadow: 0 5px 10px rgba(0,0,0,0.8);
   transform-origin: center top;
@@ -117,7 +121,7 @@ h2:after {
   right: 0;
   padding: 20px;
   padding-bottom: 10px;
-  font-size: 20px;
+  font-size: 15px;
   background: none;
   color: #fff;
   transform: translateY(100%);
@@ -217,6 +221,17 @@ h2:after {
 .on{
 	background-color: #4aa8d8;
 }
+.movie-info {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    margin-bottom: 20px;
+ 	max-width: 60%;
+ 	font-size: 12px;
+}
+.disnone{
+	display: none;
+}
 </style>
 <div class="container" style="margin-top: 10px;">
 	<div class="row" style="width:100%;">
@@ -230,13 +245,64 @@ h2:after {
 		</div>
 	</div>
 	<div class="wrapper123">
-		<h2><strong>2023-08</strong></h2>
-		<div class="cards">
-			<figure class="card">
-				<img src="/resources/img/범죄도시3_메인포스터.jpg" />
-				<figcaption>범죄도시</figcaption>
-			</figure>
+	<c:set var="prevMonth" value="" />
+	<c:set var="i" value="0" />
+		<c:forEach items="${bookingList}" var="bookingList">
+		<c:set var="now" value="<%=new java.util.Date()%>" />
+		<c:set var="sysDate"><fmt:formatDate value="${now}" pattern="yyyyMM" /></c:set> 
+		<c:set var="screenDate"><fmt:formatDate value="${bookingList.STARTDATE}" pattern="yyyyMM" /></c:set>
+		<c:if test="${screenDate != prevMonth}">
+			<h2 id="startdate${i}" class="YYMM"><strong><fmt:formatDate value="${bookingList.STARTDATE}" pattern="yyyy-MM"/></strong></h2>
+			<c:set var="prevMonth" value="${screenDate}" />
+			<c:set var="i" value="${i+1}"/>
+		</c:if>
+			<div class="cards">
+				<figure class="card">
+					<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${bookingList.MOVIE_MAINPIC_PATH}&item_cd=${bookingList.MOVIE_CD}&type=moviePoster" />
+				</figure>
+				<div class="movie-info">
+					<div>
+						<p>영화제목 : ${bookingList.MOVIE_NAME}</p>
+						<p>배우 : ${bookingList.MOVIE_ACTOR}</p>
+						<p>감독 : ${bookingList.MOVIE_DIRECTOR}</p>
+					</div>
+				</div>
+			</div>
+		</c:forEach>
+		<div class="btn-more v1" id="addMovieDiv" style="width: 100%;; margin: 0 auto;">
+			<div style="width: 90%; margin: 0 auto;">
+				<button type="button" class="btn" id="AddMovieBtn" style="width: 100%; border: 1px solid gray;">더보기 <i class="iconset ico-btn-more-arr"></i></button>
+			</div>
 		</div>
 	</div> 
 </div>
+<script>
+$(document).ready(function() {
+    let movieDiv = $('.cards').get();
+    
+    
+    
+    for (let i = 12; i < movieDiv.length; i++) {
+        $('.cards').eq(i).addClass('disnone');
+        $('.cards').eq(i).prev('h2').css('display', 'none');
+    }
+
+    $('#AddMovieBtn').on('click', function() {
+        let hiddenCount = $('.disnone').length;
+
+        if (hiddenCount <= 12) {
+            $('.disnone').css('display', '');
+            $('.disnone').removeClass('disnone');
+            $('#AddMovieBtn').css('display', 'none');
+            return;
+        }
+
+        for (let i = 0; i < 12; i++) {
+            $('.disnone').eq(0).removeClass('disnone');
+            $('.disnone').eq(0).prev('h2').css('display', '');
+        }
+    });
+});
+
+</script>
 <%@ include file="../include/member_footer.jsp" %>

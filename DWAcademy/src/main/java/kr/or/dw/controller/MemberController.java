@@ -41,6 +41,7 @@ import kr.or.dw.service.TheaterService;
 import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.GenreVO;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.QnaAttachVO;
 import kr.or.dw.vo.QnaVO;
 import kr.or.dw.vo.SnsVO;
 import kr.or.dw.vo.TheaterVO;
@@ -140,19 +141,17 @@ public class MemberController {
 		
 		Map<String, Object> member =  (Map<String, Object>) session.getAttribute("loginUser");
 		String id = (String) member.get("ID");
-		
+		String mem_cd = (String) member.get("CD");
 		Map<String, Object> memberInfo = memberService.selectAllMemberInfo(id);
 		System.out.println(member);
-		SnsVO kakao = new SnsVO();
-		SnsVO naver = new SnsVO();
+		Map<String, Object> kakao = null;
+		Map<String, Object> naver = null;
 		
-//		kakao = snsService.selectKakaoInfo(member);
-		System.out.println(kakao);
-		req.setAttribute("kakao", kakao);
+		kakao = snsService.selectKakaoInfo(mem_cd);
+		System.out.println("kakao:"+kakao);
 
-//		naver = snsService.selectNaverInfo(member);
-		System.out.println(naver);
-		req.setAttribute("naver", naver);
+		naver = snsService.selectNaverInfo(mem_cd);
+		System.out.println("naver"+naver);
 		
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
 		String naverAuthUrl = naverLoginBO2.getAuthorizationUrl(session);
@@ -162,6 +161,8 @@ public class MemberController {
 		System.out.println("네이버:" + naverAuthUrl);
 		
 		//네이버 
+		mnv.addObject("kakao", kakao);
+		mnv.addObject("naver", naver);
 		mnv.addObject("memberInfo", memberInfo);
 		mnv.addObject("url", naverAuthUrl);
 		mnv.setViewName(url);
@@ -428,13 +429,15 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/movieTimeLine")
-	public ModelAndView memberMoviestory(ModelAndView mnv, HttpSession session) {
+	public ModelAndView memberMoviestory(ModelAndView mnv, HttpSession session) throws SQLException {
 		String url = "/member/movieTimeLine";
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
 		
+		Map<String, Object> dataMap = movieService.myMovieTimeLine(mem_cd);
 		
-		
+		mnv.addAllObjects(dataMap);
+		mnv.setViewName(url);
 		
 		return mnv;
 	}
@@ -535,10 +538,18 @@ public class MemberController {
 		QnaVO qna = null;
 		AnswerVO answer = null;
 		qna = supportService.getQnaByQueNo(que_no);
+		QnaAttachVO attach = null;
+		attach = supportService.getQnaAttachByQnaNo(que_no);
 		answer = supportService.getAnswerByQueNo(que_no);
+		String attach_name = null;
+		if(attach != null) {
+			attach_name = attach.getAttach_path().split("\\$\\$")[1];
+		}
 		
 		mnv.addObject("answer", answer);
 		mnv.addObject("qna", qna);
+		mnv.addObject("attach", attach);
+		mnv.addObject("attach_name", attach_name);
 		
 		mnv.setViewName(url);
 		return mnv;

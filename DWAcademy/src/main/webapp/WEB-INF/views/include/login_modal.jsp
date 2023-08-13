@@ -123,10 +123,6 @@
     outline: none;
 }
 </style>
-<script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
-<script>
-	Kakao.init('4d3eb758ca79e46a21afa1951cdbec30'); //발급받은 키 중 javascript키를 사용해준다.
-</script>
 <div class="modal fade" id="login-modal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -149,7 +145,7 @@
                         <div class="p-t-10"><a href="<%=request.getContextPath()%>${url}" class="btn btn--naver" type="button">네이버로 시작하기</a></div> 
                     </div>
                     <div class="col">
-                        <div class="p-t-10"><button type="button" id="kakaoLogin" class="btn btn--kakao">카카오로 시작하기</button></div> 
+                        <div class="p-t-10"><a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/common/kakaoLogin" type="button" id="kakaoLogin" class="btn btn--kakao" >카카오로 시작하기</a></div> 
                     </div>
                 </div>
                 <p class="extra new"> <a href="#" data-bs-toggle="modal" data-bs-target="#nonMemLogin_modal"><u>비회원 예매확인</u></a></p>
@@ -163,4 +159,3 @@
     </div>
 </div>
 
-<%@ include file = "login_modal_js.jsp" %>

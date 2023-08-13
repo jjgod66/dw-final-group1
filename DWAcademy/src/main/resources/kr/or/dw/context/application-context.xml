@@ -21,6 +21,9 @@
 	<bean id="memberPicUploadPath" class="java.lang.String">
 		<constructor-arg value="${memberpic.upload}"></constructor-arg>
 	</bean>
+	<bean id="attachUploadPath" class="java.lang.String">
+		<constructor-arg value="${attach.upload}"></constructor-arg>
+	</bean>
 
 	<bean id="storeService" class="kr.or.dw.service.StoreServiceImpl"/>
 	<bean id="sysAdminService" class="kr.or.dw.service.SysAdminServiceImpl"/>

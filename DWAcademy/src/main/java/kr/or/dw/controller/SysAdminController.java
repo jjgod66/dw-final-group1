@@ -67,10 +67,14 @@ import kr.or.dw.vo.AnswerVO;
 import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.GenreVO;
+import kr.or.dw.vo.MoviePostVO;
 import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
+import kr.or.dw.vo.QnaAttachVO;
 import kr.or.dw.vo.QnaVO;
+import kr.or.dw.vo.ReplyVO;
+import kr.or.dw.vo.ReviewVO;
 import kr.or.dw.vo.TheaterVO;
 import kr.or.dw.vo.WinnerBoardVO;
 
@@ -744,8 +748,16 @@ public class SysAdminController {
 		QnaVO qna = sysAdminService.selectQnaByQue_no(Integer.parseInt(que_no));
 		mnv.addObject("qna", qna);
 		
+		QnaAttachVO attach = sysAdminService.selectQnaAttachByQue_no(Integer.parseInt(que_no));
+		if (attach != null) {
+			String fileName = attach.getAttach_path().substring(attach.getAttach_path().lastIndexOf("$$") + 2);
+			attach.setAttach_path(fileName);
+			mnv.addObject("attach", attach);
+		}
+		
 		AnswerVO ans = sysAdminService.selectAnsByQue_no(Integer.parseInt(que_no));
 		mnv.addObject("ans", ans);
+		
 		Map<String, Object> subjectMap = addSubject("HOME", "고객 관리", "1:1문의 게시글", url+".do?que_no="+que_no);
 		mnv.addAllObjects(subjectMap);
 		mnv.setViewName(url);
@@ -1174,6 +1186,58 @@ public class SysAdminController {
 		out.close();
 	}
 	
+	@RequestMapping("/deleteReview")
+	public void deleteReview (int review_no, HttpServletResponse res) throws SQLException, IOException {
+		ReviewVO review = new ReviewVO();
+		review.setReview_no(review_no);
+		
+		sysAdminService.deleteReview(review);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('해당 관람평이 삭제되었습니다.');");
+		out.println("location.href='memberAdminReviewList.do?mem_cd="+review.getMem_cd()+"';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/deleteMoviePost")
+	public void deleteMoviePost (int mpost_no, HttpServletResponse res) throws SQLException, IOException {
+		MoviePostVO mp = new MoviePostVO();
+		mp.setMpost_no(mpost_no);
+		
+		sysAdminService.deleteMoviePost(mp);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('해당 무비포스트가 삭제되었습니다.');");
+		out.println("location.href='memberAdminMoviepostList.do?mem_cd="+mp.getMem_cd()+"';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/deleteReply")
+	public void deleteReply (int reply_no, HttpServletResponse res) throws SQLException, IOException {
+		ReplyVO reply = new ReplyVO();
+		reply.setReply_no(reply_no);
+		
+		sysAdminService.deleteReply(reply);
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('해당 댓글이 삭제되었습니다.');");
+		out.println("location.href='memberAdminMoviepostReplyList.do?mem_cd="+reply.getMem_cd()+"';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	
 	private Map<String, Object> addSubject(String subject, String item1, String item2, String url) {
 		Map<String, Object> subjectMap = new HashMap<String, Object>();
 		subjectMap.put("subject", subject);
@@ -1218,77 +1282,7 @@ public class SysAdminController {
 		
 		return fileName;
 	}
-	 
-	 @RequestMapping("/uploadTempImg")
-		public ResponseEntity<String> uploadTempImg(MultipartFile file, HttpServletRequest req) {
-			ResponseEntity<String> result = null;
-			
-			int fileSize = 5 * 1024 * 1024;
-			
-			if (file.getSize() > fileSize) {
-				return new ResponseEntity<String>("용량 초과입니다.", HttpStatus.BAD_REQUEST);
-			}
-			
-			String savePath = eventPicUploadPath + File.separator + "temp";
-			String fileName = UUID.randomUUID().toString().replace("-", "")+"$$"+file.getOriginalFilename();
-			
-			File saveFile = new File(savePath, fileName);
-			
-			if(!saveFile.exists()) {
-				saveFile.mkdirs();
-			}
-			
-			try {
-				file.transferTo(saveFile);
-				result = new ResponseEntity<String>(req.getContextPath() + "/sysAdmin/getTempImg.do?fileName=" + fileName, HttpStatus.OK);
-			} catch (Exception e) {
-				result = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-			
-			return result;
-		}
-	 
-		@RequestMapping("/getTempImg")
-		public ResponseEntity<byte[]> getTempImg(String fileName, HttpServletRequest req) throws IOException {
-			ResponseEntity<byte[]> entity = null;
-			
-			// 저장경로
-			String savePath = eventPicUploadPath + File.separator + "temp";
-			File sendFile = new File(savePath, fileName);
-			
-			InputStream in = null;
-			
-			try {
-				in = new FileInputStream(sendFile);
-				entity = new ResponseEntity<byte[]>(IOUtils.toByteArray(in), HttpStatus.CREATED);
-			} catch (Exception e) {
-				e.printStackTrace();
-				entity = new ResponseEntity<byte[]>(HttpStatus.INTERNAL_SERVER_ERROR);
-			} finally {
-				in.close();
-			}
-			
-			return entity;
-		}
-		
-		@RequestMapping("/deleteTempImg")
-		public ResponseEntity<String> deleteTempImg(@RequestBody Map<String, String> data) {
-			ResponseEntity<String> result = null;
-			String savePath = eventPicUploadPath + File.separator + "temp";
-			File target = new File(savePath, data.get("fileName"));
-			
-			if (!target.exists()) {
-				result = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-			} else {
-				try {
-					target.delete();
-					result = new ResponseEntity<String>("SUCCESS", HttpStatus.OK);
-				} catch (Exception e) {
-					result = new ResponseEntity<String>("FAIL", HttpStatus.INTERNAL_SERVER_ERROR);
-				}
-			}
-			return result;
-		}
+
 }
 
 

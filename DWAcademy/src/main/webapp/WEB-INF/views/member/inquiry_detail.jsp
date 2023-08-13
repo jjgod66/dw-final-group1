@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100&display=swap" rel="stylesheet">
@@ -114,6 +115,10 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
         background-color: #ffa8a8;
         color: #757575;
     }
+    .attachDown:hover{
+    	cursor: pointer;
+    	text-decoration: underline;
+    }
 </style>
 <div id="wrapper">
 
@@ -128,6 +133,10 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
 				        <span id="b">${qna.thr_name } </span>
 				        <span id="b">${qna.que_type } </span>
 				        <span id="b"><fmt:formatDate value="${qna.regdate }" pattern="yyyy-MM-dd"/> </span>
+				        <c:if test="${!empty attach }">
+					        <span id="b">첨부파일</span>
+					        <span id="b" class="attachDown" onclick="location.href='<%=request.getContextPath()%>/common/getFile.do?ano=${attach.attach_no}'">${attach_name }</span>
+				        </c:if>
 				
 				    <div class="post-content" >
 				        <p>
@@ -136,7 +145,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
 				    </div>
 				</div>
 					      		
-	      	</div>			          		
+	      	</div>	
       	</div>	
       	<c:if test="${!empty answer }">
       	<div id="im" style="margin: 10px 0;">

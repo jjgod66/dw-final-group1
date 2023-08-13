@@ -35,6 +35,8 @@
 		<typeAlias type="kr.or.dw.vo.Non_MemberVO" alias="nonmem"/>
 		<typeAlias type="kr.or.dw.vo.WinnerBoardVO" alias="wb"/>
 		<typeAlias type="kr.or.dw.vo.Admin_NoteVO" alias="note"/>
+		<typeAlias type="kr.or.dw.vo.QnaAttachVO" alias="attach"/>
+		<typeAlias type="kr.or.dw.vo.PhotoTicketVO" alias="photoTicket"/>
 
 	</typeAliases>
 

@@ -23,7 +23,7 @@
 						<span style="float: right;">작성일 : <fmt:formatDate value='${notice.regdate }' pattern='yyyy-MM-dd'/></span>
 					</c:when>
 					<c:when test="${type eq 'create' }">
-						<input type="hidden" value="${admin_cd}" name="admin_cd">
+						<input type="hidden" value="${sessionScope.loginUser.CD}" name="admin_cd">
 						<span><input type="text" name="notice_title" size="80" placeholder="제목을 입력하세요"></span>
 					</c:when>
 				</c:choose>

@@ -553,6 +553,12 @@ public interface MovieDAO {
 
 	List<Map<String, Object>> selectMainMoviePost(String movie_cd) throws SQLException;
 
+	/**
+	 * 나의 예매 정보
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> getMybookingList(String mem_cd) throws SQLException;
 
 
 

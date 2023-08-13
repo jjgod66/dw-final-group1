@@ -382,7 +382,8 @@ h3.tit {
 										(출력완료)
 									</c:if>
 									<c:if test="${movieInfo.GB_PRINT =='N'}">
-										(출력전)<button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="photoTicketRefundBtn">취소</button>
+										<button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="photoTicketPreviewBtn">미리보기</button>
+										<button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="photoTicketRefundBtn">취소</button>
 									</c:if>
 								</span>
 							</c:if>
@@ -415,15 +416,52 @@ h3.tit {
 <script>
 $(function(){
 
+	$('#myMovie').on('click', '#photoTicketPreviewBtn', function(){
+		
+		let merchant_uid = $(this).data('merchant_uid');
+		$.ajax({
+			url : '<%=request.getContextPath()%>/photoTicket/gbPrintChk.do',
+			data : {'merchant_uid' : merchant_uid},
+			method : 'post',
+			success : function(res){
+				if(res == 'Y'){
+					alert("이미 출력한 포토티켓입니다.");
+					location.reload();
+					return;
+				}
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+		OpenWindow('<%=request.getContextPath() %>/photoTicket/photoTicketPreview.do?merchant_uid=' + merchant_uid, '포토티켓 미리보기', 1000, 600);
+	})
+	
 	$('#myMovie').on('click', '#photoTicketRefundBtn', function(){
 		let merchant_uid = $(this).data('merchant_uid');
+		$.ajax({
+			url : '<%=request.getContextPath()%>/photoTicket/gbPrintChk.do',
+			data : {'merchant_uid' : merchant_uid},
+			method : 'post',
+			success : function(res){
+				if(res == 'Y'){
+					alert("이미 출력한 포토티켓입니다.");
+					location.reload();
+					return;
+				}
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
 		$('#ptrefundHiddenMUID').val(merchant_uid);
 		$('#photoTicket-refund-modal').modal('show');
 	})
 	
 	$('.infodiv2').on('click', '#photoTicketBtn', function(){
 		let merchant_uid = $(this).data('merchant_uid');
-		location.href="<%=request.getContextPath()%>/photoTicket/edit.do?merchant_uid=" + merchant_uid;
+		let page = '${pageMaker.cri.page}';
+		location.href="<%=request.getContextPath()%>/photoTicket/edit.do?merchant_uid=" + merchant_uid + '&page=' + page;
 		
 	})
 	

@@ -201,3 +201,4 @@ $('.container').on('click', '#reviewUpdateBtn', function(){
 	
 })
 </script>
+<%@ include file="../include/member_footer.jsp"%>

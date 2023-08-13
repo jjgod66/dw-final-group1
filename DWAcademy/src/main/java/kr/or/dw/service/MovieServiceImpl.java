@@ -920,6 +920,18 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 
+	public Map<String, Object> myMovieTimeLine(String mem_cd) throws SQLException {
+		List<Map<String, Object>> bookingList = null;
+		
+		bookingList = movieDAO.getMybookingList(mem_cd);
+		
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("bookingList", bookingList);
+		
+		return dataMap;
+	}
+
 
 
 }

@@ -308,6 +308,16 @@ window.onload = function(){
 	
 	// 서버로 가서 추가 가능한 시간인지 체크
 	function checkScreenTimeClash(house_no, startTime, endTime, screen_cd) {
+
+		if (startTime < new Date()) {
+			if ($('.addedBox').length > 0) {
+				$('.addedBox').addClass('cantBeAdded');
+			} else if ($('.modifyBox').length > 0) {
+				$('.modifyBox').addClass('cantBeAdded');
+			}
+			return;
+		}
+		
 		let data = {
 				"house_no" : house_no,
 				"startTime" : startTime,

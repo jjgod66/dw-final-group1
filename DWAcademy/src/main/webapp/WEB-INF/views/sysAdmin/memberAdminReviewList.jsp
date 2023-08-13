@@ -39,6 +39,9 @@
 .moreBtn {
 	cursor: pointer;
 }
+.deleteBtn {
+ 	cursor: pointer; 
+}
 </style>
 </head>
 <body>
@@ -61,6 +64,8 @@
 							<col class="w80">
 							<col class="w80">
 							<col class="w130">
+							<col class="w130">
+							<col class="w30">
 						</colgroup>
 						<tbody>
 								<tr>
@@ -70,6 +75,8 @@
 									<th>공감수</th>
 									<th>신고수</th>
 									<th>작성일자</th>
+									<th>삭제여부</th>
+									<th></th>
 								</tr>
 								<c:if test="${empty reviewList }">
 									<tr><th scope="row" colspan="3">작성 글이 없습니다.</th></tr>
@@ -82,6 +89,12 @@
 									<td><b>${review.LIKECNT }</b></td>
 									<td><b style="color : red;">${review.REPORTCNT }</b></td>
 									<td><fmt:formatDate value="${review.REGDATE }" pattern="yyyy-MM-dd"/></td>
+									<td>${review.GB_DEL }</td>
+									<td class="deleteBtn" style="color: red;">
+									<c:if test="${review.GB_DEL eq 'N' }">
+										<i class="bi bi-x-octagon-fill"></i><input type="hidden" name="review_no" value="${review.REVIEW_NO }">
+									</c:if>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -91,4 +104,13 @@
 		</div>
 	</div>
 </body>
+
+<script>
+$('.deleteBtn').on('click', function(){
+	if (confirm('해당 관람평을 정말 삭제하시겠습니까?')) {
+		let review_no = $(this).find('input[name="review_no"]').val();
+		location.href="/sysAdmin/deleteReview.do?review_no=" + review_no;
+	}
+});
+</script>
 </html>

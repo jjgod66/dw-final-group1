@@ -17,12 +17,15 @@
 		</jsp:include>
 		<div class="card" style="margin : 0 0.5rem;">
 			<div class="card-header">
-				<span id="qna_title">${qna.que_title }</span>
+				<span id="qna_title"><b>[${qna.que_type}]</b> ${qna.que_title }</span>
 				<span id="qna_regdate" style="float: right;"><fmt:formatDate value='${qna.regdate }' pattern='yyyy-MM-dd' /></span>
 			</div>
 			<div class="card-body" style="border-bottom : 1px solid #dee2e6">
 				<div id="qna_content">
 					${qna.que_content }
+				</div>
+				<div id="qna_attach" class="float-end" style="${empty attach ? 'display: none;' : ''}">
+					첨부파일 : <span style="cursor: pointer;" onclick="location.href='<%=request.getContextPath()%>/common/getFile.do?ano=${attach.attach_no }';">${attach.attach_path}</span>
 				</div>
 			</div>
 			<div class="card-body">

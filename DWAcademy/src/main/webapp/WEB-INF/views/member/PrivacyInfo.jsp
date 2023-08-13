@@ -328,13 +328,13 @@ p.reset {
 				<tbody>
 					<tr>
 						<td scope="row" style="text-align: center;">카카오</td>
-						<td><fmt:formatDate value="${kakao.linkdate}" pattern="yyyy-MM-dd"/> ${kakao.sns_email}</td>
+						<td><fmt:formatDate value="${kakao.LINKDATE}" pattern="yyyy-MM-dd"/> ${kakao.SNS_EMAIL}</td>
 						<td style="text-align: center;">
 						<c:choose>
-							<c:when test="${kakao.mem_cd eq null or kakao.sns ne 'K'}">
+							<c:when test="${kakao.MEM_CD eq null or kakao.SNS ne 'K'}">
 								<a id="btn" href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/kakao/callback">연동</a>
 							</c:when>
-							<c:when test="${kakao.mem_cd ne null and kakao.sns eq 'K'}">
+							<c:when test="${kakao.MEM_CD ne null and kakao.SNS eq 'K'}">
 								<a id="btn" href="<%=request.getContextPath()%>/kakao/unConnect">연동해제</a>
 							</c:when>
 						</c:choose>
@@ -342,13 +342,13 @@ p.reset {
 					</tr>
 					<tr>
 						<td scope="row" style="text-align: center;">네이버</td>
-						<td><fmt:formatDate value="${naver.linkdate}" pattern="yyyy-MM-dd"/> ${naver.sns_email}</td>
+						<td><fmt:formatDate value="${naver.LINKDATE}" pattern="yyyy-MM-dd"/> ${naver.SNS_EMAIL}</td>
 						<td style="text-align: center;">
 						<c:choose>
-							<c:when test="${naver.mem_cd eq null or naver.sns ne 'N'}">
+							<c:when test="${naver.MEM_CD eq null or naver.SNS ne 'N'}">
 								<a id="btn" href="<%=request.getContextPath()%>${url}">연동</a>
 							</c:when>
-							<c:when test="${naver.mem_cd ne null and naver.sns eq 'N'}">
+							<c:when test="${naver.MEM_CD ne null and naver.SNS eq 'N'}">
 								<a id="btn" href="<%=request.getContextPath()%>/naver/unConnect.do">연동해제 </a>
 							</c:when>
 						</c:choose>
