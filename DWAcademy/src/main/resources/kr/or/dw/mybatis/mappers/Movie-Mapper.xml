@@ -1,7 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.or.dw.dao.MovieDAO">
-
+	
+	<select id="selectMainMoviePost" resultType="Map">
+	SELECT mp.movie_cd, mp.movie_pic_no, movie_pic_path, mpost_content, mp.regdate, movie_name, mp.mpost_no, mem_id,
+       COALESCE(ml.likecnt, 0) AS likecnt,
+       COALESCE(mr.replycnt, 0) AS replycnt
+FROM moviepost mp
+JOIN movie m ON mp.movie_cd = m.movie_cd
+JOIN movie_picture p ON p.movie_pic_no = mp.movie_pic_no
+JOIN MEMBER mb ON mp.mem_cd = mb.mem_cd
+LEFT JOIN (
+    SELECT mpost_no, COUNT(*) likecnt
+    FROM mp_like
+    GROUP BY mpost_no
+) ml ON mp.mpost_no = ml.mpost_no
+LEFT JOIN (
+    SELECT mpost_no, COUNT(*) replycnt
+    FROM reply
+    WHERE gb_del = 'N'
+    GROUP BY mpost_no
+) mr ON mp.mpost_no = mr.mpost_no
+WHERE mp.gb_del = 'N'
+AND ROWNUM <![CDATA[<=]]> 4
+	</select>
+	
 	<select id="selectBoxOfficeMovie10" resultType="Map">
 	SELECT *
 	FROM (

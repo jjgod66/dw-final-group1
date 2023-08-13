@@ -373,4 +373,7 @@ public interface MovieService {
 	 */
 	Map<String, Object> getMyLikeMovie(String mem_cd) throws SQLException;
 
+	List<Map<String, Object>> getMainMoviePost(String movie_cd) throws SQLException;
+
+
 }

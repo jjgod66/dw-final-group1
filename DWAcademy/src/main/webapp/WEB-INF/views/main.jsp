@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="/WEB-INF/views/include/header.jsp" %>
 <%-- <link rel="stylesheet" href="../../resources/css/boxoffice.css">
 <%@ include file="/WEB-INF/views/common/boxoffice.jsp" %> --%>
@@ -596,6 +597,36 @@ $(document).ready(function() {
 </script>
 
 
+
+
+
+
+
+
+
+
+<%@ include file="movie/moviepost_modal.jsp" %>
+<%@ include file="movie/moviepost_view_modal.jsp" %>
+<%@ include file="movie/login_service_modal.jsp" %>
+<%@ include file="movie/moviepost_update_modal.jsp" %>
+<%@ include file="movie/mpost_report_modal.jsp" %>
+<%@ include file="movie/mpost_delete_modal.jsp" %>
+<%@ include file="movie/reply_report_modal.jsp" %>
+<%@ include file="movie/reply_delete_modal.jsp" %>
+<%@ include file="movie/alert_modal.jsp" %>
+<%
+	mem_cd = "";
+	if(session.getAttribute("loginUser") != null){
+		Map member = (Map) session.getAttribute("loginUser");
+		mem_cd = (String)member.get("CD");
+	}
+%>
+
+
+
+
+
+
 <!-- 영화무비포스트메인  -->
 <div class="mainPostBack">
     	<div class="s3">
@@ -605,179 +636,187 @@ $(document).ready(function() {
 	    </div>
 <div class="mainPost">
 	    
-	<div class="mainMoviePost">
+  <c:forEach items="${moviePost4 }" var="mp">
+	<div class="mainMoviePost" style="cursor: pointer;">
 	  <div class="cardPost u-clearfix">
 	<!--   	영화 포스터 -->
-	    <div class="card-media">
-	      <img src="/resources/img/tom.png" alt="" class="card-media-img" />
+	    <div id="mpCard" class="card-media" data-mpost_no="${mp.MPOST_NO }">
+	      <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${mp.MOVIE_PIC_PATH}&item_cd=${mp.MOVIE_CD}&type=movieImg" class="card-media-img" />
 	    </div>
-	<!--     영화제 -->
+	<!--     영화제목 -->
 		    <div class="card-body">
-		      <h2 class="card-body-heading">미션임파서블:폴아웃</h2>
+		      <h2 class="card-body-heading">${mp.MOVIE_NAME }</h2>
 		      <div class="card-body-options">
 		        <div class="card-body-option">
 	<!-- 	        아이콘 -->
 		          	<div style="display: flex; padding-right: 10px;     align-items: center;">
 			          	<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z"/></svg>
-			            <p style="padding: 0px 0 0 5px; font-size: large;">1402</p>
+			            <p style="padding: 0px 0 0 5px; font-size: large;">${mp.LIKECNT }</p>
 		            </div>
 		            <div style="display: flex;     align-items: center;">
 		          		<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
-		        	    <p style="padding: 0px 0 0 5px; font-size: large;">201</p>
+		        	    <p style="padding: 0px 0 0 5px; font-size: large;">${mp.REPLYCNT }</p>
 		            </div>
 		      </div>
 	<!-- 	      아이디 내용 상세보기  -->
 		      <div style="padding-top: 10px; color: #495057;"> 
 				<p style="font-size: 15px; padding-bottom: 8px;">
-			    	aooo**
+			    	<c:set var="mem_id_post" value="${mp.MEM_ID}" />
+					${fn:substring(mem_id_post,0,3) }**
 		   		</p>
-			      <p> 이게 영화지 영화관이 아직 있어야 하는 이유</p>
+			      <p> ${mp.MPOST_CONTENT }</p>
 		   	  </div>
 		      
-		      <a href="#/" class="card-button card-button-link">
-		        상세보기
-		        <span class="card-button-icon">
-		          <svg fill="#9C948A" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-		            <path d="M0 0h24v24H0z" fill="none"/>
-		            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-		          </svg>
-		        </span>
-		      </a>
 		    </div>
 		  </div>
 		</div>
 	</div>
+  </c:forEach>
 	
+	<script>
+let searchFormUrl = "moviePost.do";
+let mem_cd = "<%=mem_cd%>";
+$(function(){
 	
-	<div class="mainMoviePost">
-	  <div class="cardPost u-clearfix">
-	<!--   	영화 포스터 -->
-	    <div class="card-media">
-	      <img src="/resources/img/chfhd.jpeg" alt="" class="card-media-img" />
-	    </div>
-	<!--     영화제 -->
-		    <div class="card-body">
-		      <h2 class="card-body-heading">범죄도시3</h2>
-		      <div class="card-body-options">
-		        <div class="card-body-option">
-	<!-- 	        아이콘 -->
-		          	<div style="display: flex; padding-right: 10px;     align-items: center;">
-			          	<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z"/></svg>
-			            <p style="padding: 0px 0 0 5px; font-size: large;">3420</p>
-		            </div>
-		            <div style="display: flex;     align-items: center;">
-		          		<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
-		        	    <p style="padding: 0px 0 0 5px; font-size: large;">521</p>
-		            </div>
-		      </div>
-	<!-- 	      아이디 내용 상세보기  -->
-		      <div style="padding-top: 10px; color: #495057;"> 
-				<p style="font-size: 15px; padding-bottom: 8px;">
-			    	aqwer**
-		   		</p>
-			      <p>  초롱이가 제일 강력하다.</p>
-		   	  </div>
-		      
-		      <a href="#/" class="card-button card-button-link">
-		        상세보기
-		        <span class="card-button-icon">
-		          <svg fill="#9C948A" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-		            <path d="M0 0h24v24H0z" fill="none"/>
-		            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-		          </svg>
-		        </span>
-		      </a>
-		    </div>
-		  </div>
-		</div>
-	</div>
+	$('.postLankMoive').on('click', function(){
+		let movie_name = $(this).data('movie_name');
+		$('input[name="keyword"]').val(movie_name);
+		searchList_go(1);
+	})
 	
+	$('.mainMoviePost').on('click', '#mpCard', function(){
+		let mpost_no = $(this).data("mpost_no");
+		
+		$.ajax({
+			url : '<%=request.getContextPath()%>/movie/moviePostView.do',
+			method : 'post',
+			data : {'mpost_no' : mpost_no},
+			success : function(res){
+				console.log(res);
+				showPost(res);
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
 	
-	<div class="mainMoviePost">
-	  <div class="cardPost u-clearfix">
-	<!--   	영화 포스터 -->
-	    <div class="card-media">
-	      <img src="/resources/img/슬램.jpeg" alt="" class="card-media-img" />
-	    </div>
-	<!--     영화제 -->
-		    <div class="card-body">
-		      <h2 class="card-body-heading">슬램덩크 더 퍼스트</h2>
-		      <div class="card-body-options">
-		        <div class="card-body-option">
-	<!-- 	        아이콘 -->
-		          	<div style="display: flex; padding-right: 10px;     align-items: center;">
-			          	<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z"/></svg>
-			            <p style="padding: 0px 0 0 5px; font-size: large;">823</p>
-		            </div>
-		            <div style="display: flex;     align-items: center;">
-		          		<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
-		        	    <p style="padding: 0px 0 0 5px; font-size: large;">91</p>
-		            </div>
-		      </div>
-	<!-- 	      아이디 내용 상세보기  -->
-		      <div style="padding-top: 10px; color: #495057;"> 
-				<p style="font-size: 15px; padding-bottom: 8px;">
-			    	rrqwe1**
-		   		</p>
-			      <p>   너희들은 안늙었구나..</p>
-		   	  </div>
-		      
-		      <a href="#/" class="card-button card-button-link">
-		        상세보기
-		        <span class="card-button-icon">
-		          <svg fill="#9C948A" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-		            <path d="M0 0h24v24H0z" fill="none"/>
-		            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-		          </svg>
-		        </span>
-		      </a>
-		    </div>
-		  </div>
-		</div>
-	</div>
+	let mplist = '${moviePost4}';
+	if(mplist == '[]'){
+		$('.paginationdiv').css('display', 'none');
+	}
 	
-	<div class="mainMoviePost">
-	  <div class="cardPost u-clearfix">
-	<!--   	영화 포스터 -->
-	    <div class="card-media">
-	      <img src="/resources/img/chfhd.jpeg" alt="" class="card-media-img" />
-	    </div>
-	<!--     영화제 -->
-		    <div class="card-body">
-		      <h2 class="card-body-heading">범죄도시3</h2>
-		      <div class="card-body-options">
-		        <div class="card-body-option">
-	<!-- 	        아이콘 -->
-		          	<div style="display: flex; padding-right: 10px;     align-items: center;">
-			          	<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M323.8 34.8c-38.2-10.9-78.1 11.2-89 49.4l-5.7 20c-3.7 13-10.4 25-19.5 35l-51.3 56.4c-8.9 9.8-8.2 25 1.6 33.9s25 8.2 33.9-1.6l51.3-56.4c14.1-15.5 24.4-34 30.1-54.1l5.7-20c3.6-12.7 16.9-20.1 29.7-16.5s20.1 16.9 16.5 29.7l-5.7 20c-5.7 19.9-14.7 38.7-26.6 55.5c-5.2 7.3-5.8 16.9-1.7 24.9s12.3 13 21.3 13L448 224c8.8 0 16 7.2 16 16c0 6.8-4.3 12.7-10.4 15c-7.4 2.8-13 9-14.9 16.7s.1 15.8 5.3 21.7c2.5 2.8 4 6.5 4 10.6c0 7.8-5.6 14.3-13 15.7c-8.2 1.6-15.1 7.3-18 15.1s-1.6 16.7 3.6 23.3c2.1 2.7 3.4 6.1 3.4 9.9c0 6.7-4.2 12.6-10.2 14.9c-11.5 4.5-17.7 16.9-14.4 28.8c.4 1.3 .6 2.8 .6 4.3c0 8.8-7.2 16-16 16H286.5c-12.6 0-25-3.7-35.5-10.7l-61.7-41.1c-11-7.4-25.9-4.4-33.3 6.7s-4.4 25.9 6.7 33.3l61.7 41.1c18.4 12.3 40 18.8 62.1 18.8H384c34.7 0 62.9-27.6 64-62c14.6-11.7 24-29.7 24-50c0-4.5-.5-8.8-1.3-13c15.4-11.7 25.3-30.2 25.3-51c0-6.5-1-12.8-2.8-18.7C504.8 273.7 512 257.7 512 240c0-35.3-28.6-64-64-64l-92.3 0c4.7-10.4 8.7-21.2 11.8-32.2l5.7-20c10.9-38.2-11.2-78.1-49.4-89zM32 192c-17.7 0-32 14.3-32 32V448c0 17.7 14.3 32 32 32H96c17.7 0 32-14.3 32-32V224c0-17.7-14.3-32-32-32H32z"/></svg>
-			            <p style="padding: 0px 0 0 5px; font-size: large;">3420</p>
-		            </div>
-		            <div style="display: flex;     align-items: center;">
-		          		<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M160 368c26.5 0 48 21.5 48 48v16l72.5-54.4c8.3-6.2 18.4-9.6 28.8-9.6H448c8.8 0 16-7.2 16-16V64c0-8.8-7.2-16-16-16H64c-8.8 0-16 7.2-16 16V352c0 8.8 7.2 16 16 16h96zm48 124l-.2 .2-5.1 3.8-17.1 12.8c-4.8 3.6-11.3 4.2-16.8 1.5s-8.8-8.2-8.8-14.3V474.7v-6.4V468v-4V416H112 64c-35.3 0-64-28.7-64-64V64C0 28.7 28.7 0 64 0H448c35.3 0 64 28.7 64 64V352c0 35.3-28.7 64-64 64H309.3L208 492z"/></svg>
-		        	    <p style="padding: 0px 0 0 5px; font-size: large;">521</p>
-		            </div>
-		      </div>
-	<!-- 	      아이디 내용 상세보기  -->
-		      <div style="padding-top: 10px; color: #495057;"> 
-				<p style="font-size: 15px; padding-bottom: 8px;">
-			    	aqwer**
-		   		</p>
-			      <p>  초롱이가 제일 강력하다.</p>
-		   	  </div>
-		      
-		      <a href="#/" class="card-button card-button-link">
-		        상세보기
-		        <span class="card-button-icon">
-		          <svg fill="#9C948A" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg">
-		            <path d="M0 0h24v24H0z" fill="none"/>
-		            <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
-		          </svg>
-		        </span>
-		      </a>
-		    </div>
-		  </div>
-		</div>
-	</div>
+	$('#searchBtn').on('click', function(){
+		searchList_go(1);
+	})
+	
+	$('#moviepostModalBtn').on('click', function(){
+		if(mem_cd == null || mem_cd == ""){
+			$('#login-service-modal').modal("show");
+			return;
+		}
+		$('#moviepost-modal').modal("show");
+		
+	
+	})
+	
+})
+
+function showPost(res){
+	if(res.mpost.MEM_CD == mem_cd){
+		$('#mpReportBtn').css('display', 'none');
+		$('#mpUpdateBtn').css('display', 'inline');
+		$('#mpDeleteBtn').css('display', 'inline');
+	}else{
+		$('#mpReportBtn').css('display', '');
+		$('#mpDeleteBtn').css('display', 'none');
+		$('#mpUpdateBtn').css('display', 'none');
+		
+	}
+	$('#mpMoiveName').text(res.mpost.MOVIE_NAME);
+	$('#mpWriterId').text(res.mpost.MEM_ID.substring(0,3) + '**');
+	let date = new Date(res.mpost.REGDATE);
+	let yyyy = date.getFullYear();
+	let mm = date.getMonth()+1;
+	mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+	let dd = date.getDate();
+	dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+	let regdate =  yyyy+'-'+mm+'-'+dd;	
+	$('#mpWritedate').text(regdate);
+	$('#mpContent').text(res.mpost.MPOST_CONTENT);
+	$('#mpReportBtn').data('mpost_no', res.mpost.MPOST_NO);
+	$('#mpUpdateBtn').data('mpost_no', res.mpost.MPOST_NO);
+	$('#mpDeleteBtn').data('mpost_no', res.mpost.MPOST_NO);
+	if(res.mpost.MEM_PIC_PATH != null && res.mpost.MEM_PIC_PATH != ''){
+		$('#mpWriteMemPic').prop('src', '<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpost.MEM_PIC_PATH + '&item_cd=$' + res.mpost.MEM_CD + '&type=memberPic');
+	}else{
+		$('#mpWriteMemPic').prop('src', '../../resources/img/defaultprofile.png');
+	}
+	let mpbackImg = "<%=request.getContextPath() %>/common/getPicture.do?name=" + res.mpost.MOVIE_PIC_PATH + "&item_cd=" + res.mpost.MOVIE_CD + "&type=movieImg";
+	$('#thismpPic').css('background-image', 'url(' + mpbackImg + ')');
+	$('#moviepost-view-modal').modal("show");
+	$('#mpLikeCnt').text(res.mpost.LIKECNT);
+	$('#thismpreplycnt').text(res.mpost.REPLYCNT);
+	
+	if(res.likeYN == 'Y'){
+		$('#mpLikeBtn').removeClass('fa-regular');
+		$('#mpLikeBtn').addClass('fa-solid');
+		$('#mpLikeBtn').prop('id', 'mpLikeCanBtn');
+	}else{
+		$('#mpLikeCanBtn').removeClass('fa-solid');
+		$('#mpLikeCanBtn').addClass('fa-regular');
+		$('#mpLikeCanBtn').prop('id', 'mpLikeBtn');
+		
+	}
+	let replyShow = '';
+	for(let i = 0; i < res.mpostReplyList.length; i++){
+		replyShow += '<div style="display: flex; border-bottom: solid 1px #ced4da;" class="oneReply">';
+		replyShow += '<div style="margin: 10px;">';
+		if(res.mpostReplyList[i].MEM_PIC_PATH != null && res.mpostReplyList[i].MEM_PIC_PATH != ''){
+			replyShow += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpostReplyList[i].MEM_PIC_PATH + '&item_cd=$' + res.mpostReplyList[i].MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+		}else{
+			replyShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+		}
+		replyShow += '</div>';
+		replyShow += '<div style="width: 85%;">';
+		replyShow += '<div class="h50" style="display: flex; align-items: flex-end; margin-bottom: 5px;">';
+		replyShow += '<div class="w50" style="text-align: left;" id="replyWriterId">';
+		replyShow += res.mpostReplyList[i].MEM_ID.substring(0,3) + '**';
+		replyShow += '</div>';
+		replyShow += '<div class="w50" style="text-align: right; color: gray;" id="replyWritedate">';
+		let redate = new Date(res.mpostReplyList[i].REGDATE);
+		let ryyyy = redate.getFullYear();
+		let rmm = redate.getMonth()+1;
+		rmm = rmm >= 10 ? rmm : '0'+rmm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+		let rdd = redate.getDate();
+		rdd = rdd >= 10 ? rdd : '0'+rdd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+		let reregdate =  ryyyy+'-'+rmm+'-'+rdd;	
+		
+		replyShow += reregdate;
+		replyShow += '</div>';
+		replyShow += '</div>';
+		replyShow += '<div class="h50" style="display: flex;">';
+		replyShow += '<div class="w80" style="text-align: left;" id="thisReplyContent">' + res.mpostReplyList[i].REPLY_CONTENT + '</div>';
+		if(mem_cd == res.mpostReplyList[i].MEM_CD){
+			replyShow += '<div class="w20 reUD" style="text-align: right;">'
+			replyShow += '<div id="replyUpdateBtn" data-reply_no="' + res.mpostReplyList[i].REPLY_NO + '" style="display: inline; margin-right: 10px;">수정</div>';
+			replyShow += '<div id="replyDeleteBtn" data-reply_no="' + res.mpostReplyList[i].REPLY_NO + '" style="display: inline; margin-right: 10px;">삭제</div>';
+			replyShow += '</div>'
+		}else{
+			replyShow += '<div class="w20" style="text-align: right;" id="replyReportBtn" data-reply_no="' + res.mpostReplyList[i].REPLY_NO + '">신고</div>';
+		}
+		replyShow += '</div>';
+		replyShow += '</div>';
+		replyShow += '</div>';
+		
+			
+			
+	}
+	$('.reply-div').html(replyShow);
+}
+
+</script>
+	
 	
 <!-- 		wj전체보기 버튼  -->
 		<p class="content-box3-p" >

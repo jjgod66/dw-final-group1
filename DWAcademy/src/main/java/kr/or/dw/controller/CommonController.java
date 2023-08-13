@@ -46,6 +46,8 @@ import kr.or.dw.service.SupportService;
 import kr.or.dw.vo.EventVO;
 import kr.or.dw.vo.FaqVO;
 import kr.or.dw.vo.MemberVO;
+import kr.or.dw.vo.MoviePostVO;
+import kr.or.dw.vo.MovieVO;
 import kr.or.dw.vo.NoticeVO;
 import kr.or.dw.vo.ProductVO;
 
@@ -126,7 +128,7 @@ public class CommonController {
 	
 	
 	@RequestMapping(value = "/main", method = { RequestMethod.GET, RequestMethod.POST })
-	public ModelAndView index(ModelAndView mnv, HttpSession session, String login) throws SQLException {
+	public ModelAndView index(ModelAndView mnv, HttpSession session, String login, String movie_cd) throws SQLException {
 		String url = "/main";
 		
 		System.out.println(login);
@@ -166,6 +168,10 @@ public class CommonController {
 		List<FaqVO> faqList = null;
 		faqList = supportService.getFaQ5();
 		
+		List<Map<String, Object>> moviePost4 = null;
+		moviePost4 = movieService.getMainMoviePost(movie_cd);
+		
+		mnv.addObject("moviePost4", moviePost4);
 		mnv.addObject("faqList", faqList);
 		mnv.addObject("loginNeed", login);
 		mnv.addObject("productFood", productFood);

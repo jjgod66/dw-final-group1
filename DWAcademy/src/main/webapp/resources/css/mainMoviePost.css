@@ -83,7 +83,6 @@
 }
 
 .card-body-option {box-sizing: border-box;
-  cursor: pointer;
   display: flex;
   position: relative;
   margin-left: 5px;

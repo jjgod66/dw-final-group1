@@ -551,6 +551,9 @@ public interface MovieDAO {
 	 */
 	List<Map<String, Object>> getMyLikeMovie(String mem_cd) throws SQLException;
 
+	List<Map<String, Object>> selectMainMoviePost(String movie_cd) throws SQLException;
+
+
 
 
 }
