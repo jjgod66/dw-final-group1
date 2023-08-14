@@ -44,6 +44,7 @@ $('#SMSCheck').on('click', function(){
 		success : function(res){
 			$('input[name="mem_phone"]').val(mem_phone);
 			$('input[name="mem_name"]').val($('input[name="name"]').val());
+			$('input[name="mem_bir"]').val($('input[name="bir"]').val());
 			if(res != ""){
 				alert('이미 가입된 회원입니다! 소셜로그인은 [마이페이지 > 개인정보수정] 에서 연동 후 사용해주세요.');
 				$('#authentication-modal').modal('hide');
