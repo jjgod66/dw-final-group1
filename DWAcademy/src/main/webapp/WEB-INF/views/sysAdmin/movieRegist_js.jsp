@@ -44,7 +44,7 @@
 	 	let inputVideo = $(this)[0].files[0];
 	 	console.log(inputVideo);
 		let videoUrl = URL.createObjectURL(inputVideo);
-		$(this).siblings('.test').attr('src', videoUrl);
+		$(this).siblings('.vi').attr('src', videoUrl);
 	});
 	
 	$('input[name="genre_cd"]').on('click', function(e){
@@ -62,7 +62,7 @@
 		
 		let form = $('form[role="form"]');
 		form.attr({'method' : 'post', 'action' : 'movieRegist.do'});
-		checkForm();
+		if (checkForm() == 1) return;
 		
 		form.submit();
 	});
@@ -77,7 +77,7 @@
 		$('form[role="form"]').prepend(input);
 		let form = $('form[role="form"]');
 		form.attr({'method' : 'post', 'action' : 'movieModify.do'});
-		checkForm();
+		if (checkForm() == 1) return;
 		
 		form.submit();
 	});
@@ -89,13 +89,55 @@
 	
 	// 작성폼 확인
 	function checkForm(){
+		
+		if ($('#movie_name').val() == '') {
+			alert('영화제목은 필수입력항목입니다.');
+			$('#movie_name').focus();
+			return 1;
+		}
+		
+		if ($('#movie_director').val() == '') {
+			alert('감독은 필수입력항목입니다.');
+			$('#movie_director').focus();
+			return 1;
+		}
+		
+		if ($('textarea[name="movie_info"]').val() == '') {
+			alert('영화소개는 필수입력항목입니다.');
+			$('textarea[name="movie_info"]').focus();
+			return 1;
+		}
+		
+		if ($('#opendate').val() == '') {
+			alert('개봉일은 필수입력항목입니다.');
+			$('#opendate').focus();
+			return 1;
+		}
+		
+		if ($('#enddate').val() == '') {
+			alert('상영종료일은 필수입력항목입니다.');
+			$('#enddate').focus();
+			return 1;
+		}
+		
+		if ($('#movie_actor').val() == '') {
+			alert('출연진은 필수입력항목입니다.');
+			$('#movie_actor').focust();
+			return 1;
+		}
+		
+		if ($('#inputPosterName').val() == '') {
+			alert('메인포스터는 필수입력항목입니다.');
+			return 1;
+		}
+		
 		// 러닝타임 숫자자리수 제한
 		let ml_length = $('input[name="movie_length"]').val().length;
-		if (ml_length > 4) {
+		if (ml_length > 4 ||  $('input[name="movie_length"]').val() == '') {
 			alert("러닝타임을 확인하고 입력해주세요. (분 단위, 양의정수)");
 			$('input[name="movie_length"]').focus();
 			$('input[name="movie_length"]').click();
-			return;
+			return 1;
 		}
 		
 		// 장르 최소 1개 선택 확인
@@ -103,7 +145,7 @@
 		if (genre_cnt < 1 ) {
 			alert("장르가 최소 1개는 선택되어야 합니다.");
 			$('input[name="genre_cd"]').focus();
-			return;
+			return 1;
 		}
 		
 		// 더빙타입 최소 1개 선택 확인
@@ -111,7 +153,7 @@
 		if (isdub_cnt < 1 ) {
 			alert("더빙타입이 최소 1개는 선택되어야 합니다.");
 			$('input[name="isdub"]').focus();
-			return;
+			return 1;
 		}
 		
 		// 2d/3d유무 최소 1개 선택 확인
@@ -119,8 +161,9 @@
 		if (is3d_cnt < 1 ) {
 			alert("2D/3D유무가 최소 1개는 선택되어야 합니다.");
 			$('input[name="is3d"]').focus();
-			return;
+			return 1;
 		}
+
 	}
 	
 </script>

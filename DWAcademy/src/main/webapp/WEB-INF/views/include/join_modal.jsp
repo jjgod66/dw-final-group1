@@ -194,7 +194,7 @@
 						<div class="input-group">
 							<label class="label">생년월일</label>
 							<div class="input-group-icon">
-								<input class="input--style-3 js-datepicker" type="text" name="mem_bir" placeholder="ex)020101" maxlength="6">
+								<input class="input--style-3 js-datepicker" type="text" name="mem_bir" placeholder="ex)20020101" maxlength="8">
 							</div>
 						</div>
 					</div>

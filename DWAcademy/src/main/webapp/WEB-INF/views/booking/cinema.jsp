@@ -403,7 +403,7 @@ function getKoreanDayOfWeek(dayOfWeek) {
 // 현재 날짜 가져오기
 let date = new Date();
 let offset = date.getTimezoneOffset() * 60000; //ms단위라 60000곱해줌
-var currentDate = new Date(date.getTime() - offset);
+var currentDate = new Date();
   
 // 14일 후의 날짜 계산
 var endDate = new Date();

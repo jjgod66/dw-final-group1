@@ -287,17 +287,23 @@ public class SysAdminController {
 		
 		// 관련 이미지파일 이름 DB에 저장
 		List<String> movie_pics = new ArrayList<>();
-		for ( MultipartFile pic : registReq.getUploadImg()) {
-			movie_pics.add(pic.getOriginalFilename());
+		if(registReq.getUploadImg() != null) {
+			
+			for ( MultipartFile pic : registReq.getUploadImg()) {
+				movie_pics.add(pic.getOriginalFilename());
+			}
+			sysAdminService.registMoviePic(movie_pics, movie_cd);
 		}
-		sysAdminService.registMoviePic(movie_pics, movie_cd);
 		
 		// 관련 예고편파일 이름 DB에 저장
 		List<String> movie_pres = new ArrayList<>();
-		for ( MultipartFile pre : registReq.getUploadVideo()) {
-			movie_pres.add(pre.getOriginalFilename());
+		if(registReq.getUploadVideo() != null) {
+				
+			for ( MultipartFile pre : registReq.getUploadVideo()) {
+				movie_pres.add(pre.getOriginalFilename());
+			}
+			sysAdminService.registMoviePre(movie_pres, movie_cd);
 		}
-		sysAdminService.registMoviePre(movie_pres, movie_cd);
 		
 		// 포스터 이미지파일 로컬에 저장
 		MultipartFile poster = registReq.getMovie_mainPic_path();
@@ -427,13 +433,15 @@ public class SysAdminController {
 				}
 			}
 			// 관련 예고편파일 이름 DB에 저장
-			List<String> movie_videos = new ArrayList<>();
-			for ( MultipartFile video : modifyReq.getUploadVideo()) {
-				if (video != null && video.getOriginalFilename() != "") {
-					movie_videos.add(video.getOriginalFilename());
+			if(modifyReq.getUploadVideo() != null) {
+				List<String> movie_videos = new ArrayList<>();
+				for ( MultipartFile video : modifyReq.getUploadVideo()) {
+					if (video != null && video.getOriginalFilename() != "") {
+						movie_videos.add(video.getOriginalFilename());
+					}
 				}
-			}
 			sysAdminService.registMoviePre(movie_videos, movie_cd);
+			}
 			// 관련 예고편파일 로컬에 저장
 			if (modifyReq.getUploadVideo() != null) {
 				for (MultipartFile multi : modifyReq.getUploadVideo()) {
@@ -499,7 +507,7 @@ public class SysAdminController {
 		String url = "/sysAdmin/storeAdminMain";
 		
 		List<ProductVO> productList = null;
-		productList = storeService.selectProDiv(CategoryIdx);
+		productList = sysAdminService.selectproductList(CategoryIdx);
 		System.out.println(CategoryIdx);
 		Map<String, Object> subjectMap = null;
 		String item2 = "";
@@ -521,7 +529,7 @@ public class SysAdminController {
 	public ModelAndView storeAdminDetail (ModelAndView mnv, String product_cd) throws SQLException {
 		String url = "/sysAdmin/storeAdminDetail";
 		
-		ProductVO product = null;
+		ProductVO product = new ProductVO();
 		product = storeService.selectProDetail(product_cd);
 		
 		mnv.addObject("product", product);
@@ -598,6 +606,36 @@ public class SysAdminController {
 		PrintWriter out = res.getWriter();
 		out.println("<script>");
 		out.println("alert('상품 수정이 완료되었습니다.')");
+		out.println("location.href='storeAdminDetail.do?product_cd=" + modifyReq.getProduct_cd() + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/storeAdminProductUnactive")
+	public void storeAdminProductUnactive(ProductModifyCommand modifyReq, HttpServletResponse res) throws Exception {
+		
+		sysAdminService.unactiveProduct(modifyReq.getProduct_cd());
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('상품 비활성화가 완료되었습니다.')");
+		out.println("location.href='storeAdminDetail.do?product_cd=" + modifyReq.getProduct_cd() + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/storeAdminProductActive")
+	public void storeAdminProductActive(ProductModifyCommand modifyReq, HttpServletResponse res) throws Exception {
+		
+		sysAdminService.activeProduct(modifyReq.getProduct_cd());
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('상품 활성화가 완료되었습니다.')");
 		out.println("location.href='storeAdminDetail.do?product_cd=" + modifyReq.getProduct_cd() + "';");
 		out.println("</script>");
 		out.flush();
@@ -914,9 +952,9 @@ public class SysAdminController {
 		
 		int event_no = event.getEvent_no();
 		Map<String, Object> modifyEventContentMap = new HashMap<>();
-		if (modifyReq.getEvent_content().contains("/sysAdmin/getTempImg.do?fileName=")) {
-			String newContent = modifyReq.getEvent_content().replace("/sysAdmin/getTempImg.do?fileName="+modifyReq.getOldFileName() 
-																	,"/sysAdmin/getPicture.do?name="+modifyReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+		if (modifyReq.getEvent_content().contains("/common/getTempImg.do?fileName=")) {
+			String newContent = modifyReq.getEvent_content().replace("/common/getTempImg.do?fileName="+modifyReq.getOldFileName() 
+																	,"/common/getPicture.do?name="+modifyReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
 			modifyEventContentMap.put("event_no", event.getEvent_no());
 			modifyEventContentMap.put("newContent", newContent);
 			sysAdminService.modifyEventContent(modifyEventContentMap);

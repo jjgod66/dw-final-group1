@@ -688,7 +688,7 @@ a {
 
 <script>
 
-let mem_cd = '<%=mem_cd%>';
+mem_cd = '<%=mem_cd%>';
 let thr_name = '${theater.thr_name}';
 $(function(){
 	$('#swiper-wrapper').on('click', '.btnDay.abled', function(){
@@ -885,12 +885,12 @@ function getKoreanDayOfWeek(dayOfWeek) {
 
 let date = new Date();
 let offset = date.getTimezoneOffset() * 60000; //ms단위라 60000곱해줌
-var currentDate = new Date(date.getTime() - offset);
+var currentDate = new Date();
+console.log(currentDate);
   
 // 14일 후의 날짜 계산
 var endDate = new Date();
 endDate.setDate(currentDate.getDate() + 14);
-
 // 날짜 리스트 생성
 var dateList = [];
 
@@ -1018,10 +1018,10 @@ swiper.on('slideChange', function() {
 });
 
 // 현재 시간 가져오기
-var currentTime = new Date();
+var currentTime = new Date(date.getTime() - offset);
 
 // 현재 날짜 가져오기 (년-월-일 형식)
-var currentDateString = new Date().toISOString().split("T")[0];
+var currentDateString = new Date(date.getTime() - offset).toISOString().split("T")[0];
 
 
 // // 초기 페이지 로드 시 오늘 날짜로 예매 시간 생성

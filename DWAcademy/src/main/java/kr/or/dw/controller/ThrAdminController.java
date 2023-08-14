@@ -622,25 +622,27 @@ public class ThrAdminController {
 	public ModelAndView movieAdminMain (ModelAndView mnv, HttpServletRequest req, String date) throws SQLException, ParseException {
 		
 		String url = "/thrAdmin/movieAdminMain";
-		
-		List<Map<String, Object>> movieList = thrAdminService.selectMovieListforMovieMain(new Date());
-		mnv.addObject("movieList", movieList);
-		System.out.println(movieList);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+
 		Map<String, Object> data = new HashMap<String, Object>();
 		
 		HttpSession session = req.getSession();
 		Map<String, Object> admin = (Map<String, Object>) session.getAttribute("loginUser");
 		String admin_cd = (String) admin.get("CD");
 		
+		Date today = null;
 		if (date == null) {
+			today = new Date();
 			data.put("date", new Date());
 		} else {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-			Date today = formatter.parse(date.trim());
+			today = formatter.parse(date.trim());
 			data.put("date", today);
 			String today_String = formatter.format(today);
 			mnv.addObject("today", today_String);
 		}
+		
+		List<Map<String, Object>> movieList = thrAdminService.selectMovieListforMovieMain(today);
+		mnv.addObject("movieList", movieList);
 		data.put("admin_cd", admin_cd);
 		
 		List<Map<String, Object>> screenList = thrAdminService.selectScreenListforMovieMain(data);
@@ -706,7 +708,7 @@ public class ThrAdminController {
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH)+1;
 		int day = cal.get(Calendar.DAY_OF_MONTH);
-		int hour = cal.get(Calendar.HOUR);
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
 		if (7 <= hour && hour < 9) {
 			screen.setGb_jojo("Y");
 		} else {
@@ -752,7 +754,7 @@ public class ThrAdminController {
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH)+1;
 		int day = cal.get(Calendar.DAY_OF_MONTH);
-		int hour = cal.get(Calendar.HOUR);
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
 		if (7 <= hour && hour < 9) {
 			screen.setGb_jojo("Y");
 		} else {
