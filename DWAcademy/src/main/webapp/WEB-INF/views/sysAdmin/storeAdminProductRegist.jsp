@@ -72,7 +72,13 @@
 								<button class="bc_dw_blue" id="registBtn">등록</button>
 							</c:when>
 							<c:otherwise>
-								<button class="bc_dw_blue" id="modifyBtn">수정</button>
+								<c:if test="${product.gb_del == 'N' }">
+									<button class="bc_dw_blue" id="modifyBtn">수정</button>
+									<button class="bc_dw_orange" id="unactiveBtn">비활성화</button>
+								</c:if>
+								<c:if test="${product.gb_del == 'Y' }">
+									<button class="bc_dw_orange" id="activeBtn">활성화</button>
+								</c:if>
 							</c:otherwise>
 						</c:choose>
 						<button class="bc_dw_black" id="cancelBtn">뒤로가기</button>
@@ -170,6 +176,22 @@ $(function(){
 		}
 		$('form[role="form"]').attr({'method' : 'post', 'action' : 'storeAdminProductModify.do'});
 		$('form[role="form"]').submit();
+	});
+	
+	$('#unactiveBtn').on('click', function(e){
+		e.preventDefault();
+		if (confirm('해당  상품을 정말 비활성화하시겠습니까?')) {
+			$('form[role="form"]').attr({'method' : 'post', 'action' : 'storeAdminProductUnactive.do'});
+			$('form[role="form"]').submit();
+		}		
+	});
+	
+	$('#activeBtn').on('click', function(e){
+		e.preventDefault();
+		if (confirm('해당  상품을 정말 활성화하시겠습니까?')) {
+			$('form[role="form"]').attr({'method' : 'post', 'action' : 'storeAdminProductActive.do'});
+			$('form[role="form"]').submit();
+		}		
 	});
 	
 	// 뒤로가기버튼 클릭시

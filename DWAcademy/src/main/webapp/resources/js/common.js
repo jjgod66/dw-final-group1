@@ -75,8 +75,7 @@ $(document).ready(function() {
 //        e.stopPropagation();
 //    });
 //    
-//});
-
+});
 // 팝업창 띄우기
 // 새로운 Window 창을 Open 할 경우 사용되는 함수 (arg : 주소, 창 타이틀, 넓이, 길이)
 function OpenWindow(UrlStr, WinTitle, WinWidth, WinHeight){
@@ -126,5 +125,6 @@ function preViewPicture(inputImage, target){
 		};
 		
 		reader.readAsDataURL(inputImage.files[0]);
-	};
-};
+	}
+}
+

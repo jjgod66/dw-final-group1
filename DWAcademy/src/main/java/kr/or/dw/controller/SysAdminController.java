@@ -507,7 +507,7 @@ public class SysAdminController {
 		String url = "/sysAdmin/storeAdminMain";
 		
 		List<ProductVO> productList = null;
-		productList = storeService.selectProDiv(CategoryIdx);
+		productList = sysAdminService.selectproductList(CategoryIdx);
 		System.out.println(CategoryIdx);
 		Map<String, Object> subjectMap = null;
 		String item2 = "";
@@ -529,7 +529,7 @@ public class SysAdminController {
 	public ModelAndView storeAdminDetail (ModelAndView mnv, String product_cd) throws SQLException {
 		String url = "/sysAdmin/storeAdminDetail";
 		
-		ProductVO product = null;
+		ProductVO product = new ProductVO();
 		product = storeService.selectProDetail(product_cd);
 		
 		mnv.addObject("product", product);
@@ -606,6 +606,36 @@ public class SysAdminController {
 		PrintWriter out = res.getWriter();
 		out.println("<script>");
 		out.println("alert('상품 수정이 완료되었습니다.')");
+		out.println("location.href='storeAdminDetail.do?product_cd=" + modifyReq.getProduct_cd() + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/storeAdminProductUnactive")
+	public void storeAdminProductUnactive(ProductModifyCommand modifyReq, HttpServletResponse res) throws Exception {
+		
+		sysAdminService.unactiveProduct(modifyReq.getProduct_cd());
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('상품 비활성화가 완료되었습니다.')");
+		out.println("location.href='storeAdminDetail.do?product_cd=" + modifyReq.getProduct_cd() + "';");
+		out.println("</script>");
+		out.flush();
+		out.close();
+	}
+	
+	@RequestMapping("/storeAdminProductActive")
+	public void storeAdminProductActive(ProductModifyCommand modifyReq, HttpServletResponse res) throws Exception {
+		
+		sysAdminService.activeProduct(modifyReq.getProduct_cd());
+		
+		res.setContentType("text/html; charset=utf-8");
+		PrintWriter out = res.getWriter();
+		out.println("<script>");
+		out.println("alert('상품 활성화가 완료되었습니다.')");
 		out.println("location.href='storeAdminDetail.do?product_cd=" + modifyReq.getProduct_cd() + "';");
 		out.println("</script>");
 		out.flush();

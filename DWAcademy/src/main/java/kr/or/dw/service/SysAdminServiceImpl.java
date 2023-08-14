@@ -284,6 +284,11 @@ public class SysAdminServiceImpl implements SysAdminService {
 	}
 
 	@Override
+	public List<ProductVO> selectproductList(String categoryIdx) throws SQLException {
+		return sysAdminDAO.selectproductList(categoryIdx);
+	}
+	
+	@Override
 	public void registProduct(ProductVO product) throws SQLException {
 		sysAdminDAO.insertProduct(product);
 	}
@@ -291,6 +296,16 @@ public class SysAdminServiceImpl implements SysAdminService {
 	@Override
 	public void modifyProduct(ProductVO product) throws SQLException {
 		sysAdminDAO.updateProduct(product);
+	}
+
+	@Override
+	public void unactiveProduct(String product_cd) throws SQLException {
+		sysAdminDAO.unactiveProduct(product_cd);
+	}
+
+	@Override
+	public void activeProduct(String product_cd) throws SQLException {
+		sysAdminDAO.activeProduct(product_cd);
 	}
 
 	@Override

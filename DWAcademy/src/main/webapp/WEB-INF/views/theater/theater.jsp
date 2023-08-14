@@ -3,7 +3,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@include file="../include/header.jsp"%>
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=0b454d2cc25dc49cf0d959c1f64b6aad"></script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=APIKEY&libraries=services,clusterer,drawing"></script>
@@ -508,8 +510,8 @@ h3.tit.small {
 		<div class="tab-cont-wrap">
 			<div id="tab01" class="tab-cont on">
 				<div class="theater-info-text mt40">
-					<p class="big">
-						${theater.thr_info }
+					<p style="font-size: 20px;">
+						${fn:replace(theater.thr_info, replaceChar, "<br/>")}
 					</p>
 				</div>
 				<h2 class="tit small mt70">위치안내</h2>

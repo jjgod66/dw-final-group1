@@ -38,16 +38,21 @@ if (CategoryIdx == null) {
 		            </ul>
 		        </div>
 		        <div>
-		        <button class="bc_dw_black" style="float: right;" id="registProductBtn">상품 등록</button>
+		         <button class="bc_dw_black" style="float: right;" id="registProductBtn">상품 등록</button>
+		        </div>
+		        <div class="mt-5">
+		        	<div class="text-end">
+				        ** <div style="display: inline-block; width:30px; height: 10px; background-color: #e9ecef;"></div> 비활성화상품
+		        	</div>
 		        </div>
 		        <div class="content_wrap">
 		            <div class="row">
 		            	<c:forEach items="${productList }" var="product">
-		            		 <div class="col-12 col-lg-3">
-			                    <a href="/sysAdmin/storeAdminDetail.do?product_cd=${product.product_cd }" class="btn_category_product">
-			                        <span class="com_list_img_wrap"><img src="/common/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd}&type=productImg"></span>
+		            		 <div class="col-12 col-lg-3 productDiv" style="${product.gb_del == 'Y' ? 'background-color: #e9ecef;' : ''}">
+			                    <a href="/sysAdmin/storeAdminDetail.do?product_cd=${product.product_cd }" class="btn_category_product pt-1">
+			                        <span class="com_list_img_wrap" style="width: 185px; height:185px;"><img src="/common/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd}&type=productImg" style="object-fit: cover; height: 185px;"></span>
 			                        <span class="com_list_text_wrap">
-			                            <span class="com_list_text_title">${product.product_name }</span>
+			                            <span class="com_list_text_title"><b>${product.product_name }</b></span>
 			                            <span class="com_list_text_name">${product.product_content }</span>
 			                            <span class="com_list_sale_price_wrap">
 			                                <span class="store_deatail_source_price"><fmt:formatNumber value="${product.product_price }" pattern="#,##0" /></span>

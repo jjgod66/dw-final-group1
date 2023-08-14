@@ -447,7 +447,7 @@ window.onload = function(){
 		for (let i = 65; i < (map.HOUSE_ROW+65); i++){
 			rowDiv = $('<div class="row" style="justify-content: center;">');
 			for (let j = 1; j < (map.HOUSE_COLUMN+1); j++)  {
-				seatDiv = $('<div style="display: inline-block; padding: 0; font-size: small; text-align: center; width: '+ratio+'%; height: 1.5rem; margin: 0 0.5rem 0.5rem 0; background-color: #e9ecef;" id="'+String.fromCharCode(i)+j+'seat">'+String.fromCharCode(i)+j+'</div>');
+				seatDiv = $('<div style="display: inline-block; padding: 0; font-size: x-small; text-align: center; width: '+ratio+'%; height: 1rem; margin: 0 0.5rem 0.5rem 0; background-color: #e9ecef;" id="'+String.fromCharCode(i)+j+'seat">'+String.fromCharCode(i)+j+'</div>');
 				if (map.SEAT_LIST.includes(String.fromCharCode(i)+j)) {
 					seatDiv.css({
 									'background-color' : '#4aa8d8',

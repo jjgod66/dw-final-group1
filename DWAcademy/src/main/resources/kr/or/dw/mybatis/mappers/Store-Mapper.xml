@@ -20,6 +20,7 @@
 		<if test="CategoryIdx == '2'.toString()">
 			AND product_div = '팝콘/스낵/음료'
 		</if>
+		AND gb_del = 'N'
 	</select>
 	
 	<select id="selectProDetail" parameterType="str" resultType="product">
