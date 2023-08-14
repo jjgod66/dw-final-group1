@@ -30,7 +30,7 @@
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     box-shadow: none;
-    width: 100%;
+/*     width: 100%; */
     font-size: 14px;
     font-family: inherit;
 }

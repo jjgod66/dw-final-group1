@@ -122,11 +122,20 @@ public interface SysAdminDAO {
 	// 해당 영화의 이미 올라간 비디오 불러오기
 	List<Map<String, Object>> selectMoiveVideoByMovie_cd(String movie_cd) throws SQLException;
 
+	// 스토어 상품리스트 불러오기
+	List<ProductVO> selectproductList(String categoryIdx) throws SQLException;
+	
 	// 새 스토어 상품 등록하기
 	void insertProduct(ProductVO product) throws SQLException;
 
 	// 스토어 상품 수정하기
 	void updateProduct(ProductVO product) throws SQLException;
+	
+	// 상품을 비활성화 한다.
+	void unactiveProduct(String product_cd) throws SQLException;
+
+	// 상품을 활성화 한다.
+	void activeProduct(String product_cd) throws SQLException;
 	
 	// 공지사항 게시글 목록 불러오기
 	List<NoticeVO> selectNoticeList(SearchCriteria cri, RowBounds rowBounds) throws SQLException;

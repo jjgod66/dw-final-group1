@@ -32,7 +32,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;}#wrapper {
     }
 
     .post-content p {
-    padding: 40px 10px 30px 10px;
+/*     padding: 10px 10px 10px 10px; */
         font-size: 16px;
         line-height: 1.6;
         margin-bottom: 20px;
@@ -74,10 +74,8 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;}#wrapper {
 				        <span id="b">${notice.notice_thr } </span>
 				        <span id="b"><fmt:formatDate value="${notice.regdate }" pattern="yyyy-MM-dd"/> </span>
 				
-				    <div class="post-content">
-				    <p>
+				    <div class="post-content mt-5">
 				       ${notice.notice_content }
-				    </p>
 				    </div>
 				
 				    <div class="post-buttons">

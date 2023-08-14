@@ -18,4 +18,7 @@ public class ProductVO {
 	private Date buydate;
 	private String gb_use;
 	private Date refunddate;
+	private String gb_del;
+	
+	public ProductVO () {};
 }

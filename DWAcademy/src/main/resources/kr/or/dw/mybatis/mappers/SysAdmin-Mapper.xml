@@ -522,6 +522,19 @@
 		 WHERE movie_cd = #{movie_cd}
 	</select>
 	
+	<select id="selectproductList" resultType="product">
+		SELECT *
+		  FROM product
+		 WHERE 1 = 1
+		<if test="CategoryIdx == '1'.toString()">
+			AND product_div = '기프트카드'
+		</if>
+		<if test="CategoryIdx == '2'.toString()">
+			AND product_div = '팝콘/스낵/음료'
+		</if>
+		 ORDER BY GB_DEL ASC, PRODUCT_CD DESC
+	</select>
+	
 	<insert id="insertProduct">
 		INSERT INTO product
 					(
@@ -533,6 +546,7 @@
 					,PRODUCT_PERIOD
 					,PRODUCT_INFO
 					,PRODUCT_PIC_PATH
+					,GB_DEL
 					)
 			 VALUES (
 					 'P' || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual) || LPAD(product_seq.nextval,4,0)
@@ -543,6 +557,7 @@
 					,#{product_period}
 					,#{product_info}
 					,#{product_pic_path}
+					,'N'
 			 		)
 		<selectKey resultType="str" keyProperty="product_cd" order="AFTER">
 			SELECT 'P' || (SELECT TO_CHAR(SYSDATE, 'YYYYMMDD') FROM dual d1) || LPAD(product_seq.currval,4,0) movie_cd FROM dual d2
@@ -558,6 +573,18 @@
 		      ,product_period = #{product_period}
 		      ,product_info = #{product_info}
 		      ,product_pic_path = #{product_pic_path}
+		 WHERE product_cd = #{product_cd}
+	</update>
+	
+	<update id="unactiveProduct">
+		UPDATE product
+		   SET gb_del = 'Y'
+		 WHERE product_cd = #{product_cd} 
+	</update>
+	
+	<update id="activeProduct">
+		UPDATE product
+		   SET gb_del = 'N'
 		 WHERE product_cd = #{product_cd}
 	</update>
 	
