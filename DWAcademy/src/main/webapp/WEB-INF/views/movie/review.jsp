@@ -430,7 +430,7 @@ $(function(){
 	})
 })
 
-let mem_cd = "<%=mem_cd%>";
+mem_cd = "<%=mem_cd%>";
 let searchFormUrl = "/movie/review.do";
 $('.reviews-members-body').on('click', '#likeBtn', function(){
 	if(mem_cd == null || mem_cd == ""){

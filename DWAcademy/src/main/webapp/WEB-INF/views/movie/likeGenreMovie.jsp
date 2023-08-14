@@ -217,7 +217,7 @@ $(function(){
 		$('#btnAddMovie').css('display', 'none');
 	}
 	
-	let mem_cd = "<%=mem_cd%>";
+	mem_cd = "<%=mem_cd%>";
 	
 	if(mem_cd == null || mem_cd == ""){
 		alert("로그인이 필요합니다.");

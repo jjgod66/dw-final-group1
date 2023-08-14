@@ -215,7 +215,7 @@ select {
 </form>
 <script>
 $(function(){
-	let mem_cd = "<%=mem_cd%>";
+	mem_cd = "<%=mem_cd%>";
 	console.log(mem_cd);
 	if(mem_cd != null && mem_cd !== ""){
 		$('#like').css('display', '');
