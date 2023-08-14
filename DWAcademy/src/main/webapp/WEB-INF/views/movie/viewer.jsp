@@ -298,7 +298,7 @@
 	        <c:if test="${!empty pictureList }">
 	        	<div class="row" style="width: 100%; margin: 0px 0px 30px 0px;">
 	        		<c:forEach items="${pictureList }" var="pic">
-		        		<div class="col-2" id="moviePic">
+		        		<div class="col-2" id="moviePic" style="margin-top: 20px;">
 		        			<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${pic.movie_pic_path}&item_cd=${movieView.movie.movie_cd}&type=movieImg" style="width: 100%; border: solid 1px black;">
 		        		</div>
 	        		</c:forEach>
@@ -550,7 +550,7 @@ var mySwiper = new Swiper('.swiper-container', {
 	  loop : false
 	});
 
-let mem_cd = "<%=mem_cd%>";
+mem_cd = "<%=mem_cd%>";
 console.log(mem_cd);
 let movie_cd = '${movieView.movie.movie_cd }';
 function movieHeart(){

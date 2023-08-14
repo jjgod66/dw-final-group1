@@ -21,9 +21,11 @@ function Attach_action(){
 	$(document).on('click','.imgBtn', function(){
 		$(this).closest('button').prev().click();
 	});
+
 	$(document).on('click','.videoBtn', function(){
 		$(this).closest('button').prev().click();
 	});
+
 	
 	// 사진 삭제 버튼
 	$(document).on('click', 'button#cancelAddBtn',function(){
