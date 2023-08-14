@@ -44,7 +44,7 @@
 	 	let inputVideo = $(this)[0].files[0];
 	 	console.log(inputVideo);
 		let videoUrl = URL.createObjectURL(inputVideo);
-		$(this).siblings('.test').attr('src', videoUrl);
+		$(this).siblings('.vi').attr('src', videoUrl);
 	});
 	
 	$('input[name="genre_cd"]').on('click', function(e){

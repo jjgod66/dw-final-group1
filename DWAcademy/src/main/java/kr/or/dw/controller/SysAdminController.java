@@ -287,17 +287,23 @@ public class SysAdminController {
 		
 		// 관련 이미지파일 이름 DB에 저장
 		List<String> movie_pics = new ArrayList<>();
-		for ( MultipartFile pic : registReq.getUploadImg()) {
-			movie_pics.add(pic.getOriginalFilename());
+		if(registReq.getUploadImg() != null) {
+			
+			for ( MultipartFile pic : registReq.getUploadImg()) {
+				movie_pics.add(pic.getOriginalFilename());
+			}
+			sysAdminService.registMoviePic(movie_pics, movie_cd);
 		}
-		sysAdminService.registMoviePic(movie_pics, movie_cd);
 		
 		// 관련 예고편파일 이름 DB에 저장
 		List<String> movie_pres = new ArrayList<>();
-		for ( MultipartFile pre : registReq.getUploadVideo()) {
-			movie_pres.add(pre.getOriginalFilename());
+		if(registReq.getUploadVideo() != null) {
+				
+			for ( MultipartFile pre : registReq.getUploadVideo()) {
+				movie_pres.add(pre.getOriginalFilename());
+			}
+			sysAdminService.registMoviePre(movie_pres, movie_cd);
 		}
-		sysAdminService.registMoviePre(movie_pres, movie_cd);
 		
 		// 포스터 이미지파일 로컬에 저장
 		MultipartFile poster = registReq.getMovie_mainPic_path();
@@ -427,13 +433,15 @@ public class SysAdminController {
 				}
 			}
 			// 관련 예고편파일 이름 DB에 저장
-			List<String> movie_videos = new ArrayList<>();
-			for ( MultipartFile video : modifyReq.getUploadVideo()) {
-				if (video != null && video.getOriginalFilename() != "") {
-					movie_videos.add(video.getOriginalFilename());
+			if(modifyReq.getUploadVideo() != null) {
+				List<String> movie_videos = new ArrayList<>();
+				for ( MultipartFile video : modifyReq.getUploadVideo()) {
+					if (video != null && video.getOriginalFilename() != "") {
+						movie_videos.add(video.getOriginalFilename());
+					}
 				}
-			}
 			sysAdminService.registMoviePre(movie_videos, movie_cd);
+			}
 			// 관련 예고편파일 로컬에 저장
 			if (modifyReq.getUploadVideo() != null) {
 				for (MultipartFile multi : modifyReq.getUploadVideo()) {

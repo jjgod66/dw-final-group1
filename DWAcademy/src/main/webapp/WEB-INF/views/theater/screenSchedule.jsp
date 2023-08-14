@@ -688,7 +688,7 @@ a {
 
 <script>
 
-let mem_cd = '<%=mem_cd%>';
+mem_cd = '<%=mem_cd%>';
 let thr_name = '${theater.thr_name}';
 $(function(){
 	$('#swiper-wrapper').on('click', '.btnDay.abled', function(){
