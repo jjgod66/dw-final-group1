@@ -75,14 +75,10 @@
 						</div>
 					</div>
 					<div class="col-md-6" style="text-align: -webkit-center;">
-						<div style="width: 400px; hegiht: 400px;">
-							<canvas class="sales_day_chart"></canvas>
-						</div>
+						<canvas class="sales_day_chart"></canvas>
 					</div>
 					<div class="col-md-6" style="text-align: -webkit-center;">
-						<div style="width: 400px; hegiht: 400px;">
-							<canvas class="sales_allday_chart"></canvas>
-						</div>
+						<canvas class="sales_allday_chart"></canvas>
 					</div>
 				</div>
 			</div>
@@ -217,6 +213,7 @@ $(function(){
 					  }],
 					},
 		    options: {
+// 		    	responsive: false,
 				scales: {
 					x: {
 						display: false,
@@ -267,6 +264,7 @@ $(function(){
 					  }]
 					},
 		    options: {
+// 		    	  responsive: false,
 			      scales: {
 			    	  x: {
 							display: false,
