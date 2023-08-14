@@ -912,6 +912,14 @@ public class MovieServiceImpl implements MovieService{
 	}
 
 	@Override
+	public List<Map<String, Object>> getMainMoviePost(String movie_cd) throws SQLException {
+		// TODO Auto-generated method stub
+		List<Map<String, Object>> moviePost4 = null;
+		moviePost4 = movieDAO.selectMainMoviePost(movie_cd);
+		return moviePost4;
+	}
+
+
 	public Map<String, Object> myMovieTimeLine(String mem_cd) throws SQLException {
 		List<Map<String, Object>> bookingList = null;
 		
