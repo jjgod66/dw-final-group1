@@ -47,6 +47,9 @@ textarea:focus {
         		<option value="멤버십">멤버십</option>
         		<option value="스토어">스토어</option>
         		<option value="기프트카드">기프트카드</option>
+        		<option value="할인혜택">할인혜택</option>
+        		<option value="VIP">VIP</option>
+        		<option value="극장">극장</option>
         	</select>
         </div>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-left:0;"></button>
