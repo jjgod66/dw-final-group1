@@ -385,7 +385,7 @@ select {
 </div>
 <script>
 let searchFormUrl = "moviePost.do";
-let mem_cd = "<%=mem_cd%>";
+mem_cd = "<%=mem_cd%>";
 $(function(){
 	
 	$('.postLankMoive').on('click', function(){
