@@ -167,7 +167,7 @@
 						해당 지역에 아직 극장이 없습니다.
 					</c:if>
 					<c:forEach items="${thrList }" var="thr">
-						<li><i class="fa-solid fa-bookmark ThLikeIcon" style="color: #4aa8d8; visibility: hidden">&nbsp;</i>${thr }</li>
+						<li><i class="fa-solid fa-bookmark ThLikeIcon" style="color: #4aa8d8; visibility: hidden"></i>${thr }</li>
 					</c:forEach>
 				</ul>
 			</div>
