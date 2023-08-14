@@ -134,29 +134,27 @@ window.onload = function(){
 		location.href='noticeAdminMain.do';
 	});
 	
-}
-	
-</script>
-<script>
-// summernote
-summernote();
-function summernote () {
-	$('.summernote').summernote({
-		lang: 'ko-KR',
-		height: 300,
-		fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-		fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
-		toolbar: [
-	// 		[groupName, [list of button]]
-			['fontname', ['fontname']],
-			['fontsize', ['fontsize']],
-			['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-			['color', ['forecolor','color']],
-			['table', ['table']],
-			['para', ['ul', 'ol', 'paragraph']],
-			['height', ['height']],
-			]
-	});
+
+	// summernote
+	summernote();
+	function summernote () {
+		$('.summernote').summernote({
+			lang: 'ko-KR',
+			height: 300,
+			fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+			fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+			toolbar: [
+		// 		[groupName, [list of button]]
+				['fontname', ['fontname']],
+				['fontsize', ['fontsize']],
+				['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+				['color', ['forecolor','color']],
+				['table', ['table']],
+				['para', ['ul', 'ol', 'paragraph']],
+				['height', ['height']],
+				]
+		});
+	}
 }
 </script>
 <%@ include file="sysAdminFooter.jsp" %>
