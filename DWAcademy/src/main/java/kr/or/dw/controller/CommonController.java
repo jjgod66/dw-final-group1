@@ -285,7 +285,7 @@ public class CommonController {
 	public ResponseEntity<String> uploadTempImg(MultipartFile file, HttpServletRequest req) {
 		ResponseEntity<String> result = null;
 		
-		int fileSize = 5 * 1024 * 1024;
+		int fileSize = 10 * 1024 * 1024;
 		
 		if (file.getSize() > fileSize) {
 			return new ResponseEntity<String>("용량 초과입니다.", HttpStatus.BAD_REQUEST);
@@ -302,7 +302,7 @@ public class CommonController {
 		
 		try {
 			file.transferTo(saveFile);
-			result = new ResponseEntity<String>(req.getContextPath() + "/common/getTempImg.do?fileName=" + fileName, HttpStatus.OK);
+			result = new ResponseEntity<String>(req.getContextPath() + File.separator + "common" + File.separator + "getTempImg.do?fileName=" + fileName, HttpStatus.OK);
 		} catch (Exception e) {
 			result = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
