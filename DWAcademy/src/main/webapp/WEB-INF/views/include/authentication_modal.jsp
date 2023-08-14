@@ -164,7 +164,7 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">생년월일</label>
-								<input class="input--style-3 js-datepicker" type="text" name="mem_bir">
+								<input class="input--style-3 js-datepicker" type="text" name="mem_bir" placeholder="생년월일을 8자리로 입력하세요">
 						</div>
 					</div>
 				</div>
@@ -172,7 +172,7 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">전화번호</label>
-							<input class="input--style-3" id="phone" type="text" maxlength="11">
+							<input class="input--style-3" id="phone" type="text" maxlength="11" placeholder="-없이 숫자만 입력하세요">
 						</div>
 						<div>
 							<button type="button" id="sendSMS" class="btn btn--signup" >인증번호 보내기</button>

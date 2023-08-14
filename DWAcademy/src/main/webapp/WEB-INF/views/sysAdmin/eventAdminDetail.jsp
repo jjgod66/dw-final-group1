@@ -349,8 +349,8 @@ window.onload = function(){
 					}
 					
 					for (let i = files.length - 1 ; i > -1; i--) {
-						if (files[i].size > 1024 * 1024 * 5) {
-							alert("이미지는 5MB 미만이어야 합니다.");
+						if (files[i].size > 1024 * 1024 * 10) {
+							alert("이미지는 10MB 미만이어야 합니다.");
 							return;
 						};
 					};
@@ -406,7 +406,7 @@ window.onload = function(){
 		let form_data = new FormData();
 		form_data.append("file", file);
 		$.ajax({
-			url : '<%=request.getContextPath() %>/sysAdmin/uploadTempImg.do',
+			url : '<%=request.getContextPath() %>/common/uploadTempImg.do',
 			type : 'post',
 			data : form_data,
 			contentType : false,
