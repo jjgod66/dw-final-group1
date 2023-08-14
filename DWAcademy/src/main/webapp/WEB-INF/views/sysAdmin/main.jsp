@@ -67,7 +67,7 @@
 					<div class="list-group">
 						<c:forEach items="${qnaList }" var="qna">
 							<a href="qnaAdminDetail.do?que_no=${qna.que_no }" class="list-group-item list-group-item-action">
-								<span class="float-start"><b>[${qna.thr_name }]</b> ${qna.que_title }</span>
+								<div class="float-start" style="display: inline-block; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><b>[${qna.thr_name }]</b> ${qna.que_title }</div>
 								<span class="float-end ms-4"><fmt:formatDate value='${qna.regdate}' pattern='yyyy-MM-dd'/></span>
 								<span class="float-end">${empty qna.ans_content ? '<span style="color: blue">(답변 대기중)</span>' : '(답변 완료)' }</span>
 							</a>
