@@ -125,6 +125,6 @@ function preViewPicture(inputImage, target){
 		};
 		
 		reader.readAsDataURL(inputImage.files[0]);
-	}
-}
-
+	  };
+  };
+})

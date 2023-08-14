@@ -164,7 +164,7 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">생년월일</label>
-								<input class="input--style-3 js-datepicker" type="text" name="mem_bir" placeholder="생년월일을 8자리로 입력하세요">
+								<input class="input--style-3 js-datepicker" type="text" name="bir" placeholder="ex)20020101" maxlength="8">
 						</div>
 					</div>
 				</div>
