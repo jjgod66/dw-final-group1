@@ -4,9 +4,9 @@
 let checkNum = "";
 let SMSChecked = false;
 $('#sendSMS').on('click', function(){
-	if($('input[name="mem_name"]') == ""){
+	if($('input[name="name"]') == ""){
 		alert('이름을 입력해주세요.');
-		$('input[name=mem_name]').focus();
+		$('input[name=name]').focus();
 		return;
 	}
 	if($('input[name="mem_bir"]') == ""){
@@ -43,6 +43,7 @@ $('#SMSCheck').on('click', function(){
 		data : {mem_phone : mem_phone},
 		success : function(res){
 			$('input[name="mem_phone"]').val(mem_phone);
+			$('input[name="mem_name"]').val($('input[name="name"]').val());
 			if(res != ""){
 				alert('이미 가입된 회원입니다! 소셜로그인은 [마이페이지 > 개인정보수정] 에서 연동 후 사용해주세요.');
 				$('#authentication-modal').modal('hide');

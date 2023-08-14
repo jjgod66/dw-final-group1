@@ -158,13 +158,13 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">이름</label>
-							<input class="input--style-3" type="text" name="mem_name">
+							<input class="input--style-3" type="text" name="name">
 						</div>
 					</div>
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">생년월일</label>
-								<input class="input--style-3 js-datepicker" type="text" name="mem_bir" readonly>
+								<input class="input--style-3 js-datepicker" type="text" name="mem_bir">
 						</div>
 					</div>
 				</div>
