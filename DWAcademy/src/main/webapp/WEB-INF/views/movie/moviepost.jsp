@@ -378,9 +378,16 @@ select {
 	        	</div>
 	      	</div>
      	</div>
-     	<div class="mt-5 mb-5 paginationdiv">
-			<%@ include file="../common/pagination.jsp" %>
-		</div>
+     	<c:if test="${empty moviePostList }">
+	     	<div class="mt-5 mb-5 paginationdiv" style="display: none;">
+				<%@ include file="../common/pagination.jsp" %>
+			</div>
+     	</c:if>
+     	<c:if test="${!empty moviePostList }">
+	     	<div class="mt-5 mb-5 paginationdiv">
+				<%@ include file="../common/pagination.jsp" %>
+			</div>
+     	</c:if>
     </div>
 </div>
 <script>
@@ -411,10 +418,6 @@ $(function(){
 		})
 	})
 	
-	let mplist = '${moviePostList}';
-	if(mplist == '[]'){
-		$('.paginationdiv').css('display', 'none');
-	}
 	
 	$('#searchBtn').on('click', function(){
 		searchList_go(1);
@@ -484,7 +487,11 @@ function showPost(res){
 	$('#thismpPic').css('background-image', 'url(' + mpbackImg + ')');
 	$('#moviepost-view-modal').modal("show");
 	$('#mpLikeCnt').text(res.mpost.LIKECNT);
-	$('#thismpreplycnt').text(res.mpost.REPLYCNT);
+	let rcnt = 0;
+	if(res.mpost.REPLYCNT > 0){
+		rcnt = res.mpost.REPLYCNT;
+	}
+	$('#thismpreplycnt').text(rcnt);
 	
 	if(res.likeYN == 'Y'){
 		$('#mpLikeBtn').removeClass('fa-regular');
