@@ -447,7 +447,7 @@
 		  							  AND TO_CHAR(r1.resdate, 'YYYYMMDD')  = TO_CHAR(sysdate-1,'YYYYMMDD'))
 			       				 / 
 			       				(SELECT DECODE((SELECT count(*) FROM RESERVATION r WHERE TO_CHAR(resdate, 'YYYYMMDD')  = TO_CHAR(sysdate-1,'YYYYMMDD')), 0, 1, (SELECT count(*) FROM RESERVATION r WHERE TO_CHAR(resdate, 'YYYYMMDD')  = TO_CHAR(sysdate-1,'YYYYMMDD'))) FROM DUAL)
-		       				, 2) * 100 reserveRatio
+		       				, 4) * 100 reserveRatio
  					   FROM dual
 	</select> 
 	

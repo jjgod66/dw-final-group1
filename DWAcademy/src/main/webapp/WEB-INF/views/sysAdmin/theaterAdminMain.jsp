@@ -72,7 +72,7 @@
 							<col class="w100">
 							<col class="w150">
 							<col class="w150">
-							<col class="w150">
+<%-- 							<col class="w150"> --%>
 							<col class="w100">
 							<col class="w80">
 							<col class="w100">
@@ -84,7 +84,7 @@
 								<th scope="col">지역구분</th>
 								<th scope="col">주소</th>
 								<th scope="col">관리자ID</th>
-								<th scope="col">관리자PWD </th>
+<!-- 								<th scope="col">관리자PWD </th> -->
 								<th scope="col">전화번호</th>
 								<th scope="col">상영관 수</th>
 								<th scope="col">등록일시</th>
@@ -105,7 +105,7 @@
 									<td>${thr.thr_loc }</td>
 									<td>${thr.thr_addr } ${thr.thr_addr_detail }</td>
 									<td>${thr.admin_id }</td>
-									<td>${thr.admin_pwd }</td>
+<%-- 									<td>${thr.admin_pwd }</td> --%>
 									<td>${thr.thr_tel }</td>
 									<td>${thr.houseCnt }</td>
 									<td><fmt:formatDate value='${thr.regdate }' pattern='yyyy-MM-dd'/></td>
