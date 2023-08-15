@@ -24,7 +24,7 @@
 .event-list ul li {
     position: relative;
     float: left;
-    width: 22%;
+    width: 20%;
     margin: 0 -53px 0 71px;
     padding: 0;
 }

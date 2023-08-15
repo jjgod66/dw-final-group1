@@ -285,7 +285,7 @@ public class CommonController {
 	public ResponseEntity<String> uploadTempImg(MultipartFile file, HttpServletRequest req) {
 		ResponseEntity<String> result = null;
 		
-		int fileSize = 5 * 1024 * 1024;
+		int fileSize = 10 * 1024 * 1024;
 		
 		if (file.getSize() > fileSize) {
 			return new ResponseEntity<String>("용량 초과입니다.", HttpStatus.BAD_REQUEST);
@@ -293,7 +293,7 @@ public class CommonController {
 		
 		String savePath = eventPicUploadPath + File.separator + "temp";
 		String fileName = UUID.randomUUID().toString().replace("-", "")+"$$"+file.getOriginalFilename();
-		
+		System.out.println(fileName);
 		File saveFile = new File(savePath, fileName);
 		
 		if(!saveFile.exists()) {
@@ -302,7 +302,7 @@ public class CommonController {
 		
 		try {
 			file.transferTo(saveFile);
-			result = new ResponseEntity<String>(req.getContextPath() + "/common/getTempImg.do?fileName=" + fileName, HttpStatus.OK);
+			result = new ResponseEntity<String>(req.getContextPath() + File.separator + "common" + File.separator + "getTempImg.do?fileName=" + fileName, HttpStatus.OK);
 		} catch (Exception e) {
 			result = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -313,7 +313,7 @@ public class CommonController {
 	@RequestMapping("/common/getTempImg")
 	public ResponseEntity<byte[]> getTempImg(String fileName, HttpServletRequest req) throws IOException {
 		ResponseEntity<byte[]> entity = null;
-		
+		System.out.println(fileName);
 		// 저장경로
 		String savePath = eventPicUploadPath + File.separator + "temp";
 		File sendFile = new File(savePath, fileName);
