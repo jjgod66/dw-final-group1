@@ -72,10 +72,12 @@ public class CommonAdminServiceImpl implements CommonAdminService {
 
 	@Override
 	public Map<String, Object> selectNoteByNote_no(Map<String, Object> data) throws SQLException {
+		Map<String, Object> note = commonAdminDAO.selectNoteByNote_no(data);
 		if (data.get("note_type").equals("R")) {
 			commonAdminDAO.updateGb_read(data);
+			note.put("UNREADEDCNT", commonAdminDAO.selectUnreadedNoteCnt((String)note.get("NOTE_RECEIVER")));
 		}
-		return commonAdminDAO.selectNoteByNote_no(data);
+		return note;
 	}
 
 	@Override
@@ -87,13 +89,6 @@ public class CommonAdminServiceImpl implements CommonAdminService {
 	public int selectUnreadedNoteCnt(String admin_cd) throws SQLException {
 		return commonAdminDAO.selectUnreadedNoteCnt(admin_cd);
 	}
-
-//	@Override
-//	public List<Map<String, Object>> selectStatisticsMovie() throws SQLException {
-//		List<Map<String, Object>> resultList = null;
-//		resultList = commonAdminDAO.selectStatisticsMovie();
-//		return resultList;
-//	}
 
 	@Override
 	public Map<String, Object> selectStatisticsMovie(SearchCriteria cri) throws SQLException {

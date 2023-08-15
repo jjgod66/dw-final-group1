@@ -51,7 +51,7 @@
 					<div class="list-group">
 						<c:forEach items="${noticeList }" var="notice">
 							<a href="noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read" class="list-group-item list-group-item-action">
-								<span class="float-start"><b>[${notice.notice_thr }]</b> ${notice.notice_title }</span>
+								<div style="display: inline-block; width: 80%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><b>[${notice.notice_thr }]</b> ${notice.notice_title }</div>
 								<span class="float-end"><fmt:formatDate value='${notice.regdate}' pattern='yyyy-MM-dd'/></span>
 							</a>
 						</c:forEach>
@@ -67,7 +67,7 @@
 					<div class="list-group">
 						<c:forEach items="${qnaList }" var="qna">
 							<a href="qnaAdminDetail.do?que_no=${qna.que_no }" class="list-group-item list-group-item-action">
-								<div class="float-start" style="display: inline-block; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><b>[${qna.thr_name }]</b> ${qna.que_title }</div>
+								<div style="display: inline-block; width: 60%; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;"><b>[${qna.thr_name }]</b> ${qna.que_title }</div>
 								<span class="float-end ms-4"><fmt:formatDate value='${qna.regdate}' pattern='yyyy-MM-dd'/></span>
 								<span class="float-end">${empty qna.ans_content ? '<span style="color: blue">(답변 대기중)</span>' : '(답변 완료)' }</span>
 							</a>
@@ -90,7 +90,7 @@
 									<img src="/common/getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
 								</a>
 								<div class="card-body">
-									<h5 class="card-title">${event.event_title }</h5>
+									<h5 class="card-title"><b>${event.event_title }</b></h5>
 									<p class="card-text"><fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/></p>
 								</div>
 							</div>

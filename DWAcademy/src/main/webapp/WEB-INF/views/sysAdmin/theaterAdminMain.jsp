@@ -68,12 +68,12 @@
 				<div class="tbl_head01">
 					<table>
 						<colgroup>
-							<col class="w100">
+							<col class="w150">
 							<col class="w100">
 							<col class="w150">
 							<col class="w150">
 <%-- 							<col class="w150"> --%>
-							<col class="w100">
+							<col class="w150">
 							<col class="w80">
 							<col class="w100">
 							<col class="w100">
