@@ -63,7 +63,7 @@
 	</div>
 	<div class="row">
 	<p style="float:left;">
-		<strong>총 <b class="font-gblue" id="myMoviePostCnt">${fn:length(mpList)}</b> 건</strong>
+		<strong>총 <b class="font-gblue" id="myMoviePostCnt">${totalCount}</b> 건</strong>
 	</p>
 		<div style="float: right;">
 			<div class="movie-sorting" style="margin: 10px;">
@@ -117,6 +117,7 @@
 </div>
 <%@ include file="../movie/moviepost_view_modal.jsp" %>
 <script>
+let perPageNum = 3;
 $('#newest').on('click', function(){
 	let posts = $('.post').toArray();
 	
