@@ -139,7 +139,15 @@
                     <div class="reviwer-info">
                         <div class="rate">
                             <p class="tit">예매율</p>
-                            <p class="cont"><i class="bi bi-ticket"></i><em><fmt:formatNumber pattern=".00" value=" ${reserMap.yes_movie_reservers == 0 ? 0 : reserMap.yes_movie_reservers / reserMap.yes_all_reservers * 100}"/></em>%</p>
+                            <p class="cont"><i class="bi bi-ticket"></i>
+                            <em>
+                            <c:if test="${reserMap.yes_movie_reservers ne 0}">
+                           		<fmt:formatNumber pattern=".00" value=" ${reserMap.yes_movie_reservers == 0 ? 0.00 : reserMap.yes_movie_reservers / reserMap.yes_all_reservers * 100}"/>
+                            </c:if>
+                           	<c:if test="${reserMap.yes_movie_reservers eq 0}">
+                           		0
+                            </c:if>
+                            </em>%</p>
                         </div>
                         <div class="audience">
                             <div class="tit">누적관객수</div>
