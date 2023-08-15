@@ -448,7 +448,7 @@ public class MemberController {
 		
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
-		
+		cri.setPerPageNum("3");
 		Map<String, Object> dataMap = movieService.getMyMoviepost(cri, mem_cd);
 		
 		mnv.addAllObjects(dataMap);
@@ -462,7 +462,7 @@ public class MemberController {
 		
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
-		
+		cri.setPerPageNum("3");
 		Map<String, Object> dataMap = movieService.searchMyMoviepost(cri, mem_cd);
 		
 		mnv.addAllObjects(dataMap);
@@ -477,7 +477,7 @@ public class MemberController {
 		
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
-		
+		cri.setPerPageNum("5");
 		Map<String, Object> dataMap = movieService.getMyReview(cri, mem_cd);
 		
 		mnv.addAllObjects(dataMap);
@@ -492,7 +492,7 @@ public class MemberController {
 		
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
-		
+		cri.setPerPageNum("5");
 		Map<String, Object> dataMap = movieService.searchMyReview(cri, mem_cd);
 		
 		mnv.addAllObjects(dataMap);
