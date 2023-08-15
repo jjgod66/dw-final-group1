@@ -115,7 +115,7 @@
 									class="bi bi-arrow-down-up" onclick="sortTable(2);"></i></span></th>
 							<th>매출액<span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(3);"></i></span></th>
-							<th>예매점유율 <span class="sortBtn"><i
+							<th>예매매출액 점유율 <span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(4);"></i></span></th>
 						</tr>
 					</thead>
@@ -135,7 +135,7 @@
 					<h4>관객수 : 해당 일자 관람 관객수</h4>
 					<h4>상영수 : 해당 일자 스크린 상영 횟수</h4>
 					<h4>매출액 : 해당 일자 예매 매출액</h4>
-					<h4>예매 점유율 : 해당 일자 해당 영화 예매 매출액 ÷ 해당 일자 전체 영화 예매 매출 총액</h4>
+					<h4>예매매출액 점유율 : 해당 일자 해당 영화 예매 매출액 ÷ 해당 일자 전체 영화 예매 매출 총액</h4>
 				</div>
 			</div>
 		</div>

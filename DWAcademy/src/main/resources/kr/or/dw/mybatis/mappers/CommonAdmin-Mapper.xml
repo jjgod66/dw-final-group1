@@ -189,37 +189,44 @@
 			     GROUP BY movie_cd
 			  ) a,
 		      (
-		      	SELECT sum(pricesum) allsales, movie_cd, count(*) allPer
-		      	  FROM reservation r, screen s, theater t, house h
-		      	 WHERE r.screen_cd = s.screen_cd
-		      	   AND s.house_no = h.house_no
-		      	   AND t.thr_name = h.thr_name
-		      	   AND r.resdate  <![CDATA[<]]>  SYSDATE
-		           AND r.GB_CANCEL = 'N'
+		    	 SELECT sum(b1.allsales) allsales, b1.movie_cd movie_cd, sum(b1.allPer) allPer			
+				   FROM (SELECT max(pricesum) allsales, max(movie_cd) movie_cd, count(*) allPer
+				   FROM reservation r, screen s, theater t, house h
+				  WHERE r.screen_cd = s.screen_cd
+				    AND s.house_no = h.house_no
+				    AND t.thr_name = h.thr_name
+				    AND r.resdate  <![CDATA[<]]>  SYSDATE
 		        <include refid="searchMovieStatistics2"/>
-		    	 GROUP BY movie_cd
+				    AND r.GB_CANCEL = 'N'
+				  GROUP BY MERCHANT_UID ) b1
+				  GROUP BY b1.movie_cd
 		      ) b,
 		      (
-		      	SELECT sum(pricesum) yessales, movie_cd, count(*) yesPer
-		      	  FROM reservation r, screen s, theater t, house h
-		     	 WHERE r.screen_cd = s.screen_cd
-		     	   AND s.house_no = h.house_no
-		     	   AND t.thr_name = h.thr_name
-		           AND r.GB_CANCEL = 'N'
+				SELECT sum(c1.yessales) yessales, c1.movie_cd movie_cd, sum(c1.yesPer) yesPer  
+				  FROM (
+				  		SELECT max(pricesum) yessales, MAX(movie_cd) movie_cd, count(*) yesPer
+						  FROM reservation r, screen s, theater t, house h
+						 WHERE r.screen_cd = s.screen_cd
+						   AND s.house_no = h.house_no
+						   AND t.thr_name = h.thr_name
+						   AND r.GB_CANCEL = 'N'
 		        <include refid="searchMovieStatistics2"/>
 	      	    <include refid="searchMovieStatistics"/>
-		        GROUP BY movie_cd
+						GROUP BY r.MERCHANT_UID
+						) c1
+				GROUP BY c1.movie_cd
 		      ) c,
 		      (
-		      	SELECT sum(pricesum) yesAllsales
-		      	  FROM reservation r, screen s, theater t, house h
-		      	 WHERE r.screen_cd = s.screen_cd
-		      	   AND s.house_no = h.house_no
-		      	   AND t.thr_name = h.thr_name
-		      	   AND r.resdate  <![CDATA[<]]>  SYSDATE
-			       AND r.GB_CANCEL = 'N'
+		      	SELECT sum(MAX(pricesum)) yesAllsales
+				  FROM reservation r, screen s, theater t, house h
+				 WHERE r.screen_cd = s.screen_cd
+				   AND s.house_no = h.house_no
+				   AND t.thr_name = h.thr_name
+				   AND r.resdate  <![CDATA[<]]>  SYSDATE
+				   AND r.GB_CANCEL = 'N'
 			    <include refid="searchMovieStatistics2"/>
 		      	<include refid="searchMovieStatistics"/>  	  
+				 GROUP BY MERCHANT_UID 
 			  ) d
 		 WHERE m.movie_cd = a.movie_cd(+)
 		   AND m.movie_cd = b.movie_cd(+)

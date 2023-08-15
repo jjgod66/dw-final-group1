@@ -108,8 +108,11 @@
 						<tbody>
 							<tr>
 								<th scope="row" style="width: 15%;">관리자 아이디</th>
-								<td><input type="text" name="admin_id" id="admin_id"
-									class="frm_input" value="${thr.admin_id }" size="30"></td>
+								<td>
+									<input type="text" name="admin_id" id="admin_id" class="frm_input" value="${thr.admin_id }" size="30">
+									<button type="button" id="checkAdminId" class="bc_dw_black" onclick="idCheck_go();">중복확인</button>
+									<span id="result_checkId"></span>
+								</td>
 							</tr>
 							<tr>
 								<th scope="row">관리자 비밀번호</th>
@@ -141,9 +144,13 @@
 </div>
 
 <script>
-
+let checkedID = '';	
 // 극장 지점 등록
 $('button#registBtn').on('click', function(){
+	if(checkForm() == 1) {
+		return;
+	}
+	
 	let form = $('form[role="form"]');
 	
 	var geocoder = new kakao.maps.services.Geocoder();
@@ -164,6 +171,10 @@ $('button#registBtn').on('click', function(){
 
 // 극장 지점 수정
 $('button#modifyBtn').on('click', function(){
+	if(checkForm() == 1) {
+		return;
+	}
+	
 	let form = $('form[role="form"]');
 	form.attr('action', 'theaterModify.do');
 	
@@ -186,6 +197,10 @@ $('button#modifyBtn').on('click', function(){
 $('button#deleteBtn').on('click', function(){
 	if ('${thr.gb_del}' == 'Y') {
 		if(confirm('해당 지점을 재등록하시겠습니까?')) {
+			if(checkForm() == 1) {
+				return;
+			}
+			
 			let form = $('form[role="form"]');
 			form.attr('action', 'theaterDelete.do');
 			form.submit();
@@ -197,6 +212,76 @@ $('button#deleteBtn').on('click', function(){
 			form.submit();
 		}
 	}
+});
+function checkForm() {
+	if ($('input[name="thr_name"]').val() == '') {
+		alert('영화관명은 필수입력항목입니다.');
+		return 1;
+	}
+	
+	if ($('input[name="thr_tel"]').val() == '') {
+		alert('전화번호는 필수입력항목입니다.');
+		return 1;
+	}
+	
+	if ($('input[name="thr_addr"]').val() == '') {
+		alert('주소는 필수입력항목입니다.');
+		return 1;
+	}
+	
+	if ($('input[name="thr_info"]').val() == '') {
+		alert('영화관 소개상세는 필수입력항목입니다.');
+		return 1;
+	}
+	
+	if ($('input[name="admin_id"]').val() == '') {
+		alert('관리자 아이디는 필수입력항목입니다.');
+		return 1;
+	}
+	
+	if ($('input[name="admin_id"]').val() != checkedID) {
+		alert('관리자 아이디 중복확인을 해야합니다.');
+		return 1;
+	}
+	
+	if ($('input[name="admin_pwd"]').val() == '') {
+		alert('관리자 비밀번호는 필수입력항목입니다.');
+		return 1;
+	}
+	
+}
+function idCheck_go(){
+	let input_ID = $('input[name="admin_id"]');
+	if(input_ID.val() == ""){
+		alert("아이디를 입력하세요.");
+		input_ID.focus();
+		return;
+	}
+	// 중복확인
+	let data = {id : input_ID.val().trim()};
+	$.ajax({
+		url : "<%=request.getContextPath()%>/member/idCheck.do",
+		data : data,
+		type : 'post',
+		success : function(result){
+			if(result){	// 빈 스트링은 false 처리 됨
+				checkedID = result;
+				console.log(checkedID);
+				$("#result_checkId").html("사용가능한 아이디 입니다.").css("color", "green");
+			}else{
+				$("#result_checkId").html("중복된 아이디 입니다.").css("color", "red");
+				input_ID.focus();
+			};
+		},
+		error : function(err){
+			alert(err.status);
+		}
+	});
+};
+
+$('input[name="admin_id"]').on('keyup', function(){
+	$('#result_checkId').html('');
+	checkedID = '';
 });
 
 $('button#cancelBtn').on('click', function(){

@@ -94,7 +94,7 @@
 									class="bi bi-arrow-down-up" onclick="sortTable(2);"></i></span></th>
 							<th>매출액 <span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(3);"></i></span></th>
-							<th>예매점유율 <span class="sortBtn"><i
+							<th>매출액점유율 <span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(4);"></i></span></th>
 							<th>누적매출액 <span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(5);"></i></span></th>
