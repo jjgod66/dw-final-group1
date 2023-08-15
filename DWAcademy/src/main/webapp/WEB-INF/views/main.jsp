@@ -276,7 +276,7 @@
 }
 .content-box3-p{
 	position: absolute;
-	margin: 440px 0 0 565px;
+	margin: 545px 0 0 565px;
     text-align:center;
     font-size: 17px;
     color: #495057;
@@ -422,7 +422,7 @@
 	     <div class="content-box">
 	     	<div class="s1">
 	     		<div>
-			    <h1 class="" style="text-align: center;">새로운 이벤트를 확인해 보세요!  </h1>
+			    <h1 class="" style="text-align: center;">새로운 이벤트를<br>확인해 보세요!</h1>
 			    </div>
 			</div>
 		 </div>
@@ -446,7 +446,7 @@
 	   </div>
 	  <p style="position: absolute;
 	  			text-align:center;
-	  			bottom: 142px;
+	  			bottom: 115px;
                 width: 24%;
                 left: 62%;
                 font-size: 17px;
@@ -635,7 +635,7 @@ $(document).ready(function() {
 <div class="mainPostBack">
     	<div class="s3">
    		<div style="margin-bottom: 39px;">
-	    	<h1 class="" style="text-align: center;"> 다양한 무비포스터들을 확인하세요! </h1>
+	    	<h1 class="" style="text-align: center;"> 다양한 무비포스트들을 확인하세요! </h1>
 	    </div>
 	    </div>
 <div class="mainPost">

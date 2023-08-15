@@ -104,7 +104,7 @@ window.onload = function(){
 		$('#notice_content_before').remove();
 		$('#hideDiv').show();
 		
-		$('.card-footer').prepend('<button class="borderRadius bc_dw_blue" id="modifyBtn">수정완료</button>  <button class="borderRadius bc_dw_orange" id="deleteBtn">삭제하기</button>');
+		$('.card-footer').prepend('<button class="bc_dw_blue" id="modifyBtn">수정완료</button>  <button class="bc_dw_orange" id="deleteBtn">삭제하기</button>');
 	});
 	
 	// 등록버튼 클릭시

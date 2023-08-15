@@ -328,12 +328,12 @@ $(document).on('click', '.noteRow', function(){
 					$('#reSendBtn').hide();
 				} else if (note_type == 'R') {
 					$('#reSendBtn').show();
-				}
-				console.log(data.UNREADEDCNT);
-				if (data.UNREADEDCNT != 0) {
-					$('.new_note_alert').show();
-				} else {
-					$('.new_note_alert').hide();
+					console.log(data.UNREADEDCNT);
+					if (data.UNREADEDCNT != 0 ) {
+						$('.new_note_alert').show();
+					} else {
+						$('.new_note_alert').hide();
+					}
 				}
 				$('.new_note_alert').text(data.UNREADEDCNT);
 			},

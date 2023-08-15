@@ -89,7 +89,7 @@ window.onload = function(){
 	$('#modifyAnsToogleBtn').on('click', function(){
 		$('#modifyFormDiv').show();
 		$('#answer_content').hide();
-		$('.card-footer').prepend($('<button class="btn_medium" id="modifyBtn">수정완료</button>'));
+		$('.card-footer').prepend($('<button class="bc_dw_blue" id="modifyBtn">수정완료</button>'));
 		$(this).remove();
 	});
 

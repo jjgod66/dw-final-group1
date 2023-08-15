@@ -109,8 +109,8 @@
 							<tr>
 								<th scope="row" style="width: 15%;">관리자 아이디</th>
 								<td>
-									<input type="text" name="admin_id" id="admin_id" class="frm_input" value="${thr.admin_id }" size="30">
-									<button type="button" id="checkAdminId" class="bc_dw_black" onclick="idCheck_go();">중복확인</button>
+									<input type="text" name="admin_id" id="admin_id" class="frm_input" value="${thr.admin_id }" size="30" ${empty thr ? '' : 'readonly' } style="${empty thr ? '' : 'background-color: #e9ecef;' }">
+									<button type="button" id="checkAdminId" class="bc_dw_black" style="${empty thr ? '' : 'display: none;' }" onclick="idCheck_go();">중복확인</button>
 									<span id="result_checkId"></span>
 								</td>
 							</tr>
@@ -145,6 +145,9 @@
 
 <script>
 let checkedID = '';	
+if ('!${empty thr}') {
+	checkedID = '${thr.admin_id}';
+}
 // 극장 지점 등록
 $('button#registBtn').on('click', function(){
 	if(checkForm() == 1) {

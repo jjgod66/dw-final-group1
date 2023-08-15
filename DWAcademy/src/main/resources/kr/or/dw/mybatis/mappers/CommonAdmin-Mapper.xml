@@ -166,7 +166,7 @@
 	</update>
 	
 	<select id="selectUnreadedNoteCnt" resultType="int">
-		SELECT COUNT(*)
+		SELECT NVL(COUNT(*), 0) notecnt
 		  FROM admin_note
 		 WHERE note_receiver = #{admin_cd}
 		   AND gb_read = 'N'

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 <%@ include file="../include/header.jsp" %>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -264,7 +266,7 @@ margin-right: auto;
 				</div>
 				<div class="a" id="faq_1">
 						<p>
-							${faq.faq_content }
+							${fn:replace(faq.faq_content, replaceChar, "<br/>")}
 						</p>
 				</div>
 			</li>
