@@ -35,11 +35,6 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void join(MemberVO memVO) throws SQLException {
 		
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String securePassword = encoder.encode(memVO.getMem_pwd());
-		
-		memVO.setMem_pwd(securePassword);
-		
 		memberDAO.insert(memVO);
 	}
 
