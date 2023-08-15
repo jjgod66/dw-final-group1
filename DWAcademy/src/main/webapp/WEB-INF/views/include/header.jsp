@@ -163,8 +163,8 @@ canvas{
 <div id="container1">
 	<div id="wrapper12">
 		<div id="roo" class="row">
-			<div class="logo col-2"><a href="<%=request.getContextPath()%>/"><img style="margin-top: 15px;" src="<%=request.getContextPath()%>/resources/img/logo.png"></a></div>
-			<div class="col-2"></div>
+				<div class="logo col-2" style="cursor: pointer;"><img id="logo" style="margin-top: 15px;" src="<%=request.getContextPath()%>/resources/img/logo.png"></div>
+				<div class="col-2" style="cursor: pointer;"></div>
 			<div class="col-8">
 				<div id="navbar">
 				    <div class="right-menu text-end">
@@ -255,7 +255,11 @@ console.log(mem_email);
 		$('input[name="mem_email"]').val(mem_email);
 		$('#authentication-modal').modal('show');
 	}
-})
+    $('.col-2').on('click', function() {
+        window.location.href = '<%=request.getContextPath() %>/';
+    });
+
+});
 function join_go(){
 let joinForm = $('#joinForm');
 let memberInfo = $('.memberInfo')

@@ -293,7 +293,7 @@ public class CommonController {
 		
 		String savePath = eventPicUploadPath + File.separator + "temp";
 		String fileName = UUID.randomUUID().toString().replace("-", "")+"$$"+file.getOriginalFilename();
-		
+		System.out.println(fileName);
 		File saveFile = new File(savePath, fileName);
 		
 		if(!saveFile.exists()) {
@@ -313,7 +313,7 @@ public class CommonController {
 	@RequestMapping("/common/getTempImg")
 	public ResponseEntity<byte[]> getTempImg(String fileName, HttpServletRequest req) throws IOException {
 		ResponseEntity<byte[]> entity = null;
-		
+		System.out.println(fileName);
 		// 저장경로
 		String savePath = eventPicUploadPath + File.separator + "temp";
 		File sendFile = new File(savePath, fileName);
