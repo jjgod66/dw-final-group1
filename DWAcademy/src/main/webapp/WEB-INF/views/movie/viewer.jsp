@@ -139,7 +139,7 @@
                     <div class="reviwer-info">
                         <div class="rate">
                             <p class="tit">예매율</p>
-                            <p class="cont"><i class="bi bi-ticket"></i><em>${reserMap.yes_movie_reservers == 0 ? 0 : reserMap.yes_movie_reservers / reserMap.yes_all_reservers * 100}</em>%</p>
+                            <p class="cont"><i class="bi bi-ticket"></i><em><fmt:formatNumber pattern=".00" value=" ${reserMap.yes_movie_reservers == 0 ? 0 : reserMap.yes_movie_reservers / reserMap.yes_all_reservers * 100}"/></em>%</p>
                         </div>
                         <div class="audience">
                             <div class="tit">누적관객수</div>
@@ -166,7 +166,7 @@
 				</div>
 				<div class="col-8">
 				</div>
-				<div class="col-2"><a href="<%=request.getContextPath()%>/movie/review.do" style="float: right;">리뷰 전체보기 ></a></div>
+				<div class="col-2"><a href="<%=request.getContextPath()%>/movie/review.do?keyword=${movieView.movie.movie_name }" style="float: right;">리뷰 전체보기 ></a></div>
 			</div>
 		</div>
         <div class="container">
