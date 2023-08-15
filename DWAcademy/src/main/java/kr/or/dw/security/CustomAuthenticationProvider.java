@@ -34,14 +34,12 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 			member = memberDAO.selectMemberById(login_id);
 			System.out.println(member);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String mem_pwd = (String) member.get("PWD");
 		
-		if(member != null && encoder.matches(login_pwd, mem_pwd)) {	// 로그인 성공
+		if(member != null && login_pwd.equals(mem_pwd)) {	// 로그인 성공
 			User authUser = new User(member);
 
 			if(member.get("GB_BAN") == "Y") {
