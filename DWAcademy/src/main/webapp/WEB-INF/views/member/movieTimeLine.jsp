@@ -269,7 +269,7 @@ h2:after {
 				</div>
 			</div>
 		</c:forEach>
-		<div class="btn-more v1" id="addMovieDiv" style="width: 100%;; margin: 0 auto;">
+		<div class="btn-more v1" id="addMovieDiv" style="width: 100%;; margin: 20px auto;">
 			<div style="width: 90%; margin: 0 auto;">
 				<button type="button" class="btn" id="AddMovieBtn" style="width: 100%; border: 1px solid gray;">더보기 <i class="iconset ico-btn-more-arr"></i></button>
 			</div>

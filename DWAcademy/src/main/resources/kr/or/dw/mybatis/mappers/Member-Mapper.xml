@@ -230,6 +230,7 @@
 	<select id="selectMemLikeGenre" resultType="Map">
 		SELECT *
 		  FROM mem_like_genre
+		 WHERE mem_cd = #{mem_cd}
 	</select>
 	
 	<update id="resginMember">

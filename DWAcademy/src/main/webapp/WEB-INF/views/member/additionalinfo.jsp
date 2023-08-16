@@ -203,7 +203,7 @@
 				<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
 					<th scope="row">선호극장</th>
 					<td style="padding-left: 25px; border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
-						<span>선호 영화관은 최대 3개까지 등록 가능합니다.</span>
+						<span>선호 영화관은 최대 5개까지 등록 가능합니다.</span>
 						<c:forEach begin="1" end="5" var="index">
 							<div class="selectMargin">
 								<span>${index}</span>
