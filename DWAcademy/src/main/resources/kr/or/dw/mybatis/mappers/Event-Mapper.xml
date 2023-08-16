@@ -9,7 +9,7 @@
 				FROM (
 						SELECT *
 						FROM event
-						WHERE enddate <![CDATA[>=]]> sysdate
+						WHERE to_char(enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
 						ORDER BY regdate DESC
 						) e
 						)
@@ -23,7 +23,7 @@
 			FROM (
 					SELECT *
 					FROM event
-					WHERE enddate <![CDATA[>=]]> sysdate
+					WHERE to_char(enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
 					AND ROWNUM <![CDATA[<=]]> 4
 					ORDER BY regdate DESC
 					) e
@@ -38,7 +38,7 @@
 				FROM (
 						SELECT *
 						FROM event
-						WHERE enddate <![CDATA[>=]]> sysdate
+						WHERE to_char(enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
 						AND event_div = '영화'
 						ORDER BY regdate DESC
 						) e
@@ -53,7 +53,7 @@
 				FROM (
 						SELECT *
 						FROM event
-						WHERE enddate <![CDATA[>=]]> sysdate
+						WHERE to_char(enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
 						AND event_div = '극장'
 						ORDER BY regdate DESC
 						) e
@@ -68,7 +68,7 @@
 				FROM (
 						SELECT *
 						FROM event
-						WHERE enddate <![CDATA[>=]]> sysdate
+						WHERE to_char(enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
 						AND event_div = '시사회/무대인사'
 						ORDER BY regdate DESC
 						) e
@@ -87,7 +87,7 @@
 		SELECT e.*, movie_name
 		FROM event e, movie m
 		WHERE e.relate_cd = m.movie_cd
-		AND e.enddate >= sysdate
+		AND to_char(e.enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
 		AND event_div = '영화'
 		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
 		ORDER BY e.regdate DESC
@@ -97,7 +97,7 @@
 		SELECT COUNT(*)
 		FROM event e, movie m
 		WHERE e.relate_cd = m.movie_cd
-		AND e.enddate >= sysdate
+		AND to_char(e.enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
 		AND event_div = '영화'
 		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
 		AND event_div = '영화'
@@ -107,7 +107,7 @@
 		SELECT e.*, thr_name
 		FROM event e, theater t
 		WHERE e.relate_cd = t.admin_cd
-		AND e.enddate >= sysdate
+		AND to_char(e.enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
 		AND event_div = '극장'
 		AND (thr_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
 		ORDER BY e.regdate DESC
@@ -117,7 +117,7 @@
 		SELECT COUNT(*)
 		FROM event e, theater t
 		WHERE e.relate_cd = t.admin_cd
-		AND e.enddate >= sysdate
+		AND to_char(e.enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
 		AND event_div = '극장'
 		AND (thr_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
 	</select>
@@ -126,7 +126,7 @@
 		SELECT e.*, movie_name
 		FROM event e, movie m
 		WHERE e.relate_cd = m.movie_cd
-		AND e.enddate >= sysdate
+		AND to_char(e.enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
 		AND event_div = '시사회/무대인사'
 		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
 		ORDER BY e.regdate DESC
@@ -136,7 +136,7 @@
 		SELECT COUNT(*)
 		FROM event e, movie m
 		WHERE e.relate_cd = m.movie_cd
-		AND e.enddate >= sysdate
+		AND to_char(e.enddate, 'yyyyMMdd') <![CDATA[>=]]> to_char(sysdate, 'yyyyMMdd')
 		AND event_div = '시사회/무대인사'
 		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%')
 	</select>
@@ -147,7 +147,7 @@
 		WHERE e.event_no = w.event_no(+)
 		AND e.relate_cd = t.admin_cd(+)
 		AND e.relate_cd = m.movie_cd(+)
-		AND e.enddate <![CDATA[<]]> sysdate
+		AND to_char(e.enddate, 'yyyyMMdd') <![CDATA[<]]> to_char(sysdate, 'yyyyMMdd')
 		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%' OR thr_name LIKE '%' || #{keyword} || '%')
 		ORDER BY e.enddate DESC
 	</select>
@@ -158,7 +158,7 @@
 		WHERE e.event_no = w.event_no(+)
 		AND e.relate_cd = t.admin_cd(+)
 		AND e.relate_cd = m.movie_cd(+)
-		AND e.enddate <![CDATA[<]]> sysdate
+		AND to_char(e.enddate, 'yyyyMMdd') <![CDATA[<]]> to_char(sysdate, 'yyyyMMdd')
 		AND (movie_name like '%' || #{keyword} || '%' OR event_title LIKE '%' || #{keyword} || '%' OR thr_name LIKE '%' || #{keyword} || '%')
 	</select>
 	

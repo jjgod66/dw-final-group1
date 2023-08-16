@@ -77,11 +77,14 @@ public class PointServiceImpl implements PointService{
 		param.put("mem_product_cd", mem_product_cd);
 		int point = 0;
 		if("N".equals(gb_use)) {
-			point = pointDAO.selectPointByMemProCd(mem_product_cd);
-			param.put("point",point);
-			pointDAO.insertMemGiftCard(param);
-			pointDAO.updateMemProGbUse(mem_product_cd);
-			result = "S";
+			String product_div = pointDAO.selectMemProGbGF(mem_product_cd);
+			if(product_div.equals("기프트카드")) {
+				point = pointDAO.selectPointByMemProCd(mem_product_cd);
+				param.put("point",point);
+				pointDAO.insertMemGiftCard(param);
+				pointDAO.updateMemProGbUse(mem_product_cd);
+				result = "S";
+			}
 		}else if("Y".equals(gb_use)){
 			result = "Y";
 		}
