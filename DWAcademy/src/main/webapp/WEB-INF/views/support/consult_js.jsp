@@ -104,6 +104,7 @@ $(function(){
 function appendTarget(cd, preclone){
 	$('.chatLoading').css('display', 'none'); 
 	cb.append(preclone);
+	$('#contents').scrollTop($('#contents')[0].scrollHeight);
 }
 
 function listClick(id){
@@ -210,6 +211,7 @@ function listClick(id){
 		chatText = ansTextApp(seq, ansText);
 	}
 	cb.append(chatText);
+	$('#contents').scrollTop($('#contents')[0].scrollHeight);
 }
 
 function listFirst(seq){
@@ -298,6 +300,7 @@ function firstCon(seq){
 	result += '<li id="theater" class="sel" sel="영화관 이용"><span class="btn">영화관 이용</span></li>';
 	result += '</ul></div></div></div>';
 	cb.append(result);
+	$('#contents').scrollTop($('#contents')[0].scrollHeight);
 }
 function restartShow(){
 	thisTime = new Date();

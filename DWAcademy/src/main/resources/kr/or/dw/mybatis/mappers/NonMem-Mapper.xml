@@ -39,10 +39,10 @@
 		   AND h.house_no = s.house_no
 		   AND p.merchant_uid = r.merchant_uid
 		   <if test="searchType == 'curr'.toString()">
-		   		AND to_char(startdate, 'yyyyMMddHHmm') <![CDATA[>]]> to_char(sysdate, 'yyyyMMddHHmm')
+		   		AND to_char(startdate, 'yyyyMMddHH24MI')  <![CDATA[>]]>  to_char(sysdate, 'yyyyMMddHH24MI')
 		   </if>
 		   <if test="searchType == 'past'.toString()">
-		   		AND to_char(startdate, 'yyyyMMddHHmm') <![CDATA[<=]]> to_char(sysdate, 'yyyyMMddHHmm')
+		   		AND to_char(startdate, 'yyyyMMddHH24MI')  <![CDATA[<=]]>  to_char(sysdate, 'yyyyMMddHH24MI')
 		   </if>
 		 GROUP BY r.merchant_uid
 	</select>
@@ -66,11 +66,11 @@
 			   AND s.movie_cd = m.movie_cd
 			   AND h.house_no = s.house_no
 			   AND p.merchant_uid = r.merchant_uid
-			   <if test="searchType == 'curr'.toString()">
-		   		AND to_char(startdate, 'yyyyMMddHHmm') <![CDATA[>]]> to_char(sysdate, 'yyyyMMddHHmm')
+			  	<if test="searchType == 'curr'.toString()">
+		   			AND to_char(startdate, 'yyyyMMddHH24MI')  <![CDATA[>]]>  to_char(sysdate, 'yyyyMMddHH24MI')
 			   </if>
 			   <if test="searchType == 'past'.toString()">
-			   		AND to_char(startdate, 'yyyyMMddHHmm') <![CDATA[<=]]> to_char(sysdate, 'yyyyMMddHHmm')
+			   		AND to_char(startdate, 'yyyyMMddHH24MI')  <![CDATA[<=]]>  to_char(sysdate, 'yyyyMMddHH24MI')
 			   </if>
 			 GROUP BY r.merchant_uid
 			 )

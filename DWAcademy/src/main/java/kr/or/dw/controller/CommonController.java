@@ -80,6 +80,9 @@ public class CommonController {
 	@Resource(name="photoTicketUploadPath")
 	private String photoTicketUploadPath;
 	
+	@Resource(name="qrUploadPath")
+	private String qrUploadPath;
+	
 	@Autowired
 	private MovieService movieService;
 	
@@ -238,6 +241,8 @@ public class CommonController {
 				imgPath = this.photoTicketUploadPath + File.separator + "back";
 			} else if (type.equals("front")) {
 				imgPath = this.photoTicketUploadPath + File.separator + "front";
+			} else if (type.equals("qr")) {
+				imgPath = this.qrUploadPath;
 			}
 		}
 		

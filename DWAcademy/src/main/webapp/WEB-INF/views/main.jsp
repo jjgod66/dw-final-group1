@@ -322,7 +322,7 @@
 		        <input type="hidden" class="movieName" value="${movie.movie_name }">
 		        <input type="hidden" class="movieGrade" value="${movie.movie_grade }">
 		        <input type="hidden" class="movieLength" value="${movie.movie_length }">
-		        <c:set var="res"><fmt:formatNumber pattern=".00" value="${movie.reserve == 0 ? 0 : movie.reserve / (movie.all_reserver == 0 ? 1 : movie.all_reserver) * 100}"/></c:set>
+		        <c:set var="res"><fmt:formatNumber pattern="#.##" value="${movie.reserve == 0 ? 0 : movie.reserve / (movie.all_reserver == 0 ? 1 : movie.all_reserver) * 100}"/></c:set>
 		        <input type="hidden" class="movieRe" value="${res }">
 		        <input type="hidden" class="movieCd" value="${movie.movie_cd }">
 		        <input type="hidden" class="movieOpendate" value="${movie.opendate }">
@@ -678,7 +678,6 @@ $(document).ready(function() {
   </c:forEach>
 	
 	<script>
-let searchFormUrl = "moviePost.do";
 mem_cd = "<%=mem_cd%>";
 $(function(){
 	

@@ -367,9 +367,9 @@ select {
 		        					<br>
 		        					<div><p style="font-size: x-small;"><fmt:formatDate value="${mp.REGDATE }" pattern="yyyy-MM-dd HH:mm"/> <br><br></p></div>
 		        					<div>
-		        						<i class="fa-regular fa-thumbs-up">&nbsp;<span>${mp.LIKECNT }</span></i>
+		        						<i class="fa-regular fa-thumbs-up">&nbsp;<span id="mpost_like_cnt">${mp.LIKECNT }</span></i>
 		        						&nbsp;&nbsp;&nbsp;&nbsp;
-		        						<i class="fa-regular fa-message">&nbsp;<span>${mp.REPLYCNT }</span></i>
+		        						<i class="fa-regular fa-message">&nbsp;<span id="mpost_reply_cnt">${mp.REPLYCNT }</span></i>
 		        					</div>
 		        				</div>
 		        			</div>
@@ -425,7 +425,8 @@ $(function(){
 	
 	$('#moviepostModalBtn').on('click', function(){
 		if(mem_cd == null || mem_cd == ""){
-			$('#login-service-modal').modal("show");
+			alert("로그인이 필요한 서비스입니다.");
+// 			$('#login-service-modal').modal("show");
 			return;
 		}
 		$('#moviepost-modal').modal("show");
@@ -479,7 +480,7 @@ function showPost(res){
 	$('#mpUpdateBtn').data('mpost_no', res.mpost.MPOST_NO);
 	$('#mpDeleteBtn').data('mpost_no', res.mpost.MPOST_NO);
 	if(res.mpost.MEM_PIC_PATH != null && res.mpost.MEM_PIC_PATH != ''){
-		$('#mpWriteMemPic').prop('src', '<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpost.MEM_PIC_PATH + '&item_cd=$' + res.mpost.MEM_CD + '&type=memberPic');
+		$('#mpWriteMemPic').prop('src', '<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpost.MEM_PIC_PATH + '&item_cd=' + res.mpost.MEM_CD + '&type=memberPic');
 	}else{
 		$('#mpWriteMemPic').prop('src', '../../resources/img/defaultprofile.png');
 	}
@@ -508,7 +509,7 @@ function showPost(res){
 		replyShow += '<div style="display: flex; border-bottom: solid 1px #ced4da;" class="oneReply">';
 		replyShow += '<div style="margin: 10px;">';
 		if(res.mpostReplyList[i].MEM_PIC_PATH != null && res.mpostReplyList[i].MEM_PIC_PATH != ''){
-			replyShow += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpostReplyList[i].MEM_PIC_PATH + '&item_cd=$' + res.mpostReplyList[i].MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+			replyShow += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpostReplyList[i].MEM_PIC_PATH + '&item_cd=' + res.mpostReplyList[i].MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 		}else{
 			replyShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 		}

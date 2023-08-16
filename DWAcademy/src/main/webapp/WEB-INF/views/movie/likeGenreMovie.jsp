@@ -187,7 +187,7 @@ select {
 				            </strong>
 				            <span class="txt_append">
 				                <span class="info_txt">상영시간<span class="txt_grade">${movie.MOVIE_LENGTH}</span>분</span>
-				                <span class="info_txt">예매율<span class="txt_num"><fmt:formatNumber pattern=".00" value="${movie.resRate }"/></span>%</span>
+				                <span class="info_txt">예매율<span class="txt_num"><fmt:formatNumber pattern="#.##" value="${movie.resRate }"/></span>%</span>
 				            </span>
 				            <span class="txt_info">
 					                                        개봉일<span class="txt_num"><fmt:formatDate value="${movie.OPENDATE}" pattern="yyyy-MM-dd"/></span>

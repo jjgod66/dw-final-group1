@@ -251,9 +251,12 @@ $(function(){
 		
 		let dePoint = $('input[name="use_point"]').val();
 		let deDisPri = $('#disprice').text().replace(',', '');
-		let deTotalPri = $('#totalpp').text().replace(',', '');
+		let deTotalPri = parseInt($('#totalpp').text().replace(',', ''));
 		
-		if($('#cjOnePointipt').val() > deTotalPri){
+		let pointBeforPri = parseInt($('#totalpp').text().replace(',', '')) + parseInt(dePoint);
+		
+		console.log(pointBeforPri);
+		if(parseInt($('#cjOnePointipt').val()) > parseInt(pointBeforPri)){
 			alert('포인트는 결제할 금액을 초과할 수 없습니다.');
 			return;
 		}

@@ -288,7 +288,7 @@ button, input, optgroup, select, textarea {
 					<ul>
 						<c:forEach items="${eventList }" var="event">
 							<li>
-								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${event.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title=${event.event_title}">
+								<a href="<%=request.getContextPath()%>/event/eventDetail.do?event_no=${event.event_no}" data-no="13565" data-netfunnel="N" class="eventBtn" title="${event.event_title}">
 									<!--<p class="img"><img src="../../../static/pc/images/event/@img-event-list-megabox.jpg" alt="" /></p>-->
 									<p class="img"> <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${event.event_thum_path}&item_cd=${event.event_no}&type=eventThumb" alt="${event.event_title}" onerror="noImg(this);"></p>
 									<p class="tit">

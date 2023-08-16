@@ -9,12 +9,25 @@
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="../../resources/css/boxoffice.css">
+<!-- <link rel="stylesheet" href="../../resources/css/boxoffice.css"> -->
+<style>
+.post:hover{
+	cursor: pointer;
+}
+</style>
+
 <%@ include file="picture_modal.jsp" %>
-<%@ include file="login_service_modal.jsp" %>
 <%@ include file="review_modal.jsp" %>
 <%@ include file="review_report_modal.jsp" %>
 <%@ include file="review_delete_modal.jsp" %>
+<%@ include file="moviepost_modal.jsp" %>
+<%@ include file="moviepost_view_modal.jsp" %>
+<%@ include file="moviepost_update_modal.jsp" %>
+<%@ include file="mpost_report_modal.jsp" %>
+<%@ include file="mpost_delete_modal.jsp" %>
+<%@ include file="reply_report_modal.jsp" %>
+<%@ include file="reply_delete_modal.jsp" %>
+<%@ include file="login_service_modal.jsp" %>
 <%@ include file="alert_modal.jsp" %>
 <%-- <%@ include file="../common/boxoffice_detail.jsp" %> --%>
 <%
@@ -263,8 +276,8 @@
         <c:if test="${!empty moviePostList }">
         	<div class="row" style="height: 400px;">
         		<c:forEach items="${moviePostList }" var="moviePost">
-	        		<div class="col-3 post" style="height: 100%">
-	        			<div class="card" style="margin: 20px; height: 90%;">
+	        		<div class="col-3 post" style="height: 100%" data-mpost_no="${moviePost.MPOST_NO }">
+	        			<div class="card" style="margin: 20px; height: 90%;" id="mpCard" data-mpost_no="${moviePost.MPOST_NO }">
 	        				<div class="card-body" style="height: 45%; background-image: url('<%=request.getContextPath() %>/common/getPicture.do?name=${moviePost.MOVIE_PIC_PATH}&item_cd=${moviePost.MOVIE_CD}&type=movieImg');  background-repeat : no-repeat; background-size : cover;"></div>
 	        				<div class="card-body" style="height: 55%;">
 	        					<div><p style="font-size: small;"><c:set var="mem_id_post" value="${moviePost.MEM_ID}" />
@@ -275,9 +288,9 @@
 	        					<br>
 	        					<div><p style="font-size: x-small;"><fmt:formatDate value="${moviePost.REGDATE }" pattern="yyyy-MM-dd HH:mm"/><br><br></p></div>
 	        					<div>
-	        						<i class="fa-regular fa-thumbs-up">&nbsp;<span>0</span></i>
+	        						<i class="fa-regular fa-thumbs-up">&nbsp;<span id="mpost_like_cnt">${moviePost.LIKECNT }</span></i>
 	        						&nbsp;&nbsp;&nbsp;&nbsp;
-	        						<i class="fa-regular fa-message">&nbsp;<span>0</span></i>
+	        						<i class="fa-regular fa-message">&nbsp;<span id="mpost_reply_cnt">${moviePost.REPLYCNT }</span></i>
 	        					</div>
 	        				</div>
 	        			</div>
@@ -412,6 +425,24 @@
 <script>
 
 $(function() {
+	$('.movie_post').on('click', '.post', function(){
+		let mpost_no = $(this).data("mpost_no");
+		console.log(mpost_no);
+		
+		$.ajax({
+			url : '<%=request.getContextPath()%>/movie/moviePostView.do',
+			method : 'post',
+			data : {'mpost_no' : mpost_no},
+			success : function(res){
+				console.log(res);
+				showPost(res);
+			},
+			error : function(err){
+				alert(err.status);
+			}
+		})
+	})
+	
 	$('.container').on('click', '#reviewDeleteBtn', function(){
 		let review_no = $(this).data('review_no');
 		$('#reviewDelReplyNo').val(review_no);
@@ -420,7 +451,7 @@ $(function() {
 	
 	let rateAvg = ${movie_rate_avg };
 	$('.rateDe input[name=rating][value="' + Math.round(rateAvg) + '"]').prop('checked', 'checked');
-	
+
 	$('.moviePics').on('click', '#moviePic', function(){
 		let imgsrc = $(this).find('img').prop('src');
 		$('.moviePicDetail').find('img').prop('src', imgsrc);
@@ -603,5 +634,101 @@ dimmed.addEventListener('click', () => {
   fullTrailer.classList.remove('open');
 });
 
+function showPost(res){
+	if(res.mpost.MEM_CD == mem_cd){
+		$('#mpReportBtn').css('display', 'none');
+		$('#mpUpdateBtn').css('display', 'inline');
+		$('#mpDeleteBtn').css('display', 'inline');
+	}else{
+		$('#mpReportBtn').css('display', '');
+		$('#mpDeleteBtn').css('display', 'none');
+		$('#mpUpdateBtn').css('display', 'none');
+		
+	}
+	$('#mpMoiveName').text(res.mpost.MOVIE_NAME);
+	$('#mpWriterId').text(res.mpost.MEM_ID.substring(0,3) + '**');
+	let date = new Date(res.mpost.REGDATE);
+	let yyyy = date.getFullYear();
+	let mm = date.getMonth()+1;
+	mm = mm >= 10 ? mm : '0'+mm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+	let dd = date.getDate();
+	dd = dd >= 10 ? dd : '0'+dd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+	let regdate =  yyyy+'-'+mm+'-'+dd;	
+	$('#mpWritedate').text(regdate);
+	$('#mpContent').text(res.mpost.MPOST_CONTENT);
+	$('#mpReportBtn').data('mpost_no', res.mpost.MPOST_NO);
+	$('#mpUpdateBtn').data('mpost_no', res.mpost.MPOST_NO);
+	$('#mpDeleteBtn').data('mpost_no', res.mpost.MPOST_NO);
+	if(res.mpost.MEM_PIC_PATH != null && res.mpost.MEM_PIC_PATH != ''){
+		$('#mpWriteMemPic').prop('src', '<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpost.MEM_PIC_PATH + '&item_cd=' + res.mpost.MEM_CD + '&type=memberPic');
+	}else{
+		$('#mpWriteMemPic').prop('src', '../../resources/img/defaultprofile.png');
+	}
+	let mpbackImg = "<%=request.getContextPath() %>/common/getPicture.do?name=" + res.mpost.MOVIE_PIC_PATH + "&item_cd=" + res.mpost.MOVIE_CD + "&type=movieImg";
+	$('#thismpPic').css('background-image', 'url(' + mpbackImg + ')');
+	$('#moviepost-view-modal').modal("show");
+	$('#mpLikeCnt').text(res.mpost.LIKECNT);
+	let rcnt = 0;
+	if(res.mpost.REPLYCNT > 0){
+		rcnt = res.mpost.REPLYCNT;
+	}
+	$('#thismpreplycnt').text(rcnt);
+	
+	if(res.likeYN == 'Y'){
+		$('#mpLikeBtn').removeClass('fa-regular');
+		$('#mpLikeBtn').addClass('fa-solid');
+		$('#mpLikeBtn').prop('id', 'mpLikeCanBtn');
+	}else{
+		$('#mpLikeCanBtn').removeClass('fa-solid');
+		$('#mpLikeCanBtn').addClass('fa-regular');
+		$('#mpLikeCanBtn').prop('id', 'mpLikeBtn');
+		
+	}
+	let replyShow = '';
+	for(let i = 0; i < res.mpostReplyList.length; i++){
+		replyShow += '<div style="display: flex; border-bottom: solid 1px #ced4da;" class="oneReply">';
+		replyShow += '<div style="margin: 10px;">';
+		if(res.mpostReplyList[i].MEM_PIC_PATH != null && res.mpostReplyList[i].MEM_PIC_PATH != ''){
+			replyShow += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpostReplyList[i].MEM_PIC_PATH + '&item_cd=' + res.mpostReplyList[i].MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+		}else{
+			replyShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+		}
+		replyShow += '</div>';
+		replyShow += '<div style="width: 85%;">';
+		replyShow += '<div class="h50" style="display: flex; align-items: flex-end; margin-bottom: 5px;">';
+		replyShow += '<div class="w50" style="text-align: left;" id="replyWriterId">';
+		replyShow += res.mpostReplyList[i].MEM_ID.substring(0,3) + '**';
+		replyShow += '</div>';
+		replyShow += '<div class="w50" style="text-align: right; color: gray;" id="replyWritedate">';
+		let redate = new Date(res.mpostReplyList[i].REGDATE);
+		let ryyyy = redate.getFullYear();
+		let rmm = redate.getMonth()+1;
+		rmm = rmm >= 10 ? rmm : '0'+rmm;	// 10 보다 작으면 0을 앞에 붙여주기 ex) 3 > 03
+		let rdd = redate.getDate();
+		rdd = rdd >= 10 ? rdd : '0'+rdd;	// 10 보다 작으면 9을 앞에 붙여주기 ex) 9 > 09
+		let reregdate =  ryyyy+'-'+rmm+'-'+rdd;	
+		
+		replyShow += reregdate;
+		replyShow += '</div>';
+		replyShow += '</div>';
+		replyShow += '<div class="h50" style="display: flex;">';
+		replyShow += '<div class="w80" style="text-align: left;" id="thisReplyContent">' + res.mpostReplyList[i].REPLY_CONTENT + '</div>';
+		if(mem_cd == res.mpostReplyList[i].MEM_CD){
+			replyShow += '<div class="w20 reUD" style="text-align: right;">'
+			replyShow += '<div id="replyUpdateBtn" data-reply_no="' + res.mpostReplyList[i].REPLY_NO + '" style="display: inline; margin-right: 10px;">수정</div>';
+			replyShow += '<div id="replyDeleteBtn" data-reply_no="' + res.mpostReplyList[i].REPLY_NO + '" style="display: inline; margin-right: 10px;">삭제</div>';
+			replyShow += '</div>'
+		}else{
+			replyShow += '<div class="w20" style="text-align: right;" id="replyReportBtn" data-reply_no="' + res.mpostReplyList[i].REPLY_NO + '">신고</div>';
+		}
+		replyShow += '</div>';
+		replyShow += '</div>';
+		replyShow += '</div>';
+		
+			
+			
+	}
+	$('.reply-div').html(replyShow);
+}
 </script>
 <%@ include file="../include/footer.jsp" %>

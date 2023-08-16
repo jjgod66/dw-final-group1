@@ -139,6 +139,8 @@
 			data : {'reply_no' : reply_no},
 			success : function(res){
 				$('#thismpreplycnt').text(parseInt($('#thismpreplycnt').text()) - 1);
+				let mpost_no = $('#mpReportBtn').data("mpost_no");
+				$('#mpCard[data-mpost_no="' + mpost_no + '"]').find('#mpost_reply_cnt').text(parseInt($('#thismpreplycnt').text()));
 			},
 			error : function(err){
 				alert(err.status);

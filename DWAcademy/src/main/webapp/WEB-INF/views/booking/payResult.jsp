@@ -73,7 +73,7 @@
 									<a href="<%=request.getContextPath() %>/member/bookinglist.do" class="button large" title="예매내역 페이지로 이동">예매내역 <!-- 예매내역 --></a>
 								</c:if>
 								<c:if test="${mem_cd == '' }">
-									<a href="<%=request.getContextPath() %>/non_member/bookinglist.do" class="button large" title="예매내역 페이지로 이동">비회원 예매확인 <!-- 예매내역 --></a>
+									<a href="#" class="button large" title="예매내역 페이지로 이동" data-bs-toggle="modal" data-bs-target="#nonMemLogin_modal">비회원 예매확인 <!-- 예매내역 --></a>
 								</c:if>
 <!-- 									<a href="#" class="button large" id="btn_credit_info">결제정보</a> -->
 								</div>

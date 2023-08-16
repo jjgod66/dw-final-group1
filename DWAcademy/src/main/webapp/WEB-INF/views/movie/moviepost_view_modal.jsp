@@ -259,7 +259,8 @@ $(function(){
 	
 	$('#mpReportBtn').on('click', function(){
 		if(mem_cd == '' || mem_cd == null){
-			$('#login-service-modal').modal("show");
+			alert("로그인이 필요한 서비스입니다.");
+// 			$('#login-service-modal').modal("show");
 			return;
 		}	
 		let mpost_no = $(this).data('mpost_no');
@@ -269,7 +270,8 @@ $(function(){
 	
 	$('.reply-div').on('click', '#replyReportBtn', function(){
 		if(mem_cd == '' || mem_cd == null){
-			$('#login-service-modal').modal("show");
+			alert("로그인이 필요한 서비스입니다.");
+// 			$('#login-service-modal').modal("show");
 			return;
 		}	
 		let reply_no = $(this).data('reply_no');
@@ -340,7 +342,8 @@ $(function(){
 	
 	$('#lrud').on('click', '#mpLikeBtn', function(){
 		if(mem_cd == '' || mem_cd == null){
-			$('#login-service-modal').modal("show");
+			alert("로그인이 필요한 서비스입니다.");
+// 			$('#login-service-modal').modal("show");
 			return;
 		}	
 		let mpost_no = $('#mpReportBtn').data('mpost_no');
@@ -352,6 +355,7 @@ $(function(){
 			success : function(res){
 				console.log(res);
 				clickmpLike();
+				$('#mpCard[data-mpost_no="' + mpost_no + '"]').find('#mpost_like_cnt').text($('#mpLikeCnt').text());
 			},
 			error : function(err){
 				alert(err.status);
@@ -369,6 +373,7 @@ $(function(){
 			success : function(res){
 				console.log(res);
 				clickmpLikeCan();
+				$('#mpCard[data-mpost_no="' + mpost_no + '"]').find('#mpost_like_cnt').text($('#mpLikeCnt').text());
 			},
 			error : function(err){
 				alert(err.status);
@@ -378,7 +383,8 @@ $(function(){
 	
 	$('#replyRegistBtn').on('click', function(){
 		if(mem_cd == null || mem_cd == ""){
-			$('#login-service-modal').modal("show");
+			alert("로그인이 필요한 서비스입니다.");
+// 			$('#login-service-modal').modal("show");
 			return;
 		}
 		if($('#replytext').val() == "" || $('#replytext').val() == null){
@@ -399,6 +405,7 @@ $(function(){
 			success : function(res){
 				console.log(res);
 				replyReg(res);
+				$('#mpCard[data-mpost_no="' + mpost_no + '"]').find('#mpost_reply_cnt').text(parseInt($('#thismpreplycnt').text()));
 			},
 			error : function(err){
 				alert(err.status);
@@ -460,7 +467,7 @@ function replyReg(res){
 	regShow += '<div style="display: flex; border-bottom: solid 1px #ced4da;" class="oneReply">';
 	regShow += '<div style="margin: 10px;">';
 	if(res.MEM_PIC_PATH != null && res.MEM_PIC_PATH != ''){
-		regShow += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.MEM_PIC_PATH + '&item_cd=$' + res.MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+		regShow += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.MEM_PIC_PATH + '&item_cd=' + res.MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 	}else{
 		regShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 	}
