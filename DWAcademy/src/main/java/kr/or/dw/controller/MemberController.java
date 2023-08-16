@@ -285,8 +285,6 @@ public class MemberController {
 		List<Map<String, Object>> mem_like_theater = theaterService.selectMemLikeTheater(mem_cd);
 		List<Map<String, Object>> mem_like_genre = memberService.selectMemLikeGenre(mem_cd);
 		
-		System.out.println(mem_alert);
-		System.out.println(mem_like_theater);
 		
 //		String[] mlt = {};
 //		for(int i = 0; i < mem_like_theater.size(); i++) {
@@ -341,15 +339,14 @@ public class MemberController {
 				genreNames.add(genreArr[i]);
 			}
 		}
-		System.out.println(thrNames);
-		System.out.println(genreNames);
+		System.out.println("gb_sms_alert : " + gb_sms_alert);
+		System.out.println("gb_email_alert : " + gb_email_alert);
 		
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		member.put("gb_email_alert", gb_email_alert);
 		member.put("gb_sms_alert", gb_sms_alert);
 		String id = (String) member.get("ID");
 		String mem_cd = (String) member.get("CD");
-		System.out.println(member);
 		
 		memberService.additionUpdate(member);
 		memberService.memLikeThr(thrNames, mem_cd);

@@ -124,9 +124,6 @@
 .my-board-list .my-reserve-history ul li.no-result .no-history-reservation {
     border: none;
 }
-p {
-	text-align: center;
-}
 </style>
 <div class="main-wrapper">
 	<div class="my-magabox-info">
@@ -134,8 +131,13 @@ p {
 			<div class="mbimg" style="margin: 0 20px;"><img src="https://img.megabox.co.kr/static/pc/images/2023/01/member_WELCOME_2.png" alt="WELCOME"></div>
 			<div class="mb_name" style="margin: 0 20px;">안녕하세요! ${loginUser.ID }<span>님</span>
 				<p style="font-size: 20px; text-align:left;">보유 포인트 : <fmt:formatNumber value="${point }" pattern="#,###"></fmt:formatNumber> P</p>
+				<c:if test="${loginUser.GRADE eq 'N'}">
+					<p style="font-weight: 900; font-size: 20px; padding-top: 0;">Normal 등급</p>
+				</c:if>
+				<c:if test="${loginUser.GRADE eq 'V'}">
+					<p style="font-weight: 900; font-size: 20px; padding-top: 0;">VIP 등급</p>
+				</c:if>
 			</div>
-<%-- 			<div class="totalPoint">보유 포인트 : <fmt:formatNumber value="${point }" pattern="#,###"></fmt:formatNumber> P</div> --%>
 		</div>
 	</div>
 	<div class="my-board-list">
