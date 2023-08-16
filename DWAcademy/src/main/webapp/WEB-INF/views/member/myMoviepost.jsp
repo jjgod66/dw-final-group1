@@ -59,16 +59,85 @@
 .on{
 	background-color: #4aa8d8;
 }
+.container .tab-list {
+    position: static;
+    width: 100%;
+}
+.container .tab-list:after {
+    clear: both;
+}
+.container .tab-list:after,
+.container .tab-list:before {
+    content: '';
+    display: table;
+}
+.container .tab-list>ul {
+    position: relative;
+    width: 100%;
+    height: 42px;
+}
+.container .tab-list>ul:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+    height: 1px;
+    background-color: #4aa8d8;
+}
+.container .tab-list>ul>li:first-child:nth-last-child(4) {
+    width: 25%;
+}
+.container .tab-list>ul>li:first-child:nth-last-child(4)~li {
+    width: 25%;
+}
+.container .tab-list>ul>li {
+    float: left;
+    height: 42px;
+    margin: 0;
+    border: 1px solid #ebebeb;
+    border-width: 1px 0 1px 1px;
+}
+.container .tab-list>ul>li:last-child {
+    border-right: 1px solid #ebebeb;
+}
+.container .tab-list>ul>li.active a {
+    position: relative;
+    border: 1px solid #4aa8d8;
+    border-bottom: 0;
+    background-color: #fff;
+    z-index: 3;
+}
+.container .tab-list>ul>li>a {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 41px;
+    line-height: 40px;
+    padding: 0;
+    text-align: center;
+    color: #222;
+    font-size: 1.0667em;
+    text-decoration: none;
+}
+.container .tab-content {
+    padding: 0 0 50px;
+}
+.post:hover{
+	cursor: pointer;
+}
 </style>
 <c:set var="cri" value="${pageMaker.cri }"/>
 <div class="container" style=" margin-top: 10px">
-	<div class="row mb-3" style="width:100%;">
-		<div class="tab-block tab-layer">
+	<div class="row mb-3" style="width:100%; margin: 30px auto;">
+		<div class="tab-list">
 			<ul>
-				<a href="<%=request.getContextPath()%>/member/movieTimeLine.do" class="" ><li>무비타임라인</li></a>
-				<a href="<%=request.getContextPath()%>/member/myMoviepost.do" class="on"><li>무비포스트</li></a>
-				<a href="<%=request.getContextPath()%>/member/myReview.do" class=""><li>리뷰</li></a>
-				<a href="<%=request.getContextPath()%>/member/myLikeMovie.do" class=""><li>좋아요</li></a>
+				<li><a href="<%=request.getContextPath()%>/member/movieTimeLine.do" class="" >무비타임라인</a></li>
+				<li><a href="<%=request.getContextPath()%>/member/myMoviepost.do" class="on">무비포스트</a></li>
+				<li><a href="<%=request.getContextPath()%>/member/myReview.do" class="">리뷰</a></li>
+				<li><a href="<%=request.getContextPath()%>/member/myLikeMovie.do" class="">좋아요</a></li>
 			</ul>
 		</div>
 	</div>
@@ -89,7 +158,7 @@
 		</div>
 	</div>
 	<c:if test="${empty mpList}">
-		<div class="" style="padding-bottom: 10px; margin: auto;">
+		<div class="" style="padding: 50px 0; margin: auto;">
 			<div style="text-align: center;">등록된 무비포스트가 없습니다.</div>
 		</div>
 	</c:if>
