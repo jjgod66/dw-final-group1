@@ -12,6 +12,7 @@
 <style>
 body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;}
  #wrapper {
+ min-height:700px;
  margin-left:auto;
  margin-right:auto;
     width: 70%;

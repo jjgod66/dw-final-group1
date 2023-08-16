@@ -182,8 +182,10 @@ h2.tit {
 }
 
 .content {
+	min-height:900px;
 	padding: 20px 0;
 }
+
 </style>
 <div class="content">
 	<h2 class="tit">나의 문의내역</h2>

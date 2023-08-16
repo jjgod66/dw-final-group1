@@ -232,6 +232,7 @@ h2:after {
 .disnone{
 	display: none;
 }
+.container{min-height:900px;}
 </style>
 <div class="container" style="margin-top: 10px;">
 	<div class="row" style="width:100%;">

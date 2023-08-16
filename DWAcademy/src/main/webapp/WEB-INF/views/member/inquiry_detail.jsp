@@ -16,7 +16,7 @@
 <%@ include file="../include/member_header.jsp" %>
  <%@ include file="que_delete_modal.jsp" %>
 <style>
-body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper { margin-left:auto; margin-right:auto; width: 70%; min-height: 500px; margin-bottom: 100px;}
+body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper { margin-left:auto; margin-right:auto; width: 100%; min-height: 500px; }
 
         /* .container {
             margin: 0 auto;
@@ -78,7 +78,8 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
 }
 
  #b{border-right: 1px solid #ddd; padding: 5px;}
- #same{background: #e9ecef; border: 1px dashed #E0E0E0;}
+ #same{background: #e9ecef; border: 1px dashed #E0E0E0;     margin: 0 auto;
+    width: 70%;}
  #im{ text-align: center;}#img{width: 30px;}
 
 .post-buttons {

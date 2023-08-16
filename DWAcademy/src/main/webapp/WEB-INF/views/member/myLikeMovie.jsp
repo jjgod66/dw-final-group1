@@ -124,6 +124,7 @@
 .btn_movieChart_ticketing{
 	border-radius: 3px;
 }
+.container{min-height:900px;}
 </style>
 <div class="container" style=" width: 100%; display: flex; margin-top: 10px; flex-wrap: wrap;">
 	<div style="width:100%;">

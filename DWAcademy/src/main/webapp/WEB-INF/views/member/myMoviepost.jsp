@@ -48,6 +48,7 @@
 .on{
 	background-color: #4aa8d8;
 }
+.container{min-height:900px;}
 </style>
 <c:set var="cri" value="${pageMaker.cri }"/>
 <div class="container" style=" margin-top: 10px">

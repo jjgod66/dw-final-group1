@@ -64,6 +64,7 @@
 .click{
 	font-weight: bolder;
 }
+.container{min-height:900px;}
 </style>
 <%@ include file="../movie/review_delete_modal.jsp" %>
 <%@ include file="reviewUpdate_modal.jsp" %>
