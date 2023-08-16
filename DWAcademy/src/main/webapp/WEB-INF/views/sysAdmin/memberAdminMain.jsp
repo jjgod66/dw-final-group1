@@ -56,7 +56,7 @@
 										<option value="sbd" ${cri.searchType2 eq 'sbd' ? 'selected' : '' }>필터</option>
 										<option value="s" ${cri.searchType2 eq 's' ? 'selected' : '' }>휴면계정</option>
 										<option value="b" ${cri.searchType2 eq 'b' ? 'selected' : '' }>블랙계정</option>
-										<option value="d" ${cri.searchType2 eq 'd' ? 'selected' : '' }>삭제계정</option>
+										<option value="d" ${cri.searchType2 eq 'd' ? 'selected' : '' }>탈퇴계정</option>
 									</select>
 								</td>
 								<td>
@@ -92,7 +92,7 @@
 								<th scope="col">가입일자</th>
 								<th scope="col">휴면여부</th>
 								<th scope="col">블랙여부</th>
-								<th scope="col">삭제여부</th>
+								<th scope="col">탈퇴여부</th>
 							</tr>
 						</thead>
 						<tbody class="list">

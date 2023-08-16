@@ -58,11 +58,11 @@
 					<h3></h3>
 					<table class="tablef table table-striped">
 						<colgroup>
-							<col>
 							<col class="w150">
+							<col>
 							<col class="w80">
 							<col class="w130">
-							<col class="w130">
+							<col class="w100">
 							<col class="w30">
 						</colgroup>
 						<tbody>

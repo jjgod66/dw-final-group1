@@ -95,7 +95,7 @@
 		            				<jsp:useBean id="now" class="java.util.Date"/>
 		            				<fmt:formatDate value="${now }" pattern="yyyyMMdd" var="nowDate" />
 		            				<fmt:formatDate value="${qna.regdate }" pattern="yyyyMMdd" var="regDate" />
-		            				<c:if test="${nowDate - regDate < 3 }">
+		            				<c:if test="${nowDate - regDate < 1 }">
 		            					<img src="https://ssl.nexon.com/s2/game/closers/site_renewal2020/common/ico/ico_new.png" alt="new" class="ico new">
 		            				</c:if>
 		            			</td>
