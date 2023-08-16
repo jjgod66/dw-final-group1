@@ -247,4 +247,10 @@ public class SupportServiceImpl implements SupportService{
 		
 		return attach;
 	}
+
+	@Override
+	public List<Map<String, Object>> get5MyQuestionList(String mem_cd) throws SQLException {
+		
+		return supportDAO.get5MyQuestionList(mem_cd);
+	}
 }

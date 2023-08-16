@@ -143,4 +143,11 @@ public interface SupportService {
 	 */
 	QnaAttachVO getQnaAttachByQnaNo(int que_no) throws SQLException;
 
+	/**
+	 * 문의 내역 5개 가져오기
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> get5MyQuestionList(String mem_cd) throws SQLException;
+
 }

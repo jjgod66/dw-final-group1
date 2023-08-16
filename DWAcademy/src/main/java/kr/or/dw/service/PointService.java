@@ -1,6 +1,7 @@
 package kr.or.dw.service;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import kr.or.dw.command.SearchCriteria;
@@ -37,5 +38,12 @@ public interface PointService {
 	 * @throws SQLException
 	 */
 	int getMemTotalPoint(String mem_cd) throws SQLException;
+
+	/**
+	 * 포인트 사용내역 5개
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> get5PointList(String mem_cd) throws SQLException;
 
 }

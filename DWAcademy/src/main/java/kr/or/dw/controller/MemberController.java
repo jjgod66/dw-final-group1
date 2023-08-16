@@ -5,26 +5,20 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -121,11 +115,15 @@ public class MemberController {
 		String mem_cd = (String) member.get("CD");
 		List<Map<String, Object>> movieInfoList = movieService.getMy2ResInfo(mem_cd);
 		List<Map<String, Object>> buyInfoList = memberService.select3BuyInfo(mem_cd);
+		List<Map<String, Object>> questionList = supportService.get5MyQuestionList(mem_cd);
+		List<Map<String, Object>> pointList = pointService.get5PointList(mem_cd);
 		
 		int point = 0;
 		point = pointService.getMemTotalPoint(mem_cd);
 		
 		mnv.addObject("point", point);
+		mnv.addObject("pointList", pointList);
+		mnv.addObject("questionList", questionList);
 		mnv.addObject("buyInfoList", buyInfoList);
 		mnv.addObject("movieInfoList", movieInfoList);
 		mnv.addObject("member", member);
@@ -415,12 +413,13 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/discount-coupon")
-	public ModelAndView memberDiscountcoupon(ModelAndView mnv, HttpSession session) throws SQLException {
+	public ModelAndView memberDiscountcoupon(ModelAndView mnv,SearchCriteria cri, HttpSession session) throws SQLException {
 		String url = "/member/discount-coupon";
 		
 		Map<String, Object> member = (Map) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
-		List<Map<String, Object>> coupon = couponService.selectAllCoupon(mem_cd);
+		cri.setPerPageNum("5");
+		List<Map<String, Object>> coupon = couponService.selectAllCoupon(cri, mem_cd);
 		
 		mnv.addObject("coupon", coupon);
 		mnv.setViewName(url);

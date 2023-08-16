@@ -156,8 +156,11 @@ h2.tit {
 				<th style="text-align: center;" scope="col">사용상태</th>
 			</tr>
 			</thead>
+			<c:if test="${empty coupon}">
+				<tr><td colspan="5">보유 쿠폰내역이 없습니다.</td></tr>
+			</c:if>
 		<c:forEach items="${coupon}" var="coupon">
-			<c:set var="i" value="${i+1 }" />
+			<c:set var="i" value="${i+1}" />
 			<tbody>
 				<c:if test="${empty coupon}">
 					<tr><td colspan="5" class="a-c">취소내역이 없습니다.</td></tr>
@@ -165,13 +168,23 @@ h2.tit {
 				<tr>
 					<td>${i }</td>
 					<td>${coupon.coupon_name}</td>
-					<td><fmt:formatDate value="${coupon.enddate}" type="both" />까지</td>
+					<td><fmt:formatDate value="${coupon.enddate}" type="both"/>까지</td>
 					<td>${coupon.gb_use eq 'N' ? '사용가능' : '사용완료'}</td>
 				</tr>
 			</tbody>
 		</c:forEach>
 		</table>
 	</div>
+	<c:if test="${!empty pointList }">
+		<div class="mt-5 mb-5 paginationdiv">
+			<%@ include file="../common/pagination.jsp" %>
+		</div>
+	</c:if>
+	<c:if test="${empty pointList }">
+		<div class="mt-5 mb-5 paginationdiv" style="display: none;">
+			<%@ include file="../common/pagination.jsp" %>
+		</div>
+	</c:if>
 	<div class="cont">
 		<ul class="dot-list">
 			<li>등록하신 쿠폰은 영화 예매 시 결제수단 &gt; 포인트/할인쿠폰 &gt; 할인쿠폰에서 사용 가능합니다.</li>

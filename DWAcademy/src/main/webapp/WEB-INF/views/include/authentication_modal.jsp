@@ -172,17 +172,17 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">전화번호</label>
-							<input class="input--style-3" id="phone" type="text" maxlength="11" placeholder="-없이 숫자만 입력하세요">
+							<input class="input--style-3" id="phone" type=text pattern="{10, 11}" placeholder="-없이 숫자만 입력하세요" required>
 						</div>
 						<div>
 							<button type="button" id="sendSMS" class="btn btn--signup" >인증번호 보내기</button>
 						</div>
 					</div>
 					<div class="col-6">
-						<div>
+						<div class="input-group">
 							<label class="label">인증번호</label>
+							<span id="result_checkCode" style="font-size:12px;"></span>
 							<input class="input--style-3" id="SMSCheckInput" type="text" maxlength="6" placeholder="인증번호 6자리를 입력하세요.">
-							<div><span id="result_checkCode" style="font-size:12px;"></span></div>
 						</div>
 						<div>
 							<button type="button" id="SMSCheck" class="btn btn--signup">인증번호 확인</button>

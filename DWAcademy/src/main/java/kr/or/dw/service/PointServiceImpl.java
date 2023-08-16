@@ -104,4 +104,9 @@ public class PointServiceImpl implements PointService{
 		}
 		return point;
 	}
+
+	@Override
+	public List<Map<String, Object>> get5PointList(String mem_cd) throws SQLException {
+		return pointDAO.get5PointList(mem_cd);
+	}
 }
