@@ -248,15 +248,25 @@ public class MemberController {
 	@RequestMapping("/member/dormantAccount")
 	public void dormantAccount(String phone, HttpServletResponse res, HttpServletRequest req) throws IOException, SQLException {
 		System.out.println(phone);
-		
-		memberService.accountRecovery(phone);
-		
+		String mem_phone = phone;
+		Map<String, Object> member = memberService.CheckMember(mem_phone);
 		res.setContentType("text/html; charset=utf-8");
-	    PrintWriter out = res.getWriter();
-	    out.println("<script>");
-	    out.println("alert('휴면이 해제 되었습니다.');");
-	    out.println("location.href='" + req.getContextPath() + "/';");
-	    out.println("</script>");
+		PrintWriter out = res.getWriter();
+		System.out.println(member);
+		if(member.get("GB_SLEEP").equals("Y")) {
+			memberService.accountRecovery(phone);
+			
+			out.println("<script>");
+			out.println("alert('휴면이 해제 되었습니다.');");
+			out.println("location.href='" + req.getContextPath() + "/';");
+			out.println("</script>");
+		}else {
+			out.println("<script>");
+			out.println("alert('휴면계정이 아닙니다.');");
+			out.println("location.href='" + req.getContextPath() + "/';");
+			out.println("</script>");
+		}
+		
 		
 	}
 	
