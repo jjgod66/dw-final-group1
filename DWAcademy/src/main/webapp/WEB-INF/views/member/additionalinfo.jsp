@@ -144,7 +144,6 @@
 				<label for="chk1"><input type="radio" name="personInfoUtilAgreeAt" id="chk1" value="N" ${mem_alert.GB_EMAIL_ALERT eq 'N' and GB_SMS_ALERT eq 'N' ? 'checked' : ''}>미동의</label>
 				
 				<label for="chk2"><input type="radio" name="personInfoUtilAgreeAt" id="chk2" value="Y" ${mem_alert.GB_EMAIL_ALERT eq 'Y' or GB_SMS_ALERT eq 'Y' ? 'checked' : ''}>동의</label>
-				
 			</div>
 		</div>
 		<div class="box-bot">

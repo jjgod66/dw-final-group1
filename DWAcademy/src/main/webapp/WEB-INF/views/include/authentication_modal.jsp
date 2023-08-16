@@ -158,13 +158,13 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">이름</label>
-							<input class="input--style-3" type="text" name="name">
+							<input class="input--style-3" type="text" name="name" required>
 						</div>
 					</div>
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">생년월일</label>
-								<input class="input--style-3 js-datepicker" type="text" name="bir" placeholder="ex)20020101" maxlength="8">
+								<input class="input--style-3 js-datepicker" type="text" name="bir" placeholder="ex)20020101" maxlength="8" required>
 						</div>
 					</div>
 				</div>
@@ -172,7 +172,7 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">전화번호</label>
-							<input class="input--style-3" id="phone" type="text" pattern="{10, 11}" placeholder="-없이 숫자만 입력하세요" required>
+							<input class="input--style-3" id="phone" type="text" maxlength="11" placeholder="-없이 숫자만 입력하세요" required>
 						</div>
 						<div>
 							<button type="button" id="sendSMS" class="btn btn--signup" >인증번호 보내기</button>
