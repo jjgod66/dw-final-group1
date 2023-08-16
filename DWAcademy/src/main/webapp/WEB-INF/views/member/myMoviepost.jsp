@@ -51,7 +51,7 @@
 </style>
 <c:set var="cri" value="${pageMaker.cri }"/>
 <div class="container" style=" margin-top: 10px">
-	<div class="row" style="width:100%;">
+	<div class="row mb-3" style="width:100%;">
 		<div class="tab-block tab-layer">
 			<ul>
 				<a href="<%=request.getContextPath()%>/member/movieTimeLine.do" class="" ><li>무비타임라인</li></a>

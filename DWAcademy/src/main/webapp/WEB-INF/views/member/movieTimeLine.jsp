@@ -234,7 +234,7 @@ h2:after {
 }
 </style>
 <div class="container" style="margin-top: 10px;">
-	<div class="row" style="width:100%;">
+	<div class="row mb-3" style="width:100%;">
 		<div class="tab-block tab-layer">
 			<ul>
 				<a href="<%=request.getContextPath()%>/member/movieTimeLine.do" class="on" ><li>무비타임라인</li></a>
@@ -252,7 +252,7 @@ h2:after {
 		<c:set var="sysDate"><fmt:formatDate value="${now}" pattern="yyyyMM" /></c:set> 
 		<c:set var="screenDate"><fmt:formatDate value="${bookingList.STARTDATE}" pattern="yyyyMM" /></c:set>
 		<c:if test="${screenDate != prevMonth}">
-			<h2 id="startdate${i}" class="YYMM"><strong><fmt:formatDate value="${bookingList.STARTDATE}" pattern="yyyy-MM"/></strong></h2>
+			<h2 id="startdate${i}" class="YYMM" style="font-family: none; font-size: 1.2rem;"><strong style="border: 2px solid black; border-radius: 0.2rem;"><fmt:formatDate value="${bookingList.STARTDATE}" pattern="yyyy-MM"/></strong></h2>
 			<c:set var="prevMonth" value="${screenDate}" />
 			<c:set var="i" value="${i+1}"/>
 		</c:if>

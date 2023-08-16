@@ -120,7 +120,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
     	text-decoration: underline;
     }
 </style>
-<div id="wrapper">
+<!-- <div id="wrapper"> -->
 
 	<div class="container" style="margin-top:50px;">
         <div class="modal1" id="same">		
@@ -174,7 +174,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
 	    </div>
     </div>
 	
-</div>
+<!-- </div> -->
 
 <script>
 $(function(){

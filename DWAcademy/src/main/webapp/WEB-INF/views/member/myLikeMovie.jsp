@@ -126,7 +126,7 @@
 }
 </style>
 <div class="container" style=" width: 100%; display: flex; margin-top: 10px; flex-wrap: wrap;">
-	<div style="width:100%;">
+	<div style="width:100%;" class="row mb-3">
 		<div class="tab-block tab-layer">
 			<ul>
 				<a href="<%=request.getContextPath()%>/member/movieTimeLine.do" class="" ><li>무비타임라인</li></a>
