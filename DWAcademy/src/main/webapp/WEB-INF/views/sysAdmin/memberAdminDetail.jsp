@@ -119,9 +119,9 @@
 								<td>${GB_SMS_ALERT }</td>
 							</tr>
 							<tr>
-								<th scope="row">삭제여부</th>
+								<th scope="row">탈퇴여부</th>
 								<td>${GB_DEL }</td>
-								<th scope="row">삭제날짜</th>
+								<th scope="row">탈퇴날짜</th>
 								<td>${empty DELDATE ? '-' : DELDATE }</td>
 								<th scope="row">이메일 알림여부</th>
 								<td>${GB_EMAIL_ALERT }</td>
@@ -322,7 +322,7 @@
 	
 	$('#moreMpReplyBtn').on('click', function(){
 		let url = 'memberAdminMoviepostReplyList.do?mem_cd=${MEM_CD}';
-		OpenWindow(url, '회원 무비포스트 댓글 리스트', 800, 700);
+		OpenWindow(url, '회원 무비포스트 댓글 리스트', 1000, 700);
 	});
 	
 	$('#banBtn').on('click', function(){

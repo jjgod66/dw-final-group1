@@ -89,4 +89,11 @@ public interface PointDAO {
 	 */
 	List<PointVO> selectMemPoint(String mem_cd) throws SQLException;
 
+	/**
+	 * 포인트 사용내역 5개
+	 * @param mem_cd
+	 * @return
+	 */
+	List<Map<String, Object>> get5PointList(String mem_cd) throws SQLException;
+
 }

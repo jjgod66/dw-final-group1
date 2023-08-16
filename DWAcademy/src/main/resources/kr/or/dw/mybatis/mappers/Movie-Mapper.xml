@@ -821,6 +821,9 @@ AND ROWNUM <![CDATA[<=]]> 4
 			   AND h.house_no = s.house_no
 			   AND p.merchant_uid = r.merchant_uid
 			   AND p.merchant_uid = pt.merchant_uid(+)
+			   <if test="startdate > sysdate != null">
+			   AND startdate <![CDATA[>]]> sysdate
+			   </if>
 			 GROUP BY r.merchant_uid
 			 ORDER BY r.merchant_uid
 			 )

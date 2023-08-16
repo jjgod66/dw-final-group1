@@ -203,7 +203,7 @@ h2.tit {
 			<strong>전체 (<b id="totalCnt">${MyQuestionListCnt}</b>건)</strong>
 		</p>
 		<div class="dropdown bootstrap-select bs3">
-			<select name="searchType" id="custInqStatCd" class="" tabindex="-98">
+			<select name="searchType" id="custInqStatCd" class="" tabindex="-98" style="padding: 4.5px;">
 				<option value="">선택</option>
 				<option value="theater" ${pageMaker.cri.searchType eq 'theater' ? 'selected' : '' }>극장</option>
 				<option value="type" ${pageMaker.cri.searchType eq 'type' ? 'selected' : '' }>유형</option>
@@ -244,7 +244,7 @@ h2.tit {
 			<c:if test="${empty MyQuestionList}">
 					<td colspan="6">목록이 없습니다.</td>
 			</c:if>
-					<td>${question.ROWNUM}</td>
+					<td>${question.QUE_NO}</td>
 					<td>${question.THR_NAME}</td>
 					<td>${question.QUE_TYPE}</td>
 					<td id="queTitle" data-que_no="${question.QUE_NO }">${question.QUE_TITLE}</td>

@@ -68,7 +68,7 @@
     padding-right: 13px;
     color: #fff;
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
 }
 .my-board-list .tit-util {
     margin: 50px 0 10px;
@@ -139,7 +139,7 @@ p {
 	</div>
 	<div class="my-board-list">
 		<div class="tit-util">
-			<h3 class="tit">나의 예매내역</h3>
+			<h3 class="tit">상영 예정내역</h3>
 			<div class="float-end">
 				<a href="<%=request.getContextPath()%>/member/bookinglist.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
@@ -149,7 +149,7 @@ p {
 				<li class="no-result">
 					<div class="row" style="padding: 30px; border: 1px solid gray; border-radius: 10px;">
 					<c:if test="${empty movieInfoList}">
-						<p>예매 내역이 없습니다.</p>
+						<p>상영 예정 내역이 없습니다.</p>
 					</c:if>
 						<c:forEach items="${movieInfoList}" var="movieInfo">
 									<div class="col-2" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
@@ -227,6 +227,68 @@ p {
 					</div>
 				</li>
 			</ul>
+		</div>
+		<div class="row">
+			<div class="col-6">
+				<div class="tit-util">
+					<h3 class="tit">포인트 사용내역</h3>
+					<div class="float-end">
+						<a href="<%=request.getContextPath()%>/member/point-list.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+					</div>
+				</div>
+				<div class="my-reserve-history" style="border-top: 1px solid #555;">
+					<ul>
+						<li class="no-result">
+							<div class="row">
+							<c:if test="${empty pointList}">
+								<p>포인트 사용 내역이 없습니다.</p>
+							</c:if>
+							<c:if test="${!empty pointList}">
+								<table style="width : 100%;">
+									<c:forEach items="${pointList}" var="pointInfo">
+										<tr>
+											<td style="width : 20%; text-align : center;"><fmt:formatDate value="${pointInfo.BUYDATE}"/></td>
+											<td style="width : 10%; text-align : center;">${pointInfo.PRODUCT_DIV}</td>
+										</tr>
+									</c:forEach>
+								</table>
+							</c:if>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-6">
+				<div class="tit-util">
+					<h3 class="tit">나의 문의내역</h3>
+					<div class="float-end">
+						<a href="<%=request.getContextPath()%>/member/myinquiry.do" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+					</div>
+				</div>
+				<div class="my-reserve-history" style="border-top: 1px solid #555;">
+					<ul>
+						<li class="no-result">
+							<div class="row">
+							<c:if test="${empty questionList}">
+								<p>문의 내역이 없습니다.</p>
+							</c:if>
+							<c:if test="${!empty questionList}">
+								<table style="width : 100%;">
+									<c:forEach items="${questionList}" var="question">
+										<tr>
+											<td style="width : 10%; text-align : center;">${question.QUE_NO}</td>
+											<td style="width : 20%; text-align : center;">${question.QUE_TYPE}</td>
+											<td style="width : 70%; padding-bottom: 15px;">${question.QUE_TITLE}</td>
+										</tr>
+										<br>
+									</c:forEach>
+								</table>
+							</c:if>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 	</div>
 </div>

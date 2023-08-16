@@ -307,7 +307,7 @@ public class CommonController {
 		
 		try {
 			file.transferTo(saveFile);
-			result = new ResponseEntity<String>(req.getContextPath() + File.separator + "common" + File.separator + "getTempImg.do?fileName=" + fileName, HttpStatus.OK);
+			result = new ResponseEntity<String>(req.getContextPath() + "/common/getTempImg.do?fileName=" + fileName, HttpStatus.OK);
 		} catch (Exception e) {
 			result = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

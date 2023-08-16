@@ -140,6 +140,11 @@
 		<p style="float:left;">
 		<strong>총 <b class="font-gblue" id="myMoviePostCnt">${fn:length(LikeMovieList)}</b> 건</strong>
 		</p>
+		<c:if test="${empty LikeMovieList}">
+			<div class="" style="padding-bottom: 10px; margin: auto;">
+				<div style="text-align: center;">좋아요한 영화가 없습니다.</div>
+			</div>
+		</c:if>
 		<c:set var="i" value="0"/>
 		<c:forEach items="${LikeMovieList }" var="movie">
 			<div class="movie col-3" style="padding: 30px 20px 30px 20px; min-width: 170px;">	
