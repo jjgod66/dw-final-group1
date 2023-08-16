@@ -50,7 +50,7 @@
 	</select>
 	
 	<select id="CheckMember" resultType="Map">
-		SELECT phone
+		SELECT *
 		  FROM accountCheck
 		 WHERE phone = #{mem_phone}
 	</select>

@@ -158,17 +158,17 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">전화번호</label>
-							<input class="input--style-3" id="dormantAccountPhone" type="text" name="phone">
+							<input class="input--style-3" id="dormantAccountPhone" type="text" name="phone" pattern="{10, 11}" placeholder="-없이 숫자만 입력하세요" required>
 						</div>
 						<div>
 							<button type="button" id="sendAuthNum" class="btn btn--signup" >인증번호 보내기</button>
 						</div>
 					</div>
 					<div class="col-6">
-						<div>
+						<div class="input-group">
 							<label class="label">인증번호</label>
+							<span id="result_check" style="font-size:12px;"></span>
 							<input class="input--style-3" id="authNumInput" type="text" placeholder="인증번호 6자리를 입력하세요.">
-							<div><span id="result_check" style="font-size:12px;"></span></div>
 						</div>
 						<div>
 							<button type="button" id="authNumCheck" class="btn btn--signup">인증번호 확인</button>
@@ -176,7 +176,7 @@
 					</div>
 				</div>
 				<div class="pt-3">
-					<button class="btn btn--signup" id="accountRecovery" type="submit">확인</button>
+					<button class="btn btn--signup" id="accountRecovery" type="submit" disabled>확인</button>
 				</div>
 				</form>
             </div>

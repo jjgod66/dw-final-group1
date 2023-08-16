@@ -36,18 +36,19 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		System.out.println("member : " + member );
+		System.out.println("GB_SLEEP : " + member.get("GB_SLEEP") );
 		String mem_pwd = (String) member.get("PWD");
 		
+		if(member.get("GB_BAN").equals("Y")) {
+			throw new DisabledException("정지된 계정입니다. \\n관리자에게 문의하세요.");
+		}
+		if(member.get("GB_SLEEP").equals("Y")) {
+			throw new DisabledException("휴면 계정입니다. 휴면을 해제 하신 후에 사용하세요");
+		}
 		if(member != null && login_pwd.equals(mem_pwd)) {	// 로그인 성공
 			User authUser = new User(member);
 
-			if(member.get("GB_BAN") == "Y") {
-				throw new DisabledException("정지된 계정입니다. \\n관리자에게 문의하세요.");
-			}
-			if(member.get("GB_SLEEP") == "Y") {
-				throw new DisabledException("휴면 계정입니다.");
-			}
 			System.out.println(authUser.isAccountNonLocked());
 			
 			// 스프링 시큐리티 내부 클래스로 인증 토큰 생성한다.
