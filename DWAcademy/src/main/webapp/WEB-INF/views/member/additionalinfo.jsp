@@ -239,7 +239,6 @@
 	</div>
 	<div>
 		<div class="btn-group py-3">
-			<button type="button" class="button large" id="cancelBtn">취소</button>
 			<button type="button" class="button purple large" id="updateBtn" onclick="additionSubmit_go();">수정</button>
 		</div>
 	</div>
