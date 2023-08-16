@@ -256,15 +256,8 @@
 </c:forEach>
 <script>
 $('#chk1').on('click', function(){
-	$('input[name=gb_sms_alert]').attr("disabled", true);
-	$('input[name=gb_email_alert]').attr("disabled", true);
 	$('#chk4').attr('checked', true);
 	$('#chk6').attr('checked', true);
-})
-$('#chk2').on('click', function(){
-	$('input[name=gb_sms_alert]').attr("disabled", false);
-	$('input[name=gb_email_alert]').attr("disabled", false);
-	
 })
 
 if($('#chk3').val() == "${member.gb_email_alert}"){
@@ -284,8 +277,6 @@ if($('#chk3').is(':checked') || $('#chk5').is(':checked')){
 }
 else if($('#chk4').is(':checked') || $('#chk6').is(':checked')){
 	$('#chk1').attr('checked', true);
-	$('input[name=gb_sms_alert]').attr("disabled", true);
-	$('input[name=gb_email_alert]').attr("disabled", true);
 }
 
 

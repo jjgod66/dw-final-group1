@@ -205,7 +205,7 @@ let dormantAccountPhone = $('#dormantAccountPhone').val();
 			}
 		})
 	}else{
-		alert('번호를 입력해주세요.');
+		alert('번호를 정확하게 입력해주세요.');
 	}
 })
 $('#authNumCheck').on('click', function(){
