@@ -85,10 +85,10 @@
 	<div style="padding-bottom: 10px;">
 		<div class="row" style="flex-wrap: nowrap;">
 			<c:forEach items="${mpList}" var="mp">
-        		<div class="col-3 post" style="height: 300px; width: 250px;">
-        			<div id="mpCard" class="card" style="margin: 20px; height: 90%;" data-mpost_no="${mp.MPOST_NO }" data-timestamp="${fn:replace(mp.REGDATE, '', 'T')}">
-        				<div class="card-body" style="height: 45%; background-image: url('<%=request.getContextPath() %>/common/getPicture.do?name=${mp.MOVIE_PIC_PATH}&item_cd=${mp.MOVIE_CD}&type=movieImg');  background-repeat : no-repeat; background-size : cover;"></div>
-        				<div class="card-body" style="height: 55%;">
+        		<div class="col-md-4 post" style="">
+        			<div id="mpCard" class="card h-100" style="margin: 20px;" data-mpost_no="${mp.MPOST_NO }" data-timestamp="${fn:replace(mp.REGDATE, '', 'T')}">
+        				<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${mp.MOVIE_PIC_PATH}&item_cd=${mp.MOVIE_CD}&type=movieImg" style="height: 15rem;">
+        				<div class="card-body">
         					<div>
         						<p style="font-size: small;">
 		        					<c:set var="mem_id_post" value="${mp.MEM_ID}" />

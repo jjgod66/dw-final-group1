@@ -279,7 +279,7 @@
 			 		,#{thr_x}
 			 		,#{thr_y}
 			 		,#{admin_cd}
-			 		,'N'
+			 		,'Y'
 			 		)		
 	</insert>
 	

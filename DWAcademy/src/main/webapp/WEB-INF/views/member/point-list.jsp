@@ -215,7 +215,12 @@ h3.tit {
     margin-top: 20px;
     padding-bottom: 10px;
 }
-
+#menu > ul {
+	margin-block-start: 0;
+}
+#menu > ul > li > ul {
+	margin-block-start: 0;
+}
 </style>
 <%@include file="giftCard_modal.jsp" %>
 <div class="content">

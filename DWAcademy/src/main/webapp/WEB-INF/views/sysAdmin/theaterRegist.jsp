@@ -64,7 +64,7 @@
 							</tr>
 							<tr>
 								<th scope="row">영화관명</th>
-								<td><input type="text" name="thr_name" class="required frm_input" value="${thr.thr_name }" size="30" style="background-position: right top; background-repeat: no-repeat;" ${thr.thr_name eq null ? '':'readonly' } required></td>
+								<td><input type="text" name="thr_name" class="required frm_input" value="${thr.thr_name }" size="30" style="background-position: right top; background-repeat: no-repeat; ${empty thr ? '' : 'background-color: #e9ecef;' }" ${thr.thr_name eq null ? '':'readonly' } required></td>
 							</tr>
 							<tr>
 								<th scope="row">전화번호</th>
@@ -130,7 +130,7 @@
 						</c:when>
 						<c:otherwise>
 							<button type="button" id="modifyBtn" class="bc_dw_blue">수정</button>
-							<button type="button" id="deleteBtn" class="bc_dw_orange" >${thr.gb_del == 'Y' ? '재등록' : '비활성화' }</button>
+							<button type="button" id="deleteBtn" class="bc_dw_orange" >${thr.gb_del == 'Y' ? '활성화' : '비활성화' }</button>
 						</c:otherwise>
 					</c:choose>
 					<button type="button" id="cancelBtn" class="bc_dw_black" >뒤로가기</button>
@@ -232,7 +232,7 @@ function checkForm() {
 		return 1;
 	}
 	
-	if ($('input[name="thr_info"]').val() == '') {
+	if ($('textarea[name="thr_info"]').val() == '') {
 		alert('영화관 소개상세는 필수입력항목입니다.');
 		return 1;
 	}
