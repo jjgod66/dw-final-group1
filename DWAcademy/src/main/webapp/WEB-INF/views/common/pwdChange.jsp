@@ -653,14 +653,14 @@ ol, ul {
 								<tr id="pwdReSet" style="">
 									<th scope="row"><label for="ibxPwdReSetLoginPwd">새 비밀번호<!--새 비밀번호--></label></th>
 									<td>
-										<input id="ibxPwdReSetLoginPwd" maxlength="16" type="password" placeholder="영문,숫자,특수기호 중 2가지 이상 조합" class="input-text w300px" name="change_mem_pwd"><!--영문,숫자,특수기호 중 2가지 이상 조합-->
+										<input id="ibxPwdReSetLoginPwd" maxlength="16" type="password" placeholder="영문 숫자 조합 8자리 이상" class="input-text w300px" name="change_mem_pwd"><!--영문,숫자,특수기호 중 2가지 이상 조합-->
 										<div id="pwdSet-error-text" class=""></div>
 									</td>
 								</tr>
 								<tr id="pwdReSetConfirm" style="">
 									<th scope="row"><label for="ibxPwdReSetLoginPwdConfirm">비밀번호 확인<!--새 비밀번호 확인--></label></th>
 									<td>
-										<input id="ibxPwdReSetLoginPwdConfirm" maxlength="16" type="password" placeholder="영문,숫자,특수기호 중 2가지 이상 조합" class="input-text w300px"><!--영문,숫자,특수기호 중 2가지 이상 조합-->
+										<input id="ibxPwdReSetLoginPwdConfirm" maxlength="16" type="password" placeholder="영문 숫자 조합 8자리 이상" class="input-text w300px"><!--영문,숫자,특수기호 중 2가지 이상 조합-->
 										<!--
 											오류메시지가 업을때는 tag 자체가 나오지 않아야 합니다.
 										 -->
@@ -673,7 +673,7 @@ ol, ul {
 				</div>
 
 				<ul class="dot-list gblue mt20">
-					<li>비밀번호는 영문, 숫자, 특수문자 중 2가지 이상 조합 8자리 이상으로 설정해주세요.</li><li>생년월일, 휴대폰번호 등 개인정보와 관련된 숫자, 연속된 숫자와 같이 쉬운 비밀번호는 사용을 자제해주세요.</li><li>비밀번호는 3개월마다 변경해주세요.</li><li>비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ &amp; * + = - ? _  입니다.</li><!--<li>비밀번호는 영문, 숫자, 특수문자 중 2가지 이상 조합 10자리 이상으로 설정해주세요.</li><li>생년월일, 휴대폰번호 등 개인정보와 관련된 숫자, 연속된 숫자와 같이 쉬운 비밀번호는 사용을 자제해주세요.</li><li>비밀번호는 3개월마다 변경해주세요.</li><li>비밀번호 변경시 로그인된 모든 디바이스에서 로그아웃됩니다. 변경한 비밀번호로 다시 로그인 후 이용해주세요.</li>-->
+					<li>비밀번호는 영문 숫자 조합 8자리 이상으로 설정해주세요.</li><li>생년월일, 휴대폰번호 등 개인정보와 관련된 숫자, 연속된 숫자와 같이 쉬운 비밀번호는 사용을 자제해주세요.</li><li>비밀번호는 3개월마다 변경해주세요.</li><li>비밀번호 설정 시 사용가능한 특수문자는 ~ ! @ # $ % ^ &amp; * + = - ? _  입니다.</li><!--<li>비밀번호는 영문, 숫자, 특수문자 중 2가지 이상 조합 10자리 이상으로 설정해주세요.</li><li>생년월일, 휴대폰번호 등 개인정보와 관련된 숫자, 연속된 숫자와 같이 쉬운 비밀번호는 사용을 자제해주세요.</li><li>비밀번호는 3개월마다 변경해주세요.</li><li>비밀번호 변경시 로그인된 모든 디바이스에서 로그아웃됩니다. 변경한 비밀번호로 다시 로그인 후 이용해주세요.</li>-->
 				</ul>
 
 				<div class="btn-member-bottom">
