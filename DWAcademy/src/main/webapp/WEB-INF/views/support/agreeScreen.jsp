@@ -34,9 +34,10 @@ h2.tit {
     border-top: none;
 }
 .screen-share .bd-top-box:nth-child(odd) {
-    float: right;
+    float: left;
 }
 .screen-share .bd-top-box {
+    margin-right: 77px;
     width: 370px;
     height: 206px;
     border-top: 1px solid #eaeaea;
@@ -80,7 +81,7 @@ dd, dl, dt {
 } */
 .screen-share .bd-top-box:first-child .dot-list li {
     float: left;
-    width: 330px;
+    width: 379px;
     color: #444;
 }
 .dot-list>li {
@@ -151,7 +152,7 @@ p {
 				<h2 class="tit">스크린 수 배정에 관한 기준</h2>
 
 				<div class="screen-share">
-					<dl class="bd-top-box">
+					<dl class="bd-top-box" style="padding-left: 0;">
 						<dt><span class="num">01.</span>영화정보</dt>
 						<dd>
 							<ul class="dot-list">

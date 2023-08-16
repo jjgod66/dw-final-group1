@@ -248,6 +248,7 @@ h3.tit {
 	cursor: pointer;
 }
 .content {
+	min-height:900px;
 	padding: 20px 0;
 }
 </style>

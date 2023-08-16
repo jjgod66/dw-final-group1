@@ -257,6 +257,7 @@ h3.tit {
     font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
 }
 .content {
+min-height:900px;
 	padding: 20px 0;
 }
 </style>

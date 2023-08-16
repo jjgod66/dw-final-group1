@@ -124,6 +124,7 @@
 .btn_movieChart_ticketing{
 	border-radius: 3px;
 }
+.container{min-height:900px;}
 .container .tab-list {
     position: static;
     width: 100%;

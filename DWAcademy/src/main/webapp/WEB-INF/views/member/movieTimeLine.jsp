@@ -299,6 +299,7 @@ h2:after {
 }
 .container .tab-content {
     padding: 0 0 50px;
+  min-height:900px;
 }
 </style>
 <div class="container" style="margin-top: 10px; padding-bottom: 50px;">

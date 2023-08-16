@@ -123,6 +123,7 @@ h2.tit {
     padding: 20px;
 }
 .content {
+	min-height:900px;
 	padding: 20px 0;
 }
 </style>

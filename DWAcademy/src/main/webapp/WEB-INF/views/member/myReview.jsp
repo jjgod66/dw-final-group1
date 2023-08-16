@@ -64,6 +64,7 @@
 .click{
 	font-weight: bolder;
 }
+.container{min-height:900px;}
 .container .tab-list {
     position: static;
     width: 100%;

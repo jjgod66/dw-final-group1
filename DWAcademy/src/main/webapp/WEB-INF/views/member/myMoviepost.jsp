@@ -59,6 +59,7 @@
 .on{
 	background-color: #4aa8d8;
 }
+.container{min-height:900px;}
 .container .tab-list {
     position: static;
     width: 100%;

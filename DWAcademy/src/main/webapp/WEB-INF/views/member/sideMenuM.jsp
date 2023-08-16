@@ -16,7 +16,7 @@ border-radius:20px;
 top:0px;
 margin-top:0px;
     position: absolute;
-    height: 100%;
+    height: 80%;
     width: 70px;
     background: #2b343b;
     box-shadow: 10px 0 0 #4ba8d8;
@@ -285,8 +285,28 @@ margin-top:0px;
         	    } */
         	});
     
+        
+        $(document).ready(function() {
+        	  var floatPosition = parseInt($(".navigation").css('top'));
+        	  
+        	  // 초기 위치 설정
+        	  $(".navigation").css("top", "272px");
+        	  
+        	  // 스크롤 이벤트 핸들러
+        	  $(window).scroll(function() {
+        	    var currentTop = $(window).scrollTop();
+        	    var bannerTop = currentTop + floatPosition + "px";
+        	    
+        	    // 스크롤 값에 따라 .navigation의 위치와 margin-top 변경
+        	    $(".navigation").stop().animate({
+        	      "top": bannerTop,
+        	      "margin-top": currentTop > 0 ? "0" : "272"
+        	    }, 600);
+        	  });
+        	});
+
     
-	     var floatPosition = parseInt($(".navigation").css('top'))
+/* 	     var floatPosition = parseInt($(".navigation").css('top'))
 	    $(window).scroll(function() {
 	        var currentTop = $(window).scrollTop();
 	        var bannerTop = currentTop + floatPosition + "px";
@@ -294,5 +314,5 @@ margin-top:0px;
 	          "top" : bannerTop,
 	          "margin-top": currentTop > 0 ? "0" : "275"
 	        }, 600);
-	    }).scroll();  
+	    }).scroll();   */
     </script>
