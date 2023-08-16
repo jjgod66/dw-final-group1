@@ -281,4 +281,17 @@
 		FROM question_attach
 		WHERE que_no = #{que_no}
 	</select>
+	
+	<select id="get5MyQuestionList" resultType="Map">
+		SELECT rownum, que.*
+		  FROM (
+				SELECT q.*, a.admin_cd, a.ans_content
+				  FROM question q, answer a
+				 WHERE q.que_no = a.que_no(+)
+				   AND mem_cd = #{mem_cd}
+				   AND gb_del = 'N'
+			   ORDER BY q.regdate DESC
+			   ) que
+		WHERE rownum <![CDATA[<=]]> 5
+	</select>
 </mapper>

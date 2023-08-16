@@ -36,8 +36,8 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 	@Override
-	public void kakaounlink(String sns_email) throws SQLException {
-		snsDAO.kakaoDelete(sns_email);
+	public void kakaounlink(String mem_cd) throws SQLException {
+		snsDAO.kakaoDelete(mem_cd);
 	}
 
 	@Override
@@ -51,8 +51,8 @@ public class SnsServiceImpl implements SnsService{
 	}
 
 	@Override
-	public void naverUnlink(String sns_email) throws SQLException {
-		snsDAO.neverDelete(sns_email);
+	public void naverUnlink(String mem_cd) throws SQLException {
+		snsDAO.neverDelete(mem_cd);
 	}
 
 	@Override

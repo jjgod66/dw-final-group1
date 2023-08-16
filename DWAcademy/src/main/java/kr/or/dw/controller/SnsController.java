@@ -265,11 +265,10 @@ public class SnsController {
 				PrintWriter out = res.getWriter();
 				
 				Map<String, Object> user = (Map<String, Object>) session.getAttribute("loginUser");
-				String sns_email = (String) user.get("EMAIL");
 				System.out.println("user: " + user);
-				System.out.println("emao:" + sns_email);
+				System.out.println("emao:" + mem_cd);
 				
-				snsService.naverUnlink(sns_email);
+				snsService.naverUnlink(mem_cd);
 
 				out.println("<script>");
 				out.println("alert('연동이 해제되었습니다.')");
@@ -318,8 +317,7 @@ public class SnsController {
 		PrintWriter out = res.getWriter();
 
 		Map<String, Object> user = (Map<String, Object>) session.getAttribute("loginUser");
-		String sns_email = (String) user.get("EMAIL");
-		snsService.kakaounlink(sns_email);
+		snsService.kakaounlink(mem_cd);
 		
 		out.println("<script>");
 		out.println("alert('연동이 해제되었습니다.')");

@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MemberVO;
 
@@ -27,9 +29,10 @@ public interface CouponDAO {
 
 	/**
 	 * 회원의 보유 쿠폰 조회
+	 * @param cri 
 	 * @param mem_cd
 	 * @return
 	 */
-	List<Map<String, Object>> selectAllCoupon(String mem_cd) throws SQLException;
+	List<Map<String, Object>> selectAllCoupon(@Param("cri")SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
 
 }

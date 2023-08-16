@@ -25,7 +25,7 @@ public interface SnsDAO {
 	Map<String, Object> selectNaverInfo(String mem_cd) throws SQLException;
 
 	// 간편로그인 연동해제
-	void kakaoDelete(String sns_email) throws SQLException;
+	void kakaoDelete(String mem_cd) throws SQLException;
 
 	// 네이버 로그인 회원 간편로그인 테이블에서 이메일 체크
 	SnsVO naverSelectByMemberCode(String email) throws SQLException;
@@ -34,7 +34,7 @@ public interface SnsDAO {
 	void naverInsert(HashMap<String, Object> naverUserInfo) throws SQLException;
 
 	// 네이버 연동해제
-	void neverDelete(String sns_email) throws SQLException;
+	void neverDelete(String mem_cd) throws SQLException;
 
 	// 카카오 연동 이메일 체크
 	SnsVO kakaoEmailCheck(String mem_email) throws SQLException;

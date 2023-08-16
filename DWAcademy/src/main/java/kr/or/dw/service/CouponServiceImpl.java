@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.dao.CouponDAO;
 import kr.or.dw.vo.CouponVO;
 import kr.or.dw.vo.MemberVO;
@@ -27,7 +28,7 @@ public class CouponServiceImpl implements CouponService{
 	}
 
 	@Override
-	public List<Map<String, Object>> selectAllCoupon(String mem_cd) throws SQLException {
-		return couponDAO.selectAllCoupon(mem_cd);
+	public List<Map<String, Object>> selectAllCoupon(SearchCriteria cri, String mem_cd) throws SQLException {
+		return couponDAO.selectAllCoupon(cri, mem_cd);
 	}
 }

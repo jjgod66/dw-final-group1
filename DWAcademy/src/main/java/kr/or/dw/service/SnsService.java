@@ -21,7 +21,7 @@ public interface SnsService {
 	Map<String, Object> selectNaverInfo(String mem_cd) throws SQLException;
 	
 	// 카카오 연동해제
-	void kakaounlink(String sns_email) throws SQLException;
+	void kakaounlink(String mem_cd) throws SQLException;
 
 	// 네이버 로그인 회원 간편로그인 테이블에서 이메일 체크
 	SnsVO naverSelectByMemberCode(String email) throws SQLException;
@@ -30,7 +30,7 @@ public interface SnsService {
 	void naverInsert(HashMap<String, Object> naverUserInfo) throws SQLException;
 
 	// 네이버 연동해제
-	void naverUnlink(String sns_email) throws SQLException;
+	void naverUnlink(String mem_cd) throws SQLException;
 
 	// 카카오 연동 이메일 체크 
 	SnsVO kakaoEmailCheck(String mem_email) throws SQLException;
