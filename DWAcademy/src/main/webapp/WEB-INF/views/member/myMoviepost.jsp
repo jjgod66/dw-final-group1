@@ -197,6 +197,12 @@
 		</div>
 </div>
 <%@ include file="../movie/moviepost_view_modal.jsp" %>
+<%@ include file="../movie/moviepost_update_modal.jsp" %>
+<%@ include file="../movie/mpost_report_modal.jsp" %>
+<%@ include file="../movie/mpost_delete_modal.jsp" %>
+<%@ include file="../movie/reply_report_modal.jsp" %>
+<%@ include file="../movie/reply_delete_modal.jsp" %>
+<%@ include file="../movie/alert_modal.jsp" %>
 <script>
 let perPageNum = 3;
 $('#newest').on('click', function(){

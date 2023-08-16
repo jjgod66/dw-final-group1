@@ -169,7 +169,7 @@ h2.tit {
 					<td>${coupon.ROWNUM}</td>
 					<td>${coupon.COUPON_NAME}</td>
 					<td><fmt:formatDate value="${coupon.ENDDATE}" type="both"/>까지</td>
-					<td>${coupon.GB_UES eq 'N' ? '사용가능' : '사용완료'}</td>
+					<td>${coupon.GB_USE eq 'N' ? '사용가능' : '사용완료'}</td>
 				</tr>
 			</tbody>
 		</c:forEach>

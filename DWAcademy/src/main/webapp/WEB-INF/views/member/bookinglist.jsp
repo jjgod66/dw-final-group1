@@ -370,7 +370,7 @@ min-height:900px;
 					<c:set var="sysDate"><fmt:formatDate value="${now}" pattern="yyyyMMddHHmm" /></c:set> 
 					<c:set var="screenDate"><fmt:formatDate value="${movieInfo.STARTDATE}" pattern="yyyyMMddHHmm" /></c:set> 
 					<c:if test="${movieInfo.REFUNDDATE eq null}">
-						<c:if test="${screenDate - 30 > sysDate }">
+						<c:if test="${screenDate - 20 > sysDate }">
 								<span><strong>취소일시 </strong><button type="button" class="btn-light CreBtn" data-merchant_uid="${movieInfo.MERCHANT_UID}" id="resRefundBtn">예매취소</button></span>
 						</c:if>
 						<c:if test="${screenDate < sysDate}">

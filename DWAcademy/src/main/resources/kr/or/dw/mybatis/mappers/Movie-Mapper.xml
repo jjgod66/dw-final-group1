@@ -847,8 +847,8 @@ AND ROWNUM <![CDATA[<=]]> 4
 			 , MAX(mem_id) mem_id
 			 , MAX(mem_pic_path) mem_pic_path
 			 , MAX(movie_pic_path) movie_pic_path
-			 , count(ml.mpost_no) likecnt
-			 , max(r.replycnt) replycnt
+			 , nvl(count(ml.mpost_no),0) likecnt
+			 , nvl(max(r.replycnt),0) replycnt
 		FROM moviepost mp, movie m, MEMBER mb, movie_picture mpic, mp_like ml, (SELECT COUNT(*) replycnt, mpost_no
 																				FROM reply
 																				WHERE gb_del = 'N'
