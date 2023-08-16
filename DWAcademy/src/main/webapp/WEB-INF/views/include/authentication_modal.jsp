@@ -182,7 +182,7 @@
 						<div class="input-group">
 							<label class="label">인증번호</label>
 							<span id="result_checkCode" style="font-size:12px;"></span>
-							<input class="input--style-3" id="SMSCheckInput" type="text" maxlength="6" placeholder="인증번호 6자리를 입력하세요.">
+							<input class="input--style-3" id="SMSCheckInput" type="text" min="10" max="11" placeholder="인증번호 6자리를 입력하세요.">
 						</div>
 						<div>
 							<button type="button" id="SMSCheck" class="btn btn--signup">인증번호 확인</button>

@@ -18,12 +18,23 @@
 								    )
 	</insert>
 	
-	<select id="selectAllCoupon" resultType="coupon">
-		SELECT mc.enddate, mc.gb_use, c.coupon_name
+	<select id="selectAllCoupon" resultType="Map">
+		SELECT mc.enddate, mc.gb_use, c.coupon_name, rownum
 		  FROM mem_coupon mc, coupon c
 		 WHERE mem_cd = #{mem_cd}
 		   AND mc.coupon_cd = c.coupon_cd
 		   AND TO_CHAR(enddate, 'yyyyMMdd') >= TO_CHAR(sysdate, 'yyyyMMdd')
+	</select>
+	
+	<select id="selectAllCouponCnt" resultType="int">
+		SELECT count(*)
+		  FROM (		
+			SELECT mc.enddate, mc.gb_use, c.coupon_name, rownum
+			  FROM mem_coupon mc, coupon c
+			 WHERE mem_cd = #{mem_cd}
+			   AND mc.coupon_cd = c.coupon_cd
+			   AND TO_CHAR(enddate, 'yyyyMMdd') >= TO_CHAR(sysdate, 'yyyyMMdd')
+			   )
 	</select>
 
 </mapper>

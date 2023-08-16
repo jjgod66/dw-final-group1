@@ -86,15 +86,19 @@
     padding: 0 15px;
     text-align: center;
     line-height: 34px;
-    color: #503396;
+    color: #4ba8d8;
     font-weight: 400;
     border-radius: 4px;
     font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
     text-decoration: none;
-    border: 1px solid #503396;
+    border: 1px solid #4ba8d8;
     vertical-align: middle;
     background-color: #fff;
     cursor: pointer;
+}
+.additionalinfo-wrapper .button:hover {
+    background-color: #4ba8d8;
+    color: #fff;
 }
 .additionalinfo-wrapper .button.large {
     height: 46px;
