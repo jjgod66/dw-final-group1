@@ -148,6 +148,7 @@ h2:after {
 .news .card:active {
   box-shadow: 0 8px 16px 3px rgba(0,0,0,0.6);
   transform: translateY(-3px) scale(1.05) rotateX(15deg);
+  cursor: pointer;
 }
 .cards .card:hover figcaption,
 .news .card:hover figcaption,
@@ -232,15 +233,83 @@ h2:after {
 .disnone{
 	display: none;
 }
+
+.container .tab-list {
+    position: static;
+    width: 100%;
+}
+.container .tab-list:after {
+    clear: both;
+}
+.container .tab-list:after,
+.container .tab-list:before {
+    content: '';
+    display: table;
+}
+.container .tab-list>ul {
+    position: relative;
+    width: 100%;
+    height: 42px;
+}
+.container .tab-list>ul:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+    height: 1px;
+    background-color: #4aa8d8;
+}
+.container .tab-list>ul>li:first-child:nth-last-child(4) {
+    width: 25%;
+}
+.container .tab-list>ul>li:first-child:nth-last-child(4)~li {
+    width: 25%;
+}
+.container .tab-list>ul>li {
+    float: left;
+    height: 42px;
+    margin: 0;
+    border: 1px solid #ebebeb;
+    border-width: 1px 0 1px 1px;
+}
+.container .tab-list>ul>li:last-child {
+    border-right: 1px solid #ebebeb;
+}
+.container .tab-list>ul>li.active a {
+    position: relative;
+    border: 1px solid #4aa8d8;
+    border-bottom: 0;
+    background-color: #fff;
+    z-index: 3;
+}
+.container .tab-list>ul>li>a {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 41px;
+    line-height: 40px;
+    padding: 0;
+    text-align: center;
+    color: #222;
+    font-size: 1.0667em;
+    text-decoration: none;
+}
+.container .tab-content {
+    padding: 0 0 50px;
+}
 </style>
-<div class="container" style="margin-top: 10px;">
-	<div class="row mb-3" style="width:100%;">
-		<div class="tab-block tab-layer">
+<div class="container" style="margin-top: 10px; padding-bottom: 50px;">
+	<div class="row mb-3" style="width:100%; margin: 30px auto;">
+<!-- 		<div class="tab-block tab-layer"> -->
+		<div class="tab-list">
 			<ul>
-				<a href="<%=request.getContextPath()%>/member/movieTimeLine.do" class="on" ><li>무비타임라인</li></a>
-				<a href="<%=request.getContextPath()%>/member/myMoviepost.do" class=""><li>무비포스트</li></a>
-				<a href="<%=request.getContextPath()%>/member/myReview.do" class=""><li>리뷰</li></a>
-				<a href="<%=request.getContextPath()%>/member/myLikeMovie.do" class=""><li>좋아요</li></a>
+				<li><a href="<%=request.getContextPath()%>/member/movieTimeLine.do" class="on" >무비타임라인</a></li>
+				<li><a href="<%=request.getContextPath()%>/member/myMoviepost.do" class="">무비포스트</a></li>
+				<li><a href="<%=request.getContextPath()%>/member/myReview.do" class="">리뷰</a></li>
+				<li><a href="<%=request.getContextPath()%>/member/myLikeMovie.do" class="">좋아요</a></li>
 			</ul>
 		</div>
 	</div>
@@ -257,7 +326,7 @@ h2:after {
 			<c:set var="i" value="${i+1}"/>
 		</c:if>
 			<div class="cards">
-				<figure class="card">
+				<figure class="card" onclick="location.href='<%=request.getContextPath()%>/movie/viewer.do?movie_cd=${bookingList.MOVIE_CD}'">
 					<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${bookingList.MOVIE_MAINPIC_PATH}&item_cd=${bookingList.MOVIE_CD}&type=moviePoster" />
 				</figure>
 				<div class="movie-info">
@@ -269,11 +338,13 @@ h2:after {
 				</div>
 			</div>
 		</c:forEach>
-		<div class="btn-more v1" id="addMovieDiv" style="width: 100%;; margin: 20px auto;">
-			<div style="width: 90%; margin: 0 auto;">
-				<button type="button" class="btn" id="AddMovieBtn" style="width: 100%; border: 1px solid gray;">더보기 <i class="iconset ico-btn-more-arr"></i></button>
+		<c:if test="${fn:length(bookingList) > 12}">
+			<div class="btn-more v1" id="addMovieDiv" style="width: 100%;; margin: 20px auto;">
+				<div style="width: 90%; margin: 0 auto;">
+					<button type="button" class="btn" id="AddMovieBtn" style="width: 100%; border: 1px solid gray;">더보기 <i class="iconset ico-btn-more-arr"></i></button>
+				</div>
 			</div>
-		</div>
+		</c:if>
 	</div> 
 </div>
 <script>

@@ -124,24 +124,90 @@
 .btn_movieChart_ticketing{
 	border-radius: 3px;
 }
+.container .tab-list {
+    position: static;
+    width: 100%;
+}
+.container .tab-list:after {
+    clear: both;
+}
+.container .tab-list:after,
+.container .tab-list:before {
+    content: '';
+    display: table;
+}
+.container .tab-list>ul {
+    position: relative;
+    width: 100%;
+    height: 42px;
+}
+.container .tab-list>ul:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    width: 100%;
+    height: 1px;
+    background-color: #4aa8d8;
+}
+.container .tab-list>ul>li:first-child:nth-last-child(4) {
+    width: 25%;
+}
+.container .tab-list>ul>li:first-child:nth-last-child(4)~li {
+    width: 25%;
+}
+.container .tab-list>ul>li {
+    float: left;
+    height: 42px;
+    margin: 0;
+    border: 1px solid #ebebeb;
+    border-width: 1px 0 1px 1px;
+}
+.container .tab-list>ul>li:last-child {
+    border-right: 1px solid #ebebeb;
+}
+.container .tab-list>ul>li.active a {
+    position: relative;
+    border: 1px solid #4aa8d8;
+    border-bottom: 0;
+    background-color: #fff;
+    z-index: 3;
+}
+.container .tab-list>ul>li>a {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 41px;
+    line-height: 40px;
+    padding: 0;
+    text-align: center;
+    color: #222;
+    font-size: 1.0667em;
+    text-decoration: none;
+}
+.container .tab-content {
+    padding: 0 0 50px;
+}
 </style>
 <div class="container" style=" width: 100%; display: flex; margin-top: 10px; flex-wrap: wrap;">
-	<div style="width:100%;" class="row mb-3">
-		<div class="tab-block tab-layer">
+	<div class="row mb-3" style="width:100%; margin: 30px auto;">
+		<div class="tab-list">
 			<ul>
-				<a href="<%=request.getContextPath()%>/member/movieTimeLine.do" class="" ><li>무비타임라인</li></a>
-				<a href="<%=request.getContextPath()%>/member/myMoviepost.do" class=""><li>무비포스트</li></a>
-				<a href="<%=request.getContextPath()%>/member/myReview.do" class=""><li>리뷰</li></a>
-				<a href="<%=request.getContextPath()%>/member/myLikeMovie.do" class="on"><li>좋아요</li></a>
+				<li><a href="<%=request.getContextPath()%>/member/movieTimeLine.do" class="" >무비타임라인</a></li>
+				<li><a href="<%=request.getContextPath()%>/member/myMoviepost.do" class="">무비포스트</a></li>
+				<li><a href="<%=request.getContextPath()%>/member/myReview.do" class="">리뷰</a></li>
+				<li><a href="<%=request.getContextPath()%>/member/myLikeMovie.do" class="on">좋아요</a></li>
 			</ul>
 		</div>
 	</div>
-	<div class="row" style="width: 90%; margin: 0;">
+	<div class="row" style="width: 90%; margin: 0 auto;">
 		<p style="float:left;">
 		<strong>총 <b class="font-gblue" id="myMoviePostCnt">${fn:length(LikeMovieList)}</b> 건</strong>
 		</p>
 		<c:if test="${empty LikeMovieList}">
-			<div class="" style="padding-bottom: 10px; margin: auto;">
+			<div class="" style="padding: 50px 0; margin: auto;">
 				<div style="text-align: center;">좋아요한 영화가 없습니다.</div>
 			</div>
 		</c:if>
@@ -149,7 +215,7 @@
 		<c:forEach items="${LikeMovieList }" var="movie">
 			<div class="movie col-3" style="padding: 30px 20px 30px 20px; min-width: 170px;">	
 			 <div class="item_poster">
-			        <div class="thumb_item">
+			        <div class="thumb_item" style="width: 200px; height: 280px;">
 	                    <a href="<%=request.getContextPath()%>/movie/viewer.do?movie_cd=${movie.MOVIE_CD}" class="btn_movieChart_detail">
 				            <div class="poster_movie" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster') no-repeat center /cover">
 				<%-- 	                                        <span class="rank_num">${movie.movie_grade}</span> --%>
