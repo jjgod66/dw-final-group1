@@ -798,7 +798,7 @@
 	<select id="selectMovieListForEventRegist" resultType="map">
 		SELECT MOVIE_CD, MOVIE_NAME, MOVIE_MAINPIC_PATH
 		  FROM movie
-		 WHERE enddate > SYSDATE
+		 WHERE TO_CHAR(enddate, 'yyyy-MM-dd') <![CDATA[>]]> TO_CHAR(SYSDATE, 'yyyy-MM-dd')
 	</select>
 	
 	<insert id="insertEvent">
@@ -869,7 +869,7 @@
 	<select id="selectEventListforPast" resultType="event">
 		SELECT *
 		  FROM event e, winner_board w
-		 WHERE enddate <![CDATA[<]]> SYSDATE
+		 WHERE TO_CHAR(enddate, 'yyyy-MM-dd') <![CDATA[<]]> TO_CHAR(SYSDATE, 'yyyy-MM-dd')
 		   AND e.event_no = w.event_no(+)
 		 <include refid="searchPastEvent"/>
 	</select>
@@ -877,7 +877,7 @@
 	<select id="selectEventListforPastCount" resultType="int">
 		SELECT COUNT(*)
 		  FROM event
-		 WHERE enddate <![CDATA[<]]> SYSDATE
+		 WHERE TO_CHAR(enddate, 'yyyy-MM-dd') <![CDATA[<]]> TO_CHAR(SYSDATE, 'yyyy-MM-dd')
 		 <include refid="searchPastEvent"/>
 	</select>
 	
