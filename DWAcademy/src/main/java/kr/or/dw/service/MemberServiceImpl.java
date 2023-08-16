@@ -184,7 +184,9 @@ public class MemberServiceImpl implements MemberService{
 		data.put("mem_cd", mem_cd);
 		
 		memberDAO.deleteMemLikeThr(mem_cd);
-		memberDAO.updateMemLikeThr(data);
+		if(!thrNames.isEmpty()) {
+			memberDAO.updateMemLikeThr(data);
+		}
 		
 		System.out.println("data : " + data);
 	}
@@ -203,7 +205,9 @@ public class MemberServiceImpl implements MemberService{
 		data.put("mem_cd", mem_cd);
 		
 		memberDAO.deleteMemLikeGenre(mem_cd);
-		memberDAO.updateMemLikeGenre(data);
+		if(!genreNames.isEmpty()) {
+			memberDAO.updateMemLikeGenre(data);
+		}
 	}
 
 	@Override

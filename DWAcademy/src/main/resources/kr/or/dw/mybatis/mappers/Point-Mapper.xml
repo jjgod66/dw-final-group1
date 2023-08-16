@@ -138,4 +138,11 @@
 		WHERE rownum <![CDATA[<=]]> 5
 		ORDER BY regdate DESC
 	</select>
+	
+	<select id="selectMemProGbGF" resultType="str">
+		SELECT product_div
+		FROM mem_product mp, product pd
+		WHERE mp.product_cd = pd.product_cd
+		AND mem_product_cd = #{mem_product_cd}
+	</select>
 </mapper>

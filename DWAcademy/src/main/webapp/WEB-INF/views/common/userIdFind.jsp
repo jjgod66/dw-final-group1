@@ -887,11 +887,12 @@ $(function(){
 	$('#btnSchPwdMbCertNoSend').on('click', function(){
 		SMSYN = 'N';
 		let phone = $('#ibxSchPwdMblpTelno').val();
+		console.log(phone);
 		if(phone != ""){
 			$.ajax({
 				url : '<%=request.getContextPath()%>/SMS/send.do',
 				method : 'post',
-				data : {"mem_phone" : phone},
+				data : {"phone" : phone},
 				success : function(res){
 					alert('메세지를 보냈습니다.')
 					$('#ibxSchPwdMblpCharCertNo').prop('readonly', '');

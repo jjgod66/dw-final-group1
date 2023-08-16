@@ -7,18 +7,19 @@ $('#phone').on('click', function(){
 let checkNum = "";
 let SMSChecked = false;
 $('#sendSMS').on('click', function(){
-	if($('input[name="name"]') == ""){
+	if($('input[name="name"]').val() == ""){
 		alert('이름을 입력해주세요.');
-		$('input[name=name]').focus();
+		$('input[name="name"]').focus();
 		return;
 	}
-	if($('input[name="mem_bir"]') == ""){
+	let bir = $('input[name="bir"]').val()
+	if(bir == "" || bir.length != 8){
 		alert('생년월일을 입력해주세요.');
-		$('input[name=mem_bir]').focus();
+		$('input[name="bir"]').focus();
 		return;
 	}
 	let phone = $('#phone').val();
-	if(phone != ""){
+	if(phone != "" && phone.length == 11){
 		$.ajax({
 			url : '<%=request.getContextPath()%>/SMS/send.do',
 			method : 'post',
@@ -33,7 +34,7 @@ $('#sendSMS').on('click', function(){
 			}
 		})
 	}else{
-		alert('번호를 입력해주세요.');
+		alert('번호를 정확하게 입력해주세요.');
 	}
 })
 $('#SMSCheck').on('click', function(){

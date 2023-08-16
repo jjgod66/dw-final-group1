@@ -86,15 +86,19 @@
     padding: 0 15px;
     text-align: center;
     line-height: 34px;
-    color: #503396;
+    color: #4ba8d8;
     font-weight: 400;
     border-radius: 4px;
     font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
     text-decoration: none;
-    border: 1px solid #503396;
+    border: 1px solid #4ba8d8;
     vertical-align: middle;
     background-color: #fff;
     cursor: pointer;
+}
+.additionalinfo-wrapper .button:hover {
+    background-color: #4ba8d8;
+    color: #fff;
 }
 .additionalinfo-wrapper .button.large {
     height: 46px;
@@ -140,7 +144,6 @@
 				<label for="chk1"><input type="radio" name="personInfoUtilAgreeAt" id="chk1" value="N" ${mem_alert.GB_EMAIL_ALERT eq 'N' and GB_SMS_ALERT eq 'N' ? 'checked' : ''}>미동의</label>
 				
 				<label for="chk2"><input type="radio" name="personInfoUtilAgreeAt" id="chk2" value="Y" ${mem_alert.GB_EMAIL_ALERT eq 'Y' or GB_SMS_ALERT eq 'Y' ? 'checked' : ''}>동의</label>
-				
 			</div>
 		</div>
 		<div class="box-bot">
@@ -199,7 +202,7 @@
 				<tr style="border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
 					<th scope="row">선호극장</th>
 					<td style="padding-left: 25px; border: 1px solid #eaeaea; border-width: 0 0 1px 0;">
-						<span>선호 영화관은 최대 3개까지 등록 가능합니다.</span>
+						<span>선호 영화관은 최대 5개까지 등록 가능합니다.</span>
 						<c:forEach begin="1" end="5" var="index">
 							<div class="selectMargin">
 								<span>${index}</span>

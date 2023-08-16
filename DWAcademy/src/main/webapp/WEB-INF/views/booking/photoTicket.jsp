@@ -152,7 +152,7 @@ function requestPay(method) {
             console.log(rsp);
 			$('input[name="json"]').val(JSON.stringify(rsp));
 			console.log('back_path : ' + $('input[name="back_path"]').val());
-			alert("결제완료");
+// 			alert("결제완료");
 			$('#photoForm').submit();	
 			
         } else {

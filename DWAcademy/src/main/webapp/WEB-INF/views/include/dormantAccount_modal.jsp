@@ -158,10 +158,10 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">전화번호</label>
-							<input class="input--style-3" id="dormantAccountPhone" type="text" name="phone" pattern="{10, 11}" placeholder="-없이 숫자만 입력하세요" required>
+							<input class="input--style-3" id="dormantAccountPhone" type="text" name="phone" maxlength="11" placeholder="-없이 숫자만 입력하세요" required>
 						</div>
 						<div>
-							<button type="button" id="sendAuthNum" class="btn btn--signup" >인증번호 보내기</button>
+							<button type="button" id="sendAuthNum" class="btn btn--signup">인증번호 보내기</button>
 						</div>
 					</div>
 					<div class="col-6">
@@ -190,7 +190,7 @@ let authTarget = document.getElementById('accountRecovery');
 $('#sendAuthNum').on('click', function(){
 let dormantAccountPhone = $('#dormantAccountPhone').val();
 	
-	if(dormantAccountPhone != ""){
+	if(dormantAccountPhone != "" && dormantAccountPhone.length == 11){
 		$.ajax({
 			url : '<%=request.getContextPath()%>/SMS/send.do',
 			method : 'post',

@@ -1030,11 +1030,11 @@
   		  		SELECT r.REVIEW_NO , MAX(r.MOVIE_CD) movie_cd, MAX(r.MEM_CD) mem_cd
   			  		 , MAX(REVIEW_RATING) review_rating, MAX(r.REVIEW_CONTENT) review_content
   			 		 , MAX(r.REGDATE) regdate, MAX(r.GB_DEL) gb_del, MAX(r.UPDATEDATE) updatedate
-  			 		 , MAX(m.MOVIE_NAME) movie_name, COUNT(rr.REVIEW_NO) reportCnt, COUNT(rl.REVIEW_NO) likeCnt  
-  		  		  FROM REVIEW r, MOVIE m, REVIEW_REPORT rr, REVIEW_LIKE rl
+  			 		 , MAX(m.MOVIE_NAME) movie_name
+  			 		 , MAX((SELECT COUNT(*) FROM REVIEW_REPORT rr WHERE r.REVIEW_NO = rr.REVIEW_NO AND r.MEM_CD = #{mem_cd})) reportcnt
+	 	 			 , MAX((SELECT COUNT(*) FROM REVIEW_LIKE rl WHERE r.REVIEW_NO = rl.REVIEW_NO AND r.MEM_CD = #{mem_cd})) likeCnt  
+  		  		  FROM REVIEW r, MOVIE m
   		 		 WHERE r.MOVIE_CD = m.MOVIE_CD
-  		  		   AND r.REVIEW_NO = rr.REVIEW_NO(+) 
-  		  		   AND r.REVIEW_NO = rl.REVIEW_NO(+) 
   		   		   AND r.mem_cd = #{mem_cd}
   				 GROUP BY r.REVIEW_NO
   				 ORDER BY regdate DESC
@@ -1048,11 +1048,11 @@
 		  		SELECT MAX(mp.MPOST_NO) mpost_no, MAX(mp.MEM_CD) MEM_CD, MAX(mp.MOVIE_CD) movie_cd
   			 	, MAX(mp.MPOST_CONTENT) mpost_content, MAX(mp.MOVIE_PIC_NO) MOVIE_PIC_NO
   			 	, MAX(mp.GB_DEL) GB_DEL, MAX(mp.REGDATE) regdate, MAX(mp.UPDATEDATE) updatedate
-  			 	, MAX(m.MOVIE_NAME) movie_name, COUNT(mr.MPOST_NO) reportcnt, COUNT(ml.MPOST_NO) likeCnt  
-		  		  FROM moviepost mp, movie m, MP_REPORT mr, MP_LIKE ml
-		  		 WHERE mp.movie_cd = m.movie_cd
-		  		   AND mp.MPOST_NO = mr.MPOST_NO(+) 
-		  		   AND mp.MPOST_NO = ml.MPOST_NO(+) 
+  			 	, MAX(m.MOVIE_NAME) movie_name
+  			 	, MAX((SELECT COUNT(*) FROM MP_REPORT mr WHERE mp.MPOST_NO = mr.MPOST_NO AND mp.MEM_CD = #{mem_cd})) reportcnt
+		 		, MAX((SELECT COUNT(*) FROM MP_LIKE ml WHERE mp.MPOST_NO = ml.MPOST_NO AND mp.MEM_CD = #{mem_cd})) likeCnt
+		  		  FROM moviepost mp, movie m
+		  		 WHERE mp.movie_cd = m.movie_cd 
 		  		   AND mp.mem_cd = #{mem_cd}
 		  		 GROUP BY mp.MPOST_NO 
 		  		 ORDER BY REGDATE DESC
@@ -1065,11 +1065,11 @@
 		  FROM (
 		  		SELECT MAX(r1.REPLY_NO) REPLY_NO, MAX(r1.MEM_CD) MEM_CD, MAX(r1.MPOST_NO) MPOST_NO, MAX(r1.REPLY_CONTENT) reply_content
 			 		 , MAX(r1.REGDATE) REGDATE, MAX(r1.UPDATEDATE) UPDATEDATE, MAX(r1.GB_DEL) GB_DEL
-			 		 , MAX(m2.MOVIE_NAME) movie_name, MAX(m2.MOVIE_CD) movie_cd, COUNT(rr.REPLY_NO) reportcnt  
-				  FROM REPLY r1, MOVIEPOST m , MOVIE m2, REPLY_REPORT rr 
+			 		 , MAX(m2.MOVIE_NAME) movie_name, MAX(m2.MOVIE_CD) movie_cd
+			 		 , MAX((SELECT COUNT(*) FROM REPLY_REPORT rr WHERE r1.REPLY_NO = rr.REPLY_NO AND rr.MEM_CD = #{mem_cd})) reportcnt  
+				  FROM REPLY r1, MOVIEPOST m , MOVIE m2
 				 WHERE r1.MPOST_NO = m.MPOST_NO 
 				   AND m.MOVIE_CD = m2.MOVIE_CD
-				   AND r1.REPLY_NO = rr.REPLY_NO(+) 
 				   AND r1.MEM_CD = #{mem_cd}
 				 GROUP BY r1.REPLY_NO
 				 ORDER BY regdate
@@ -1094,11 +1094,11 @@
   		SELECT r.REVIEW_NO , MAX(r.MOVIE_CD) movie_cd, MAX(r.MEM_CD) mem_cd
   			  , MAX(REVIEW_RATING) review_rating, MAX(r.REVIEW_CONTENT) review_content
   			  , MAX(r.REGDATE) regdate, MAX(r.GB_DEL) gb_del, MAX(r.UPDATEDATE) updatedate
-  			  , MAX(m.MOVIE_NAME) movie_name, COUNT(rr.REVIEW_NO) reportCnt, COUNT(rl.REVIEW_NO) likeCnt  
-  		  FROM REVIEW r, MOVIE m, REVIEW_REPORT rr, REVIEW_LIKE rl
+  			  , MAX(m.MOVIE_NAME) movie_name
+  			  , MAX((SELECT COUNT(*) FROM REVIEW_REPORT rr WHERE r.REVIEW_NO = rr.REVIEW_NO AND r.MEM_CD = #{mem_cd})) reportcnt
+	 	 	  , MAX((SELECT COUNT(*) FROM REVIEW_LIKE rl WHERE r.REVIEW_NO = rl.REVIEW_NO AND r.MEM_CD = #{mem_cd})) likeCnt  
+  		  FROM REVIEW r, MOVIE m
   		 WHERE r.MOVIE_CD = m.MOVIE_CD
-  		   AND r.REVIEW_NO = rr.REVIEW_NO(+) 
-  		   AND r.REVIEW_NO = rl.REVIEW_NO(+) 
   		   AND r.mem_cd = #{mem_cd}
   		 GROUP BY r.REVIEW_NO
   		 ORDER BY regdate DESC
@@ -1109,24 +1109,24 @@
 		SELECT MAX(mp.MPOST_NO) mpost_no, MAX(mp.MEM_CD) MEM_CD, MAX(mp.MOVIE_CD) movie_cd
   			 , MAX(mp.MPOST_CONTENT) mpost_content, MAX(mp.MOVIE_PIC_NO) MOVIE_PIC_NO
   			 , MAX(mp.GB_DEL) GB_DEL, MAX(mp.REGDATE) regdate, MAX(mp.UPDATEDATE) updatedate
-  			 , MAX(m.MOVIE_NAME) movie_name, COUNT(mr.MPOST_NO) reportcnt, COUNT(ml.MPOST_NO) likeCnt
-		  		  FROM moviepost mp, movie m, MP_REPORT mr, MP_LIKE ml
-		  		 WHERE mp.movie_cd = m.movie_cd
-		  		   AND mp.MPOST_NO = mr.MPOST_NO(+) 
-		  		   AND mp.MPOST_NO = ml.MPOST_NO(+) 
-		  		   AND mp.mem_cd = #{mem_cd}
-		  		 GROUP BY mp.MPOST_NO 
-		  		 ORDER BY REGDATE DESC
+  			 , MAX(m.MOVIE_NAME) movie_name
+  			 , MAX((SELECT COUNT(*) FROM MP_REPORT mr WHERE mp.MPOST_NO = mr.MPOST_NO AND mp.MEM_CD = #{mem_cd})) reportcnt
+  			 , MAX((SELECT COUNT(*) FROM MP_LIKE ml WHERE mp.MPOST_NO = ml.MPOST_NO AND mp.MEM_CD = #{mem_cd})) likeCnt
+  		  FROM moviepost mp, movie m
+  		 WHERE mp.movie_cd = m.movie_cd
+  		   AND mp.mem_cd = #{mem_cd}
+  		 GROUP BY mp.MPOST_NO 
+  		 ORDER BY REGDATE DESC
 	</select>
 	
 	<select id="selectMpReplyListByMem_cd" resultType="map">
 		SELECT MAX(r1.REPLY_NO) REPLY_NO, MAX(r1.MEM_CD) MEM_CD, MAX(r1.MPOST_NO) MPOST_NO, MAX(r1.REPLY_CONTENT) reply_content
 			 , MAX(r1.REGDATE) REGDATE, MAX(r1.UPDATEDATE) UPDATEDATE, MAX(r1.GB_DEL) GB_DEL
-			 , MAX(m2.MOVIE_NAME) movie_name, MAX(m2.MOVIE_CD) movie_cd, COUNT(rr.REPLY_NO) reportcnt  
-				  FROM REPLY r1, MOVIEPOST m , MOVIE m2, REPLY_REPORT rr 
+			 , MAX(m2.MOVIE_NAME) movie_name, MAX(m2.MOVIE_CD) movie_cd
+			 , MAX((SELECT COUNT(*) FROM REPLY_REPORT rr WHERE r1.REPLY_NO = rr.REPLY_NO AND rr.MEM_CD = #{mem_cd})) reportcnt 
+				  FROM REPLY r1, MOVIEPOST m , MOVIE m2
 				 WHERE r1.MPOST_NO = m.MPOST_NO 
 				   AND m.MOVIE_CD = m2.MOVIE_CD
-				   AND r1.REPLY_NO = rr.REPLY_NO(+) 
 				   AND r1.MEM_CD = #{mem_cd}
 				 GROUP BY r1.REPLY_NO
 				 ORDER BY regdate

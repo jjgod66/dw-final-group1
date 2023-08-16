@@ -137,7 +137,7 @@ h2.tit {
 	</div>
 	<div class="board-list-util por">
 		<p class="result-count">
-	 		총 <b class="font-gblue">${fn:length(coupon)}</b>매
+	 		총 <b class="font-gblue">${totalCount}</b>매
 		</p>
 	</div>
 	<div class="table-wrap mt10">
@@ -157,31 +157,30 @@ h2.tit {
 				<th style="text-align: center;" scope="col">사용상태</th>
 			</tr>
 			</thead>
-			<c:if test="${empty coupon}">
+			<c:if test="${empty couponList}">
 				<tr><td colspan="5">보유 쿠폰내역이 없습니다.</td></tr>
 			</c:if>
-		<c:forEach items="${coupon}" var="coupon">
-			<c:set var="i" value="${i+1}" />
+		<c:forEach items="${couponList}" var="coupon">
 			<tbody>
-				<c:if test="${empty coupon}">
+				<c:if test="${empty couponList}">
 					<tr><td colspan="5" class="a-c">취소내역이 없습니다.</td></tr>
 				</c:if>
 				<tr>
-					<td>${i }</td>
-					<td>${coupon.coupon_name}</td>
-					<td><fmt:formatDate value="${coupon.enddate}" type="both"/>까지</td>
-					<td>${coupon.gb_use eq 'N' ? '사용가능' : '사용완료'}</td>
+					<td>${coupon.ROWNUM}</td>
+					<td>${coupon.COUPON_NAME}</td>
+					<td><fmt:formatDate value="${coupon.ENDDATE}" type="both"/>까지</td>
+					<td>${coupon.GB_UES eq 'N' ? '사용가능' : '사용완료'}</td>
 				</tr>
 			</tbody>
 		</c:forEach>
 		</table>
 	</div>
-	<c:if test="${!empty pointList }">
+	<c:if test="${!empty couponList }">
 		<div class="mt-5 mb-5 paginationdiv">
 			<%@ include file="../common/pagination.jsp" %>
 		</div>
 	</c:if>
-	<c:if test="${empty pointList }">
+	<c:if test="${empty couponList }">
 		<div class="mt-5 mb-5 paginationdiv" style="display: none;">
 			<%@ include file="../common/pagination.jsp" %>
 		</div>
@@ -197,4 +196,7 @@ h2.tit {
 		</ul>
 	</div>
 </div>
+<script>
+	let searchFormUrl = "/member/discount-coupon.do";
+</script>
 <%@ include file="../include/member_footer.jsp" %>

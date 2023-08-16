@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
+import org.springframework.security.access.method.P;
 
 import kr.or.dw.command.SearchCriteria;
 import kr.or.dw.vo.CouponVO;
@@ -30,9 +32,18 @@ public interface CouponDAO {
 	/**
 	 * 회원의 보유 쿠폰 조회
 	 * @param cri 
+	 * @param rowBounds 
 	 * @param mem_cd
 	 * @return
 	 */
-	List<Map<String, Object>> selectAllCoupon(@Param("cri")SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
+	List<Map<String, Object>> selectAllCoupon(@Param("cri")SearchCriteria cri, RowBounds rowBounds, @Param("mem_cd")String mem_cd) throws SQLException;
+
+	/**
+	 * 쿠폰의 총 개수
+	 * @param cri
+	 * @param mem_cd
+	 * @return
+	 */
+	int selectAllCouponCnt(@Param("cri")SearchCriteria cri, @Param("mem_cd")String mem_cd) throws SQLException;
 
 }
