@@ -93,6 +93,7 @@
     vertical-align: middle;
     background-color: #fff;
     cursor: pointer;
+   
 }
 .PrivacyInfo-wrapper .button:hover {
     background-color: #4ba8d8;
@@ -136,10 +137,12 @@ p.reset {
 
 .profile-photo {
     overflow: hidden;
+    display: flex;
+    align-items: center;
 }
 .profile-photo .button.member-out {
-    float: right;
-    margin-left: 0;
+     float: right;
+     margin-left: auto;
 }
 
 .input-text {
@@ -162,6 +165,11 @@ p.reset {
     height: 50px;
     padding: 7px 15px;
     text-align: left;
+}
+.changeVal{
+	padding-top: 9px; 
+	padding-right: 10px; 
+	
 }
 </style>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/v1/kakao.min.js"></script>
@@ -196,13 +204,13 @@ p.reset {
 		                                  </form>
 		                                          <div class="profile-img" id="preview">
                                     					<c:if test="${memberInfo.MEM_PIC_PATH != null}">
-															<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/common/getPicture.do?name=${memberInfo.MEM_PIC_PATH}&item_cd=${memberInfo.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 75px; height: 75px;">
+															<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/common/getPicture.do?name=${memberInfo.MEM_PIC_PATH}&item_cd=${memberInfo.MEM_CD}&type=memberPic" class="mr-3 rounded-pill">
 														</c:if>
 														<c:if test="${memberInfo.MEM_PIC_PATH == null}">
-															<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+															<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill">
 														</c:if>
 		                                          </div>
-		                                          <button type="button" class="button small gray-line" id="profileBtn">이미지 등록</button>
+		                                          <button type="button" class="button small gray-line ms-2" id="profileBtn">이미지 등록</button>
 		                                  <a href="#" class="button small member-out" id="resignBtn" title="회원탈퇴">회원탈퇴</a>
 		                              </div>
 		                          </td>
@@ -254,7 +262,7 @@ p.reset {
 	                              </th>
 	                              <td>
 	                                  <div class="clearfix">
-	                                      <p class="reset float-l w170px lh32 changeVal" id="mem_phone" data-name="phoneNo">${memberInfo.MEM_PHONE}</p> 
+	                                      <span class="reset float-l w170px lh32 changeVal" id="mem_phone" data-name="phoneNo">${memberInfo.MEM_PHONE}</span> 
 	                                      <div class="float-l">
 	                                          <button type="button" class="button small gray-line change-phone-num" id="phoneChgBtn" title="휴대폰번호 변경">휴대폰번호 변경</button>
 	                                      </div>

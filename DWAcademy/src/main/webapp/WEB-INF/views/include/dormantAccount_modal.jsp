@@ -158,7 +158,7 @@
 					<div class="col-6">
 						<div class="input-group">
 							<label class="label">전화번호</label>
-							<input class="input--style-3" id="dormantAccountPhone" type="text" name="phone" pattern="{10, 11}" placeholder="-없이 숫자만 입력하세요" required>
+							<input class="input--style-3" id="dormantAccountPhone" type="text" name="phone" min="10" max="11" placeholder="-없이 숫자만 입력하세요" required>
 						</div>
 						<div>
 							<button type="button" id="sendAuthNum" class="btn btn--signup" >인증번호 보내기</button>

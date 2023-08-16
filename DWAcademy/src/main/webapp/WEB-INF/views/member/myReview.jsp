@@ -84,10 +84,6 @@
 		<strong>총 <b class="font-gblue" id="myMoviePostCnt">${totalCount}</b> 건</strong>
 		</p>
 		<div style="float: right;">
-			<div class="movie-sorting" style="margin: 10px;">
-				<button type="button" id="newest" class="">최신순</button>
-				<button type="button" id="likest"class="">공감순</button>
-			</div>
 			<div class="movie-search">
 				<select name="searchType" id="searchType" style="width: 52px; height: 35px;">
 					<option value="movieName" ${cri.searchType eq 'movieName' ? 'selected' : '' }>영화</option>
@@ -126,7 +122,7 @@
 						<div class="reviews-members-header col-2" style="padding : 10px 30px; border-right: solid 1px #e5e5e5;">
 							<h3 id="review_rating" data-review_rating="${mr.REVIEW_RATING }" class="col-11">${mr.REVIEW_RATING } <span style="font-size: small;">점</span></h3>
 						</div>
-						<div class="col-7" style="padding : 10px 30px; border-right: solid 1px #e5e5e5;">
+						<div class="col-7 post" style="padding : 10px 30px; border-right: solid 1px #e5e5e5;">
 							<span class="" style="font-size: small;" id="movieName">${mr.MOVIE_NAME }</span>
 							<p id="review_content" style="margin-top: 10px;">${mr.REVIEW_CONTENT}</p>
 							<p style="font-size: small; color: gray;"><fmt:formatDate value="${mr.REGDATE }" pattern="yyyy-MM-dd HH:mm"/></p>
@@ -154,45 +150,45 @@
 	</div>
 </div>
 <script>
-$('#newest').on('click', function(){
-	let posts = $('.post').toArray();
+// $('#newest').on('click', function(){
+// 	let posts = $('.post').toArray();
 	
-	// timestamp를 기준으로 내림차순 정렬
-	posts.sort(function(a ,b){
-		let timestampA = new Date($(a).find('#mpCard').data('timestamp'));
-		let timestampB = new Date($(b).find('#mpCard').data('timestamp'));
-		return timestampB - timestampA;
-	});
+// 	// timestamp를 기준으로 내림차순 정렬
+// 	posts.sort(function(a ,b){
+// 		let timestampA = new Date($(a).find('#mpCard').data('timestamp'));
+// 		let timestampB = new Date($(b).find('#mpCard').data('timestamp'));
+// 		return timestampB - timestampA;
+// 	});
 	
-	// 정렬된 요소를 부모 요소에 추가
-	let container = $('.col-3.post').parent();
-	container.empty
-	posts.forEach(function(post){
-		container.append(post);
-	});
-	$(this).addClass("click");
-	$('#likest').removeClass("click");
-});
+// 	// 정렬된 요소를 부모 요소에 추가
+// 	let container = $('.col-3.post').parent();
+// 	container.empty
+// 	posts.forEach(function(post){
+// 		container.append(post);
+// 	});
+// 	$(this).addClass("click");
+// 	$('#likest').removeClass("click");
+// });
 
-$('#likest').on('click', function(){
-	let posts = $('.post').toArray();
+// $('#likest').on('click', function(){
+// 	let posts = $('.post').toArray();
 	
-	// 공감 수를 기준으로 내림차순 정렬
-	posts.sort(function(a ,b){
-		let likeCntA = new Date($(a).find('.fa-thumbs-up span').text());
-		let likeCntB = new Date($(b).find('.fa-thumbs-up span').text());
-		return likeCntB - likeCntA;
-	});
+// 	// 공감 수를 기준으로 내림차순 정렬
+// 	posts.sort(function(a ,b){
+// 		let likeCntA = new Date($(a).find('.fa-thumbs-up span').text());
+// 		let likeCntB = new Date($(b).find('.fa-thumbs-up span').text());
+// 		return likeCntB - likeCntA;
+// 	});
 	
-	// 정렬된 요소를 부모 요소에 추가
-	let container = $('.col-3.post').parent();
-	container.empty
-	posts.forEach(function(post){
-		container.append(post);
-	});
-	$(this).addClass("click");
-	$('#newest').removeClass("click");
-});
+// 	// 정렬된 요소를 부모 요소에 추가
+// 	let container = $('.col-3.post').parent();
+// 	container.empty
+// 	posts.forEach(function(post){
+// 		container.append(post);
+// 	});
+// 	$(this).addClass("click");
+// 	$('#newest').removeClass("click");
+// });
 let searchFormUrl = "searchMyReview.do";
 
 $('.container').on('click', '#reviewDeleteBtn', function(){

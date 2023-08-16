@@ -18,16 +18,16 @@
 .input-text{
 	position: relative;
     float: right;
-    height: 36px;
+    height: 33px;
     margin: 0;
     padding: 0 15px 0 15px;
-    border: 1px solid #d8d9db;
+    border: 0px solid #d8d9db;
     border-radius: 3px;
 }
 .movie-search{
 	position: relative;
     float: right;
-    height: 36px;
+    height: 35px;
     margin: 0;
     padding: 0 31px 0 0;
     border: 1px solid #d8d9db;
@@ -37,6 +37,17 @@
 	position: absolute;
     right: 1px;
     top: 1px;
+    overflow: hidden;
+    width: 30px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+    border: 0;
+    text-indent: -9999px;
+    background: #fff url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-search-input.png) no-repeat center;
+    
 }
 .tab-block>ul>a{
 	float: left;
@@ -66,10 +77,10 @@
 		<strong>총 <b class="font-gblue" id="myMoviePostCnt">${totalCount}</b> 건</strong>
 	</p>
 		<div style="float: right;">
-			<div class="movie-sorting" style="margin: 10px;">
-				<button type="button" id="newest" class="" data-type="date">최신순</button>
-				<button type="button" id="likest"class="" data-type="like">공감순</button>
-			</div>
+<!-- 			<div class="movie-sorting" style="margin: 10px;"> -->
+<!-- 				<button type="button" id="newest" class="" data-type="date">최신순</button> -->
+<!-- 				<button type="button" id="likest"class="" data-type="like">공감순</button> -->
+<!-- 			</div> -->
 			<div class="movie-search">
 				<input type="text" title="영화 제목을 입력해 주세요." placeholder="영화 제목을 입력해 주세요." name="keyword"
 					class="input-text" id="search" value="${cri.keyword }">
@@ -284,7 +295,6 @@ function showPost(res){
 		replyShow += '</div>';
 		replyShow += '</div>';
 		
-			
 			
 	}
 	$('.reply-div').html(replyShow);

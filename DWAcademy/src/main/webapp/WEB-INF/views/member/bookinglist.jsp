@@ -428,13 +428,15 @@ $(function(){
 					alert("이미 출력한 포토티켓입니다.");
 					location.reload();
 					return;
+				}else{
+					OpenWindow('<%=request.getContextPath() %>/photoTicket/photoTicketPreview.do?merchant_uid=' + merchant_uid, '포토티켓 미리보기', 1000, 600);
 				}
 			},
 			error : function(err){
 				alert(err.status);
 			}
 		})
-		OpenWindow('<%=request.getContextPath() %>/photoTicket/photoTicketPreview.do?merchant_uid=' + merchant_uid, '포토티켓 미리보기', 1000, 600);
+<%-- 		OpenWindow('<%=request.getContextPath() %>/photoTicket/photoTicketPreview.do?merchant_uid=' + merchant_uid, '포토티켓 미리보기', 1000, 600); --%>
 	})
 	
 	$('#myMovie').on('click', '#photoTicketRefundBtn', function(){
@@ -448,14 +450,17 @@ $(function(){
 					alert("이미 출력한 포토티켓입니다.");
 					location.reload();
 					return;
+				}else{
+					$('#ptrefundHiddenMUID').val(merchant_uid);
+					$('#photoTicket-refund-modal').modal('show');
 				}
 			},
 			error : function(err){
 				alert(err.status);
 			}
 		})
-		$('#ptrefundHiddenMUID').val(merchant_uid);
-		$('#photoTicket-refund-modal').modal('show');
+// 		$('#ptrefundHiddenMUID').val(merchant_uid);
+// 		$('#photoTicket-refund-modal').modal('show');
 	})
 	
 	$('.infodiv2').on('click', '#photoTicketBtn', function(){

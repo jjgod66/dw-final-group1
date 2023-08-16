@@ -14,4 +14,5 @@ public class CouponVO {
 	private String mem_cd;
 	private Date enddate;
 	private String gb_use;
+	private int rownum;
 }

@@ -96,4 +96,12 @@ public interface PointDAO {
 	 */
 	List<Map<String, Object>> get5PointList(String mem_cd) throws SQLException;
 
+	/**
+	 * 기프트카드인지 음료,푸드인지
+	 * @param mem_product_cd
+	 * @return
+	 * @throws SQLException
+	 */
+	String selectMemProGbGF(String mem_product_cd) throws SQLException;
+
 }
