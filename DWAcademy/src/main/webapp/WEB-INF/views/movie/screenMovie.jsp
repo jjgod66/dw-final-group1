@@ -105,6 +105,7 @@ select {
 		Map member = (Map) session.getAttribute("loginUser");
 		mem_cd = (String)member.get("CD");
 	}
+	pageContext.setAttribute("mem_cd", mem_cd) ;
 %>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <div class="sub_visual">
@@ -115,14 +116,26 @@ select {
 <div style="padding: 30px;">
 	<div style="width: 1300px; margin: 0 auto;">
 		<div style="width: 90%; margin: 0 auto;">
-		<div class="tab-list fixed">
-			<ul class="nav nav-tabs" role="tablist">
-				<li class="nav-item"><a href="/movie/allMovie.do">전체</a></li>
-				<li class="nav-item active"><a href="/movie/screenMovie.do">현재상영</a></li>
-				<li class="nav-item"><a href="/movie/comingMovie.do">상영예정</a></li>
-				<li class="nav-item" id="like" style="display: none;"><a href="/movie/likeGenreMovie.do">선호장르</a></li>
-			</ul>
-		</div>
+		<c:set var="mem_cd" value="${mem_cd}"></c:set>
+		<c:if test="${mem_cd eq '' }">
+			<div class="tab-list fixed noneMem">
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item"><a href="/movie/allMovie.do">전체</a></li>
+					<li class="nav-item active"><a href="/movie/screenMovie.do">현재상영</a></li>
+					<li class="nav-item"><a href="/movie/comingMovie.do">상영예정</a></li>
+				</ul>
+			</div>
+		</c:if>
+		<c:if test="${mem_cd ne '' }">
+			<div class="tab-list fixed likeGenre">
+				<ul class="nav nav-tabs" role="tablist">
+					<li class="nav-item" style="width: 25%;"><a href="/movie/allMovie.do">전체</a></li>
+					<li class="nav-item active" style="width: 25%;"><a href="/movie/screenMovie.do">현재상영</a></li>
+					<li class="nav-item" style="width: 25%;"><a href="/movie/comingMovie.do">상영예정</a></li>
+					<li class="nav-item" id="like" style="width: 25%;"><a href="/movie/likeGenreMovie.do">선호장르</a></li>
+				</ul>
+			</div>
+		</c:if>
 <!-- 			<ul style="margin: 30px 10px 0px 10px;"> -->
 <!-- 			  <li id="all" style="display: inline;"> -->
 <!-- 			    <span class="click-type 23type">전체영화</span> -->
@@ -212,10 +225,10 @@ select {
 $(function(){
 	mem_cd = "<%=mem_cd%>";
 	console.log(mem_cd);
-	if(mem_cd != null && mem_cd !== ""){
-		$('#like').css('display', '');
-		$('.nav.nav-tabs li').css('width', '25%');
-	}
+// 	if(mem_cd != null && mem_cd !== ""){
+// 		$('#like').css('display', '');
+// 		$('.nav.nav-tabs li').css('width', '25%');
+// 	}
 	
 	if($('.movie.col-3').length <= 12){
 		$('#btnAddMovie').css('display', 'none');

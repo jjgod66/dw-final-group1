@@ -5,6 +5,7 @@ DW아카데미 1팀 프로젝트 영화관 미리보기 예제 jsp 메인화면 
 --%>
 <%@page import="java.util.Map"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
@@ -24,7 +25,9 @@ String mem_cd = "";
 if(session.getAttribute("loginUser") != null){
 	Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 	mem_cd = (String)member.get("CD");
+	
 }
+pageContext.setAttribute("mem_cd", mem_cd) ;
 %>
 <!doctype html>
 <html lang="ko">
@@ -185,9 +188,12 @@ canvas{
 		
 				<div id="menu">
 					<ul>
-						<li role="menuitem" style="width: 43px; text-align: left;">
-			                <a href="javascript:void(0)" id="myPageMain" ><i class="bi bi-person" style="font-size: 26px;"></i></a>
-			            </li>
+					<c:set value="${mem_cd }" var="mem_cd"/>
+						<c:if test="${fn:substring(mem_cd,0,1) eq 'M'}">
+							<li role="menuitem" style="width: 43px; text-align: left;">
+				                <a href="javascript:void(0)" id="myPageMain" ><i class="bi bi-person" style="font-size: 26px;"></i></a>
+				            </li>
+						</c:if>
 						<li style="z-index: 99;">이벤트
 							<ul>
 								<li><a href="<%=request.getContextPath()%>/event/main.do">진행중인 이벤트</a></li>

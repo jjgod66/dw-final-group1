@@ -178,7 +178,7 @@
 $(function(){
 	$('#postUpdateBtn').on('click', function(){
 
-		if($('#updateposttext').val() == "" || $('#posttext').val() == null){
+		if($('#updateposttext').val() == "" || $('#updatewritecount').val() == null){
 			$('#alertContent').text("내용을 작성해주세요.")
 			$('#alert-modal').modal('show');
 			return;
