@@ -118,6 +118,7 @@ public class MemberController {
 		List<Map<String, Object>> questionList = supportService.get5MyQuestionList(mem_cd);
 		List<Map<String, Object>> pointList = pointService.get5PointList(mem_cd);
 		
+		System.out.println("pointList : " + pointList);
 		int point = 0;
 		point = pointService.getMemTotalPoint(mem_cd);
 		
@@ -426,12 +427,12 @@ public class MemberController {
 	public ModelAndView memberDiscountcoupon(ModelAndView mnv,SearchCriteria cri, HttpSession session) throws SQLException {
 		String url = "/member/discount-coupon";
 		
-		Map<String, Object> member = (Map) session.getAttribute("loginUser");
+		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
 		cri.setPerPageNum("5");
-		List<Map<String, Object>> coupon = couponService.selectAllCoupon(cri, mem_cd);
+		Map<String, Object> dataMap = couponService.selectAllCoupon(cri, mem_cd);
 		
-		mnv.addObject("coupon", coupon);
+		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
 		
 		return mnv;

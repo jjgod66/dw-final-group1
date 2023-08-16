@@ -21,6 +21,6 @@ public interface CouponService {
 	 * @param mem_cd
 	 * @return
 	 */
-	List<Map<String, Object>> selectAllCoupon(SearchCriteria cri, String mem_cd) throws SQLException;
+	Map<String, Object> selectAllCoupon(SearchCriteria cri, String mem_cd) throws SQLException;
 
 }

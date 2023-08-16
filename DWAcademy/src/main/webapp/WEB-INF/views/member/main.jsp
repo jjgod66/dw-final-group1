@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="../include/member_header.jsp" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <style>
 .main-wrapper {
     margin: 30px 0;
@@ -247,8 +248,8 @@ p {
 								<table style="width : 100%;">
 									<c:forEach items="${pointList}" var="pointInfo">
 										<tr>
-											<td style="width : 20%; text-align : center;"><fmt:formatDate value="${pointInfo.BUYDATE}"/></td>
-											<td style="width : 10%; text-align : center;">${pointInfo.PRODUCT_DIV}</td>
+											<td style="width : 30%; text-align : center;"><fmt:formatDate value="${pointInfo.REGDATE}" pattern="yyyy-MM-dd"/></td>
+											<td style="width : 70%; text-align : center;">${pointInfo.POINT_NAME}</td>
 										</tr>
 									</c:forEach>
 								</table>
@@ -276,9 +277,12 @@ p {
 								<table style="width : 100%;">
 									<c:forEach items="${questionList}" var="question">
 										<tr>
-											<td style="width : 10%; text-align : center;">${question.QUE_NO}</td>
-											<td style="width : 20%; text-align : center;">${question.QUE_TYPE}</td>
-											<td style="width : 70%; padding-bottom: 15px;">${question.QUE_TITLE}</td>
+											<td style="width : 20%; text-align : center;">${question.THR_NAME}</td>
+											<td style="width : 40%; text-align : center;">${question.QUE_TYPE}</td>
+											<td style="width : 40%; ">
+											<c:set var="title" value="${question.QUE_TITLE}" />
+							    				${fn:substring(title,0,15) }..
+											</td>
 										</tr>
 										<br>
 									</c:forEach>
