@@ -360,7 +360,6 @@ p.reset {
 		</div>
 	</div>
          <div class="btn-group py-3">
-			<button class="button large" id="cancelBtn">취소</button>
 			<button class="button purple large" id="updateBtn">수정</button>
 		</div>
 	</div>

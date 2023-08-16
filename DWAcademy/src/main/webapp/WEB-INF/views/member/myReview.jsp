@@ -7,8 +7,8 @@
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/review.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/viewer.css">
-<script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="stylesheet" href="../../resources/css/boxoffice.css">
 <style>
 .movie-sorting{
 	float: left;
@@ -21,10 +21,10 @@
 .input-text{
 	position: relative;
     float: right;
-    height: 36px;
+    height: 34px;
     margin: 0;
     padding: 0 15px 0 15px;
-    border: 1px solid #d8d9db;
+    border: 0px solid #d8d9db;
     border-radius: 3px;
 }
 .movie-search{
@@ -40,6 +40,16 @@
 	position: absolute;
     right: 1px;
     top: 1px;
+    overflow: hidden;
+    width: 30px;
+    height: 32px;
+    margin: 0;
+    padding: 0;
+    font-size: 0;
+    line-height: 0;
+    border: 0;
+    text-indent: -9999px;
+    background: #fff url(https://img.megabox.co.kr/static/pc/images/common/btn/btn-search-input.png) no-repeat center;
 }
 .tab-block>ul>a{
 	float: left;
@@ -50,6 +60,9 @@
 }
 .on{
 	background-color: #4aa8d8;
+}
+.click{
+	font-weight: bolder;
 }
 </style>
 <%@ include file="../movie/review_delete_modal.jsp" %>
@@ -76,7 +89,7 @@
 				<button type="button" id="likest"class="">공감순</button>
 			</div>
 			<div class="movie-search">
-				<select name="searchType" id="searchType">
+				<select name="searchType" id="searchType" style="width: 52px; height: 35px;">
 					<option value="movieName" ${cri.searchType eq 'movieName' ? 'selected' : '' }>영화</option>
 					<option value="reviewContent" ${cri.searchType eq 'reviewContent' ? 'selected' : '' }>내용</option>
 				</select>
@@ -157,6 +170,8 @@ $('#newest').on('click', function(){
 	posts.forEach(function(post){
 		container.append(post);
 	});
+	$(this).addClass("click");
+	$('#likest').removeClass("click");
 });
 
 $('#likest').on('click', function(){
@@ -175,6 +190,8 @@ $('#likest').on('click', function(){
 	posts.forEach(function(post){
 		container.append(post);
 	});
+	$(this).addClass("click");
+	$('#newest').removeClass("click");
 });
 let searchFormUrl = "searchMyReview.do";
 

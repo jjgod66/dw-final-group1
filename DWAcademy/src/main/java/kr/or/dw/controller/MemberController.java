@@ -527,7 +527,7 @@ public class MemberController {
 		
 		mnv.addAllObjects(dataMap);
 		mnv.setViewName(url);
-		
+		System.out.println(dataMap);
 		return mnv;
 	}
 	
