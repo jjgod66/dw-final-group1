@@ -411,13 +411,23 @@ AND ROWNUM <![CDATA[<=]]> 4
 	</select>
 	
 	<select id="selectMoviePostMap" resultType="Map">
-		SELECT mp.movie_cd, mp.movie_pic_no, movie_pic_path, mpost_content, mp.regdate, movie_name, mpost_no, mem_id 
-		FROM moviepost mp, movie m, movie_picture p, MEMBER mb
+		SELECT mp.movie_cd, mp.movie_pic_no, movie_pic_path, mpost_content, mp.regdate, movie_name, mp.mpost_no, mem_id, nvl(likecnt, 0) likecnt, nvl(replycnt, 0) replycnt
+		FROM moviepost mp, movie m, movie_picture p, MEMBER mb,
+					(SELECT COUNT(*) likecnt, mpost_no
+					FROM mp_like
+					GROUP BY mpost_no) ml,
+					(SELECT COUNT(*) replycnt, mpost_no
+					FROM reply
+					WHERE gb_del = 'N'
+					GROUP BY mpost_no) mr
 		WHERE mp.movie_cd = m.movie_cd
 		AND mp.mem_cd = mb.mem_cd
 		AND p.movie_pic_no = mp.movie_pic_no
+		AND ml.mpost_no(+) = mp.mpost_no
+		AND mr.mpost_no(+) = mp.mpost_no
 		AND mp.gb_del = 'N'
 		AND mp.movie_cd = #{movie_cd}
+		ORDER BY mp.regdate DESC
 	</select>
 	
 	<select id="selectSearchMoviePostList" resultType="Map">

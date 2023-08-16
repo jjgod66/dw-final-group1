@@ -51,7 +51,7 @@ ol {
     margin-block-end: 1em;
     margin-inline-start: 0px;
     margin-inline-end: 0px;
-    padding-inline-start: 40px;
+/*     padding-inline-start: 40px; */
 }
 .user-out ol>li {
     padding: 0 0 30px 0;
@@ -61,7 +61,7 @@ ol {
 .user-out ol>li .txt {
     padding: 0 0 5px 0;
     font-size: 1.3333em;
-    font-weight: 400;
+    font-weight: 700;
 }
 .dot-list>li {
     position: relative;
@@ -79,22 +79,73 @@ ol {
     padding: 0 15px;
     text-align: center;
     line-height: 34px;
-    color: #503396;
+    color: #4ba8d8;
     font-weight: 400;
     border-radius: 4px;
     font-family: NanumBarunGothic,Dotum,'돋움',sans-serif;
     text-decoration: none;
-    border: 1px solid #503396;
+    border: 1px solid #4ba8d8;
     vertical-align: middle;
     background-color: #fff;
     cursor: pointer;
 }
+.button:hover {
+    background-color: #4ba8d8;
+    color: #fff;
+}
+.table-wrap {
+    position: relative;
+    border-top: 1px solid #555;
+}
+table {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    table-layout: fixed;
+    border-collapse: collapse;
+    empty-cells: show;
+}
+.board-form tbody th {
+    background: #f7f8f9;
+}
+.board-form tbody td, .board-form tbody th {
+/*     position: relative; */
+    height: 50px;
+    padding: 7px 15px;
+    text-align: left;
+    border-bottom: 1px solid #d1d5dd;
+}
+
+label {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+}
+button, input {
+    overflow: visible;
+}
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: 1em;
+    line-height: 1.15;
+}
+.dot-list>li:before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 9px;
+    left: 0;
+    background-color: #4ba8d8;
+    width: 3px;
+    height: 3px;
+}
 </style>
-    <div class="container has-lnb">
-        	<div id="contents" class="location-fixed">
+    <div class="container has-lnb" style="padding-top: 20px;">
+        	<div id="" class="location-fixed">
 			<h2 class="tit">회원탈퇴</h2>
 		
-			<p class="reset">[주의] 메가박스 회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</p>
+			<p class="reset">[주의] DW시네마 회원탈퇴를 신청하기 전에 안내 사항을 꼭 확인해주세요.</p>
 		
 			<div class="user-out mt10">
 				<ol>
@@ -121,7 +172,7 @@ ol {
 						<p>(회원 탈퇴하시면 회원정보와 개인 보유 포인트 등 정보가 삭제되며 데이터는 복구되지 않습니다.)</p>
 		
 						<ul class="dot-list mt10">
-							<li>메가박스 멤버십 포인트 및 적립/차감 내역</li>
+							<li>DW시네마 멤버십 포인트 및 적립/차감 내역</li>
 							<li>관람권 및 쿠폰</li>
 							<li>영화 관람 내역</li>
 							<li>간편 로그인 연동 정보</li>
@@ -132,14 +183,9 @@ ol {
 		
 						<div class="table-wrap">
 							<table class="board-form">
-								<caption>비밀번호 입력 항목을 가진 회원 탈퇴시 비밀번호 확인 표</caption>
-								<colgroup>
-									<col style="width:180px;">
-									<col>
-								</colgroup>
 								<tbody>
 									<tr>
-										<th scope="row">
+										<th style="width: 150px;">
 											<label for="pwd_chk">비밀번호</label>
 										</th>
 										<td>
@@ -153,9 +199,11 @@ ol {
 					</li>
 				</ol>
 			</div>
-			<div class="btn-group">
-				<button class="button large" id="cancelBtn">취소</button>
-				<button class="button purple large" id="resignSubmitBtn">탈퇴</button>
+			<div class="btn-group" style="width: 100%; margin-bottom: 50px;">
+				<div style="margin: 0 auto;">
+					<button class="button large" id="cancelBtn">취소</button>
+					<button class="button purple large" id="resignSubmitBtn">탈퇴</button>
+				</div>
 			</div>
 		</div>
 	</div>

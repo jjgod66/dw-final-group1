@@ -255,7 +255,7 @@ console.log(mem_email);
 		$('input[name="mem_email"]').val(mem_email);
 		$('#authentication-modal').modal('show');
 	}
-    $('.col-2').on('click', function() {
+    $('.logo').on('click', function() {
         window.location.href = '<%=request.getContextPath() %>/';
     });
 

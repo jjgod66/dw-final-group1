@@ -84,7 +84,7 @@ if(session.getAttribute("loginUser") != null){
 									지류티켓으로 가능합니다.
 								</div>
 								<div class="col-4">
-									<img src="/resources/img/M16903369643220061.png" style="width: 100%;">
+									<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${dataMap.MERCHANT_UID}.png&type=qr" style="width: 100%;">
 								</div>
 								</div>
 							</div>

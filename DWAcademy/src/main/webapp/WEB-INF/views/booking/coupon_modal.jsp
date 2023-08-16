@@ -247,20 +247,31 @@ $(function(){
 	
 	$('#couRegistBtn').on('click', function(){
 		let chkcou_no = $('input[name="couponchk"]').val();
-		$('#couponInfo').css('display', 'flex');
+// 		$('#couponInfo').css('display', 'flex');
 		let couname = $('input[name="couponchk"]:checked').parents('tr').find('#couname').text();
 		let coudis = $('input[name="couponchk"]:checked').parents('tr').find('#coudis').text();
-// 		console.log(couname);
-		$('#couponname').text(couname);
+// 		$('#couponname').text(couname);
 		
 		if(coudis.substr(-1) == '원'){
-	
+			
+			if($('#totalpp').text().replace(',', '') - (coudis.replace('원', '')) < 0){
+				alert("결제할 금액을 초과할 수 없습니다.");
+				return;
+			}	
+			$('#couponInfo').css('display', 'flex');
+			$('#couponname').text(couname);
 			$('#coupondis').text(coudis.replace('원', ''));
 			$('#disprice').text((parseInt($('#disprice').text().replace(',', '')) + parseInt(coudis.replace('원', ''))).toLocaleString());
 			$('#totalpp').text(($('#totalpp').text().replace(',', '') - (coudis.replace('원', ''))).toLocaleString());
 			
 		}else{
 			let disp = ${moviePayment.pricesum } / 100 * coudis.replace('%', '');
+			if($('#totalpp').text().replace(',', '') - disp < 0){
+				alert("결제할 금액을 초과할 수 없습니다.");
+				return;
+			}	
+			$('#couponInfo').css('display', 'flex');
+			$('#couponname').text(couname);
 			$('#coupondis').text(disp);
 			$('#disprice').text((parseInt($('#disprice').text().replace(',', '')) + parseInt(disp)).toLocaleString());
 			$('#totalpp').text(($('#totalpp').text().replace(',', '') - disp).toLocaleString());

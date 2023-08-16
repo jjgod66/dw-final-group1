@@ -12,13 +12,14 @@
 /*     background-color: #f3f4f6; */
 }
 .my-magabox-info .top2 {
-    position: relative;
-    padding: 40px 0 0 364px;
+/*     position: relative; */
+    padding: 10px;
     height: 170px;
     background-color: #4aa8d8;
+    display: flex;
+    align-items: center;
 }
 .my-magabox-info .top2 .mbimg {
-    position: absolute;
     top: 43px;
     left: 40px;
     width: 90px;
@@ -28,7 +29,6 @@
     width: 100%;
 }
 .my-magabox-info .top2 .mb_name {
-    position: absolute;
     top: 43px;
     left: 150px;
     font-size: 38px;
@@ -130,9 +130,11 @@ p {
 <div class="main-wrapper">
 	<div class="my-magabox-info">
 		<div class="top2">
-			<div class="mbimg"><img src="https://img.megabox.co.kr/static/pc/images/2023/01/member_WELCOME_2.png" alt="WELCOME"></div>
-			<div class="mb_name">안녕하세요!<p>${loginUser.ID }<span>님</span></p></div>
-			<div class="totalPoint"><fmt:formatNumber value="${point }" pattern="#,###"></fmt:formatNumber> P</div>
+			<div class="mbimg" style="margin: 0 20px;"><img src="https://img.megabox.co.kr/static/pc/images/2023/01/member_WELCOME_2.png" alt="WELCOME"></div>
+			<div class="mb_name" style="margin: 0 20px;">안녕하세요! ${loginUser.ID }<span>님</span>
+				<p style="font-size: 20px; text-align:left;">보유 포인트 : <fmt:formatNumber value="${point }" pattern="#,###"></fmt:formatNumber> P</p>
+			</div>
+<%-- 			<div class="totalPoint">보유 포인트 : <fmt:formatNumber value="${point }" pattern="#,###"></fmt:formatNumber> P</div> --%>
 		</div>
 	</div>
 	<div class="my-board-list">
