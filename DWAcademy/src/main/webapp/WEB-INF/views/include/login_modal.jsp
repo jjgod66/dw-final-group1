@@ -142,10 +142,10 @@
                 <p class="title">간편로그인</p>
                 <div class="row">
                     <div class="col">
-                        <div class="p-t-10"><a href="<%=request.getContextPath()%>${url}" class="btn btn--naver" type="button">네이버로 시작하기</a></div> 
+                        <div class="p-t-10"><a href="${url}" class="btn btn--naver" type="button">네이버로 시작하기</a></div> 
                     </div>
                     <div class="col">
-                        <div class="p-t-10"><a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/common/kakaoLogin" type="button" id="kakaoLogin" class="btn btn--kakao" >카카오로 시작하기</a></div> 
+                        <div class="p-t-10"><a href="https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/dw/common/kakaoLogin" type="button" id="kakaoLogin" class="btn btn--kakao" >카카오로 시작하기</a></div> 
                     </div>
                 </div>
                 <p class="extra new"> <a href="#" data-bs-toggle="modal" data-bs-target="#nonMemLogin_modal"><u>비회원 예매확인</u></a></p>

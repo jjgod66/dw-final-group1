@@ -203,15 +203,15 @@
 				 WHERE q.que_no = a.que_no(+)
 				   AND mem_cd = #{mem_cd}
 				   AND gb_del = 'N'
-<!-- 				   <if test="searchType == 'theater'.toString()"> -->
-<!-- 				   AND thr_name like '%' || #{keyword} || '%' -->
-<!-- 				</if> -->
-<!-- 				<if test="searchType == 'type'.toString()"> -->
-<!-- 				   AND que_type like '%' || #{keyword} || '%' -->
-<!-- 				</if> -->
-<!-- 				<if test="searchType == 'title'.toString()"> -->
-<!-- 				   AND que_title like '%' || #{keyword} || '%' -->
-<!-- 				</if> -->
+				   <if test="searchType == 'theater'.toString()">
+				   AND thr_name like '%' || #{keyword} || '%'
+				</if>
+				<if test="searchType == 'type'.toString()">
+				   AND que_type like '%' || #{keyword} || '%'
+				</if>
+				<if test="searchType == 'title'.toString()">
+				   AND que_title like '%' || #{keyword} || '%'
+				</if>
 			   ORDER BY q.regdate DESC
 			   ) que
 	</select>

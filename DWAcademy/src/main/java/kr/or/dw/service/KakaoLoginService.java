@@ -22,7 +22,7 @@ public class KakaoLoginService {
 		public Map<String, String> getAccessToken (String authorize_code) {
 			String access_Token = "";
 			String refresh_Token = "";
-			String reqURL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/common/kakaoLogin&code=" + authorize_code;
+			String reqURL = "https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=bf62309a02d7160678300f689ce8d447&redirect_uri=http://localhost/dw/common/kakaoLogin&code=" + authorize_code;
 			Map<String, String> token = new HashMap<String, String>();
 	
 		try {

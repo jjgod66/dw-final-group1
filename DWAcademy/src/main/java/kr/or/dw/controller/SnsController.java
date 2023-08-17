@@ -134,7 +134,7 @@ public class SnsController {
 				
 				out.println("<script>");
 				out.println("alert('연동된 계정이 없습니다! 소셜로그인은 [마이페이지 > 개인정보수정] 에서 연동 후 사용해주세요.')");
-				out.println("location.href='/';");
+				out.println("location.href='" + req.getContextPath() + "';");
 				out.println("</script>");
 				out.close();
 				
@@ -158,7 +158,7 @@ public class SnsController {
 		}
 		
 		@RequestMapping(value = "/naver/connect", method = {RequestMethod.GET, RequestMethod.POST})
-		public String naverConnect(@RequestParam String code, @RequestParam String state, HttpSession session, HttpServletResponse res) throws ParseException, Exception {
+		public String naverConnect(@RequestParam String code, @RequestParam String state, HttpServletRequest req, HttpSession session, HttpServletResponse res) throws ParseException, Exception {
 			OAuth2AccessToken oauthToken;
 	        oauthToken = naverLoginBO2.getAccessToken(session, code, state);
 	        Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
@@ -210,7 +210,7 @@ public class SnsController {
 				
 				out.println("<script>");
 				out.println("alert('이미 연동된 계정이 존재합니다!')");
-				out.println("location.href='/member/PrivacyInfo';");
+				out.println("location.href='" + req.getContextPath() + "/member/PrivacyInfo';");
 				out.println("</script>");
 				out.close();
 			}
@@ -221,7 +221,7 @@ public class SnsController {
 			
 			out.println("<script>");
 			out.println("alert('연동되었습니다.')");
-			out.println("location.href='/member/PrivacyInfo';");
+			out.println("location.href='" + req.getContextPath() + "/member/PrivacyInfo';");
 			out.println("</script>");
 			out.close();
 			return null;
@@ -229,7 +229,7 @@ public class SnsController {
 		
 		//로그아웃
 		@RequestMapping(value = "/naver/unConnect", method = { RequestMethod.GET, RequestMethod.POST })
-		public String naverUnConnect(HttpSession session, HttpServletResponse res)throws IOException, SQLException {
+		public String naverUnConnect(HttpSession session, HttpServletResponse res, HttpServletRequest req)throws IOException, SQLException {
 				System.out.println("여기는 unLink");
 				
 				Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
@@ -272,7 +272,7 @@ public class SnsController {
 
 				out.println("<script>");
 				out.println("alert('연동이 해제되었습니다.')");
-				out.println("location.href='/member/PrivacyInfo';");
+				out.println("location.href='" + req.getContextPath() + "/member/PrivacyInfo';");
 				out.println("</script>");
 				out.close();
 				
@@ -282,7 +282,7 @@ public class SnsController {
 			}
 	
 	@RequestMapping("/kakao/unConnect")
-	public String kakaoUnConnect(HttpSession session, HttpServletResponse res) throws Exception {
+	public String kakaoUnConnect(HttpSession session, HttpServletResponse res, HttpServletRequest req) throws Exception {
 		String reqURL = "https://kapi.kakao.com/v1/user/unlink";
 		Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
@@ -321,7 +321,7 @@ public class SnsController {
 		
 		out.println("<script>");
 		out.println("alert('연동이 해제되었습니다.')");
-		out.println("location.href='/member/PrivacyInfo';");
+		out.println("location.href='" + req.getContextPath() + "/member/PrivacyInfo';");
 		out.println("</script>");
 		out.close();
 		
@@ -365,7 +365,7 @@ public class SnsController {
 				
 				out.println("<script>");
 				out.println("alert('이미 연동된 계정이 존재합니다!')");
-				out.println("location.href='/member/PrivacyInfo';");
+				out.println("location.href='" + req.getContextPath() + "/member/PrivacyInfo';");
 				out.println("</script>");
 				out.close();
 			}
@@ -381,7 +381,7 @@ public class SnsController {
 			
 			out.println("<script>");
 			out.println("alert('연동되었습니다.')");
-			out.println("location.href='/member/PrivacyInfo';");
+			out.println("location.href='" + req.getContextPath() + "/member/PrivacyInfo';");
 			out.println("</script>");
 			out.close();
 			return null;
@@ -481,7 +481,7 @@ public class SnsController {
 				session.setAttribute("loginUser", mem_cd);
 				
 				out.println("<script>");
-				out.println("location.href='/main';");
+				out.println("location.href='" + req.getContextPath() + "/main';");
 				out.println("</script>");
 				out.close();
 			}
