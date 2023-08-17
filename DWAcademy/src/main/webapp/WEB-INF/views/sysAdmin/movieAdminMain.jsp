@@ -72,10 +72,10 @@
 									<img src="<%=request.getContextPath()%>/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" class="img-thumbnail" style="object-fit: cover; width: 100%; hegith:100%;">
 								</div>
 								<div>
-									<c:if test="${movie.MOVIE_GRADE eq '전체 관람가'}"><img src="../../resources/img/moviegrade/ALL.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
-                                    <c:if test="${movie.MOVIE_GRADE eq '12세 관람가'}"><img src="../../resources/img/moviegrade/12.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
-                                    <c:if test="${movie.MOVIE_GRADE eq '15세 관람가'}"><img src="../../resources/img/moviegrade/15.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
-                                    <c:if test="${movie.MOVIE_GRADE eq '청소년 관람불가'}"><img src="../../resources/img/moviegrade/18.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
+									<c:if test="${movie.MOVIE_GRADE eq '전체 관람가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/ALL.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
+                                    <c:if test="${movie.MOVIE_GRADE eq '12세 관람가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/12.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
+                                    <c:if test="${movie.MOVIE_GRADE eq '15세 관람가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/15.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
+                                    <c:if test="${movie.MOVIE_GRADE eq '청소년 관람불가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/18.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
 									<b>${movie.MOVIE_NAME}</b>
 								</div>
 								<div class="mb-2">

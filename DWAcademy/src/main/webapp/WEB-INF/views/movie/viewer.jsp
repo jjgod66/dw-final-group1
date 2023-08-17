@@ -9,7 +9,6 @@
 <script src="https://www.gstatic.com/charts/loader.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
 <script src="http://kit.fontawesome.com/77ad8525ff.js" crossorigin="anonymous"></script>
-<!-- <link rel="stylesheet" href="../../resources/css/boxoffice.css"> -->
 <style>
 .post:hover{
 	cursor: pointer;
@@ -45,7 +44,6 @@
     <div class="container">
         <div class="scon_02">
             <p>${movieView.movie.movie_grade }</p>
-<%--             <h2><%=movieNm%><em><%=movieNmEn%></em></h2> --%>
             <p class="sinfo">
             <span>
             	<c:forEach items="${movieView.genre_list }" var="genre">${genre } </c:forEach> </span>
@@ -54,7 +52,6 @@
         </div>
         <div class="scon_02_detail">
             <div class="lbox">
-<%--                 <img src="../../resources/img/poster/${movieView.movie.movie_mainpic_path}"> --%>
                 <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${movieView.movie.movie_mainpic_path}&item_cd=${movieView.movie.movie_cd}&type=moviePoster">
                 <a href="<%=request.getContextPath() %>/reservation/cinema.do?movie_cd=${movieView.movie.movie_cd }" class="btn btn-reservation">예매하기</a>
                 <a href="javascript:movieHeart();" class="btn btn-heart ${active }">♡ <span id="likeCount">${likeCount }</span></a>
@@ -206,7 +203,7 @@
 								<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/common/getPicture.do?name=${review.MEM_PIC_PATH}&item_cd=${review.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
 							</c:if>
 							<c:if test="${review.MEM_PIC_PATH == null}">
-								<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+								<img alt="Generic placeholder image" src="<%=request.getContextPath()%>/resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
 							</c:if>
 							<p style="text-align: center;">
 							<c:set var="mem_id_code" value="${review.MEM_ID}" />
@@ -657,7 +654,7 @@ function showPost(res){
 	if(res.mpost.MEM_PIC_PATH != null && res.mpost.MEM_PIC_PATH != ''){
 		$('#mpWriteMemPic').prop('src', '<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpost.MEM_PIC_PATH + '&item_cd=' + res.mpost.MEM_CD + '&type=memberPic');
 	}else{
-		$('#mpWriteMemPic').prop('src', '../../resources/img/defaultprofile.png');
+		$('#mpWriteMemPic').prop('src', '<%=request.getContextPath()%>/resources/img/defaultprofile.png');
 	}
 	let mpbackImg = "<%=request.getContextPath() %>/common/getPicture.do?name=" + res.mpost.MOVIE_PIC_PATH + "&item_cd=" + res.mpost.MOVIE_CD + "&type=movieImg";
 	$('#thismpPic').css('background-image', 'url(' + mpbackImg + ')');
@@ -686,7 +683,7 @@ function showPost(res){
 		if(res.mpostReplyList[i].MEM_PIC_PATH != null && res.mpostReplyList[i].MEM_PIC_PATH != ''){
 			replyShow += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpostReplyList[i].MEM_PIC_PATH + '&item_cd=' + res.mpostReplyList[i].MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 		}else{
-			replyShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+			replyShow += '<img src="<%=request.getContextPath()%>/resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 		}
 		replyShow += '</div>';
 		replyShow += '<div style="width: 85%;">';

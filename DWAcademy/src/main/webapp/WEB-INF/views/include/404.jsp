@@ -50,7 +50,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#f8f9fa;}#wrapper {
   display: inline-block;
   width: 120px;
   height: 120px;
-  background-image: url('/resources/img/404.png');
+  background-image: url('<%=request.getContextPath()%>/resources/img/404.png');
   background-size: cover;
   -webkit-transform: scale(1.4);
       -ms-transform: scale(1.4);

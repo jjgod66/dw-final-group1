@@ -13,7 +13,7 @@ let ansText = '';
 let pm = '';
 let id = '';
 
-let dwProfile = '<div class="img" style="background: none; width: 40px; height: 40px; border-radius: 50px; border: 1px solid #ededed; background-image: url(\'../../resources/img/logo_ico.png\'); background-repeat: no-repeat; background-size: 20px; background-position: center;">="https://cgv.enomix.co.kr/proxy?ticketId=ETC&amp;fileInfo=KSxlWm0pYiZCN1hjNmtqSng7bC1DKWA4XERsbCYpLCMyJmxAXistYCE1bComRDldIU4zNDc6bGBr%0ANTMzN2szRTJqLTN4WWVqRGs0N1pNPV1BX0Ixait4OClETDEvMlluRDQ3fG46LTApRW5KK19iJjNf%0AWGUjKUNgfiRlMTcpXz1%2BbWVlXzNtWzYkY0wyISU9ITVlKntBNGEjMlgzTX42KDYkWGw3a2UjNk16%0AWEUjIzREe0BlK21LSzI3JTc4eCx4XyRjbl9ZLHgpO0p6Tn5uL11cekBLQDU%3D"></div>'
+let dwProfile = '<div class="img" style="background: none; width: 40px; height: 40px; border-radius: 50px; border: 1px solid #ededed; background-image: url(\'<%=request.getContextPath()%>/resources/img/logo_ico.png\'); background-repeat: no-repeat; background-size: 20px; background-position: center;">="https://cgv.enomix.co.kr/proxy?ticketId=ETC&amp;fileInfo=KSxlWm0pYiZCN1hjNmtqSng7bC1DKWA4XERsbCYpLCMyJmxAXistYCE1bComRDldIU4zNDc6bGBr%0ANTMzN2szRTJqLTN4WWVqRGs0N1pNPV1BX0Ixait4OClETDEvMlluRDQ3fG46LTApRW5KK19iJjNf%0AWGUjKUNgfiRlMTcpXz1%2BbWVlXzNtWzYkY0wyISU9ITVlKntBNGEjMlgzTX42KDYkWGw3a2UjNk16%0AWEUjIzREe0BlK21LSzI3JTc4eCx4XyRjbl9ZLHgpO0p6Tn5uL11cekBLQDU%3D"></div>'
 
 let preFirst = '<div><div class="txtNode system" style=""><div class="btngroup " style="margin-top: 0px;">';
 // preFirst += '<span id="" class="btn sel back" sel="이전으로" seltype="PREV"><span class="txtBtn">이전으로</span></span>';

@@ -150,7 +150,6 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
       	<c:if test="${!empty answer }">
       	<div id="im" style="margin: 10px 0;">
       		<i class="fa-solid fa-arrow-down-long" style="font-size: 30px;"></i>
-<!-- 	        <img src="/resources/img/arrow.png" id="img"> -->
         </div>
         <div class="modal1" id="same">		
 	      	<div class="modal-wrap">

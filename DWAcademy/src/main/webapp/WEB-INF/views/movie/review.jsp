@@ -335,7 +335,7 @@ select {
 								<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/common/getPicture.do?name=${review.MEM_PIC_PATH}&item_cd=${review.MEM_CD}&type=memberPic" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
 							</c:if>
 							<c:if test="${review.MEM_PIC_PATH == null}">
-								<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
+								<img alt="Generic placeholder image" src="<%=request.getContextPath()%>/resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px;">
 							</c:if>
 							<p style="text-align: center;">
 							<c:set var="mem_id_code" value="${review.MEM_ID}" />

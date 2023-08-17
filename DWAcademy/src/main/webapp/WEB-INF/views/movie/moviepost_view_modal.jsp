@@ -160,7 +160,7 @@
 	<!-- 	                </div> -->
 	                </div>
 	                <div style="display: flex;">
-						<img id="mpWriteMemPic" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px; margin: 20px;">
+						<img id="mpWriteMemPic" src="<%=request.getContextPath()%>/resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 80px; height: 80px; margin: 20px;">
 						<div style="position: relative; width: 100%;">
 							<div style="position: absolute; bottom: 20px; width: 100%; text-align: left;">
 								<p style="font-size: 20px;" id="mpWriterId"></p>
@@ -196,27 +196,7 @@
 	                	</div>
 	                </div>
 	                <div class="reply-div">
-<!-- 	                	<div style="display: flex; border-bottom: solid 1px #ced4da;"> -->
-<!-- 	                		<div style="margin: 10px;"> -->
-<!-- 								<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;"> -->
-<!-- 			                </div> -->
-<!-- 							<div style="width: 80%;"> -->
-<!-- 								<div class="h50" style="display: flex; align-items: flex-end; margin-bottom: 5px;"> -->
-<!-- 									<div class="w50" style="text-align: left;" id="replyWriterId"> -->
-<!-- 										dsgtad123 -->
-<!-- 									</div> -->
-<!-- 									<div class="w50" style="text-align: right; color: gray;" id="replyWritedate"> -->
-<!-- 										2023-20-50 -->
-<!-- 									</div> -->
-<!-- 								</div> -->
-<!-- 								<div class="h50" style="display: flex;"> -->
-<!-- 									<div class="w50" style="text-align: left;" id="thisReplyContent">댓글내용</div> -->
-<!-- 									<div class="w50"  style="text-align: right;" id="replyReportBtn">신고</div> -->
-<!-- 									<div class="w50" style="text-align: right; display: none" id="replyUpdateBtn">수정</div> -->
-<!-- 								</div> -->
-<!-- 							</div> -->
-		              
-<!-- 	                	</div> -->
+
 	                </div>
                 
             </div>
@@ -469,7 +449,7 @@ function replyReg(res){
 	if(res.MEM_PIC_PATH != null && res.MEM_PIC_PATH != ''){
 		regShow += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.MEM_PIC_PATH + '&item_cd=' + res.MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 	}else{
-		regShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+		regShow += '<img src="<%=request.getContextPath()%>/resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 	}
 	regShow += '</div>';
 	regShow += '<div style="width: 85%;">';
