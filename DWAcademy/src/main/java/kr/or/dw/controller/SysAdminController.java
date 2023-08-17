@@ -860,11 +860,12 @@ public class SysAdminController {
 	}
 	
 	@RequestMapping("/eventAdminDetail")
-	public ModelAndView eventAdminDetail (ModelAndView mnv, String event_no, String type) throws NumberFormatException, SQLException {
+	public ModelAndView eventAdminDetail (ModelAndView mnv, String event_no, String type, HttpServletRequest req) throws NumberFormatException, SQLException {
 		String url = "/sysAdmin/eventAdminDetail";
 		
 		if (event_no != null) {
 			EventVO event = sysAdminService.selectEventByEvent_no(Integer.parseInt(event_no));
+			event.setEvent_content(event.getEvent_content().replace("<img src=\"", "<img src=\""+req.getContextPath()));
 			mnv.addObject("event", event);
 		}
 		mnv.addObject("type", type);
@@ -886,8 +887,8 @@ public class SysAdminController {
 		// 이벤트 테이블에 등록
 		sysAdminService.registEvent(event);
 		int event_no = event.getEvent_no();
-		String newContent = registReq.getEvent_content().replace(req.getContextPath() + "/common/getTempImg.do?fileName="+registReq.getOldFileName() 
-																 ,req.getContextPath() + "/common/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+		String newContent = registReq.getEvent_content().replace("/common/getTempImg.do?fileName="+registReq.getOldFileName() 
+																 ,"/common/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
 		
 		// event_content 안에 이미지 경로를 재설정해준다.(temp에서 진짜위치로)
 		Map<String, Object> modifyEventContentMap = new HashMap<>();
@@ -1114,7 +1115,7 @@ public class SysAdminController {
 		
 	}
 	
-	@RequestMapping("/memeberAdminDetail")
+	@RequestMapping("/memberAdminDetail")
 	public ModelAndView memeberAdminDetail (ModelAndView mnv, String mem_cd) throws SQLException {
 		String url = "/sysAdmin/memberAdminDetail";
 		

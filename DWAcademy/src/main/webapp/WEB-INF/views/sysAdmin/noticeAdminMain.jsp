@@ -66,7 +66,7 @@
 			                <li class="dep1">
 			                    <div class="leftInfo"><span class="sort" style="color: #4aa8d8;">${notice.notice_thr }</span></div>
 			                    <div class="titInfo">
-			                        <p class="tit"><a href="<%=request.getContextPath()%>noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read" style="color: black;">${notice.notice_title }</a></p>
+			                        <p class="tit"><a href="<%=request.getContextPath()%>/sysAdmin/noticeAdminDetail.do?notice_no=${notice.notice_no }&type=read" style="color: black;">${notice.notice_title }</a></p>
 			                    </div>
 			                    <div class="etc">
 			                        <ul class="clearFix">

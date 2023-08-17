@@ -105,7 +105,7 @@
 							</c:if>
 							<c:forEach items="${memberList }" var="mem">
 								<tr class="list0">
-									<td><a href="memeberAdminDetail.do?mem_cd=${mem.mem_cd }">${mem.mem_id }</a></td>
+									<td><a href="memberAdminDetail.do?mem_cd=${mem.mem_cd }">${mem.mem_id }</a></td>
 									<td>${mem.mem_name }</td>
 									<td><fmt:formatDate value="${mem.regdate }" pattern="yyyy-MM-dd"/></td>
 									<td>${mem.gb_sleep  }</td>
