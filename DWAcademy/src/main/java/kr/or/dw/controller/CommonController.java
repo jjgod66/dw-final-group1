@@ -132,12 +132,12 @@ public class CommonController {
 		
 		if(AUTH.equals("S")) {
 			System.out.println("1");
-			url = "redirect:" + req.getContextPath() + "/sysAdmin/main.do";
+			url = "redirect:/sysAdmin/main.do";
 		}else if(AUTH.equals("T")) {
 			System.out.println("2");
-			url = "redirect:" + req.getContextPath() + "/thrAdmin/main.do";
+			url = "redirect:/thrAdmin/main.do";
 		}else {
-			url = "redirect:" + req.getContextPath() + "/main";
+			url = "redirect:/main.do";
 		}
 		System.out.println(url);
 		mnv.setViewName(url);

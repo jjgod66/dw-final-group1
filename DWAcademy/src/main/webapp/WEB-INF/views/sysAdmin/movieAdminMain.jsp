@@ -69,7 +69,7 @@
 						<div class="col-md-3 py-2" style="">
 							<div class="movieBox" style="width: 98%; height: 100%; border: 1px solid #4aa8d8; box-shadow: 1px 1px 3px 1px gray;">
 								<div class="p-1" style="width: 80%; height: 20rem; overflow: hidden;">
-									<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" class="img-thumbnail" style="object-fit: cover; width: 100%; hegith:100%;">
+									<img src="<%=request.getContextPath()%>/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" class="img-thumbnail" style="object-fit: cover; width: 100%; hegith:100%;">
 								</div>
 								<div>
 									<c:if test="${movie.MOVIE_GRADE eq '전체 관람가'}"><img src="../../resources/img/moviegrade/ALL.png" style="width: 8%; height: 8%; margin-bottom: 4px;"></c:if>
