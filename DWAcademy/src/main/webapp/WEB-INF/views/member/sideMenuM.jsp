@@ -300,24 +300,20 @@ margin-top:0px;
         	  // 스크롤 이벤트 핸들러
         	  $(window).scroll(function() {
         	    var currentTop = $(window).scrollTop();
-        	    var bannerTop = currentTop + floatPosition + "px";
         	    
+        	    if (currentTop < 272 ){
+        	    	$(".navigation").css({
+        	    		"top":"272px",
+        	    		"margin-top":"0"
+        	    	});
+        	    	return;
+        	    }
+        	    var bannerTop = currentTop + floatPosition + "px";
         	    // 스크롤 값에 따라 .navigation의 위치와 margin-top 변경
         	    $(".navigation").stop().animate({
         	      "top": bannerTop,
-        	      "margin-top": currentTop > 0 ? "0" : "272"
+        	      "margin-top": "0"
         	    }, 600);
         	  });
         	});
-
-    
-/* 	     var floatPosition = parseInt($(".navigation").css('top'))
-	    $(window).scroll(function() {
-	        var currentTop = $(window).scrollTop();
-	        var bannerTop = currentTop + floatPosition + "px";
-	        $(".navigation").stop().animate({
-	          "top" : bannerTop,
-	          "margin-top": currentTop > 0 ? "0" : "275"
-	        }, 600);
-	    }).scroll();   */
     </script>
