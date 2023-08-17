@@ -436,7 +436,7 @@ $(function(){
 	})
 })
 
-let searchUrl = "/member/buylist.do"
+let searchUrl = "<%=request.getContextPath()%>/member/buylist.do"
 if (${not empty sessionScope.admin_cd}) {
 	$('#reserveSearchForm').find('[name="adminType"]').val('${sessionScope.admin_cd}');
 }
@@ -531,7 +531,7 @@ let searchFormUrl = "<%=request.getContextPath()%>/member/buylist.do";
 
 function resRefund(merchant_uid){
 	$.ajax({
-		url : "/pay/refund.do", 
+		url : "<%=request.getContextPath()%>/pay/refund.do", 
 	    type : "POST",
 	    data : {'merchant_uid' : merchant_uid},
 	    success : function(res){
@@ -549,7 +549,7 @@ function resRefund(merchant_uid){
 
 function ptRefund(merchant_uid){
 	$.ajax({
-		url : "/pay/ptrefund.do", 
+		url : "<%=request.getContextPath()%>/pay/ptrefund.do", 
 	    type : "POST",
 	    data : {'merchant_uid' : merchant_uid},
 	    success : function(res){
