@@ -378,11 +378,12 @@ public class ThrAdminController {
 	}
 	
 	@RequestMapping("/eventAdminDetail")
-	public ModelAndView eventAdminDetail (ModelAndView mnv, String event_no, String type) throws NumberFormatException, SQLException {
+	public ModelAndView eventAdminDetail (ModelAndView mnv, String event_no, String type, HttpServletRequest req) throws NumberFormatException, SQLException {
 		String url = "/thrAdmin/eventAdminDetail";
 		
 		if (event_no != null) {
 			EventVO event = sysAdminService.selectEventByEvent_no(Integer.parseInt(event_no));
+			event.setEvent_content(event.getEvent_content().replace("<img src=\"", "<img src=\""+req.getContextPath()));
 			mnv.addObject("event", event);
 		}
 		mnv.addObject("type", type);
@@ -402,8 +403,8 @@ public class ThrAdminController {
 		// 이벤트 테이블에 등록
 		sysAdminService.registEvent(event);
 		int event_no = event.getEvent_no();
-		String newContent = registReq.getEvent_content().replace(req.getContextPath() + "/common/getTempImg.do?fileName="+registReq.getOldFileName() 
-																 ,req.getContextPath() + "/common/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+		String newContent = registReq.getEvent_content().replace("/common/getTempImg.do?fileName="+registReq.getOldFileName() 
+																 , "/common/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
 		
 		Map<String, Object> modifyEventContentMap = new HashMap<>();
 		modifyEventContentMap.put("event_no", event_no);
