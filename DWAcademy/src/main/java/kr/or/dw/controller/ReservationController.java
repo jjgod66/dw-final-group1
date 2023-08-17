@@ -228,7 +228,7 @@ public class ReservationController {
 		SmsController s = new SmsController();
 		s.reservationSMS(smsInfo);
 		QRcreate(merchant_uid);
-		return "redirect:" + req.getContextPath() + "/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
 		
 	}
 	
@@ -238,7 +238,7 @@ public class ReservationController {
 		
 		merchant_uid = pay0result(mpc, session);
 		
-		return "redirect:" + req.getContextPath() + "/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
 	}
 	
 	public String pay0result(MoviePaymentCommand mpc, HttpSession session) throws Exception {
@@ -288,7 +288,7 @@ public class ReservationController {
 		SmsController s = new SmsController();
 		s.reservationSMS(smsInfo);
 		QRcreate(merchant_uid);
-		return "redirect:" + req.getContextPath() + "/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
 	}
 	
 	@RequestMapping("/paySuccess")
