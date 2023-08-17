@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -246,8 +247,8 @@ public class SupportController {
 	}
 	
 	@RequestMapping("/qnaReg")
-	public String qnaRegist(QnaVO qna, HttpServletResponse res) throws Exception {
-		String url = "redirect:/support/inquiryRegSuccess.do";
+	public String qnaRegist(QnaVO qna, HttpServletResponse res, HttpServletRequest req) throws Exception {
+		String url = "redirect:" + req.getContextPath() + "/support/inquiryRegSuccess.do";
 		QnaAttachVO attach = new QnaAttachVO();
 		System.out.println(qna.getAttachment());
 		System.out.println(qna.getAttachment().getOriginalFilename());

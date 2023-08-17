@@ -122,7 +122,7 @@ public class CommonController {
 	}
 	
 	@RequestMapping("/common/loginSuccess")
-	public ModelAndView loginSuccess(ModelAndView mnv, HttpSession session) {
+	public ModelAndView loginSuccess(ModelAndView mnv, HttpSession session, HttpServletRequest req) {
 		String url = "";
 		
 		Map<String, Object> loginUser = (Map<String, Object>) session.getAttribute("loginUser");
@@ -132,12 +132,12 @@ public class CommonController {
 		
 		if(AUTH.equals("S")) {
 			System.out.println("1");
-			url = "redirect:/sysAdmin/main.do";
+			url = "redirect:" + req.getContextPath() + "/sysAdmin/main.do";
 		}else if(AUTH.equals("T")) {
 			System.out.println("2");
-			url = "redirect:/thrAdmin/main.do";
+			url = "redirect:" + req.getContextPath() + "/thrAdmin/main.do";
 		}else {
-			url = "redirect:/main";
+			url = "redirect:" + req.getContextPath() + "/main";
 		}
 		System.out.println(url);
 		mnv.setViewName(url);
@@ -213,7 +213,7 @@ public class CommonController {
 		
 		out.println("<script>");
 		out.println("alert('세션이 만료되었습니다.\\n다시 로그인하세요!')");
-		out.println("location.href='/';");
+		out.println("location.href='" + req.getContextPath() + "';");
 		out.println("</script>");
 		out.close();
 	}
@@ -436,7 +436,7 @@ public class CommonController {
 		PrintWriter out = res.getWriter();
 		out.println("<script>");
 		out.println("alert('비밀번호가 변경되었습니다.');");
-		out.println("location.href='" + req.getContextPath() + "main.do';");
+		out.println("location.href='" + req.getContextPath() + "/main.do';");
 		out.println("</script>");
 		out.flush();
 		out.close();

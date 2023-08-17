@@ -228,17 +228,17 @@ public class ReservationController {
 		SmsController s = new SmsController();
 		s.reservationSMS(smsInfo);
 		QRcreate(merchant_uid);
-		return "redirect:/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:" + req.getContextPath() + "/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
 		
 	}
 	
 	@RequestMapping("/pay0ResultRedirect")
-	public String pay0ResultRedirect(MoviePaymentCommand mpc, HttpSession session) throws Exception {
+	public String pay0ResultRedirect(MoviePaymentCommand mpc, HttpSession session, HttpServletRequest req) throws Exception {
 		String merchant_uid = mpc.getMerchant_uid();
 		
 		merchant_uid = pay0result(mpc, session);
 		
-		return "redirect:/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:" + req.getContextPath() + "/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
 	}
 	
 	public String pay0result(MoviePaymentCommand mpc, HttpSession session) throws Exception {
