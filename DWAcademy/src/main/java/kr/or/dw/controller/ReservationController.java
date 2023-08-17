@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +73,9 @@ public class ReservationController {
 	@Autowired
 	private ReservationService reservationService;
 
+	@Resource(name="qrUploadPath")
+	private String qrUploadPath;
+	
 	@RequestMapping("/moviePaymentForm")
 	public ModelAndView moviePaymentForm(ModelAndView mnv, MoviePaymentCommand mpc, HttpSession session, HttpServletRequest req) throws SQLException, Exception{
 		String url = "/booking/payment";
@@ -351,12 +355,7 @@ public class ReservationController {
 		return mapData;
 	}
 	
-	public void barbecuecod(String merchant_uid) throws Exception {
-		Barcode barcode = BarcodeFactory.createCode128(merchant_uid);
-        File file = new File("C:/DWAcademyFiles/barcode/reservation/" + merchant_uid + ".png");
-        
-        BarcodeImageHandler.savePNG(barcode, file);
-	}
+
 	
 	public void QRcreate(String merchant_uid) {
 		QRCodeWriter qrCodeWriter = new QRCodeWriter();
@@ -365,7 +364,7 @@ public class ReservationController {
 			bitMatrix = qrCodeWriter.encode(merchant_uid, BarcodeFormat.QR_CODE, 200, 200);
 			BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
 			String fileName = merchant_uid + ".png";
-			File file = new File("C:/DWAcademyFiles/QR/reservation/" + fileName);
+			File file = new File(this.qrUploadPath + fileName);
 			file.mkdirs();
 			ImageIO.write(bufferedImage, "png", file);
 		} catch (WriterException e) {
