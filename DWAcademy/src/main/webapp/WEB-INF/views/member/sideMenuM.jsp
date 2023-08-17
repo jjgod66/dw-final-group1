@@ -286,7 +286,7 @@ margin-top:0px;
         	});
     
         
-        $(document).ready(function() {
+/*         $(document).ready(function() {
         	  var floatPosition = parseInt($(".navigation").css('top'));
         	  
         	  // 초기 위치 설정
@@ -303,7 +303,7 @@ margin-top:0px;
         	      "margin-top": currentTop > 0 ? "0" : "272"
         	    }, 600);
         	  });
-        	});
+        	}); */
 
     
 /* 	     var floatPosition = parseInt($(".navigation").css('top'))
@@ -312,7 +312,37 @@ margin-top:0px;
 	        var bannerTop = currentTop + floatPosition + "px";
 	        $(".navigation").stop().animate({
 	          "top" : bannerTop,
-	          "margin-top": currentTop > 0 ? "0" : "275"
+	          "margin-top": currentTop > 0 ? "0" : "272"
 	        }, 600);
-	    }).scroll();   */
+	    }).scroll();    */
+	    
+	    $(document).ready(function() {
+	    	  var floatPosition = parseInt($(".navigation").css('top'));
+	    	  
+	    	  // 초기 위치 설정
+	    	  $(".navigation").css("top", "272px");
+	    	  
+	    	  // 스크롤 이벤트 핸들러
+	    	  $(window).scroll(function() {
+	    	    var currentTop = $(window).scrollTop();
+	    	    
+	    	    // 스크롤이 280px 미만이면 .navigation 위치 고정
+	    	    if (currentTop < 280) {
+	    	      $(".navigation").css({
+	    	        "top": "272px",
+	    	        "margin-top": "0"
+	    	      });
+	    	      return;
+	    	    }
+	    	    
+	    	    var bannerTop = currentTop + floatPosition + "px";
+	    	    
+	    	    // 스크롤 값에 따라 .navigation의 위치와 margin-top 변경
+	    	    $(".navigation").stop().animate({
+	    	      "top": bannerTop,
+	    	      "margin-top": "0"
+	    	    }, 600);
+	    	  });
+	    	});
+
     </script>
