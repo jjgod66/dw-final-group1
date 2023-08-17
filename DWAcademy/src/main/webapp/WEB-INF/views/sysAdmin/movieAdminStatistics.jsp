@@ -86,8 +86,7 @@
 					style="font-size: small;">
 					<thead class="table-light text-center">
 						<tr>
-							<th>순위 <span class="sortBtn"><i
-									class="bi bi-arrow-down-up" onclick="sortTable(0);"></i></span></th>
+							<th>순번 <span class="sortBtn"></span></th>
 							<th>영화명 <span class="sortBtn"><i
 									class="bi bi-arrow-down-up" onclick="sortTable(1);"></i></span></th>
 							<th>개봉일 <span class="sortBtn"><i
@@ -409,7 +408,6 @@ function sortTable(cellNum){
         chkSort = false;
         for (var i = 1; i < (rows.length - 1); i++) {
             var row = rows[i];
-            console.log(row);
             if (cellNum == 0) {
 	            var fCell = Number(row.cells[cellNum].innerHTML.toLowerCase());
 	            var sCell = Number(row.nextElementSibling.cells[cellNum].innerHTML.toLowerCase());
@@ -425,7 +423,11 @@ function sortTable(cellNum){
                 chkSort = true;
             }
         }
-       }   
    }
+	for (var i = 1; i< (rows.length - 1); i++) {
+		var row = rows[i];
+		row.cells[0].innerHTML = i;
+	}
+}
 </script>
 <%@ include file="sysAdminFooter.jsp"%>

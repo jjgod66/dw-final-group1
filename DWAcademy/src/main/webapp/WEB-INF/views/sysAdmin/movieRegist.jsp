@@ -223,7 +223,7 @@ table th {
 									<th scope="row">러닝타임</th>
 									<td colspan="3">
 										<input type="text" name="movie_length" id="movie_length" value="${MOVIE_LENGTH }"
-											placeholder="양의 정수로 입력해주세요" class="frm_input wfull" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" required> 분
+											placeholder="양의 정수로 입력해주세요" class="frm_input wfull" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" maxlength="3" required> 분
 									</td>
 								</tr>
 								<tr>
