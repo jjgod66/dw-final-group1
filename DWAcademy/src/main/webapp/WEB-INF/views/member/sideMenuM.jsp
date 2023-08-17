@@ -236,6 +236,7 @@ margin-top:0px;
         	  const post = '/member/myMoviepost.do';
         	  const like = '/member/myLikeMovie.do'; 
         	  const myin = '/member/myinquiry.do';
+        	  const myinD = '/member/myInquiryDetail.do';
         	  const po = '/member/point-list.do';
         	  const pri = '/member/PrivacyInfo.do';
         	  const add = '/member/additionalinfo.do';
@@ -269,6 +270,10 @@ margin-top:0px;
         	      list[3].classList.add('active1'); 
         	  }
         	  if (currentURL.includes(myin)) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[4].classList.add('active1'); 
+        	  }
+        	  if (currentURL.includes(myinD)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[4].classList.add('active1'); 
         	  }
