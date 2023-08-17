@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/header.jsp" %>
-<link rel="stylesheet" href="../../resources/css/boxoffice.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/boxoffice.css">
 <style>
 
 .board-search {
@@ -194,10 +194,10 @@ select {
 				        </div>
 				        <div class="thumb_cont">
 				            <strong class="tit_item">
-					                                        <c:if test="${movie.MOVIE_GRADE eq '전체 관람가'}"><img src="../../resources/img/moviegrade/ALL.png" style="width: 8%; height: 8%;"></c:if>
-					                                        <c:if test="${movie.MOVIE_GRADE eq '12세 관람가'}"><img src="../../resources/img/moviegrade/12.png" style="width: 8%; height: 8%;"></c:if>
-					                                        <c:if test="${movie.MOVIE_GRADE eq '15세 관람가'}"><img src="../../resources/img/moviegrade/15.png" style="width: 8%; height: 8%;"></c:if>
-					                                        <c:if test="${movie.MOVIE_GRADE eq '청소년 관람불가'}"><img src="../../resources/img/moviegrade/18.png" style="width: 8%; height: 8%;"></c:if>
+					                                        <c:if test="${movie.MOVIE_GRADE eq '전체 관람가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/ALL.png" style="width: 8%; height: 8%;"></c:if>
+					                                        <c:if test="${movie.MOVIE_GRADE eq '12세 관람가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/12.png" style="width: 8%; height: 8%;"></c:if>
+					                                        <c:if test="${movie.MOVIE_GRADE eq '15세 관람가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/15.png" style="width: 8%; height: 8%;"></c:if>
+					                                        <c:if test="${movie.MOVIE_GRADE eq '청소년 관람불가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/18.png" style="width: 8%; height: 8%;"></c:if>
 					                                        <a href="<%=request.getContextPath()%>/movie/viewer.do?movie_cd=${movie.MOVIE_CD}" class="link_txt" data-tiara-layer="moviename"> ${movie.MOVIE_NAME}</a>
 				            </strong>
 				            <span class="txt_append">

@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/review.css">
 <link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/viewer.css">
 <script src="https://www.gstatic.com/charts/loader.js"></script>
-<link rel="stylesheet" href="../../resources/css/boxoffice.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/resources/css/boxoffice.css">
 <style>
 .movie-sorting{
 	float: left;
@@ -176,7 +176,7 @@
 					<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/common/getPicture.do?name=${mr.MEM_PIC_PATH}&item_cd=${mr.MEM_CD}&type=memberPic" class="rounded-pill" style="width: 80px; height: 80px; display:flex; align-items: center;">
 				</c:if>
 				<c:if test="${mr.MEM_PIC_PATH == null}">
-					<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="rounded-pill" style="width: 80px; height: 80px;">
+					<img alt="Generic placeholder image" src="<%=request.getContextPath()%>/resources/img/defaultprofile.png" class="rounded-pill" style="width: 80px; height: 80px;">
 				</c:if>
 				<p style="text-align: center;">
 				<c:set var="mem_id_code" value="${mr.MEM_ID}" />

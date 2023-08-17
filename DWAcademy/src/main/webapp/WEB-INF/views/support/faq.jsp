@@ -261,7 +261,7 @@ margin-right: auto;
 		<c:forEach items="${faqList }" var="faq">
 			<li data-faq_no="${faq.faq_no }">
 				<div class="q">
-					<img src="/resources/img/faq.png">
+					<img src="<%=request.getContextPath()%>/resources/img/faq.png">
 					<span class="sp">[${faq.faq_div }]</span>
 					<a href="#faq_1">${faq.faq_title }</a>
 				</div>

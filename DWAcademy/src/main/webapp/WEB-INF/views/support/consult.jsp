@@ -651,7 +651,7 @@ ul, ol {
     display: inline-block;
     width: 44px;
     height: 14px;
-    background: url(../../resources/img/loading.gif) center;
+    background: url(<%=request.getContextPath()%>/resources/img/loading.gif) center;
     background-size: 100%;
     text-indent: -9999px;
 }

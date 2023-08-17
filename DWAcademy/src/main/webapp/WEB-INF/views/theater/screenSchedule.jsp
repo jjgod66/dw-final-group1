@@ -626,10 +626,10 @@ a {
 				<div class="theater-list">
 					<div class="theater-tit">
 						<div style="display: inline; float: left; margin-right: 10px;">
-					 	<c:if test="${movie[0][0].MOVIE_GRADE  eq '전체 관람가'}"><img src="../../resources/img/moviegrade/ALL.png" style="width: 23px; height: 23px;"></c:if>
-	                    <c:if test="${movie[0][0].MOVIE_GRADE eq '12세 관람가'}"><img src="../../resources/img/moviegrade/12.png" style="width: 23px; height: 23px;"></c:if>
-	                    <c:if test="${movie[0][0].MOVIE_GRADE eq '15세 관람가'}"><img src="../../resources/img/moviegrade/15.png" style="width: 23px; height: 23px;"></c:if>
-	                    <c:if test="${movie[0][0].MOVIE_GRADE eq '청소년 관람불가'}"><img src="../../resources/img/moviegrade/18.png" style="width: 23px; height: 23px;"></c:if>
+					 	<c:if test="${movie[0][0].MOVIE_GRADE  eq '전체 관람가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/ALL.png" style="width: 23px; height: 23px;"></c:if>
+	                    <c:if test="${movie[0][0].MOVIE_GRADE eq '12세 관람가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/12.png" style="width: 23px; height: 23px;"></c:if>
+	                    <c:if test="${movie[0][0].MOVIE_GRADE eq '15세 관람가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/15.png" style="width: 23px; height: 23px;"></c:if>
+	                    <c:if test="${movie[0][0].MOVIE_GRADE eq '청소년 관람불가'}"><img src="<%=request.getContextPath()%>/resources/img/moviegrade/18.png" style="width: 23px; height: 23px;"></c:if>
 						</div>
 	<!-- 					<p class="movie-grade age-15"></p> -->
 						<p>
@@ -767,13 +767,13 @@ function scheduleSetting(res){
 		app += '<div class="theater-tit">';
 		app += 	'<div style="display: inline; float: left; margin-right: 10px;">'
 		if(res[i][0][0].MOVIE_GRADE == '전체 관람가'){
-			app += '<img src="../../resources/img/moviegrade/ALL.png" style="width: 23px; height: 23px;">';
+			app += '<img src="<%=request.getContextPath()%>/resources/img/moviegrade/ALL.png" style="width: 23px; height: 23px;">';
 		}else if(res[i][0][0].MOVIE_GRADE == '12세 관람가'){
-			app += '<img src="../../resources/img/moviegrade/12.png" style="width: 23px; height: 23px;">';
+			app += '<img src="<%=request.getContextPath()%>/resources/img/moviegrade/12.png" style="width: 23px; height: 23px;">';
 		}else if(res[i][0][0].MOVIE_GRADE == '15세 관람가'){
-			app += '<img src="../../resources/img/moviegrade/15.png" style="width: 23px; height: 23px;">';
+			app += '<img src="<%=request.getContextPath()%>/resources/img/moviegrade/15.png" style="width: 23px; height: 23px;">';
 		}else{
-			app += '<img src="../../resources/img/moviegrade/18.png" style="width: 23px; height: 23px;">';
+			app += '<img src="<%=request.getContextPath()%>/resources/img/moviegrade/18.png" style="width: 23px; height: 23px;">';
 		}
 		app += '</div>';	
 		app += '<p>';

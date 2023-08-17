@@ -21,7 +21,7 @@
 }
 
 .ico-kakaopay {
-    background-image: url(../../resources/img/payment_icon_yellow_small.png);
+    background-image: url(<%=request.getContextPath()%>/resources/img/payment_icon_yellow_small.png);
     background-size: 70px;
     background-repeat: no-repeat;
     margin: 0 auto;
@@ -66,7 +66,7 @@ if(session.getAttribute("loginUser") != null){
 					<div style="float: right; display: inline;">
 						<div class="card" style="width: 275px; height: 425px; float: right; padding: 10px;" id="back">
 							<div class="card-body">
-								<div class="" style="text-align: center; margin: 10px;"><img src="/resources/img/logo.png" style="width: 90%;"></div>
+								<div class="" style="text-align: center; margin: 10px;"><img src="<%=request.getContextPath()%>/resources/img/logo.png" style="width: 90%;"></div>
 								<hr style="width: 100%; color: gray; margin: 30px auto;">
 								<h4 style="font-weight: 600;">${dataMap.MOVIE_NAME }</h4>
 								<br>

@@ -207,7 +207,7 @@ p.reset {
 															<img alt="Generic placeholder image" src="<%=request.getContextPath() %>/common/getPicture.do?name=${memberInfo.MEM_PIC_PATH}&item_cd=${memberInfo.MEM_CD}&type=memberPic" class="mr-3 rounded-pill">
 														</c:if>
 														<c:if test="${memberInfo.MEM_PIC_PATH == null}">
-															<img alt="Generic placeholder image" src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill">
+															<img alt="Generic placeholder image" src="<%=request.getContextPath()%>/resources/img/defaultprofile.png" class="mr-3 rounded-pill">
 														</c:if>
 		                                          </div>
 		                                          <button type="button" class="button small gray-line ms-2" id="profileBtn">이미지 등록</button>

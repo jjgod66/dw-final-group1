@@ -453,17 +453,17 @@ button {
 	  <div class="main-content">
 	    <div class="image-container">
 	      <a href="<%=request.getContextPath()%>/support/membership.do">
-	        <img src="/resources/img/member.png" alt="이미지 1">
+	        <img src="<%=request.getContextPath()%>/resources/img/member.png" alt="이미지 1">
 	        <h2>멤버쉽</h2>
 	        <p>DW시네마의 자세한 멤버쉽 약관을 확인할 수 있습니다. </p>
 	      </a>
 	      <a href="<%=request.getContextPath()%>/support/inquiry.do">
-	        <img src="/resources/img/q.png" alt="이미지 2">
+	        <img src="<%=request.getContextPath()%>/resources/img/q.png" alt="이미지 2">
 	        <h2>1:1 문의</h2>
 	        <p>해결되지 않은 문제가 있나요? 바로 1:1 문의해주세요!</p>
 	      </a>
 	      <a href="<%=request.getContextPath()%>/support/agreeUse.do">
-	        <img src="/resources/img/dldyd.png" alt="이미지 3">
+	        <img src="<%=request.getContextPath()%>/resources/img/dldyd.png" alt="이미지 3">
 	        <h2>이용약관</h2>
 	        <p>DW시네마의 이용약관을 확인 하실수 있습니다.</p>
 	      </a>

@@ -150,7 +150,7 @@
 }
 .backRain{
 	    background-size: cover;
-	background-image: url("resources/img/food2.jpeg");
+	background-image: url("<%=request.getContextPath()%>/resources/img/food2.jpeg");
 /* 	background: linear-gradient(45deg, #b0d9ff, transparent); */
 	padding:1px;
 }
@@ -290,7 +290,7 @@
 	display: flex;
     padding: 0 30% 0 20%;
 	height: 431px;
-	background: url("/resources/img/thrBack.jpeg");
+	background: url("<%=request.getContextPath()%>/resources/img/thrBack.jpeg");
 }
 .thrBack > img { padding: 59px;    border-radius: 50%;}
 .s4 > p {font-size: 17px;  padding: 0 95px 0 95px;}
@@ -753,7 +753,7 @@ function showPost(res){
 	if(res.mpost.MEM_PIC_PATH != null && res.mpost.MEM_PIC_PATH != ''){
 		$('#mpWriteMemPic').prop('src', '<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpost.MEM_PIC_PATH + '&item_cd=$' + res.mpost.MEM_CD + '&type=memberPic');
 	}else{
-		$('#mpWriteMemPic').prop('src', '../../resources/img/defaultprofile.png');
+		$('#mpWriteMemPic').prop('src', '<%=request.getContextPath()%>/resources/img/defaultprofile.png');
 	}
 	let mpbackImg = "<%=request.getContextPath() %>/common/getPicture.do?name=" + res.mpost.MOVIE_PIC_PATH + "&item_cd=" + res.mpost.MOVIE_CD + "&type=movieImg";
 	$('#thismpPic').css('background-image', 'url(' + mpbackImg + ')');
@@ -778,7 +778,7 @@ function showPost(res){
 		if(res.mpostReplyList[i].MEM_PIC_PATH != null && res.mpostReplyList[i].MEM_PIC_PATH != ''){
 			replyShow += '<img src="<%=request.getContextPath() %>/common/getPicture.do?name=' + res.mpostReplyList[i].MEM_PIC_PATH + '&item_cd=$' + res.mpostReplyList[i].MEM_CD + '&type=memberPic" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 		}else{
-			replyShow += '<img src="../../resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
+			replyShow += '<img src="<%=request.getContextPath()%>/resources/img/defaultprofile.png" class="mr-3 rounded-pill" style="width: 60px; height: 60px; margin: 10px;">';
 		}
 		replyShow += '</div>';
 		replyShow += '<div style="width: 85%;">';
@@ -833,7 +833,7 @@ function showPost(res){
 
 
 <div class="thrBack">
-	<img src="/resources/img/cinema.jpg">
+	<img src="<%=request.getContextPath()%>/resources/img/cinema.jpg">
 	<div class="s4">
    		<div style="margin-bottom: 39px;">
 	    	<h1 class="" style="text-align: center;"> 전국 어디서나 DW시네마와 함께! </h1>
