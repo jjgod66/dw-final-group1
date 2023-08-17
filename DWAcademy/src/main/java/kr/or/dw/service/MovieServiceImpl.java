@@ -840,6 +840,7 @@ public class MovieServiceImpl implements MovieService{
 		pageMaker.setCri(cri);
 		pageMaker.setTotalCount(totalCount);
 		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("totalCount", totalCount);
 		dataMap.put("mpList", mpList);
 		dataMap.put("pageMaker", pageMaker);
 		
@@ -886,6 +887,7 @@ public class MovieServiceImpl implements MovieService{
 		pageMaker.setTotalCount(totalCount);
 		
 		Map<String, Object> dataMap = new HashMap<String, Object>();
+		dataMap.put("totalCount", totalCount);
 		dataMap.put("myReivewList", myReviewList);
 		dataMap.put("pageMaker", pageMaker);
 		

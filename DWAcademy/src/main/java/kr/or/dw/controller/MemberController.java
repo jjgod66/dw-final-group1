@@ -147,17 +147,14 @@ public class MemberController {
 		Map<String, Object> naver = null;
 		
 		kakao = snsService.selectKakaoInfo(mem_cd);
-		System.out.println("kakao:"+kakao);
 
 		naver = snsService.selectNaverInfo(mem_cd);
-		System.out.println("naver"+naver);
 		
 		/* 네이버아이디로 인증 URL을 생성하기 위하여 naverLoginBO클래스의 getAuthorizationUrl메소드 호출 */
 		String naverAuthUrl = naverLoginBO2.getAuthorizationUrl(session);
 		
 		//https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=sE***************&
 		//redirect_uri=http%3A%2F%2F211.63.89.90%3A8090%2Flogin_project%2Fcallback&state=e68c269c-5ba9-4c31-85da-54c16c658125
-		System.out.println("네이버:" + naverAuthUrl);
 		
 		//네이버 
 		mnv.addObject("kakao", kakao);
@@ -231,10 +228,8 @@ public class MemberController {
 	@RequestMapping("/member/CheckMember")
 	public ResponseEntity<Map<String, Object>> CheckMember(String mem_phone) throws SQLException {
 		ResponseEntity<Map<String, Object>> entity = null;
-		System.out.println(mem_phone);
 		
 		Map<String, Object> member = memberService.CheckMember(mem_phone);
-		System.out.println(member);
 		
 		try {
 			entity = new ResponseEntity<Map<String, Object>>(member, HttpStatus.OK);
@@ -248,12 +243,12 @@ public class MemberController {
 	
 	@RequestMapping("/member/dormantAccount")
 	public void dormantAccount(String phone, HttpServletResponse res, HttpServletRequest req) throws IOException, SQLException {
-		System.out.println(phone);
 		String mem_phone = phone;
 		Map<String, Object> member = memberService.CheckMember(mem_phone);
 		res.setContentType("text/html; charset=utf-8");
 		PrintWriter out = res.getWriter();
-		System.out.println(member);
+		
+		
 		if(member.get("GB_SLEEP").equals("Y")) {
 			memberService.accountRecovery(phone);
 			
@@ -286,12 +281,6 @@ public class MemberController {
 		List<Map<String, Object>> mem_like_genre = memberService.selectMemLikeGenre(mem_cd);
 		
 		
-//		String[] mlt = {};
-//		for(int i = 0; i < mem_like_theater.size(); i++) {
-//			mlt[i] += mem_like_theater.get(i);
-//		}
-//		System.out.println(Arrays.toString(mlt));
-		
 		mnv.addObject("genreList", genreList);
 		mnv.addObject("theaterList", theaterList);
 		mnv.addObject("member", member);
@@ -308,7 +297,6 @@ public class MemberController {
 		ResponseEntity<List<TheaterVO>> entity = null;
 		
 		List<TheaterVO> theaterNameList = theaterService.searchTheaterName(selectLocData);
-		System.out.println(theaterNameList);
 		try {
 			entity = new ResponseEntity<List<TheaterVO>>(theaterNameList, HttpStatus.OK);
 		} catch (Exception e) {
@@ -366,7 +354,6 @@ public class MemberController {
 		Map<String, Object> dataMap = movieService.searchMovieInfo(cri, mem_cd);
 		
 		mnv.addAllObjects(dataMap);
-		System.out.println(dataMap);
 		
 		
 		mnv.setViewName(url);
@@ -376,14 +363,12 @@ public class MemberController {
 	@RequestMapping("/member/buylist")
 	public ModelAndView memberBuylist(SearchCriteria cri, ModelAndView mnv, HttpSession session, String on) throws SQLException {
 		String url = "/member/buylist";
-		System.out.println("on : " + on);
 		Map<String, Object> member = (Map) session.getAttribute("loginUser");
 		String mem_cd = (String)member.get("CD");
 		cri.setPerPageNum("5");
 		Map<String, Object> dataMap = movieService.searchBuyInfo(cri, mem_cd);
 		
 		mnv.addAllObjects(dataMap);
-		System.out.println(dataMap);
 		
 		
 		mnv.setViewName(url);
@@ -394,7 +379,6 @@ public class MemberController {
 	@RequestMapping("/member/searchResDate")
 	public ModelAndView searchResDate(ModelAndView mnv, SearchCriteria cri, HttpSession session) throws SQLException{
 		String url = "/member/bookinglist";
-		System.out.println("cri : " + cri);
 		Map<String, Object> member = (Map) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
 		cri.setPerPageNum("5");
