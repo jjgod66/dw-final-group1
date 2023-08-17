@@ -153,6 +153,7 @@ h2.tit {
 			<tr>
 				<th style="text-align: center;" scope="col">번호</th>
 				<th style="text-align: center;" scope="col">쿠폰명</th>
+				<th style="text-align: center;" scope="col">할인금액(할인율)</th>
 				<th style="text-align: center;" scope="col">유효기간</th>
 				<th style="text-align: center;" scope="col">사용상태</th>
 			</tr>
@@ -168,6 +169,7 @@ h2.tit {
 				<tr>
 					<td>${coupon.ROWNUM}</td>
 					<td>${coupon.COUPON_NAME}</td>
+					<td>${coupon.DISCOUNT}</td>
 					<td><fmt:formatDate value="${coupon.ENDDATE}" type="both"/>까지</td>
 					<td>${coupon.GB_USE eq 'N' ? '사용가능' : '사용완료'}</td>
 				</tr>

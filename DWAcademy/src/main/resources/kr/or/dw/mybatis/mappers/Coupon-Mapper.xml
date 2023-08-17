@@ -19,7 +19,7 @@
 	</insert>
 	
 	<select id="selectAllCoupon" resultType="Map">
-		SELECT mc.enddate, mc.gb_use, c.coupon_name, rownum
+		SELECT mc.enddate, mc.gb_use, c.coupon_name, rownum, discount
 		  FROM mem_coupon mc, coupon c
 		 WHERE mem_cd = #{mem_cd}
 		   AND mc.coupon_cd = c.coupon_cd
