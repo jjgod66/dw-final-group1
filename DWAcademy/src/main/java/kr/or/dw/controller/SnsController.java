@@ -75,7 +75,7 @@ public class SnsController {
 	
 		//네이버 로그인 성공시 callback호출 메소드
 		@RequestMapping(value = "/callback", method = { RequestMethod.GET, RequestMethod.POST })
-		public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, HttpServletResponse res) throws IOException, ParseException, Exception {
+		public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session, HttpServletResponse res, HttpServletRequest req) throws IOException, ParseException, Exception {
 			
 			System.out.println("여기는 callback");
 			OAuth2AccessToken oauthToken;
@@ -146,7 +146,7 @@ public class SnsController {
 				
 				session.setAttribute("loginUser", member);
 
-				return "redirect:main.do";
+				return "redirect:" + req.getContextPath() + "main.do";
 			}
 			
 			
@@ -423,7 +423,7 @@ public class SnsController {
 			
 			if(memberChk == null) {
 				sns_email.put("GB","non_member");
-				String url = "redirect:/main.do?sns_email=" + sns_email.get("GB") + "&mem_email=" + email + "";
+				String url = "redirect:" + req.getContextPath() + "/main.do?sns_email=" + sns_email.get("GB") + "&mem_email=" + email + "";
 				System.out.println('1');
 				
 				mnv.setViewName(url);
@@ -468,7 +468,7 @@ public class SnsController {
 				System.out.println('2');
 				out.println("<script>");
 				out.println("alert('연동된 계정이 없습니다! 소셜로그인은 [마이페이지 > 개인정보수정] 에서 연동 후 사용해주세요.')");
-				out.println("location.replace('/main.do')");
+				out.println("location.replace('" + req.getContextPath() + "/main.do')");
 				out.println("</script>");
 				out.close();
 				

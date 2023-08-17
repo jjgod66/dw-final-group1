@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -116,12 +117,12 @@ public class StoreController {
 	}
 	
 	@RequestMapping("/buyResultRedirect")
-	public String buyResultRedirect(StoreBuyCommand sbc, HttpSession session) throws SQLException {
+	public String buyResultRedirect(StoreBuyCommand sbc, HttpSession session, HttpServletRequest req) throws SQLException {
 		Map<String, Object> member = (Map) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
 		String merchant_uid = buyResult(sbc, mem_cd);
 
-		return "redirect:/store/buySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:" + req.getContextPath() + "/store/buySuccess.do?merchant_uid=" + merchant_uid;
 	
 	}
 	
@@ -145,12 +146,12 @@ public class StoreController {
 	}
 	
 	@RequestMapping("/buy0ResultRedirect")
-	public String buy0ResultRedirect(StoreBuyCommand sbc, HttpSession session) throws SQLException{
+	public String buy0ResultRedirect(StoreBuyCommand sbc, HttpSession session, HttpServletRequest req) throws SQLException{
 		Map<String, Object> member = (Map) session.getAttribute("loginUser");
 		String mem_cd = (String) member.get("CD");
 		String merchant_uid = buy0Result(sbc, mem_cd);
 		
-		return "redirect:/store/buySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:" + req.getContextPath() + "/store/buySuccess.do?merchant_uid=" + merchant_uid;
 	}
 	
 	public String buy0Result(StoreBuyCommand sbc, String mem_cd) throws SQLException{
@@ -254,8 +255,8 @@ public class StoreController {
 	}
 	
 	@RequestMapping("/giftSuccess")
-	public String giftSuccess(String merchant_uid) throws SQLException {
+	public String giftSuccess(String merchant_uid, HttpServletRequest req) throws SQLException {
 
-		return "redirect:/store/buySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:" + req.getContextPath() + "/store/buySuccess.do?merchant_uid=" + merchant_uid;
 	}
 }

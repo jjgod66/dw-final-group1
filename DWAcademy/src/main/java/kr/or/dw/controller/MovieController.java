@@ -268,9 +268,9 @@ public class MovieController {
 	    PrintWriter out = res.getWriter();
 	    out.println("<script>");
 	    out.println("alert('리뷰가 수정되었습니다.');");
-	    if(referer.equals("http://localhost/movie/review.do")) {
+	    if(referer.contains("/movie/review.do")) {
 	    	out.println("location.href='" + req.getContextPath() + "/movie/review.do';");
-		}else if(referer.equals("http://localhost/member/myReview.do")) {
+		}else if(referer.contains("/member/myReview.do")) {
 			out.println("location.href='" + req.getContextPath() + "/member/myReview.do';");
 		}else {
 			out.println("location.href='" + req.getContextPath() + "/movie/viewer.do?movie_cd=" + review.getMovie_cd() + "';");

@@ -332,8 +332,8 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/member/addition")
-	public ModelAndView additionUpdate(ModelAndView mnv, String genreType, String selectThrName ,String gb_sms_alert, String gb_email_alert, HttpSession session) throws SQLException{
-		String url = "redirect:/member/additionalinfo.do";
+	public ModelAndView additionUpdate(ModelAndView mnv, String genreType, String selectThrName ,String gb_sms_alert, String gb_email_alert, HttpSession session, HttpServletRequest req) throws SQLException{
+		String url = "redirect:" + req.getContextPath() + "/member/additionalinfo.do";
 		String[] thrArr = selectThrName.split(",");
 		String[] genreArr = genreType.split(",");
 		List<String> thrNames = new ArrayList<>();
