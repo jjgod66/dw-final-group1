@@ -146,7 +146,7 @@ public class SnsController {
 				
 				session.setAttribute("loginUser", member);
 
-				return "redirect:" + req.getContextPath() + "main.do";
+				return "redirect:main.do";
 			}
 			
 			
@@ -423,7 +423,7 @@ public class SnsController {
 			
 			if(memberChk == null) {
 				sns_email.put("GB","non_member");
-				String url = "redirect:" + req.getContextPath() + "/main.do?sns_email=" + sns_email.get("GB") + "&mem_email=" + email + "";
+				String url = "redirect:/main.do?sns_email=" + sns_email.get("GB") + "&mem_email=" + email + "";
 				System.out.println('1');
 				
 				mnv.setViewName(url);
