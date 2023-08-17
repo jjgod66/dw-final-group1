@@ -827,7 +827,7 @@ AND ROWNUM <![CDATA[<=]]> 4
 			   AND startdate <![CDATA[>]]> sysdate
 			   </if>
 			 GROUP BY r.merchant_uid
-			 ORDER BY r.merchant_uid
+			 ORDER BY ABS(startdate - SYSDATE)
 			 )
  	WHERE rownum <![CDATA[<=]]> 1
 	</select>

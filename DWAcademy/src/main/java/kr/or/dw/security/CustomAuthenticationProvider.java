@@ -25,19 +25,14 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		String login_id = (String) auth.getPrincipal();	// 로그인 시도한 ID를 가져온다.
 		String login_pwd = (String) auth.getCredentials();	// 로그인 시도한 PASSWORD 를 가져온다.
 		
-		System.out.println(login_id);
-		System.out.println(login_pwd);
 		
 		Map<String, Object> member = null;
 		
 		try {
 			member = memberDAO.selectMemberById(login_id);
-			System.out.println(member);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("member : " + member );
-		System.out.println("GB_SLEEP : " + member.get("GB_SLEEP") );
 		String mem_pwd = (String) member.get("PWD");
 		
 		if(member.get("GB_BAN").equals("Y")) {
@@ -49,13 +44,11 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 		if(member != null && login_pwd.equals(mem_pwd)) {	// 로그인 성공
 			User authUser = new User(member);
 
-			System.out.println(authUser.isAccountNonLocked());
 			
 			// 스프링 시큐리티 내부 클래스로 인증 토큰 생성한다.
 			UsernamePasswordAuthenticationToken result =
 					new UsernamePasswordAuthenticationToken(authUser.getUsername(), authUser.getPassword(), authUser.getAuthorities());
 			// 전달할 내용을 설정한 후
-			System.out.println("result : " + result.getAuthorities());
 			result.setDetails(authUser);
 			// 리턴. default-target-url 로 전송된다.
 			return result;
