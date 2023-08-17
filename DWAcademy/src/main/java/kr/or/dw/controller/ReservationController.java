@@ -280,7 +280,7 @@ public class ReservationController {
 	}
 	
 	@RequestMapping("/payResultRedirect")
-	public String payResultRedirect(MoviePaymentCommand mpc, HttpSession session) throws Exception {
+	public String payResultRedirect(MoviePaymentCommand mpc, HttpSession session, HttpServletRequest req) throws Exception {
 		Map<String, Object> dataMap = payResult(mpc, session);
 		String merchant_uid = (String) dataMap.get("merchant_uid");
 		Map<String, String> smsInfo = reservationService.getResSMSInfo(merchant_uid);
@@ -288,7 +288,7 @@ public class ReservationController {
 		SmsController s = new SmsController();
 		s.reservationSMS(smsInfo);
 		QRcreate(merchant_uid);
-		return "redirect:/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:" + req.getContextPath() + "/reservation/paySuccess.do?merchant_uid=" + merchant_uid;
 	}
 	
 	@RequestMapping("/paySuccess")
