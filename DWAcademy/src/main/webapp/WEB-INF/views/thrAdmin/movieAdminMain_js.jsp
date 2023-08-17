@@ -405,7 +405,7 @@ window.onload = function(){
 		movie_enddate = movie_enddate_year + '-' + movie_enddate_month + '-' + movie_enddate_date;
 		
 		let movieDates = movie_opendate + ' ~ ' + movie_enddate;
-		let moviePic = $('<img src="/common/getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster" style="width: 10rem; height: 14rem; overflow: hidden;">');
+		let moviePic = $('<img src="<%=request.getContextPath() %>/common/getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster" style="width: 10rem; height: 14rem; overflow: hidden;">');
 		
 		let startdate = new Date(map.STARTDATE);
 		let enddate = new Date(startdate.getFullYear(), startdate.getMonth(), startdate.getDate(), startdate.getHours(), startdate.getMinutes() + map.MOVIE_LENGTH);
@@ -439,7 +439,7 @@ window.onload = function(){
 		$('#startTime_modal').text(startdate);
 		$('#endTime_modal').text(enddate);
 		$('#screenType_modal').text(map.MOVIE_TYPE_DES);
-		$('.modalImgDiv img').attr('src', '/common/getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster');
+		$('.modalImgDiv img').attr('src', '<%=request.getContextPath() %>/common/getPicture.do?name='+map.MOVIE_MAINPIC_PATH+'&item_cd='+map.MOVIE_CD+'&type=moviePoster');
 		$('#seatMapDiv').html('');
 		let rowDiv = ''; 
 		let seatDiv = '';

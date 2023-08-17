@@ -67,11 +67,11 @@
 					<tr class="eventRow" style="height: 10rem;">
 						<td style="width:10%;">
 							<div style="width: 6rem; height: 6rem;">
-								<img src="/common/getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
+								<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
 							</div>
 						</td>
 						<td>
-							<a href="/thrAdmin/eventAdminDetail?type=read&event_no=${event.event_no }">
+							<a href="<%=request.getContextPath() %>/thrAdmin/eventAdminDetail?type=read&event_no=${event.event_no }">
 								<p><b>[${event.event_div }]</b></p>
 								<p style="color: black;"><b>${event.event_title }</b></p>
 								<p><fmt:formatDate value="${event.startdate }" pattern="yyyy-MM-dd"/> ~ <fmt:formatDate value="${event.enddate }" pattern="yyyy-MM-dd"/></p>
