@@ -260,6 +260,9 @@ h3.tit {
 min-height:900px;
 	padding: 20px 0;
 }
+.moviePoster:hover{
+	cursor: pointer;
+}
 </style>
 
 <%@include file="creditInfo_modal.jsp" %>
@@ -345,7 +348,7 @@ min-height:900px;
 		<c:forEach items="${movieInfoList}" var="movieInfo">
 		<div class="container" style="margin-top: 10px;">
 			<div class="card-body row" style="padding: 30px; border: 1px solid gray; border-radius: 10px;">
-				<div class="col-2" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
+				<div class="col-2 moviePoster" onclick="location.href='<%=request.getContextPath()%>/movie/viewer.do?movie_cd=${movieInfo.MOVIE_CD}'" style="background: url('<%=request.getContextPath() %>/common/getPicture.do?name=${movieInfo.MOVIE_MAINPIC_PATH}&item_cd=${movieInfo.MOVIE_CD}&type=moviePoster') no-repeat left /cover"></div>
 				<div class="col-5">
 					<span><strong>예매번호 </strong>${movieInfo.MERCHANT_UID}</span>
 					<br><br>

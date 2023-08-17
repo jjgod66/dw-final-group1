@@ -123,7 +123,7 @@ body{font-family: 'IBM Plex Sans KR', sans-serif; background:#eceff4; } #wrapper
 </style>
 <!-- <div id="wrapper"> -->
 
-	<div class="container" style="margin-top:50px;">
+	<div class="container" style="margin-top:50px; min-height: 800px;">
         <div class="modal1" id="same">		
 	      	<div class="modal-wrap">
 			     <div class="post-detail">
@@ -186,4 +186,4 @@ $(function(){
 })
 </script>
 
-<%@ include file="../include/footer.jsp" %>
+<%@ include file="../include/member_footer.jsp" %>
