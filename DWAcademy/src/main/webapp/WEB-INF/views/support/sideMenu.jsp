@@ -229,18 +229,18 @@ margin-top:0px;
         document.addEventListener('DOMContentLoaded', function() {
         	  const list = document.querySelectorAll('.list2');
         	  const currentURL = window.location.href;
-        	  const faq = 'http://localhost/support/faq.do';
-        	  const notice = 'http://localhost/support/notice.do';
-        	  const notice2 = 'http://localhost/support/noticeMini_Detail.do';
-        	  const inquiry = 'http://localhost/support/inquiry.do';
-        	  const inquiryNon = 'http://localhost/support/inquiry_nonMember.do';
-        	  const inquiryNon1 = 'http://localhost/support/inquiry_nonMember_list.do';
-        	  const inquiryNon2 = 'http://localhost/support/inquiry_nonMember_list_login_result.do';
-        	  const inquiryNon3 = 'http://localhost/support/inquiry_nonMember_board.do';
-        	  const agreeUse = 'http://localhost/support/agreeUse.do';
-        	  const agreeWhere = 'http://localhost/support/agreeWhere.do';
-        	  const agreePrivacy = 'http://localhost/support/agreePrivacy.do';
-        	  const agreeScreen = 'http://localhost/support/agreeScreen.do';
+        	  const faq = '/support/faq.do';
+        	  const notice = '/support/notice.do';
+        	  const notice2 = '/support/noticeMini_Detail.do';
+        	  const inquiry = '/support/inquiry.do';
+        	  const inquiryNon = '/support/inquiry_nonMember.do';
+        	  const inquiryNon1 = '/support/inquiry_nonMember_list.do';
+        	  const inquiryNon2 = '/support/inquiry_nonMember_list_login_result.do';
+        	  const inquiryNon3 = '/support/inquiry_nonMember_board.do';
+        	  const agreeUse = '/support/agreeUse.do';
+        	  const agreeWhere = '/support/agreeWhere.do';
+        	  const agreePrivacy = '/support/agreePrivacy.do';
+        	  const agreeScreen = '/support/agreeScreen.do';
         	  if (currentURL.includes(faq)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[2].classList.add('active1'); 
@@ -273,19 +273,19 @@ margin-top:0px;
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[1].classList.add('active1'); 
         	  }
-        	  if (currentURL === agreeUse) {
+        	  if (currentURL.includes(agreeUse)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[5].classList.add('active1'); 
         	  }
-        	  if (currentURL === agreeWhere) {
+        	  if (currentURL.includes(agreeWhere)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[6].classList.add('active1'); 
         	  }
-        	  if (currentURL === agreePrivacy) {
+        	  if (currentURL.includes(agreePrivacy)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[7].classList.add('active1'); 
         	  }
-        	  if (currentURL === agreeScreen) {
+        	  if (currentURL.includes(agreeScreen)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[8].classList.add('active1'); 
         	  }

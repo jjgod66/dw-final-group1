@@ -227,18 +227,18 @@ margin-top:0px;
         document.addEventListener('DOMContentLoaded', function() {
         	  const list = document.querySelectorAll('.list2');
         	  const currentURL = window.location.href;
-        	  const bookinglist = 'http://localhost/member/bookinglist.do';
-        	  const buylist = 'http://localhost/member/buylist.do';
-        	  const discount = 'http://localhost/member/discount-coupon.do';
-        	  const story = 'http://localhost/member/moviestory.do';
-        	  const timeline = 'http://localhost/member/movieTimeLine.do';
-        	  const review = 'http://localhost/member/myReview.do';
-        	  const post = 'http://localhost/member/myMoviepost.do';
-        	  const like = 'http://localhost/member/myLikeMovie.do'; 
-        	  const myin = 'http://localhost/member/myinquiry.do';
-        	  const po = 'http://localhost/member/point-list.do';
-        	  const pri = 'http://localhost/member/PrivacyInfo.do';
-        	  const add = 'http://localhost/member/additionalinfo.do';
+        	  const bookinglist = '/member/bookinglist.do';
+        	  const buylist = '/member/buylist.do';
+        	  const discount = '/member/discount-coupon.do';
+        	  const story = '/member/moviestory.do';
+        	  const timeline = '/member/movieTimeLine.do';
+        	  const review = '/member/myReview.do';
+        	  const post = '/member/myMoviepost.do';
+        	  const like = '/member/myLikeMovie.do'; 
+        	  const myin = '/member/myinquiry.do';
+        	  const po = '/member/point-list.do';
+        	  const pri = '/member/PrivacyInfo.do';
+        	  const add = '/member/additionalinfo.do';
         	  
         	  if (currentURL.includes(bookinglist)) {
         		  list.forEach((item) => item.classList.remove('active1'));
