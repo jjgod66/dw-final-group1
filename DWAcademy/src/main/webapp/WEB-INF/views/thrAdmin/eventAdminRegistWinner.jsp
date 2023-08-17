@@ -124,7 +124,7 @@ textarea:focus {
 	});
 	
 	$('#cancelBtn').on('click', function(){
-		location.href='/thrAdmin/eventAdminPastMain.do';
+		location.href='<%=request.getContextPath()%>/thrAdmin/eventAdminPastMain.do';
 	});
 
 window.onload = function(){

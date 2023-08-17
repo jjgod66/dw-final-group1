@@ -92,7 +92,7 @@ window.onload = function(){
 	
 	// 뒤로가기버튼 클릭시
 	$('#cancelBtn').on('click', function(){
-		location.href='/thrAdmin/qnaAdminMain.do';
+		location.href='<%=request.getContextPath() %>/thrAdmin/qnaAdminMain.do';
 	});
 	
 }

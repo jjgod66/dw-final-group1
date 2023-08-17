@@ -37,10 +37,10 @@
 		<div class="mx-2">
 			<ul class="nav nav-pills">
 			  <li class="nav-item">
-			    <a class="nav-link" aria-current="page" href="/thrAdmin/movieAdminStatistics.do" class="bc_dw_blue">일자별</a>
+			    <a class="nav-link" aria-current="page" href="<%=request.getContextPath() %>/thrAdmin/movieAdminStatistics.do" class="bc_dw_blue">일자별</a>
 			  </li>
 			  <li class="nav-item">
-			    <a class="nav-link active" href="/thrAdmin/movieAdminStatistics_movie.do">영화별</a>
+			    <a class="nav-link active" href="<%=request.getContextPath() %>/thrAdmin/movieAdminStatistics_movie.do">영화별</a>
 			  </li>
 			</ul>
 			<div id="setSearchTypeDiv mx-2">
@@ -148,7 +148,7 @@
 
 
 <script>
-let searchFormUrl = "/thrAdmin/movieAdminStatistics_movie.do";
+let searchFormUrl = "<%=request.getContextPath() %>/thrAdmin/movieAdminStatistics_movie.do";
 
 $(function(){
 	
