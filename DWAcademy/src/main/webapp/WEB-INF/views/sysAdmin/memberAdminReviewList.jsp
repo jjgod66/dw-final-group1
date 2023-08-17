@@ -109,7 +109,7 @@
 $('.deleteBtn').on('click', function(){
 	if (confirm('해당 관람평을 정말 삭제하시겠습니까?')) {
 		let review_no = $(this).find('input[name="review_no"]').val();
-		location.href="/sysAdmin/deleteReview.do?review_no=" + review_no;
+		location.href="<%=request.getContextPath()%>/sysAdmin/deleteReview.do?review_no=" + review_no;
 	}
 });
 </script>

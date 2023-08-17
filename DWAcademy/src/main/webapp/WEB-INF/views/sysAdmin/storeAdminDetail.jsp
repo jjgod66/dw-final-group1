@@ -42,7 +42,7 @@ if (CategoryIdx == null) {
         <div class="content_wrap">
             <div class="pd_img">
                 <div class="main_img">
-                    <img class="" src="/common/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd }&type=productImg">
+                    <img class="" src="<%=request.getContextPath()%>/common/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd }&type=productImg">
                 </div>
             </div>
             <div class="pd_detail">

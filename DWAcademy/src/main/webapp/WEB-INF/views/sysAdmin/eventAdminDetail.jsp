@@ -41,7 +41,7 @@ select {
         	<c:forEach items="${movieList }" var="movie">
 		        <div class="card card-body movieCard" style="height: 6rem; padding: 0.5rem;" >
 		        	<div class="row" style="height: 5rem; align-items: center;">
-			    		<div class="col-md-2  text-center"><img src="/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" style="width:4rem; height:5rem; overflow: hidden;"></div>
+			    		<div class="col-md-2  text-center"><img src="<%=request.getContextPath()%>/common/getPicture.do?name=${movie.MOVIE_MAINPIC_PATH}&item_cd=${movie.MOVIE_CD}&type=moviePoster" style="width:4rem; height:5rem; overflow: hidden;"></div>
 			    		<div class="col-md-4 movieCd">${movie.MOVIE_CD }</div>
 			    		<div class="col-md-6 movieName">${movie.MOVIE_NAME }</div>
 		    		</div>

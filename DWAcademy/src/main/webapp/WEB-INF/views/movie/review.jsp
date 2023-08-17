@@ -431,7 +431,7 @@ $(function(){
 })
 
 mem_cd = "<%=mem_cd%>";
-let searchFormUrl = "/movie/review.do";
+let searchFormUrl = "<%=request.getContextPath()%>/movie/review.do";
 $('.reviews-members-body').on('click', '#likeBtn', function(){
 	if(mem_cd == null || mem_cd == ""){
 		$('#login-service-modal').modal("show");

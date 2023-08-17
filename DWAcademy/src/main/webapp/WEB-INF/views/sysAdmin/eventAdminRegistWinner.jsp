@@ -83,7 +83,7 @@ window.onload = function(){
 	});
 	
 	$('#cancelBtn').on('click', function(){
-		location.href='/sysAdmin/eventAdminPastMain.do';
+		location.href='<%=request.getContextPath()%>/sysAdmin/eventAdminPastMain.do';
 	});
 	
 	// 썸머노트

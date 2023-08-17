@@ -382,7 +382,7 @@ p.reset {
 	<input type="hidden" name="mem_addr_detail">
 </form>
 <script>
-let imageURL = '/common/getPicture.do?name=${memberInfo.MEM_PIC_PATH}&item_cd=${memberInfo.MEM_CD}&type=memberPic';	// 이미지명 가지고 와서 셋팅
+let imageURL = '<%=request.getContextPath()%>/common/getPicture.do?name=${memberInfo.MEM_PIC_PATH}&item_cd=${memberInfo.MEM_CD}&type=memberPic';	// 이미지명 가지고 와서 셋팅
 function imgChange_go() {
 	let inputImage = $('input#imgFile')[0];
 	preViewPicture(inputImage, $('#preview'));

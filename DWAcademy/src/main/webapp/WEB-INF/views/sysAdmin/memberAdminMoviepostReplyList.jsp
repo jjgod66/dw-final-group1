@@ -103,7 +103,7 @@
 $('.deleteBtn').on('click', function(){
 	if (confirm('해당 댓글을 정말 삭제하시겠습니까?')) {
 		let reply_no = $(this).find('input[name="reply_no"]').val();
-		location.href="/sysAdmin/deleteReply.do?reply_no=" + reply_no;
+		location.href="<%=request.getContextPath()%>/sysAdmin/deleteReply.do?reply_no=" + reply_no;
 	}
 });
 </script>

@@ -84,7 +84,7 @@ function Attach_action(){
 	
 	// 수정일때 기본 포스터
 	if ('${MOVIE_MAINPIC_PATH}' != null && '${MOVIE_MAINPIC_PATH}' != '') {
-		let imageURL = '/common/getPicture.do?name=${MOVIE_MAINPIC_PATH}&item_cd=${MOVIE_CD}&type=moviePoster';	// 이미지명 가지고 와서 셋팅
+		let imageURL = '<%=request.getContextPath()%>/common/getPicture.do?name=${MOVIE_MAINPIC_PATH}&item_cd=${MOVIE_CD}&type=moviePoster';	// 이미지명 가지고 와서 셋팅
 	 	$('div#pictureView').css({
 									'background-image' : 'url("' + imageURL + '")',
 									'background-position' : 'center',
