@@ -380,8 +380,8 @@
 		        $(".movieGrade").text(movieGradeValue);
 		        $(".movieLength1").text(movieLengthValue);
 		        $(".movieRe1").text(movieReValue);
-		        $(".movieCd").attr("href", "/reservation/cinema.do?movie_cd=" + movieCdValue);
-		        $(".movieDetail").attr("href", "/movie/viewer.do?movie_cd=" + movieCdValue);
+		        $(".movieCd").attr("href", "<%=request.getContextPath()%>/reservation/cinema.do?movie_cd=" + movieCdValue);
+		        $(".movieDetail").attr("href", "<%=request.getContextPath()%>/movie/viewer.do?movie_cd=" + movieCdValue);
 		        $(".movieOpendate1").text(movieOpenValue);
 		        return false; 
 		      }
@@ -549,7 +549,7 @@ $(document).ready(function() {
 		      <div id="StoreCard" >
 		        <div class="wrapper">
 		          <div class="card" style="width: 140px;  height: 160px;">
-		            <a href="/store/detail.do?product_cd=${Food.product_cd }">
+		            <a href="<%=request.getContextPath()%>/store/detail.do?product_cd=${Food.product_cd }">
 		              <img src="<%=request.getContextPath() %>/common/getPicture.do?name=${Food.product_pic_path}&item_cd=${Food.product_cd}&type=productImg">
 		              <small>${Food.product_name}</small>
 		            </a>
