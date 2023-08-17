@@ -74,7 +74,7 @@
 						<c:forEach items="${eventList}" var="event">
 							<div class="col-md-3" style="text-align: -webkit-center;">
 								<div class="card text-center h-100" style="width: 18rem;">
-									<a href="/thrAdmin/eventAdminDetail?type=read&event_no=${event.event_no }">
+									<a href="<%=request.getContextPath() %>/thrAdmin/eventAdminDetail.do?type=read&event_no=${event.event_no }">
 										<img src="<%=request.getContextPath() %>/common/getPicture.do?name=${event.event_thum_path }&item_cd=${event.event_no}&type=eventThumb" class="card-img-top" alt="...">
 									</a>
 									<div class="card-body">
