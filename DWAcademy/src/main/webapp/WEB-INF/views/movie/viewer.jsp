@@ -350,11 +350,17 @@
 		  		<div style="margin: 20px auto; padding : 10px; text-align:center;">등록된 예고편이 없습니다.</div>
 		  	</c:if>
 		  	<c:if test="${!empty previewList }">
-		        <div id="demo" class="carousel slide carousel-dark" style="height: 420px;">
+		        <div id="demo" class="carousel slide carousel-dark" data-bs-ride="carousel" style="height: 420px;">
 			  
 				  <div class="carousel-inner">
-					<c:forEach items="${previewList }" var="preview">
-					    <div class="carousel-item active" style="">
+					<c:forEach items="${previewList }" var="preview" varStatus="status">
+					<c:if test="${status.index eq 0 }">
+						<c:set value="active" var="active"/>
+					</c:if>
+					<c:if test="${status.index ne 0 }">
+						<c:set value="" var="active"/>
+					</c:if>
+					    <div class="carousel-item ${active}" style="">
 						 	<video class="vi" style="height: 400px; display : block; margin : auto;" controls>
 								<source src='<%=request.getContextPath()%>/common/getVideo.do?movie_cd=${movieView.movie.movie_cd }&movie_pre_path=${preview.movie_pre_path}'  type="video/mp4">
 							</video>
@@ -586,7 +592,7 @@ var mySwiper = new Swiper('.swiper-container', {
 	    prevEl: '.swiper-button-prev'
 	  },
 	  slidesPerView: '5',
-	  loop : false
+	  loop : true;
 	});
 
 mem_cd = "<%=mem_cd%>";
