@@ -534,7 +534,7 @@ h3.tit.small {
 		<div class="tit-util" style="border-bottom: solid 1px black; padding-bottom: 10px;">
 			<h2 class="tit small">이벤트</h3>
 			<div class="float-end">
-				<a href="/event/theater.do?keyword=${theater.thr_name }" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/event/theater.do?keyword=${theater.thr_name }" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div class="event-box" style="margin-top:20px;">
@@ -564,7 +564,7 @@ h3.tit.small {
 		<div class="tit-util">
 			<h2 class="tit small">공지사항</h3>
 			<div class="float-end">
-				<a href="/support/notice.do?searchType=지점&keyword=${theater.thr_name  }" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
+				<a href="<%=request.getContextPath()%>/support/notice.do?searchType=지점&keyword=${theater.thr_name  }" title="더보기">더보기 <i class="bi bi-chevron-right"></i></a>
 			</div>
 		</div>
 		<div id="brchNoti" style="margin-bottom : 20px;">

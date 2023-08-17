@@ -120,19 +120,19 @@ select {
 		<c:if test="${mem_cd eq '' }">
 			<div class="tab-list fixed noneMem">
 				<ul class="nav nav-tabs " role="tablist">
-					<li class="nav-item"><a href="/movie/allMovie.do">전체</a></li>
-					<li class="nav-item "><a href="/movie/screenMovie.do">현재상영</a></li>
-					<li class="nav-item"><a href="/movie/comingMovie.do">상영예정</a></li>
+					<li class="nav-item"><a href="<%=request.getContextPath()%>/movie/allMovie.do">전체</a></li>
+					<li class="nav-item "><a href="<%=request.getContextPath()%>/movie/screenMovie.do">현재상영</a></li>
+					<li class="nav-item"><a href="<%=request.getContextPath()%>/movie/comingMovie.do">상영예정</a></li>
 				</ul>
 			</div>
 		</c:if>
 		<c:if test="${mem_cd ne '' }">
 			<div class="tab-list fixed likeGenre">
 				<ul class="nav nav-tabs" role="tablist">
-					<li class="nav-item" style="width: 25%;"><a href="/movie/allMovie.do">전체</a></li>
-					<li class="nav-item" style="width: 25%;"><a href="/movie/screenMovie.do">현재상영</a></li>
-					<li class="nav-item" style="width: 25%;"><a href="/movie/comingMovie.do">상영예정</a></li>
-					<li class="nav-item active" id="like" style="width: 25%;"><a href="/movie/likeGenreMovie.do">선호장르</a></li>
+					<li class="nav-item" style="width: 25%;"><a href="<%=request.getContextPath()%>/movie/allMovie.do">전체</a></li>
+					<li class="nav-item" style="width: 25%;"><a href="<%=request.getContextPath()%>/movie/screenMovie.do">현재상영</a></li>
+					<li class="nav-item" style="width: 25%;"><a href="<%=request.getContextPath()%>/movie/comingMovie.do">상영예정</a></li>
+					<li class="nav-item active" id="like" style="width: 25%;"><a href="<%=request.getContextPath()%>/movie/likeGenreMovie.do">선호장르</a></li>
 				</ul>
 			</div>
 		</c:if>

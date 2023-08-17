@@ -413,7 +413,7 @@ $(function(){
 
 function resRefund(merchant_uid){
 	$.ajax({
-		url : "/pay/refund.do", 
+		url : "<%=request.getContextPath()%>/pay/refund.do", 
 	    type : "POST",
 	    data : {'merchant_uid' : merchant_uid},
 	    success : function(res){
