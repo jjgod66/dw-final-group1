@@ -325,7 +325,7 @@ min-height:900px;
 							</c:forEach>
 							</select>
 						</div>
-						<button type="button" class="button gray-line small ml05" id="reserveSearchBtn" onclick=" searchList_go(1, '/member/searchResDate.do');">
+						<button type="button" class="button gray-line small ml05" id="reserveSearchBtn" onclick=" searchList_go(1, '<%=request.getContextPath()%>/member/searchResDate.do');">
 							<i class="iconset ico-search-gray"></i> 조회 
 						</button>
 						<select style="display:none;" name="perPageNum">
@@ -548,42 +548,6 @@ function searchBuyList_go(page, url) {
 }
 let searchFormUrl = "<%=request.getContextPath()%>/member/bookinglist.do";
 $(document).ready(function () {
-// 	// 페이지가 로드되면 해시태그에 따라 해당 콘텐츠를 보여주거나 감추는 함수 실행
-// 	handleHashChange();
-// 	if($('li[data-tit="구매내역"]').hasClass('on') == true){
-// 		$('#myPurcArea').show();
-// 	}else{
-// 		$('#myBokdArea').show();
-// 	}
-// 	// 예매, 구매 탭을 클릭할 때 해시태그 변경 및 콘텐츠 표시/감추기
-// 	$(".tab-block li").on("click", function (event) {
-// 		event.preventDefault();
-// 		var href = $(this).find("a").attr("href");
-// 		history.pushState({}, "", href);
-// 		handleHashChange();
-
-// 		// 클릭한 탭 버튼에 클래스를 추가하여 활성화 표시
-// 		$(".tab-block li.on").removeClass("on");
-// 		$(this).addClass("on");
-// 	});
-
-// 	// 브라우저 뒤로 가기 버튼 클릭 시에도 해시태그에 따라 콘텐츠를 보여주거나 감춤
-// 	$(window).on("popstate", function () {
-// 		handleHashChange();
-
-// 		// 뒤로 가기 버튼에 따라 탭 버튼도 변경
-// 		$(".tab-block li.on").removeClass("on");
-// 		var hash = window.location.hash;
-// 		var targetTab = $('a[href="' + hash + '"]').parent();
-// 		targetTab.addClass("on");
-// 	});
-
-// 	// 해시태그에 따라 콘텐츠를 보여주거나 감추는 함수
-// 	function handleHashChange() {
-// 		var hash = window.location.hash;
-// 		$(".content-section").hide();
-// 		$(hash).show();
-// 	};
 	$('select[name="searchType"]').on('change', function(){
 		console.log(this.value);
 		if(this.value == "date"){
@@ -605,9 +569,6 @@ let searchType = "<c:out value='${cri.searchType}'/>";
 		$('input[name="keyword"]').show();
 	}
 
-// 	$('#radBokd01').on('click', function(){
-<%-- 		location.href="<%=request.getContextPath()%>/member/bookinglist.do"; --%>
-// 	});
 
 });
 

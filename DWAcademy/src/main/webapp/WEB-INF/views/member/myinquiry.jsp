@@ -213,7 +213,7 @@ h2.tit {
 			</select>
 			<div class="board-search ml07">
 				<input type="text" title="검색어를 입력해 주세요." placeholder="검색어를 입력해 주세요." name="keyword" class="input-text" id="searchTxt" value="${pageMaker.cri.keyword}">
-				<button type="button" class="btn-search-input" id="searchBtn" onclick="searchList_go(1, '/member/myinquiry.do')">검색</button>
+				<button type="button" class="btn-search-input" id="searchBtn" onclick="searchList_go(1, '<%=request.getContextPath()%>/member/myinquiry.do')">검색</button>
 			</div>
 		</div>
 	</div>
