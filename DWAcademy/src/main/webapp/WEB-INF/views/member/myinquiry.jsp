@@ -262,7 +262,7 @@ h2.tit {
 	</div>
 </div>
 <script>
-let searchFormUrl = "/member/myinquiry.do";
+let searchFormUrl = "<%=request.getContextPath()%>/member/myinquiry.do";
 $(function(){
 	$('.table-wrap').on('click', '#queTitle', function(){
 		let que_no = $(this).data('que_no');

@@ -198,6 +198,6 @@ h2.tit {
 	</div>
 </div>
 <script>
-	let searchFormUrl = "/member/discount-coupon.do";
+	let searchFormUrl = "<%=request.getContextPath()%>/member/discount-coupon.do";
 </script>
 <%@ include file="../include/member_footer.jsp" %>

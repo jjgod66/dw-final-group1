@@ -84,7 +84,7 @@
 	
 	// 뒤로가기버튼 클릭
 	$('#cancelBtn').on('click', function(){
-		location.href="/sysAdmin/movieAdminMain.do";
+		location.href="<%=request.getContextPath()%>/sysAdmin/movieAdminMain.do";
 	});
 	
 	// 작성폼 확인

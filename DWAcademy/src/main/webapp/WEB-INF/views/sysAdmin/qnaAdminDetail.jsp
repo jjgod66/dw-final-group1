@@ -101,7 +101,7 @@ window.onload = function(){
 	
 	// 뒤로가기버튼 클릭시
 	$('#cancelBtn').on('click', function(){
-		location.href='/sysAdmin/qnaAdminMain.do';
+		location.href='<%=request.getContextPath()%>/sysAdmin/qnaAdminMain.do';
 	});
 	
 }

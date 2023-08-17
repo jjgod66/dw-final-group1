@@ -98,7 +98,7 @@ function imgChange_go() {
 }
 // 등록이 아니라 수정시 기존 이미지 프리뷰
 if ('${product.product_pic_path}' != null && '${product.product_pic_path}' != '') {
-	let imageURL = '/common/getPicture.do?name=${product.product_pic_path}&item_cd=${product.product_cd}&type=productImg';	// 이미지명 가지고 와서 셋팅
+	let imageURL = '<%=request.getContextPath()%>/common/getPicture.do?name=${product.product_pic_path}&item_cd=${product.product_cd}&type=productImg';	// 이미지명 가지고 와서 셋팅
 	$('div#pictureView').css({
 							'background-image' : 'url("' + imageURL + '")',
 							'background-position' : 'center',
@@ -198,7 +198,7 @@ $(function(){
 	$('#cancelBtn').on('click', function(e){
 		e.preventDefault();
 		
-		location.href='/sysAdmin/storeAdminMain.do?CategoryIdx=1';
+		location.href='<%=request.getContextPath()%>/sysAdmin/storeAdminMain.do?CategoryIdx=1';
 	});
 });
 </script>

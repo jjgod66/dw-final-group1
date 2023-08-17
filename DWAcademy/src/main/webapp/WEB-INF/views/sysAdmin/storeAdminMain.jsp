@@ -49,8 +49,8 @@ if (CategoryIdx == null) {
 		            <div class="row">
 		            	<c:forEach items="${productList }" var="product">
 		            		 <div class="col-12 col-lg-3 productDiv" style="${product.gb_del == 'Y' ? 'background-color: #e9ecef;' : ''}">
-			                    <a href="/sysAdmin/storeAdminDetail.do?product_cd=${product.product_cd }" class="btn_category_product pt-1">
-			                        <span class="com_list_img_wrap" style="width: 185px; height:185px;"><img src="/common/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd}&type=productImg" style="object-fit: cover; height: 185px;"></span>
+			                    <a href="<%=request.getContextPath()%>/sysAdmin/storeAdminDetail.do?product_cd=${product.product_cd }" class="btn_category_product pt-1">
+			                        <span class="com_list_img_wrap" style="width: 185px; height:185px;"><img src="<%=request.getContextPath()%>/common/getPicture.do?name=${product.product_pic_path }&item_cd=${product.product_cd}&type=productImg" style="object-fit: cover; height: 185px;"></span>
 			                        <span class="com_list_text_wrap">
 			                            <span class="com_list_text_title"><b>${product.product_name }</b></span>
 			                            <span class="com_list_text_name">${product.product_content }</span>

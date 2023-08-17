@@ -103,7 +103,7 @@
 $('.deleteBtn').on('click', function(){
 	if (confirm('해당 무비포스트를 정말 삭제하시겠습니까?')) {
 		let mpost_no = $(this).find('input[name="mpost_no"]').val();
-		location.href="/sysAdmin/deleteMoviePost.do?mpost_no=" + mpost_no;
+		location.href="<%=request.getContextPath()%>/sysAdmin/deleteMoviePost.do?mpost_no=" + mpost_no;
 	}
 });
 </script>

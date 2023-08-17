@@ -462,7 +462,7 @@ function searchBuyList_go(page, url) {
 	}
 	reserveSearchForm.submit();
 }
-let searchFormUrl = "/member/buylist.do";
+let searchFormUrl = "<%=request.getContextPath()%>/member/buylist.do";
 // $(document).ready(function () {
 // 	// 페이지가 로드되면 해시태그에 따라 해당 콘텐츠를 보여주거나 감추는 함수 실행
 // 	handleHashChange();

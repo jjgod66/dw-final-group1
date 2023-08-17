@@ -56,7 +56,7 @@
 					<ul>
 						<li><a href="<%=request.getContextPath() %>/sysAdmin/main.do">ADMIN HOME</a></li>
 						<li><a href="javascript:window.open('<%=request.getContextPath() %>/main.do', '_blank');">DWCinema HOME</a></li>
-						<li id="tnb_logout"><a href="/common/logout.do">LOGOUT</a></li>
+						<li id="tnb_logout"><a href="<%=request.getContextPath()%>/common/logout.do">LOGOUT</a></li>
 						<li id="tnb_note" style="padding-left: 0.5rem; border: none; font-size: xx-large; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#note_Modal">
 							<i class="bi bi-envelope"></i><span class="new_note_alert text-center">${sessionScope.unreadedNoteCnt == 0 ? '' : sessionScope.unreadedNoteCnt}</span>
 						</li>
