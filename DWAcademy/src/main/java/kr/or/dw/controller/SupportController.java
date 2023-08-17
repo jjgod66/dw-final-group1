@@ -248,7 +248,7 @@ public class SupportController {
 	
 	@RequestMapping("/qnaReg")
 	public String qnaRegist(QnaVO qna, HttpServletResponse res, HttpServletRequest req) throws Exception {
-		String url = "redirect:" + req.getContextPath() + "/support/inquiryRegSuccess.do";
+		String url = "redirect:/support/inquiryRegSuccess.do";
 		QnaAttachVO attach = new QnaAttachVO();
 		System.out.println(qna.getAttachment());
 		System.out.println(qna.getAttachment().getOriginalFilename());

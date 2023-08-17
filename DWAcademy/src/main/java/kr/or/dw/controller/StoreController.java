@@ -122,7 +122,7 @@ public class StoreController {
 		String mem_cd = (String) member.get("CD");
 		String merchant_uid = buyResult(sbc, mem_cd);
 
-		return "redirect:" + req.getContextPath() + "/store/buySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:/store/buySuccess.do?merchant_uid=" + merchant_uid;
 	
 	}
 	
@@ -151,7 +151,7 @@ public class StoreController {
 		String mem_cd = (String) member.get("CD");
 		String merchant_uid = buy0Result(sbc, mem_cd);
 		
-		return "redirect:" + req.getContextPath() + "/store/buySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:/store/buySuccess.do?merchant_uid=" + merchant_uid;
 	}
 	
 	public String buy0Result(StoreBuyCommand sbc, String mem_cd) throws SQLException{
@@ -257,6 +257,6 @@ public class StoreController {
 	@RequestMapping("/giftSuccess")
 	public String giftSuccess(String merchant_uid, HttpServletRequest req) throws SQLException {
 
-		return "redirect:" + req.getContextPath() + "/store/buySuccess.do?merchant_uid=" + merchant_uid;
+		return "redirect:/store/buySuccess.do?merchant_uid=" + merchant_uid;
 	}
 }
