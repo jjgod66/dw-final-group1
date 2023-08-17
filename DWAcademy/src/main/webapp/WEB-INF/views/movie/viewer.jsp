@@ -353,8 +353,14 @@
 		        <div id="demo" class="carousel slide carousel-dark" style="height: 420px;">
 			  
 				  <div class="carousel-inner">
-					<c:forEach items="${previewList }" var="preview">
-					    <div class="carousel-item active" style="">
+					<c:forEach items="${previewList }" var="preview" varStatus="status">
+					<c:if test="${status.index eq 0 }">
+						<c:set value="active" var="active"/>
+					</c:if>
+					<c:if test="${status.index ne 0 }">
+						<c:set value="" var="active"/>
+					</c:if>
+					    <div class="carousel-item ${active}" style="">
 						 	<video class="vi" style="height: 400px; display : block; margin : auto;" controls>
 								<source src='<%=request.getContextPath()%>/common/getVideo.do?movie_cd=${movieView.movie.movie_cd }&movie_pre_path=${preview.movie_pre_path}'  type="video/mp4">
 							</video>
@@ -576,22 +582,11 @@ function reviewHeartDel(review_no){
 	
 }
 
-var mySwiper = new Swiper('.swiper-container', {
-
-	   // 여기에 옵션을 넣어야 합니다.
-
-	   // 예시 코드
-	  navigation: {
-	    nextEl: '.swiper-button-next',
-	    prevEl: '.swiper-button-prev'
-	  },
-	  slidesPerView: '5',
-	  loop : false
-	});
 
 mem_cd = "<%=mem_cd%>";
 console.log(mem_cd);
 let movie_cd = '${movieView.movie.movie_cd }';
+
 function movieHeart(){
 	if(mem_cd == null || mem_cd == ""){
 		$('#login-service-modal').modal("show");
