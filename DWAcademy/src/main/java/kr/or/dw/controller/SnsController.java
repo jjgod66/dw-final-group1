@@ -412,8 +412,6 @@ public class SnsController {
 			
 			SnsVO sns = snsService.kakaoSelectByMemberCode(email);
 			Map<String, Object> memberChk = memberService.CheckMemberEmail(email);
-			System.out.println("email : " + email);
-			System.out.println("sns : " + sns);
 			Map<String, Object> sns_email = new HashMap<>();
 			
 			sns_email.put("SNS_EMAIL", email);

@@ -187,19 +187,41 @@ public class MemberController {
 	
 	@RequestMapping("/member/join")
 	public void join(String sns, MemberVO memVO, HttpServletRequest req, HttpServletResponse res) throws Exception {
-		System.out.println("test");
-		System.out.println(sns);
-		
-		memberService.join(memVO);
+		String mem_email = memVO.getMem_email();
 		
 		
-		
+		Map<String, Object> member = memberService.CheckMemberEmail(mem_email);
+		System.out.println("joinMember : " + member);
 		res.setContentType("text/html; charset=utf-8");
-	    PrintWriter out = res.getWriter();
-	    out.println("<script>");
-	    out.println("alert('회원가입이 정상적으로 되었습니다.');");
-	    out.println("location.href='" + req.getContextPath() + "/';");
-	    out.println("</script>");
+		PrintWriter out = res.getWriter();
+		
+		String email = "";
+		
+		if(member != null) {
+			email = (String) member.get("EMAIL");
+		}
+		
+
+		if(email.equals(mem_email)) {
+			System.out.println("2" + member);
+			
+			out.println("<script>");
+			out.println("alert('이미 가입된 이메일입니다!');");
+			out.println("location.href='" + req.getContextPath() + "/';");
+			out.println("</script>");
+			
+		}else {
+
+			System.out.println("1" + member);
+			memberService.join(memVO);
+			
+			out.println("<script>");
+			out.println("alert('회원가입이 정상적으로 되었습니다.');");
+			out.println("location.href='" + req.getContextPath() + "/';");
+			out.println("</script>");
+			
+		}
+		
 	}
 	
 	@RequestMapping("/member/idCheck")
