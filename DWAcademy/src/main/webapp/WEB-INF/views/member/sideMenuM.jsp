@@ -228,6 +228,7 @@ margin-top:0px;
         	  const list = document.querySelectorAll('.list2');
         	  const currentURL = window.location.href;
         	  const bookinglist = 'http://localhost/member/bookinglist.do';
+        	  const buylist = 'http://localhost/member/buylist.do';
         	  const discount = 'http://localhost/member/discount-coupon.do';
         	  const story = 'http://localhost/member/moviestory.do';
         	  const timeline = 'http://localhost/member/movieTimeLine.do';
@@ -240,6 +241,10 @@ margin-top:0px;
         	  const add = 'http://localhost/member/additionalinfo.do';
         	  
         	  if (currentURL.includes(bookinglist)) {
+        		  list.forEach((item) => item.classList.remove('active1'));
+        	      list[1].classList.add('active1'); 
+        	  }
+        	  if (currentURL.includes(buylist)) {
         		  list.forEach((item) => item.classList.remove('active1'));
         	      list[1].classList.add('active1'); 
         	  }

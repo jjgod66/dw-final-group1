@@ -192,7 +192,7 @@
     padding: 0 0 50px;
 }
 </style>
-<div class="container" style=" width: 100%; display: flex; margin-top: 10px; flex-wrap: wrap;">
+<div class="" style=" width: 100%; display: flex; margin-top: 10px; flex-wrap: wrap;">
 	<div class="row mb-3" style="width:100%; margin: 30px auto;">
 		<div class="tab-list">
 			<ul>
