@@ -350,7 +350,7 @@
 		  		<div style="margin: 20px auto; padding : 10px; text-align:center;">등록된 예고편이 없습니다.</div>
 		  	</c:if>
 		  	<c:if test="${!empty previewList }">
-		        <div id="demo" class="carousel slide carousel-dark" data-bs-ride="carousel" style="height: 420px;">
+		        <div id="demo" class="carousel slide carousel-dark" style="height: 420px;">
 			  
 				  <div class="carousel-inner">
 					<c:forEach items="${previewList }" var="preview" varStatus="status">
@@ -582,22 +582,11 @@ function reviewHeartDel(review_no){
 	
 }
 
-var mySwiper = new Swiper('.swiper-container', {
-
-	   // 여기에 옵션을 넣어야 합니다.
-
-	   // 예시 코드
-	  navigation: {
-	    nextEl: '.swiper-button-next',
-	    prevEl: '.swiper-button-prev'
-	  },
-	  slidesPerView: '5',
-	  loop : true;
-	});
 
 mem_cd = "<%=mem_cd%>";
 console.log(mem_cd);
 let movie_cd = '${movieView.movie.movie_cd }';
+
 function movieHeart(){
 	if(mem_cd == null || mem_cd == ""){
 		$('#login-service-modal').modal("show");
