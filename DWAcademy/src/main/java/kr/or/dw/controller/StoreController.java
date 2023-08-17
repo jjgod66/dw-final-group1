@@ -222,7 +222,7 @@ public class StoreController {
 		System.out.println("con2");
 
 		GiftSMSCommand gsc = new GiftSMSCommand();
-		gsc.setMem_name(((MemberVO) session.getAttribute("loginUser")).getMem_name());
+		gsc.setMem_name((String)((Map<String, Object>) session.getAttribute("loginUser")).get("mem_name"));
 		gsc.setMerchant_uid((String) dataMap.get("MERCHANT_UID"));
 		gsc.setProduct_name((String) dataMap.get("PRODUCT_NAME"));
 		gsc.setProduct_period(Integer.parseInt(String.valueOf(dataMap.get("PRODUCT_PERIOD"))));
