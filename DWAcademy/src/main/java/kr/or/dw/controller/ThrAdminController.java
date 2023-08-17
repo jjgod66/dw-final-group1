@@ -466,9 +466,9 @@ public class ThrAdminController {
 		
 		int event_no = event.getEvent_no();
 		Map<String, Object> modifyEventContentMap = new HashMap<>();
-		if (modifyReq.getEvent_content().contains(req.getContextPath() + "/commonAdmin/getTempImg.do?fileName=")) {
-			String newContent = modifyReq.getEvent_content().replace(req.getContextPath() + "/common/getTempImg.do?fileName="+modifyReq.getOldFileName() 
-																	,req.getContextPath() + "/common/getPicture.do?name="+modifyReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+		if (modifyReq.getEvent_content().contains(req.getContextPath() + "/common/getTempImg.do?fileName=")) {
+			String newContent = modifyReq.getEvent_content().replace("/common/getTempImg.do?fileName="+modifyReq.getOldFileName() 
+																	, "/common/getPicture.do?name="+modifyReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
 			modifyEventContentMap.put("event_no", event.getEvent_no());
 			modifyEventContentMap.put("newContent", newContent);
 			sysAdminService.modifyEventContent(modifyEventContentMap);
