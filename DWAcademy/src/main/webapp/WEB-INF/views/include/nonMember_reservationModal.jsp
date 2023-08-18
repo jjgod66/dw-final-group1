@@ -304,7 +304,7 @@ $('#submitNonMemberInfo').on('click', function(){
 	}
 	
 	let form = $('#formForNonMem');
-	form.attr('action', '/reservation/detail.do?screen_cd='+$('#nonMem_Modal_screen_cd').val());
+	form.attr('action', '<%=request.getContextPath()%>/reservation/detail.do?screen_cd='+$('#nonMem_Modal_screen_cd').val());
 	form.submit();
 	
 });
