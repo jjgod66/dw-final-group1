@@ -887,7 +887,7 @@ public class SysAdminController {
 		// 이벤트 테이블에 등록
 		sysAdminService.registEvent(event);
 		int event_no = event.getEvent_no();
-		String newContent = registReq.getEvent_content().replace("/common/getTempImg.do?fileName="+registReq.getOldFileName() 
+		String newContent = registReq.getEvent_content().replace(req.getContextPath() + "/common/getTempImg.do?fileName="+registReq.getOldFileName() 
 																 ,"/common/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
 		
 		// event_content 안에 이미지 경로를 재설정해준다.(temp에서 진짜위치로)
@@ -954,7 +954,7 @@ public class SysAdminController {
 		int event_no = event.getEvent_no();
 		Map<String, Object> modifyEventContentMap = new HashMap<>();
 		if (modifyReq.getEvent_content().contains(req.getContextPath() + "/common/getTempImg.do?fileName=")) {
-			String newContent = modifyReq.getEvent_content().replace("/common/getTempImg.do?fileName="+modifyReq.getOldFileName() 
+			String newContent = modifyReq.getEvent_content().replace(req.getContextPath() + "/common/getTempImg.do?fileName="+modifyReq.getOldFileName() 
 																	, "/common/getPicture.do?name="+modifyReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
 			modifyEventContentMap.put("event_no", event.getEvent_no());
 			modifyEventContentMap.put("newContent", newContent);
