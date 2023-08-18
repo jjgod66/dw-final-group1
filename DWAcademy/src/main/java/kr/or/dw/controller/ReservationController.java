@@ -364,7 +364,7 @@ public class ReservationController {
 			bitMatrix = qrCodeWriter.encode(merchant_uid, BarcodeFormat.QR_CODE, 200, 200);
 			BufferedImage bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
 			String fileName = merchant_uid + ".png";
-			File file = new File(this.qrUploadPath + fileName);
+			File file = new File(this.qrUploadPath + File.separator + fileName);
 			file.mkdirs();
 			ImageIO.write(bufferedImage, "png", file);
 		} catch (WriterException e) {
