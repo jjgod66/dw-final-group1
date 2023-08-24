@@ -187,11 +187,6 @@ public class SnsController {
 			String sns_email = (String)response_obj.get("email");
 			access_token = oauthToken.getAccessToken();
 			String refresh_token = oauthToken.getRefreshToken();
-			System.out.println(oauthToken);
-			System.out.println("email : " + sns_email);
-			System.out.println("response_obj : " + response_obj);
-			System.out.println("refresh : " + refresh_token);
-			System.out.println("aceess : " + access_token);
 			HashMap<String, Object> naverUserInfo = new HashMap<>();
 			
 			naverUserInfo.put("mem_cd", mem_cd);
@@ -335,23 +330,15 @@ public class SnsController {
 			String url = "/member/PrivacyInfo";
 			Map<String, Object> member = (Map<String, Object>) session.getAttribute("loginUser");
 			
-			System.out.println("#########" + code);
 			Map<String, String> tokenMap = new HashMap<>();
 			tokenMap = kca.getAccessToken(code);
 			String access_Token = tokenMap.get("access_Token");
 			String refresh_Token = tokenMap.get("refresh_Token");
 			HashMap<String, Object> userInfo = kca.getUserInfo(access_Token);
 			
-			System.out.println(tokenMap);
-			System.out.println("###access_Token#### : " + access_Token);
-			System.out.println("###nickname#### : " + userInfo.get("sns_name"));
-			System.out.println("###email#### : " + userInfo.get("sns_email"));
-			
 			userInfo.put("access_Token", access_Token);
 			userInfo.put("refresh_Token", refresh_Token);
 			userInfo.put("mem_cd", member.get("CD"));
-			
-			System.out.println(userInfo);
 			
 			String mem_email = (String) userInfo.get("sns_email");
 			
@@ -400,11 +387,6 @@ public class SnsController {
 			String refresh_Token = tokenMap.get("refresh_Token");
 			HashMap<String, Object> userInfo = kla.getUserInfo(access_Token);
 			
-			System.out.println(tokenMap);
-			System.out.println("###access_Token#### : " + access_Token);
-			System.out.println("###nickname#### : " + userInfo.get("sns_name"));
-			System.out.println("###email#### : " + userInfo.get("sns_email"));
-			
 			userInfo.put("access_Token", access_Token);
 			userInfo.put("refresh_Token", refresh_Token);
 			
@@ -416,16 +398,12 @@ public class SnsController {
 			
 			sns_email.put("SNS_EMAIL", email);
 			
-			System.out.println(sns_email);
-			
 			res.setContentType("text/html; charset=utf-8");
 			PrintWriter out = res.getWriter();
 			
 			if(memberChk == null) {
 				sns_email.put("GB","non_member");
 				String url = "redirect:/main.do?sns_email=" + sns_email.get("GB") + "&mem_email=" + email + "";
-				System.out.println('1');
-				
 				mnv.setViewName(url);
 				
 				return mnv;
@@ -465,7 +443,6 @@ public class SnsController {
 			        }
 		        session.invalidate();
 		        
-				System.out.println('2');
 				out.println("<script>");
 				out.println("alert('연동된 계정이 없습니다! 소셜로그인은 [마이페이지 > 개인정보수정] 에서 연동 후 사용해주세요.')");
 				out.println("location.replace('" + req.getContextPath() + "/main.do')");
@@ -473,10 +450,8 @@ public class SnsController {
 				out.close();
 				
 			}else if(memberChk != null && sns != null){
-				System.out.println('3');
 				sns_email.put("GB", "member");
 				Map<String, Object> mem_cd = memberService.selectMemberCode(sns);
-				System.out.println("member : " + mem_cd);
 				
 				session.setAttribute("loginUser", mem_cd);
 				
