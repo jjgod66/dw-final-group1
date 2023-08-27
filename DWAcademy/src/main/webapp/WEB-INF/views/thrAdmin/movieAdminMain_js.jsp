@@ -309,6 +309,7 @@ window.onload = function(){
 	// 서버로 가서 추가 가능한 시간인지 체크
 	function checkScreenTimeClash(house_no, startTime, endTime, screen_cd) {
 
+		// 현재시간 이후 시간인지 먼저 체크.
 		if (startTime < new Date()) {
 			if ($('.addedBox').length > 0) {
 				$('.addedBox').addClass('cantBeAdded');
@@ -318,6 +319,18 @@ window.onload = function(){
 			return;
 		}
 		
+		// 끝나는 시간이 마감시간 이전인지 체크.
+		console.log('endtime', endTime.getHours());
+		if (endTime.getHours() >= 3 && endTime.getHours() < 7 ) {
+			if ($('.addedBox').length > 0) {
+				$('.addedBox').addClass('cantBeAdded');
+			} else if ($('.modifyBox').length > 0) {
+				$('.modifyBox').addClass('cantBeAdded');
+			}
+			return;
+		}
+		
+		// 이미 등록된 다른 상영영화와 시간표 충돌이 없는지 체크 (등록 가능한지)
 		let data = {
 				"house_no" : house_no,
 				"startTime" : startTime,

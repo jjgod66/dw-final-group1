@@ -219,7 +219,7 @@ th.selectedDate {
 					<h2>상영시간표</h2>
 				</div>
 				<div style="overflow: auto; white-space: nowrap;">
-					<table class="table table-bordered" style="width:2000px;">
+					<table class="table table-bordered" style="width:2000px; overflow: hidden;">
 						<tr>
 							<th>시간</th>
 							<th>07:00</th>
