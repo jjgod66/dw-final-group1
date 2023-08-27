@@ -6,6 +6,12 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -666,35 +672,31 @@ public class ThrAdminController {
 		ResponseEntity<String> entity = null;
 		
 		int house_no = Integer.parseInt((String)data.get("house_no"));
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss");
-		Calendar cal = Calendar.getInstance();
+
+		// 상영영화 시작시간 구하기
+        Instant instant = Instant.parse((String)data.get("startTime"));			// 문자열 파싱
+        ZonedDateTime kstDateTime = instant.atZone(ZoneId.of("Asia/Seoul"));	// Instant를 ZonedDateTime으로 변환하여 한국 시간대로
+        Date startTime = Date.from(kstDateTime.toInstant());
+	
+		// markTime : 영화상영시간이 익일0시 이후여도 해당 날짜가 기준날짜가 되게 세팅
 		Date markTime = null;
-		String startTime1 = ((String)data.get("startTime")).split("T")[0];
-		String startTime2 = (((String)data.get("startTime")).split("T")[1]).split(".000Z")[0];
-		String startTime3 = startTime1 + " " + startTime2;
-		Date startTime = formatter.parse(startTime3);
-		cal.setTime(startTime);
-		cal.add(Calendar.HOUR, 9);
-		startTime = cal.getTime();
-		if (startTime.getHours() == 0 || startTime.getHours() == 1 ||startTime.getHours() == 2 || startTime.getHours() == 3) {
-			markTime = formatter.parse(startTime3);
+		if (kstDateTime.getHour() <= 3) {
+			markTime = Date.from(kstDateTime.minusDays(1).toInstant());
 		} else {
 			markTime = startTime;
 		}
-		String endTime1 = ((String)data.get("endTime")).split("T")[0];
-		String endTime2 = (((String)data.get("endTime")).split("T")[1]).split(".000Z")[0];
-		String endTime3 = endTime1 + " " + endTime2;
-		Date endTime = formatter.parse(endTime3);
-		cal.setTime(endTime);
-		cal.add(Calendar.HOUR, 9);
-		endTime = cal.getTime();
+		
+		// 상영영화 끝시간 구하기
+		instant = Instant.parse((String)data.get("endTime"));
+		kstDateTime = instant.atZone(ZoneId.of("Asia/Seoul"));
+		Date endTime = Date.from(kstDateTime.toInstant());
 		
 		data.put("house_no", house_no);
 		data.put("startTime", startTime);
 		data.put("endTime", endTime);
 		data.put("markTime", markTime);
 		
+		// 충돌하는 상영영화 갯수 (0이여야 등록가능)
 		int clashCnt = thrAdminService.checkScreenTimeClash(data);
 		
 		try {

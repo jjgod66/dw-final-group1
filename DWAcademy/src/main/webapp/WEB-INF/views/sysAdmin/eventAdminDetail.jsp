@@ -403,6 +403,7 @@ window.onload = function(){
 		}
 	}
 	
+	// 이미지 temp폴더에 저장
 	function sendFile(file, el) {
 		let form_data = new FormData();
 		form_data.append("file", file);
@@ -425,6 +426,7 @@ window.onload = function(){
 		});
 	}
 	
+	// 글 작성 도중 이미지를 지웠을 시에 temp폴더에서 지우기
 	function deleteFile(src) {
 		let splitSrc = src.split("=");
 		let fileName = splitSrc[splitSrc.length - 1];
