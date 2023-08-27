@@ -207,6 +207,8 @@ textarea:focus {
 	// 등록버튼 클릭시
 	$('#registModalBtn').on('click', function(){
 		$('#modalTitle').text('FAQ 등록');
+		$('#modalFaqTitle').val('');
+		 $('#modalFaqContent').text('');
 		$('#modifyBtn').hide();
 		$('#deleteBtn').hide();
 	});

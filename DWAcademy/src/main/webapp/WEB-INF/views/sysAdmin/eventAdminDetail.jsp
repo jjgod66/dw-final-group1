@@ -357,6 +357,7 @@ window.onload = function(){
 					
 					// 파일 서버로 보내기
 					for (let i = files.length -1; i >= 0; i--) {
+						console.log(this);
 						sendFile(files[i], this);
 					};
 				},

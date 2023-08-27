@@ -865,7 +865,7 @@ public class SysAdminController {
 		
 		if (event_no != null) {
 			EventVO event = sysAdminService.selectEventByEvent_no(Integer.parseInt(event_no));
-			event.setEvent_content(event.getEvent_content().replace("<img src=\"", "<img src=\""+req.getContextPath()));
+			event.setEvent_content(event.getEvent_content().replace("src=\"", "src=\""+req.getContextPath()));
 			mnv.addObject("event", event);
 		}
 		mnv.addObject("type", type);
@@ -883,18 +883,24 @@ public class SysAdminController {
 	public void eventAdminRegist (EventRegistCommand registReq, HttpServletRequest req, HttpServletResponse res) throws SQLException, IllegalStateException, IOException {
 		String eventPicUploadPath = this.eventPicUploadPath;
 		EventVO event = registReq.toEventVO();
+		System.out.println("event : " + event);
 		
 		// 이벤트 테이블에 등록
 		sysAdminService.registEvent(event);
 		int event_no = event.getEvent_no();
-		String newContent = registReq.getEvent_content().replace(req.getContextPath() + "/common/getTempImg.do?fileName="+registReq.getOldFileName() 
-																 ,"/common/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
 		
-		// event_content 안에 이미지 경로를 재설정해준다.(temp에서 진짜위치로)
-		Map<String, Object> modifyEventContentMap = new HashMap<>();
-		modifyEventContentMap.put("event_no", event_no);
-		modifyEventContentMap.put("newContent", newContent);
-		sysAdminService.modifyEventContent(modifyEventContentMap);
+		// 이벤트 content안의 img url 수정
+		String beforeSrcFormat = req.getContextPath() + "/common/getTempImg.do?fileName=";
+		String modifiedEventContent = registReq.getEvent_content();
+		
+		if (registReq.getEvent_content().contains(beforeSrcFormat)) {	// 만약 이미지첨부를 했다면
+			modifiedEventContent = registReq.getEvent_content().replace(beforeSrcFormat + registReq.getOldFileName() 
+																		,"/common/getPicture.do?name="+registReq.getEvent_pic_path()+"&item_cd="+event_no+"&type=eventImg");
+			Map<String, Object> modifyEventContentMap = new HashMap<>();
+			modifyEventContentMap.put("event_no", event_no);
+			modifyEventContentMap.put("newContent", modifiedEventContent);
+			sysAdminService.modifyEventContent(modifyEventContentMap);
+		}
 		
 		// 이벤트 썸네일 로컬에 저장
 		MultipartFile thumb = registReq.getEvent_thum_path();
@@ -909,7 +915,7 @@ public class SysAdminController {
 			thumb.transferTo(target);
 		}
 		
-		// 이벤트 이미지 로컬에 저장
+		// 이벤트 이미지 temp폴더에서 알맞은 경로로 옮김
 		if (registReq.getEvent_pic_path() != null && registReq.getEvent_pic_path() != "") {
 			String fileName = event.getEvent_pic_path();
 			File oldFile = new File(eventPicUploadPath + File.separator + "temp", registReq.getOldFileName());
